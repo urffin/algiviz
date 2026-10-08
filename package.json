@@ -47,5 +47,12 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/urffin/algiviz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/urffin/algiviz/issues"
   }
 }

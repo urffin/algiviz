@@ -69,4 +69,5 @@ For playback, call `timeline.sample(elapsedMs)` in your own requestAnimationFram
 
 ## Release
 
-Run `npm test`, `npm pack --dry-run` and test the resulting tarball in a separate consumer project. Public source repository metadata will be added after the repository is created; no repository URL is claimed here. Publishing is a separate maintainer action.
+Run `npm test`, `npm pack --dry-run` and test the resulting tarball in a separate consumer project. Source and issues: [urffin/algiviz](https://github.com/urffin/algiviz). Publishing is a separate maintainer action.
+
