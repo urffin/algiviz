@@ -5,10 +5,10 @@ A TypeScript library for educational algorithm visualization: stable insertion s
 ## Install
 
 ```sh
-npm install algiviz
+npm install @grundyjs/algiviz
 ```
 
-Try the [interactive insertion sort demo](https://grundyjs.ru/algorithms/insertion-sort/). Import the core from `algiviz/core` and the browser renderer from `algiviz/canvas`; there is no root entry point or CommonJS build. Version 0.1 is an initial API and may change in later minor releases.
+Try the [interactive insertion sort demo](https://grundyjs.ru/algorithms/insertion-sort/). Import the core from `@grundyjs/algiviz/core` and the browser renderer from `@grundyjs/algiviz/canvas`; there is no root entry point or CommonJS build. Version 0.1 is an initial API and may change in later minor releases.
 
 ## Development
 
@@ -23,7 +23,7 @@ npm pack
 Build output includes ESM and TypeScript declarations. `npm pack` rebuilds automatically; `npm publish` runs the tests before packing. The archive includes only dist, README, LICENSE, CHANGELOG and package metadata. Licensed under MIT.
 
 ```js
-import { insertionSortSteps } from "algiviz/core";
+import { insertionSortSteps } from "@grundyjs/algiviz/core";
 
 const steps = insertionSortSteps([5, 2, 4, 2, 1]);
 console.log(steps.at(-1).state.slots.map(item => item.value));
@@ -44,13 +44,13 @@ Tests replay every event independently, check item conservation, stability, pref
 
 ## Timeline and canvas
 
-Import `createSortTimeline` from `algiviz/core` and `createSortRenderer` from `algiviz/canvas`.
+Import `createSortTimeline` from `@grundyjs/algiviz/core` and `createSortRenderer` from `@grundyjs/algiviz/canvas`.
 Step i completes at i * stepDurationMs; finalHoldMs extends the final frame. sample clamps finite times to the timeline range and rejects non-finite times. Frames include the current event for explanations and highlights.
 The renderer draws a full frame using the canvas bitmap dimensions and restores context state. Signed values use magnitude for bar height and retain their sign in labels. Use small inputs for readable labels.
 
 ```js
-import { createSortTimeline } from "algiviz/core";
-import { createSortRenderer } from "algiviz/canvas";
+import { createSortTimeline } from "@grundyjs/algiviz/core";
+import { createSortRenderer } from "@grundyjs/algiviz/canvas";
 
 const timeline = createSortTimeline(steps, { stepDurationMs: 650, finalHoldMs: 2000 });
 const renderer = createSortRenderer({ theme: "dark" });
