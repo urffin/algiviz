@@ -186,6 +186,43 @@ catch-up work to keep controls responsive.
 
 For playback, call `timeline.sample(elapsedMs)` in your own requestAnimationFrame loop. For recording, use a fixed-size export canvas. Negative values are shown by magnitude with signed labels; the chart is not a signed-axis plot.
 
+## Adding an algorithm to this repository
+
+Implement a generator in `src/core/` using the internal `createSortTrace` helper
+from `./sort-trace.js`. Call it **inside** the generator body to preserve lazy
+validation. It provides a mutable `state` workspace and `emit(event)`; emitting
+copies and freezes the snapshot, assigns its step index, and updates counters.
+It retains no history. The helper is internal, not a public package export.
+
+The algorithm owns its loop, array changes and sorted-region markers. Always
+change the workspace before yielding the event that describes that change:
+
+```ts
+// Inside a generator, after checking that adjacent items need exchanging:
+const a = state.slots[left]!;
+const b = state.slots[right]!;
+state.slots[left] = b;
+state.slots[right] = a;
+yield emit({ type: "swap", leftId: a.id, rightId: b.id, left, right });
+```
+
+Yield `start` before sorting and `done` after updating the final sorted region.
+Do not increment counters manually: `compare` adds one comparison, `shift` and
+`insert` add one write, and `swap` adds two writes. Reuse the frozen items created
+by the helper and preserve each item's identity across moves.
+
+Add a history wrapper with `Object.freeze([...iterateYourSortSteps(values)])`,
+export both functions from `src/core/index.ts`, and register the algorithm in
+`examples/demo.mjs` plus its select option in `examples/index.html`. The timeline
+and sequential player need no algorithm-specific changes. A new operation also
+requires updating `SortEvent`, its counter semantics and canvas highlighting or
+movement; existing operations can reuse the renderer.
+
+Use the bubble-sort tests as a guide: independently replay events, verify stable
+ordering and item conservation, check frozen snapshots and lazy validation, and
+compare sequential frames with the timeline. This helper reduces snapshot
+boilerplate; it does not validate that an algorithm's events match its mutations.
+
 ## Release
 
 Run `npm test`, `npm pack --dry-run` and test the resulting tarball in a separate consumer project. Source and issues: [urffin/algiviz](https://github.com/urffin/algiviz). Publishing is a separate maintainer action.

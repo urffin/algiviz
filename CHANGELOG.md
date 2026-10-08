@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Share input validation, item identities, immutable snapshots and operation
+  counters between sorting algorithms; document adding an algorithm internally.
+
 - Add stable bubble sort with `bubbleSortSteps` and `iterateBubbleSortSteps`,
   adjacent swaps, sorted suffix tracking and early exit after a pass without swaps.
 - Render both swapped items and the sorted suffix; select either algorithm in
