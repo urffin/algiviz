@@ -8,7 +8,7 @@ A TypeScript library for educational algorithm visualization: stable insertion s
 npm install @grundyjs/algiviz
 ```
 
-Try the [interactive insertion sort demo](https://grundyjs.ru/algorithms/insertion-sort/). Import the core from `@grundyjs/algiviz/core` and the browser renderer from `@grundyjs/algiviz/canvas`; there is no root entry point or CommonJS build. Version 0.1 is an initial API and may change in later minor releases.
+Try the [interactive insertion sort demo](https://grundyjs.ru/algorithms/insertion-sort/). Import the core from `@grundyjs/algiviz/core` and the browser renderer from `@grundyjs/algiviz/canvas`; there is no root entry point or CommonJS build. Version 0.x is an initial API and may change in later minor releases.
 
 ## Development
 
@@ -137,7 +137,6 @@ renderer.render(canvas.getContext("2d"), timeline.sample(3250));
 
 Build, serve this project root using any static HTTP server, and open examples/index.html for play, pause, restart and seeking. The example changes bitmap size to fit its container; for video use a separate canvas with fixed export dimensions. Canvas rendering does not start any animation loop. There are no video recording dependencies.
 
-## API at a glance
 The demo supports history (up to 64 items) and generator playback (up to 2,000).
 Enter values or generate random, sorted or reversed arrays. Both modes support
 pause, restart and speed changes; seeking is available only with full history.
@@ -145,6 +144,8 @@ Mode changes restart the loaded array. These limits apply only to the demo.
 Dense charts hide bar labels. Hidden tabs pause playback, and delayed frames cap
 catch-up work to keep controls responsive.
 
+
+## API at a glance
 
 - `insertionSortSteps(values)` returns immutable `SortStep[]` snapshots. Empty arrays are valid.
 - `createSortTimeline(steps, { stepDurationMs, finalHoldMs })` returns `durationMs` and `sample(timeMs)`. Frames expose `previous`, `current`, `progress`, `stepIndex` and `event`.
