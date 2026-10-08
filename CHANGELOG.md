@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add `iterateInsertionSortSteps` for lazy immutable snapshots without retaining history.
+- Keep `insertionSortSteps` compatible by collecting the shared generator implementation.
+
 ## 0.1.0 — unreleased
 
 - Stable, immutable insertion sort traces with item identities and operation counters.

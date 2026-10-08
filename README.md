@@ -42,6 +42,37 @@ The underlying sort uses O(n²) comparisons in the worst case and O(n) on alread
 
 Tests replay every event independently, check item conservation, stability, prefix ordering, counters, frozen snapshots and 1,093 exhaustive inputs with values -1, 0 and 1 of lengths 0–6.
 
+## Lazy steps
+
+Use `iterateInsertionSortSteps` to consume steps on demand without retaining the
+entire history. It yields the same immutable `SortStep` snapshots as
+`insertionSortSteps`, which collects this iterator into a frozen array.
+
+```js
+import { iterateInsertionSortSteps } from "@grundyjs/algiviz/core";
+
+const iterator = iterateInsertionSortSteps([5, 2, 4, 2, 1]);
+const start = iterator.next().value;
+const selected = iterator.next().value;
+iterator.return(); // Stop early when no more steps are needed.
+```
+
+Creating the generator does not read the input or run the algorithm. The first
+`next()` copies and validates the input; invalid values throw at that point.
+Changes to the input before the first `next()` are observed; later changes do not
+affect the iterator. Each subsequent `next()` runs only to the next step. An
+iterator is single-use; create a new one to restart. A `for...of` loop can also
+consume it, and `break` closes it early.
+
+When the consumer retains only a fixed number of snapshots, memory is O(n).
+Every snapshot still copies n slots, so consuming the complete worst-case trace
+still takes O(n³) time. Collecting the iterator into an array restores the full
+history memory cost. Iteration is synchronous; a long loop can block the UI.
+
+The existing `createSortTimeline` still requires an array of steps for seeking.
+It does not accept this iterator directly. A sequential playback controller is
+not included yet; the generator itself provides no timing or backward seeking.
+
 ## Timeline and canvas
 
 Import `createSortTimeline` from `@grundyjs/algiviz/core` and `createSortRenderer` from `@grundyjs/algiviz/canvas`.

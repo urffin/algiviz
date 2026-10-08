@@ -1,12 +1,13 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { insertionSortSteps } from "../dist/core/index.js";
+import { insertionSortSteps, iterateInsertionSortSteps } from "../dist/core/index.js";
 
 function verifyTrace(input) {
     const source = [...input];
     const trace = insertionSortSteps(Object.freeze(input));
     assert.deepEqual(input, source);
     assert.deepEqual(trace, insertionSortSteps(source));
+    assert.deepEqual([...iterateInsertionSortSteps(source)], trace);
     assert.equal(trace[0].event.type, "start");
     assert.deepEqual(trace[0].state.slots.map(item => item.value), source);
     assert.equal(trace.at(-1).event.type, "done");
@@ -96,7 +97,57 @@ test("known counters and best-case comparisons", () => {
 test("rejects non-finite numbers, wrong types and sparse inputs", () => {
     for (const input of [[NaN], [Infinity], [-Infinity], [1, "2"], [undefined], Array(2)]) {
         assert.throws(() => insertionSortSteps(input), TypeError);
+        const iterator = iterateInsertionSortSteps(input);
+        assert.throws(() => iterator.next(), TypeError);
     }
+});
+
+test("iterator reads input on first next and isolates it from later changes", () => {
+    const input = [3, 2, 1];
+    let reads = 0;
+    const source = new Proxy(input, {
+        get(target, key, receiver) {
+            if (key === Symbol.iterator) reads++;
+            return Reflect.get(target, key, receiver);
+        }
+    });
+    const iterator = iterateInsertionSortSteps(source);
+    assert.equal(reads, 0);
+    input[0] = 4;
+    const first = iterator.next().value;
+    assert.equal(reads, 1);
+    input.fill(99);
+    assert.deepEqual([first, ...iterator], insertionSortSteps([4, 2, 1]));
+    assert.deepEqual(input, [99, 99, 99]);
+});
+
+test("iterator advances one step at a time and can stop early on a large input", () => {
+    const iterator = iterateInsertionSortSteps(Array.from({ length: 10_000 }, (_, i) => 10_000 - i));
+    const first = iterator.next().value;
+    const selected = iterator.next().value;
+    assert.equal(first.event.type, "start");
+    assert.equal(selected.event.type, "select");
+    assert.equal(selected.index, 1);
+    assert.equal(selected.state.comparisons, 0);
+    assert.equal(selected.state.writes, 0);
+    assert.equal(first.state.slots[1].value, 9999);
+    assert.equal(selected.state.slots[1], null);
+    for (const value of [selected, selected.event, selected.state, selected.state.slots, selected.state.held]) {
+        assert.ok(Object.isFrozen(value));
+    }
+    assert.deepEqual(iterator.return(), { value: undefined, done: true });
+    assert.deepEqual(iterator.next(), { value: undefined, done: true });
+});
+
+test("iterators have independent state and finish after the done event", () => {
+    const first = iterateInsertionSortSteps([2, 1]);
+    const second = iterateInsertionSortSteps([]);
+    assert.equal(first.next().value.index, 0);
+    assert.equal(second.next().value.event.type, "start");
+    assert.equal(first.next().value.event.type, "select");
+    assert.equal(second.next().value.event.type, "done");
+    assert.deepEqual(second.next(), { value: undefined, done: true });
+    assert.deepEqual([...first], insertionSortSteps([2, 1]).slice(2));
 });
 
 test("snapshots are deeply immutable and independent", () => {
