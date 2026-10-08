@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.3.0 — 2026-10-09
+
+- Extend `SortEvent` with `swap` and `pass`, and `SortSnapshot` with optional
+  `sortedSuffixLength`. Consumers with exhaustive event switches must handle
+  the new event types. Existing insertion-sort traces remain unchanged.
 
 - Share input validation, item identities, immutable snapshots and operation
   counters between sorting algorithms; document adding an algorithm internally.

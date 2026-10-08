@@ -1,6 +1,6 @@
 {
   "name": "@grundyjs/algiviz",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Deterministic algorithm steps for educational visualizations",
   "type": "module",
   "files": [
@@ -35,11 +35,12 @@
     "name": "Grundy",
     "url": "https://grundyjs.ru/"
   },
-  "homepage": "https://grundyjs.ru/algorithms/insertion-sort/",
+  "homepage": "https://grundyjs.ru/algiviz/",
   "keywords": [
     "algorithms",
     "visualization",
     "insertion-sort",
+    "bubble-sort",
     "canvas",
     "typescript"
   ],

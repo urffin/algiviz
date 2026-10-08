@@ -42,11 +42,11 @@ The underlying sort uses O(n²) comparisons in the worst case and O(n) on alread
 
 Tests replay every event independently, check item conservation, stability, prefix ordering, counters, frozen snapshots and 1,093 exhaustive inputs with values -1, 0 and 1 of lengths 0–6.
 
-## Bubble sort (unreleased)
+## Bubble sort
 
 `bubbleSortSteps(values)` collects a frozen history; `iterateBubbleSortSteps(values)`
 yields the same snapshots on demand. Both work with the existing timeline, player
-and canvas renderer. The bubble sort API is not included in npm version 0.2.0 yet.
+and canvas renderer. Available since version 0.3.0.
 
 ```js
 import { bubbleSortSteps, iterateBubbleSortSteps, createSortPlayer } from "@grundyjs/algiviz/core";
@@ -181,6 +181,9 @@ catch-up work to keep controls responsive.
 ## API at a glance
 
 - `insertionSortSteps(values)` returns immutable `SortStep[]` snapshots. Empty arrays are valid.
+- `bubbleSortSteps(values)` returns the same snapshot format for stable bubble sort.
+- `iterateInsertionSortSteps(values)` and `iterateBubbleSortSteps(values)` yield snapshots lazily.
+- `createSortPlayer(iterable, { stepDurationMs, finalHoldMs })` provides forward-only playback with `frame`, `advance(deltaMs)`, `finished` and `dispose()`.
 - `createSortTimeline(steps, { stepDurationMs, finalHoldMs })` returns `durationMs` and `sample(timeMs)`. Frames expose `previous`, `current`, `progress`, `stepIndex` and `event`.
 - `createSortRenderer({ theme: "dark" | "light" }).render(ctx, frame)` draws into a browser 2D canvas context. Drawing and animation scheduling remain separate.
 
@@ -232,7 +235,7 @@ Run `npm test`, `npm pack --dry-run` and test the resulting tarball in a separat
 The `.github/workflows/npm-publish.yml` workflow publishes to npm when a stable
 GitHub Release is published (`release: published`). Drafts, prereleases and tag
 pushes alone do not publish a package. The release tag must be `v` followed by
-the exact version in `package.json` and `package-lock.json` (for example `v0.2.0`).
+the exact version in `package.json` and `package-lock.json` (for example `v0.3.0`).
 The workflow uses Node.js 24 and npm 11. The publish lifecycle runs the tests and
 build before publishing with provenance, using npm trusted publishing (OIDC).
 
