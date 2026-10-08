@@ -50,19 +50,18 @@ export function createSortRenderer(options: { theme: "light" | "dark" }) {
                 for (const [id, next] of after) {
                     const old = before.get(id) ?? next;
                     const x = margin + ((old.index + (next.index - old.index) * p) + 0.5) * cell;
-                    const lift = ((old.held ? 1 : 0) + ((next.held ? 1 : 0) - (old.held ? 1 : 0)) * p) * height * 0.13;
                     const size = Math.max(4, Math.abs(next.item.value) / maxMagnitude * available);
                     const active = event.type === "compare" ? id === event.leftId || id === event.rightId :
                         "itemId" in event && event.itemId === id;
                     ctx.fillStyle = next.held ? colors.held : active ? colors.active :
                         next.index < frame.current.sortedPrefixLength ? colors.sorted : colors.bar;
-                    ctx.fillRect(x - barWidth / 2, baseline - size - lift, barWidth, size);
+                    ctx.fillRect(x - barWidth / 2, baseline - size, barWidth, size);
+                    if (cell < 24) continue;
                     ctx.fillStyle = colors.text;
                     ctx.font = `${fontSize}px sans-serif`;
                     ctx.textAlign = "center";
-                    ctx.fillText(String(next.item.value), x, baseline - size - lift - fontSize, cell * 0.95);
+                    ctx.fillText(String(next.item.value), x, baseline - size - fontSize, cell * 0.95);
                     ctx.fillText(String(next.index), margin + (next.index + 0.5) * cell, baseline + height * 0.06);
-                    if (next.held) ctx.fillText("key", x, baseline - lift + fontSize, cell * 0.95);
                 }
                 ctx.textAlign = "left";
                 ctx.font = `${Math.max(11, Math.min(18, width * 0.03))}px sans-serif`;

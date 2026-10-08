@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Move the held key horizontally along the baseline without lifting it above the array.
+
+- Expand the demo with history/generator playback, array input, generation and speed
+  controls; hide individual bar labels on dense charts.
+
 - Add `createSortPlayer` for forward-only playback with bounded snapshot storage,
   interpolated canvas-compatible frames, final hold and iterator cleanup.
 

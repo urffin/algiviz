@@ -1,23 +1,19 @@
 <!doctype html>
-<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AlgiViz insertion sort demo</title>
-<style>body{margin:24px;background:#101827;color:#f1f5f9;font:16px system-ui}main{max-width:960px;margin:auto}canvas{width:100%;height:auto}button,input{margin:8px 4px}input{width:60%}</style>
-<main><h1>AlgiViz · Insertion sort</h1><p>Input: 5, 2, 4, 2, 1. Purple key is held outside the array. Labels show signed values.</p>
-<canvas width="960" height="540" aria-label="Insertion sort visualization"></canvas>
-<div><button id="play">Play</button><button id="reset">Restart</button><label>Time <input id="time" type="range" min="0" value="0" step="1"></label></div><p id="status" aria-live="polite"></p></main>
-<script type="module">
-import { insertionSortSteps, createSortTimeline } from '../dist/core/index.js';
-import { createSortRenderer } from '../dist/canvas/index.js';
-const timeline=createSortTimeline(insertionSortSteps([5,2,4,2,1]),{stepDurationMs:650,finalHoldMs:2000});
-const renderer=createSortRenderer({theme:'dark'}), ctx=document.querySelector('canvas').getContext('2d');
-const slider=document.querySelector('#time'), play=document.querySelector('#play'), status=document.querySelector('#status');
-slider.max=timeline.durationMs;
-let time=0, running=false, last=null, raf=0;
-function draw(){const frame=timeline.sample(time);renderer.render(ctx,frame);slider.value=time;status.textContent=`Step ${frame.stepIndex}: ${frame.event.type}. Time ${(time/1000).toFixed(1)} s`}
-function tick(now){if(!running)return;if(last!==null)time=Math.min(timeline.durationMs,time+now-last);last=now;draw();if(time===timeline.durationMs){running=false;play.textContent='Play'}else raf=requestAnimationFrame(tick)}
-play.onclick=()=>{cancelAnimationFrame(raf);running=!running;play.textContent=running?'Pause':'Play';last=null;if(running){if(time===timeline.durationMs)time=0;raf=requestAnimationFrame(tick)}};
-slider.oninput=()=>{cancelAnimationFrame(raf);running=false;play.textContent='Play';time=Number(slider.value);draw()};
-document.querySelector('#reset').onclick=()=>{cancelAnimationFrame(raf);running=false;play.textContent='Play';time=0;draw()};
-new ResizeObserver(entries=>{const width=Math.round(entries[0].contentRect.width);if(width>0){ctx.canvas.width=width;ctx.canvas.height=Math.max(280,Math.round(width*0.5625));draw()}}).observe(document.querySelector("main"));
-draw();
-</script></html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Insertion sort lab</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}main{max-width:1080px;margin:auto;padding:24px}p,small{color:#bac7db}.controls{display:flex;flex-wrap:wrap;gap:16px;align-items:end;margin:16px 0}label{display:flex;flex-direction:column;gap:6px}button,input,select,textarea{font:inherit;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px;padding:8px}button{cursor:pointer}button:hover{background:#334155}:focus-visible{outline:2px solid #a5b4fc;outline-offset:3px}button:disabled,input:disabled{opacity:.5;cursor:not-allowed}textarea{width:100%;resize:vertical}input[type=number]{width:110px}canvas{display:block;width:100%;height:auto;border:1px solid #334155;border-radius:12px}#seek-control{flex:1;min-width:220px}#error{color:#fca5a5;min-height:1.5em}#status{font-variant-numeric:tabular-nums}</style></head>
+<body><main><h1>AlgiViz · Insertion sort lab</h1>
+<p>Compare seekable history with on-demand steps. Purple is the held key; green is the sorted prefix.</p>
+<div class="controls">
+<label>Playback mode<select id="mode"><option value="history">Full history · seeking</option><option value="generator">Generator · forward only</option></select></label>
+<label>Array size<input id="size" type="number" min="0" max="64" step="1" value="12"></label>
+<label>Order<select id="order"><option value="random">Random</option><option value="sorted">Sorted</option><option value="reverse">Reverse</option></select></label><button id="generate">Generate &amp; load</button></div>
+<label>Values (spaces or commas; leave empty for an empty array)<textarea id="values" rows="2">5, 2, 4, 2, 1</textarea></label>
+<div class="controls"><button id="apply">Load values</button><small id="limit"></small></div>
+<p id="error" role="alert"></p><canvas width="960" height="540" aria-label="Insertion sort visualization"></canvas>
+<div class="controls"><button id="play">Play</button><button id="reset">Restart</button>
+<label>Speed<select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="8">8×</option><option value="32">32×</option></select></label>
+<label id="seek-control">Seek<input id="time" type="range" min="0" value="0" step="1"></label></div>
+<p id="status" role="status" aria-live="polite"></p><p id="mode-note"></p>
+<small>Large arrays hide bar labels when space is limited. Generator mode saves history memory, but still performs every step. Playback pauses when the tab is hidden.</small>
+</main><script type="module" src="./demo.mjs"></script></body></html>
