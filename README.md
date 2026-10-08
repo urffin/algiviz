@@ -157,3 +157,30 @@ For playback, call `timeline.sample(elapsedMs)` in your own requestAnimationFram
 
 Run `npm test`, `npm pack --dry-run` and test the resulting tarball in a separate consumer project. Source and issues: [urffin/algiviz](https://github.com/urffin/algiviz). Publishing is a separate maintainer action.
 
+### Publishing from GitHub Releases
+
+The `.github/workflows/npm-publish.yml` workflow publishes to npm when a stable
+GitHub Release is published (`release: published`). Drafts, prereleases and tag
+pushes alone do not publish a package. The release tag must be `v` followed by
+the exact version in `package.json` and `package-lock.json` (for example `v0.2.0`).
+The workflow uses Node.js 24 and npm 11. The publish lifecycle runs the tests and
+build before publishing with provenance, using npm trusted publishing (OIDC).
+
+One-time setup in the npm package settings, under **Trusted Publisher**:
+
+- Provider: GitHub Actions.
+- Organization or user: `urffin`.
+- Repository: `algiviz`.
+- Workflow filename: `npm-publish.yml` (without the directory).
+- Environment: leave empty; this workflow does not use a GitHub environment.
+- Allow direct publishing with `npm publish` if the settings show this option.
+
+No `NPM_TOKEN` secret is required. Keep account 2FA enabled.
+See [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/).
+
+For each release, update the version and changelog, commit and push the changes
+(including the workflow), then publish a GitHub Release for the matching tag at
+that commit. Check the Actions run and the npm package version afterward. Do not
+reuse an already published npm version; if setup failed before publication,
+correct the settings and rerun the failed workflow.
+
