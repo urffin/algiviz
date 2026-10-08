@@ -1,6 +1,6 @@
 # AlgiViz
 
-A TypeScript library for educational algorithm visualization: stable insertion sort traces, a seekable timeline and a canvas renderer. No runtime dependencies. The core works without DOM, React or Next.js. ESM only, with TypeScript declarations.
+A TypeScript library for educational algorithm visualization: stable insertion and bubble sort traces, a seekable timeline and a canvas renderer. No runtime dependencies. The core works without DOM, React or Next.js. ESM only, with TypeScript declarations.
 
 ## Install
 
@@ -41,6 +41,38 @@ The result, steps, events, snapshots, slot arrays and items are frozen at runtim
 The underlying sort uses O(n²) comparisons in the worst case and O(n) on already sorted input. This API stores full history, so its worst-case time and memory are O(n³), unlike ordinary in-place insertion sort. Intended for small educational inputs; the demo site limits inputs to 24 items. This core imposes no UI limit.
 
 Tests replay every event independently, check item conservation, stability, prefix ordering, counters, frozen snapshots and 1,093 exhaustive inputs with values -1, 0 and 1 of lengths 0–6.
+
+## Bubble sort (unreleased)
+
+`bubbleSortSteps(values)` collects a frozen history; `iterateBubbleSortSteps(values)`
+yields the same snapshots on demand. Both work with the existing timeline, player
+and canvas renderer. The bubble sort API is not included in npm version 0.2.0 yet.
+
+```js
+import { bubbleSortSteps, iterateBubbleSortSteps, createSortPlayer } from "@grundyjs/algiviz/core";
+
+const steps = bubbleSortSteps([5, 2, 4, 2, 1]);
+const player = createSortPlayer(iterateBubbleSortSteps([5, 2, 4, 2, 1]), {
+    stepDurationMs: 350, finalHoldMs: 1000
+});
+```
+
+Each left-to-right pass compares adjacent items. `compare` identifies both items;
+`swap` contains their pre-swap `leftId`, `rightId`, `left` and `right` positions,
+and its snapshot is after the exchange. Each swap counts as two array writes.
+Equal items are never swapped, so the sort is stable. `held` remains null and
+`sortedPrefixLength` is zero.
+
+`pass` marks a completed pass, with `end` identifying its last compared position.
+The optional `sortedSuffixLength` snapshot field counts trailing items in their
+final positions; renderers treat an omitted value as zero for older traces.
+A pass with no swaps ends the sort early and marks the entire array sorted.
+`done` always has `sortedSuffixLength` equal to the array length.
+
+Validation, lazy input copying, freezing and memory costs match insertion sort.
+The underlying algorithm performs O(n²) comparisons in the worst case and O(n)
+on sorted input; full snapshots still make worst-case trace generation O(n³).
+Consumers switching on `SortEvent.type` should handle the new `swap` and `pass` events.
 
 ## Lazy steps
 
@@ -140,7 +172,8 @@ Build, serve this project root using any static HTTP server, and open examples/i
 The demo supports history (up to 64 items) and generator playback (up to 2,000).
 Enter values or generate random, sorted or reversed arrays. Both modes support
 pause, restart and speed changes; seeking is available only with full history.
-Mode changes restart the loaded array. These limits apply only to the demo.
+Algorithm and mode changes restart the loaded array. Choose insertion or bubble
+sort; both support both playback modes. These limits apply only to the demo.
 Dense charts hide bar labels. Hidden tabs pause playback, and delayed frames cap
 catch-up work to keep controls responsive.
 

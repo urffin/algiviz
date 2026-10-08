@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Add stable bubble sort with `bubbleSortSteps` and `iterateBubbleSortSteps`,
+  adjacent swaps, sorted suffix tracking and early exit after a pass without swaps.
+- Render both swapped items and the sorted suffix; select either algorithm in
+  the demo with history or generator playback.
+
 ## 0.2.0 — 2026-10-09
 
 - Move the held key horizontally along the baseline without lifting it above the array;

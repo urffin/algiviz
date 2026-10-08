@@ -1,4 +1,4 @@
-import { insertionSortSteps, iterateInsertionSortSteps, createSortTimeline, createSortPlayer } from '../dist/core/index.js';
+import { insertionSortSteps, iterateInsertionSortSteps, bubbleSortSteps, iterateBubbleSortSteps, createSortTimeline, createSortPlayer } from '../dist/core/index.js';
 import { createSortRenderer } from '../dist/canvas/index.js';
 
 const $ = id => document.getElementById(id);
@@ -9,6 +9,11 @@ const options = { stepDurationMs: 350, finalHoldMs: 1000 };
 const limits = { history: 64, generator: 2000 };
 let values = [5, 2, 4, 2, 1];
 let mode = 'history';
+let algorithm = 'insertion';
+const algorithms = {
+    insertion: { name: 'Insertion sort', steps: insertionSortSteps, iterate: iterateInsertionSortSteps },
+    bubble: { name: 'Bubble sort', steps: bubbleSortSteps, iterate: iterateBubbleSortSteps }
+};
 let timeline, player;
 let time = 0, running = false, last = null, raf = 0;
 const finished = () => player ? player.finished : time >= timeline.durationMs;
@@ -28,17 +33,21 @@ function pause() {
     last = null;
     cancelAnimationFrame(raf);
 }
-function load(nextValues = values, nextMode = mode) {
+function load(nextValues = values, nextMode = mode, nextAlgorithm = algorithm) {
     if (nextValues.length > limits[nextMode]) throw new RangeError(`Use at most ${limits[nextMode]} values in ${nextMode} mode.`);
     // Prepare first so invalid replacements leave the current session intact.
-    const nextPlayer = nextMode === 'generator' ? createSortPlayer(iterateInsertionSortSteps(nextValues), options) : null;
-    const nextTimeline = nextMode === 'history' ? createSortTimeline(insertionSortSteps(nextValues), options) : null;
+    const sort = algorithms[nextAlgorithm];
+    const nextPlayer = nextMode === 'generator' ? createSortPlayer(sort.iterate(nextValues), options) : null;
+    const nextTimeline = nextMode === 'history' ? createSortTimeline(sort.steps(nextValues), options) : null;
     pause();
     player?.dispose();
     player = nextPlayer;
     timeline = nextTimeline;
     values = [...nextValues];
     mode = nextMode;
+    algorithm = nextAlgorithm;
+    $('algorithm').value = algorithm;
+    canvas.setAttribute('aria-label', `${sort.name} visualization`);
     time = 0;
     $('mode').value = mode;
     $('values').value = values.join(', ');
@@ -76,6 +85,10 @@ $('play').onclick = () => {
     raf = requestAnimationFrame(tick);
 };
 $('reset').onclick = () => load();
+$('algorithm').onchange = () => {
+    attempt(() => load(values, mode, $('algorithm').value));
+    $('algorithm').value = algorithm;
+};
 $('speed').onchange = () => { last = null; };
 $('mode').onchange = () => {
     attempt(() => load(values, $('mode').value));

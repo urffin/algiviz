@@ -51,10 +51,11 @@ export function createSortRenderer(options: { theme: "light" | "dark" }) {
                     const old = before.get(id) ?? next;
                     const x = margin + ((old.index + (next.index - old.index) * p) + 0.5) * cell;
                     const size = Math.max(4, Math.abs(next.item.value) / maxMagnitude * available);
-                    const active = event.type === "compare" ? id === event.leftId || id === event.rightId :
+                    const active = event.type === "compare" || event.type === "swap" ? id === event.leftId || id === event.rightId :
                         "itemId" in event && event.itemId === id;
                     ctx.fillStyle = next.held ? colors.held : active ? colors.active :
-                        next.index < frame.current.sortedPrefixLength ? colors.sorted : colors.bar;
+                        next.index < frame.current.sortedPrefixLength ||
+                        next.index >= count - (frame.current.sortedSuffixLength ?? 0) ? colors.sorted : colors.bar;
                     ctx.fillRect(x - barWidth / 2, baseline - size, barWidth, size);
                     if (cell < 24) continue;
                     ctx.fillStyle = colors.text;
