@@ -70,8 +70,55 @@ still takes O(n³) time. Collecting the iterator into an array restores the full
 history memory cost. Iteration is synchronous; a long loop can block the UI.
 
 The existing `createSortTimeline` still requires an array of steps for seeking.
-It does not accept this iterator directly. A sequential playback controller is
-not included yet; the generator itself provides no timing or backward seeking.
+It does not accept this iterator directly. Use `createSortPlayer` for forward-only
+playback; the generator itself provides no timing or backward seeking.
+
+## Sequential playback
+
+`createSortPlayer` consumes an iterable of steps and retains only the two adjacent
+snapshots needed for rendering. With the lazy generator, playback uses O(n)
+memory as long as the caller does not retain old frames.
+
+```js
+import { createSortPlayer, iterateInsertionSortSteps } from "@grundyjs/algiviz/core";
+import { createSortRenderer } from "@grundyjs/algiviz/canvas";
+
+const player = createSortPlayer(iterateInsertionSortSteps([5, 2, 4, 1]), {
+    stepDurationMs: 650, finalHoldMs: 2000
+});
+const renderer = createSortRenderer({ theme: "dark" });
+const ctx = canvas.getContext("2d");
+let paused = false;
+let speed = 1;
+let last;
+let requestId;
+function tick(now) {
+    const delta = last === undefined ? 0 : now - last;
+    last = now;
+    if (!paused) player.advance(delta * speed);
+    renderer.render(ctx, player.frame);
+    if (!player.finished) requestId = requestAnimationFrame(tick);
+}
+requestId = requestAnimationFrame(tick);
+// Set paused = true/false or speed = 2 from your controls.
+// On teardown: cancelAnimationFrame(requestId); player.dispose();
+```
+
+- Construction reads the first step immediately, including input validation by
+  the generator. The initial `frame` is fully rendered at progress 1.
+- `advance(deltaMs)` accepts finite, non-negative elapsed playback time and
+  returns a `SortFrame` compatible with the existing canvas renderer. Zero does
+  not consume steps. Pause by not advancing; multiply delta by a non-negative
+  speed factor to change speed.
+- `finished` becomes true after the final transition and `finalHoldMs`. Further
+  advances return the final frame. There is no known total duration or seeking.
+- The source must end with a `done` event. The player closes the iterator when
+  that transition completes; unexpected exhaustion or source errors throw and
+  close playback. `dispose()` closes early and is safe to repeat; afterward the
+  frame remains readable but `advance()` throws.
+- Restart by disposing the old player and creating a new player and generator.
+  Large deltas synchronously consume all intervening steps, so limit the elapsed
+  delta in the UI if resuming from a background tab should not cause a long catch-up.
 
 ## Timeline and canvas
 

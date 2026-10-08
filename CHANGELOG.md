@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add `createSortPlayer` for forward-only playback with bounded snapshot storage,
+  interpolated canvas-compatible frames, final hold and iterator cleanup.
+
 - Add `iterateInsertionSortSteps` for lazy immutable snapshots without retaining history.
 - Keep `insertionSortSteps` compatible by collecting the shared generator implementation.
 
