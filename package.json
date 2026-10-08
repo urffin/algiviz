@@ -1,12 +1,13 @@
 {
   "name": "algiviz",
   "version": "0.1.0",
-  "private": true,
   "description": "Deterministic algorithm steps for educational visualizations",
   "type": "module",
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "exports": {
     "./core": {
@@ -22,12 +23,29 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test test/*.test.mjs"
+    "test": "npm run build && node --test test/*.test.mjs",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm test"
   },
   "devDependencies": {
     "typescript": "6.0.3"
   },
-  "engines": {
-    "node": ">=22"
+  "license": "MIT",
+  "author": {
+    "name": "Grundy",
+    "url": "https://grundyjs.ru/"
+  },
+  "homepage": "https://grundyjs.ru/algorithms/insertion-sort/",
+  "keywords": [
+    "algorithms",
+    "visualization",
+    "insertion-sort",
+    "canvas",
+    "typescript"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }
