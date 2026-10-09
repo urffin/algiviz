@@ -1,4 +1,4 @@
-import { timing, limits, configureControls, nextDelta, stepTime } from './player-settings.mjs';
+import { timing, limits, configureControls, nextDelta, stepTime, generateValues } from './player-settings.mjs';
 import { createTimeline, createPlayer } from '@grundyjs/algiviz/playback';
 import { mergeSort } from './merge-algorithm.mjs';
 import { createMergeRenderer, mergeItemLabel } from './merge-scene.mjs';
@@ -37,14 +37,16 @@ function load() {
         const text = input.value.trim();
         const values = text ? text.split(/[\s,]+/).map(Number) : [];
         const limit = limits[mode.value];
-        if (values.length > limit || values.some(value => !Number.isFinite(value) || Math.abs(value) > 1000))
-            throw new Error(`Use up to ${limit} finite numbers between -1000 and 1000.`);
+        if (values.length > limit || values.some(value => !Number.isFinite(value)))
+            throw new Error(`Use up to ${limit} finite numbers.`);
         start(values); error.textContent = '';
     } catch (e) { error.textContent = e.message; }
 }
 function start(values) {
     pause(); player?.dispose();
     loadedValues = [...values];
+    input.value = loadedValues.join(', ');
+    document.querySelector('#size').max = String(limits[mode.value]);
     steps = timeline = player = null;
 
     if (mode.value === 'generator') {
@@ -91,6 +93,12 @@ for (const [id, direction] of [['previous', -1], ['next', 1]]) document.querySel
     time = stepTime(time, direction, timeline.durationMs); draw();
 };
 document.querySelector('#apply').onclick = load;
+document.querySelector('#generate').onclick = () => {
+    try {
+        start(generateValues(Number(document.querySelector('#size').value), document.querySelector('#order').value, mode.value));
+        error.textContent = '';
+    } catch (e) { error.textContent = e.message; }
+};
 document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
 window.addEventListener('pagehide', () => { pause(); player?.dispose(); });
 window.addEventListener('pageshow', event => { if (event.persisted) start(loadedValues); });

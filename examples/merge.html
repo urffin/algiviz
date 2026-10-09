@@ -4,10 +4,12 @@
 <style>*{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}main{max-width:1080px;margin:auto;padding:24px}a{color:#c4b5fd}canvas{display:block;width:100%;border:1px solid #64748b;border-radius:12px}button,input,select{font:inherit;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px;padding:8px}button{cursor:pointer}.controls{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}#values,#seek{width:100%}:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}#error{color:#fca5a5}#status{overflow-wrap:anywhere}</style></head>
 <body><main><a href="./index.html">← Sorting lab</a><h1>Merge sort with a buffer</h1>
 <p>An application-owned algorithm and two-row scene using the public scene and playback APIs. The array is divided recursively; sorted halves are merged into a reusable buffer, then copied back.</p>
-<label for="values">Values (spaces or commas; empty input is valid)</label><input id="values" value="8, 3, 6, 2, 5, 3, 9, 1, 6, 4">
-<p>History: up to 64 values. Generator: up to 2,000. Magnitude up to 1000. Letters distinguish equal values; dense charts hide labels and text status previews the first 24 cells.</p><button id="apply">Load values</button><p id="error" role="alert"></p>
-<canvas width="960" height="624" aria-label="Main array and buffer; values and operations are described below"></canvas>
 <p><label>Playback mode <select id="mode"><option value="history">History</option><option value="generator">Generator</option></select></label></p>
+<label for="values">Values (spaces or commas; empty input is valid)</label><input id="values" value="8, 3, 6, 2, 5, 3, 9, 1, 6, 4">
+<div class="controls"><label>Array size <input id="size" type="number" min="0" max="64" step="1" value="12"></label><label>Order <select id="order"><option value="random">Random</option><option value="sorted">Sorted</option><option value="reverse">Reverse</option></select></label><button id="generate">Generate &amp; load</button></div>
+<p>History: up to 64 values. Generator: up to 2,000. Finite numbers only. Letters distinguish equal values; dense charts hide labels and text status previews the first 24 cells.</p><button id="apply">Load values</button><p id="error" role="alert"></p>
+<canvas width="960" height="624" aria-label="Main array and buffer; values and operations are described below"></canvas>
+
 <p id="mode-help"></p>
 <div class="controls"><button id="play">Play</button><button id="restart">Restart</button><button id="previous">Previous step</button><button id="next">Next step</button>
 <label>Speed <select id="speed"><option>0.25</option><option>0.5</option><option selected>1</option><option>2</option><option>4</option></select></label></div>

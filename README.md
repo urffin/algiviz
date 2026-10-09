@@ -470,3 +470,6 @@ All browser examples share playback defaults from examples/player-settings.mjs:
 modes and forward/backward step controls. Backward stepping and seeking are
 disabled in generator mode. Array input limits are 64 for history and 2,000
 for generators. Reduced motion disables interpolation; hidden tabs pause.
+All sorting demos also share array generation: choose the element count and
+Random, Sorted or Reverse order, then Generate & load. The generated values
+appear in the input field and obey the selected playback mode's limit.

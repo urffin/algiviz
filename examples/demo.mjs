@@ -1,4 +1,4 @@
-import { timing as options, limits, configureControls, nextDelta, stepTime } from './player-settings.mjs';
+import { timing as options, limits, configureControls, nextDelta, stepTime, generateValues } from './player-settings.mjs';
 import { insertion, bubble } from './algorithms.mjs';
 import { createArrayTimeline as createSortTimeline, createArrayPlayer as createSortPlayer } from '@grundyjs/algiviz/array';
 import { createArrayRenderer as createSortRenderer } from '@grundyjs/algiviz/canvas';
@@ -104,10 +104,7 @@ $('apply').onclick = () => attempt(() => {
 });
 $('generate').onclick = () => attempt(() => {
     const count = Number($('size').value);
-    if (!Number.isInteger(count) || count < 0 || count > limits[mode]) throw new RangeError(`Size must be an integer from 0 to ${limits[mode]}.`);
-    const generated = Array.from({ length: count }, (_, i) => $('order').value === 'random' ? Math.floor(Math.random() * 100) + 1 : i + 1);
-    if ($('order').value === 'reverse') generated.reverse();
-    load(generated);
+    load(generateValues(count, $('order').value, mode));
 });
 $('time').oninput = () => {
     if (!timeline) return;
