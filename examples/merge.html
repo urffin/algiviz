@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Merge sort with a buffer</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}main{max-width:1080px;margin:auto;padding:24px}a{color:#c4b5fd}canvas{display:block;width:100%;border:1px solid #64748b;border-radius:12px}button,input,select{font:inherit;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px;padding:8px}button{cursor:pointer}.controls{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}#values,#seek{width:100%}:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}#error{color:#fca5a5}#status{overflow-wrap:anywhere}</style></head>
+<body><main><a href="./index.html">← Sorting lab</a><h1>Merge sort with a buffer</h1>
+<p>An application-owned algorithm and two-row scene using the public scene and playback APIs. The array is divided recursively; sorted halves are merged into a reusable buffer, then copied back.</p>
+<label for="values">Values (spaces or commas; empty input is valid)</label><input id="values" value="8, 3, 6, 2, 5, 3, 9, 1, 6, 4">
+<p>Up to 24 values, magnitude up to 1000. Letters distinguish equal values.</p><button id="apply">Load values</button><p id="error" role="alert"></p>
+<canvas width="960" height="624" aria-label="Main array and buffer; values and operations are described below"></canvas>
+<div class="controls"><button id="play">Play</button><button id="restart">Restart</button><button id="previous">Previous step</button><button id="next">Next step</button>
+<label>Speed <select id="speed"><option>0.25</option><option>0.5</option><option selected>1</option><option>2</option><option>4</option></select>×</label></div>
+<label for="seek">Playback position</label><input id="seek" type="range" min="0" value="0" step="1"><p id="status" role="status" aria-live="polite"></p>
+<p>Frames outline the active halves. Yellow shows comparisons and copies; purple shows buffer copies; green marks the final result. During copy-back, the main row may temporarily contain duplicate copies. Cell identities use row and position rather than element identity.</p>
+<p>Left wins ties, preserving stability. Algorithm time is Θ(n log n), extra memory O(n). Stored visualization history costs up to O(n² log n) separately. This example implements merge sort locally; it is not a new package export.</p>
+<p><a href="https://grundyjs.ru/en/algorithms/merge-sort/" target="_blank" rel="noopener noreferrer">Explanation and JavaScript implementation →</a></p>
+</main><script type="importmap">{"imports":{"@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/playback":"../dist/playback/index.js"}}</script>
+<script type="module" src="./merge-demo.mjs"></script></body></html>

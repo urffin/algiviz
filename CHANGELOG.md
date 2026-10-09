@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add an application-owned merge sort example using scene/playback, with a main
+  array and buffer, stable identity labels, seeking and accessible playback controls.
+
 ## 0.4.0 — 2026-10-09
 
 - Verify the packed npm archive in an isolated TypeScript consumer before publishing.

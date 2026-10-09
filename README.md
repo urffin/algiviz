@@ -185,6 +185,17 @@ See [examples/tree-scene.mjs](examples/tree-scene.mjs) and open
 defines its own tree traversal, `node`, `edge` and `pointer` types, appearance,
 pointer movement and removal. No tree-specific code is added to AlgiViz.
 
+For a second custom scene, open `examples/merge.html`. Its application-owned
+[merge algorithm](examples/merge-algorithm.mjs) and
+[renderer](examples/merge-scene.mjs) use `/playback` and `/scene` to show the main
+array and a reusable buffer. Equal values have letter suffixes to demonstrate
+stability. Cells use row/position IDs because copy-back temporarily duplicates
+item identities. Play/pause, step controls, speed and seeking support up to 24
+input values; text status, reduced motion and hidden-tab pausing are included.
+The example stores full history, costing O(n² log n) space in the worst case;
+the underlying algorithm uses O(n) auxiliary memory. No merge-sort package
+export or new library API is needed.
+
 ## Migrating from 0.3.x
 
 Existing `/core` imports continue to work in 0.4.0. Built-in insertion and bubble
