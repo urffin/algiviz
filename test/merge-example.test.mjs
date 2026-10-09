@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import { createPlayer } from '@grundyjs/algiviz/playback';
 import { mergeSort } from '../examples/merge-algorithm.mjs';
 import { mergeScene, mergeSceneSteps, createMergeRenderer } from '../examples/merge-scene.mjs';
 // Independent reference uses fresh sliced halves; it has no trace, buffer or pointers.
@@ -121,3 +123,31 @@ for (const input of [[5, 2, 4, 2, 1], [-2, 0, 3, -2], [], Array(24).fill(1)]) {
     }
 }
 console.log("Merge scene: unique cell identities and finite rendering at step boundaries and transitions in four sizes verified.");
+
+test('merge generator playback matches history, reads on demand and closes early', () => {
+    for (const values of [[], [1], [3, 1, 2, 1], [-2, 0, -2, 3]]) {
+        const timing = { stepDurationMs: 650, finalHoldMs: 1000 };
+        const history = createTimeline(mergeSort.steps(values), timing);
+        let reads = 0, closed = false;
+        function* source() {
+            try { for (const step of mergeSort.iterate(values)) { reads++; yield step; } }
+            finally { closed = true; }
+        }
+        const player = createPlayer(source(), { ...timing, isTerminal: step => step.event.type === 'done' });
+        assert.equal(reads, 1);
+        player.advance(0);
+        assert.equal(reads, 1);
+        let elapsed = 0;
+        while (elapsed < history.durationMs) {
+            const delta = Math.min(137, history.durationMs - elapsed);
+            elapsed += delta;
+            assert.deepEqual(player.advance(delta), history.sample(elapsed));
+        }
+        assert.ok(player.finished && closed);
+        player.dispose();
+        const early = createPlayer(source(), { ...timing, isTerminal: step => step.event.type === 'done' });
+        closed = false;
+        early.dispose();
+        assert.ok(closed);
+    }
+});

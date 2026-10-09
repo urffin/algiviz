@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Support forward-only generator playback in the merge sort example without retaining history.
+
 - Add an application-owned merge sort example using scene/playback, with a main
   array and buffer, stable identity labels, seeking and accessible playback controls.
 
