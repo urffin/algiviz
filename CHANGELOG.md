@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Add algorithm-free `/array` and `/playback` entry points: user-defined generators,
+  validated array operations, generic states/events and optional rendering callbacks.
+- Add `highlight` events and `createArrayRenderer`; existing rendering names remain available.
+- Move demo algorithms into application-owned examples using only the public API.
+  Old `/core` algorithm exports remain deprecated compatibility adapters.
+- Preserve all original insertion/bubble traces; premature exhaustion now reports
+  a missing terminal step rather than a missing done event.
+
 ## 0.3.0 — 2026-10-09
 
 - Extend `SortEvent` with `swap` and `pass`, and `SortSnapshot` with optional

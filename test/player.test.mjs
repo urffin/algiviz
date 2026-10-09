@@ -92,7 +92,7 @@ test("reports a truncated or failing source and closes it", () => {
             } finally { closed = true; }
         }
         const player = createSortPlayer(source(), { stepDurationMs: 100, finalHoldMs: 0 });
-        assert.throws(() => player.advance(1), fails ? /source failure/ : /without a done/);
+        assert.throws(() => player.advance(1), fails ? /source failure/ : /without a terminal/);
         assert.equal(closed, true);
         assert.throws(() => player.advance(1), /disposed/);
     }

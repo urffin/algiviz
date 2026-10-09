@@ -10,6 +10,16 @@
     "CHANGELOG.md"
   ],
   "exports": {
+    "./array": {
+      "types": "./dist/array/index.d.ts",
+      "import": "./dist/array/index.js",
+      "default": "./dist/array/index.js"
+    },
+    "./playback": {
+      "types": "./dist/playback/index.d.ts",
+      "import": "./dist/playback/index.js",
+      "default": "./dist/playback/index.js"
+    },
     "./core": {
       "types": "./dist/core/index.d.ts",
       "import": "./dist/core/index.js",

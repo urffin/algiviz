@@ -6,6 +6,8 @@ const palettes = {
     light: { background: "#f8fafc", text: "#0f172a", bar: "#475569", sorted: "#047857", active: "#b45309", held: "#7c3aed" }
 };
 
+export { createSortRenderer as createArrayRenderer };
+
 function positions(state: SortSnapshot): Map<string, { item: Item; index: number; held: boolean }> {
     const result = new Map<string, { item: Item; index: number; held: boolean }>();
     state.slots.forEach((item, index) => { if (item) result.set(item.id, { item, index, held: false }); });
@@ -51,7 +53,8 @@ export function createSortRenderer(options: { theme: "light" | "dark" }) {
                     const old = before.get(id) ?? next;
                     const x = margin + ((old.index + (next.index - old.index) * p) + 0.5) * cell;
                     const size = Math.max(4, Math.abs(next.item.value) / maxMagnitude * available);
-                    const active = event.type === "compare" || event.type === "swap" ? id === event.leftId || id === event.rightId :
+                    const active = event.type === "highlight" ? event.itemIds.includes(id) :
+                        event.type === "compare" || event.type === "swap" ? id === event.leftId || id === event.rightId :
                         "itemId" in event && event.itemId === id;
                     ctx.fillStyle = next.held ? colors.held : active ? colors.active :
                         next.index < frame.current.sortedPrefixLength ||

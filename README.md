@@ -1,6 +1,116 @@
 # AlgiViz
 
-A TypeScript library for educational algorithm visualization: stable insertion and bubble sort traces, a seekable timeline and a canvas renderer. No runtime dependencies. The core works without DOM, React or Next.js. ESM only, with TypeScript declarations.
+A TypeScript toolkit for user-defined algorithm visualizations. You write the algorithm; AlgiViz provides array operations, immutable steps, playback and canvas rendering. No runtime dependencies. Playback works without DOM, React or Next.js. ESM only, with TypeScript declarations.
+
+## User-defined algorithms (unreleased)
+
+The following API is available in this checkout and is not yet in npm 0.3.0.
+New applications use these entry points, which do not import bundled algorithms:
+
+- `@grundyjs/algiviz/array`: array operations and generator definitions.
+- `@grundyjs/algiviz/playback`: generic playback of any immutable states and events.
+- `@grundyjs/algiviz/canvas`: the ready-made array renderer.
+
+You own the loops, conditions and operation order. No library registration or
+changes to AlgiViz are required. For example, reversing an array:
+
+```js
+import { defineArrayAlgorithm, createArrayPlayer, createArrayTimeline } from "@grundyjs/algiviz/array";
+import { createArrayRenderer } from "@grundyjs/algiviz/canvas";
+
+const reverse = defineArrayAlgorithm(function* (array) {
+    yield array.start();
+    for (let i = 0; i < Math.floor(array.length / 2); i++) {
+        yield array.highlight([i, array.length - 1 - i]);
+        yield array.swap(i, array.length - 1 - i);
+    }
+    yield array.done();
+});
+
+const options = { stepDurationMs: 350, finalHoldMs: 1000 };
+const ctx = canvas.getContext("2d");
+const renderer = createArrayRenderer({ theme: "dark" });
+const player = createArrayPlayer(reverse.iterate([1, 2, 3, 4]), {
+    ...options,
+    render: frame => renderer.render(ctx, frame)
+});
+// Your animation loop calls player.advance(deltaMs * speed).
+// No calls while paused; advance(0) redraws after resizing.
+// On teardown: cancel your animation loop and call player.dispose().
+
+// Alternatively, retain history and seek:
+const timeline = createArrayTimeline(reverse.steps([1, 2, 3, 4]), options);
+renderer.render(ctx, timeline.sample(500));
+```
+
+`defineArrayAlgorithm` returns `iterate(values)` and `steps(values)`. Each
+iterator owns a separate workspace and copies/validates input on the first
+`next()`. `steps` collects the iterator into a frozen array. Yield every
+operation immediately, begin with `start`, and end with `done`. Each operation
+updates the workspace and returns an immutable snapshot; it does not draw.
+The player invokes the supplied `render` initially and on every `advance`.
+Rendering errors close the iterator and propagate to the caller.
+
+### Array operations
+
+| Operation | Effect |
+| --- | --- |
+| `at(index)`, `held`, `length` | Read a frozen item, the held item or array length |
+| `start(regions?)` | Emit initial state; call once |
+| `compare(left, right)` | Highlight two positions and count one comparison; either position can be `"held"` |
+| `highlight(positions)` | Highlight items for this step without changing counters |
+| `swap(left, right, regions?)` | Exchange occupied positions; count two writes (non-adjacent swaps are supported) |
+| `select(from, regions?)` | Hold an item and leave a hole; no counted writes |
+| `shift(from, to, regions?)` | Move an item into the hole; count one write |
+| `insert(to, regions?)` | Fill the hole with the held item; count one write |
+| `pass(end, regions?)` | Describe a completed pass without changing items or counters |
+| `done(regions?)` | Finish; requires no held item; does not sort or infer sorted regions |
+
+`regions` can contain `sortedPrefixLength` and `sortedSuffixLength`.
+Omitted markers retain their previous values. The author decides when regions
+are sorted; AlgiViz validates their bounds but does not prove that claim. Positions
+are zero-based; invalid positions, occupied destinations and invalid operation
+order throw before mutating the workspace. Read snapshots rather than modifying
+items yourself. `createArrayTrace(values)` exposes the same operations directly,
+with immediate input validation, for authors writing their own generator wrapper.
+
+Full insertion/bubble implementations live in [examples/algorithms.mjs](examples/algorithms.mjs).
+The browser demo imports those external algorithms. Deprecated `/core` exports
+remain available through isolated compatibility implementations using the same
+operations; they are retained in the package until a breaking release removes them.
+Existing insertion/bubble traces remain unchanged. `ArrayEvent` also includes the
+new `highlight` event, so exhaustive event switches must handle it.
+
+### Custom structures and renderers
+
+`/playback` does not know arrays, sorting, Canvas, or event names. A source yields
+`Step<State, Event>` objects with contiguous zero-based `index`, immutable
+`state` and `event`. Supply `isTerminal` to identify the final step and
+`render` to draw each interpolated frame using any rendering technology:
+
+```js
+import { createPlayer, createTimeline } from "@grundyjs/algiviz/playback";
+
+const player = createPlayer(myTraversal(), {
+    stepDurationMs: 300,
+    finalHoldMs: 1000,
+    isTerminal: step => step.event.kind === "finished",
+    render: frame => drawGraph(frame.previous, frame.current, frame.progress, frame.event)
+});
+```
+
+The render callback is optional. Without it, read `player.frame` and render
+manually. `createTimeline(steps, timing)` supports seeking with the same generic
+frame shape; call your renderer with its `sample(timeMs)` result. The generic
+engine does not clone or freeze user states; that is the source's responsibility.
+It retains adjacent snapshots only; the timeline retains the supplied history.
+Custom array events or tree/graph operations can use this contract and a custom
+renderer; there is no built-in graph/tree operation set yet.
+
+## Legacy sorting API
+
+The following `/core` examples remain supported for compatibility. Prefer the
+user-defined algorithm API above for new integrations.
 
 ## Install
 
@@ -189,42 +299,12 @@ catch-up work to keep controls responsive.
 
 For playback, call `timeline.sample(elapsedMs)` in your own requestAnimationFrame loop. For recording, use a fixed-size export canvas. Negative values are shown by magnitude with signed labels; the chart is not a signed-axis plot.
 
-## Adding an algorithm to this repository
+## Adding an algorithm
 
-Implement a generator in `src/core/` using the internal `createSortTrace` helper
-from `./sort-trace.js`. Call it **inside** the generator body to preserve lazy
-validation. It provides a mutable `state` workspace and `emit(event)`; emitting
-copies and freezes the snapshot, assigns its step index, and updates counters.
-It retains no history. The helper is internal, not a public package export.
-
-The algorithm owns its loop, array changes and sorted-region markers. Always
-change the workspace before yielding the event that describes that change:
-
-```ts
-// Inside a generator, after checking that adjacent items need exchanging:
-const a = state.slots[left]!;
-const b = state.slots[right]!;
-state.slots[left] = b;
-state.slots[right] = a;
-yield emit({ type: "swap", leftId: a.id, rightId: b.id, left, right });
-```
-
-Yield `start` before sorting and `done` after updating the final sorted region.
-Do not increment counters manually: `compare` adds one comparison, `shift` and
-`insert` add one write, and `swap` adds two writes. Reuse the frozen items created
-by the helper and preserve each item's identity across moves.
-
-Add a history wrapper with `Object.freeze([...iterateYourSortSteps(values)])`,
-export both functions from `src/core/index.ts`, and register the algorithm in
-`examples/demo.mjs` plus its select option in `examples/index.html`. The timeline
-and sequential player need no algorithm-specific changes. A new operation also
-requires updating `SortEvent`, its counter semantics and canvas highlighting or
-movement; existing operations can reuse the renderer.
-
-Use the bubble-sort tests as a guide: independently replay events, verify stable
-ordering and item conservation, check frozen snapshots and lazy validation, and
-compare sequential frames with the timeline. This helper reduces snapshot
-boilerplate; it does not validate that an algorithm's events match its mutations.
+Create an application-owned generator with `defineArrayAlgorithm`, as shown
+above. Add it to your application's controls or the demo registry. AlgiViz needs
+no change when the existing operations are sufficient. For a new kind of state
+or event, implement the generic playback contract and its renderer.
 
 ## Release
 

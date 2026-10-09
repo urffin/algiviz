@@ -1,5 +1,6 @@
-import { insertionSortSteps, iterateInsertionSortSteps, bubbleSortSteps, iterateBubbleSortSteps, createSortTimeline, createSortPlayer } from '../dist/core/index.js';
-import { createSortRenderer } from '../dist/canvas/index.js';
+import { insertion, bubble } from './algorithms.mjs';
+import { createArrayTimeline as createSortTimeline, createArrayPlayer as createSortPlayer } from '@grundyjs/algiviz/array';
+import { createArrayRenderer as createSortRenderer } from '@grundyjs/algiviz/canvas';
 
 const $ = id => document.getElementById(id);
 const canvas = document.querySelector('canvas');
@@ -11,8 +12,8 @@ let values = [5, 2, 4, 2, 1];
 let mode = 'history';
 let algorithm = 'insertion';
 const algorithms = {
-    insertion: { name: 'Insertion sort', steps: insertionSortSteps, iterate: iterateInsertionSortSteps },
-    bubble: { name: 'Bubble sort', steps: bubbleSortSteps, iterate: iterateBubbleSortSteps }
+    insertion: { name: 'Insertion sort', ...insertion },
+    bubble: { name: 'Bubble sort', ...bubble }
 };
 let timeline, player;
 let time = 0, running = false, last = null, raf = 0;
