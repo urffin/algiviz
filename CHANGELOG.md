@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add createSceneProjector to adapt immutable state frames with a two-endpoint cache; use it in the merge example.
+
 - Run tests and isolated package-consumer checks on pushes and pull requests,
   using Node.js 22/24 on Linux and Windows.
 

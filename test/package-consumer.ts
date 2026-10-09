@@ -49,3 +49,9 @@ renderer.render(output, timeline.sample(50));
 check(output.at(-1) === 5, "Scene seeking failed");
 player.dispose();
 check(insertionSortSteps([2, 1]).at(-1)?.state.slots[0]?.value === 1, "Legacy API failed");
+
+import { createSceneProjector } from '@grundyjs/algiviz/scene';
+const project = createSceneProjector((value: { view: Scene<Objects> }) => value.view);
+const projectedFrame = project({ previous: { view: steps[0]!.state }, current: { view: steps[1]!.state }, event: 'move' as const, progress: 0.5, stepIndex: 1 });
+renderer.render(output, projectedFrame);
+check(output.at(-1) === 5, 'Installed scene projector failed');

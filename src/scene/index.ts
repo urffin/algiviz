@@ -118,3 +118,22 @@ export function createSceneRenderer<Types extends object, Context, Event = unkno
         }
     });
 }
+
+/** Projects immutable state endpoints, retaining at most two scenes. */
+export function createSceneProjector<State, Types extends object>(project: (state: State) => Scene<Types>) {
+    let cache: { state: State; scene: Scene<Types> }[] = [];
+    return <Event>(frame: Frame<State, Event>): Frame<Scene<Types>, Event> => {
+        const next: typeof cache = [];
+        function endpoint(state: State) {
+            const found = [...next, ...cache].find(entry => Object.is(entry.state, state));
+            const entry = found ?? { state, scene: project(state) };
+            if (!next.includes(entry)) next.push(entry);
+            return entry.scene;
+        }
+        const previous = endpoint(frame.previous);
+        const current = endpoint(frame.current);
+        // Failed projections do not replace the previously successful cache.
+        cache = next;
+        return Object.freeze({ previous, current, progress: frame.progress, stepIndex: frame.stepIndex, event: frame.event });
+    };
+}

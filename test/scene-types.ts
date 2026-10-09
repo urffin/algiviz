@@ -36,3 +36,10 @@ createPlayer(steps, {
     isTerminal: (step) => step.event === "done",
     render: (frame) => renderer.render([], frame)
 });
+
+import { createSceneProjector } from '@grundyjs/algiviz/scene';
+const project = createSceneProjector((value: { scene: Scene<Objects> }) => value.scene);
+const projected = project({ previous: { scene: state }, current: { scene: state }, progress: 1, stepIndex: 0, event: 'done' as const });
+renderer.render([], projected);
+// @ts-expect-error Projected inputs must have the declared state shape.
+project({ previous: 1, current: 2, progress: 1, stepIndex: 0, event: 'done' });

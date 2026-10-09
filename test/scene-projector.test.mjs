@@ -1,0 +1,30 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { createSceneProjector } from '@grundyjs/algiviz/scene';
+test('scene projection reuses adjacent states, preserves metadata and evicts old endpoints', () => {
+    const calls = [];
+    const project = createSceneProjector(state => { calls.push(state); return { objects: [] }; });
+    const a = {}, b = {}, c = {}, d = {};
+    const frame = (previous, current, progress = 0.5) => ({ previous, current, progress, stepIndex: 7, event: { type: 'move' } });
+    const start = project(frame(a, a));
+    assert.equal(start.previous, start.current); assert.equal(calls.length, 1);
+    const source = frame(a, b), result = project(source);
+    assert.equal(result.event, source.event); assert.equal(result.stepIndex, 7); assert.equal(result.progress, 0.5);
+    assert.ok(Object.isFrozen(result));
+    assert.equal(project(frame(a, b, 0.75)).current, result.current);
+    assert.equal(calls.length, 2);
+    assert.equal(project(frame(b, a)).previous, result.current);
+    project(frame(b, c)); project(frame(c, d)); project(frame(a, b));
+    assert.deepEqual(calls, [a, b, c, d, a, b]);
+});
+test('failed projection preserves the cache and instances are independent', () => {
+    let calls = 0, fail = true;
+    const convert = state => { calls++; if (state === 2 && fail) throw Error('projection'); return { objects: [] }; };
+    const project = createSceneProjector(convert);
+    const frame = (a, b) => ({ previous: a, current: b, progress: 1, stepIndex: 0, event: null });
+    const initial = project(frame(0, 0));
+    assert.throws(() => project(frame(1, 2)), /projection/);
+    assert.equal(project(frame(0, 0)).current, initial.current);
+    fail = false; project(frame(1, 2)); assert.equal(calls, 5);
+    createSceneProjector(convert)(frame(1, 1)); assert.equal(calls, 6);
+});

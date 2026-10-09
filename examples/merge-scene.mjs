@@ -1,5 +1,5 @@
 // Two rows use positional cell IDs because copy-back temporarily duplicates item IDs.
-import { createSceneRenderer } from "@grundyjs/algiviz/scene";
+import { createSceneRenderer, createSceneProjector } from "@grundyjs/algiviz/scene";
 export function mergeScene(state) {
     return {
         objects: [state.main, state.buffer].flatMap((items, row) => items.map((item, index) => ({
@@ -25,6 +25,7 @@ export function mergeItemLabel(item, original) {
     return `${item.value}${equals.length > 1 ? String.fromCharCode(97 + equals.findIndex(other => other.id === item.id)) : ""}`;
 }
 export function createMergeRenderer(en, original) {
+    const projectFrame = createSceneProjector(mergeScene);
     const scale = Math.max(1, ...original.map(value => Math.abs(value.value)));
     function layout(ctx) {
         const width = ctx.canvas.width;
@@ -97,7 +98,7 @@ export function createMergeRenderer(en, original) {
                 ctx.fillStyle = "#d1d5db";
                 ctx.fillText(`[${start}, ${middle}) | [${middle}, ${end})`, 16, 42);
             }
-            renderer.render(ctx, { ...frame, previous: mergeScene(frame.previous), current: mergeScene(state) });
+            renderer.render(ctx, projectFrame(frame));
             const event = frame.event;
             if (frame.progress < 1 && (event.type === "buffer-write" || event.type === "main-write")) {
                 const from = event.type === "buffer-write" ? event.from : event.index;

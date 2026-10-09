@@ -201,6 +201,32 @@ The example stores full history, costing O(n² log n) space in the worst case;
 the underlying algorithm uses O(n) auxiliary memory. No merge-sort package
 export or new library API is needed.
 
+### State-to-scene projection (unreleased)
+
+`createSceneProjector` is available in this checkout, not npm 0.4.0. It adapts
+playback frames from your state model to scenes without changing the algorithm:
+
+```js
+import { createSceneProjector } from '@grundyjs/algiviz/scene';
+const projectFrame = createSceneProjector(state => ({
+    objects: state.items.map(item => ({ id: item.id, type: 'node', data: item }))
+}));
+// Reuse the projector across renders, with either history or generator playback.
+renderer.render(ctx, projectFrame(frame));
+```
+
+The projection receives only a state, not an event or progress. Use a pure
+function and immutable states/scenes. Endpoints are compared with `Object.is`;
+mutating a retained state or changing captured projection settings will not
+invalidate the cache. Create a new projector when those settings change.
+At most two endpoint projections are retained; seeking to older states may
+recompute them. Events, step indices and progress are preserved. Viewport layout
+and animation belong in render handlers, not in this cached projection.
+The returned frame is frozen; user states and projected scenes are not cloned
+or deep-frozen. Scene validation still happens in the scene renderer.
+The merge example uses this adapter to avoid rebuilding two cell scenes on every
+animation frame. The algorithm, object types and visual behavior remain external.
+
 ## Migrating from 0.3.x
 
 Existing `/core` imports continue to work in 0.4.0. Built-in insertion and bubble
