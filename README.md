@@ -2,9 +2,9 @@
 
 A TypeScript toolkit for user-defined algorithm visualizations. You write the algorithm; AlgiViz provides array operations, immutable steps, playback and canvas rendering. No runtime dependencies. Playback works without DOM, React or Next.js. ESM only, with TypeScript declarations.
 
-## User-defined algorithms (unreleased)
+## User-defined algorithms
 
-The following API is available in this checkout and is not yet in npm 0.3.0.
+The following API is introduced in 0.4.0.
 New applications use these entry points, which do not import bundled algorithms:
 
 - `@grundyjs/algiviz/array`: array operations and generator definitions.
@@ -111,7 +111,7 @@ graph/tree algorithm or operation set.
 
 ### User-defined objects and visualizations
 
-The `/scene` API is also unreleased. Define a type map with your own data, then
+The `/scene` API is introduced in 0.4.0. Define a type map with your own data, then
 provide a visualization for every type. AlgiViz matches identities and dispatches
 objects; your handlers decide how data becomes geometry and how it interpolates.
 
@@ -184,6 +184,33 @@ See [examples/tree-scene.mjs](examples/tree-scene.mjs) and open
 `examples/tree.html` after building and serving the repository. The application
 defines its own tree traversal, `node`, `edge` and `pointer` types, appearance,
 pointer movement and removal. No tree-specific code is added to AlgiViz.
+
+## Migrating from 0.3.x
+
+Existing `/core` imports continue to work in 0.4.0. Built-in insertion and bubble
+sort exports are deprecated, but their traces remain unchanged. Migrate each
+algorithm into your application using `defineArrayAlgorithm`; complete examples
+are in [examples/algorithms.mjs](https://github.com/urffin/algiviz/blob/v0.4.0/examples/algorithms.mjs).
+
+| Previous API | Application-owned API |
+| --- | --- |
+| `insertionSortSteps(values)` | `insertion.steps(values)` on your algorithm definition |
+| `iterateInsertionSortSteps(values)` | `insertion.iterate(values)` |
+| `bubbleSortSteps(values)` / `iterateBubbleSortSteps(values)` | `bubble.steps(values)` / `bubble.iterate(values)` |
+| `/core` `createSortTimeline` / `createSortPlayer` | `/array` `createArrayTimeline` / `createArrayPlayer` |
+| `/canvas` `createSortRenderer` | `/canvas` `createArrayRenderer` |
+| `/core` `SortEvent`, `SortSnapshot`, `SortStep`, `SortFrame` | `/array` `ArrayEvent`, `ArraySnapshot`, `ArrayStep`, `ArrayFrame` |
+
+Timing options and array frames remain compatible. Exhaustive event switches
+must handle the new `highlight` event, even though the legacy algorithms do not
+emit it. An incomplete player source now reports a missing terminal step; avoid
+depending on the old error text. Generic `/playback` requires an explicit
+`isTerminal` predicate; `/array` players still recognize the `done` event.
+
+Use `/scene` when you need your own object types and visualization handlers.
+This is optional for array users: `createArrayRenderer` already uses scenes.
+Generic states and custom scene data must remain immutable; unlike array
+operations, the generic engine does not clone or deep-freeze them.
 
 ## Legacy sorting API
 
@@ -399,7 +426,7 @@ Publishing is a separate maintainer action.
 The `.github/workflows/npm-publish.yml` workflow publishes to npm when a stable
 GitHub Release is published (`release: published`). Drafts, prereleases and tag
 pushes alone do not publish a package. The release tag must be `v` followed by
-the exact version in `package.json` and `package-lock.json` (for example `v0.3.0`).
+the exact version in `package.json` and `package-lock.json` (for example `v0.4.0`).
 The workflow uses Node.js 24 and npm 11. The publish lifecycle runs the tests and
 build before publishing with provenance, using npm trusted publishing (OIDC).
 

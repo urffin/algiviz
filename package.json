@@ -1,6 +1,6 @@
 {
   "name": "@grundyjs/algiviz",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Deterministic algorithm steps for educational visualizations",
   "type": "module",
   "files": [

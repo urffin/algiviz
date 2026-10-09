@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.4.0 — 2026-10-09
 
 - Verify the packed npm archive in an isolated TypeScript consumer before publishing.
 
