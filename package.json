@@ -10,6 +10,11 @@
     "CHANGELOG.md"
   ],
   "exports": {
+    "./scene": {
+      "types": "./dist/scene/index.d.ts",
+      "import": "./dist/scene/index.js",
+      "default": "./dist/scene/index.js"
+    },
     "./array": {
       "types": "./dist/array/index.d.ts",
       "import": "./dist/array/index.js",
@@ -33,7 +38,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test test/*.test.mjs",
+    "test": "npm run build && tsc -p test/tsconfig.json && node --test test/*.test.mjs",
     "prepack": "npm run build",
     "prepublishOnly": "npm test"
   },

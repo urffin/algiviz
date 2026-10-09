@@ -1,18 +1,47 @@
 import type { Item, SortSnapshot } from "../core/types.js";
 import type { SortFrame } from "../core/timeline.js";
+import { createSceneRenderer, type Scene } from "../scene/index.js";
+
+export type ArrayObjects = { bar: { item: Item; index: number; held: boolean } };
+
+/** Adapts array identities to the same public scene contract used by custom objects. */
+export function arrayScene(state: SortSnapshot): Scene<ArrayObjects> {
+    return Object.freeze({
+        objects: Object.freeze(
+            [...positions(state)].map(([id, data]) =>
+                Object.freeze({ id, type: "bar" as const, data: Object.freeze(data) })
+            )
+        )
+    });
+}
 
 const palettes = {
-    dark: { background: "#101827", text: "#f1f5f9", bar: "#94a3b8", sorted: "#34d399", active: "#fbbf24", held: "#c4b5fd" },
-    light: { background: "#f8fafc", text: "#0f172a", bar: "#475569", sorted: "#047857", active: "#b45309", held: "#7c3aed" }
+    dark: {
+        background: "#101827",
+        text: "#f1f5f9",
+        bar: "#94a3b8",
+        sorted: "#34d399",
+        active: "#fbbf24",
+        held: "#c4b5fd"
+    },
+    light: {
+        background: "#f8fafc",
+        text: "#0f172a",
+        bar: "#475569",
+        sorted: "#047857",
+        active: "#b45309",
+        held: "#7c3aed"
+    }
 };
 
 export { createSortRenderer as createArrayRenderer };
 
 function positions(state: SortSnapshot): Map<string, { item: Item; index: number; held: boolean }> {
     const result = new Map<string, { item: Item; index: number; held: boolean }>();
-    state.slots.forEach((item, index) => { if (item) result.set(item.id, { item, index, held: false }); });
-    if (state.held) result.set(state.held.id, { item: state.held,
-        index: state.slots.indexOf(null), held: true });
+    state.slots.forEach((item, index) => {
+        if (item) result.set(item.id, { item, index, held: false });
+    });
+    if (state.held) result.set(state.held.id, { item: state.held, index: state.slots.indexOf(null), held: true });
     return result;
 }
 
@@ -23,7 +52,6 @@ export function createSortRenderer(options: { theme: "light" | "dark" }) {
         render(ctx: CanvasRenderingContext2D, frame: SortFrame): void {
             const { width, height } = ctx.canvas;
             if (width <= 0 || height <= 0) return;
-            const before = positions(frame.previous);
             const after = positions(frame.current);
             const items = [...after.values()];
             const count = frame.current.slots.length;
@@ -49,30 +77,54 @@ export function createSortRenderer(options: { theme: "light" | "dark" }) {
                 ctx.fillStyle = colors.text;
                 ctx.fillText(`AlgiViz · ${event.type} · ${frame.stepIndex}`, margin, height * 0.07);
                 if (!count) ctx.fillText("Empty array", margin, baseline);
-                for (const [id, next] of after) {
-                    const old = before.get(id) ?? next;
-                    const x = margin + ((old.index + (next.index - old.index) * p) + 0.5) * cell;
-                    const size = Math.max(4, Math.abs(next.item.value) / maxMagnitude * available);
-                    const active = event.type === "highlight" ? event.itemIds.includes(id) :
-                        event.type === "compare" || event.type === "swap" ? id === event.leftId || id === event.rightId :
-                        "itemId" in event && event.itemId === id;
-                    ctx.fillStyle = next.held ? colors.held : active ? colors.active :
-                        next.index < frame.current.sortedPrefixLength ||
-                        next.index >= count - (frame.current.sortedSuffixLength ?? 0) ? colors.sorted : colors.bar;
-                    ctx.fillRect(x - barWidth / 2, baseline - size, barWidth, size);
-                    if (cell < 24) continue;
-                    ctx.fillStyle = colors.text;
-                    ctx.font = `${fontSize}px sans-serif`;
-                    ctx.textAlign = "center";
-                    ctx.fillText(String(next.item.value), x, baseline - size - fontSize, cell * 0.95);
-                    ctx.fillText(String(next.index), margin + (next.index + 0.5) * cell, baseline + height * 0.06);
-                }
+                const sceneRenderer = createSceneRenderer<ArrayObjects, CanvasRenderingContext2D, SortFrame["event"]>({
+                    bar(ctx, transition) {
+                        const object = transition.current ?? transition.previous!;
+                        const id = object.id;
+                        const next = object.data;
+                        const old = transition.previous?.data ?? next;
+                        const x = margin + (old.index + (next.index - old.index) * p + 0.5) * cell;
+                        const size = Math.max(4, (Math.abs(next.item.value) / maxMagnitude) * available);
+                        const active =
+                            event.type === "highlight"
+                                ? event.itemIds.includes(id)
+                                : event.type === "compare" || event.type === "swap"
+                                  ? id === event.leftId || id === event.rightId
+                                  : "itemId" in event && event.itemId === id;
+                        ctx.fillStyle = next.held
+                            ? colors.held
+                            : active
+                              ? colors.active
+                              : next.index < frame.current.sortedPrefixLength ||
+                                  next.index >= count - (frame.current.sortedSuffixLength ?? 0)
+                                ? colors.sorted
+                                : colors.bar;
+                        ctx.fillRect(x - barWidth / 2, baseline - size, barWidth, size);
+                        if (cell < 24) return;
+                        ctx.fillStyle = colors.text;
+                        ctx.font = `${fontSize}px sans-serif`;
+                        ctx.textAlign = "center";
+                        ctx.fillText(String(next.item.value), x, baseline - size - fontSize, cell * 0.95);
+                        ctx.fillText(String(next.index), margin + (next.index + 0.5) * cell, baseline + height * 0.06);
+                    }
+                });
+                sceneRenderer.render(ctx, {
+                    ...frame,
+                    previous: arrayScene(frame.previous),
+                    current: arrayScene(frame.current)
+                });
                 ctx.textAlign = "left";
                 ctx.font = `${Math.max(11, Math.min(18, width * 0.03))}px sans-serif`;
                 ctx.fillStyle = colors.text;
-                ctx.fillText(`Comparisons: ${frame.current.comparisons} · Writes: ${frame.current.writes}`,
-                    margin, height * 0.9, width - margin * 2);
-            } finally { ctx.restore(); }
+                ctx.fillText(
+                    `Comparisons: ${frame.current.comparisons} · Writes: ${frame.current.writes}`,
+                    margin,
+                    height * 0.9,
+                    width - margin * 2
+                );
+            } finally {
+                ctx.restore();
+            }
         }
     });
 }

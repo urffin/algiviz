@@ -124,4 +124,6 @@ test('new entry points do not import any bundled algorithms', () => {
     }
     visit(new URL('../dist/array/index.js', import.meta.url));
     visit(new URL('../dist/playback/index.js', import.meta.url));
+    visit(new URL('../dist/scene/index.js', import.meta.url));
+    visit(new URL('../dist/canvas/index.js', import.meta.url));
 });

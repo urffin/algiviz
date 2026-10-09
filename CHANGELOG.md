@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add `/scene` with typed user-defined object data and visualization handlers,
+  identity matching, enter/update/exit transitions, layers and reference lookup.
+- Render array bars through the scene dispatcher and expose `arrayScene`.
+- Add an external tree traversal demo defining its own nodes, edges and pointer.
+
 - Add algorithm-free `/array` and `/playback` entry points: user-defined generators,
   validated array operations, generic states/events and optional rendering callbacks.
 - Add `highlight` events and `createArrayRenderer`; existing rendering names remain available.
