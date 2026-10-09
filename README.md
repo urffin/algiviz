@@ -466,6 +466,8 @@ correct the settings and rerun the failed workflow.
 
 
 All browser examples share playback defaults from examples/player-settings.mjs:
+The browser controller in `examples/demo-player.mjs` also owns animation scheduling,
+mode changes, stepping, seeking, restart, reduced motion and generator cleanup.
 650 ms per step, 1,000 ms final hold, speeds 0.25× through 32×, history/generator
 modes and forward/backward step controls. Backward stepping and seeking are
 disabled in generator mode. Array input limits are 64 for history and 2,000

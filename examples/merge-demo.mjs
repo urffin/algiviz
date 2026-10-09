@@ -1,110 +1,44 @@
-import { timing, limits, configureControls, nextDelta, stepTime, generateValues } from './player-settings.mjs';
-import { createTimeline, createPlayer } from '@grundyjs/algiviz/playback';
+import { limits, generateValues } from './player-settings.mjs';
+import { createDemoPlayer } from './demo-player.mjs';
 import { mergeSort } from './merge-algorithm.mjs';
 import { createMergeRenderer, mergeItemLabel } from './merge-scene.mjs';
-
+const $ = id => document.getElementById(id);
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
-const seek = document.querySelector('#seek');
-const play = document.querySelector('#play');
-const mode = document.querySelector('#mode');
-const previous = document.querySelector('#previous');
-const modeHelp = document.querySelector('#mode-help');
-const speed = document.querySelector('#speed');
-const input = document.querySelector('#values');
-const status = document.querySelector('#status');
-const error = document.querySelector('#error');
-configureControls();
-const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-let steps, timeline, player, original, loadedValues, renderer, time = 0, request = 0, last = null, running = false;
-function pause() { running = false; last = null; cancelAnimationFrame(request); play.textContent = (player || timeline) && finished() ? 'Replay' : 'Play'; }
-function draw() {
-    const frame = player ? player.frame : timeline.sample(time);
-    const completed = frame.stepIndex;
-    const state = frame.current;
-    renderer.render(ctx, reduced.matches ? { ...frame, previous: state, current: state, progress: 1 } : frame);
-    seek.value = String(time);
-    const label = item => mergeItemLabel(item, original);
-    const summarize = items => items.slice(0, 24).map(label).join(', ') + (items.length > 24 ? ', … (' + items.length + ' items)' : '');
-    const description = 'Step ' + completed + (steps ? ' / ' + (steps.length - 1) : '') + ': ' + frame.event.type +
-        ' · Main: [' + summarize(state.main) + '] · Buffer: [' + summarize(state.buffer) +
-        '] · Comparisons: ' + state.comparisons + ' · Buffer writes: ' + state.bufferWrites + ' · Main writes: ' + state.mainWrites;
-    if (status.textContent !== description) status.textContent = description;
-    play.textContent = running ? 'Pause' : finished() ? 'Replay' : 'Play';
-}
-function load() {
-    try {
-        const text = input.value.trim();
-        const values = text ? text.split(/[\s,]+/).map(Number) : [];
-        const limit = limits[mode.value];
-        if (values.length > limit || values.some(value => !Number.isFinite(value)))
-            throw new Error(`Use up to ${limit} finite numbers.`);
-        start(values); error.textContent = '';
-    } catch (e) { error.textContent = e.message; }
-}
-function start(values) {
-    pause(); player?.dispose();
-    loadedValues = [...values];
-    input.value = loadedValues.join(', ');
-    document.querySelector('#size').max = String(limits[mode.value]);
-    steps = timeline = player = null;
-
-    if (mode.value === 'generator') {
-        player = createPlayer(mergeSort.iterate(loadedValues), {
-            ...timing, isTerminal: step => step.event.type === 'done'
-        });
-        original = player.frame.current.main;
-    } else {
-        steps = mergeSort.steps(loadedValues);
-        timeline = createTimeline(steps, timing);
-        original = steps[0].state.main;
+let original, renderer;
+const playback = createDemoPlayer({
+    isTerminal: step => step.event.type === 'done',
+    onError: error => { $('error').textContent = error.message; },
+    render(frame) {
+        if (frame.stepIndex === 0 && original !== frame.current.main) {
+            original = frame.current.main; renderer = createMergeRenderer(true, original);
+        }
+        renderer.render(ctx, frame);
+        const label = item => mergeItemLabel(item, original);
+        const summarize = items => items.slice(0, 24).map(label).join(', ') + (items.length > 24 ? ', … (' + items.length + ' items)' : '');
+        const state = frame.current;
+        const text = `Step ${frame.stepIndex}: ${frame.event.type} · Main: [${summarize(state.main)}] · Buffer: [${summarize(state.buffer)}] · Comparisons: ${state.comparisons} · Buffer writes: ${state.bufferWrites} · Main writes: ${state.mainWrites}`;
+        if ($('status').textContent !== text) $('status').textContent = text;
     }
-    renderer = createMergeRenderer(true, original);
-    time = 0; seek.max = String(timeline?.durationMs ?? 0);
-    seek.disabled = previous.disabled = Boolean(player);
-    modeHelp.textContent = player
-        ? 'Generator: steps are produced on demand. History and seeking are unavailable; restart creates a new iterator.'
-        : 'History: all steps are stored for backward stepping and seeking.';
-    draw();
+});
+function load(values) {
+    const saved = [...values];
+    playback.load(mode => {
+        if (saved.length > limits[mode] || saved.some(value => !Number.isFinite(value))) throw new Error(`Use up to ${limits[mode]} finite numbers.`);
+        return mergeSort.iterate(saved);
+    });
+    $('values').value = saved.join(', '); $('error').textContent = '';
 }
-function finished() { return player ? player.finished : time === timeline.durationMs; }
-function tick(now) {
-    if (!running) return;
-    if (last !== null) { const delta = Math.min(now - last, 100) * Number(speed.value); if (player) player.advance(delta); else time = Math.min(timeline.durationMs, time + delta); }
-    last = now; draw();
-    if (finished()) pause(); else request = requestAnimationFrame(tick);
-}
-play.onclick = () => { if (running) return pause(); if (finished()) start(loadedValues); running = true; last = null; play.textContent = 'Pause'; request = requestAnimationFrame(tick); };
-seek.oninput = () => { pause(); time = Number(seek.value); draw(); };
-document.querySelector('#restart').onclick = () => start(loadedValues);
-mode.onchange = () => {
-    if (mode.value === 'history' && loadedValues.length > limits.history) {
-        mode.value = 'generator';
-        error.textContent = 'History supports up to 64 values. Load a smaller array before switching.';
-        return;
-    }
-    error.textContent = '';
-    start(loadedValues);
-};
-for (const [id, direction] of [['previous', -1], ['next', 1]]) document.querySelector('#' + id).onclick = () => {
-    pause();
-    if (player) { if (direction > 0) { const frame = player.frame; player.advance(nextDelta(frame)); draw(); } return; }
-
-    time = stepTime(time, direction, timeline.durationMs); draw();
-};
-document.querySelector('#apply').onclick = load;
-document.querySelector('#generate').onclick = () => {
-    try {
-        start(generateValues(Number(document.querySelector('#size').value), document.querySelector('#order').value, mode.value));
-        error.textContent = '';
-    } catch (e) { error.textContent = e.message; }
-};
-document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
-window.addEventListener('pagehide', () => { pause(); player?.dispose(); });
-window.addEventListener('pageshow', event => { if (event.persisted) start(loadedValues); });
-reduced.addEventListener('change', draw);
-const resize = new ResizeObserver(() => { canvas.width = Math.max(320, Math.round(canvas.getBoundingClientRect().width)); canvas.height = Math.max(380, Math.round(canvas.width * 0.65)); if (timeline || player) draw(); });
-resize.observe(canvas);
-load();
-
-speed.onchange = () => { last = null; };
+function attempt(action) { try { action(); } catch (error) { $('error').textContent = error.message; } }
+$('apply').onclick = () => attempt(() => {
+    const text = $('values').value.trim();
+    const tokens = text ? text.split(/[\s,]+/) : [];
+    if (tokens.some(token => !token || !Number.isFinite(Number(token)))) throw new TypeError('Enter finite numbers separated by spaces or commas.');
+    load(tokens.map(Number));
+});
+$('generate').onclick = () => attempt(() => load(generateValues(Number($('size').value), $('order').value, playback.mode)));
+new ResizeObserver(() => {
+    canvas.width = Math.max(320, Math.round(canvas.getBoundingClientRect().width));
+    canvas.height = Math.max(380, Math.round(canvas.width * 0.65)); playback.draw();
+}).observe(canvas);
+$('apply').click();
