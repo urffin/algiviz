@@ -14,9 +14,9 @@
 <label>Values (spaces or commas; leave empty for an empty array)<textarea id="values" rows="2">5, 2, 4, 2, 1</textarea></label>
 <div class="controls"><button id="apply">Load values</button><small id="limit"></small></div>
 <p id="error" role="alert"></p><canvas width="960" height="540" aria-label="Insertion sort visualization"></canvas>
-<div class="controls"><button id="play">Play</button><button id="reset">Restart</button>
+<div class="controls"><button id="play">Play</button><button id="reset">Restart</button><button id="previous">Previous step</button><button id="next">Next step</button>
 <label>Speed<select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="8">8×</option><option value="32">32×</option></select></label>
-<label id="seek-control">Seek<input id="time" type="range" min="0" value="0" step="1"></label></div>
+<label id="seek-control">Playback position<input id="time" type="range" min="0" value="0" step="1"></label></div>
 <p id="status" role="status" aria-live="polite"></p><p id="mode-note"></p>
 <small>Large arrays hide bar labels when space is limited. Generator mode saves history memory, but still performs every step. Playback pauses when the tab is hidden.</small>
 </main><script type="importmap">{"imports":{"@grundyjs/algiviz/array":"../dist/array/index.js","@grundyjs/algiviz/canvas":"../dist/canvas/index.js"}}</script>

@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AlgiViz · Custom tree objects</title>
-<style>body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}main{max-width:960px;margin:auto;padding:24px}a{color:#c4b5fd}canvas{width:100%;border:1px solid #64748b;border-radius:12px}button{padding:8px 16px;font:inherit;cursor:pointer}input{width:100%}label{display:block;margin-top:16px}:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}</style></head>
+<style>body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}main{max-width:960px;margin:auto;padding:24px}a{color:#c4b5fd}canvas{width:100%;border:1px solid #64748b;border-radius:12px}button,select{padding:8px 16px;font:inherit;cursor:pointer}input{width:100%}label{display:block;margin-top:16px}button:disabled,input:disabled{opacity:.5;cursor:not-allowed}:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}</style></head>
 <body><main><a href="./index.html">← Array examples</a><h1>User-defined tree objects</h1>
 <p>A depth-first traversal: A → B → D → E → C. Nodes and edges appear as visited; a pointer follows the traversal, then disappears. All three object types and their Canvas visualizations are defined by this example.</p>
 <canvas width="960" height="500" aria-label="Tree traversal; the active node is described below"></canvas>
-<p><button id="play">Play</button> <button id="restart">Restart</button></p>
+<p><label>Playback mode<select id="mode"></select></label></p><p><button id="play">Play</button> <button id="restart">Restart</button> <button id="previous">Previous step</button> <button id="next">Next step</button><label>Speed<select id="speed"></select></label></p><p id="mode-note"></p>
 <label>Playback position<input id="seek" type="range" min="0" value="0" step="1"></label>
 <p id="status" role="status" aria-live="polite"></p></main>
 <script type="importmap">{"imports":{"@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/playback":"../dist/playback/index.js"}}</script>

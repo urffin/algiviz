@@ -1,3 +1,4 @@
+import { timing as options, limits, configureControls, nextDelta, stepTime } from './player-settings.mjs';
 import { insertion, bubble } from './algorithms.mjs';
 import { createArrayTimeline as createSortTimeline, createArrayPlayer as createSortPlayer } from '@grundyjs/algiviz/array';
 import { createArrayRenderer as createSortRenderer } from '@grundyjs/algiviz/canvas';
@@ -6,8 +7,8 @@ const $ = id => document.getElementById(id);
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 const renderer = createSortRenderer({ theme: 'dark' });
-const options = { stepDurationMs: 350, finalHoldMs: 1000 };
-const limits = { history: 64, generator: 2000 };
+configureControls();
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 let values = [5, 2, 4, 2, 1];
 let mode = 'history';
 let algorithm = 'insertion';
@@ -22,7 +23,7 @@ const currentFrame = () => player ? player.frame : timeline.sample(time);
 
 function draw() {
     const frame = currentFrame();
-    renderer.render(ctx, frame);
+    renderer.render(ctx, reduced.matches ? { ...frame, previous: frame.current, progress: 1 } : frame);
     $('time').value = String(time);
     const duration = timeline ? `${(timeline.durationMs / 1000).toFixed(1)} s` : 'unknown';
     const text = `${finished() ? 'Finished' : running ? 'Playing' : 'Paused'} · ${values.length} items · Step ${frame.stepIndex}: ${frame.event.type} · Comparisons: ${frame.current.comparisons} · Writes: ${frame.current.writes} · Total duration: ${duration}`;
@@ -52,7 +53,7 @@ function load(nextValues = values, nextMode = mode, nextAlgorithm = algorithm) {
     time = 0;
     $('mode').value = mode;
     $('values').value = values.join(', ');
-    $('time').disabled = !timeline;
+    $('time').disabled = $('previous').disabled = !timeline;
     $('time').max = String(timeline?.durationMs ?? 1);
     $('size').max = String(limits[mode]);
     $('limit').textContent = `Demo limit: ${limits[mode]} values. Negative numbers and duplicates are supported.`;
@@ -127,3 +128,10 @@ new ResizeObserver(entries => {
     draw();
 }).observe(document.querySelector('main'));
 load();
+for (const [id, direction] of [['previous', -1], ['next', 1]]) $(id).onclick = () => {
+    pause();
+    if (player) { if (direction > 0) player.advance(nextDelta(player.frame)); }
+    else time = stepTime(time, direction, timeline.durationMs);
+    draw();
+};
+reduced.addEventListener('change', draw);

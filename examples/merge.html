@@ -5,12 +5,12 @@
 <body><main><a href="./index.html">← Sorting lab</a><h1>Merge sort with a buffer</h1>
 <p>An application-owned algorithm and two-row scene using the public scene and playback APIs. The array is divided recursively; sorted halves are merged into a reusable buffer, then copied back.</p>
 <label for="values">Values (spaces or commas; empty input is valid)</label><input id="values" value="8, 3, 6, 2, 5, 3, 9, 1, 6, 4">
-<p>History: up to 24 values. Generator: up to 2,000. Magnitude up to 1000. Letters distinguish equal values; dense charts hide labels and text status previews the first 24 cells.</p><button id="apply">Load values</button><p id="error" role="alert"></p>
+<p>History: up to 64 values. Generator: up to 2,000. Magnitude up to 1000. Letters distinguish equal values; dense charts hide labels and text status previews the first 24 cells.</p><button id="apply">Load values</button><p id="error" role="alert"></p>
 <canvas width="960" height="624" aria-label="Main array and buffer; values and operations are described below"></canvas>
 <p><label>Playback mode <select id="mode"><option value="history">History</option><option value="generator">Generator</option></select></label></p>
 <p id="mode-help"></p>
 <div class="controls"><button id="play">Play</button><button id="restart">Restart</button><button id="previous">Previous step</button><button id="next">Next step</button>
-<label>Speed <select id="speed"><option>0.25</option><option>0.5</option><option selected>1</option><option>2</option><option>4</option></select>×</label></div>
+<label>Speed <select id="speed"><option>0.25</option><option>0.5</option><option selected>1</option><option>2</option><option>4</option></select></label></div>
 <label for="seek">Playback position</label><input id="seek" type="range" min="0" value="0" step="1"><p id="status" role="status" aria-live="polite"></p>
 <p>Frames outline the active halves. Yellow shows comparisons and copies; purple shows buffer copies; green marks the final result. During copy-back, the main row may temporarily contain duplicate copies. Cell identities use row and position rather than element identity.</p>
 <p>Left wins ties, preserving stability. Algorithm time is Θ(n log n), extra memory O(n). Stored visualization history costs up to O(n² log n) separately. This example implements merge sort locally; it is not a new package export.</p>

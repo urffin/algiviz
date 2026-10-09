@@ -1,3 +1,4 @@
+import { timing, limits, configureControls, nextDelta, stepTime } from './player-settings.mjs';
 import { createTimeline, createPlayer } from '@grundyjs/algiviz/playback';
 import { mergeSort } from './merge-algorithm.mjs';
 import { createMergeRenderer, mergeItemLabel } from './merge-scene.mjs';
@@ -13,9 +14,10 @@ const speed = document.querySelector('#speed');
 const input = document.querySelector('#values');
 const status = document.querySelector('#status');
 const error = document.querySelector('#error');
+configureControls();
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 let steps, timeline, player, original, loadedValues, renderer, time = 0, request = 0, last = null, running = false;
-function pause() { running = false; last = null; cancelAnimationFrame(request); play.textContent = 'Play'; }
+function pause() { running = false; last = null; cancelAnimationFrame(request); play.textContent = (player || timeline) && finished() ? 'Replay' : 'Play'; }
 function draw() {
     const frame = player ? player.frame : timeline.sample(time);
     const completed = frame.stepIndex;
@@ -28,12 +30,13 @@ function draw() {
         ' · Main: [' + summarize(state.main) + '] · Buffer: [' + summarize(state.buffer) +
         '] · Comparisons: ' + state.comparisons + ' · Buffer writes: ' + state.bufferWrites + ' · Main writes: ' + state.mainWrites;
     if (status.textContent !== description) status.textContent = description;
+    play.textContent = running ? 'Pause' : finished() ? 'Replay' : 'Play';
 }
 function load() {
     try {
         const text = input.value.trim();
         const values = text ? text.split(/[\s,]+/).map(Number) : [];
-        const limit = mode.value === 'generator' ? 2000 : 24;
+        const limit = limits[mode.value];
         if (values.length > limit || values.some(value => !Number.isFinite(value) || Math.abs(value) > 1000))
             throw new Error(`Use up to ${limit} finite numbers between -1000 and 1000.`);
         start(values); error.textContent = '';
@@ -43,7 +46,7 @@ function start(values) {
     pause(); player?.dispose();
     loadedValues = [...values];
     steps = timeline = player = null;
-    const timing = { stepDurationMs: 650, finalHoldMs: 1000 };
+
     if (mode.value === 'generator') {
         player = createPlayer(mergeSort.iterate(loadedValues), {
             ...timing, isTerminal: step => step.event.type === 'done'
@@ -73,9 +76,9 @@ play.onclick = () => { if (running) return pause(); if (finished()) start(loaded
 seek.oninput = () => { pause(); time = Number(seek.value); draw(); };
 document.querySelector('#restart').onclick = () => start(loadedValues);
 mode.onchange = () => {
-    if (mode.value === 'history' && loadedValues.length > 24) {
+    if (mode.value === 'history' && loadedValues.length > limits.history) {
         mode.value = 'generator';
-        error.textContent = 'History supports up to 24 values. Load a smaller array before switching.';
+        error.textContent = 'History supports up to 64 values. Load a smaller array before switching.';
         return;
     }
     error.textContent = '';
@@ -83,14 +86,17 @@ mode.onchange = () => {
 };
 for (const [id, direction] of [['previous', -1], ['next', 1]]) document.querySelector('#' + id).onclick = () => {
     pause();
-    if (player) { if (direction > 0) { const frame = player.frame; player.advance(frame.event.type === 'done' ? 1000 : 650 * (frame.progress < 1 ? 1 - frame.progress : 1)); draw(); } return; }
-    const step = direction < 0 ? Math.ceil(time / 650) - 1 : Math.floor(time / 650) + 1;
-    time = Math.max(0, Math.min((steps.length - 1) * 650, step * 650)); draw();
+    if (player) { if (direction > 0) { const frame = player.frame; player.advance(nextDelta(frame)); draw(); } return; }
+
+    time = stepTime(time, direction, timeline.durationMs); draw();
 };
 document.querySelector('#apply').onclick = load;
 document.addEventListener('visibilitychange', () => { if (document.hidden) pause(); });
-window.addEventListener('pagehide', pause);
+window.addEventListener('pagehide', () => { pause(); player?.dispose(); });
+window.addEventListener('pageshow', event => { if (event.persisted) start(loadedValues); });
 reduced.addEventListener('change', draw);
 const resize = new ResizeObserver(() => { canvas.width = Math.max(320, Math.round(canvas.getBoundingClientRect().width)); canvas.height = Math.max(380, Math.round(canvas.width * 0.65)); if (timeline || player) draw(); });
 resize.observe(canvas);
 load();
+
+speed.onchange = () => { last = null; };

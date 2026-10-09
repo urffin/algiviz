@@ -190,11 +190,11 @@ For a second custom scene, open `examples/merge.html`. Its application-owned
 [renderer](examples/merge-scene.mjs) use `/playback` and `/scene` to show the main
 array and a reusable buffer. Equal values have letter suffixes to demonstrate
 stability. Cells use row/position IDs because copy-back temporarily duplicates
-item identities. Play/pause, step controls, speed and seeking support up to 24
+item identities. Play/pause, step controls, speed and seeking support up to 64
 input values; text status, reduced motion and hidden-tab pausing are included.
 Select Generator for forward-only playback with O(n) retained snapshot memory;
 steps are produced on demand, and restarting creates a fresh iterator. History
-mode enables backward stepping and seeking with up to 24 values. Generator mode
+mode enables backward stepping and seeking with up to 64 values. Generator mode
 accepts up to 2,000 values; dense charts hide labels and text status previews the
 first 24 cells. Switching to history requires loading an array within its limit.
 The example stores full history, costing O(n² log n) space in the worst case;
@@ -464,3 +464,9 @@ that commit. Check the Actions run and the npm package version afterward. Do not
 reuse an already published npm version; if setup failed before publication,
 correct the settings and rerun the failed workflow.
 
+
+All browser examples share playback defaults from examples/player-settings.mjs:
+650 ms per step, 1,000 ms final hold, speeds 0.25× through 32×, history/generator
+modes and forward/backward step controls. Backward stepping and seeking are
+disabled in generator mode. Array input limits are 64 for history and 2,000
+for generators. Reduced motion disables interpolation; hidden tabs pause.
