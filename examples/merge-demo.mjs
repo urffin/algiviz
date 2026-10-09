@@ -23,8 +23,9 @@ function draw() {
     renderer.render(ctx, reduced.matches ? { ...frame, previous: state, current: state, progress: 1 } : frame);
     seek.value = String(time);
     const label = item => mergeItemLabel(item, original);
+    const summarize = items => items.slice(0, 24).map(label).join(', ') + (items.length > 24 ? ', … (' + items.length + ' items)' : '');
     const description = 'Step ' + completed + (steps ? ' / ' + (steps.length - 1) : '') + ': ' + frame.event.type +
-        ' · Main: [' + state.main.map(label).join(', ') + '] · Buffer: [' + state.buffer.map(label).join(', ') +
+        ' · Main: [' + summarize(state.main) + '] · Buffer: [' + summarize(state.buffer) +
         '] · Comparisons: ' + state.comparisons + ' · Buffer writes: ' + state.bufferWrites + ' · Main writes: ' + state.mainWrites;
     if (status.textContent !== description) status.textContent = description;
 }
@@ -32,8 +33,9 @@ function load() {
     try {
         const text = input.value.trim();
         const values = text ? text.split(/[\s,]+/).map(Number) : [];
-        if (values.length > 24 || values.some(value => !Number.isFinite(value) || Math.abs(value) > 1000))
-            throw new Error('Use up to 24 finite numbers between -1000 and 1000.');
+        const limit = mode.value === 'generator' ? 2000 : 24;
+        if (values.length > limit || values.some(value => !Number.isFinite(value) || Math.abs(value) > 1000))
+            throw new Error(`Use up to ${limit} finite numbers between -1000 and 1000.`);
         start(values); error.textContent = '';
     } catch (e) { error.textContent = e.message; }
 }
@@ -70,7 +72,15 @@ function tick(now) {
 play.onclick = () => { if (running) return pause(); if (finished()) start(loadedValues); running = true; last = null; play.textContent = 'Pause'; request = requestAnimationFrame(tick); };
 seek.oninput = () => { pause(); time = Number(seek.value); draw(); };
 document.querySelector('#restart').onclick = () => start(loadedValues);
-mode.onchange = () => start(loadedValues);
+mode.onchange = () => {
+    if (mode.value === 'history' && loadedValues.length > 24) {
+        mode.value = 'generator';
+        error.textContent = 'History supports up to 24 values. Load a smaller array before switching.';
+        return;
+    }
+    error.textContent = '';
+    start(loadedValues);
+};
 for (const [id, direction] of [['previous', -1], ['next', 1]]) document.querySelector('#' + id).onclick = () => {
     pause();
     if (player) { if (direction > 0) { const frame = player.frame; player.advance(frame.event.type === 'done' ? 1000 : 650 * (frame.progress < 1 ? 1 - frame.progress : 1)); draw(); } return; }

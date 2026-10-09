@@ -194,7 +194,9 @@ item identities. Play/pause, step controls, speed and seeking support up to 24
 input values; text status, reduced motion and hidden-tab pausing are included.
 Select Generator for forward-only playback with O(n) retained snapshot memory;
 steps are produced on demand, and restarting creates a fresh iterator. History
-mode enables backward stepping and seeking. Both modes keep the 24-value demo limit.
+mode enables backward stepping and seeking with up to 24 values. Generator mode
+accepts up to 2,000 values; dense charts hide labels and text status previews the
+first 24 cells. Switching to history requires loading an array within its limit.
 The example stores full history, costing O(n² log n) space in the worst case;
 the underlying algorithm uses O(n) auxiliary memory. No merge-sort package
 export or new library API is needed.

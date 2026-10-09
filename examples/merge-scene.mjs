@@ -25,6 +25,7 @@ export function mergeItemLabel(item, original) {
     return `${item.value}${equals.length > 1 ? String.fromCharCode(97 + equals.findIndex(other => other.id === item.id)) : ""}`;
 }
 export function createMergeRenderer(en, original) {
+    const scale = Math.max(1, ...original.map(value => Math.abs(value.value)));
     function layout(ctx) {
         const width = ctx.canvas.width;
         const height = ctx.canvas.height;
@@ -35,12 +36,12 @@ export function createMergeRenderer(en, original) {
         const { pitch, top, rowHeight } = layout(ctx);
         const x = 16 + index * pitch;
         const baseline = top[row] + rowHeight * 0.65;
-        const scale = Math.max(1, ...original.map(value => Math.abs(value.value)));
         const barHeight = item ? (item.value / scale) * rowHeight * (item.value < 0 ? 0.25 : 0.6) : 0;
         ctx.save();
         ctx.globalAlpha = opacity;
         ctx.fillStyle = color;
-        ctx.fillRect(x + 2, baseline - Math.max(0, barHeight), Math.max(2, pitch - 4), Math.max(2, Math.abs(barHeight)));
+        const gap = Math.min(2, pitch * 0.15);
+        ctx.fillRect(x + gap, baseline - Math.max(0, barHeight), pitch - 2 * gap, Math.max(2, Math.abs(barHeight)));
         ctx.fillStyle = "#f9fafb";
         ctx.font = `${Math.min(17, Math.max(9, pitch * 0.45))}px Arial`;
         ctx.textAlign = "center";
@@ -48,7 +49,7 @@ export function createMergeRenderer(en, original) {
             ctx.fillText(mergeItemLabel(item, original), x + pitch / 2, top[row] + rowHeight + 13);
         ctx.fillStyle = "#9ca3af";
         ctx.font = "10px Arial";
-        ctx.fillText(String(index), x + pitch / 2, top[row] + rowHeight + 28);
+        if (pitch >= 24) ctx.fillText(String(index), x + pitch / 2, top[row] + rowHeight + 28);
         ctx.restore();
     }
     const renderer = createSceneRenderer({
