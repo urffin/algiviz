@@ -386,7 +386,13 @@ or event, implement the generic playback contract and its renderer.
 
 ## Release
 
-Run `npm test`, `npm pack --dry-run` and test the resulting tarball in a separate consumer project. Source and issues: [urffin/algiviz](https://github.com/urffin/algiviz). Publishing is a separate maintainer action.
+Run `npm test` and `npm run test:package`. The package check builds a real tarball,
+installs it offline in a separate temporary consumer, compiles TypeScript against
+the installed declarations and runs an external algorithm and custom scene with
+both playback modes. It also checks the array adapter and legacy compatibility.
+The temporary consumer is removed afterward. The release workflow runs this check
+before publishing. Source and issues: [urffin/algiviz](https://github.com/urffin/algiviz).
+Publishing is a separate maintainer action.
 
 ### Publishing from GitHub Releases
 

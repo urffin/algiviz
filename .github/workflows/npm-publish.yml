@@ -45,6 +45,8 @@ jobs:
       - name: Install npm with trusted publishing support
         run: npm install --global npm@11
       - run: npm ci
+      - name: Verify packed consumer
+        run: npm run test:package
       # prepublishOnly runs npm test; prepack rebuilds the package.
       - name: Publish to npm
         run: npm publish --access public --provenance

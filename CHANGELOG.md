@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Verify the packed npm archive in an isolated TypeScript consumer before publishing.
+
 - Add `/scene` with typed user-defined object data and visualization handlers,
   identity matching, enter/update/exit transitions, layers and reference lookup.
 - Render array bars through the scene dispatcher and expose `arrayScene`.
