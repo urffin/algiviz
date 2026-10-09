@@ -245,6 +245,10 @@ Try the [interactive insertion sort demo](https://grundyjs.ru/algorithms/inserti
 
 Requires Node.js 22 or later and npm.
 
+GitHub Actions runs `npm test` and `npm run test:package` on pushes to `master`
+and pull requests, using Node.js 22 and 24 on Linux and Windows. CI checks do not
+publish packages; publishing remains tied to a GitHub Release.
+
 ```sh
 npm install
 npm test

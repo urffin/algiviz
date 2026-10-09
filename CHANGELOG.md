@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Run tests and isolated package-consumer checks on pushes and pull requests,
+  using Node.js 22/24 on Linux and Windows.
+
 - Share array generation controls and validation across insertion, bubble and merge demos.
 
 - Support forward-only generator playback in the merge sort example without retaining history.
