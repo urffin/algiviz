@@ -505,3 +505,20 @@ for generators. Reduced motion disables interpolation; hidden tabs pause.
 All sorting demos also share array generation: choose the element count and
 Random, Sorted or Reverse order, then Generate & load. The generated values
 appear in the input field and obey the selected playback mode's limit.
+
+## Quick sort partitions example
+
+Build and serve the repository root, then open [examples/quick.html](examples/quick.html).
+Choose Lomuto or three-way partitioning, preserving loaded values when switching.
+Both use the shared demo player: history supports seeking; generator mode retains
+adjacent snapshots and supports forward stepping. Speed, restart, reduced motion
+and hidden-tab pausing follow the other examples. Both modes are capped at 64
+finite values here because direct recursion and worst-case traces are expensive.
+This is a demo limit, not a library restriction.
+
+The example owns its algorithm and scene and uses the public /scene and /playback
+APIs. Three-way recursion skips the equal band: n >= 2 equal items take 2n scalar
+checks and zero swaps, versus n(n-1)/2 checks with this Lomuto variant. Both may
+be unstable and take quadratic worst-case time. The recursion stack can reach
+O(n); stored history has a separate O(n³) memory upper bound. This adds no new
+package exports and does not require a package release.

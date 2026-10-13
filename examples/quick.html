@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>AlgiViz · Quick sort partitions</title>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                background: #101827;
+                color: #f1f5f9;
+                font: 16px/1.5 system-ui;
+            }
+            main {
+                max-width: 1080px;
+                margin: auto;
+                padding: 24px;
+            }
+            a {
+                color: #c4b5fd;
+            }
+            canvas {
+                display: block;
+                width: 100%;
+                border: 1px solid #64748b;
+                border-radius: 12px;
+            }
+            button,
+            input,
+            select {
+                font: inherit;
+                color: inherit;
+                background: #1e293b;
+                border: 1px solid #64748b;
+                border-radius: 6px;
+                padding: 8px;
+            }
+            button {
+                cursor: pointer;
+            }
+            .controls {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin: 16px 0;
+            }
+            #values,
+            #seek {
+                width: 100%;
+            }
+            :focus-visible {
+                outline: 2px solid #c4b5fd;
+                outline-offset: 3px;
+            }
+            #error {
+                color: #fca5a5;
+            }
+            #status {
+                overflow-wrap: anywhere;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <a href="./index.html">← Sorting lab</a>
+            <h1>Quick sort partitions</h1>
+            <p>
+                Compare Lomuto with three-way partitioning on the same array. Both save the last value in the active
+                range as pivot. Equal values carry labels so their order can be tracked.
+            </p>
+            <div class="controls">
+                <label
+                    >Partition
+                    <select id="partition">
+                        <option value="lomuto">Lomuto</option>
+                        <option value="three-way">Three-way</option>
+                    </select></label
+                ><label
+                    >Playback mode
+                    <select id="mode"></select
+                ></label>
+            </div>
+            <label for="values">Values (spaces or commas; empty input is valid)</label
+            ><input id="values" value="8, 3, 6, 2, 5, 3, 9, 1, 6, 4" />
+            <div class="controls">
+                <label>Array size <input id="size" type="number" min="0" max="64" step="1" value="12" /></label
+                ><label
+                    >Order
+                    <select id="order">
+                        <option value="random">Random</option>
+                        <option value="sorted">Sorted</option>
+                        <option value="reverse">Reverse</option>
+                    </select></label
+                ><button id="generate">Generate &amp; load</button
+                ><button id="duplicates">Example with duplicates</button><button id="equal">All equal</button>
+            </div>
+            <p>
+                Up to 64 finite values in either mode. History stores full snapshots; generator playback does not. Dense
+                charts hide labels and the text status previews 24 cells.
+            </p>
+            <button id="apply">Load values</button>
+            <p id="error" role="alert"></p>
+            <canvas
+                width="960"
+                height="624"
+                aria-label="Quick sort partition; values, pointers and operations are described below"
+            ></canvas>
+            <p id="legend"></p>
+            <p id="mode-help"></p>
+            <div class="controls">
+                <button id="play">Play</button><button id="restart">Restart</button
+                ><button id="previous">Previous step</button><button id="next">Next step</button
+                ><label
+                    >Speed
+                    <select id="speed"></select
+                ></label>
+            </div>
+            <label for="seek">Playback position</label><input id="seek" type="range" min="0" value="0" step="1" />
+            <p id="status" role="status" aria-live="polite"></p>
+            <p>
+                Lomuto uses a strict &lt; comparison and places one pivot into its final position. Three-way
+                partitioning keeps smaller, equal, unchecked and greater regions. After an exchange with the greater
+                region, the incoming item must be checked again. Only the smaller and greater regions recurse.
+            </p>
+            <p>
+                For n ≥ 2 equal values: three-way uses 2n checks, zero swaps and one partition; Lomuto uses n(n − 1)/2
+                checks. Counts refer to actual &lt; and &gt; operations. Swaps with the same position are omitted.
+            </p>
+            <p>
+                Both variants are unstable in general. Balanced partitions take Θ(n log n); worst-case time is Θ(n²).
+                Direct recursion uses up to O(n) stack space; copying the input costs O(n). History can require O(n³)
+                memory separately. Green means a final position. Bars show magnitude, while labels preserve the sign.
+            </p>
+        </main>
+        <script type="importmap">
+            {
+                "imports": {
+                    "@grundyjs/algiviz/scene": "../dist/scene/index.js",
+                    "@grundyjs/algiviz/playback": "../dist/playback/index.js"
+                }
+            }
+        </script>
+        <script type="module" src="./quick-demo.mjs"></script>
+    </body>
+</html>
