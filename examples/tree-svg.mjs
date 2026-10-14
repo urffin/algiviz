@@ -1,3 +1,4 @@
+import { treePointerPosition } from './tree-pointer.mjs';
 import { createSceneRenderer } from '@grundyjs/algiviz/scene';
 
 const namespace = 'http://www.w3.org/2000/svg';
@@ -58,11 +59,9 @@ export function createTreeSvgRenderer(svg) {
         },
         pointer(_, object, scene) {
             if (object.presence <= 0) return;
-            const from = point(scene.get((object.previous ?? object.current).data.target));
-            const to = point(scene.get((object.current ?? object.previous).data.target));
-            if (!from || !to) return;
-            const x = from.x + (to.x - from.x) * object.progress;
-            const y = from.y + (to.y - from.y) * object.progress - 36;
+            const position = treePointerPosition(object, scene, 960, 500);
+            if (!position) return;
+            const { x, y } = position;
             attributes(element(object, 'path'), { d: 'M0 0 L-9 -15 L9 -15 Z', fill: '#c4b5fd', transform: `translate(${x} ${y})` });
         }
     });

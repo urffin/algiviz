@@ -1,3 +1,4 @@
+import { treePointerPosition } from './tree-pointer.mjs';
 import { createSceneRenderer } from '@grundyjs/algiviz/scene';
 
 // Everything about the tree, its algorithm and its visual types belongs to the app.
@@ -75,14 +76,9 @@ export const treeRenderer = createSceneRenderer({
         } finally { ctx.restore(); }
     },
     pointer(ctx, object, scene) {
-        // References can change while the cursor keeps its own stable identity.
-        const oldTarget = (object.previous ?? object.current).data.target;
-        const newTarget = (object.current ?? object.previous).data.target;
-        const a = position(scene.get(oldTarget), ctx.canvas.width, ctx.canvas.height);
-        const b = position(scene.get(newTarget), ctx.canvas.width, ctx.canvas.height);
-        if (!a || !b) return;
-        const x = a.x + (b.x - a.x) * object.progress;
-        const y = a.y + (b.y - a.y) * object.progress - 36;
+        const point = treePointerPosition(object, scene, ctx.canvas.width, ctx.canvas.height);
+        if (!point) return;
+        const { x, y } = point;
         ctx.save();
         try {
             ctx.globalAlpha = object.presence; ctx.fillStyle = '#c4b5fd';
