@@ -1,6 +1,6 @@
 import type { Item, SortSnapshot } from "../core/types.js";
 import type { SortFrame } from "../core/timeline.js";
-import { createSceneRenderer, type Scene } from "../scene/index.js";
+import { createSceneRenderer, createSceneProjector, type Scene } from "../scene/index.js";
 
 export type ArrayObjects = { bar: { item: Item; index: number; held: boolean } };
 
@@ -48,18 +48,19 @@ function positions(state: SortSnapshot): Map<string, { item: Item; index: number
 /** Stateless full-frame renderer. Bitmap dimensions determine layout and video size. */
 export function createSortRenderer(options: { theme: "light" | "dark" }) {
     const colors = palettes[options.theme];
+    const projectFrame = createSceneProjector(arrayScene);
     return Object.freeze({
         render(ctx: CanvasRenderingContext2D, frame: SortFrame): void {
             const { width, height } = ctx.canvas;
             if (width <= 0 || height <= 0) return;
-            const after = positions(frame.current);
-            const items = [...after.values()];
+            const projected = projectFrame(frame);
+            const items = projected.current.objects;
             const count = frame.current.slots.length;
             const margin = Math.min(32, width * 0.05);
             const cell = (width - 2 * margin) / Math.max(count, 1);
             const barWidth = cell * 0.7;
             const available = height * 0.48;
-            const maxMagnitude = Math.max(1, ...items.map(({ item }) => Math.abs(item.value)));
+            const maxMagnitude = Math.max(1, ...items.map(({ data }) => Math.abs(data.item.value)));
             const baseline = height * 0.69;
             const fontSize = Math.max(9, Math.min(20, cell * 0.45, width * 0.035));
             const progress = frame.progress;
@@ -108,11 +109,7 @@ export function createSortRenderer(options: { theme: "light" | "dark" }) {
                         ctx.fillText(String(next.index), margin + (next.index + 0.5) * cell, baseline + height * 0.06);
                     }
                 });
-                sceneRenderer.render(ctx, {
-                    ...frame,
-                    previous: arrayScene(frame.previous),
-                    current: arrayScene(frame.current)
-                });
+                sceneRenderer.render(ctx, projected);
                 ctx.textAlign = "left";
                 ctx.font = `${Math.max(11, Math.min(18, width * 0.03))}px sans-serif`;
                 ctx.fillStyle = colors.text;

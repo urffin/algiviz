@@ -33,8 +33,8 @@ export function createMergeRenderer(en, original) {
         const count = Math.max(1, original.length);
         return { width, height, pitch: (width - 32) / count, top: [70, height / 2 + 40], rowHeight: height / 2 - 125 };
     }
-    function cell(ctx, item, index, row, color, opacity = 1) {
-        const { pitch, top, rowHeight } = layout(ctx);
+    function cell(ctx, geometry, item, index, row, color, opacity = 1) {
+        const { pitch, top, rowHeight } = geometry;
         const x = 16 + index * pitch;
         const baseline = top[row] + rowHeight * 0.65;
         const barHeight = item ? (item.value / scale) * rowHeight * (item.value < 0 ? 0.25 : 0.6) : 0;
@@ -43,18 +43,19 @@ export function createMergeRenderer(en, original) {
         ctx.fillStyle = color;
         const gap = Math.min(2, pitch * 0.15);
         ctx.fillRect(x + gap, baseline - Math.max(0, barHeight), pitch - 2 * gap, Math.max(2, Math.abs(barHeight)));
-        ctx.fillStyle = "#f9fafb";
-        ctx.font = `${Math.min(17, Math.max(9, pitch * 0.45))}px Arial`;
-        ctx.textAlign = "center";
-        if (pitch >= 24)
+        if (pitch >= 24) {
+            ctx.fillStyle = "#f9fafb";
+            ctx.font = `${Math.min(17, Math.max(9, pitch * 0.45))}px Arial`;
+            ctx.textAlign = "center";
             ctx.fillText(mergeItemLabel(item, original), x + pitch / 2, top[row] + rowHeight + 13);
-        ctx.fillStyle = "#9ca3af";
-        ctx.font = "10px Arial";
-        if (pitch >= 24) ctx.fillText(String(index), x + pitch / 2, top[row] + rowHeight + 28);
+            ctx.fillStyle = "#9ca3af";
+            ctx.font = "10px Arial";
+            ctx.fillText(String(index), x + pitch / 2, top[row] + rowHeight + 28);
+        }
         ctx.restore();
     }
     const renderer = createSceneRenderer({
-        cell(ctx, object, scene) {
+        cell({ ctx, geometry }, object, scene) {
             const data = object.current?.data ?? object.previous?.data;
             if (!data)
                 return;
@@ -65,7 +66,7 @@ export function createMergeRenderer(en, original) {
                 data.row === 0 &&
                 (data.index === scene.event.left || data.index === scene.event.right);
             const item = moving && scene.progress < 1 ? (object.previous?.data.item ?? null) : data.item;
-            cell(ctx, item, data.index, data.row, scene.event.type === "done" && data.row === 0 ? "#34d399"
+            cell(ctx, geometry, item, data.index, data.row, scene.event.type === "done" && data.row === 0 ? "#34d399"
                 : highlighted ? "#fbbf24"
                     : data.row === 0 ? "#818cf8"
                         : "#c084fc");
@@ -73,7 +74,8 @@ export function createMergeRenderer(en, original) {
     });
     return {
         render(ctx, frame) {
-            const { width, height, pitch, top, rowHeight } = layout(ctx);
+            const geometry = layout(ctx);
+            const { width, height, pitch, top, rowHeight } = geometry;
             ctx.fillStyle = "#111827";
             ctx.fillRect(0, 0, width, height);
             ctx.font = "16px Arial";
@@ -98,7 +100,7 @@ export function createMergeRenderer(en, original) {
                 ctx.fillStyle = "#d1d5db";
                 ctx.fillText(`[${start}, ${middle}) | [${middle}, ${end})`, 16, 42);
             }
-            renderer.render(ctx, projectFrame(frame));
+            renderer.render({ ctx, geometry }, projectFrame(frame));
             const event = frame.event;
             if (frame.progress < 1 && (event.type === "buffer-write" || event.type === "main-write")) {
                 const from = event.type === "buffer-write" ? event.from : event.index;
@@ -108,7 +110,7 @@ export function createMergeRenderer(en, original) {
                 const item = event.type === "buffer-write" ? state.buffer[to] : state.main[to];
                 ctx.save();
                 ctx.translate((to - from) * pitch * frame.progress, (top[targetRow] - top[sourceRow]) * frame.progress);
-                cell(ctx, item, from, sourceRow, "#fbbf24");
+                cell(ctx, geometry, item, from, sourceRow, "#fbbf24");
                 ctx.restore();
             }
             ctx.font = "12px Arial";

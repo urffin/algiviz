@@ -1,6 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.5.0 — 2026-10-14
+
+- Cache immutable array and quick-sort scene projections and avoid repeated scale/layout
+  calculations and hidden text styling on dense charts; add a reproducible CPU/heap benchmark.
+- Add application-owned Lomuto and three-way quick-sort demos with shared playback
+  controls and limits (64 history values or 2,000 generator values).
+- Move the tree cursor along edges through shared ancestors in Canvas and SVG.
 
 - Add a retained SVG tree renderer alongside Canvas, with layer ordering and seek-safe element cleanup.
 

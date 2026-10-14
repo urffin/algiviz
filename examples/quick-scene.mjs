@@ -5,7 +5,7 @@ function occurrenceLabel(index) {
     return label;
 }
 // Application-owned Quick sort example, adapted from grundyjs.ru (MIT).
-import { createSceneRenderer } from '@grundyjs/algiviz/scene';
+import { createSceneRenderer, createSceneProjector } from '@grundyjs/algiviz/scene';
 export function quickItemLabel(item, original) {
     if (!item) return '·';
     const equals = original.filter((other) => other.value === item.value);
@@ -15,6 +15,7 @@ export function quickItemLabel(item, original) {
     );
 }
 export function quickScene(state) {
+    const fixed = new Set(state.fixed);
     return {
         objects: state.main.map((item, index) => ({
             id: item.id,
@@ -22,7 +23,7 @@ export function quickScene(state) {
             data: {
                 item,
                 index,
-                color: state.fixed.includes(index)
+                color: fixed.has(index)
                     ? '#34d399'
                     : state.bands
                       ? index === state.bands.scan && index < state.bands.greater
@@ -46,13 +47,15 @@ export function quickScene(state) {
     };
 }
 export function createQuickRenderer(en, original) {
+    const projectFrame = createSceneProjector(quickScene);
+    const max = Math.max(1, ...original.map((item) => Math.abs(item.value)));
     const renderer = createSceneRenderer({
         bar(ctx, object, frame) {
             const current = object.current.data;
             const previous = object.previous?.data ?? current;
             const pitch = (ctx.canvas.width - 32) / Math.max(1, original.length);
             const index = previous.index + (current.index - previous.index) * frame.progress;
-            const max = Math.max(1, ...original.map((item) => Math.abs(item.value)));
+
             const height = (Math.abs(current.item.value) / max) * (ctx.canvas.height - 170);
             ctx.fillStyle = current.color;
             ctx.fillRect(
@@ -61,15 +64,16 @@ export function createQuickRenderer(en, original) {
                 Math.max(2, pitch - 4),
                 Math.max(2, height),
             );
-            ctx.fillStyle = '#f9fafb';
-            ctx.font = Math.max(9, Math.min(17, pitch * 0.45)) + 'px Arial';
-            ctx.textAlign = 'center';
-            if (pitch >= 24)
+            if (pitch >= 24) {
+                ctx.fillStyle = '#f9fafb';
+                ctx.font = Math.max(9, Math.min(17, pitch * 0.45)) + 'px Arial';
+                ctx.textAlign = 'center';
                 ctx.fillText(
                     quickItemLabel(current.item, original),
                     16 + (index + 0.5) * pitch,
                     ctx.canvas.height - 45,
                 );
+            }
         },
     });
     return {
@@ -94,7 +98,7 @@ export function createQuickRenderer(en, original) {
                     height - 140,
                 );
             }
-            renderer.render(ctx, { ...frame, previous: quickScene(frame.previous), current: quickScene(state) });
+            renderer.render(ctx, projectFrame(frame));
             ctx.font = '12px Arial';
             ctx.textAlign = 'center';
             for (let i = 0; pitch >= 20 && i < original.length; i++) {

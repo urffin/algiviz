@@ -201,9 +201,9 @@ The example stores full history, costing O(n² log n) space in the worst case;
 the underlying algorithm uses O(n) auxiliary memory. No merge-sort package
 export or new library API is needed.
 
-### State-to-scene projection (unreleased)
+### State-to-scene projection (since 0.5.0)
 
-`createSceneProjector` is available in this checkout, not npm 0.4.0. It adapts
+`createSceneProjector` was added in 0.5.0. It adapts
 playback frames from your state model to scenes without changing the algorithm:
 
 ```js
@@ -522,3 +522,14 @@ checks and zero swaps, versus n(n-1)/2 checks with this Lomuto variant. Both may
 be unstable and take quadratic worst-case time. The recursion stack can reach
 O(n); stored history has a separate O(n³) memory upper bound. This adds no new
 package exports and does not require a package release.
+
+### Performance checks
+
+Run `npm run benchmark` for 2,000-element insertion, bubble, merge and both quick-sort
+variants. It reports generation of 1,000 steps, median rendering CPU time over five
+100-frame samples, and retained Node heap after each 5,000 playback steps (up to
+25,000). Drawing uses a mock Canvas: these are CPU comparisons, not browser FPS or
+GPU measurements. Heap samples use explicit GC and include the Node process; they
+are diagnostics, not portable pass/fail thresholds. Generator playback and scene
+projection retain adjacent endpoints, but snapshot size still grows with input size.
+Array rendering expects immutable snapshots, as produced by the array workspace.

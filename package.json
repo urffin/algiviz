@@ -1,6 +1,6 @@
 {
   "name": "@grundyjs/algiviz",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Deterministic algorithm steps for educational visualizations",
   "type": "module",
   "files": [
@@ -38,6 +38,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "benchmark": "npm run build && node --expose-gc scripts/benchmark.mjs",
     "test": "npm run build && tsc -p test/tsconfig.json && node --test test/*.test.mjs",
     "test:package": "node scripts/test-package.mjs",
     "prepack": "npm run build",

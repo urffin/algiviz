@@ -251,7 +251,7 @@ test('quick demo switches partitions, preserves loaded input and uses shared pla
         elements.mode.onchange();
         assert.equal(elements.seek.disabled, true);
         assert.equal(elements.previous.disabled, true);
-        assert.equal(elements.size.max, '64');
+        assert.equal(elements.size.max, '2000');
         elements.next.click();
         assert.match(elements.status.textContent, /Step 1/);
         elements.restart.click();
@@ -261,9 +261,18 @@ test('quick demo switches partitions, preserves loaded input and uses shared pla
         elements.apply.click();
         assert.match(elements.error.textContent, /finite/);
         assert.equal(elements.status.textContent, previous);
-        elements.values.value = Array(65).fill(1).join(',');
+        elements.values.value = Array(2001).fill(1).join(',');
         elements.apply.click();
+        assert.match(elements.error.textContent, /2000/);
+        elements.size.value = '2000';
+        elements.generate.click();
+        assert.equal(elements.error.textContent, '');
+        assert.equal(elements.values.value.split(',').length, 2000);
+        elements.mode.value = 'history';
+        elements.mode.onchange();
         assert.match(elements.error.textContent, /64/);
+        assert.equal(elements.mode.value, 'generator');
+        assert.equal(elements.seek.disabled, true);
         elements.play.click();
         assert.equal(typeof frame, 'function');
         globalThis.document.hidden = true;

@@ -1,4 +1,4 @@
-import { generateValues } from './player-settings.mjs';
+import { limits, generateValues } from './player-settings.mjs';
 import { createDemoPlayer } from './demo-player.mjs';
 import { quickSort } from './quick-algorithm.mjs';
 import { threeWayQuickSort } from './quick-three-way.mjs';
@@ -21,7 +21,6 @@ const playback = createDemoPlayer({
             renderer = createQuickRenderer(true, original);
         }
         renderer.render(ctx, frame);
-        $('size').max = '64';
         $('status').setAttribute('aria-live', running ? 'off' : 'polite');
         const state = frame.current,
             b = state.bands,
@@ -77,9 +76,11 @@ const playback = createDemoPlayer({
 function load(values, nextVariant = variant) {
     const saved = [...values],
         algorithm = nextVariant === 'three-way' ? threeWayQuickSort : quickSort;
-    if (saved.length > 64 || saved.some((x) => !Number.isFinite(x)))
-        throw new RangeError('Use up to 64 finite numbers.');
-    playback.load(() => algorithm.iterate(saved));
+    playback.load(mode => {
+        if (saved.length > limits[mode] || saved.some(x => !Number.isFinite(x)))
+            throw new RangeError(`Use up to ${limits[mode]} finite numbers.`);
+        return algorithm.iterate(saved);
+    });
     loaded = saved;
     variant = nextVariant;
     $('partition').value = variant;
@@ -110,8 +111,6 @@ $('partition').onchange = () => attempt(() => load(loaded, $('partition').value)
 $('generate').onclick = () =>
     attempt(() => {
         const count = Number($('size').value);
-        if (!Number.isInteger(count) || count < 0 || count > 64)
-            throw new RangeError('Size must be an integer from 0 to 64.');
         load(generateValues(count, $('order').value, playback.mode));
     });
 $('duplicates').onclick = () => load([4, 2, 4, 6, 4, 2, 4, 6, 4, 4]);
