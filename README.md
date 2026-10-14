@@ -183,7 +183,7 @@ visualization using `createSceneRenderer<ArrayObjects, YourContext>`.
 See [examples/tree-scene.mjs](examples/tree-scene.mjs) and open
 `examples/tree.html` after building and serving the repository. The application
 defines its own tree traversal, `node`, `edge` and `pointer` types, appearance,
-pointer movement and removal. No tree-specific code is added to AlgiViz.
+pointer movement and removal. No tree-specific code is added to AlgiViz. The Renderer selector switches between Canvas and SVG without restarting playback. The SVG example retains elements by ID, restores layer order and removes stale elements on every frame, including after a seek that skips exit transitions. See [examples/tree-svg.mjs](examples/tree-svg.mjs).
 
 For a second custom scene, open `examples/merge.html`. Its application-owned
 [merge algorithm](examples/merge-algorithm.mjs) and

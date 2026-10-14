@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add a retained SVG tree renderer alongside Canvas, with layer ordering and seek-safe element cleanup.
+
 - Add createSceneProjector to adapt immutable state frames with a two-endpoint cache; use it in the merge example.
 
 - Run tests and isolated package-consumer checks on pushes and pull requests,
