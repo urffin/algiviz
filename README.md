@@ -123,6 +123,29 @@ Custom array events or tree/graph operations can use this contract and a custom
 renderer. The scene API below dispatches individual objects; there is no built-in
 graph/tree algorithm or operation set.
 
+### Step emission helper (unreleased)
+
+The working tree also provides `createStepEmitter` from `/playback`; it is not
+included in npm 0.5.1. It removes manual step numbering and freezes the step wrapper:
+
+```js
+import { createStepEmitter } from '@grundyjs/algiviz/playback';
+
+function* counter() {
+    let count = 0;
+    const emit = createStepEmitter(() => Object.freeze({ count }));
+    yield emit('start');
+    count++;
+    yield emit('done');
+}
+```
+
+Create the emitter inside each iterator. Its callback runs once per emission;
+indices start at zero and failed captures do not consume an index. The helper
+does not clone or freeze state/event data, infer terminal events or store history.
+The callback must produce isolated immutable snapshots; immutable shared structures
+can be reused. Returning a mutable workspace directly does not make it a snapshot.
+
 ### User-defined objects and visualizations
 
 Define a type map with your own data, then
@@ -311,6 +334,7 @@ included in the npm archive.
 | [Sorting lab](examples/index.html) | Insertion and bubble sort using the array operations and renderer |
 | [Merge sort](examples/merge.html) | Custom state and a two-row scene for the main array and buffer |
 | [Quick sort partitions](examples/quick.html) | Lomuto and three-way partitioning with custom state and scene |
+| [Graph BFS](examples/graph.html) | Cycles, disconnected components, shortest distances and an animated queue |
 | [Tree traversal](examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 
 All examples reuse [demo-player.mjs](examples/demo-player.mjs) and
@@ -352,6 +376,18 @@ switches between Canvas and SVG without restarting playback.
 [tree-svg.mjs](examples/tree-svg.mjs) retains elements by ID, restores layer order
 and removes stale elements even after seeking skips exit transitions.
 No tree-specific algorithm or renderer is added to the package.
+
+### Graph breadth-first search
+
+Open [examples/graph.html](examples/graph.html) and choose a start vertex.
+The example explores only its connected component, marks vertices when enqueued
+and shows shortest unweighted distances. Its custom vertex, connection and queue
+entry types are projected from immutable algorithm state. Both playback modes use
+the same generator; changing the start creates a new traversal.
+
+See [Building a custom graph example](docs/custom-graph-example.md) for the
+algorithm, projection and renderer boundaries. This example uses the existing
+public APIs and adds no graph-specific package exports.
 
 ## Development
 

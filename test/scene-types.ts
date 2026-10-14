@@ -43,3 +43,11 @@ const projected = project({ previous: { scene: state }, current: { scene: state 
 renderer.render([], projected);
 // @ts-expect-error Projected inputs must have the declared state shape.
 project({ previous: 1, current: 2, progress: 1, stepIndex: 0, event: 'done' });
+
+import { createStepEmitter } from "@grundyjs/algiviz/playback";
+const emitStep = createStepEmitter(() => ({ count: 1 }));
+const emittedStep = emitStep({ kind: "count" as const });
+const checkedCount: number = emittedStep.state.count;
+const checkedKind: "count" = emittedStep.event.kind;
+// @ts-expect-error Step index is readonly.
+emittedStep.index = 2;

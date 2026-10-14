@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Add an application-owned graph BFS example with custom vertices, edges and queue
+  entries, shortest distances, disconnected components and both playback modes.
+- Add createStepEmitter to /playback for per-iterator step numbering and frozen
+  wrappers; snapshot copying and state/event immutability remain author-owned.
+- Use the helper in graph and merge examples, and document custom graph integration.
+
 ## 0.5.1 — 2026-10-14
 
 - Update the README around the current public API and examples; remove migration

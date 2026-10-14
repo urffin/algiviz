@@ -1,3 +1,4 @@
+import { createStepEmitter } from '@grundyjs/algiviz/playback';
 // Application-owned merge sort; adapted from grundyjs.ru (MIT).
 /** Input is copied on the iterator's first next(); every yielded snapshot is immutable. */
 export function* iterateMergeSort(values) {
@@ -13,24 +14,13 @@ export function* iterateMergeSort(values) {
     let comparisons = 0;
     let bufferWrites = 0;
     let mainWrites = 0;
-    let stepIndex = 0;
-    function snapshot(event) {
-        return Object.freeze({
-            index: stepIndex++,
-            event: Object.freeze(event),
-            state: Object.freeze({
-                main: Object.freeze([...main]),
-                buffer: Object.freeze([...buffer]),
-                range,
-                left,
-                right,
-                output,
-                comparisons,
-                bufferWrites,
-                mainWrites
-            })
-        });
-    }
+    const capture = createStepEmitter(() => Object.freeze({
+        main: Object.freeze([...main]),
+        buffer: Object.freeze([...buffer]),
+        range, left, right, output, comparisons, bufferWrites, mainWrites
+    }));
+    const snapshot = event => capture(Object.freeze(event));
+
     function* sort(start, end, depth) {
         const middle = start + Math.floor((end - start) / 2);
         range = Object.freeze({ start, middle, end, depth });

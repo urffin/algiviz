@@ -55,3 +55,9 @@ const project = createSceneProjector((value: { view: Scene<Objects> }) => value.
 const projectedFrame = project({ previous: { view: steps[0]!.state }, current: { view: steps[1]!.state }, event: 'move' as const, progress: 0.5, stepIndex: 1 });
 renderer.render(output, projectedFrame);
 check(output.at(-1) === 5, 'Installed scene projector failed');
+
+const { createStepEmitter } = await import("@grundyjs/algiviz/playback");
+const emitStep = createStepEmitter(() => Object.freeze({ count: 1 }));
+const emittedStep = emitStep("done");
+check(emittedStep.index === 0 && emittedStep.state.count === 1 &&
+    emittedStep.event === "done" && Object.isFrozen(emittedStep), "Step emitter export failed");
