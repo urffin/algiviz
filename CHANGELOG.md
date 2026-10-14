@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.1 — 2026-10-14
+
+- Update the README around the current public API and examples; remove migration
+  instructions and detailed legacy API documentation.
+- Correct demo input limits and clarify playback, snapshot memory and rendering.
+- No runtime API or behavior changes.
+
 ## 0.5.0 — 2026-10-14
 
 - Cache immutable array and quick-sort scene projections and avoid repeated scale/layout
