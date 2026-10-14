@@ -1,13 +1,13 @@
 # Build your own algorithm and object types
 
-The graph example combines createStepEmitter (unreleased) with existing APIs: createPlayer/createTimeline
+The graph example combines createStepEmitter (since 0.6.0) with existing APIs: createPlayer/createTimeline
 through the shared demo controller, createSceneProjector and createSceneRenderer.
 No registration or graph-specific code is needed in the library.
 
 ## 1. Own the algorithm and immutable state
 
 [graph-algorithm.mjs](../examples/graph-algorithm.mjs) exports graphSteps(graph, start).
-It uses the optional createStepEmitter helper from /playback for indexing and step wrappers; it imports no renderer. This helper is unreleased and is not in npm 0.5.1. The input is an undirected graph:
+It uses the optional createStepEmitter helper from /playback for indexing and step wrappers; it imports no renderer. This helper requires AlgiViz 0.6.0 or later. The input is an undirected graph:
 nodes have unique string IDs and optional labels; edges have unique IDs and
 from/to node IDs. Self-loops and parallel edges are valid.
 

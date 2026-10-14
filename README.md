@@ -5,7 +5,7 @@ algorithm and define your objects; AlgiViz provides array operations, playback,
 typed scene dispatch and a ready-made Canvas array renderer. No runtime dependencies.
 Playback works without DOM, React or Next.js. ESM only, with TypeScript declarations.
 
-This README describes version 0.5.1.
+This README describes version 0.6.0.
 
 ## Install
 
@@ -123,10 +123,9 @@ Custom array events or tree/graph operations can use this contract and a custom
 renderer. The scene API below dispatches individual objects; there is no built-in
 graph/tree algorithm or operation set.
 
-### Step emission helper (unreleased)
+### Step emission helper (since 0.6.0)
 
-The working tree also provides `createStepEmitter` from `/playback`; it is not
-included in npm 0.5.1. It removes manual step numbering and freezes the step wrapper:
+Version 0.6.0 adds `createStepEmitter` from `/playback`. It removes manual step numbering and freezes the step wrapper:
 
 ```js
 import { createStepEmitter } from '@grundyjs/algiviz/playback';
@@ -428,7 +427,7 @@ candidate commit.
 
 The [publish workflow](.github/workflows/npm-publish.yml) runs when a stable GitHub
 Release is published. Drafts, prereleases and tag pushes alone do not publish.
-Use `v` followed by the exact package version, such as `v0.5.1`, at the tested commit.
+Use `v` followed by the exact package version, such as `v0.6.0`, at the tested commit.
 
 The workflow uses Node.js 24 and npm 11, checks the version and packed consumer,
 then publishes with provenance through npm trusted publishing (OIDC).

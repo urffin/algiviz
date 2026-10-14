@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.6.0 — 2026-10-14
 
 - Add an application-owned graph BFS example with custom vertices, edges and queue
   entries, shortest distances, disconnected components and both playback modes.
