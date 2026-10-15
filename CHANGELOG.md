@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.1 — 2026-10-15
+
+- Update package description and keywords for custom algorithm visualizations.
+- Improve the README introduction, demo links and standalone integration guide.
+- Add a BFS GIF preview exported with CanvasTake, hosted on GitHub.
+- No runtime API or behavior changes.
+
 ## 0.7.0 — 2026-10-15
 
 - Breaking: remove the deprecated /core entry point and bundled insertion/bubble

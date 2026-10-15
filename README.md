@@ -28,7 +28,7 @@ renderer help you get started.
 
 Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
-and rendering API. This README describes version 0.7.0.
+and rendering API. This README describes version 0.7.1.
 
 ## Start with one custom object
 
@@ -499,7 +499,7 @@ candidate commit.
 
 The [publish workflow](.github/workflows/npm-publish.yml) runs when a stable GitHub
 Release is published. Drafts, prereleases and tag pushes alone do not publish.
-Use `v` followed by the exact package version, such as `v0.7.0`, at the tested commit.
+Use `v` followed by the exact package version, such as `v0.7.1`, at the tested commit.
 
 The workflow uses Node.js 24 and npm 11, checks the version and packed consumer,
 then publishes with provenance through npm trusted publishing (OIDC).
