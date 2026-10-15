@@ -333,6 +333,7 @@ included in the npm archive.
 | [Sorting lab](examples/index.html) | Insertion and bubble sort using the array operations and renderer |
 | [Merge sort](examples/merge.html) | Custom state and a two-row scene for the main array and buffer |
 | [Quick sort partitions](examples/quick.html) | Lomuto and three-way partitioning with custom state and scene |
+| [Heap sort](examples/heap.html) | Max-heap construction and extraction with synchronized tree and array identities |
 | [Graph BFS](examples/graph.html) | Cycles, disconnected components, shortest distances and an animated queue |
 | [Tree traversal](examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 
@@ -366,6 +367,18 @@ the equal band: n ≥ 2 equal items take 2n scalar checks and zero swaps, versus
 n(n−1)/2 checks with this Lomuto variant. Neither variant guarantees stability.
 Worst-case algorithm time is quadratic; recursion can use O(n) stack space.
 Full snapshot history has a separate O(n³) space upper bound.
+
+### Heap sort
+
+The [algorithm](examples/heap-algorithm.mjs) owns immutable states and events.
+The [scene](examples/heap-scene.mjs) assigns separate tree/array visual IDs to each
+element and uses the public scene projector with viewport-independent endpoints.
+Tree positions stay fixed as the heap shrinks. At most 15 array cells wrap on narrow
+screens; larger arrays use a dense row and hide unreadable labels.
+Bottom-up construction is O(n), worst-case sorting O(n log n), and the iterative
+in-place algorithm uses O(1) auxiliary space. This demo copies input and retains
+O(n) adjacent snapshot data in generator mode; full history can use O(n² log n).
+It is not stable: [2a, 2b, 1] becomes [1, 2b, 2a].
 
 ### Tree traversal
 
