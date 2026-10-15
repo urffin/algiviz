@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Preserve source step indices in generic timeline frames, matching generator playback.
+- Preserve primary playback errors when iterator cleanup also fails; standalone
+  cleanup failures still propagate.
+
 ## 0.6.0 — 2026-10-14
 
 - Add an application-owned graph BFS example with custom vertices, edges and queue

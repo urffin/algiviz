@@ -131,6 +131,21 @@ Custom array events or tree/graph operations can use this contract and a custom
 renderer. The scene API below dispatches individual objects; there is no built-in
 graph/tree algorithm or operation set.
 
+### Playback contracts
+
+Playback retains application snapshots without cloning them; keep steps, state and
+events immutable while they are in use. A timeline copies the input array only.
+Timeline timing follows array position, and finite sample times are clamped to its
+range. Generator playback requires an explicit terminal step; an early end throws.
+`dispose()` closes the source at most once, keeps the last frame readable and
+prevents further advancement. Restart uses a fresh source.
+
+The next release also makes timeline `stepIndex` preserve the source `step.index`,
+matching the player. If source consumption, a terminal predicate or rendering
+throws, cleanup is attempted without replacing that primary error. A standalone
+cleanup error from disposal or normal completion still propagates. These two fixes
+are not included in npm 0.6.0.
+
 ### Step emission helper (since 0.6.0)
 
 Version 0.6.0 adds `createStepEmitter` from `/playback`. It removes manual step numbering and freezes the step wrapper:

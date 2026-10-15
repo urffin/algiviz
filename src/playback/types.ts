@@ -8,6 +8,7 @@ export interface Frame<S, E> {
     readonly previous: S;
     readonly current: S;
     readonly progress: number;
+    /** Source step.index; timing is based on sequence position, not this value. */
     readonly stepIndex: number;
     readonly event: E;
 }

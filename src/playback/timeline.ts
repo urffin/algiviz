@@ -1,6 +1,6 @@
 import type { Step, Frame, Timeline } from "./types.js";
 
-/** Step i is complete at i * stepDurationMs; the final state is held afterwards. */
+/** The step at array position i is complete at i * stepDurationMs; the final state is held afterwards. */
 export function createTimeline<S, E>(
     steps: readonly Step<S, E>[],
     options: { stepDurationMs: number; finalHoldMs: number }
@@ -26,7 +26,7 @@ export function createTimeline<S, E>(
             const progress = previous === step ? 1 :
                 Math.min(1, (time - (index - 1) * stepDurationMs) / stepDurationMs);
             return Object.freeze({ previous: previous.state, current: step.state,
-                progress, stepIndex: index, event: step.event });
+                progress, stepIndex: step.index, event: step.event });
         }
     });
 }

@@ -34,13 +34,17 @@ export function createPlayer<S, E>(
             iterator.return?.();
         }
     };
+    // A cleanup failure must not replace the source, predicate or render error.
+    const closeAfterFailure = () => {
+        try { close(); } catch { /* Preserve the error already being handled. */ }
+    };
     let current: Step<S, E>;
     try {
         const first = iterator.next();
         if (first.done) throw new RangeError("Player requires at least one step");
         current = first.value;
     } catch (error) {
-        close();
+        closeAfterFailure();
         throw error;
     }
     let previous = current;
@@ -64,7 +68,7 @@ export function createPlayer<S, E>(
         complete();
         options.render?.(frame());
     } catch (error) {
-        close();
+        closeAfterFailure();
         throw error;
     }
     return Object.freeze({
@@ -100,7 +104,7 @@ export function createPlayer<S, E>(
                 return result;
             } catch (error) {
                 disposed = true;
-                close();
+                closeAfterFailure();
                 throw error;
             }
         },
