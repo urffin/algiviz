@@ -29,6 +29,11 @@ try {
     }));
     execFileSync(process.execPath, [join(root, "node_modules/typescript/bin/tsc"), "-p", join(workspace, "tsconfig.json")], { stdio: "inherit" });
     execFileSync(process.execPath, [join(workspace, "output/consumer.js")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "examples/minimal.mjs"), join(workspace, "minimal.mjs"));
+    const minimalTest = (await readFile(join(root, "test/minimal-example.test.mjs"), "utf8"))
+        .replace("../examples/minimal.mjs", "./minimal.mjs");
+    await writeFile(join(workspace, "minimal.test.mjs"), minimalTest);
+    execFileSync(process.execPath, ["--test", join(workspace, "minimal.test.mjs")], { cwd: workspace, stdio: "inherit" });
     console.log(`Packed consumer passed: ${pkg.name}@${pkg.version}`);
 } finally {
     // Delete only the unique temporary directory created by this invocation.

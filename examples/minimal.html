@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Minimal custom object</title>
+<style>body{max-width:640px;margin:40px auto;padding:16px;font:18px system-ui}canvas{width:100%;border:1px solid #aaa;border-radius:12px}button{font:inherit;padding:8px 16px}</style>
+<h1>Your first custom object</h1>
+<p>A generator moves one token. Each click advances playback by 100 ms, showing interpolation without an animation loop.</p>
+<canvas width="600" height="120" aria-label="A purple token moving from left to right"></canvas>
+<p><button id="next">Advance 100 ms</button> <button id="restart">Restart</button></p>
+<p id="status" role="status"></p>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js"}}</script>
+<script type="module">
+import { createTokenPlayer } from './minimal.mjs';
+const ctx = document.querySelector('canvas').getContext('2d');
+const next = document.querySelector('#next');
+const status = document.querySelector('#status');
+let player = createTokenPlayer(ctx);
+function update() {
+    next.disabled = player.finished;
+    status.textContent = player.finished ? 'Finished' : `Step ${player.frame.stepIndex}`;
+}
+next.onclick = () => { player.advance(100); update(); };
+document.querySelector('#restart').onclick = () => { player.dispose(); player = createTokenPlayer(ctx); update(); };
+window.addEventListener('pagehide', () => player.dispose());
+window.addEventListener('pageshow', event => { if (event.persisted) { player = createTokenPlayer(ctx); update(); } });
+update();
+</script>
+</html>

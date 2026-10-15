@@ -7,6 +7,14 @@ Playback works without DOM, React or Next.js. ESM only, with TypeScript declarat
 
 This README describes version 0.6.0.
 
+## Minimal custom object
+
+Start with [the standalone example](examples/minimal.html) and its
+[complete module](examples/minimal.mjs). It defines a custom token, emits immutable
+steps and draws interpolated positions using only public package imports.
+No shared demo controller is needed. See [the walkthrough](docs/minimal-example.md)
+for running it in your own application.
+
 ## Install
 
 ```sh
