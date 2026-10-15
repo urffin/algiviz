@@ -2,7 +2,6 @@ import { defineArrayAlgorithm, createArrayPlayer, createArrayTimeline } from "@g
 import { arrayScene, createArrayRenderer } from "@grundyjs/algiviz/canvas";
 import { createSceneRenderer, type Scene } from "@grundyjs/algiviz/scene";
 import { createPlayer, createTimeline, type Step } from "@grundyjs/algiviz/playback";
-import { insertionSortSteps } from "@grundyjs/algiviz/core";
 
 function check(value: unknown, message: string): asserts value {
     if (!value) throw new Error(message);
@@ -48,7 +47,6 @@ const timeline = createTimeline(steps, timing);
 renderer.render(output, timeline.sample(50));
 check(output.at(-1) === 5, "Scene seeking failed");
 player.dispose();
-check(insertionSortSteps([2, 1]).at(-1)?.state.slots[0]?.value === 1, "Legacy API failed");
 
 import { createSceneProjector } from '@grundyjs/algiviz/scene';
 const project = createSceneProjector((value: { view: Scene<Objects> }) => value.view);

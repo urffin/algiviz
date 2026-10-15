@@ -1,8 +1,9 @@
 # Changelog
 
-## Unreleased
+## 0.7.0 — 2026-10-15
 
-- Move array playback adapters out of legacy core; retain core compatibility exports.
+- Breaking: remove the deprecated /core entry point and bundled insertion/bubble
+  algorithms. Application-owned examples use /array; playback adapters now live there.
 
 - Preserve source step indices in generic timeline frames, matching generator playback.
 - Preserve primary playback errors when iterator cleanup also fails; standalone

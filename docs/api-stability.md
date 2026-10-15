@@ -69,3 +69,15 @@ Array adapters now live in /array and Canvas uses array-owned types. Legacy
 /core re-exports the adapters; dedicated compatibility and legacy algorithm tests
 remain. Generated JavaScript and declarations for supported entry points no longer
 reference core modules. Next: verify known consumers before scheduling removal.
+
+## 0.7.0 preparation
+
+The deprecated /core export and bundled compatibility algorithms are removed in
+0.7.0. Insertion/bubble invariant tests now exercise application-owned examples.
+The package allowlist includes only array, playback, scene and canvas, so stale
+local build files cannot reintroduce legacy modules into the tarball. Package
+verification checks both their absence and rejection of the removed import.
+
+The website video-tool migration was reported complete in site commit ad05191;
+its push and deployment were not confirmed here. Validate the candidate against
+that migrated consumer before publishing. This document does not authorize release.

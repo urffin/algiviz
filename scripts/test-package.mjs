@@ -13,11 +13,17 @@ const runNpm = (args, cwd) => execFileSync(process.execPath, [npm, ...args], {
 });
 try {
     const packed = JSON.parse(runNpm(["pack", "--json", "--pack-destination", workspace], root));
+    if (packed[0].files.some(file => /^dist\/(core|compat)\//.test(file.path))) {
+        throw new Error("Tarball contains removed legacy modules");
+    }
     const filename = packed[0].filename;
     if (filename !== filename.split(/[\\/]/).at(-1)) throw new Error("Unexpected package filename");
     const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
     await writeFile(join(workspace, "package.json"), JSON.stringify({ private: true, type: "module" }));
     runNpm(["install", "--offline", "--ignore-scripts", "--no-audit", "--no-fund", join(workspace, filename)], workspace);
+    execFileSync(process.execPath, ["--input-type=module", "-e",
+        "import assert from 'node:assert/strict'; await assert.rejects(import('@grundyjs/algiviz/core'), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });"],
+        { cwd: workspace, stdio: "inherit" });
     const installed = JSON.parse(await readFile(join(workspace, "node_modules/@grundyjs/algiviz/package.json"), "utf8"));
     if (installed.version !== pkg.version) throw new Error("Installed version differs from packed version");
     await copyFile(join(root, "test/package-consumer.ts"), join(workspace, "consumer.ts"));

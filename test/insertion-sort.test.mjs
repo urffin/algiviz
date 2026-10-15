@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { insertionSortSteps, iterateInsertionSortSteps } from "../dist/core/index.js";
+import { insertion } from "../examples/algorithms.mjs";
+const insertionSortSteps = values => insertion.steps(values);
+const iterateInsertionSortSteps = values => insertion.iterate(values);
 
 function verifyTrace(input) {
     const source = [...input];

@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { bubbleSortSteps, iterateBubbleSortSteps, createSortPlayer, createSortTimeline } from "../dist/core/index.js";
+import { bubble } from "../examples/algorithms.mjs";
+const bubbleSortSteps = values => bubble.steps(values);
+const iterateBubbleSortSteps = values => bubble.iterate(values);
+import { createArrayPlayer as createSortPlayer, createArrayTimeline as createSortTimeline } from "@grundyjs/algiviz/array";
 import { createSortRenderer } from "../dist/canvas/index.js";
 
 function verify(input) {

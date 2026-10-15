@@ -5,7 +5,7 @@ algorithm and define your objects; AlgiViz provides array operations, playback,
 typed scene dispatch and a ready-made Canvas array renderer. No runtime dependencies.
 Playback works without DOM, React or Next.js. ESM only, with TypeScript declarations.
 
-This README describes version 0.6.0.
+This README describes version 0.7.0.
 
 ## Minimal custom object
 
@@ -24,7 +24,7 @@ npm install @grundyjs/algiviz
 There is no root entry point or CommonJS build. Import the modules you need:
 `/array`, `/playback`, `/scene` and `/canvas`.
 
-The deprecated `/core` sorting API remains available for compatibility.
+Algorithms live in application code and examples.
 For new integrations, use the APIs below. Version 0.x may introduce breaking changes
 in minor releases; consult [CHANGELOG.md](CHANGELOG.md) when updating.
 
@@ -140,11 +140,10 @@ range. Generator playback requires an explicit terminal step; an early end throw
 `dispose()` closes the source at most once, keeps the last frame readable and
 prevents further advancement. Restart uses a fresh source.
 
-The next release also makes timeline `stepIndex` preserve the source `step.index`,
+Version 0.7.0 makes timeline `stepIndex` preserve the source `step.index`,
 matching the player. If source consumption, a terminal predicate or rendering
 throws, cleanup is attempted without replacing that primary error. A standalone
-cleanup error from disposal or normal completion still propagates. These two fixes
-are not included in npm 0.6.0.
+cleanup error from disposal or normal completion still propagates.
 
 ### Step emission helper (since 0.6.0)
 
@@ -437,7 +436,7 @@ npm run test:package
 `npm test` builds the library, checks TypeScript fixtures and runs the tests.
 `npm run test:package` builds a tarball, installs it offline in an isolated temporary
 consumer, compiles against the installed declarations and exercises public APIs,
-including compatibility exports. The temporary consumer is removed afterward.
+including rejection of the removed `/core` export. The temporary consumer is removed afterward.
 
 GitHub Actions runs both checks on pushes to `master` and pull requests, using
 Node.js 22 and 24 on Linux and Windows. CI checks do not publish packages.
@@ -463,7 +462,7 @@ candidate commit.
 
 The [publish workflow](.github/workflows/npm-publish.yml) runs when a stable GitHub
 Release is published. Drafts, prereleases and tag pushes alone do not publish.
-Use `v` followed by the exact package version, such as `v0.6.0`, at the tested commit.
+Use `v` followed by the exact package version, such as `v0.7.0`, at the tested commit.
 
 The workflow uses Node.js 24 and npm 11, checks the version and packed consumer,
 then publishes with provenance through npm trusted publishing (OIDC).
