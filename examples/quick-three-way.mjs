@@ -1,3 +1,4 @@
+import { createStepEmitter } from '@grundyjs/algiviz/playback';
 // Application-owned Quick sort example, adapted from grundyjs.ru (MIT).
 /** Dijkstra partition; pivot value is copied before any swaps. */
 export function* iterateThreeWayQuickSort(values) {
@@ -9,25 +10,19 @@ export function* iterateThreeWayQuickSort(values) {
         bands = null;
     let pivotId = null,
         comparisons = 0,
-        swaps = 0,
-        index = 0;
-    function snapshot(event) {
-        return Object.freeze({
-            index: index++,
-            event: Object.freeze(event),
-            state: Object.freeze({
-                main: Object.freeze([...main]),
-                fixed: Object.freeze([...fixed]),
-                range,
-                bands,
-                pivot: pivotId === null ? null : main.findIndex((item) => item.id === pivotId),
-                boundary: bands?.less ?? null,
-                scan: bands?.scan ?? null,
-                comparisons,
-                swaps,
-            }),
-        });
-    }
+        swaps = 0;
+    const capture = createStepEmitter(() => Object.freeze({
+        main: Object.freeze([...main]),
+        fixed: Object.freeze([...fixed]),
+        range,
+        bands,
+        pivot: pivotId === null ? null : main.findIndex((item) => item.id === pivotId),
+        boundary: bands?.less ?? null,
+        scan: bands?.scan ?? null,
+        comparisons,
+        swaps,
+    }));
+    const snapshot = event => capture(Object.freeze(event));
     function exchange(left, right) {
         if (left === right) return false;
         [main[left], main[right]] = [main[right], main[left]];

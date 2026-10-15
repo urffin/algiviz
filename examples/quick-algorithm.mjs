@@ -1,3 +1,4 @@
+import { createStepEmitter } from '@grundyjs/algiviz/playback';
 // Application-owned Quick sort example, adapted from grundyjs.ru (MIT).
 /** Last-element Lomuto partition; input is copied and snapshots are immutable. */
 export function* iterateQuickSort(values) {
@@ -10,24 +11,18 @@ export function* iterateQuickSort(values) {
         boundary = null,
         scan = null;
     let comparisons = 0,
-        swaps = 0,
-        index = 0;
-    function snapshot(event) {
-        return Object.freeze({
-            index: index++,
-            event: Object.freeze(event),
-            state: Object.freeze({
-                main: Object.freeze([...main]),
-                range,
-                pivot,
-                boundary,
-                scan,
-                fixed: Object.freeze([...fixed]),
-                comparisons,
-                swaps,
-            }),
-        });
-    }
+        swaps = 0;
+    const capture = createStepEmitter(() => Object.freeze({
+        main: Object.freeze([...main]),
+        range,
+        pivot,
+        boundary,
+        scan,
+        fixed: Object.freeze([...fixed]),
+        comparisons,
+        swaps,
+    }));
+    const snapshot = event => capture(Object.freeze(event));
     function* exchange(left, right) {
         if (left === right) return;
         [main[left], main[right]] = [main[right], main[left]];

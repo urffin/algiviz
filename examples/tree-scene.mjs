@@ -1,3 +1,4 @@
+import { createStepEmitter } from '@grundyjs/algiviz/playback';
 import { treePointerPosition } from './tree-pointer.mjs';
 import { createSceneRenderer } from '@grundyjs/algiviz/scene';
 
@@ -12,8 +13,8 @@ const nodes = [
 
 export function* treeSteps() {
     const visited = new Set();
-    let index = 0;
-    const emit = (kind, active) => {
+    let active = null;
+    const capture = createStepEmitter(() => {
         const objects = [];
         for (const node of nodes) {
             if (!visited.has(node.id)) continue;
@@ -26,8 +27,11 @@ export function* treeSteps() {
         }
         if (active) objects.push(Object.freeze({ id: 'cursor', type: 'pointer', zIndex: 2,
             data: Object.freeze({ target: active }) }));
-        return Object.freeze({ index: index++, event: Object.freeze({ kind, active }),
-            state: Object.freeze({ objects: Object.freeze(objects) }) });
+        return Object.freeze({ objects: Object.freeze(objects) });
+    });
+    const emit = (kind, target) => {
+        active = target;
+        return capture(Object.freeze({ kind, active }));
     };
     yield emit('start', null);
     function* visit(id) {
