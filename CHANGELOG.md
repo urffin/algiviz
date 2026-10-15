@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Move array playback adapters out of legacy core; retain core compatibility exports.
+
 - Preserve source step indices in generic timeline frames, matching generator playback.
 - Preserve primary playback errors when iterator cleanup also fails; standalone
   cleanup failures still propagate.

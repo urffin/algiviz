@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createSortPlayer, createSortTimeline, insertionSortSteps, iterateInsertionSortSteps } from "../dist/core/index.js";
+import { createArrayPlayer as createSortPlayer, createArrayTimeline as createSortTimeline } from "@grundyjs/algiviz/array";
+import { insertion } from "../examples/algorithms.mjs";
+const insertionSortSteps = input => insertion.steps(input);
+const iterateInsertionSortSteps = input => insertion.iterate(input);
 
 test("sequential frames match the seekable timeline, including boundaries and final hold", () => {
     for (const input of [[], [1], [3, 1, 2, 1]]) {

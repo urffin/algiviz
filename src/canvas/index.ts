@@ -1,5 +1,5 @@
-import type { Item, SortSnapshot } from "../core/types.js";
-import type { SortFrame } from "../core/timeline.js";
+import type { Item, SortSnapshot } from "../array/types.js";
+import type { ArrayFrame as SortFrame } from "../array/timeline.js";
 import { createSceneRenderer, createSceneProjector, type Scene } from "../scene/index.js";
 
 export type ArrayObjects = { bar: { item: Item; index: number; held: boolean } };

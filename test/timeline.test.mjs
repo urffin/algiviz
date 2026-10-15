@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { insertionSortSteps, createSortTimeline } from "../dist/core/index.js";
+import { createArrayPlayer as createSortPlayer, createArrayTimeline as createSortTimeline } from "@grundyjs/algiviz/array";
+import { insertion } from "../examples/algorithms.mjs";
+const insertionSortSteps = input => insertion.steps(input);
+const iterateInsertionSortSteps = input => insertion.iterate(input);
 import { createSortRenderer } from "../dist/canvas/index.js";
 
 test("timeline boundaries, interpolation, clamping and final hold", () => {

@@ -58,12 +58,14 @@ Order of work:
 
 - [x] Preserve source index semantics with regression coverage.
 - [x] Preserve primary errors during cleanup with regression coverage.
-- [ ] Document source lifecycle, termination, time boundaries and snapshot ownership.
-- [ ] Decouple supported entry points and tests from legacy implementation modules.
+- [x] Document source lifecycle, termination, time boundaries and snapshot ownership.
+- [x] Decouple supported entry points and playback tests from legacy implementation modules.
 - [ ] Migrate known consumers, then remove `/core` in a pre-1.0 breaking release.
 - [ ] Verify installed-package types, exports and standalone integration in CI.
 - [ ] Exercise a pre-1.0 candidate in the website and existing custom examples.
 - [ ] Publish 1.0 only after these contracts are settled; no date is assigned yet.
 
-The next implementation slice is decoupling supported entry points and their
-tests from legacy modules. No immediate compatibility removal is required.
+Array adapters now live in /array and Canvas uses array-owned types. Legacy
+/core re-exports the adapters; dedicated compatibility and legacy algorithm tests
+remain. Generated JavaScript and declarations for supported entry points no longer
+reference core modules. Next: verify known consumers before scheduling removal.

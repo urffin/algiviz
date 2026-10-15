@@ -118,7 +118,7 @@ test('new entry points do not import any bundled algorithms', () => {
     function visit(url) {
         if (visited.has(url.href)) return;
         visited.add(url.href);
-        assert.ok(!/compat|insertion-sort|bubble-sort/.test(url.pathname), url.pathname);
+        assert.ok(!/core|compat|insertion-sort|bubble-sort/.test(url.pathname), url.pathname);
         const text = readFileSync(url, 'utf8');
         for (const match of text.matchAll(/from\s+["'](\.[^"']+)["']/g)) visit(new URL(match[1], url));
     }
