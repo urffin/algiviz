@@ -2,6 +2,13 @@
 
 **Your algorithms and objects. Step-by-step playback and custom rendering.**
 
+![BFS from A: custom graph vertices, edges and queue animated with AlgiViz](https://raw.githubusercontent.com/urffin/algiviz/master/docs/assets/bfs.gif)
+
+*An application-owned BFS algorithm with custom objects. Exported with
+[CanvasTake](https://github.com/urffin/canvas-take) —
+[try an interactive sorting demo](https://grundyjs.ru/algorithms/insertion-sort/)
+or explore the [BFS source](https://github.com/urffin/algiviz/blob/master/examples/graph-demo.mjs).*
+
 A TypeScript toolkit for building interactive algorithm explanations. Write your
 algorithm as a generator, emit immutable states and choose how your objects look.
 AlgiViz handles playback and scene matching; optional array operations and a Canvas
