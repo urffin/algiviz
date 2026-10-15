@@ -1,19 +1,49 @@
 # AlgiViz
 
-A TypeScript toolkit for user-defined algorithm visualizations. You write the
-algorithm and define your objects; AlgiViz provides array operations, playback,
-typed scene dispatch and a ready-made Canvas array renderer. No runtime dependencies.
-Playback works without DOM, React or Next.js. ESM only, with TypeScript declarations.
+**Your algorithms and objects. Step-by-step playback and custom rendering.**
 
-This README describes version 0.7.0.
+A TypeScript toolkit for building interactive algorithm explanations. Write your
+algorithm as a generator, emit immutable states and choose how your objects look.
+AlgiViz handles playback and scene matching; optional array operations and a Canvas
+renderer help you get started.
 
-## Minimal custom object
+[Live sorting demo](https://grundyjs.ru/algorithms/insertion-sort/) ·
+[Library overview](https://grundyjs.ru/algiviz/) ·
+[npm package](https://www.npmjs.com/package/@grundyjs/algiviz) ·
+[Minimal example source](https://github.com/urffin/algiviz/blob/master/examples/minimal.mjs)
 
-Start with [the standalone example](examples/minimal.html) and its
-[complete module](examples/minimal.mjs). It defines a custom token, emits immutable
-steps and draws interpolated positions using only public package imports.
-No shared demo controller is needed. See [the walkthrough](docs/minimal-example.md)
-for running it in your own application.
+- **Your algorithm:** control the loops, conditions and order of operations.
+- **Your objects:** define custom types and handlers for Canvas, SVG or another target.
+- **Two playback modes:** retain history for seeking, or consume a generator with
+  only adjacent snapshots retained by the player.
+- **No runtime dependencies:** ESM and TypeScript declarations; playback works
+  without DOM, React or Next.js.
+
+Use it for educational demos, interactive articles and algorithm walkthroughs.
+Algorithms and layouts belong to your application; AlgiViz provides the playback
+and rendering API. This README describes version 0.7.0.
+
+## Start with one custom object
+
+The [standalone page](https://github.com/urffin/algiviz/blob/master/examples/minimal.html)
+moves one token with a generator and a custom Canvas handler. It uses only public
+package imports, without the shared demo controller. Copy its
+[complete module](https://github.com/urffin/algiviz/blob/master/examples/minimal.mjs)
+into your application and connect a canvas:
+
+```js
+import { createTokenPlayer } from './minimal.mjs';
+
+const canvas = document.querySelector('canvas');
+const player = createTokenPlayer(canvas.getContext('2d'));
+player.advance(100); // Advance playback by 100 ms.
+// Call advance(deltaMs) from your controls or animation loop.
+// Call player.dispose() when removing the visualization.
+```
+
+[Follow the walkthrough](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md)
+for local setup, snapshot ownership and lifecycle. For a larger custom-object
+example, see the [graph BFS walkthrough](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md).
 
 ## Install
 

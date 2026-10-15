@@ -1,7 +1,7 @@
 {
   "name": "@grundyjs/algiviz",
   "version": "0.7.0",
-  "description": "Deterministic algorithm steps for educational visualizations",
+  "description": "TypeScript toolkit for custom algorithm visualizations with step-by-step playback and extensible rendering",
   "type": "module",
   "files": [
     "dist/array",
@@ -52,10 +52,14 @@
   },
   "homepage": "https://grundyjs.ru/algiviz/",
   "keywords": [
+    "algorithm-visualization",
     "algorithms",
     "visualization",
-    "insertion-sort",
-    "bubble-sort",
+    "animation",
+    "step-by-step",
+    "playback",
+    "data-structures",
+    "educational",
     "canvas",
     "typescript"
   ],
