@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add partial custom colors to the Canvas array renderer and its compatible alias,
+  with exported ArrayPalette, ArrayPaletteOverrides and ArrayRendererOptions types.
+
 ## 0.7.1 — 2026-10-15
 
 - Update package description and keywords for custom algorithm visualizations.

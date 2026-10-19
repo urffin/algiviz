@@ -365,7 +365,32 @@ magnitude for bar height and retain their sign in labels; this is not a signed-a
 plot. Dense charts hide labels. For recording, use a canvas with fixed export
 dimensions. Rendering does not start an animation loop or record video.
 
-### Memory and generation cost
+#### Custom array colors (unreleased)
+
+The next release accepts partial palette overrides on both `createArrayRenderer`
+and its compatible alias `createSortRenderer`:
+
+```ts
+import { createArrayRenderer, type ArrayPaletteOverrides } from '@grundyjs/algiviz/canvas';
+const colors: ArrayPaletteOverrides = { background: '#ffffff', text: '#182230', active: '#e87900' };
+const renderer = createArrayRenderer({ theme: 'light', colors });
+renderer.render(ctx, currentFrame);
+```
+
+`ArrayPalette` defines six string roles: `background` (full canvas), `text`
+(all labels), `bar` (ordinary bars), `sorted` (sorted prefix/suffix), `active`
+(highlighted/compared/moved items), and `held` (the held item, taking precedence
+over active and sorted). `ArrayPaletteOverrides` is its partial form;
+`ArrayRendererOptions` describes the options object. Values are Canvas color
+strings, passed through without CSS validation. Omitted or undefined roles use
+the selected theme. Existing theme-only calls and default colors are unchanged.
+
+Overrides are copied when creating a renderer. Changing the input object later
+has no effect. To switch theme or palette, create a new renderer and render the
+same current frame. This changes colors only, not playback, snapshots, layout or
+bitmap/DPR handling. These options are not included in npm 0.7.1.
+
+## Memory and generation cost
 
 Array operations copy the input, validate finite numbers and reject sparse inputs.
 `defineArrayAlgorithm` performs this work on the first iterator `next()`;

@@ -15,6 +15,22 @@ export function arrayScene(state: SortSnapshot): Scene<ArrayObjects> {
     });
 }
 
+/** Canvas color strings for the semantic roles in the array renderer. */
+export interface ArrayPalette {
+    readonly background: string;
+    readonly text: string;
+    readonly bar: string;
+    readonly sorted: string;
+    readonly active: string;
+    readonly held: string;
+}
+/** Overrides are copied at renderer creation; omitted roles retain the theme color. */
+export type ArrayPaletteOverrides = Partial<ArrayPalette>;
+export interface ArrayRendererOptions {
+    readonly theme: "light" | "dark";
+    readonly colors?: ArrayPaletteOverrides;
+}
+
 const palettes = {
     dark: {
         background: "#101827",
@@ -46,8 +62,12 @@ function positions(state: SortSnapshot): Map<string, { item: Item; index: number
 }
 
 /** Stateless full-frame renderer. Bitmap dimensions determine layout and video size. */
-export function createSortRenderer(options: { theme: "light" | "dark" }) {
-    const colors = palettes[options.theme];
+export function createSortRenderer(options: ArrayRendererOptions) {
+    const colors = { ...palettes[options.theme] };
+    for (const key of Object.keys(colors) as (keyof ArrayPalette)[]) {
+        const color = options.colors?.[key];
+        if (color !== undefined) colors[key] = color;
+    }
     const projectFrame = createSceneProjector(arrayScene);
     return Object.freeze({
         render(ctx: CanvasRenderingContext2D, frame: SortFrame): void {

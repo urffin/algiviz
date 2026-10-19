@@ -51,3 +51,15 @@ const checkedCount: number = emittedStep.state.count;
 const checkedKind: "count" = emittedStep.event.kind;
 // @ts-expect-error Step index is readonly.
 emittedStep.index = 2;
+
+import { createArrayRenderer, createSortRenderer, type ArrayPalette, type ArrayPaletteOverrides, type ArrayRendererOptions } from '@grundyjs/algiviz/canvas';
+const overrides: ArrayPaletteOverrides = { background: '#fff', held: 'purple' };
+const rendererOptions: ArrayRendererOptions = { theme: 'light', colors: overrides };
+createArrayRenderer(rendererOptions);
+createSortRenderer(rendererOptions);
+// @ts-expect-error Unknown palette role.
+createArrayRenderer({ theme: 'dark', colors: { unknown: 'red' } });
+// @ts-expect-error Colors are strings.
+createArrayRenderer({ theme: 'dark', colors: { bar: 123 } });
+const fullPalette: ArrayPalette = {background:'white',text:'black',bar:'gray',sorted:'green',active:'orange',held:'purple'};
+createArrayRenderer({theme:'light',colors:fullPalette});

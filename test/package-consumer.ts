@@ -59,3 +59,9 @@ const emitStep = createStepEmitter(() => Object.freeze({ count: 1 }));
 const emittedStep = emitStep("done");
 check(emittedStep.index === 0 && emittedStep.state.count === 1 &&
     emittedStep.event === "done" && Object.isFrozen(emittedStep), "Step emitter export failed");
+
+import type { ArrayPalette, ArrayPaletteOverrides, ArrayRendererOptions } from '@grundyjs/algiviz/canvas';
+const palette: ArrayPalette = {background:'white',text:'black',bar:'gray',sorted:'green',active:'orange',held:'purple'};
+const paletteOverrides: ArrayPaletteOverrides = { active: palette.active };
+const paletteOptions: ArrayRendererOptions = { theme: 'light', colors: paletteOverrides };
+check(typeof createArrayRenderer(paletteOptions).render === 'function', 'Palette options failed');

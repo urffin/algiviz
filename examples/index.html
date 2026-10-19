@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>AlgiViz · Sorting lab</title>
-<style>*{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}main{max-width:1080px;margin:auto;padding:24px}p,small{color:#bac7db}.controls{display:flex;flex-wrap:wrap;gap:16px;align-items:end;margin:16px 0}label{display:flex;flex-direction:column;gap:6px}button,input,select,textarea{font:inherit;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px;padding:8px}button{cursor:pointer}button:hover{background:#334155}:focus-visible{outline:2px solid #a5b4fc;outline-offset:3px}button:disabled,input:disabled{opacity:.5;cursor:not-allowed}textarea{width:100%;resize:vertical}input[type=number]{width:110px}canvas{display:block;width:100%;height:auto;border:1px solid #334155;border-radius:12px}#seek-control{flex:1;min-width:220px}#error{color:#fca5a5;min-height:1.5em}#status{font-variant-numeric:tabular-nums}</style></head>
+<style>*{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}main{max-width:1080px;margin:auto;padding:24px}p,small{color:#bac7db}.controls{display:flex;flex-wrap:wrap;gap:16px;align-items:end;margin:16px 0}label{display:flex;flex-direction:column;gap:6px}button,input,select,textarea{font:inherit;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px;padding:8px}button{cursor:pointer}button:hover{background:#334155}:focus-visible{outline:2px solid #a5b4fc;outline-offset:3px}button:disabled,input:disabled{opacity:.5;cursor:not-allowed}textarea{width:100%;resize:vertical}input[type=number]{width:110px}canvas{display:block;width:100%;height:auto;border:1px solid #334155;border-radius:12px}#seek-control{flex:1;min-width:220px}#error{color:#fca5a5;min-height:1.5em}#status{font-variant-numeric:tabular-nums}fieldset{border:1px solid #64748b;border-radius:8px;margin:16px 0}input[type=color]{width:72px;height:42px;padding:4px}</style></head>
 <body><main><h1>AlgiViz · Sorting lab</h1>
 <p><a href="./minimal.html" style="color:#c4b5fd">Start here: minimal custom object</a></p>
 <p><a href="./graph.html" style="color:#c4b5fd">Graph breadth-first search with custom objects →</a></p>
@@ -9,7 +9,7 @@
 <p><a href="./heap.html" style="color:#c4b5fd">Heap sort with a synchronized tree and array →</a></p>
 <p><a href="./merge.html" style="color:#c4b5fd">Merge sort with a custom array and buffer scene →</a></p>
 <p><a href="./quick.html" style="color:#c4b5fd">Quick sort: Lomuto and three-way partitioning →</a></p>
-<p>Compare seekable history with on-demand steps. Purple is the held key; green is the sorted prefix (insertion sort) or final suffix (bubble sort). Yellow highlights the current operation.</p>
+<p>Compare seekable history with on-demand steps. The palette distinguishes held items, sorted regions and the active operation. Customize the canvas colors below.</p>
 <div class="controls">
 <label>Algorithm<select id="algorithm"><option value="insertion">Insertion sort</option><option value="bubble">Bubble sort</option></select></label>
 <label>Playback mode<select id="mode"><option value="history">Full history · seeking</option><option value="generator">Generator · forward only</option></select></label>
@@ -17,6 +17,18 @@
 <label>Order<select id="order"><option value="random">Random</option><option value="sorted">Sorted</option><option value="reverse">Reverse</option></select></label><button id="generate">Generate &amp; load</button></div>
 <label>Values (spaces or commas; leave empty for an empty array)<textarea id="values" rows="2">5, 2, 4, 2, 1</textarea></label>
 <div class="controls"><button id="apply">Load values</button><small id="limit"></small></div>
+<fieldset><legend>Canvas palette</legend>
+<div class="controls">
+<label>Theme preset<select id="palette-theme"><option value="dark">Dark</option><option value="light">Light</option></select></label>
+<label>Background<input id="color-background" type="color" value="#101827"></label>
+<label>Text<input id="color-text" type="color" value="#f1f5f9"></label>
+<label>Bars<input id="color-bar" type="color" value="#94a3b8"></label>
+<label>Sorted<input id="color-sorted" type="color" value="#34d399"></label>
+<label>Active<input id="color-active" type="color" value="#fbbf24"></label>
+<label>Held<input id="color-held" type="color" value="#c4b5fd"></label>
+<button id="palette-reset" type="button">Reset palette</button>
+</div><small>Changing the preset resets all six colors. Palette changes keep the current playback position.</small>
+</fieldset>
 <p id="error" role="alert"></p><canvas width="960" height="540" aria-label="Insertion sort visualization"></canvas>
 <div class="controls"><button id="play">Play</button><button id="reset">Restart</button><button id="previous">Previous step</button><button id="next">Next step</button>
 <label>Speed<select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="8">8×</option><option value="32">32×</option></select></label>

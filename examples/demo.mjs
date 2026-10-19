@@ -5,7 +5,7 @@ import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
 const $ = id => document.getElementById(id);
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
-const renderer = createArrayRenderer({ theme: 'dark' });
+let renderer = createArrayRenderer({ theme: 'dark' });
 const algorithms = { insertion, bubble };
 let values = [5, 2, 4, 2, 1], algorithm = 'insertion';
 const playback = createDemoPlayer({
@@ -44,3 +44,24 @@ new ResizeObserver(entries => {
     canvas.width = width; canvas.height = Math.max(280, Math.round(width * 0.5625)); playback.draw();
 }).observe(document.querySelector('main'));
 load();
+
+// UI presets mirror the documented built-in palettes. Renderer owns its copy.
+const palettePresets = {
+    dark: { background: '#101827', text: '#f1f5f9', bar: '#94a3b8', sorted: '#34d399', active: '#fbbf24', held: '#c4b5fd' },
+    light: { background: '#f8fafc', text: '#0f172a', bar: '#475569', sorted: '#047857', active: '#b45309', held: '#7c3aed' },
+};
+const colorRoles = Object.keys(palettePresets.dark);
+function updatePalette() {
+    const colors = Object.fromEntries(colorRoles.map(role => [role, $('color-' + role).value]));
+    renderer = createArrayRenderer({ theme: $('palette-theme').value, colors });
+    playback.draw();
+}
+function resetPalette() {
+    const preset = palettePresets[$('palette-theme').value];
+    for (const role of colorRoles) $('color-' + role).value = preset[role];
+    updatePalette();
+}
+for (const role of colorRoles) $('color-' + role).oninput = updatePalette;
+$('palette-theme').onchange = resetPalette;
+$('palette-reset').onclick = resetPalette;
+resetPalette();
