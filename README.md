@@ -419,6 +419,7 @@ included in the npm archive.
 | [Merge sort](examples/merge.html) | Custom state and a two-row scene for the main array and buffer |
 | [Quick sort partitions](examples/quick.html) | Lomuto and three-way partitioning with custom state and scene |
 | [Heap sort](examples/heap.html) | Max-heap construction and extraction with synchronized tree and array identities |
+| [Binary search](examples/binary-search.html) | First occurrence in sorted input, closed search intervals and lazy playback |
 | [Graph BFS](examples/graph.html) | Cycles, disconnected components, shortest distances and an animated queue |
 | [Tree traversal](examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 
@@ -464,6 +465,12 @@ Bottom-up construction is O(n), worst-case sorting O(n log n), and the iterative
 in-place algorithm uses O(1) auxiliary space. This demo copies input and retains
 O(n) adjacent snapshot data in generator mode; full history can use O(n² log n).
 It is not stable: [2a, 2b, 1] becomes [1, 2b, 2a].
+
+### Binary search
+
+The [algorithm](examples/binary-search-algorithm.mjs) finds the first occurrence, including duplicates. Equal values save a candidate and continue searching left. Input must be sorted; invalid loads preserve the current session. Generate sorted arrays by count with the shared history/generator limits. The counter counts inspected middle elements.
+
+The [scene](examples/binary-search-scene.mjs) uses stable index-based IDs and viewport-independent projection. Up to 32 cells wrap; larger arrays use a dense strip and suppress unreadable labels. Search takes O(log n) time and O(1) extra algorithm space. The demo validates and copies input in O(n), shares a frozen array across snapshots and stores O(n + log n) history data. The example is not part of the npm package and needs no new public export.
 
 ### Tree traversal
 

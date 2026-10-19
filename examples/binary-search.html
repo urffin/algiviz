@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Binary search</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}main{max-width:1080px;margin:auto;padding:24px}a{color:#c4b5fd}canvas{display:block;width:100%;border-radius:12px}button,input,select{min-height:44px;font:inherit;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px;padding:8px;min-width:0}button{cursor:pointer}button:disabled,input:disabled{opacity:.5}.controls{display:flex;flex-wrap:wrap;align-items:end;gap:8px;margin:16px 0}label{display:flex;flex-direction:column;gap:6px}#values,#seek{width:100%}#size,#target{width:120px}:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}#error{color:#fca5a5}#status{overflow-wrap:anywhere}.playback{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:16px 0}.playback label{grid-column:1/-1;display:flex;flex-direction:row;align-items:center;gap:12px}@media(max-width:640px){main{padding:16px}.playback{grid-template-columns:repeat(2,minmax(0,1fr))}}</style></head>
+<body><main><a href="./index.html">← Examples / Sorting lab</a><h1>Binary search: first occurrence</h1>
+<p>Inspect the middle of a sorted array and discard half of the remaining interval. When a value matches, keep it as a candidate and continue left to find the first occurrence.</p>
+<p><label>Playback mode <select id="mode"></select></label></p>
+<label for="values">Sorted values (spaces, commas or semicolons; empty input is valid)</label>
+<input id="values" value="-8, -3, 0, 2, 4, 6, 6, 6, 9, 12, 15, 18, 21, 25, 29, 34">
+<div class="controls"><label>Target <input id="target" value="6"></label><button id="apply">Load values</button></div>
+<div class="controls"><label>Array size <input id="size" type="number" min="0" max="64" step="1" value="16"></label><button id="generate">Generate sorted &amp; load</button></div>
+<p>History: up to 64 values. Generator: up to 2,000. Unsorted input is rejected. Values and indices wrap for up to 32 items; dense arrays hide labels. The status previews 24 values; full values remain in the input.</p><p id="error" role="alert"></p>
+<canvas width="960" height="204" aria-label="Binary search interval, middle and candidate; values and operations are described below"></canvas>
+<p id="mode-note"></p>
+<div class="playback"><button id="play">Play</button><button id="restart">Restart</button><button id="previous">Previous step</button><button id="next">Next step</button>
+<label>Speed <select id="speed"></select></label></div>
+<label for="seek">Playback position</label><input id="seek" type="range" min="0" value="0" step="1">
+<p id="status" role="status" aria-live="polite"></p>
+<p>Purple: remaining closed interval [low, high]. Yellow: inspected middle. Cyan: saved candidate. Green: confirmed first occurrence. Gray: excluded indices. Indices start at zero. Highlights change discretely. Long values are abbreviated on canvas.</p>
+<p>If values[mid] &lt; target, move low to mid + 1. Otherwise move high to mid − 1; save mid first if equal. The answer is a zero-based index or −1. The counter counts inspected middle elements, not individual comparison operators.</p>
+<p>The iterative search uses O(log n) worst-case time and O(1) extra algorithm memory. This demo validates and copies input once in O(n), shares the frozen array between snapshots and stores O(n + log n) history data. Generator playback keeps O(n) input data and adjacent snapshots. No sorting is performed and input is never rearranged.</p>
+<p>This is application-owned example code using public /playback and /scene APIs, not a built-in algorithm or a new package export.</p>
+</main><script type="importmap">{"imports":{"@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/playback":"../dist/playback/index.js"}}</script>
+<script type="module" src="./binary-search-demo.mjs"></script></body></html>
