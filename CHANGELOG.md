@@ -1,9 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.8.0 — 2026-10-19
 
 - Add partial custom colors to the Canvas array renderer and its compatible alias,
   with exported ArrayPalette, ArrayPaletteOverrides and ArrayRendererOptions types.
+- Preserve theme defaults and isolate copied overrides per renderer instance.
+- Add theme presets, six color controls and palette reset to Sorting lab without
+  restarting playback or changing the current frame.
 
 ## 0.7.1 — 2026-10-15
 

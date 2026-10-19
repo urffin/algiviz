@@ -1,6 +1,6 @@
 {
   "name": "@grundyjs/algiviz",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "TypeScript toolkit for custom algorithm visualizations with step-by-step playback and extensible rendering",
   "type": "module",
   "files": [

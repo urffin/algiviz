@@ -28,7 +28,7 @@ renderer help you get started.
 
 Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
-and rendering API. This README describes version 0.7.1.
+and rendering API. This README describes version 0.8.0.
 
 ## Start with one custom object
 
@@ -365,9 +365,9 @@ magnitude for bar height and retain their sign in labels; this is not a signed-a
 plot. Dense charts hide labels. For recording, use a canvas with fixed export
 dimensions. Rendering does not start an animation loop or record video.
 
-#### Custom array colors (unreleased)
+#### Custom array colors (since 0.8.0)
 
-The next release accepts partial palette overrides on both `createArrayRenderer`
+Version 0.8.0 accepts partial palette overrides on both `createArrayRenderer`
 and its compatible alias `createSortRenderer`:
 
 ```ts
@@ -388,7 +388,8 @@ the selected theme. Existing theme-only calls and default colors are unchanged.
 Overrides are copied when creating a renderer. Changing the input object later
 has no effect. To switch theme or palette, create a new renderer and render the
 same current frame. This changes colors only, not playback, snapshots, layout or
-bitmap/DPR handling. These options are not included in npm 0.7.1.
+bitmap/DPR handling. Try the theme presets, six color inputs and reset control
+in [Sorting lab](examples/index.html).
 
 ## Memory and generation cost
 
@@ -524,7 +525,7 @@ candidate commit.
 
 The [publish workflow](.github/workflows/npm-publish.yml) runs when a stable GitHub
 Release is published. Drafts, prereleases and tag pushes alone do not publish.
-Use `v` followed by the exact package version, such as `v0.7.1`, at the tested commit.
+Use `v` followed by the exact package version, such as `v0.8.0`, at the tested commit.
 
 The workflow uses Node.js 24 and npm 11, checks the version and packed consumer,
 then publishes with provenance through npm trusted publishing (OIDC).
