@@ -1,5 +1,7 @@
 # AlgiViz
 
+[Русский](ru/README.md)
+
 **Your algorithms and objects. Step-by-step playback and custom rendering.**
 
 ![BFS from A: custom graph vertices, edges and queue animated with AlgiViz](https://raw.githubusercontent.com/urffin/algiviz/master/docs/assets/bfs.gif)
