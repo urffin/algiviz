@@ -34,21 +34,56 @@ and rendering API. This README describes version 0.8.1.
 
 ## Start with one custom object
 
-The [standalone page](https://github.com/urffin/algiviz/blob/master/examples/minimal.html)
-moves one token with a generator and a custom Canvas handler. It uses only public
-package imports, without the shared demo controller. Copy its
-[complete module](https://github.com/urffin/algiviz/blob/master/examples/minimal.mjs)
-into your application and connect a canvas:
+Four states of one circle: `40 → 200 → 360 → 560`. The generator supplies
+coordinates, the `dot` handler draws the circle, and the player requests the next
+state. Add a canvas and button to your HTML, then load the JavaScript below as a
+module through a bundler that resolves imports from the installed npm package.
+
+```html
+<canvas width="600" height="160"></canvas>
+<button id="next">Next state</button>
+```
 
 ```js
-import { createTokenPlayer } from './minimal.mjs';
+import { createPlayer } from '@grundyjs/algiviz/playback';
+import { createSceneRenderer } from '@grundyjs/algiviz/scene';
 
-const canvas = document.querySelector('canvas');
-const player = createTokenPlayer(canvas.getContext('2d'));
-player.advance(100); // Advance playback by 100 ms.
-// Call advance(deltaMs) from your controls or animation loop.
-// Call player.dispose() when removing the visualization.
+const ctx = document.querySelector('canvas').getContext('2d');
+function* steps() {
+    for (const [index, x] of [40, 200, 360, 560].entries()) {
+        const state = { objects: [{ id: 'circle', type: 'dot', data: { x } }] };
+        yield { index, state, event: index === 3 ? 'done' : 'position' };
+    }
+}
+const renderer = createSceneRenderer({
+    dot(ctx, { current }) {
+        ctx.beginPath();
+        ctx.arc(current.data.x, 80, 18, 0, Math.PI * 2);
+        ctx.fillStyle = '#b39bff';
+        ctx.fill();
+    },
+});
+const player = createPlayer(steps(), {
+    stepDurationMs: 1000, finalHoldMs: 0,
+    isTerminal: step => step.event === 'done',
+    render(frame) {
+        ctx.clearRect(0, 0, 600, 160);
+        renderer.render(ctx, frame);
+    },
+});
+document.querySelector('#next').onclick = () => player.advance(1000);
 ```
+
+The first frame (`x = 40`) is drawn immediately inside `createPlayer(...)`. Each
+click advances one 1000 ms step: the player resumes the loop until the next
+`yield`, then renders. There is no interpolation here: the handler draws only
+`current`. Each snapshot is created afresh and never mutated. Call
+`player.dispose()` when removing the visualization.
+
+[Interactive walkthrough with sequential code highlighting](examples/visualization-pipeline.html)
+shows initial rendering behind a Start button and the subsequent loop iterations
+(Russian UI). This is an example page in the repository; run it locally using
+the setup instructions below.
 
 [Follow the walkthrough](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md)
 for local setup, snapshot ownership and lifecycle. For a larger custom-object

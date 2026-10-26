@@ -34,21 +34,55 @@ AlgiViz управляет воспроизведением и сопостав�
 
 ## Начните с одного собственного объекта
 
-[Отдельная страница](https://github.com/urffin/algiviz/blob/master/examples/minimal.html)
-перемещает один объект с помощью генератора и собственного Canvas-обработчика.
-Она использует только публичные импорты пакета, без общего контроллера демонстраций.
-Скопируйте [полный модуль](https://github.com/urffin/algiviz/blob/master/examples/minimal.mjs)
-в приложение и подключите canvas:
+Четыре состояния одного круга: `40 → 200 → 360 → 560`. Генератор задаёт
+координаты, обработчик `dot` рисует круг, а плеер запрашивает следующее состояние.
+Добавьте Canvas и кнопку в HTML, а JavaScript ниже подключите как модуль через
+сборщик, разрешающий импорты установленного npm-пакета.
+
+```html
+<canvas width="600" height="160"></canvas>
+<button id="next">Следующее состояние</button>
+```
 
 ```js
-import { createTokenPlayer } from './minimal.mjs';
+import { createPlayer } from '@grundyjs/algiviz/playback';
+import { createSceneRenderer } from '@grundyjs/algiviz/scene';
 
-const canvas = document.querySelector('canvas');
-const player = createTokenPlayer(canvas.getContext('2d'));
-player.advance(100); // Advance playback by 100 ms.
-// Call advance(deltaMs) from your controls or animation loop.
-// Call player.dispose() when removing the visualization.
+const ctx = document.querySelector('canvas').getContext('2d');
+function* steps() {
+    for (const [index, x] of [40, 200, 360, 560].entries()) {
+        const state = { objects: [{ id: 'circle', type: 'dot', data: { x } }] };
+        yield { index, state, event: index === 3 ? 'done' : 'position' };
+    }
+}
+const renderer = createSceneRenderer({
+    dot(ctx, { current }) {
+        ctx.beginPath();
+        ctx.arc(current.data.x, 80, 18, 0, Math.PI * 2);
+        ctx.fillStyle = '#b39bff';
+        ctx.fill();
+    },
+});
+const player = createPlayer(steps(), {
+    stepDurationMs: 1000, finalHoldMs: 0,
+    isTerminal: step => step.event === 'done',
+    render(frame) {
+        ctx.clearRect(0, 0, 600, 160);
+        renderer.render(ctx, frame);
+    },
+});
+document.querySelector('#next').onclick = () => player.advance(1000);
 ```
+
+Первый кадр (`x = 40`) рисуется сразу внутри `createPlayer(...)`. Каждый клик
+проходит один шаг длительностью 1000 мс: плеер возобновляет цикл до следующего
+`yield`, затем вызывает отрисовку. Здесь нет плавного перехода: обработчик рисует
+только `current`. Каждый снимок создаётся заново и больше не изменяется. При
+удалении визуализации вызовите `player.dispose()`.
+
+[Интерактивный разбор с последовательной подсветкой кода](../examples/visualization-pipeline.html)
+показывает создание первого кадра по кнопке «Начать» и последующие итерации цикла.
+Это страница примера в репозитории; запускайте её локально по инструкции ниже.
 
 [Пошаговое руководство](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md)
 объясняет локальный запуск, владение снимками состояния и жизненный цикл.
