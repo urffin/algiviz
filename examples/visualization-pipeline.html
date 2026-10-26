@@ -45,7 +45,7 @@ const player = createPlayer(steps(), {
         renderer.render(ctx, frame);
     },
 });
-document.querySelector('#next').onclick = () => player.advance(1000);
+document.querySelector('#next').onclick = () => player.nextStep();
 document.querySelector('#restart').onclick = () => location.reload();
 }; // @teaching
 </script>
@@ -61,7 +61,7 @@ const nodes = lines.map(line => {
 const ranges = { create: [19, 21], loop: [5, 6], yield: [7, 7], drawing: [11, 16], render: [22, 24], advance: [27, 27] };
 const descriptions = {
     create: 'Нажатие «Начать»: createPlayer(steps(), …) запрашивает первое состояние и сразу вызывает render.',
-    advance: 'Нажатие: advance(1000) проходит ровно один шаг плеера.',
+    advance: 'Нажатие: nextStep() проходит ровно один шаг плеера.',
     loop: 'Плеер возобновляет steps(): цикл берёт следующую координату.',
     yield: 'yield передаёт новый снимок плееру и приостанавливает steps().',
     render: 'Плеер вызывает render: очистка Canvas и передача кадра renderer.',
@@ -72,7 +72,7 @@ const context = document.querySelector('canvas').getContext('2d');
 const buffer = document.createElement('canvas');
 buffer.width = 600; buffer.height = 160;
 window.teachingContext = buffer.getContext('2d');
-let recording = [{kind:'create'}], elapsed = 0, busy = true, timer, finalImage, finalData;
+let recording = [{kind:'create'}], completedSteps = 0, busy = true, timer, finalImage, finalData;
 next.disabled = true;
 
 document.querySelector('#generator-status').textContent = 'Плеер ещё не создан; steps() ещё не выполнялся.';
@@ -95,7 +95,7 @@ function highlight(kind) {
 }
 window.traceCode = (kind, data) => {
     if (recording) recording.push({kind, data});
-    if (kind === 'drawing' && elapsed === 0 && recording?.[0].kind === 'create') {
+    if (kind === 'drawing' && completedSteps === 0 && recording?.[0].kind === 'create') {
         // Replay initialization after the synchronous module has finished drawing.
         queueMicrotask(() => {
             const calls = recording; recording = null;
@@ -107,7 +107,7 @@ function finish() {
     clearTimeout(timer);
     if (finalImage) context.putImageData(finalImage, 0, 0);
     if (finalData) position(finalData);
-    busy = false; next.disabled = elapsed >= 3000; next.hidden = next.disabled;
+    busy = false; next.disabled = completedSteps >= 3; next.hidden = next.disabled;
 }
 function replay(calls) {
         finalImage = window.teachingContext.getImageData(0, 0, 600, 160);
@@ -121,7 +121,7 @@ function replay(calls) {
             if (call.kind === 'loop') document.querySelector('#generator-status').textContent = 'Цикл steps(): index = ' + call.data.index + ', x = ' + call.data.x + '. Создаётся новый снимок.';
             if (call.kind === 'yield') document.querySelector('#generator-status').textContent = 'yield: плеер получил x = ' + call.data.x + '. Генератор приостановлен.';
             if (call.kind === 'advance') document.querySelector('#generator-status').textContent = 'Плеер запрашивает следующее состояние у steps().';
-            document.querySelector('#trace-status').textContent = (elapsed === 0 ? 'Первый кадр · ' : '') + (index+1) + '/' + calls.length + ' · ' + (call.kind === 'loop' && elapsed === 0 ? 'Первое обращение к steps(): цикл берёт index = 0, x = 40.' : descriptions[call.kind]);
+            document.querySelector('#trace-status').textContent = (completedSteps === 0 ? 'Первый кадр · ' : '') + (index+1) + '/' + calls.length + ' · ' + (call.kind === 'loop' && completedSteps === 0 ? 'Первое обращение к steps(): цикл берёт index = 0, x = 40.' : descriptions[call.kind]);
             if (call.kind === 'drawing') {
                 context.putImageData(finalImage, 0, 0); position(call.data);
             }
@@ -129,8 +129,8 @@ function replay(calls) {
             if (index < calls.length) timer = setTimeout(show, 1200);
             else {
                 finish();
-                if (elapsed === 0) document.querySelector('#trace-status').textContent += ' Первый кадр готов; теперь можно запросить следующее состояние.';
-                if (elapsed >= 3000) {
+                if (completedSteps === 0) document.querySelector('#trace-status').textContent += ' Первый кадр готов; теперь можно запросить следующее состояние.';
+                if (completedSteps >= 3) {
                     document.querySelector('#trace-status').textContent += ' Переход завершён.';
                     document.querySelector('#generator-status').textContent = 'Событие done завершило переход. Плеер закрыл генератор; новой итерации нет.';
                 }
@@ -145,7 +145,7 @@ next.addEventListener('click', event => {
     recording = [{kind:'advance'}];
     // A new task runs after all click listeners, including the normal onclick.
     timer = setTimeout(() => {
-        const calls = recording; recording = null; elapsed += 1000;
+        const calls = recording; recording = null; completedSteps += 1;
         replay(calls);
     });
 }, {capture:true});

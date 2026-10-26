@@ -81,11 +81,11 @@ const player = createPlayer(steps(), {
         renderer.render(ctx, frame);
     },
 });
-document.querySelector('#next').onclick = () => player.advance(1000);
+document.querySelector('#next').onclick = () => player.nextStep();
 ```
 
 The first frame (`x = 40`) is drawn immediately inside `createPlayer(...)`. Each
-click advances one 1000 ms step: the player resumes the loop until the next
+click requests the next state: the player resumes the loop until the next
 `yield`, then renders. There is no interpolation here: the handler draws only
 `current`. Each snapshot is created afresh and never mutated. Call
 `player.dispose()` when removing the visualization.

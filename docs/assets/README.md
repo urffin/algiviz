@@ -22,12 +22,13 @@ The GIF is intentionally outside the npm package allowlist.
 
 `minimal.gif` shows the code from `examples/visualization-pipeline.html`, with
 sequential highlighting and the actual Canvas snapshots produced by that code.
+Manual transitions use `player.nextStep()`, including the displayed code and captions.
 The recipe strips teaching-only hooks, instruments generator/render calls, and
 runs the source with AlgiViz's public playback and scene APIs. The algorithm is
 not reimplemented. Captions use API names and English so both READMEs share one asset.
 
 - CanvasTake 0.4.0, `createGifExporter` and gifenc adapter, 128 colors, high quality.
-- 1100 × 700; 20 frames; 27.7 seconds; infinite loop; 645,838 bytes.
+- 1100 × 700; 20 frames; 27.7 seconds; infinite loop; 643,248 bytes.
 - Each call holds for 1.1 seconds; rendered states hold for 2.2 seconds,
   with a 3.5-second final hold before restarting.
 - Verified decoded opening, middle and final frames, timings and all four positions.
