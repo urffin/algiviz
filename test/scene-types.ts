@@ -1,5 +1,14 @@
 import { createSceneRenderer, type Scene, type SceneVisualizations } from "@grundyjs/algiviz/scene";
 import { createPlayer, type Step } from "@grundyjs/algiviz/playback";
+import { createArrayPlayer } from "@grundyjs/algiviz/array";
+const manualPlayer = createPlayer([{ index: 0, state: { x: 1 }, event: 'done' }], {
+    isTerminal: step => step.event === 'done',
+});
+const manualX: number = manualPlayer.nextStep().current.x;
+createPlayer([{ index: 0, state: manualX, event: true }], {
+    stepDurationMs: undefined, finalHoldMs: undefined, isTerminal: step => step.event,
+});
+createArrayPlayer([]);
 
 interface Objects {
     node: { x: number; label: string };

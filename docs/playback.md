@@ -35,6 +35,13 @@ graph/tree algorithm or operation set.
 
 ## Playback contracts
 
+Timing options are optional for manual playback: pass only `isTerminal` and,
+optionally, `render`. `finalHoldMs` defaults to `0`. Without `stepDurationMs`,
+use `nextStep()` to move forward or `advance(0)` to redraw. Positive `advance`
+throws without consuming a step or disposing the player. Supply a positive
+`stepDurationMs` to enable timed animation. Array players follow the same rules
+and allow omitting the options object entirely. Timeline timing is unchanged.
+
 `player.nextStep()` finishes an in-progress transition or, at a boundary, consumes
 exactly one next snapshot and returns its frame with `progress === 1`. It invokes
 `render` once. Construction already renders the first snapshot. At the terminal

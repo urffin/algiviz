@@ -3,6 +3,56 @@ import assert from 'node:assert/strict';
 import { graphSteps } from '../examples/graph-algorithm.mjs';
 import { graphScene } from '../examples/graph-scene.mjs';
 import { createPlayer } from '@grundyjs/algiviz/playback';
+import { createArrayPlayer } from '@grundyjs/algiviz/array';
+
+test('manual graph playback needs no timing and rejects timed advancement without consuming', () => {
+    let reads = 0, renders = 0;
+    function* source() {
+        for (const step of graphSteps(graph, 'A')) { reads++; yield step; }
+    }
+    const player = createPlayer(source(), {
+        isTerminal: step => step.event.kind === 'finished', render() { renders++; },
+    });
+    assert.equal(player.frame.progress, 1);
+    assert.throws(() => player.advance(1), /stepDurationMs/);
+    assert.equal(reads, 1);
+    assert.equal(renders, 1);
+    player.advance(0);
+    assert.equal(renders, 2);
+    for (const step of [...graphSteps(graph, 'A')].slice(1)) {
+        assert.deepEqual(player.nextStep().current, step.state);
+        assert.equal(player.frame.progress, 1);
+    }
+    assert.equal(player.finished, true);
+    assert.equal(reads, [...graphSteps(graph, 'A')].length);
+});
+
+test('timed playback defaults final hold to zero; array adapter accepts omitted options', () => {
+    const steps = [{ index: 0, state: {}, event: { type: 'start' } },
+        { index: 1, state: {}, event: { type: 'done' } }];
+    const timed = createPlayer(steps, { stepDurationMs: 50, isTerminal: s => s.event.type === 'done' });
+    timed.advance(50);
+    assert.equal(timed.finished, true);
+    for (const options of [undefined, { stepDurationMs: undefined, finalHoldMs: undefined }]) {
+        const player = createArrayPlayer(steps, options);
+        assert.equal(player.nextStep().progress, 1);
+        assert.equal(player.finished, true);
+    }
+});
+
+test('manual final hold and invalid explicit timing remain well defined', () => {
+    const steps = [{ index: 0, state: {}, event: 'done' }];
+    const player = createPlayer(steps, { finalHoldMs: 20, isTerminal: () => true });
+    assert.equal(player.finished, false);
+    player.nextStep();
+    assert.equal(player.finished, true);
+    for (const stepDurationMs of [0, -1, NaN, Infinity, null]) {
+        assert.throws(() => createPlayer(steps, { stepDurationMs, isTerminal: () => true }), RangeError);
+    }
+    for (const finalHoldMs of [-1, NaN, Infinity, null]) {
+        assert.throws(() => createPlayer(steps, { finalHoldMs, isTerminal: () => true }), RangeError);
+    }
+});
 
 const graph = {
     nodes: ['A', 'B', 'C'].map(id => ({ id })),

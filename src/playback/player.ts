@@ -17,14 +17,18 @@ export interface Player<S, E> {
 export function createPlayer<S, E>(
     steps: Iterable<Step<S, E>>,
     options: {
-        stepDurationMs: number;
-        finalHoldMs: number;
+        /** Omit for manual playback; positive advance requires a duration. */
+        stepDurationMs?: number | undefined;
+        /** Final hold duration, default 0. */
+        finalHoldMs?: number | undefined;
         isTerminal: (step: Step<S, E>) => boolean;
         /** Called initially and on each advance or nextStep, including after completion. */
         render?: (frame: Frame<S, E>) => void;
     }
 ): Player<S, E> {
-    const { stepDurationMs, finalHoldMs } = options;
+    const manual = options.stepDurationMs === undefined;
+    // Unit endpoint for manual steps; positive timed advancement is disallowed.
+    const { stepDurationMs = 1, finalHoldMs = 0 } = options;
     if (!Number.isFinite(stepDurationMs) || stepDurationMs <= 0 ||
         !Number.isFinite(finalHoldMs) || finalHoldMs < 0) {
         throw new RangeError("Expected positive step duration and non-negative final hold");
@@ -109,6 +113,9 @@ export function createPlayer<S, E>(
             if (disposed) throw new Error("Player has been disposed");
             if (!Number.isFinite(deltaMs) || deltaMs < 0) {
                 throw new RangeError("Expected finite non-negative playback time");
+            }
+            if (manual && deltaMs > 0) {
+                throw new Error("Set stepDurationMs to use advance with positive time; use nextStep for manual playback");
             }
             try {
                 let remaining = deltaMs;

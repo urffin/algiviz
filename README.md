@@ -74,7 +74,6 @@ const renderer = createSceneRenderer({
     },
 });
 const player = createPlayer(steps(), {
-    stepDurationMs: 1000, finalHoldMs: 0,
     isTerminal: step => step.event === 'done',
     render(frame) {
         ctx.clearRect(0, 0, 600, 160);

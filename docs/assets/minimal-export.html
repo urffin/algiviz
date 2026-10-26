@@ -14,7 +14,7 @@ const canvas=document.querySelector('#output'),ctx=canvas.getContext('2d');
 const scratch=document.createElement('canvas');scratch.width=600;scratch.height=160;
 const sc=scratch.getContext('2d');const buttons={next:{},restart:{}};
 const frames=[];let stage='create',stateX=null,iteration=0,bitmap=null;
-const ranges={create:[19,21],advance:[27,27],loop:[5,6],yield:[7,7],render:[22,24],drawing:[11,16]};
+const ranges={create:[19,20],advance:[26,26],loop:[5,6],yield:[7,7],render:[21,23],drawing:[11,16]};
 const labels={create:'createPlayer(steps())',advance:'click → nextStep()',loop:'steps(): next loop iteration',yield:'yield → player',render:'render(frame)',drawing:'dot(ctx, current)'};
 function capture(kind,data){
  stage=kind;if(kind==='loop')iteration=data.index;

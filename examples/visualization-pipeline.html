@@ -37,7 +37,6 @@ const renderer = createSceneRenderer({
     },
 });
 const player = createPlayer(steps(), {
-    stepDurationMs: 1000, finalHoldMs: 0,
     isTerminal: step => step.event === 'done',
     render(frame) {
         window.traceCode('render'); // @teaching
@@ -58,7 +57,7 @@ const nodes = lines.map(line => {
     const node = document.createElement('span'); node.textContent = line;
     code.append(node); return node;
 });
-const ranges = { create: [19, 21], loop: [5, 6], yield: [7, 7], drawing: [11, 16], render: [22, 24], advance: [27, 27] };
+const ranges = { create: [19, 20], loop: [5, 6], yield: [7, 7], drawing: [11, 16], render: [21, 23], advance: [26, 26] };
 const descriptions = {
     create: 'Нажатие «Начать»: createPlayer(steps(), …) запрашивает первое состояние и сразу вызывает render.',
     advance: 'Нажатие: nextStep() проходит ровно один шаг плеера.',

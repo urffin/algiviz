@@ -28,7 +28,7 @@ runs the source with AlgiViz's public playback and scene APIs. The algorithm is
 not reimplemented. Captions use API names and English so both READMEs share one asset.
 
 - CanvasTake 0.4.0, `createGifExporter` and gifenc adapter, 128 colors, high quality.
-- 1100 × 700; 20 frames; 27.7 seconds; infinite loop; 643,248 bytes.
+- 1100 × 700; 20 frames; 27.7 seconds; infinite loop; 626,349 bytes.
 - Each call holds for 1.1 seconds; rendered states hold for 2.2 seconds,
   with a 3.5-second final hold before restarting.
 - Verified decoded opening, middle and final frames, timings and all four positions.
