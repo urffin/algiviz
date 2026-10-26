@@ -1,0 +1,67 @@
+<!doctype html><meta charset="utf-8"><title>AlgiViz minimal GIF export</title>
+<style>body{background:#0c1423;color:white;font:16px system-ui}canvas,img{max-width:100%}button{padding:12px}</style>
+<button id="export">Export GIF</button><p id="status">Ready</p><canvas id="output" width="1100" height="700"></canvas><img id="preview">
+<script type="module">
+import {createPlayer} from '../../dist/playback/index.js';
+import {createSceneRenderer} from '../../dist/scene/index.js';
+import {createGifExporter} from '/canvas-take/gif.js';
+import {createGifencEncoder} from '/canvas-take/gifenc.js';
+const html=await(await fetch('../../examples/visualization-pipeline.html')).text();
+const doc=new DOMParser().parseFromString(html,'text/html');
+const source=doc.querySelector('#example').textContent.trim().split('\n').filter(line=>!line.includes('// @teaching')).join('\n');
+const lines=source.split('\n');
+const canvas=document.querySelector('#output'),ctx=canvas.getContext('2d');
+const scratch=document.createElement('canvas');scratch.width=600;scratch.height=160;
+const sc=scratch.getContext('2d');const buttons={next:{},restart:{}};
+const frames=[];let stage='create',stateX=null,iteration=0,bitmap=null;
+const ranges={create:[19,21],advance:[27,27],loop:[5,6],yield:[7,7],render:[22,24],drawing:[11,16]};
+const labels={create:'createPlayer(steps())',advance:'click → advance(1000)',loop:'steps(): next loop iteration',yield:'yield → player',render:'render(frame)',drawing:'dot(ctx, current)'};
+function capture(kind,data){
+ stage=kind;if(kind==='loop')iteration=data.index;
+ if(kind==='drawing'){stateX=data.x;bitmap=sc.getImageData(0,0,600,160);}
+ frames.push({kind,x:stateX,iteration,bitmap,duration:kind==='drawing'?2200:1100});
+}
+// Instrument the real, displayed source; no duplicate algorithm or coordinate calculation.
+let executable=source.replace(/^import .*;\n/gm,'')
+ .replace('const state =',"capture('loop', {index,x}); const state =")
+ .replace('yield {',"capture('yield'); yield {")
+ .replace('ctx.clearRect',"capture('render'); ctx.clearRect")
+ .replace('ctx.fill();',"ctx.fill(); capture('drawing', {x});");
+capture('create');
+new Function('createPlayer','createSceneRenderer','document','capture',executable)(createPlayer,createSceneRenderer,{querySelector:s=>s==='canvas'?{getContext:()=>sc}:buttons[s.slice(1)]},capture);
+for(let i=0;i<3;i++){capture('advance');buttons.next.onclick();}
+frames.at(-1).duration=3500;
+function draw(frame){
+ ctx.fillStyle='#0c1423';ctx.fillRect(0,0,1100,700);
+ ctx.fillStyle='#edf4ff';ctx.font='bold 23px system-ui';ctx.fillText('AlgiViz · generator → Canvas',24,36);
+ ctx.fillStyle='#aabbd2';ctx.font='16px system-ui';ctx.fillText('40 → 200 → 360 → 560   |   one click = one state',24,64);
+ ctx.fillStyle='#142036';ctx.fillRect(16,84,750,595);ctx.fillRect(782,84,302,595);
+ const [a,b]=ranges[frame.kind];
+ lines.forEach((line,i)=>{
+  const y=112+i*19;
+  if(i>=a-1&&i<b){ctx.fillStyle=frame.kind==='drawing'?'#493561':'#245047';ctx.fillRect(22,y-15,738,19);}
+  ctx.fillStyle=i>=a-1&&i<b?'#ffffff':'#83e6cf';ctx.font='15px Consolas, monospace';ctx.fillText(line,30,y);
+ });
+ ctx.fillStyle='#e6edf8';ctx.font='bold 18px system-ui';ctx.fillText('Canvas',800,118);
+ ctx.fillStyle='#0c1423';ctx.fillRect(798,142,270,150);
+ if(frame.bitmap){sc.putImageData(frame.bitmap,0,0);ctx.drawImage(scratch,798,181,270,72);}
+ ctx.fillStyle='#b39bff';ctx.font='bold 22px Consolas';ctx.fillText(frame.x===null?'empty':`x = ${frame.x}`,800,333);
+ ctx.fillStyle='#64dfc5';ctx.font='17px Consolas';
+ const words=labels[frame.kind].split(' ');let row='',y=394;
+ for(const word of words){if(ctx.measureText(row+word).width>260){ctx.fillText(row,800,y);row='';y+=26;}row+=word+' ';}ctx.fillText(row,800,y);
+ ctx.fillStyle='#aabbd2';ctx.font='16px Consolas';ctx.fillText(`index = ${frame.iteration}`,800,484);
+ ctx.font='15px system-ui';ctx.fillText('Recorded calls · slowed down',800,636);
+}
+draw(frames[0]);
+document.querySelector('#export').onclick=async()=>{
+ const button=document.querySelector('#export'),status=document.querySelector('#status');button.disabled=true;
+ const gif=createGifExporter({encoder:createGifencEncoder({maxColors:128,quality:'high'}),repeat:0});
+ try{
+  await document.fonts.ready;
+  for(let i=0;i<frames.length;i++){draw(frames[i]);await gif.addFrame(canvas,frames[i].duration);status.textContent=`Encoding ${i+1}/${frames.length}`;}
+  const blob=await gif.finish();const response=await fetch('/save',{method:'POST',body:blob});if(!response.ok)throw Error(await response.text());
+  document.querySelector('#preview').src=URL.createObjectURL(blob);
+  status.textContent=JSON.stringify({saved:'docs/assets/minimal.gif',frames:frames.length,durationMs:frames.reduce((n,f)=>n+f.duration,0),bytes:blob.size});
+ }catch(e){status.textContent=String(e);}finally{gif.dispose();button.disabled=false;}
+};
+</script>
