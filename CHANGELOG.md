@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.3 — 2026-10-27
+
+- Streamline English and Russian READMEs around installation and a minimal example.
+- Add a GIF showing code execution highlights alongside actual Canvas states.
+- Move API reference, algorithm details, performance and publishing instructions
+  into linked documentation; add contributor guides.
+- No runtime API or behavior changes.
+
 ## 0.8.2 — 2026-10-27
 
 - Add a self-contained minimal usage example to both English and Russian READMEs.
