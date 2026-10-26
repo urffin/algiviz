@@ -150,7 +150,7 @@ The algorithms belong to the application; they require no changes to the library
 ### Custom structures and renderers
 
 `/playback` does not know arrays, sorting, Canvas, or event names. A source yields
-`Step<State, Event>` objects with contiguous zero-based `index`, immutable
+`Step<State, Event>` objects with a numeric `index`, immutable
 `state` and `event`. Supply `isTerminal` to identify the final step and
 `render` to draw each interpolated frame using any rendering technology:
 
@@ -164,6 +164,10 @@ const player = createPlayer(myTraversal(), {
     render: frame => drawGraph(frame.previous, frame.current, frame.progress, frame.event)
 });
 ```
+
+Both engines preserve the supplied index; it need not start at zero or be
+contiguous. Timing follows source order. `createStepEmitter` provides consecutive
+zero-based numbering for convenience.
 
 The render callback is optional. Without it, read `player.frame` and render
 manually. `createTimeline(steps, timing)` supports seeking with the same generic

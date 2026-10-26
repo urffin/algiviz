@@ -1,83 +1,70 @@
 # API stabilization before 1.0
 
-Audit date: 2026-10-15. Candidate inspected: da28b52.
-The index and cleanup fixes below are implemented in the working tree after
-0.6.0; the remaining checklist is proposed policy, not behavior promised by 0.6.0.
+Updated 2026-10-26 against 0.8.0 and local commits b51979b / 69fc68e.
+This is a preparation plan, not authorization to publish 1.0.
 
 ## Public boundary
 
-Keep `/playback` (steps, frames, player, timeline, emitter), `/scene` (custom
-objects, dispatch, projection), `/array` (optional array operations) and `/canvas`
-(optional drawing). Algorithms, domain types, snapshot policy, layout and controls
-belong to applications. Do not add algorithm registration or automatic deep cloning.
+Keep `/playback`, `/scene`, `/array` and `/canvas`. Algorithms, domain types,
+snapshot ownership, layout and browser controls remain application-owned.
+The deprecated `/core` export and bundled algorithms were removed in 0.7.0.
+No algorithm registration or automatic deep cloning is needed.
 
-## Contract audit
+## Contracts to preserve
 
-| Contract | Current evidence | Remaining work before stability |
-| --- | --- | --- |
-| Lazy playback | player tests cover on-demand consumption, early closure, final hold and timeline equivalence | Add direct generic tests independent of legacy wrappers |
-| Completion | Generic player requires an explicit terminal step; truncated sources throw and close | Document that timeline uses array length, not terminal predicates |
-| Disposal | Idempotent closure; advance after disposal throws; last frame remains readable | Preserve this behavior in the public contract |
-| Errors | Source and renderer failures close the iterator; invalid deltas do not consume | Primary error preserved during cleanup (fixed after 0.6.0); direct tests include predicate errors |
-| Seeking | Timeline clamps finite time, rejects non-finite time and copies the input array | Document shallow ownership: step/state/event objects are retained |
-| Step indices | Player and timeline preserve step.index (fixed after 0.6.0) | Regression coverage uses noncontiguous indices |
-| Immutability | Emitter freezes wrapper; state/event isolation remains application-owned | Keep this explicit; do not imply deep freezing |
-| Scenes | IDs, types, zIndex, progress and missing handlers validated; projector retains two endpoints | Keep stable IDs and state-only projection as documented requirements |
-| Distribution | Package consumer exercises exported types and standalone example outside the repo | Retain Windows/Linux and Node 22/24 CI |
+| Area | Current contract and evidence |
+| --- | --- |
+| Playback | Synchronous lazy iteration; adjacent snapshots retained; explicit terminal predicate; early exhaustion throws. Generic player tests cover consumption and termination. |
+| Timeline | Copies the step array, retains its objects; timing uses array position; finite sample times are clamped. Completion uses history length, with no terminal predicate. |
+| Indices | Both engines preserve source step.index. Tests cover 10, 25, 90; numbering need not start at zero or be contiguous. The emitter provides consecutive indices as a convenience. |
+| Lifecycle | Dispose closes at most once, leaves the frame readable and rejects further advancement. Restart creates a fresh source. |
+| Errors | Source, predicate and render errors survive cleanup failures; standalone cleanup failures propagate. Covered by playback-contract tests. |
+| Ownership | Generic states/events are not cloned or frozen. The emitter freezes only the step wrapper. Array operations produce immutable snapshots. |
+| Scenes | Stable unique IDs, fixed type per ID, layer ordering, explicit enter/update/exit transitions. Handlers are frame draws, not lifecycle callbacks. |
+| Projection | Pure state-to-scene mapping with at most two endpoint projections retained; viewport geometry stays in handlers. |
+| Palette | Six semantic array colors; partial overrides copied at renderer creation. Theme changes redraw the same frame with a new renderer. |
+| Packaging | Four ESM entry points, no root/CommonJS export; packed consumer checks declarations and absence of /core. |
 
-## Discrepancies reproduced in 0.6.0 and fixed after it
+## Completed preparation
 
-1. Two steps with indices 10 and 20 at time 50 ms (100 ms per step) produce
-   `stepIndex: 20` from createPlayer and `stepIndex: 1` from createTimeline.
-   Implemented resolution: preserve the supplied step.index in both. Timeline timing
-   continues to depend on array position, not the index value. Equivalence tests cover nonzero/noncontiguous indices, boundaries and final hold.
-2. A custom iterator whose next() throws `source failure` and whose return()
-   throws `cleanup failure` currently surfaces only the cleanup error.
-   Implemented resolution: preserve the primary source/render/predicate error when
-   cleaning up after failure. An explicit dispose or otherwise successful terminal
-   closure should still surface a cleanup failure. Test construction, advance,
-   terminal closure and repeated disposal; cleanup must run at most once.
+- Standalone JavaScript starter passes strict checkJs.
+- Complete TypeScript starter has two object types, lazy source, controls and cleanup.
+- Packed consumer compiles the TypeScript starter against the installed tarball.
+- 78 local tests pass after the merge renderer optimization.
+- Website update to 0.8.0 was reported complete by the user; site work stays in its chat.
+- CI configuration covers Windows/Linux and Node 22/24. Local validation does not
+  replace a successful CI run on a future release candidate.
 
-## Legacy /core
+## Performance evidence and limits
 
-Recommendation: remove the deprecated public entry point in a clearly announced
-pre-1.0 breaking release, after internal dependencies and known consumers migrate.
-Do not remove it in a patch release or delete the directory blindly.
+On this machine, 2,000-element reverse inputs retained roughly 5.7-5.9 MiB of
+Node heap after explicit GC between 5,000 and 25,000 generator steps. This includes
+the process and is diagnostic, not a universal memory bound. Ownership inspection
+confirms adjacent player states and a two-endpoint projector cache.
 
-Order of work:
+Merge rendering of two 2,000-cell rows fell from about 10.9 to 7.2 ms per frame
+in the CPU-only mock Canvas benchmark after batching Canvas state scopes and
+per-frame geometry. Visible draw calls matched for 6,840 frames with reverse seeks,
+multiple widths, duplicate and signed values. These figures are not browser FPS.
 
-1. Move array playback adapters and shared types to array-owned modules. Update
-   Canvas imports; verify declarations do not require the legacy entry point.
-2. Move generic playback contract tests from legacy wrappers to `/playback` or
-   `/array`; retain dedicated compatibility tests while `/core` exists.
-3. Check known consumers (including the website in its own chat) for `/core` imports.
-4. Remove the public export and bundled sorting compatibility implementations in
-   the designated breaking release; update package-consumer expectations and notes.
+Generator mode avoids accumulated history but still pays snapshot allocation and
+synchronous generation costs. Large advance calls can block the host; applications
+should cap elapsed time. Full history intentionally retains snapshots. No worker,
+async source or automatic scheduling guarantee is proposed for 1.0.
 
-## Release gates
+## Remaining release gates, in order
 
-- [x] Preserve source index semantics with regression coverage.
-- [x] Preserve primary errors during cleanup with regression coverage.
-- [x] Document source lifecycle, termination, time boundaries and snapshot ownership.
-- [x] Decouple supported entry points and playback tests from legacy implementation modules.
-- [ ] Migrate known consumers, then remove `/core` in a pre-1.0 breaking release.
-- [ ] Verify installed-package types, exports and standalone integration in CI.
-- [ ] Exercise a pre-1.0 candidate in the website and existing custom examples.
-- [ ] Publish 1.0 only after these contracts are settled; no date is assigned yet.
+1. Review the public declarations and exported names, especially Sort-named Canvas
+   compatibility aliases, and decide what is intentionally supported long term.
+   Do not remove an alias merely to tidy names in a patch release.
+2. Reconcile documentation with these contracts and confirm coverage for any new
+   discrepancy. The contiguous-index wording was corrected in both READMEs.
+3. Run the selected candidate through custom-object examples and the website in
+   its own chat; preserve generator/history behavior, palettes and lifecycle.
+4. Run tests and packed-consumer checks, push the selected candidate when
+   authorized, and verify CI for that exact commit.
+5. Publish 1.0 only after the API review and consumer checks are complete and the
+   user explicitly authorizes that release. No release date is assigned.
 
-Array adapters now live in /array and Canvas uses array-owned types. Legacy
-/core re-exports the adapters; dedicated compatibility and legacy algorithm tests
-remain. Generated JavaScript and declarations for supported entry points no longer
-reference core modules. Next: verify known consumers before scheduling removal.
-
-## 0.7.0 preparation
-
-The deprecated /core export and bundled compatibility algorithms are removed in
-0.7.0. Insertion/bubble invariant tests now exercise application-owned examples.
-The package allowlist includes only array, playback, scene and canvas, so stale
-local build files cannot reintroduce legacy modules into the tarball. Package
-verification checks both their absence and rejection of the removed import.
-
-The website video-tool migration was reported complete in site commit ad05191;
-its push and deployment were not confirmed here. Validate the candidate against
-that migrated consumer before publishing. This document does not authorize release.
+A browser controller may be considered later if independent integrations reveal
+repeated needs. The new starter alone does not justify expanding the package API.
