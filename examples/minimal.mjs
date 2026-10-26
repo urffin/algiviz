@@ -12,19 +12,24 @@ export function* tokenSteps() {
     for (x = 1; x <= 3; x++) yield emit(x === 3 ? 'done' : 'move');
 }
 
-export const tokenRenderer = createSceneRenderer({
-    /** @param {CanvasRenderingContext2D} ctx */
+/** @type {import('@grundyjs/algiviz/scene').SceneVisualizations<Objects, CanvasRenderingContext2D, string>} */
+const visualizations = {
     token(ctx, object) {
-        const from = (object.previous ?? object.current).data.x;
-        const to = (object.current ?? object.previous).data.x;
+        const before = object.previous ?? object.current;
+        const after = object.current ?? object.previous;
+        if (!before || !after) return;
+        const from = before.data.x;
+        const to = after.data.x;
         const x = from + (to - from) * object.progress;
         ctx.beginPath();
         ctx.arc(24 + x / 3 * (ctx.canvas.width - 48), ctx.canvas.height / 2, 16, 0, Math.PI * 2);
         ctx.fill();
     },
-});
+};
+export const tokenRenderer = createSceneRenderer(visualizations);
 
 // No demo controller, DOM IDs or application-wide settings are required.
+/** @param {CanvasRenderingContext2D} ctx */
 export function createTokenPlayer(ctx) {
     return createPlayer(tokenSteps(), {
         stepDurationMs: 600,

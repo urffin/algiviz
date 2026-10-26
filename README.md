@@ -54,6 +54,10 @@ player.advance(100); // Advance playback by 100 ms.
 for local setup, snapshot ownership and lifecycle. For a larger custom-object
 example, see the [graph BFS walkthrough](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md).
 
+For a complete TypeScript integration with two object types and Play/Pause/Restart,
+see [custom-objects.ts](examples/custom-objects.ts) and the
+[setup instructions](docs/minimal-example.md#a-complete-typescript-integration).
+
 ## Install
 
 ```sh

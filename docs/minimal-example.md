@@ -46,6 +46,41 @@ is acceptable.
 the packed library and checks initial, intermediate and final drawing coordinates,
 completion and restart. This verifies package exports without repository resolution.
 
-The minimal integration needs no additional generic helper: snapshot policy,
-geometry and controls are application choices; step numbering and object dispatch
-are already provided by the library.
+## A complete TypeScript integration
+
+Continue with [custom-objects.ts](../examples/custom-objects.ts) and its
+[page](../examples/custom-objects.html). Build the library, then run
+`npx tsc -p examples/tsconfig.json` and open `/examples/custom-objects.html`
+on the same static server. The compiled example is not shipped in the npm package.
+In your own bundled application, copy the TypeScript module and import
+`mountCustomObjects`; the repository import map is not needed.
+
+The module connects two object types (`token` and `label`) to one immutable
+generator. `Scene<Objects>` checks snapshot data and
+`createSceneRenderer<Objects, CanvasRenderingContext2D, Event>` checks each handler.
+The minimal JavaScript version uses `SceneVisualizations` through JSDoc for the
+same purpose. Both examples are checked in strict mode by `npm test`.
+
+Pass a canvas and three buttons to `mountCustomObjects(canvas, play, pause, restart)`.
+It draws immediately and starts paused. Play schedules frames, Pause preserves the
+current position, and Restart creates a fresh generator and stays paused. Playback
+pauses when the document is hidden; reduced motion displays destination positions
+without interpolation. Call the returned cleanup function when unmounting: it
+cancels animation, removes listeners and disposes the generator. The sample HTML
+also remounts after restoration from the browser's back/forward cache.
+
+The canvas uses a fixed 600 × 120 bitmap, scaled by CSS. For a responsive high-DPI
+integration, manage bitmap sizing and logical coordinates in the host (see the
+graph walkthrough). This example deliberately keeps those details out of the
+object model. The label displays the destination of the current transition;
+only the token position is interpolated.
+
+To add another type, extend `Objects`, include objects with stable unique IDs in
+the snapshots and add its renderer handler. For objects that appear/disappear,
+use endpoint fallbacks and `presence` in the handler. Clearing the canvas each
+frame removes old drawings. Keep state independent of viewport size; introduce
+`createSceneProjector` only when domain state and visual objects need to differ.
+
+The packed-consumer check compiles this exact TypeScript module against the
+installed package. Browser scheduling remains application code; no new public
+library helper is required for this example.

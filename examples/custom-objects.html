@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Custom objects in TypeScript</title>
+<style>body{max-width:640px;margin:40px auto;padding:16px;font:18px system-ui}canvas{width:100%;border:1px solid #aaa;border-radius:12px}button{font:inherit;padding:8px 16px}</style>
+<h1>Two custom object types</h1>
+<p>A token moves while a label shows the destination of the current step. Restart returns to the beginning, paused.</p>
+<canvas width="600" height="120" aria-label="A moving purple token and its destination position"></canvas>
+<p><button id="play">Play</button> <button id="pause">Pause</button> <button id="restart">Restart</button></p>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js"}}</script>
+<script type="module">
+import { mountCustomObjects } from '../dist/examples/custom-objects.js';
+const mount = () => mountCustomObjects(document.querySelector('canvas'), document.querySelector('#play'), document.querySelector('#pause'), document.querySelector('#restart'));
+let dispose = mount();
+window.addEventListener('pagehide', () => dispose());
+window.addEventListener('pageshow', event => { if (event.persisted) dispose = mount(); });
+</script>
+</html>

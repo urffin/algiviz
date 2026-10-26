@@ -55,6 +55,11 @@ player.advance(100); // Advance playback by 100 ms.
 Более крупный пример с собственными объектами описан в
 [разборе BFS](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md).
 
+Цельный пример на TypeScript с двумя типами объектов и кнопками запуска, паузы
+и перезапуска: [custom-objects.ts](../examples/custom-objects.ts).
+[Инструкция запуска](../docs/minimal-example.md#a-complete-typescript-integration)
+объясняет типизацию, подключение и очистку при удалении визуализации.
+
 ## Установка
 
 ```sh

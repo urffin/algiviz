@@ -27,11 +27,12 @@ try {
     const installed = JSON.parse(await readFile(join(workspace, "node_modules/@grundyjs/algiviz/package.json"), "utf8"));
     if (installed.version !== pkg.version) throw new Error("Installed version differs from packed version");
     await copyFile(join(root, "test/package-consumer.ts"), join(workspace, "consumer.ts"));
+    await copyFile(join(root, "examples/custom-objects.ts"), join(workspace, "custom-objects.ts"));
     await writeFile(join(workspace, "tsconfig.json"), JSON.stringify({
         compilerOptions: { target: "ES2022", module: "NodeNext", strict: true,
             noUncheckedIndexedAccess: true, exactOptionalPropertyTypes: true,
             noEmitOnError: true, types: [], outDir: "output" },
-        files: ["consumer.ts"]
+        files: ["consumer.ts", "custom-objects.ts"]
     }));
     execFileSync(process.execPath, [join(root, "node_modules/typescript/bin/tsc"), "-p", join(workspace, "tsconfig.json")], { stdio: "inherit" });
     execFileSync(process.execPath, [join(workspace, "output/consumer.js")], { cwd: workspace, stdio: "inherit" });
