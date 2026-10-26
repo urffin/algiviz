@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.9.0 — 2026-10-27
+
+- Add player.nextStep() for exact manual stepping in generic and array players.
+- Finish an in-progress transition without reading another snapshot; at a boundary,
+  consume one next snapshot. Complete terminal holds without extra source reads.
+- Preserve rendering, disposal and error handling contracts; avoid rounding errors
+  when mixing timed advancement with manual steps.
+- Update the minimal example, English/Russian READMEs and highlighted GIF to use nextStep().
+
 ## 0.8.3 â€” 2026-10-27
 
 - Streamline English and Russian READMEs around installation and a minimal example.
