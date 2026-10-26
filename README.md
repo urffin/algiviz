@@ -30,7 +30,7 @@ renderer help you get started.
 
 Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
-and rendering API. This README describes version 0.8.1.
+and rendering API. This README describes version 0.8.2.
 
 ## Start with one custom object
 
@@ -80,7 +80,7 @@ click advances one 1000 ms step: the player resumes the loop until the next
 `current`. Each snapshot is created afresh and never mutated. Call
 `player.dispose()` when removing the visualization.
 
-[Interactive walkthrough with sequential code highlighting](examples/visualization-pipeline.html)
+[Interactive walkthrough with sequential code highlighting](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html)
 shows initial rendering behind a Start button and the subsequent loop iterations
 (Russian UI). This is an example page in the repository; run it locally using
 the setup instructions below.
@@ -460,7 +460,7 @@ included in the npm archive.
 
 | Example | What it demonstrates |
 | --- | --- |
-| [How a frame is made](examples/visualization-pipeline.html) | AlgiViz visualizes its own generator → player → scene → renderer pipeline (Russian walkthrough) |
+| [How a frame is made](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html) | AlgiViz visualizes its own generator → player → scene → renderer pipeline (Russian walkthrough) |
 | [Sorting lab](examples/index.html) | Insertion and bubble sort using the array operations and renderer |
 | [Merge sort](examples/merge.html) | Custom state and a two-row scene for the main array and buffer |
 | [Quick sort partitions](examples/quick.html) | Lomuto and three-way partitioning with custom state and scene |

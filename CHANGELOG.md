@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.2 — 2026-10-27
+
+- Add a self-contained minimal usage example to both English and Russian READMEs.
+- Link an interactive walkthrough of generator states, playback and custom drawing.
+- Add repository examples with sequential code highlighting and explicit startup.
+- No runtime API or behavior changes; examples remain outside the npm package.
+
 ## 0.8.1 — 2026-10-26
 
 - Use Array-prefixed internal types in public declarations and make
