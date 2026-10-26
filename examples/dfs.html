@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Graph depth-first search</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}
+main{max-width:1080px;margin:auto;padding:24px}a{color:#c4b5fd}p{color:#cbd5e1}
+canvas{display:block;width:100%;border:1px solid #475569;border-radius:12px}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:18px 0}
+label{display:flex;flex-direction:column;gap:6px;min-width:0}button,select,input{font:inherit}
+button,select{min-width:0;min-height:44px;padding:8px 12px;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px}
+button{cursor:pointer}button:disabled,input:disabled{opacity:.45;cursor:not-allowed}
+input[type=range]{width:100%;min-height:44px}:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}
+.inputs{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(0,1fr)) auto;gap:12px;align-items:end;margin:18px 0}
+#error{color:#fca5a5}#status,#depths,#counters{font-variant-numeric:tabular-nums}
+#status,#stack,#depths,#result{overflow-wrap:anywhere}#status{min-height:3em}
+@media(max-width:640px){main{padding:16px}.inputs{grid-template-columns:repeat(2,minmax(0,1fr))}.preset,#apply{grid-column:1/-1}
+.playback{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.playback label{grid-column:1/-1}}
+</style></head><body><main>
+<a href="./index.html">All examples</a><h1>Graph · depth-first search</h1>
+<p>Follow one branch, then return to the caller and resume its next neighbor.
+The explicit call frames reproduce recursive DFS. A DFS tree path is not necessarily shortest.
+Try the isolated H, the start itself or no target.</p>
+<form id="input-form" class="inputs">
+<label class="preset">Graph<select id="graph"></select></label>
+<label>Start vertex<select id="start"></select></label>
+<label>Target vertex<select id="target"></select></label>
+<button id="apply" type="submit">Apply</button></form>
+<div class="controls"><label>Playback mode<select id="mode"></select></label></div>
+<canvas width="960" height="344" role="img" aria-label="DFS graph and call stack; operations, tree depths and the path are described below"></canvas>
+<p>Outline: unseen. Purple: active calls. Yellow and a ring: current call.
+A check mark: finished. Purple edges: DFS tree. Green: restored path.
+Stack bottom is at the bottom; each frame records the next neighbor cursor.</p>
+<div class="controls playback"><button id="play">Play</button><button id="restart">Restart</button>
+<button id="previous">Previous step</button><button id="next">Next step</button>
+<label>Speed<select id="speed"></select></label></div>
+<p id="mode-note"></p><label>Playback position<input id="seek" type="range" min="0" value="0" step="1"></label>
+<p id="error" role="alert"></p><p id="status" role="status" aria-live="polite"></p>
+<p id="counters"></p><p id="stack"></p><p id="depths" aria-label="DFS tree depths"></p><p id="result"></p>
+<p>Apply loads the selected graph, start and target. Restart and mode changes use the applied inputs.
+Mark a vertex before entering its call, so cycles never create repeated calls. The parent frame advances its
+neighbor cursor before entering a child. Return resumes the suspended frame.</p>
+<p>With the default neighbor order, discovery is A, B, D, G, E, C, F; returns are F, C, E, G, D, B, A.
+The path to F has 6 edges: A → B → D → G → E → C → F. BFS on the same graph finds A → C → F (2 edges).
+H is unreachable. Depth is DFS tree depth, not shortest distance. Traversal finishes before path reconstruction.</p>
+<p>The algorithm, graph, vertex/edge/call objects and renderer belong to this example. Only simple undirected
+graphs are accepted (self-loops and parallel edges are rejected). Neighbor order follows edge input order.
+Traversal takes O(V + E) time and O(V) auxiliary space; full immutable history takes up to O(V(V + E)) space.
+Generator mode retains adjacent snapshots, with snapshot creation still costing time. No package export is added.</p>
+<p><a href="./graph.html">Compare with BFS and its queue</a></p>
+</main><script type="importmap">{"imports":{"@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/playback":"../dist/playback/index.js"}}</script>
+<script type="module" src="./dfs-demo.mjs"></script></body></html>

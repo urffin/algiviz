@@ -431,6 +431,7 @@ included in the npm archive.
 | [Heap sort](examples/heap.html) | Max-heap construction and extraction with synchronized tree and array identities |
 | [Binary search](examples/binary-search.html) | First occurrence in sorted input, closed search intervals and lazy playback |
 | [Graph BFS](examples/graph.html) | Queue, layers, shortest paths, unreachable targets and history/generator playback |
+| [Graph DFS](examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Tree traversal](examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 
 All examples reuse [demo-player.mjs](examples/demo-player.mjs) and
@@ -513,6 +514,26 @@ O(V(V + E)) snapshot-space upper bound, separately from graph and algorithm data
 See [Building a custom graph example](docs/custom-graph-example.md) for the
 algorithm, projection and renderer boundaries. This example uses the existing
 public APIs and adds no graph-specific package exports.
+
+### Graph depth-first search
+
+Open [examples/dfs.html](examples/dfs.html) to compare DFS with BFS on the same
+graph layouts. Choose a graph, start and optional target. Each explicit call frame
+stores its next neighbor cursor; marking happens before entry. Returning pops the
+finished call and resumes its parent. The stack contains the active branch only.
+
+The default discovery order is A, B, D, G, E, C, F; return order is F, C, E, G, D, B, A.
+The DFS tree path to F has 6 edges; BFS finds A → C → F with 2. DFS tree depth is not
+a shortest distance. H is unreachable. Traversal finishes before reconstructing the
+path. The example accepts simple undirected graphs; self-loops and parallel edges
+are rejected. Neighbor order follows edge input order.
+
+The fixed-capacity stack moves below the graph on narrow screens. Canvas uses
+logical coordinates and DPR. Both modes share one immutable generator and the
+[shared demo player](examples/demo-player.mjs); restart reuses applied inputs.
+Generator playback is lazy, while history enables backward seeks. The traversal
+uses O(V + E) time and O(V) auxiliary space; snapshot history has a separate
+O(V(V + E)) upper bound. No graph API or built-in DFS is added to the package.
 
 ## Development
 
