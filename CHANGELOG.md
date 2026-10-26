@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.8.1 — 2026-10-26
 
 - Use Array-prefixed internal types in public declarations and make
   createArrayRenderer the canonical function name, retaining createSortRenderer
@@ -10,6 +10,8 @@
 - Verify the full runtime export inventory, private-path rejection, all public
   types and headless compilation against the installed package.
 - Add a strictly typed custom-object starter and optimize merge example drawing.
+- Expand application-owned BFS examples and add DFS with a call stack and
+  backtracking. Algorithms remain outside the npm package.
 
 ## 0.8.0 — 2026-10-19
 

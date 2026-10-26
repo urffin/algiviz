@@ -30,7 +30,7 @@ renderer help you get started.
 
 Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
-and rendering API. This README describes version 0.8.0.
+and rendering API. This README describes version 0.8.1.
 
 ## Start with one custom object
 

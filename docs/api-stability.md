@@ -3,6 +3,11 @@
 Updated 2026-10-26 against 0.8.0 and local commits b51979b / 69fc68e.
 This is a preparation plan, not authorization to publish 1.0.
 
+Decision on 2026-10-26: defer 1.0 and release the compatible changes as 0.8.1.
+Continue validating the API through new application-owned visualizations before
+committing to long-term compatibility. New examples alone do not require a minor
+package version. The checks below remain preparation criteria, not a release date.
+
 ## Public boundary
 
 Keep `/playback`, `/scene`, `/array` and `/canvas`. Algorithms, domain types,
