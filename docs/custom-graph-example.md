@@ -1,70 +1,113 @@
 # Build your own algorithm and object types
 
-The graph example combines createStepEmitter (since 0.6.0) with existing APIs: createPlayer/createTimeline
-through the shared demo controller, createSceneProjector and createSceneRenderer.
-No registration or graph-specific code is needed in the library.
+The graph example combines `createStepEmitter` (since 0.6.0) with the public
+`/playback` and `/scene` APIs. Algorithms, topology, layout and drawing belong to
+the example. No graph-specific API or built-in BFS is added to the package.
 
 ## 1. Own the algorithm and immutable state
 
-[graph-algorithm.mjs](../examples/graph-algorithm.mjs) exports graphSteps(graph, start).
-It uses the optional createStepEmitter helper from /playback for indexing and step wrappers; it imports no renderer. This helper requires AlgiViz 0.6.0 or later. The input is an undirected graph:
-nodes have unique string IDs and optional labels; edges have unique IDs and
-from/to node IDs. Self-loops and parallel edges are valid.
+[graph-algorithm.mjs](../examples/graph-algorithm.mjs) exports
+`graphSteps(graph, start, target = null)`. Nodes have unique nonempty string IDs
+and optional labels. Edges have unique IDs and `from`/`to` node IDs. The graph is
+undirected and unweighted; self-loops and parallel edges remain valid. Neighbor
+order follows the edge input order, without sorting inside BFS.
 
-The generator creates one emitter per traversal. Its callback builds the state snapshot; emitting an event returns a frozen step with index, state and event. It copies and validates
-input on first consumption, freezes the topology once, and creates fresh snapshots
-for the queue, completed nodes, discovery edges and distances. A source must emit
-its final event; here that is kind: "finished".
+The generator validates and copies input on first consumption. It freezes the
+topology once and builds independent frozen snapshots of the waiting queue,
+processed vertices, discovery edges, distances, parents, path and counters.
+The current vertex is outside the queue and is cleared when it is settled.
+`createStepEmitter` numbers and wraps steps; it does not clone application data.
 
-BFS marks a node when it is enqueued. Cycles therefore do not enqueue it twice.
-Only the chosen connected component is traversed. Distances are shortest unweighted
-path lengths; null means not yet discovered, or unreachable at completion.
+BFS marks a vertex when enqueuing it. A cycle or parallel edge therefore cannot
+enqueue it twice. An array head index implements the queue without repeated
+`shift()` calls. Only the component reachable from the start is traversed.
 
-Changing the algorithm requires only a new source with this contract and a renderer
-that understands its state/events. Generic playback does not freeze application data.
+The optional target never stops the traversal early. `traversal-done` marks the
+boundary between traversal and path restoration. For a reachable target, `path`
+events follow parents from target to start; the `finished` state contains the
+reversed, start-to-target path. No target or an unreachable target produces no
+`path` events. Start equal to target produces a one-vertex path of zero edges,
+after the entire reachable component has been processed.
+
+`parents` records each vertex's parent and the exact discovery edge ID. This
+distinguishes parallel edges when highlighting a path. Parents are assigned once.
+Changing neighbor order can change the chosen shortest path, but not its length.
+Distances are shortest lengths by edge count. `null` means undiscovered during
+traversal and unreachable only after traversal completes.
+
+The counters are explicit: `discoveredCount` includes the start,
+`processedCount` counts fully examined vertices, `edgeChecks` counts inspected
+adjacency entries including skips, and `maxQueueSize` excludes the current vertex.
+A non-loop edge has two adjacency entries; a self-loop has one. Restoring a path
+does not change traversal counters.
 
 ## 2. Project state into visual objects
 
-[graph-scene.mjs](../examples/graph-scene.mjs) defines GraphObjects using a JSDoc
-type map: vertex, connection and queueEntry. Object IDs are prefixed by visual role:
-the same domain vertex can appear both on the graph and in the queue.
+[graph-scene.mjs](../examples/graph-scene.mjs) defines a JSDoc type map with
+`vertex`, `connection` and `queueEntry`. Visual IDs include their role: a vertex
+and its queue entry are distinct visual objects. Connections refer to their
+endpoint scene IDs; path flags use the chosen parent edge IDs.
 
-graphScene(state) decides what exists and which objects are active. It contains no
-Canvas drawing calls, animation progress or viewport dimensions. Connections refer
-to the scene IDs of their endpoints.
-
-createSceneProjector(graphScene) reuses at most two endpoint scenes. Reuse the
-projector across frames. Treat the returned scenes as immutable; do not mutate
-retained state to invalidate the cache.
+`graphScene(state)` contains no drawing calls, animation progress or viewport
+dimensions. `createSceneProjector(graphScene)` retains at most two immutable
+endpoint scenes. Reuse it across frames and do not mutate snapshots to invalidate
+its cache. Reconstruction and reverse seeks restore the same vertex and edge IDs.
 
 ## 3. Supply the visualizations
 
-createSceneRenderer receives a handler for each type:
-- vertex chooses its fill from traversal status and displays its distance;
-- connection uses scene.get to find endpoint objects and draws the examined edge;
-- queueEntry interpolates its queue position and uses presence to enter/exit.
+`createSceneRenderer` receives three handlers:
 
-Layout is calculated using current Canvas dimensions. It is application policy,
-not graph state. The examined-edge dot follows an actual edge; dequeueing does not
-pretend that BFS walks directly between successive queue entries.
+- `vertex` shows discovery/queue/processing state, a distance, start/target marks
+  and path membership;
+- `connection` resolves endpoints with `scene.get`, highlights the examined,
+  discovery or path edge, and animates examination along that edge;
+- `queueEntry` uses a separate visual ID, interpolates queue positions and fades
+  entering/exiting entries.
 
-The renderer saves/restores Canvas state and clears the full frame. For SVG or DOM,
-reconcile against the frame instead, including stale elements after a seek.
+The graph stays fixed during a run. Presets have application-owned layouts;
+custom graphs fall back to a circular layout. Parallel edges use separate curves.
+On narrow screens the queue is below the graph and wraps; on wide screens it is
+beside the graph. Space for a queue of up to V−1 waiting vertices (one for a
+singleton graph) is reserved without consuming the generator to measure it.
 
-## 4. Connect playback
+The controller sets the Canvas bitmap size using devicePixelRatio and supplies
+logical CSS width/height to the renderer. Drawing preserves that transform; its
+layout must not use bitmap pixels as CSS geometry. Handlers save/restore Canvas
+state. Retained SVG/DOM backends would instead reconcile the full frame and remove
+stale objects even when a seek skips exit transitions.
 
-[graph-demo.mjs](../examples/graph-demo.mjs) supplies a source factory, isTerminal
-and render callback to the existing demo-player.mjs. The factory captures the selected
-start; restart and mode changes create a fresh generator for that input. Controls,
-timing, seeking, cancellation and reduced motion are shared with the other examples.
+## 4. Connect shared playback
 
-## What this example tells us about the API
+[graph-demo.mjs](../examples/graph-demo.mjs) supplies a source factory,
+`isTerminal` and render callback to the existing `demo-player.mjs`. The terminal
+event remains `kind: "finished"`, including when there is no target or no path.
+Controls, timing, speed, reduced motion, cancellation and seeking come from that
+shared controller and `player-settings.mjs`.
 
-The existing scene/playback contract expresses the graph, queue and traversal. The optional createStepEmitter helper removes repeated numbering and step-wrapper construction from this example and merge sort.
-The recurring application work is immutable snapshot construction, source factories,
-scene ID conventions and contextual status text. Those are candidates for further
-reuse, but no generic graph DSL or automatic deep-cloning policy is introduced.
+Choose a graph, start and target, then press Apply. The factory captures those
+applied inputs. Restart and mode changes create a fresh generator for the same
+inputs, rather than reading unapplied fields. A rejected load leaves the previous
+session usable. Full history retains snapshots and enables backward seeks;
+generator playback consumes lazily and retains adjacent states, without first
+collecting a complete traversal. Replacing or leaving a generator closes it.
 
-Full snapshots copy traversal state. Generator playback avoids retaining all steps,
-but does not eliminate snapshot allocation, graph storage or algorithm work.
-The example uses a small fixed graph; it is not a large-graph performance benchmark.
+The default preset uses vertices A–H and edges AB, AC, BD, BE, CE, CF, DG, EG, FG.
+From A, processing order is A, B, C, D, E, F, G; H is unreachable. There are 18
+adjacency inspections, maximum queue size 3, and one shortest path to G is
+A → B → D → G. Other presets are a chain, a diamond with tied paths, and the
+original disconnected graph used in the README GIF.
+
+## Cost and verification
+
+With adjacency lists, BFS and input copying take O(V + E) time and store
+O(V + E) graph/adjacency data plus O(V) traversal data. Restoring one path takes
+O(V). Snapshot construction copies O(V) data per event: the generator avoids
+retaining history, but does not remove that allocation cost. Full history has an
+O(V(V + E)) time/space upper bound for snapshot copying/retention, plus shared
+topology. The small fixed demo is not a large-graph performance benchmark.
+
+Tests compare distances and paths with independent Floyd–Warshall on all 1,099
+simple graphs on 1–5 vertices and all 32,110 start/optional-target combinations.
+Other checks cover loops, parallel discovery edges, immutable input and history,
+counters, early disposal, history/generator frame equivalence, reverse seeks,
+wrapped queues and logical Canvas geometry with a DPR-scaled bitmap.

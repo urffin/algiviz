@@ -422,7 +422,7 @@ included in the npm archive.
 | [Quick sort partitions](examples/quick.html) | Lomuto and three-way partitioning with custom state and scene |
 | [Heap sort](examples/heap.html) | Max-heap construction and extraction with synchronized tree and array identities |
 | [Binary search](examples/binary-search.html) | First occurrence in sorted input, closed search intervals and lazy playback |
-| [Graph BFS](examples/graph.html) | Cycles, disconnected components, shortest distances and an animated queue |
+| [Graph BFS](examples/graph.html) | Queue, layers, shortest paths, unreachable targets and history/generator playback |
 | [Tree traversal](examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 
 All examples reuse [demo-player.mjs](examples/demo-player.mjs) and
@@ -485,11 +485,22 @@ No tree-specific algorithm or renderer is added to the package.
 
 ### Graph breadth-first search
 
-Open [examples/graph.html](examples/graph.html) and choose a start vertex.
-The example explores only its connected component, marks vertices when enqueued
-and shows shortest unweighted distances. Its custom vertex, connection and queue
-entry types are projected from immutable algorithm state. Both playback modes use
-the same generator; changing the start creates a new traversal.
+Open [examples/graph.html](examples/graph.html), choose a graph, start and optional
+target, then Apply. BFS marks on enqueue, completes the reachable component and
+restores one shortest path by following parents. Try the isolated H, a zero-edge
+path to the start, a chain or a diamond with equal-length paths. The original
+disconnected graph shown in the README GIF remains a separate preset.
+
+The scene shows a fixed graph, an animated queue, distances, parent/path edges and
+explicit discovery/processing/neighbor-inspection counters. On narrow screens the
+queue wraps below the graph. Canvas rendering uses logical coordinates and DPR.
+Self-loops and parallel edges remain supported; neighbor order can change which
+shortest path is chosen, but not its length.
+
+Both playback modes use the same immutable generator. Restart and mode changes
+replay the applied graph/start/target, not draft controls. Generator mode consumes
+lazily without collecting history. Full history enables backward seeks and has an
+O(V(V + E)) snapshot-space upper bound, separately from graph and algorithm data.
 
 See [Building a custom graph example](docs/custom-graph-example.md) for the
 algorithm, projection and renderer boundaries. This example uses the existing

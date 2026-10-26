@@ -3,32 +3,49 @@
 <title>AlgiViz · Graph breadth-first search</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}
-main{max-width:960px;margin:auto;padding:24px}a{color:#c4b5fd}p{color:#cbd5e1}
+main{max-width:1080px;margin:auto;padding:24px}a{color:#c4b5fd}p{color:#cbd5e1}
 canvas{display:block;width:100%;border:1px solid #475569;border-radius:12px}
 .controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:18px 0}
-label{display:flex;flex-direction:column;gap:6px}button,select,input{font:inherit}
-button,select{padding:8px 12px;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px}
+label{display:flex;flex-direction:column;gap:6px;min-width:0}button,select,input{font:inherit}
+button,select{min-width:0;min-height:44px;padding:8px 12px;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px}
 button{cursor:pointer}button:disabled,input:disabled{opacity:.45;cursor:not-allowed}
-input[type=range]{width:100%}:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}
-#error{color:#fca5a5}#status,#distances{font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;min-height:44px}:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}
+.inputs{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(0,1fr)) auto;gap:12px;align-items:end;margin:18px 0}
+#error{color:#fca5a5}#status,#distances,#counters{font-variant-numeric:tabular-nums}
+#status,#queue,#distances,#result{overflow-wrap:anywhere}#status{min-height:3em}
+@media(max-width:640px){main{padding:16px}.inputs{grid-template-columns:repeat(2,minmax(0,1fr))}.preset,#apply{grid-column:1/-1}
+.playback{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.playback label{grid-column:1/-1}}
 </style></head><body><main>
-<a href="./index.html">← All examples</a><h1>Graph · breadth-first search</h1>
-<p>Explore an undirected graph with cycles and a disconnected component. BFS discovers each
-reachable vertex once and computes its shortest distance in edges from the selected start.</p>
-<div class="controls"><label>Start vertex<select id="start"></select></label>
-<label>Playback mode<select id="mode"></select></label></div>
-<canvas width="960" height="510" role="img" aria-label="BFS graph and queue; operations and distances are described below"></canvas>
-<p>Yellow: current vertex and examined edge. Purple: queued. Green: completed vertices and
-discovery edges. Gray: undiscovered. The dot follows the examined edge; queue entries move when dequeued.</p>
-<div class="controls"><button id="play">Play</button><button id="restart">Restart</button>
+<a href="./index.html">All examples</a><h1>Graph · breadth-first search</h1>
+<p>Explore an undirected graph layer by layer with a first-in, first-out queue.
+Complete the reachable component, then restore one shortest path by following parents.
+Try the isolated H as a target, or choose the start itself for a zero-edge path.</p>
+<form id="input-form" class="inputs">
+<label class="preset">Graph<select id="graph"></select></label>
+<label>Start vertex<select id="start"></select></label>
+<label>Target vertex<select id="target"></select></label>
+<button id="apply" type="submit">Apply</button></form>
+<div class="controls"><label>Playback mode<select id="mode"></select></label></div>
+<canvas width="960" height="344" role="img" aria-label="BFS graph and queue; operations, distances and the path are described below"></canvas>
+<p>Outline: undiscovered. Purple: queued. Yellow and a ring: current. A check mark: processed.
+Purple edges: discovery tree. Green: restored path. S / T marks a vertex that is both start and target. A dot follows the examined edge.
+The graph stays fixed; the queue moves briefly when entries change.</p>
+<div class="controls playback"><button id="play">Play</button><button id="restart">Restart</button>
 <button id="previous">Previous step</button><button id="next">Next step</button>
 <label>Speed<select id="speed"></select></label></div>
 <p id="mode-note"></p><label>Playback position<input id="seek" type="range" min="0" value="0" step="1"></label>
 <p id="error" role="alert"></p><p id="status" role="status" aria-live="polite"></p>
-<p id="distances" aria-label="Distances from start"></p>
-<p>Vertices are marked on enqueue, so cycles and repeated edges do not duplicate work.
-Only the start component is visited. Restart or change the start to explore another component.</p>
-<p>The algorithm, immutable graph state and vertex/connection/queueEntry visualizations belong
-to this example. AlgiViz supplies playback, cached scene projection and dispatch. No graph API is added to the package.</p>
+<p id="counters"></p><p id="queue"></p><p id="distances" aria-label="Distances from start"></p><p id="result"></p>
+<p>Apply loads the selected graph, start and target. Restart and mode changes replay the applied inputs.
+Vertices are marked on enqueue, so cycles and repeated edges do not enqueue them twice.
+An undirected edge is inspected from both ends; a self-loop has one adjacency entry.
+Neighbor order can change the chosen shortest path, but not its length. Dash means not discovered yet;
+after traversal ∞ means unreachable. Restoring the path does not change traversal counters.</p>
+<p>The default example has 8 vertices, 9 edges and an isolated H. From A, the queue reaches a maximum
+size of 3; the traversal processes 7 vertices and inspects 18 neighbor entries. To G, it restores A → B → D → G.</p>
+<p>The algorithm, graph state and vertex/connection/queueEntry visualizations belong to this example.
+AlgiViz supplies playback, cached projection and scene dispatch. The generator retains adjacent snapshots;
+full history keeps every snapshot. Building snapshots still costs work and memory in either mode.
+No graph API or built-in BFS algorithm is added to the package.</p>
 </main><script type="importmap">{"imports":{"@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/playback":"../dist/playback/index.js"}}</script>
 <script type="module" src="./graph-demo.mjs"></script></body></html>
