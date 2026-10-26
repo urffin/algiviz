@@ -425,6 +425,7 @@ included in the npm archive.
 
 | Example | What it demonstrates |
 | --- | --- |
+| [How a frame is made](examples/visualization-pipeline.html) | AlgiViz visualizes its own generator → player → scene → renderer pipeline (Russian walkthrough) |
 | [Sorting lab](examples/index.html) | Insertion and bubble sort using the array operations and renderer |
 | [Merge sort](examples/merge.html) | Custom state and a two-row scene for the main array and buffer |
 | [Quick sort partitions](examples/quick.html) | Lomuto and three-way partitioning with custom state and scene |

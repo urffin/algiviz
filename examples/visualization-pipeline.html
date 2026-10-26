@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz — минимальный пример</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c1423;color:#e6edf8;font:15px/1.5 system-ui}main{max-width:1400px;margin:auto;padding:20px}a{color:#91bfff}h1{font-size:26px;margin:8px 0}p{color:#b7c7dc;margin:8px 0 16px}.workspace{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);gap:20px;align-items:start}.panel{min-width:0;padding:16px;background:#142036;border:1px solid #2a3a55;border-radius:12px}h2{font-size:16px;margin:0 0 12px}pre{font:13px/1.4 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:0;color:#83e6cf}canvas{width:100%;display:block;background:#0c1423;border-radius:8px}button{font:inherit;padding:8px 14px;background:#245d55;color:white;border:1px solid #64dfc5;border-radius:8px;cursor:pointer}.controls{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}code{color:#83e6cf}small{color:#b7c7dc}footer{margin-top:12px}@media(max-width:700px){.workspace{grid-template-columns:1fr}main{padding:12px}}
+#code span{display:block;border-left:3px solid transparent;padding-left:5px}#code .executed{background:#23473f;border-left-color:#64dfc5;color:#eafff8}#code .drawing{background:#3d3058;border-left-color:#b39bff}#trace-status{min-height:66px;color:#e6edf8}#position{color:#b39bff;font:16px ui-monospace,monospace}button:disabled{background:#263244;color:#8c9aaf;border-color:#465166;cursor:not-allowed}</style>
+<main>
+<h1>Один круг · четыре состояния</h1>
+<p>Нажмите «Начать», чтобы увидеть создание первого кадра. Затем переходите к следующим состояниям.</p>
+<div class="workspace"><section class="panel"><h2>Генератор → обработчик → плеер</h2><pre id="code"></pre></section>
+<section class="panel"><h2>Результат</h2><canvas width="600" height="160" aria-label="Круг перемещается слева направо"></canvas><div class="controls"><button id="start">Начать</button><button id="next" hidden>Следующее состояние</button><button id="restart" hidden>Сначала</button></div><p id="trace-status" role="status"></p><p id="position"></p><p id="generator-status"></p><p>Три клика — три новые позиции: <code>40 → 200 → 360 → 560</code>. Первый снимок создаётся после нажатия «Начать».</p><p>Одинаковый <code>id</code> связывает состояния круга. Тип <code>dot</code> выбирает обработчик, обработчик рисует <code>current.data.x</code> без интерполяции.</p><small>Показан код движения. Подсветка замедленно воспроизводит записанные вызовы; сам JavaScript выполняется синхронно. Зелёный — обработка, фиолетовый — рисование. HTML: Canvas 600 × 160 и две кнопки с id next и restart. Импорты ниже подключены к локальной сборке через import map.</small></section></div>
+<footer><a href="visualization-pipeline-walkthrough.html">Подробный разбор</a> · <a href="index.html">Все примеры</a></footer>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js"}}</script>
+<script type="module" id="example">
+import { createPlayer } from '@grundyjs/algiviz/playback';
+import { createSceneRenderer } from '@grundyjs/algiviz/scene';
+window.startExample = () => { // @teaching
+let ctx = document.querySelector('canvas').getContext('2d');
+ctx = window.teachingContext; // @teaching
+function* steps() {
+    for (const [index, x] of [40, 200, 360, 560].entries()) {
+        window.traceCode('loop', { index, x }); // @teaching
+        const state = { objects: [{ id: 'circle', type: 'dot', data: { x } }] };
+        window.traceCode('yield', { index, x }); // @teaching
+        yield { index, state, event: index === 3 ? 'done' : 'position' };
+    }
+}
+const renderer = createSceneRenderer({
+    dot(ctx, { current }) {
+        const x = current.data.x;
+        window.traceCode('drawing', { x }); // @teaching
+        ctx.beginPath();
+        ctx.arc(x, 80, 18, 0, Math.PI * 2);
+        ctx.fillStyle = '#b39bff';
+        ctx.fill();
+    },
+});
+const player = createPlayer(steps(), {
+    stepDurationMs: 1000, finalHoldMs: 0,
+    isTerminal: step => step.event === 'done',
+    render(frame) {
+        window.traceCode('render'); // @teaching
+        ctx.clearRect(0, 0, 600, 160);
+        renderer.render(ctx, frame);
+    },
+});
+document.querySelector('#next').onclick = () => player.advance(1000);
+document.querySelector('#restart').onclick = () => location.reload();
+}; // @teaching
+</script>
+<script>
+// Record actual calls, then replay their order without running the algorithm twice.
+const code = document.querySelector('#code');
+const lines = document.querySelector('#example').textContent.trim().split('\n')
+    .filter(line => !line.includes('// @teaching'));
+const nodes = lines.map(line => {
+    const node = document.createElement('span'); node.textContent = line;
+    code.append(node); return node;
+});
+const ranges = { create: [19, 21], loop: [5, 6], yield: [7, 7], drawing: [11, 16], render: [22, 24], advance: [27, 27] };
+const descriptions = {
+    create: 'Нажатие «Начать»: createPlayer(steps(), …) запрашивает первое состояние и сразу вызывает render.',
+    advance: 'Нажатие: advance(1000) проходит ровно один шаг плеера.',
+    loop: 'Плеер возобновляет steps(): цикл берёт следующую координату.',
+    yield: 'yield передаёт новый снимок плееру и приостанавливает steps().',
+    render: 'Плеер вызывает render: очистка Canvas и передача кадра renderer.',
+    drawing: 'Обработчик dot берёт current.data.x и рисует круг в новой позиции.',
+};
+const next = document.querySelector('#next');
+const context = document.querySelector('canvas').getContext('2d');
+const buffer = document.createElement('canvas');
+buffer.width = 600; buffer.height = 160;
+window.teachingContext = buffer.getContext('2d');
+let recording = [{kind:'create'}], elapsed = 0, busy = true, timer, finalImage, finalData;
+next.disabled = true;
+
+document.querySelector('#generator-status').textContent = 'Плеер ещё не создан; steps() ещё не выполнялся.';
+document.querySelector('#trace-status').textContent = 'Нажмите «Начать»: создание плеера → цикл → yield → render → точка.';
+document.querySelector('#position').textContent = 'Canvas пока пуст';
+document.querySelector('#start').onclick = () => {
+    document.querySelector('#start').disabled = true;
+    document.querySelector('#start').hidden = true;
+    document.querySelector('#restart').hidden = false;
+    window.startExample();
+};
+document.querySelector('#restart').onclick = () => location.reload();
+function position(data) {
+    document.querySelector('#position').textContent = 'x = ' + Math.round(data.x);
+}
+function highlight(kind) {
+    nodes.forEach(node => { node.className = ''; });
+    const [start, end] = ranges[kind];
+    for (let i = start - 1; i < end; i++) nodes[i].classList.add('executed', kind === 'drawing' ? 'drawing' : 'processing');
+}
+window.traceCode = (kind, data) => {
+    if (recording) recording.push({kind, data});
+    if (kind === 'drawing' && elapsed === 0 && recording?.[0].kind === 'create') {
+        // Replay initialization after the synchronous module has finished drawing.
+        queueMicrotask(() => {
+            const calls = recording; recording = null;
+            replay(calls);
+        });
+    }
+};
+function finish() {
+    clearTimeout(timer);
+    if (finalImage) context.putImageData(finalImage, 0, 0);
+    if (finalData) position(finalData);
+    busy = false; next.disabled = elapsed >= 3000; next.hidden = next.disabled;
+}
+function replay(calls) {
+        finalImage = window.teachingContext.getImageData(0, 0, 600, 160);
+        finalData = calls.find(call => call.kind === 'drawing')?.data;
+
+        let index = 0;
+        function show() {
+            const call = calls[index];
+            highlight(call.kind);
+            if (call.kind === 'create') document.querySelector('#position').textContent = 'Canvas пока пуст';
+            if (call.kind === 'loop') document.querySelector('#generator-status').textContent = 'Цикл steps(): index = ' + call.data.index + ', x = ' + call.data.x + '. Создаётся новый снимок.';
+            if (call.kind === 'yield') document.querySelector('#generator-status').textContent = 'yield: плеер получил x = ' + call.data.x + '. Генератор приостановлен.';
+            if (call.kind === 'advance') document.querySelector('#generator-status').textContent = 'Плеер запрашивает следующее состояние у steps().';
+            document.querySelector('#trace-status').textContent = (elapsed === 0 ? 'Первый кадр · ' : '') + (index+1) + '/' + calls.length + ' · ' + (call.kind === 'loop' && elapsed === 0 ? 'Первое обращение к steps(): цикл берёт index = 0, x = 40.' : descriptions[call.kind]);
+            if (call.kind === 'drawing') {
+                context.putImageData(finalImage, 0, 0); position(call.data);
+            }
+            index++;
+            if (index < calls.length) timer = setTimeout(show, 1200);
+            else {
+                finish();
+                if (elapsed === 0) document.querySelector('#trace-status').textContent += ' Первый кадр готов; теперь можно запросить следующее состояние.';
+                if (elapsed >= 3000) {
+                    document.querySelector('#trace-status').textContent += ' Переход завершён.';
+                    document.querySelector('#generator-status').textContent = 'Событие done завершило переход. Плеер закрыл генератор; новой итерации нет.';
+                }
+            }
+        }
+        show();
+}
+next.addEventListener('click', event => {
+    if (busy) { event.stopImmediatePropagation(); return; }
+    busy = true; next.disabled = true;
+
+    recording = [{kind:'advance'}];
+    // A new task runs after all click listeners, including the normal onclick.
+    timer = setTimeout(() => {
+        const calls = recording; recording = null; elapsed += 1000;
+        replay(calls);
+    });
+}, {capture:true});
+window.addEventListener('pagehide', finish);
+</script>
+</main></html>

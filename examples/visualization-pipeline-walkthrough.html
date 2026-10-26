@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz — как рождается кадр</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c1423;color:#e6edf8;font:16px/1.5 system-ui}main{max-width:1250px;margin:auto;padding:24px}a{color:#91bfff}h1{font-size:30px;margin:12px 0}p{color:#b7c7dc}button,select{padding:10px 14px;border:1px solid #405577;border-radius:8px;background:#1c2c46;color:#edf4ff;font:inherit}button{cursor:pointer}button:disabled{opacity:.35}#next{background:#245d55;border-color:#64dfc5}.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}.workspace{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}.panel{min-width:0;background:#142036;border:1px solid #2a3a55;border-radius:14px;padding:20px}.panel h2{font-size:19px;margin:0 0 16px}pre,code{font:14px/1.7 ui-monospace,monospace}pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:0;color:#83e6cf}#snippet{min-height:330px}#status{color:#64dfc5}#explanation{min-height:72px;margin-top:0}.flow{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin:22px 0}.value{background:#0c1423;border:1px solid #405577;border-radius:10px;padding:16px;text-align:center;min-height:120px;display:flex;flex-direction:column;justify-content:center;gap:12px}.value small{color:#aabbd2}.value strong{font:20px/1.5 ui-monospace,monospace;white-space:pre-line}#takeaway{font-size:19px;color:#e6edf8;border-left:3px solid #64dfc5;padding-left:14px}canvas{display:block;width:100%;background:#0c1423;border-radius:10px}#formula{color:#b39bff;font:18px/1.6 ui-monospace,monospace}#stage-track{font-size:14px;color:#aabbd2;margin:14px 0}details{margin-top:20px}summary{cursor:pointer;color:#aabbd2}details pre{position:relative;max-height:400px;overflow:auto;margin:16px 0;overscroll-behavior:contain}input[type=range]{width:100%}[hidden]{display:none!important}@media(max-width:700px){main{padding:16px}.workspace{grid-template-columns:1fr}#snippet{min-height:0}}
+</style><main>
+<a href="index.html">← Примеры</a>
+<h1>Как два числа становятся движением круга</h1>
+<p>Читайте слева код, справа — что он изменил. Переходите дальше, когда разобрались.</p>
+<div class="controls"><button id="previous">Назад</button><button id="next">Следующий шаг →</button><button id="play">Автопоказ</button><button id="restart">Сначала</button><label>Темп <select id="speed"></select></label></div>
+<p id="status" role="status"></p><div id="stage-track"></div>
+<div class="workspace">
+<section class="panel"><h2 id="code-title">Код этого шага</h2><pre id="snippet"></pre></section>
+<section class="panel"><h2 id="detail-title"></h2><p id="explanation"></p>
+<div class="flow" id="flow"><div class="value"><small id="before-label"></small><strong id="before-value"></strong></div><span aria-hidden="true">→</span><div class="value"><small id="after-label"></small><strong id="after-value"></strong></div></div>
+<div id="drawing" hidden><canvas id="result" width="600" height="160" aria-label="Круг между координатами 0 и 100"></canvas><p id="formula"></p></div>
+<p id="takeaway"></p>
+</section></div>
+<details><summary>Полный исходный код</summary><p>Фрагменты выше взяты из этого файла. Сопоставление объектов выполняется внутри renderer.</p><a href="visualization-pipeline-source.mjs">Открыть файл</a><pre id="source"></pre></details>
+<details><summary>Данные кадра и настройки плеера</summary><pre id="data"></pre><label>Режим <select id="mode"></select></label><p id="mode-note"></p><label for="seek">Позиция</label><input id="seek" type="range" min="0" value="0"></details>
+<p id="error" role="alert"></p><p><small>Это учебные остановки на пути одного кадра, а не трассировка внутренних вызовов. Объяснение воспроизводится через AlgiViz.</small></p>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js"}}</script><script type="module" src="visualization-pipeline-demo.mjs"></script></main></html>
