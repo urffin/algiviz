@@ -6,6 +6,9 @@ export interface Player<S, E> {
     readonly finished: boolean;
     /** Advance by playback time; pass zero to redraw without consuming steps. */
     advance(deltaMs: number): Frame<S, E>;
+    /** Finish the current transition, or consume one next step at a boundary.
+     * At the terminal boundary, finish the hold. Renders once, even if finished. */
+    nextStep(): Frame<S, E>;
     /** Close the source early. The last frame remains readable. */
     dispose(): void;
 }
@@ -17,7 +20,7 @@ export function createPlayer<S, E>(
         stepDurationMs: number;
         finalHoldMs: number;
         isTerminal: (step: Step<S, E>) => boolean;
-        /** Called initially and on each advance, including advance(0). */
+        /** Called initially and on each advance or nextStep, including after completion. */
         render?: (frame: Frame<S, E>) => void;
     }
 ): Player<S, E> {
@@ -74,6 +77,34 @@ export function createPlayer<S, E>(
     return Object.freeze({
         get frame() { return frame(); },
         get finished() { return finished; },
+        nextStep(): Frame<S, E> {
+            if (disposed) throw new Error("Player has been disposed");
+            try {
+                if (!finished) {
+                    if (elapsed === stepDurationMs) {
+                        if (options.isTerminal(current)) {
+                            hold = finalHoldMs;
+                        } else {
+                            const next = iterator.next();
+                            if (next.done) throw new RangeError("Step source ended without a terminal step");
+                            previous = current;
+                            current = next.value;
+                        }
+                    }
+                    // Assign the endpoint directly: time arithmetic can undershoot or
+                    // spill a rounding remainder into an unwanted additional step.
+                    elapsed = stepDurationMs;
+                    complete();
+                }
+                const result = frame();
+                options.render?.(result);
+                return result;
+            } catch (error) {
+                disposed = true;
+                closeAfterFailure();
+                throw error;
+            }
+        },
         advance(deltaMs: number): Frame<S, E> {
             if (disposed) throw new Error("Player has been disposed");
             if (!Number.isFinite(deltaMs) || deltaMs < 0) {

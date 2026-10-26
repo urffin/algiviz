@@ -35,6 +35,19 @@ graph/tree algorithm or operation set.
 
 ## Playback contracts
 
+`player.nextStep()` finishes an in-progress transition or, at a boundary, consumes
+exactly one next snapshot and returns its frame with `progress === 1`. It invokes
+`render` once. Construction already renders the first snapshot. At the terminal
+boundary it completes the remaining final hold; after completion it only redraws.
+Use `finalHoldMs: 0` for manual stepping without an extra hold click:
+
+```js
+nextButton.onclick = () => player.nextStep();
+```
+
+`advance(deltaMs)` remains available for timed animation, including between calls
+to `nextStep()`. Both methods throw after disposal.
+
 Playback retains application snapshots without cloning them; keep steps, state and
 events immutable while they are in use. A timeline copies the input array only.
 Timeline timing follows array position, and finite sample times are clamped to its
