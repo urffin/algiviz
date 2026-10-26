@@ -31,28 +31,30 @@ export function createMergeRenderer(en, original) {
         const width = ctx.canvas.width;
         const height = ctx.canvas.height;
         const count = Math.max(1, original.length);
-        return { width, height, pitch: (width - 32) / count, top: [70, height / 2 + 40], rowHeight: height / 2 - 125 };
-    }
-    function cell(ctx, geometry, item, index, row, color, opacity = 1) {
-        const { pitch, top, rowHeight } = geometry;
-        const x = 16 + index * pitch;
-        const baseline = top[row] + rowHeight * 0.65;
-        const barHeight = item ? (item.value / scale) * rowHeight * (item.value < 0 ? 0.25 : 0.6) : 0;
-        ctx.save();
-        ctx.globalAlpha = opacity;
-        ctx.fillStyle = color;
+        const pitch = (width - 32) / count;
+        const top = [70, height / 2 + 40];
+        const rowHeight = height / 2 - 125;
         const gap = Math.min(2, pitch * 0.15);
-        ctx.fillRect(x + gap, baseline - Math.max(0, barHeight), pitch - 2 * gap, Math.max(2, Math.abs(barHeight)));
+        return { width, height, pitch, top, rowHeight, gap, barWidth: pitch - 2 * gap,
+            baselines: top.map(y => y + rowHeight * 0.65),
+            labelFont: `${Math.min(17, Math.max(9, pitch * 0.45))}px Arial` };
+    }
+    function cell(ctx, geometry, item, index, row, color) {
+        const { pitch, top, rowHeight, gap, barWidth, baselines, labelFont } = geometry;
+        const x = 16 + index * pitch;
+        const baseline = baselines[row];
+        const barHeight = item ? (item.value / scale) * rowHeight * (item.value < 0 ? 0.25 : 0.6) : 0;
+        ctx.fillStyle = color;
+        ctx.fillRect(x + gap, baseline - Math.max(0, barHeight), barWidth, Math.max(2, Math.abs(barHeight)));
         if (pitch >= 24) {
             ctx.fillStyle = "#f9fafb";
-            ctx.font = `${Math.min(17, Math.max(9, pitch * 0.45))}px Arial`;
+            ctx.font = labelFont;
             ctx.textAlign = "center";
             ctx.fillText(mergeItemLabel(item, original), x + pitch / 2, top[row] + rowHeight + 13);
             ctx.fillStyle = "#9ca3af";
             ctx.font = "10px Arial";
             ctx.fillText(String(index), x + pitch / 2, top[row] + rowHeight + 28);
         }
-        ctx.restore();
     }
     const renderer = createSceneRenderer({
         cell({ ctx, geometry }, object, scene) {
@@ -100,7 +102,13 @@ export function createMergeRenderer(en, original) {
                 ctx.fillStyle = "#d1d5db";
                 ctx.fillText(`[${start}, ${middle}) | [${middle}, ${end})`, 16, 42);
             }
-            renderer.render({ ctx, geometry }, projectFrame(frame));
+            // Cells share one Canvas scope; each sets its own color/text style.
+            // Avoid saving/restoring the entire Canvas state for every dense cell.
+            ctx.save();
+            try {
+                ctx.globalAlpha = 1;
+                renderer.render({ ctx, geometry }, projectFrame(frame));
+            } finally { ctx.restore(); }
             const event = frame.event;
             if (frame.progress < 1 && (event.type === "buffer-write" || event.type === "main-write")) {
                 const from = event.type === "buffer-write" ? event.from : event.index;
@@ -109,6 +117,7 @@ export function createMergeRenderer(en, original) {
                 const targetRow = 1 - sourceRow;
                 const item = event.type === "buffer-write" ? state.buffer[to] : state.main[to];
                 ctx.save();
+                ctx.globalAlpha = 1;
                 ctx.translate((to - from) * pitch * frame.progress, (top[targetRow] - top[sourceRow]) * frame.progress);
                 cell(ctx, geometry, item, from, sourceRow, "#fbbf24");
                 ctx.restore();
