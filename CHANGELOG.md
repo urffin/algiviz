@@ -1,6 +1,15 @@
 # Changelog
 
-## 0.9.0 � 2026-10-27
+## 0.10.0 — 2026-10-27
+
+- Default finalHoldMs to zero for generic and array players.
+- Make stepDurationMs optional for manual nextStep playback; advance(0) redraws,
+  while positive timed advancement requires an explicit duration.
+- Allow array players to omit the options object entirely.
+- Simplify the minimal example and both READMEs; refresh the highlighted GIF.
+- Preserve explicit timing behavior and timeline requirements.
+
+## 0.9.0 — 2026-10-27
 
 - Add player.nextStep() for exact manual stepping in generic and array players.
 - Finish an in-progress transition without reading another snapshot; at a boundary,
