@@ -1,4 +1,4 @@
-import type { Item, SortEvent, SortStep } from "./types.js";
+import type { Item, ArrayEvent, ArrayStep } from "./types.js";
 
 /** Internal mutable workspace; only emit() exposes immutable snapshots. */
 export function createSortTrace(values: readonly number[]) {
@@ -20,7 +20,7 @@ export function createSortTrace(values: readonly number[]) {
     let comparisons = 0;
     let writes = 0;
 
-    function emit(event: SortEvent): SortStep {
+    function emit(event: ArrayEvent): ArrayStep {
         if (event.type === "compare") comparisons++;
         if (event.type === "shift" || event.type === "insert") writes++;
         if (event.type === "swap") writes += 2;

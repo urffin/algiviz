@@ -3,6 +3,12 @@
 Inspected 2026-10-26 at 49be3cc, package version 0.8.0. This document proposes
 compatibility decisions; it does not change exports or authorize a release.
 
+Implementation follow-up (working tree): recommendations 2-4 are implemented.
+Array* names now appear throughout declarations; the Sort renderer alias remains
+identical. Palette roles accept explicit undefined. Packed-consumer checks now
+cover the complete runtime inventory, root/private-path rejection, all public
+types and ES2022-only headless compilation. No exports were added or removed.
+
 ## Inventory
 
 Runtime namespaces were imported directly and compared with source entry points

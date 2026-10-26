@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- Use Array-prefixed internal types in public declarations and make
+  createArrayRenderer the canonical function name, retaining createSortRenderer
+  as the identical compatibility alias.
+- Allow explicit undefined palette roles with exactOptionalPropertyTypes,
+  matching the existing runtime fallback to theme defaults.
+- Verify the full runtime export inventory, private-path rejection, all public
+  types and headless compilation against the installed package.
+- Add a strictly typed custom-object starter and optimize merge example drawing.
+
 ## 0.8.0 — 2026-10-19
 
 - Add partial custom colors to the Canvas array renderer and its compatible alias,

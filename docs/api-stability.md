@@ -55,7 +55,9 @@ async source or automatic scheduling guarantee is proposed for 1.0.
 ## Remaining release gates, in order
 
 The [public export audit](public-exports-audit.md) records the inventory and
-recommended compatibility decisions. Its follow-up checks remain to be implemented.
+recommended compatibility decisions. Declaration cleanup and its follow-up
+package checks are implemented in the working tree; candidate CI and consumer
+integration checks remain release gates.
 
 1. Review the public declarations and exported names, especially Sort-named Canvas
    compatibility aliases, and decide what is intentionally supported long term.

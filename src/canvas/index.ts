@@ -1,11 +1,11 @@
-import type { Item, SortSnapshot } from "../array/types.js";
-import type { ArrayFrame as SortFrame } from "../array/timeline.js";
+import type { Item, ArraySnapshot } from "../array/types.js";
+import type { ArrayFrame } from "../array/timeline.js";
 import { createSceneRenderer, createSceneProjector, type Scene } from "../scene/index.js";
 
 export type ArrayObjects = { bar: { item: Item; index: number; held: boolean } };
 
 /** Adapts array identities to the same public scene contract used by custom objects. */
-export function arrayScene(state: SortSnapshot): Scene<ArrayObjects> {
+export function arrayScene(state: ArraySnapshot): Scene<ArrayObjects> {
     return Object.freeze({
         objects: Object.freeze(
             [...positions(state)].map(([id, data]) =>
@@ -25,7 +25,7 @@ export interface ArrayPalette {
     readonly held: string;
 }
 /** Overrides are copied at renderer creation; omitted roles retain the theme color. */
-export type ArrayPaletteOverrides = Partial<ArrayPalette>;
+export type ArrayPaletteOverrides = { readonly [Role in keyof ArrayPalette]?: ArrayPalette[Role] | undefined };
 export interface ArrayRendererOptions {
     readonly theme: "light" | "dark";
     readonly colors?: ArrayPaletteOverrides;
@@ -50,9 +50,9 @@ const palettes = {
     }
 };
 
-export { createSortRenderer as createArrayRenderer };
+export { createArrayRenderer as createSortRenderer };
 
-function positions(state: SortSnapshot): Map<string, { item: Item; index: number; held: boolean }> {
+function positions(state: ArraySnapshot): Map<string, { item: Item; index: number; held: boolean }> {
     const result = new Map<string, { item: Item; index: number; held: boolean }>();
     state.slots.forEach((item, index) => {
         if (item) result.set(item.id, { item, index, held: false });
@@ -62,7 +62,7 @@ function positions(state: SortSnapshot): Map<string, { item: Item; index: number
 }
 
 /** Stateless full-frame renderer. Bitmap dimensions determine layout and video size. */
-export function createSortRenderer(options: ArrayRendererOptions) {
+export function createArrayRenderer(options: ArrayRendererOptions) {
     const colors = { ...palettes[options.theme] };
     for (const key of Object.keys(colors) as (keyof ArrayPalette)[]) {
         const color = options.colors?.[key];
@@ -70,7 +70,7 @@ export function createSortRenderer(options: ArrayRendererOptions) {
     }
     const projectFrame = createSceneProjector(arrayScene);
     return Object.freeze({
-        render(ctx: CanvasRenderingContext2D, frame: SortFrame): void {
+        render(ctx: CanvasRenderingContext2D, frame: ArrayFrame): void {
             const { width, height } = ctx.canvas;
             if (width <= 0 || height <= 0) return;
             const projected = projectFrame(frame);
@@ -98,7 +98,7 @@ export function createSortRenderer(options: ArrayRendererOptions) {
                 ctx.fillStyle = colors.text;
                 ctx.fillText(`AlgiViz · ${event.type} · ${frame.stepIndex}`, margin, height * 0.07);
                 if (!count) ctx.fillText("Empty array", margin, baseline);
-                const sceneRenderer = createSceneRenderer<ArrayObjects, CanvasRenderingContext2D, SortFrame["event"]>({
+                const sceneRenderer = createSceneRenderer<ArrayObjects, CanvasRenderingContext2D, ArrayFrame["event"]>({
                     bar(ctx, transition) {
                         const object = transition.current ?? transition.previous!;
                         const id = object.id;

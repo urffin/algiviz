@@ -1,5 +1,5 @@
 import { createSortTrace } from "./snapshot-builder.js";
-import type { Item, SortStep } from "./types.js";
+import type { Item, ArrayStep } from "./types.js";
 
 export interface SortedRegions {
     readonly sortedPrefixLength?: number;
@@ -9,15 +9,15 @@ export interface ArrayTrace {
     readonly length: number;
     readonly held: Item | null;
     at(index: number): Item | null;
-    start(regions?: SortedRegions): SortStep;
-    compare(left: number | "held", right: number | "held"): SortStep;
-    highlight(positions: readonly (number | "held")[]): SortStep;
-    swap(left: number, right: number, regions?: SortedRegions): SortStep;
-    select(from: number, regions?: SortedRegions): SortStep;
-    shift(from: number, to: number, regions?: SortedRegions): SortStep;
-    insert(to: number, regions?: SortedRegions): SortStep;
-    pass(end: number, regions?: SortedRegions): SortStep;
-    done(regions?: SortedRegions): SortStep;
+    start(regions?: SortedRegions): ArrayStep;
+    compare(left: number | "held", right: number | "held"): ArrayStep;
+    highlight(positions: readonly (number | "held")[]): ArrayStep;
+    swap(left: number, right: number, regions?: SortedRegions): ArrayStep;
+    select(from: number, regions?: SortedRegions): ArrayStep;
+    shift(from: number, to: number, regions?: SortedRegions): ArrayStep;
+    insert(to: number, regions?: SortedRegions): ArrayStep;
+    pass(end: number, regions?: SortedRegions): ArrayStep;
+    done(regions?: SortedRegions): ArrayStep;
 }
 
 /** Operations own mutations, counters and immutable snapshots, but no algorithm. */
@@ -103,12 +103,12 @@ export function createArrayTrace(values: readonly number[]): ArrayTrace {
 }
 
 export interface ArrayAlgorithm {
-    iterate(values: readonly number[]): Generator<SortStep, void, unknown>;
-    steps(values: readonly number[]): readonly SortStep[];
+    iterate(values: readonly number[]): Generator<ArrayStep, void, unknown>;
+    steps(values: readonly number[]): readonly ArrayStep[];
 }
 /** Each iterator owns its workspace; input is read on its first next(). */
-export function defineArrayAlgorithm(algorithm: (array: ArrayTrace) => Generator<SortStep, void, unknown>): ArrayAlgorithm {
-    function* iterate(values: readonly number[]): Generator<SortStep, void, unknown> {
+export function defineArrayAlgorithm(algorithm: (array: ArrayTrace) => Generator<ArrayStep, void, unknown>): ArrayAlgorithm {
+    function* iterate(values: readonly number[]): Generator<ArrayStep, void, unknown> {
         yield* algorithm(createArrayTrace(values));
     }
     return Object.freeze({ iterate, steps: (values: readonly number[]) => Object.freeze([...iterate(values)]) });

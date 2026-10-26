@@ -21,9 +21,15 @@ try {
     const pkg = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
     await writeFile(join(workspace, "package.json"), JSON.stringify({ private: true, type: "module" }));
     runNpm(["install", "--offline", "--ignore-scripts", "--no-audit", "--no-fund", join(workspace, filename)], workspace);
-    execFileSync(process.execPath, ["--input-type=module", "-e",
-        "import assert from 'node:assert/strict'; await assert.rejects(import('@grundyjs/algiviz/core'), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });"],
-        { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/package-exports.mjs"), join(workspace, "exports.mjs"));
+    execFileSync(process.execPath, [join(workspace, "exports.mjs")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/package-headless.ts"), join(workspace, "headless.ts"));
+    await writeFile(join(workspace, "tsconfig.headless.json"), JSON.stringify({
+        compilerOptions: { target: "ES2022", module: "NodeNext", strict: true,
+            exactOptionalPropertyTypes: true, lib: ["ES2022"], types: [], noEmit: true },
+        files: ["headless.ts"]
+    }));
+    execFileSync(process.execPath, [join(root, "node_modules/typescript/bin/tsc"), "-p", join(workspace, "tsconfig.headless.json")], { stdio: "inherit" });
     const installed = JSON.parse(await readFile(join(workspace, "node_modules/@grundyjs/algiviz/package.json"), "utf8"));
     if (installed.version !== pkg.version) throw new Error("Installed version differs from packed version");
     await copyFile(join(root, "test/package-consumer.ts"), join(workspace, "consumer.ts"));

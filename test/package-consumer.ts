@@ -60,7 +60,12 @@ const emittedStep = emitStep("done");
 check(emittedStep.index === 0 && emittedStep.state.count === 1 &&
     emittedStep.event === "done" && Object.isFrozen(emittedStep), "Step emitter export failed");
 
-import type { ArrayPalette, ArrayPaletteOverrides, ArrayRendererOptions } from '@grundyjs/algiviz/canvas';
+import { createSortRenderer, type ArrayObjects, type ArrayPalette, type ArrayPaletteOverrides, type ArrayRendererOptions } from '@grundyjs/algiviz/canvas';
+const typedObjects: Scene<ArrayObjects> = arrayScene(lazy.frame.current);
+check(typedObjects.objects.length === 3, 'ArrayObjects public type failed');
+const fallbackColors: ArrayPaletteOverrides = { bar: undefined };
+createArrayRenderer({ theme: 'dark', colors: fallbackColors });
+createSortRenderer({ theme: 'light', colors: fallbackColors });
 const palette: ArrayPalette = {background:'white',text:'black',bar:'gray',sorted:'green',active:'orange',held:'purple'};
 const paletteOverrides: ArrayPaletteOverrides = { active: palette.active };
 const paletteOptions: ArrayRendererOptions = { theme: 'light', colors: paletteOverrides };

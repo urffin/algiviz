@@ -1,6 +1,6 @@
 export type Item = Readonly<{ id: string; value: number }>;
 
-export type SortEvent = Readonly<
+export type ArrayEvent = Readonly<
     | { type: "start" }
     | { type: "select"; itemId: string; from: number }
     | { type: "compare"; leftId: string; rightId: string }
@@ -12,7 +12,7 @@ export type SortEvent = Readonly<
     | { type: "done" }
 >;
 
-export interface SortSnapshot {
+export interface ArraySnapshot {
     readonly slots: readonly (Item | null)[];
     readonly held: Item | null;
     /** Sorted leading occupied slots; during insertion it ends at the hole. */
@@ -24,9 +24,9 @@ export interface SortSnapshot {
     readonly writes: number;
 }
 
-export interface SortStep {
+export interface ArrayStep {
     readonly index: number;
-    readonly event: SortEvent;
+    readonly event: ArrayEvent;
     /** Complete immutable state immediately after the event. */
-    readonly state: SortSnapshot;
+    readonly state: ArraySnapshot;
 }
