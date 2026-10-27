@@ -139,6 +139,7 @@ document.querySelector('#next').onclick = () => player.nextStep();
 | [Бинарный поиск](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | Первое вхождение в отсортированном массиве, замкнутый интервал поиска и ленивое воспроизведение |
 | [BFS графа](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Очередь, слои, кратчайшие пути, недостижимая цель и история/генератор |
 | [DFS графа](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Стек вызовов, возвраты, глубина и путь дерева; история/генератор |
+| [Лабиринт](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Генерация рандомизированным DFS, волна BFS, поиск DFS, циклы и недостижимый выход; история/генератор |
 | [Обход дерева](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Собственные узлы, рёбра и указатель с Canvas и SVG с сохранением элементов |
 
 [Полный каталог, локальный запуск и особенности алгоритмов](https://github.com/urffin/algiviz/blob/master/docs/ru/examples.md).

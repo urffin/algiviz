@@ -141,6 +141,7 @@ Generators reduce retained history, not the cost of producing each snapshot.
 | [Binary search](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | First occurrence in sorted input, closed search intervals and lazy playback |
 | [Graph BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Queue, layers, shortest paths, unreachable targets and history/generator playback |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
+| [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 
 [Full catalog, local setup and algorithm details](https://github.com/urffin/algiviz/blob/master/docs/examples.md).

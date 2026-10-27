@@ -25,6 +25,7 @@ included in the npm archive.
 | [Binary search](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | First occurrence in sorted input, closed search intervals and lazy playback |
 | [Graph BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Queue, layers, shortest paths, unreachable targets and history/generator playback |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
+| [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 
 The minimal `visualization-pipeline.html` walkthrough uses its own start button and sequential highlighting; shared speeds and playback modes do not apply to it.
@@ -129,3 +130,16 @@ logical coordinates and DPR. Both modes share one immutable generator and the
 Generator playback is lazy, while history enables backward seeks. The traversal
 uses O(V + E) time and O(V) auxiliary space; snapshot history has a separate
 O(V(V + E)) upper bound. No graph API or built-in DFS is added to the package.
+
+
+## Maze generation and pathfinding
+
+Open [examples/maze.html](https://github.com/urffin/algiviz/blob/master/examples/maze.html). Choose seeded generation, then BFS or DFS on the same dimensions and seed; Apply loads that stage. Coordinates are one-based column,row. Restart and mode changes replay applied inputs, without reading draft controls. Generation always starts at the top-left and finishes the whole grid. Searches stop when the exit becomes current.
+
+Randomized DFS uses versioned Mulberry32 and one Fisher–Yates shuffle per entered cell. It creates a connected tree with N−1 passages. Thus both searches restore its unique route. The 3×2 cycle preset demonstrates BFS's 1-transition route versus DFS's 5-transition route; the disconnected preset demonstrates No path. BFS marks on enqueue, uses NESW order and counts waiting cells without the current cell. DFS uses explicit suspended calls, with the current cell included in its stack.
+
+The example reuses the shared demo player and its limits: **64 cells in history**, **2000 in generator mode**. The count is width × height, not a side length. A mode change above the history limit preserves the existing session and reports an error. Larger grids hide unreadable cell labels; the text previews at most 16 frontier entries.
+
+The wall model, immutable generator, aggregate maze-grid object and drawing belong to the example. It uses only public /playback and /scene exports. Topology preparation and algorithm working space are O(N). Each animation snapshot copies O(N) data: full history uses O(N²) memory; lazy generator playback retains adjacent snapshots in O(N), but snapshot creation still costs O(N) per event. This is deliberately different from the website's packed/checkpointed history; its 201×201 UI limit does not apply here.
+
+Sources: [algorithm](https://github.com/urffin/algiviz/blob/master/examples/maze-algorithm.mjs), [scene](https://github.com/urffin/algiviz/blob/master/examples/maze-scene.mjs), [shared-player integration](https://github.com/urffin/algiviz/blob/master/examples/maze-demo.mjs). The [website walkthrough](https://grundyjs.ru/algorithms/maze/) explains the guarantees, counters and search code. No npm API or release is added.

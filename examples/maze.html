@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AlgiViz · Maze generation and pathfinding</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #101827;
+        color: #f1f5f9;
+        font: 16px/1.5 system-ui;
+      }
+      main {
+        max-width: 1080px;
+        margin: auto;
+        padding: 24px;
+      }
+      a {
+        color: #c4b5fd;
+      }
+      p,
+      small {
+        color: #cbd5e1;
+      }
+      canvas {
+        display: block;
+        width: 100%;
+        border: 1px solid #475569;
+        border-radius: 12px;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: end;
+        margin: 18px 0;
+      }
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 0;
+      }
+      button,
+      select,
+      input {
+        font: inherit;
+      }
+      button,
+      select,
+      input:not([type="range"]) {
+        min-width: 0;
+        min-height: 44px;
+        padding: 8px 10px;
+        color: inherit;
+        background: #1e293b;
+        border: 1px solid #64748b;
+        border-radius: 6px;
+      }
+      button {
+        cursor: pointer;
+      }
+      button:disabled,
+      input:disabled,
+      select:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      input[type="range"] {
+        width: 100%;
+        min-height: 44px;
+      }
+      :focus-visible {
+        outline: 2px solid #c4b5fd;
+        outline-offset: 3px;
+      }
+      .inputs {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        align-items: end;
+        margin: 18px 0;
+      }
+      #error {
+        color: #fca5a5;
+        min-height: 1.5em;
+      }
+      #status,
+      #frontier,
+      #result,
+      #counters {
+        overflow-wrap: anywhere;
+        font-variant-numeric: tabular-nums;
+      }
+      #status {
+        min-height: 3em;
+      }
+      @media (max-width: 640px) {
+        main {
+          padding: 16px;
+        }
+        .inputs {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .playback {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .playback label {
+          grid-column: 1/-1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <a href="./index.html">All examples</a>
+      <h1>Maze generation and pathfinding</h1>
+      <p>
+        Carve a maze with randomized DFS, then run a BFS wave or DFS with
+        backtracking on the same walls. The generated maze is a tree: both
+        searches find its unique route. Choose the cycle preset to see a longer
+        DFS route.
+      </p>
+      <form id="input-form" class="inputs">
+        <label
+          >Maze source<select id="preset">
+            <option value="seeded">Seeded maze</option>
+            <option value="cycle">3 × 2 cycle</option>
+            <option value="blocked">2 × 2 disconnected</option>
+          </select></label
+        >
+        <label
+          >Stage<select id="stage">
+            <option value="generation">Generation · randomized DFS</option>
+            <option value="bfs">Search · BFS wave</option>
+            <option value="dfs">Search · DFS backtracking</option>
+          </select></label
+        >
+        <label
+          >Width<input
+            id="width"
+            type="number"
+            min="1"
+            step="1"
+            value="7"
+            required
+        /></label>
+        <label
+          >Height<input
+            id="height"
+            type="number"
+            min="1"
+            step="1"
+            value="5"
+            required
+        /></label>
+        <label
+          >Seed<input
+            id="seed"
+            type="text"
+            inputmode="numeric"
+            value="2"
+            required
+        /></label>
+        <label
+          >Start (column,row)<input id="start" value="1,1" required
+        /></label>
+        <label
+          >Exit (column,row)<input id="target" value="7,5" required
+        /></label>
+        <button id="apply" type="submit">Apply maze and stage</button>
+      </form>
+      <div class="controls">
+        <label>Playback mode<select id="mode"></select></label
+        ><small id="limit"></small>
+      </div>
+      <p id="error" role="alert"></p>
+      <canvas
+        id="maze"
+        width="960"
+        height="480"
+        role="img"
+        aria-label="Maze walls, current cell, visited cells, frontier and restored path; operations and queue or stack are described below"
+      ></canvas>
+      <div class="controls playback">
+        <button id="play">Play</button><button id="restart">Restart</button>
+        <button id="previous">Previous step</button
+        ><button id="next">Next step</button>
+        <label>Speed<select id="speed"></select></label>
+      </div>
+      <label
+        >Playback position<input
+          id="seek"
+          type="range"
+          min="0"
+          value="0"
+          step="1"
+      /></label>
+      <p id="mode-note"></p>
+      <p id="status" role="status" aria-live="polite"></p>
+      <p id="counters"></p>
+      <p id="frontier"></p>
+      <p id="result"></p>
+      <p>
+        S: start, T: exit, ring: current cell. Purple: waiting queue or
+        suspended calls; yellow: current; gray: finished; green: restored route.
+        BFS numbers are shortest distances; DFS levels are tree depths. Dense
+        grids hide labels. Coordinates start at 1; numeric ids in code start at
+        0.
+      </p>
+      <p>
+        Apply captures the input. Restart and mode changes replay the applied
+        input, not draft form values. Generation always starts at the top-left
+        cell and finishes the whole maze. Search stops when T becomes current.
+        Changing search endpoints does not change the walls. Presets have no
+        invented generation history.
+      </p>
+      <p>
+        For 7 × 5, seed 2, generation visits 35 cells, opens 34 passages and
+        checks 140 directions. BFS and DFS both find 12 transitions from (1,1)
+        to (7,5). In the cycle preset BFS uses 1 transition and DFS uses 5. The
+        disconnected exit is unreachable; selecting the start as exit produces a
+        zero-transition path.
+      </p>
+      <p>
+        The algorithm, wall model and aggregate maze-grid scene object belong to
+        this example. The public /playback and /scene APIs handle frames and
+        rendering dispatch. The algorithm uses O(N) working memory. Immutable
+        snapshots copy O(N) data per event; full history takes O(N²) memory,
+        while generator mode retains adjacent snapshots in O(N) memory but still
+        pays their copying cost. The website's packed/checkpointed history is a
+        different implementation.
+      </p>
+      <p>
+        <a href="./graph.html">Graph BFS</a> ·
+        <a href="./dfs.html">Graph DFS</a> ·
+        <a
+          href="https://grundyjs.ru/algorithms/maze/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Full walkthrough on grundyjs.ru</a
+        >
+      </p>
+    </main>
+    <script type="importmap">
+      {
+        "imports": {
+          "@grundyjs/algiviz/scene": "../dist/scene/index.js",
+          "@grundyjs/algiviz/playback": "../dist/playback/index.js"
+        }
+      }
+    </script>
+    <script type="module" src="./maze-demo.mjs"></script>
+  </body>
+</html>
