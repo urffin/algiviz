@@ -54,14 +54,14 @@ npm install @grundyjs/algiviz
 ```
 
 ```js
-import { createPlayer } from '@grundyjs/algiviz/playback';
+import { createStatePlayer } from '@grundyjs/algiviz/playback';
 import { createSceneRenderer } from '@grundyjs/algiviz/scene';
 
 const ctx = document.querySelector('canvas').getContext('2d');
-function* steps() {
-    for (const [index, x] of [40, 200, 360, 560].entries()) {
+function* states() {
+    for (const x of [40, 200, 360, 560]) {
         const state = { objects: [{ id: 'circle', type: 'dot', data: { x } }] };
-        yield { index, state, event: index === 3 ? 'done' : 'position' };
+        yield state;
     }
 }
 const renderer = createSceneRenderer({
@@ -72,8 +72,7 @@ const renderer = createSceneRenderer({
         ctx.fill();
     },
 });
-const player = createPlayer(steps(), {
-    isTerminal: step => step.event === 'done',
+const player = createStatePlayer(states(), {
     render(frame) {
         ctx.clearRect(0, 0, 600, 160);
         renderer.render(ctx, frame);
@@ -82,7 +81,9 @@ const player = createPlayer(steps(), {
 document.querySelector('#next').onclick = () => player.nextStep();
 ```
 
-Первый кадр (`x = 40`) рисуется сразу внутри `createPlayer(...)`. Каждый клик
+После последнего состояния ещё один клик обнаруживает конец генератора и сохраняет позицию круга. Чтения вперёд нет.
+
+Первый кадр (`x = 40`) рисуется сразу внутри `createStatePlayer(...)`. Каждый клик
 запрашивает следующее состояние: плеер возобновляет цикл до следующего
 `yield`, затем вызывает отрисовку. Здесь нет плавного перехода: обработчик рисует
 только `current`. Каждый снимок создаётся заново и больше не изменяется. При
@@ -105,7 +106,7 @@ document.querySelector('#next').onclick = () => player.nextStep();
 
 ## Режимы воспроизведения
 
-| | Генератор: `createPlayer` | История: `createTimeline` |
+| | Генератор: `createPlayer` / `createStatePlayer` | История: `createTimeline` |
 | --- | --- | --- |
 | Получение шагов | По мере продвижения | Все шаги заранее |
 | Хранение | Соседние снимки | Вся история |

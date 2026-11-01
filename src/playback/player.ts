@@ -26,6 +26,15 @@ export function createPlayer<S, E>(
         render?: (frame: Frame<S, E>) => void;
     }
 ): Player<S, E> {
+    return createPlayback(steps, options);
+}
+
+/** Internal engine shared by explicit-step and exhaustion-based sources. */
+export function createPlayback<S, E>(
+    steps: Iterable<Step<S, E>>,
+    options: Parameters<typeof createPlayer<S, E>>[1],
+    finishOnExhaustion = false,
+): Player<S, E> {
     const manual = options.stepDurationMs === undefined;
     // Unit endpoint for manual steps; positive timed advancement is disallowed.
     const { stepDurationMs = 1, finalHoldMs = 0 } = options;
@@ -59,8 +68,10 @@ export function createPlayer<S, E>(
     let hold = 0;
     let disposed = false;
     let finished = false;
+    let exhausted = false;
+    const terminal = () => exhausted || options.isTerminal(current);
     const complete = () => {
-        if (options.isTerminal(current) && elapsed === stepDurationMs) {
+        if (terminal() && elapsed === stepDurationMs) {
             previous = current;
             close();
             finished = hold >= finalHoldMs;
@@ -86,13 +97,17 @@ export function createPlayer<S, E>(
             try {
                 if (!finished) {
                     if (elapsed === stepDurationMs) {
-                        if (options.isTerminal(current)) {
+                        if (terminal()) {
                             hold = finalHoldMs;
                         } else {
                             const next = iterator.next();
-                            if (next.done) throw new RangeError("Step source ended without a terminal step");
-                            previous = current;
-                            current = next.value;
+                            if (next.done) {
+                                if (!finishOnExhaustion) throw new RangeError("Step source ended without a terminal step");
+                                exhausted = true;
+                            } else {
+                                previous = current;
+                                current = next.value;
+                            }
                         }
                     }
                     // Assign the endpoint directly: time arithmetic can undershoot or
@@ -121,13 +136,18 @@ export function createPlayer<S, E>(
                 let remaining = deltaMs;
                 while (remaining > 0 && !finished) {
                     if (elapsed === stepDurationMs) {
-                        if (options.isTerminal(current)) {
+                        if (terminal()) {
                             hold += Math.min(remaining, finalHoldMs - hold);
                             complete();
                             break;
                         }
                         const next = iterator.next();
-                        if (next.done) throw new RangeError("Step source ended without a terminal step");
+                        if (next.done) {
+                            if (!finishOnExhaustion) throw new RangeError("Step source ended without a terminal step");
+                            exhausted = true;
+                            complete();
+                            continue;
+                        }
                         previous = current;
                         current = next.value;
                         elapsed = 0;

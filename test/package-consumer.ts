@@ -55,6 +55,12 @@ renderer.render(output, projectedFrame);
 check(output.at(-1) === 5, 'Installed scene projector failed');
 
 const { createStepEmitter } = await import("@grundyjs/algiviz/playback");
+const { createStatePlayer } = await import("@grundyjs/algiviz/playback");
+const statesPlayer = createStatePlayer([{ x: 1 }, { x: 2 }]);
+const stateX: number = statesPlayer.nextStep().current.x;
+const stateEvent: undefined = statesPlayer.frame.event;
+void stateX; void stateEvent;
+statesPlayer.dispose();
 const emitStep = createStepEmitter(() => Object.freeze({ count: 1 }));
 const emittedStep = emitStep("done");
 check(emittedStep.index === 0 && emittedStep.state.count === 1 &&

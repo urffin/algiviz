@@ -55,14 +55,14 @@ module through a bundler that resolves imports from the installed npm package.
 ```
 
 ```js
-import { createPlayer } from '@grundyjs/algiviz/playback';
+import { createStatePlayer } from '@grundyjs/algiviz/playback';
 import { createSceneRenderer } from '@grundyjs/algiviz/scene';
 
 const ctx = document.querySelector('canvas').getContext('2d');
-function* steps() {
-    for (const [index, x] of [40, 200, 360, 560].entries()) {
+function* states() {
+    for (const x of [40, 200, 360, 560]) {
         const state = { objects: [{ id: 'circle', type: 'dot', data: { x } }] };
-        yield { index, state, event: index === 3 ? 'done' : 'position' };
+        yield state;
     }
 }
 const renderer = createSceneRenderer({
@@ -73,8 +73,7 @@ const renderer = createSceneRenderer({
         ctx.fill();
     },
 });
-const player = createPlayer(steps(), {
-    isTerminal: step => step.event === 'done',
+const player = createStatePlayer(states(), {
     render(frame) {
         ctx.clearRect(0, 0, 600, 160);
         renderer.render(ctx, frame);
@@ -83,7 +82,9 @@ const player = createPlayer(steps(), {
 document.querySelector('#next').onclick = () => player.nextStep();
 ```
 
-The first frame (`x = 40`) is drawn immediately inside `createPlayer(...)`. Each
+After the last state, one more click detects generator exhaustion and keeps the final position. No lookahead is performed.
+
+The first frame (`x = 40`) is drawn immediately inside `createStatePlayer(...)`. Each
 click requests the next state: the player resumes the loop until the next
 `yield`, then renders. There is no interpolation here: the handler draws only
 `current`. Each snapshot is created afresh and never mutated. Call
@@ -107,7 +108,7 @@ scheduling belong to the application.
 
 ## Playback modes
 
-| | Generator: `createPlayer` | History: `createTimeline` |
+| | Generator: `createPlayer` / `createStatePlayer` | History: `createTimeline` |
 | --- | --- | --- |
 | Steps | Consumed on demand | Collected up front |
 | Retention | Adjacent snapshots | Complete history |

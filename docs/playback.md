@@ -35,6 +35,28 @@ graph/tree algorithm or operation set.
 
 ## Playback contracts
 
+### Plain states
+
+`createStatePlayer` accepts immutable states without step wrappers or a terminal predicate:
+
+```js
+import { createStatePlayer } from '@grundyjs/algiviz/playback';
+function* states() {
+    for (const x of [40, 200, 360, 560]) yield { x };
+}
+const player = createStatePlayer(states(), { render: frame => draw(frame.current.x) });
+nextButton.onclick = () => player.nextStep();
+```
+
+Construction consumes the first state. There is no lookahead: after displaying the
+last state, one more request discovers exhaustion and completes playback (or starts
+an explicitly configured final hold). That request preserves the last state and index
+and renders once. Indices start at zero; `frame.event` is `undefined`.
+Empty sources throw; generator return values are ignored. Infinite sources are
+supported and `dispose()` closes them. Only adjacent states are retained; states
+are not cloned. Timing options follow `createPlayer`. Use explicit steps with
+`createPlayer` when events or completion on the last displayed state are needed.
+
 Timing options are optional for manual playback: pass only `isTerminal` and,
 optionally, `render`. `finalHoldMs` defaults to `0`. Without `stepDurationMs`,
 use `nextStep()` to move forward or `advance(0)` to redraw. Positive `advance`

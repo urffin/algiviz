@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 const expected = {
-    playback: ['createPlayer', 'createStepEmitter', 'createTimeline'],
+    playback: ['createPlayer', 'createStatePlayer', 'createStepEmitter', 'createTimeline'],
     scene: ['createSceneFrame', 'createSceneProjector', 'createSceneRenderer'],
     array: ['createArrayPlayer', 'createArrayTimeline', 'createArrayTrace', 'defineArrayAlgorithm'],
     canvas: ['arrayScene', 'createArrayRenderer', 'createSortRenderer'],

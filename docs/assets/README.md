@@ -27,8 +27,8 @@ The recipe strips teaching-only hooks, instruments generator/render calls, and
 runs the source with AlgiViz's public playback and scene APIs. The algorithm is
 not reimplemented. Captions use API names and English so both READMEs share one asset.
 
-- CanvasTake 0.4.0, `createGifExporter` and gifenc adapter, 128 colors, high quality.
-- 1100 × 700; 20 frames; 27.7 seconds; infinite loop; 626,349 bytes.
+- Browser recipe: CanvasTake 0.4.0. Current GIF: Node Canvas fallback with gifenc, 128 colors.
+- 1100 × 700; 24 frames; 33.2 seconds; infinite loop; 1,053,075 bytes.
 - Each call holds for 1.1 seconds; rendered states hold for 2.2 seconds,
   with a 3.5-second final hold before restarting.
 - Verified decoded opening, middle and final frames, timings and all four positions.
@@ -41,3 +41,10 @@ The server accepts only this fixed output path. Stop it when finished.
 
 The GIF's absolute raw GitHub URL becomes available after pushing the asset.
 Like the BFS preview, this file and its recipe are excluded from the npm archive.
+
+The current animation uses `createStatePlayer()` and includes an extra completion
+request at x = 560. The last position is retained.
+
+Offline fallback (same drawing recipe and actual example source):
+`node scripts/export-minimal-gif-node.mjs <node_modules-with-@napi-rs/canvas> <node_modules-with-gifenc>`.
+The optional export tools are not runtime dependencies.
