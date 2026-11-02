@@ -22,7 +22,7 @@ No algorithm registration or automatic deep cloning is needed.
 | Playback | Synchronous lazy iteration; adjacent snapshots retained. createPlayer requires an explicit terminal predicate; createStatePlayer detects exhaustion on the following request without lookahead. |
 | Controls | nextStep completes one transition; advance(0) redraws. Positive timed advance requires stepDurationMs; finalHoldMs defaults to zero for players. Timeline timing remains explicit. |
 | Timeline | Copies the step array, retains its objects; timing uses array position; finite sample times are clamped. Completion uses history length, with no terminal predicate. |
-| Indices | Both engines preserve source step.index. Tests cover 10, 25, 90; numbering need not start at zero or be contiguous. The emitter provides consecutive indices as a convenience. |
+| Indices | Explicit-step player and timeline preserve source step.index (including 10, 25, 90). createStatePlayer numbers states from zero. The emitter provides consecutive indices for explicit steps. |
 | Lifecycle | Dispose closes at most once, leaves the frame readable and rejects further advancement. Restart creates a fresh source. |
 | Errors | Source, predicate and render errors survive cleanup failures; standalone cleanup failures propagate. Covered by playback-contract tests. |
 | Ownership | Generic states/events are not cloned or frozen. The emitter freezes only the step wrapper. Array operations produce immutable snapshots. |
@@ -70,10 +70,17 @@ The installed-package headless fixture now explicitly covers createStatePlayer,
 nextStep, omitted timing and undefined events with exactOptionalPropertyTypes.
 No public declaration or runtime change was required by this follow-up.
 
-Visual browser verification is still outstanding: both browser automation and
-Windows Computer Use fail during runtime startup in this environment. Automated
-page-control and renderer checks do not substitute for inspecting the live page.
-Website integration remains deferred by the user.
+Visual browser verification completed on 2026-11-02: enter/exit, mixed controls,
+early disposal with preserved drawing, restart, empty scenes and the extra completion
+request were checked in the live object-lifecycle page, with no browser errors.
+
+An isolated consumer outside the repository installed the published 0.11.0 registry
+tarball (not a local link). It defines application-owned card/heading types, projects
+domain states into scenes and renders retained SVG nodes using only /playback and
+/scene. Browser checks passed for partial enter/exit, mixed controls, removal of stale
+SVG nodes, disposal, restart and exhaustion. SVG markup was identical before/after
+early disposal. This validates an isolated application, not independent-user feedback.
+Website integration remains deferred by the user; no site change was made.
 
 The [public export audit](public-exports-audit.md) records the inventory and
 recommended compatibility decisions. Declaration cleanup shipped in 0.8.1;
@@ -81,17 +88,17 @@ createStatePlayer extends the inventory in 0.11.0. The [minimal API audit](minim
 records completed simplifications and the next independent visualization check.
 Candidate CI and consumer integration checks remain release gates.
 
-1. Review the public declarations and exported names, especially Sort-named Canvas
-   compatibility aliases, and decide what is intentionally supported long term.
-   Do not remove an alias merely to tidy names in a patch release.
-2. Reconcile documentation with these contracts and confirm coverage for any new
-   discrepancy. The contiguous-index wording was corrected in both READMEs.
-3. Run the selected candidate through custom-object examples and the website in
-   its own chat; preserve generator/history behavior, palettes and lifecycle.
-4. Run tests and packed-consumer checks, push the selected candidate when
-   authorized, and verify CI for that exact commit.
-5. Publish 1.0 only after the API review and consumer checks are complete and the
-   user explicitly authorizes that release. No release date is assigned.
+1. Completed: declaration/export review. Keep the four entry points and identical
+   createSortRenderer compatibility alias; no required runtime change was found.
+2. Completed: contract reconciliation and coverage. 113 tests, packed consumers
+   and CI passed at 59172ea; completion boundaries and state-player types are covered.
+3. Completed: live custom-object example and isolated published-package SVG consumer.
+   Website validation stays deferred and belongs in the website chat.
+4. Before any stabilization release, explicitly decide whether the current contracts
+   are ready for long-term support. No further feature is required by this audit;
+   feedback from actual external users has not been collected.
+5. After a release is authorized, run tests/packed-consumer checks and verify CI for
+   that exact candidate. Publish 1.0 only on explicit user authorization.
 
 A browser controller may be considered later if independent integrations reveal
 repeated needs. The new starter alone does not justify expanding the package API.
