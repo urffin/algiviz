@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.11.0 — 2026-11-02
+
+- Add createStatePlayer() for lazy playback of plain immutable states without
+  step wrappers, event fields or an isTerminal predicate.
+- Consume one state per request without lookahead. A request after the final
+  state detects exhaustion, preserves the last frame and index, and completes
+  playback or starts an explicitly configured final hold.
+- Support manual and timed playback, infinite sources, disposal and source errors.
+- Simplify the interactive minimal example and English/Russian READMEs; update
+  the highlighted GIF to show the extra completion request.
+
 ## 0.10.0 — 2026-10-27
 
 - Default finalHoldMs to zero for generic and array players.
