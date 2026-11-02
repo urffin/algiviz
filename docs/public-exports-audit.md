@@ -74,6 +74,15 @@ do not require consumers to import those private paths themselves.
 
 ## Compatibility assessment
 
+Declaration review on 2026-11-02 (0.11.0): Player now exposes nextStep, both player
+factories accept omitted timing, and createStatePlayer returns Player<S, undefined>.
+The internal createPlayback declaration is shipped for module resolution but is not
+re-exported by /playback; private-path imports remain rejected by package exports.
+There are no new required public type names. Installed-package checks cover all
+14 runtime names, 23 type-only names, compatibility alias identity and headless
+state-player inference, including rejection of incorrect state/event assignments.
+No additional declaration changes are proposed.
+
 No required breaking API change was identified. Internal Array* naming and
 preferred renderer naming are declaration cleanup; explicit undefined support
 widens an existing type to match runtime. Retain snapshot shapes, event names,

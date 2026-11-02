@@ -62,6 +62,19 @@ async source or automatic scheduling guarantee is proposed for 1.0.
 
 ## Remaining release gates, in order
 
+Follow-up on 2026-11-02: object-lifecycle.html covers enter/update/exit, empty scenes,
+mixed controls and early disposal. playback-completion-matrix.test.mjs now compares
+timed frames and manual completion with final holds of 0 and 75 ms, including
+endpoint references, non-contiguous source indices, redraw, closure and repeated calls.
+The installed-package headless fixture now explicitly covers createStatePlayer,
+nextStep, omitted timing and undefined events with exactOptionalPropertyTypes.
+No public declaration or runtime change was required by this follow-up.
+
+Visual browser verification is still outstanding: both browser automation and
+Windows Computer Use fail during runtime startup in this environment. Automated
+page-control and renderer checks do not substitute for inspecting the live page.
+Website integration remains deferred by the user.
+
 The [public export audit](public-exports-audit.md) records the inventory and
 recommended compatibility decisions. Declaration cleanup shipped in 0.8.1;
 createStatePlayer extends the inventory in 0.11.0. The [minimal API audit](minimal-api-audit.md)
