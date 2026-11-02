@@ -1,6 +1,6 @@
 # API stabilization before 1.0
 
-Updated 2026-10-26 against 0.8.0 and local commits b51979b / 69fc68e.
+Updated 2026-11-02 against 0.11.0 (4f0f9cc).
 This is a preparation plan, not authorization to publish 1.0.
 
 Decision on 2026-10-26: defer 1.0 and release the compatible changes as 0.8.1.
@@ -19,7 +19,8 @@ No algorithm registration or automatic deep cloning is needed.
 
 | Area | Current contract and evidence |
 | --- | --- |
-| Playback | Synchronous lazy iteration; adjacent snapshots retained; explicit terminal predicate; early exhaustion throws. Generic player tests cover consumption and termination. |
+| Playback | Synchronous lazy iteration; adjacent snapshots retained. createPlayer requires an explicit terminal predicate; createStatePlayer detects exhaustion on the following request without lookahead. |
+| Controls | nextStep completes one transition; advance(0) redraws. Positive timed advance requires stepDurationMs; finalHoldMs defaults to zero for players. Timeline timing remains explicit. |
 | Timeline | Copies the step array, retains its objects; timing uses array position; finite sample times are clamped. Completion uses history length, with no terminal predicate. |
 | Indices | Both engines preserve source step.index. Tests cover 10, 25, 90; numbering need not start at zero or be contiguous. The emitter provides consecutive indices as a convenience. |
 | Lifecycle | Dispose closes at most once, leaves the frame readable and rejects further advancement. Restart creates a fresh source. |
@@ -35,7 +36,9 @@ No algorithm registration or automatic deep cloning is needed.
 - Standalone JavaScript starter passes strict checkJs.
 - Complete TypeScript starter has two object types, lazy source, controls and cleanup.
 - Packed consumer compiles the TypeScript starter against the installed tarball.
-- 78 local tests pass after the merge renderer optimization.
+- 105 tests and the packed-consumer check passed for 0.11.0; its exact release SHA passed CI.
+- nextStep, optional timing and createStatePlayer were validated on circles,
+  graphs, finite/infinite sources, cleanup and manual/timed playback.
 - Website update to 0.8.0 was reported complete by the user; site work stays in its chat.
 - CI configuration covers Windows/Linux and Node 22/24. Local validation does not
   replace a successful CI run on a future release candidate.
@@ -60,9 +63,10 @@ async source or automatic scheduling guarantee is proposed for 1.0.
 ## Remaining release gates, in order
 
 The [public export audit](public-exports-audit.md) records the inventory and
-recommended compatibility decisions. Declaration cleanup and its follow-up
-package checks are implemented in the working tree; candidate CI and consumer
-integration checks remain release gates.
+recommended compatibility decisions. Declaration cleanup shipped in 0.8.1;
+createStatePlayer extends the inventory in 0.11.0. The [minimal API audit](minimal-api-audit.md)
+records completed simplifications and the next independent visualization check.
+Candidate CI and consumer integration checks remain release gates.
 
 1. Review the public declarations and exported names, especially Sort-named Canvas
    compatibility aliases, and decide what is intentionally supported long term.

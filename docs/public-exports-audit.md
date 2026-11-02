@@ -3,11 +3,12 @@
 Inspected 2026-10-26 at 49be3cc, package version 0.8.0. This document proposes
 compatibility decisions; it does not change exports or authorize a release.
 
-Implementation follow-up (working tree): recommendations 2-4 are implemented.
+Follow-up updated 2026-11-02 against 0.11.0: recommendations 2-4 shipped in 0.8.1.
 Array* names now appear throughout declarations; the Sort renderer alias remains
 identical. Palette roles accept explicit undefined. Packed-consumer checks now
 cover the complete runtime inventory, root/private-path rejection, all public
-types and ES2022-only headless compilation. No exports were added or removed.
+types and ES2022-only headless compilation. In 0.11.0 createStatePlayer was added
+to /playback; nextStep and optional timing extend Player and factory signatures.
 
 ## Inventory
 
@@ -16,12 +17,12 @@ and generated declarations.
 
 | Entry point | Runtime exports | Type-only exports |
 | --- | --- | --- |
-| /playback | createPlayer, createTimeline, createStepEmitter | Player, Step, Frame, Timeline |
+| /playback | createPlayer, createStatePlayer, createTimeline, createStepEmitter | Player, Step, Frame, Timeline |
 | /scene | createSceneFrame, createSceneRenderer, createSceneProjector | SceneObject, Scene, ObjectTransition, SceneFrame, SceneVisualizations |
 | /array | createArrayTrace, defineArrayAlgorithm, createArrayPlayer, createArrayTimeline | ArrayTrace, ArrayAlgorithm, SortedRegions, Item, ArrayEvent, ArraySnapshot, ArrayStep, ArrayPlayer, ArrayFrame, ArrayTimeline |
 | /canvas | arrayScene, createArrayRenderer, createSortRenderer | ArrayObjects, ArrayPalette, ArrayPaletteOverrides, ArrayRendererOptions |
 
-There are 13 runtime names (12 distinct functions) and 23 type-only names.
+There are 14 runtime names (13 distinct functions) and 23 type-only names.
 No root, /core, algorithm registration or bundled algorithm export exists.
 Relative imports inside declarations resolve shipped implementation modules; they
 do not require consumers to import those private paths themselves.

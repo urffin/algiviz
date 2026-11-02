@@ -57,8 +57,11 @@ supported and `dispose()` closes them. Only adjacent states are retained; states
 are not cloned. Timing options follow `createPlayer`. Use explicit steps with
 `createPlayer` when events or completion on the last displayed state are needed.
 
-Timing options are optional for manual playback: pass only `isTerminal` and,
-optionally, `render`. `finalHoldMs` defaults to `0`. Without `stepDurationMs`,
+### Timing and lifecycle
+
+Timing options are optional for manual playback. `createPlayer` requires
+`isTerminal`; `createStatePlayer` accepts an optional options object with `render`.
+`finalHoldMs` defaults to `0`. Without `stepDurationMs`,
 use `nextStep()` to move forward or `advance(0)` to redraw. Positive `advance`
 throws without consuming a step or disposing the player. Supply a positive
 `stepDurationMs` to enable timed animation. Array players follow the same rules
@@ -80,7 +83,7 @@ to `nextStep()`. Both methods throw after disposal.
 Playback retains application snapshots without cloning them; keep steps, state and
 events immutable while they are in use. A timeline copies the input array only.
 Timeline timing follows array position, and finite sample times are clamped to its
-range. Generator playback requires an explicit terminal step; an early end throws.
+range. `createPlayer` requires an explicit terminal step; an early end throws.
 `dispose()` closes the source at most once, keeps the last frame readable and
 prevents further advancement. Restart uses a fresh source.
 
@@ -127,13 +130,13 @@ state after its operation.
 | `createSceneRenderer(handlers)` | Dispatches custom objects to your visualization handlers |
 | `createSceneProjector(project)` | Adapts immutable state endpoints to scenes with a bounded cache |
 
-Players read the first step at construction and expose `frame`, `advance(deltaMs)`,
+Players read the first state/step at construction and expose `frame`, `nextStep()`, `advance(deltaMs)`,
 `finished` and `dispose()`. The initial frame has progress 1.
 `advance` accepts finite, non-negative elapsed playback time; zero consumes no steps.
 Pause by not advancing. Apply speed by multiplying elapsed time.
-The optional render callback runs initially and on every advance.
+The optional render callback runs initially and on every advance or nextStep.
 
-The source must reach a terminal step. The player closes the iterator after its
+For createPlayer and createArrayPlayer, the source must reach a terminal step. The player closes the iterator after its
 final transition and becomes finished after `finalHoldMs`. Premature exhaustion,
 source errors and render errors propagate and close the iterator.
 `dispose()` closes early and can be repeated; the frame remains readable, but

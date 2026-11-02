@@ -102,8 +102,8 @@ the [local setup instructions](https://github.com/urffin/algiviz/blob/master/doc
 - **Scene:** describes objects with stable IDs, types and application-owned data.
 - **Handler:** chooses geometry and drawing behavior, including interpolation.
 
-Do not mutate emitted states. Players require an explicit terminal step;
-call `dispose()` when removing a visualization. Algorithms, layouts and animation
+Do not mutate emitted states. `createStatePlayer` completes on source exhaustion;
+`createPlayer` requires an explicit terminal step. Call `dispose()` when removing a visualization. Algorithms, layouts and animation
 scheduling belong to the application.
 
 ## Playback modes
