@@ -17,6 +17,7 @@
 
 | Пример | Что демонстрирует |
 | --- | --- |
+| [Жизненный цикл объектов](https://github.com/urffin/algiviz/blob/master/examples/object-lifecycle.html) | Пустые сцены, enter/update/exit, чередование advance и nextStep, ранний dispose и журнал чтения генератора |
 | [Как рождается кадр](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html) | Путь от генератора через плеер и сцену к отрисовке, показанный средствами AlgiViz |
 | [Лаборатория сортировок](https://github.com/urffin/algiviz/blob/master/examples/index.html) | Сортировки вставками и пузырьком с операциями массива и готовым рендерером |
 | [Сортировка слиянием](https://github.com/urffin/algiviz/blob/master/examples/merge.html) | Собственное состояние и сцена из двух строк для основного массива и буфера |

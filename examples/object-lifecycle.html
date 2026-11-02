@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Жизненный цикл объектов</title>
+<style>
+body{max-width:900px;margin:24px auto;padding:16px;background:#0c1423;color:#e6edf8;font:16px/1.5 system-ui}a{color:#93c5fd}canvas{width:100%;background:#142036;border-radius:12px}button{font:inherit;margin:4px;padding:8px 12px;border:1px solid #5eead4;border-radius:6px;background:#245047;color:white}button:disabled{background:#263244;color:#8c9aaf;border-color:#465166;cursor:not-allowed}table{width:100%;border-collapse:collapse}td,th{padding:6px;text-align:left;border-bottom:1px solid #334155}pre{white-space:pre-wrap;background:#142036;padding:12px}#log{max-height:180px;overflow:auto}
+</style>
+<h1>Появление, движение и удаление объектов</h1>
+<p>Начните с пустой сцены. «+¼ перехода» вызывает <code>advance()</code> и показывает промежуточный кадр.
+<code>nextStep()</code> завершает начатый переход либо получает следующее состояние на границе.</p>
+<canvas width="600" height="180" aria-label="Объекты A, B и C появляются, перемещаются и исчезают"></canvas>
+<div><button id="advance">+¼ перехода</button><button id="next">nextStep()</button><button id="dispose">Закрыть источник</button><button id="restart">Сначала</button></div>
+<p id="status" role="status"></p>
+<table><thead><tr><th>Объект</th><th>Фаза</th><th>Наличие</th><th>previous</th><th>current</th></tr></thead><tbody id="objects"></tbody></table>
+<p>У enter нет previous, у exit нет current. Полностью исчезнувший объект может ещё присутствовать в кадре с наличием 0: обработчик пропускает его отрисовку.</p>
+<p>Закройте источник в середине перехода: finally выполнится один раз, последний кадр сохранится.
+«Сначала» создаёт новый генератор. После последнего состояния нужен дополнительный запрос для обнаружения конца.</p>
+<h2>Журнал текущего запуска</h2><pre id="log" aria-live="polite"></pre>
+<p><a href="visualization-pipeline.html">Минимальный пример</a> · <a href="index.html">Все примеры</a></p>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js"}}</script>
+<script type="module">
+import { createSceneFrame } from '@grundyjs/algiviz/scene';
+import { createLifecyclePlayer, lifecycleRenderer } from './object-lifecycle.mjs';
+import { timing } from './player-settings.mjs';
+const $ = id => document.getElementById(id), ctx = document.querySelector('canvas').getContext('2d');
+let player, disposed = false, reads = 0, closes = 0;
+function draw(frame) {
+    ctx.clearRect(0, 0, 600, 180);
+    lifecycleRenderer.render(ctx, frame);
+    $('objects').replaceChildren(...createSceneFrame(frame).objects.map(object => {
+        const row = document.createElement('tr');
+        for (const value of [object.id, object.phase, object.presence.toFixed(2),
+            object.previous?.data.x ?? '—', object.current?.data.x ?? '—']) {
+            const cell = document.createElement('td'); cell.textContent = value; row.append(cell);
+        }
+        return row;
+    }));
+}
+function update() {
+    const frame = player.frame;
+    $('status').textContent = `Состояние ${frame.stepIndex} · progress ${frame.progress.toFixed(2)} · выдано ${reads} · закрытий ${closes} · ${disposed ? 'Источник закрыт; кадр сохранён' : player.finished ? 'Генератор завершён' : 'Готов к запросу'}`;
+    $('next').disabled = $('advance').disabled = disposed || player.finished;
+    $('dispose').disabled = disposed || player.finished;
+}
+function restart() {
+    player?.dispose();
+    disposed = false; reads = 0; closes = 0; $('log').textContent = '';
+    player = createLifecyclePlayer({ render: draw, notify(event) {
+        if (event.kind === 'yield') reads++;
+        if (event.kind === 'closed') closes++;
+        $('log').textContent += event.kind + (event.index === undefined ? '' : ` ${event.index}`) + '\n';
+    }});
+    update();
+}
+$('advance').onclick = () => { player.advance(timing.stepDurationMs / 4); update(); };
+$('next').onclick = () => { player.nextStep(); update(); };
+$('dispose').onclick = () => { player.dispose(); disposed = true; update(); };
+$('restart').onclick = restart;
+window.addEventListener('pagehide', () => player.dispose());
+window.addEventListener('pageshow', event => { if (event.persisted) restart(); });
+restart();
+</script>
+</html>

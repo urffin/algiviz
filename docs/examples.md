@@ -17,6 +17,7 @@ included in the npm archive.
 
 | Example | What it demonstrates |
 | --- | --- |
+| [Object lifecycle](https://github.com/urffin/algiviz/blob/master/examples/object-lifecycle.html) | Empty scenes, enter/update/exit, mixed advance/nextStep control and early disposal with a consumption log |
 | [How a frame is made](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html) | AlgiViz visualizes its own generator → player → scene → renderer pipeline (Russian walkthrough) |
 | [Sorting lab](https://github.com/urffin/algiviz/blob/master/examples/index.html) | Insertion and bubble sort using the array operations and renderer |
 | [Merge sort](https://github.com/urffin/algiviz/blob/master/examples/merge.html) | Custom state and a two-row scene for the main array and buffer |
@@ -28,7 +29,7 @@ included in the npm archive.
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 
-The minimal `visualization-pipeline.html` walkthrough uses its own start button and sequential highlighting; shared speeds and playback modes do not apply to it.
+The minimal `visualization-pipeline.html` walkthrough uses its own start button and sequential highlighting. `object-lifecycle.html` uses deterministic quarter-transition and nextStep buttons to inspect lifecycle boundaries. Shared speeds and playback modes do not apply to these pages.
 
 Most examples reuse [demo-player.mjs](https://github.com/urffin/algiviz/blob/master/examples/demo-player.mjs) and
 [player-settings.mjs](https://github.com/urffin/algiviz/blob/master/examples/player-settings.mjs): 650 ms per step, 1,000 ms final
