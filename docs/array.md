@@ -74,12 +74,90 @@ are sorted; AlgiViz validates their bounds but does not prove that claim. Positi
 are zero-based; invalid positions, occupied destinations and invalid operation
 order throw before mutating the workspace. `"held"` is accepted only by `compare`
 and `highlight`; `swap` and `shift` require integer indices for both positions.
-Read snapshots rather than modifying
-items yourself. `createArrayTrace(values)` exposes the same operations directly,
+Read snapshots rather than modifying items yourself. `createArrayTrace(values)` exposes the same operations directly,
 with immediate input validation, for authors writing their own generator wrapper.
+
+## Array model guarantees
+
+These guarantees describe snapshots produced by `createArrayTrace`, including
+traces created through `defineArrayAlgorithm`. They do not validate arbitrary
+handwritten objects supplied to a renderer or player.
+
+### Fixed length and one held item
+
+Input values must be finite numbers; sparse entries, `NaN` and infinities are
+rejected. The input is copied. A trace has a fixed number of items: `length` and
+`state.slots.length` remain equal to the original input length. Operations reorder
+items but do not add/remove them or change their values.
+
+`held` is either `null` or one item. `select` moves an occupied slot into `held`
+and leaves `null` at that position. While an item is held, exactly one slot is
+`null`; otherwise all slots are occupied. `shift` moves an occupied slot into
+that hole, moving the hole to its source position. `insert` fills the hole with
+the held item and resets `held` to `null`. Selecting another item while holding
+one, swapping an empty position or calling `done` with a held item throws.
+
+`insert` returns an existing held item; it does not insert a new value or grow
+the array. An empty input is supported: emit `start` followed by `done` without
+indexed operations. `pass(end)` takes a zero-based position, not a length or pass
+count, so it cannot be called on an empty array.
+
+### Stable identities and immutable snapshots
+
+Every original item has an `id` unique within that trace. The identity stays with
+the item through swaps, selection, shifts and insertion; equal numeric values
+still have distinct IDs. Every original item occurs exactly once across occupied
+`slots` and `held`. IDs are not globally unique across traces or restarts. When
+combining several traces into one scene, the application must namespace their IDs.
+
+Each successful operation returns a frozen step, event, state and `slots` array;
+items and highlight ID arrays are frozen too. Later operations do not change
+earlier snapshots. Items may be shared between snapshots because they are immutable.
+The snapshots describe the state immediately after the operation; `index` starts
+at zero and increases by one for each emitted step.
+
+### Counters
+
+`comparisons` and `writes` start at zero and accumulate within a trace:
+
+| Operation | Comparisons | Writes |
+| --- | --- | --- |
+| `compare` | +1 | 0 |
+| `swap` | 0 | +2 |
+| `shift`, `insert` | 0 | +1 |
+| `start`, `select`, `highlight`, `pass`, `done` | 0 | 0 |
+
+`compare` records a comparison; it does not compute or return an ordering result.
+The algorithm reads item values and decides what to do. Reads through `at`,
+`held` and `length` emit no step and change no counters. Counters measure trace
+operations, not literal JavaScript assignments: representing selection as a hole
+does not count as an array write. Rejected operations preserve workspace items,
+markers, counters and the next step index; the trace can continue afterwards.
+
+### Sorted-region markers
+
+`sortedPrefixLength = k` marks the first `k` positions; `sortedSuffixLength = k`
+marks the last `k` positions. These are author-supplied annotations. The library
+checks that a supplied length is an integer from `0` through `length`; it does
+not compare values, prove sortedness or infer that an item is in its final place.
+
+The prefix starts at `0`. The suffix may be absent until first assigned; treat
+an absent suffix as `0`, as the Canvas renderer does. Omitted or explicitly
+`undefined` input fields preserve their previous values; pass `0` to reset a
+marker. Prefix and suffix are independent: decreasing them or allowing them to
+overlap is permitted, and their sum is not required to be at most `length`.
+The application is responsible for making these annotations meaningful.
+
+Markers do not reorder items or affect counters. `pass` and `done` do not update
+them unless `regions` is supplied. In particular, `done()` only completes the
+trace: a reverse operation may finish successfully with unsorted values and
+zero sorted markers. A sorting algorithm should explicitly mark the regions it
+has established.
 
 Insertion and bubble sort implementations live in [examples/algorithms.mjs](https://github.com/urffin/algiviz/blob/master/examples/algorithms.mjs).
 The algorithms belong to the application; they require no changes to the library.
+
+## Canvas rendering
 
 The array renderer expects immutable snapshots. It uses Canvas bitmap dimensions
 for layout, draws a full frame and restores context state. Negative values use
