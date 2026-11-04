@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.11.1 — 2026-11-05
+
+- Validate both numeric positions in array swap/shift before reading or mutating
+  the trace, rejecting invalid JavaScript arguments without losing item identities
+  or changing snapshots, counters, markers or the next step index.
+- Allow explicitly undefined sorted-region inputs with exactOptionalPropertyTypes,
+  matching the existing runtime behavior of preserving the current marker.
+- Document array guarantees in English and Russian: fixed length, one held item,
+  trace-local IDs, immutable snapshots, counters and author-supplied sorted markers.
+- Add an application-owned object lifecycle example and expand playback completion,
+  strict type and installed-package consumer checks. No new public exports.
+
 ## 0.11.0 — 2026-11-02
 
 - Add createStatePlayer() for lazy playback of plain immutable states without

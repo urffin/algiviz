@@ -1,6 +1,6 @@
 # API stabilization before 1.0
 
-Updated 2026-11-02 against 0.11.0 (4f0f9cc).
+Updated 2026-11-05 for 0.11.1; the original review used 0.11.0 (4f0f9cc).
 This is a preparation plan, not authorization to publish 1.0.
 
 Decision on 2026-10-26: defer 1.0 and release the compatible changes as 0.8.1.
@@ -91,10 +91,13 @@ Candidate CI and consumer integration checks remain release gates.
 1. Completed: declaration/export review. Keep the four entry points and identical
    createSortRenderer compatibility alias; no required runtime change was found.
    Follow-up: the [array API audit](array-api-audit.md) found a JavaScript argument
-   validation defect in swap/shift with held. The unreleased fix on 2026-11-03
+   validation defect in swap/shift with held. The 0.11.1 fix, prepared on 2026-11-03,
    validates both indices and adds conservation/atomicity regressions. SortedRegions
    also accepts explicit undefined in the input type. Valid-call signatures need no redesign;
    verification of the exact future release candidate remains required.
+   The array reference now documents fixed length, one held item, trace-local IDs,
+   immutable snapshots, counters and sorted-region markers in English and Russian.
+   Local 0.11.1 checks passed all 117 tests and the installed-package consumer.
 2. Completed: contract reconciliation and coverage. 113 tests, packed consumers
    and CI passed at 59172ea; completion boundaries and state-player types are covered.
 3. Completed: live custom-object example and isolated published-package SVG consumer.
