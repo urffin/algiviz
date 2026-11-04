@@ -4,7 +4,7 @@ import { createSceneRenderer, createSceneProjector, type Scene } from "../scene/
 
 export type ArrayObjects = { bar: { item: Item; index: number; held: boolean } };
 
-/** Adapts array identities to the same public scene contract used by custom objects. */
+/** Adapts immutable array snapshots; freezes scene wrappers but retains Item references. */
 export function arrayScene(state: ArraySnapshot): Scene<ArrayObjects> {
     return Object.freeze({
         objects: Object.freeze(
@@ -28,7 +28,7 @@ export interface ArrayPalette {
 export type ArrayPaletteOverrides = { readonly [Role in keyof ArrayPalette]?: ArrayPalette[Role] | undefined };
 export interface ArrayRendererOptions {
     readonly theme: "light" | "dark";
-    readonly colors?: ArrayPaletteOverrides;
+    readonly colors?: ArrayPaletteOverrides | undefined;
 }
 
 const palettes = {
@@ -61,9 +61,11 @@ function positions(state: ArraySnapshot): Map<string, { item: Item; index: numbe
     return result;
 }
 
-/** Stateless full-frame renderer. Bitmap dimensions determine layout and video size. */
+/** Full-frame bitmap renderer; the caller owns sizing and must provide an unclipped context. */
 export function createArrayRenderer(options: ArrayRendererOptions) {
-    const colors = { ...palettes[options.theme] };
+    const theme = options?.theme;
+    if (theme !== "light" && theme !== "dark") throw new TypeError("Array renderer theme must be light or dark");
+    const colors = { ...palettes[theme] };
     for (const key of Object.keys(colors) as (keyof ArrayPalette)[]) {
         const color = options.colors?.[key];
         if (color !== undefined) colors[key] = color;
@@ -73,6 +75,9 @@ export function createArrayRenderer(options: ArrayRendererOptions) {
         render(ctx: CanvasRenderingContext2D, frame: ArrayFrame): void {
             const { width, height } = ctx.canvas;
             if (width <= 0 || height <= 0) return;
+            if (!Number.isFinite(frame.progress) || frame.progress < 0 || frame.progress > 1) {
+                throw new RangeError("Array frame progress must be between zero and one");
+            }
             const projected = projectFrame(frame);
             const items = projected.current.objects;
             const count = frame.current.slots.length;
@@ -80,7 +85,8 @@ export function createArrayRenderer(options: ArrayRendererOptions) {
             const cell = (width - 2 * margin) / Math.max(count, 1);
             const barWidth = cell * 0.7;
             const available = height * 0.48;
-            const maxMagnitude = Math.max(1, ...items.map(({ data }) => Math.abs(data.item.value)));
+            let maxMagnitude = 1;
+            for (const { data } of items) maxMagnitude = Math.max(maxMagnitude, Math.abs(data.item.value));
             const baseline = height * 0.69;
             const fontSize = Math.max(9, Math.min(20, cell * 0.45, width * 0.035));
             const progress = frame.progress;
@@ -90,6 +96,12 @@ export function createArrayRenderer(options: ArrayRendererOptions) {
             try {
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.globalAlpha = 1;
+                ctx.globalCompositeOperation = "source-over";
+                ctx.filter = "none";
+                ctx.shadowColor = "rgba(0, 0, 0, 0)";
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
                 ctx.fillStyle = colors.background;
                 ctx.fillRect(0, 0, width, height);
                 ctx.font = `${Math.max(12, Math.min(24, width * 0.045))}px sans-serif`;

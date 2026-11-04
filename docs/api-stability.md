@@ -102,7 +102,10 @@ Candidate CI and consumer integration checks remain release gates.
    0.11.1, recommends replacing a spread-based maximum that fails on large valid
    arrays, defining Canvas context isolation, validating progress before drawing,
    accepting colors: undefined in input types and rejecting invalid themes.
-   These are pending targeted fixes; no export redesign is proposed.
+   The working fix on 2026-11-05 addresses these recommendations without changing
+   exports, adds ten Canvas contract regressions and documents the RU/EN behavior.
+   All 127 tests and the installed-package consumer passed; native Canvas probes
+   confirmed pixel equality and context restoration. Candidate CI remains required.
 2. Completed: contract reconciliation and coverage. 113 tests, packed consumers
    and CI passed at 59172ea; completion boundaries and state-player types are covered.
 3. Completed: live custom-object example and isolated published-package SVG consumer.

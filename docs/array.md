@@ -159,11 +159,64 @@ The algorithms belong to the application; they require no changes to the library
 
 ## Canvas rendering
 
-The array renderer expects immutable snapshots. It uses Canvas bitmap dimensions
-for layout, draws a full frame and restores context state. Negative values use
-magnitude for bar height and retain their sign in labels; this is not a signed-axis
-plot. Dense charts hide labels. For recording, use a canvas with fixed export
-dimensions. Rendering does not start an animation loop or record video.
+`createArrayRenderer({ theme: "dark" | "light", colors? })` returns a frozen
+object with `render(ctx, frame): void`. `createSortRenderer` is the identical
+compatibility alias. A theme is required; missing or invalid themes throw
+`TypeError` at creation. Omitting `colors` or passing `colors: undefined` uses
+the theme defaults, including with `exactOptionalPropertyTypes`.
+
+The renderer expects immutable `ArrayFrame` endpoints from one fixed-length
+trace with stable IDs and unchanged item values. It does not validate every
+invariant of arbitrary handwritten snapshots. It retains at most two projected
+endpoints, so repeated drawing, reverse seeking and resizing need no reset.
+Mutating retained snapshots is unsupported.
+
+### Drawing and coordinates
+
+The renderer draws a full frame using `ctx.canvas.width` and `height` in bitmap
+pixels, temporarily setting an identity transform. The application owns the
+bitmap size, CSS size and `devicePixelRatio`; an existing DPR transform is not
+used for layout. Item labels are hidden below 24 bitmap pixels per cell. For
+recording, use a canvas with fixed export dimensions.
+
+Positions between slots use smoothstep `p * p * (3 - 2 * p)`, where `p` is frame
+progress. Negative values use magnitude for bar height and retain their sign in
+labels; this is not a signed-axis plot. Events, counters, held status and sorted
+markers come from `current` and are not interpolated. Colors take precedence in
+this order: held, active, sorted, ordinary bar.
+
+Within `save`/`restore`, rendering sets an identity transform, `globalAlpha = 1`,
+`globalCompositeOperation = "source-over"`, `filter = "none"`, a transparent
+shadow color, and zero shadow blur/offsets. It also sets the fill/text styles it
+uses. Caller settings are restored even when drawing throws. This is not a
+guarantee of independence from every possible Canvas setting: provide a context
+without a restricting clip. Rendering preserves an inherited clip; it does not
+call `reset()` to remove it.
+
+For a positive bitmap size, progress must be finite and in `[0, 1]`; otherwise
+`RangeError` is thrown before drawing or changing context settings. A zero-sized
+bitmap is a no-op, even for invalid progress. Canvas errors propagate, and
+restoring settings does not undo pixels already drawn by a failing Canvas call.
+Exact error messages are not a stable contract.
+
+Rendering does not start an animation loop, consume algorithm steps, resize the
+canvas or record video. It has no `dispose` method. Large arrays still require
+per-frame scene processing and drawing; generator playback is not an FPS or
+constant-allocation guarantee.
+
+### Array scene adapter
+
+`arrayScene(snapshot)` creates a `Scene<ArrayObjects>` with `bar` objects whose
+data contains `item`, `index` and `held`. Occupied slots keep their original IDs;
+the held item uses the index of the hole. Scene wrappers, objects and data are
+frozen, while `item` is retained by reference. The adapter does not clone or
+deep-freeze handwritten items or validate duplicate IDs. Keep the trace
+invariants above and namespace IDs when combining traces.
+
+Use this adapter with your own `bar` handler and `createSceneRenderer` from
+[`/scene`](scene.md) when you need different drawing. `/canvas` can be imported
+without a browser at runtime, but its declarations require DOM types because
+they reference `CanvasRenderingContext2D`.
 
 ### Custom array colors
 

@@ -93,3 +93,23 @@ const palette: ArrayPalette = {background:'white',text:'black',bar:'gray',sorted
 const paletteOverrides: ArrayPaletteOverrides = { active: palette.active };
 const paletteOptions: ArrayRendererOptions = { theme: 'light', colors: paletteOverrides };
 check(typeof createArrayRenderer(paletteOptions).render === 'function', 'Palette options failed');
+const noColors: ArrayRendererOptions = { theme: 'dark', colors: undefined };
+createArrayRenderer(noColors);
+createSortRenderer({ theme: 'light', colors: undefined });
+for (const factory of [createArrayRenderer, createSortRenderer]) {
+    let rejected = false;
+    try { Reflect.apply(factory, undefined, [{ theme: 'invalid' }]); }
+    catch (error) { rejected = error instanceof TypeError; }
+    check(rejected, 'Installed renderer accepted an invalid theme');
+}
+let canvasDraws = 0;
+const canvasContext = {
+    canvas: { width: 800, height: 450 }, save() {}, restore() {}, setTransform() {},
+    fillRect() { canvasDraws++; }, fillText() { canvasDraws++; }
+} as unknown as CanvasRenderingContext2D;
+let progressRejected = false;
+try { createArrayRenderer(noColors).render(canvasContext, { ...lazy.frame, progress: NaN }); }
+catch (error) { progressRejected = error instanceof RangeError; }
+check(progressRejected && canvasDraws === 0, 'Installed renderer drew an invalid frame');
+createArrayRenderer(noColors).render(canvasContext, lazy.frame);
+check(canvasDraws > 0, 'Installed renderer did not draw a valid frame');
