@@ -1,120 +1,156 @@
 # API stabilization before 1.0
 
-Updated 2026-11-05 for 0.11.2; the original review used 0.11.0 (4f0f9cc).
-This is a preparation plan, not authorization to publish 1.0.
+Updated 2026-11-05 against published **0.11.2**, release commit
+[`b7f46ade478c25738ac77a3023fb4cd6c0b3995e`](https://github.com/urffin/algiviz/commit/b7f46ade478c25738ac77a3023fb4cd6c0b3995e).
 
-Decision on 2026-10-26: defer 1.0 and release the compatible changes as 0.8.1.
-Continue validating the API through new application-owned visualizations before
-committing to long-term compatibility. New examples alone do not require a minor
-package version. The checks below remain preparation criteria, not a release date.
+The technical recommendations from the export, minimal API, array and Canvas
+audits are implemented and released. No remaining finding from these audits
+requires an API redesign or a new feature. **1.0 remains deferred**: readiness
+for long-term compatibility, experience from real users and checks of the actual
+future candidate are separate from completion of these technical tasks.
+This plan does not authorize a 1.0 release or a website upgrade.
 
-## Public boundary
+## Readiness of the four modules
 
-Keep `/playback`, `/scene`, `/array` and `/canvas`. Algorithms, domain types,
-snapshot ownership, layout and browser controls remain application-owned.
-The deprecated `/core` export and bundled algorithms were removed in 0.7.0.
-No algorithm registration or automatic deep cloning is needed.
+“Technically ready” means the reviewed contract is documented and covered by the
+checks below. It does not mean 1.0 has been approved or every integration tested.
 
-## Contracts to preserve
+| Module | Status at 0.11.2 | Scope and evidence |
+| --- | --- | --- |
+| `/playback` | Technically ready | Lazy explicit steps or plain states, manual/timed controls, timelines and step emission. Completion, indices, disposal and error precedence are covered by [contract tests](../test/playback-contract.test.mjs) and the [completion matrix](../test/playback-completion-matrix.test.mjs). See the [reference](playback.md) and [minimal API audit](minimal-api-audit.md). |
+| `/scene` | Technically ready | Backend-independent matching and dispatch, stable IDs, layers, nullable enter/exit endpoints and bounded projection caching. [Scene](../test/scene.test.mjs), [projector](../test/scene-projector.test.mjs) and [object lifecycle](../test/object-lifecycle.test.mjs) tests cover custom types and retained backends. See the [reference](scene.md). |
+| `/array` | Technically ready after 0.11.1 | Optional fixed-length numeric trace with one held item. Invalid swap/shift positions preserve identities and state; input markers allow explicit undefined. [Validation regressions](../test/array-validation.test.mjs), strict consumers and [RU/EN guarantees](array.md#array-model-guarantees) close the [array audit](array-api-audit.md) recommendations. |
+| `/canvas` | Technically ready after 0.11.2 | Optional array scene adapter and full-frame bitmap renderer. Large-array scaling, paint-state isolation, early progress validation, theme validation and undefined colors are covered by ten [Canvas contract tests](../test/canvas-contract.test.mjs) and strict consumers. [RU/EN documentation](array.md#canvas-rendering) closes the [Canvas audit](canvas-api-audit.md) recommendations. |
 
-| Area | Current contract and evidence |
+The references have linked Russian versions. The audits preserve their original
+findings and dated follow-ups; their historical defect descriptions are not a
+list of unresolved defects in 0.11.2.
+
+## Compatibility boundary to preserve
+
+- Keep the four ESM entry points. There are 14 runtime names (13 distinct
+  functions) and 23 type-only exports, recorded in the [public export audit](public-exports-audit.md).
+  There is no root/CommonJS export; `/core` and bundled algorithms were removed
+  in 0.7.0. Keep `createSortRenderer` as the identical `createArrayRenderer` alias.
+- Algorithms, domain types, immutable snapshot production, layout, controls and
+  scheduling belong to the application. New application-owned algorithm examples
+  do not change the package API or by themselves require a minor package version.
+- Players read their first step/state during construction and invoke the render
+  callback immediately when supplied. `nextStep()`
+  completes the current transition or requests one next snapshot at a boundary;
+  `advance(0)` redraws without reading. Positive timed advancement requires
+  `stepDurationMs`; player `finalHoldMs` defaults to zero. Timeline timing stays explicit.
+- `createPlayer` requires an explicit terminal predicate; `createArrayPlayer`
+  recognizes `done`. `createStatePlayer` detects exhaustion on the following
+  request without lookahead. Its final yielded state is not known to be last until
+  that request. Preserve the documented difference in `previous` at the final
+  boundary; nonzero final holds can require another manual click.
+- Explicit-step players and timelines preserve source indices, including
+  non-contiguous indices. Plain-state playback numbers states from zero.
+  Timelines copy the history array, retain its objects and clamp finite sample
+  times; they have no mutable playback cursor.
+- Disposal closes the source at most once, preserves the readable frame and
+  rejects further advancement. Restart uses a new source. Source, predicate and
+  render errors retain precedence over cleanup failures; standalone cleanup
+  failures propagate.
+- Generic state, event and scene data are retained without deep cloning/freezing.
+  The emitter freezes only its step wrapper. Array traces produce immutable
+  snapshots; `arrayScene` freezes scene wrappers but retains item references.
+- Scene IDs are unique per snapshot and retain their type between endpoints.
+  Handlers receive nullable endpoints and raw progress; presence is advisory.
+  Handlers are frame draws, not guaranteed lifecycle callbacks. Retained DOM/SVG
+  backends must remove stale objects even when intermediate frames are skipped.
+- Preserve array item identities, operation/event meanings and counter semantics.
+  Sorted-region markers are author annotations, not proof of sorting. Adding a
+  public event variant requires compatibility review for exhaustive user switches.
+- Canvas palette overrides are copied at construction. Changing the theme or
+  palette uses a new renderer and redraws the same frame. Preserve held → active
+  → sorted → ordinary-bar priority and the required light/dark theme.
+
+## Verification completed for the current baseline
+
+| Check | Result and evidence |
 | --- | --- |
-| Playback | Synchronous lazy iteration; adjacent snapshots retained. createPlayer requires an explicit terminal predicate; createStatePlayer detects exhaustion on the following request without lookahead. |
-| Controls | nextStep completes one transition; advance(0) redraws. Positive timed advance requires stepDurationMs; finalHoldMs defaults to zero for players. Timeline timing remains explicit. |
-| Timeline | Copies the step array, retains its objects; timing uses array position; finite sample times are clamped. Completion uses history length, with no terminal predicate. |
-| Indices | Explicit-step player and timeline preserve source step.index (including 10, 25, 90). createStatePlayer numbers states from zero. The emitter provides consecutive indices for explicit steps. |
-| Lifecycle | Dispose closes at most once, leaves the frame readable and rejects further advancement. Restart creates a fresh source. |
-| Errors | Source, predicate and render errors survive cleanup failures; standalone cleanup failures propagate. Covered by playback-contract tests. |
-| Ownership | Generic states/events are not cloned or frozen. The emitter freezes only the step wrapper. Array operations produce immutable snapshots. |
-| Scenes | Stable unique IDs, fixed type per ID, layer ordering, explicit enter/update/exit transitions. Handlers are frame draws, not lifecycle callbacks. |
-| Projection | Pure state-to-scene mapping with at most two endpoint projections retained; viewport geometry stays in handlers. |
-| Palette | Six semantic array colors; partial overrides copied at renderer creation. Theme changes redraw the same frame with a new renderer. |
-| Packaging | Four ESM entry points, no root/CommonJS export; packed consumer checks declarations and absence of /core. |
+| Build, type checks and tests | `npm test` passed all **127 tests**, including 2186 original array traces, playback completion/lifecycle coverage and ten Canvas regressions. |
+| Installed tarball | `npm run test:package` passed. It checks the complete runtime inventory, private/root/`/core` rejection, alias identity, every public type, strict `exactOptionalPropertyTypes`, runtime consumers and compilation of the TypeScript starter. See the [export fixture](../test/package-exports.mjs) and [consumer](../test/package-consumer.ts). |
+| Headless separation | The [headless fixture](../test/package-headless.ts) compiles `/playback`, `/scene` and `/array` with ES2022 and no DOM/ambient types. `/canvas` declarations intentionally require DOM types. |
+| Exact release CI | [Run 41932170508](https://github.com/urffin/algiviz/actions/runs/41932170508) passed on Windows/Linux with Node 22/24 at `b7f46ad`, including the packed consumer in all four jobs. |
+| Release and npm | [v0.11.2](https://github.com/urffin/algiviz/releases/tag/v0.11.2) targets that exact SHA. [Publishing workflow](https://github.com/urffin/algiviz/actions/runs/41932362639) succeeded; npm version 0.11.2, matching `gitHead`, `latest` and provenance were verified on 2026-11-05. |
 
-## Completed preparation
+Additional integration evidence has a narrower scope than the release CI:
 
-- Standalone JavaScript starter passes strict checkJs.
-- Complete TypeScript starter has two object types, lazy source, controls and cleanup.
-- Packed consumer compiles the TypeScript starter against the installed tarball.
-- 105 tests and the packed-consumer check passed for 0.11.0; its exact release SHA passed CI.
-- nextStep, optional timing and createStatePlayer were validated on circles,
-  graphs, finite/infinite sources, cleanup and manual/timed playback.
-- Website update to 0.8.0 was reported complete by the user; site work stays in its chat.
-- CI configuration covers Windows/Linux and Node 22/24. Local validation does not
-  replace a successful CI run on a future release candidate.
+- The JavaScript starter passes strict `checkJs`; the TypeScript starter defines
+  two custom object types, a lazy source, controls and cleanup. The packed
+  consumer compiles it against the installed package.
+- Live browser verification of [object lifecycle](../examples/object-lifecycle.html)
+  completed on 2026-11-02: enter/update/exit, empty scenes, mixed controls, early
+  disposal with preserved drawing, restart and the extra completion request.
+- An isolated application outside this repository installed the **published
+  0.11.0 registry tarball**, not a local link. Its custom card/heading types and
+  retained SVG backend passed browser checks for partial entry/exit, stale-node
+  removal, mixed controls, disposal, restart and exhaustion. This was an
+  integration authored by us, not feedback from an independent user or a browser
+  verification of 0.11.2.
+- Native Canvas probes for the 0.11.2 fixes confirmed matching pixels with
+  inherited composite/filter/shadow settings, context restoration, rejection of
+  invalid progress before pixel changes and preservation of inherited clipping.
+  These complement the mock-based regressions; they do not certify browsers or FPS.
 
-## Performance evidence and limits
+The current release's successful CI does not certify a later 1.0 candidate.
 
-On this machine, 2,000-element reverse inputs retained roughly 5.7-5.9 MiB of
-Node heap after explicit GC between 5,000 and 25,000 generator steps. This includes
-the process and is diagnostic, not a universal memory bound. Ownership inspection
-confirms adjacent player states and a two-endpoint projector cache.
+## Deliberate limits and deferred work
 
-Merge rendering of two 2,000-cell rows fell from about 10.9 to 7.2 ms per frame
-in the CPU-only mock Canvas benchmark after batching Canvas state scopes and
-per-frame geometry. Visible draw calls matched for 6,840 frames with reverse seeks,
-multiple widths, duplicate and signed values. These figures are not browser FPS.
+- Iteration is synchronous. There is no AsyncIterable, worker execution, RAF
+  scheduler or automatic cap on elapsed time. Long generation or large advance
+  calls can block the host; applications control scheduling and elapsed time.
+- Generator playback retains adjacent snapshots, but snapshot creation and
+  application-owned data still cost memory/time. Each array emission copies n
+  slots; full history deliberately retains every snapshot. The two-endpoint
+  projector cache requires pure projections and immutable inputs; mutation does
+  not invalidate it.
+- `/array` supports finite numbers, fixed length and at most one held item.
+  IDs are trace-local; applications namespace combined traces. Dynamic length,
+  arbitrary value types and multiple held items are not promised by this model.
+- `/canvas` uses bitmap coordinates and an identity transform. The application
+  owns CSS/bitmap sizing and DPR and provides a context without restricting clip.
+  Only the documented paint settings are normalized. Invalid color strings are
+  delegated to Canvas; arbitrary handwritten snapshots are not fully validated.
+  Restoring context settings does not roll back pixels after a drawing error.
+- Scene indexing uses O(n) additional memory and layer ordering O(n log n) time
+  per frame. Removing the large-array argument-count failure is not a performance
+  guarantee. Earlier heap/mock-Canvas measurements remain diagnostics described
+  in [performance](performance.md), not browser FPS or portable thresholds.
+- Highlight membership and per-frame dispatcher allocation remain optional
+  optimization candidates. Benchmark a concrete workload before changing them.
+  Automatic controllers, localization/formatting options, configurable easing
+  and pixel-perfect output guarantees are not prerequisites for 1.0.
+- CI verifies Node 22/24 and emitted ES2022 code; it does not establish support
+  for every browser, TypeScript version or Node release. Any broader support
+  promise needs its own scope and evidence.
+- Website upgrades and compatibility checks remain deferred by the user and
+  belong in the website chat. They are not silently added to this release plan.
 
-Generator mode avoids accumulated history but still pays snapshot allocation and
-synchronous generation costs. Large advance calls can block the host; applications
-should cap elapsed time. Full history intentionally retains snapshots. No worker,
-async source or automatic scheduling guarantee is proposed for 1.0.
+## What remains before 1.0, in order
 
-## Remaining release gates, in order
+1. **Validate authoring experience in real integrations.** Collect concrete
+   feedback about snapshot ownership, controls, scene handlers and rendering.
+   Record issues and distinguish required contract fixes from application code
+   or optional helpers. The self-authored SVG consumer is completed evidence,
+   but independent-user feedback has not yet been collected. No fixed number of
+   new examples or new features is required.
+2. **Make an explicit compatibility decision.** Review the four module contracts
+   and deliberate limits above, document the supported runtime/browser/tooling
+   scope justified by testing, and decide whether to support these APIs long-term.
+   Resolve any blocking findings first; otherwise continue compatible 0.x patches.
+   There is no scheduled 1.0 date or automatic promotion after a patch release.
+3. **Verify an authorized 1.0 candidate.** Update version/lockfile/changelog,
+   run `npm test` and `npm run test:package`, and require successful CI on that
+   exact SHA. Perform focused browser checks of minimal playback, object lifecycle
+   and Canvas palette/context behavior within the chosen browser support scope.
+   Record the actual versions and results; older browser checks are not new ones.
+4. **Publish only with explicit authorization.** Use the GitHub Release workflow
+   for the checked SHA, then verify npm's exact version, `latest` and provenance.
+   Website work remains separately authorized and coordinated in its own chat.
 
-Follow-up on 2026-11-02: object-lifecycle.html covers enter/update/exit, empty scenes,
-mixed controls and early disposal. playback-completion-matrix.test.mjs now compares
-timed frames and manual completion with final holds of 0 and 75 ms, including
-endpoint references, non-contiguous source indices, redraw, closure and repeated calls.
-The installed-package headless fixture now explicitly covers createStatePlayer,
-nextStep, omitted timing and undefined events with exactOptionalPropertyTypes.
-No public declaration or runtime change was required by this follow-up.
-
-Visual browser verification completed on 2026-11-02: enter/exit, mixed controls,
-early disposal with preserved drawing, restart, empty scenes and the extra completion
-request were checked in the live object-lifecycle page, with no browser errors.
-
-An isolated consumer outside the repository installed the published 0.11.0 registry
-tarball (not a local link). It defines application-owned card/heading types, projects
-domain states into scenes and renders retained SVG nodes using only /playback and
-/scene. Browser checks passed for partial enter/exit, mixed controls, removal of stale
-SVG nodes, disposal, restart and exhaustion. SVG markup was identical before/after
-early disposal. This validates an isolated application, not independent-user feedback.
-Website integration remains deferred by the user; no site change was made.
-
-The [public export audit](public-exports-audit.md) records the inventory and
-recommended compatibility decisions. Declaration cleanup shipped in 0.8.1;
-createStatePlayer extends the inventory in 0.11.0. The [minimal API audit](minimal-api-audit.md)
-records completed simplifications and the next independent visualization check.
-Candidate CI and consumer integration checks remain release gates.
-
-1. Completed: declaration/export review. Keep the four entry points and identical
-   createSortRenderer compatibility alias; no required runtime change was found.
-   Follow-up: the [array API audit](array-api-audit.md) found a JavaScript argument
-   validation defect in swap/shift with held. The 0.11.1 fix, prepared on 2026-11-03,
-   validates both indices and adds conservation/atomicity regressions. SortedRegions
-   also accepts explicit undefined in the input type. Valid-call signatures need no redesign;
-   verification of the exact future release candidate remains required.
-   The array reference now documents fixed length, one held item, trace-local IDs,
-   immutable snapshots, counters and sorted-region markers in English and Russian.
-   Local 0.11.1 checks passed all 117 tests and the installed-package consumer.
-   The [canvas API audit](canvas-api-audit.md), completed on 2026-11-05 against
-   0.11.1, recommends replacing a spread-based maximum that fails on large valid
-   arrays, defining Canvas context isolation, validating progress before drawing,
-   accepting colors: undefined in input types and rejecting invalid themes.
-   The 0.11.2 fix, prepared on 2026-11-05, addresses these recommendations without changing
-   exports, adds ten Canvas contract regressions and documents the RU/EN behavior.
-   All 127 tests and the installed-package consumer passed; native Canvas probes
-   confirmed pixel equality and context restoration. Candidate CI remains required.
-2. Completed: contract reconciliation and coverage. 113 tests, packed consumers
-   and CI passed at 59172ea; completion boundaries and state-player types are covered.
-3. Completed: live custom-object example and isolated published-package SVG consumer.
-   Website validation stays deferred and belongs in the website chat.
-4. Before any stabilization release, explicitly decide whether the current contracts
-   are ready for long-term support. No further feature is required by this audit;
-   feedback from actual external users has not been collected.
-5. After a release is authorized, run tests/packed-consumer checks and verify CI for
-   that exact candidate. Publish 1.0 only on explicit user authorization.
-
-A browser controller may be considered later if independent integrations reveal
-repeated needs. The new starter alone does not justify expanding the package API.
+The next preparation step is collecting and recording integration feedback.
+No unresolved required code change is identified by the completed audits.
