@@ -1,9 +1,10 @@
 import { createSortTrace } from "./snapshot-builder.js";
 import type { Item, ArrayStep } from "./types.js";
 
+/** Omitted or undefined markers preserve their current values. */
 export interface SortedRegions {
-    readonly sortedPrefixLength?: number;
-    readonly sortedSuffixLength?: number;
+    readonly sortedPrefixLength?: number | undefined;
+    readonly sortedSuffixLength?: number | undefined;
 }
 export interface ArrayTrace {
     readonly length: number;
@@ -65,7 +66,8 @@ export function createArrayTrace(values: readonly number[]): ArrayTrace {
             return emit({ type: "highlight", itemIds });
         },
         swap(left: number, right: number, update?: SortedRegions) {
-            active(); const a = item(left), b = item(right);
+            active(); index(left); index(right);
+            const a = item(left), b = item(right);
             if (left === right) throw new RangeError("Swap requires distinct positions");
             regions(update); slots[left] = b; slots[right] = a;
             return emit({ type: "swap", leftId: a.id, rightId: b.id, left, right });
@@ -78,7 +80,8 @@ export function createArrayTrace(values: readonly number[]): ArrayTrace {
             return emit({ type: "select", itemId: selected.id, from });
         },
         shift(from: number, to: number, update?: SortedRegions) {
-            active(); const moved = item(from); index(to);
+            active(); index(from); index(to);
+            const moved = item(from);
             if (slots[to] !== null) throw new Error("Shift destination must be empty");
             regions(update); slots[to] = moved; slots[from] = null;
             return emit({ type: "shift", itemId: moved.id, from, to });

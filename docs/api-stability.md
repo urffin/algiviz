@@ -90,6 +90,11 @@ Candidate CI and consumer integration checks remain release gates.
 
 1. Completed: declaration/export review. Keep the four entry points and identical
    createSortRenderer compatibility alias; no required runtime change was found.
+   Follow-up: the [array API audit](array-api-audit.md) found a JavaScript argument
+   validation defect in swap/shift with held. The unreleased fix on 2026-11-03
+   validates both indices and adds conservation/atomicity regressions. SortedRegions
+   also accepts explicit undefined in the input type. Valid-call signatures need no redesign;
+   verification of the exact future release candidate remains required.
 2. Completed: contract reconciliation and coverage. 113 tests, packed consumers
    and CI passed at 59172ea; completion boundaries and state-player types are covered.
 3. Completed: live custom-object example and isolated published-package SVG consumer.

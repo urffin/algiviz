@@ -33,6 +33,21 @@ createSceneRenderer<Objects,number[],string>({node(out, object) {
     if (value) out.push(value.data.x);
 }}).render([],frame);
 createArrayTrace([1]).start();
+const optionalRegions: SortedRegions = { sortedPrefixLength: undefined, sortedSuffixLength: undefined };
+const regionTrace = createArrayTrace([3, 2, 1]);
+regionTrace.start(optionalRegions);
+regionTrace.swap(0, 2, optionalRegions);
+regionTrace.select(1, optionalRegions);
+regionTrace.shift(0, 1, optionalRegions);
+regionTrace.insert(0, optionalRegions);
+regionTrace.pass(2, optionalRegions);
+regionTrace.done(optionalRegions);
+// @ts-expect-error Markers accept numeric lengths or undefined, not null.
+const nullRegions: SortedRegions = { sortedPrefixLength: null };
+// @ts-expect-error The held sentinel is only valid for compare/highlight.
+regionTrace.swap('held', 1);
+// @ts-expect-error shift requires numeric positions.
+regionTrace.shift('held', 0);
 const algorithm = defineArrayAlgorithm(function* (array) { yield array.start(); yield array.done(); });
 const arrayPlayer = createArrayPlayer(algorithm.iterate([1]));
 const arrayFrame: ArrayFrame = arrayPlayer.nextStep();

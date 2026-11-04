@@ -1,4 +1,4 @@
-import { defineArrayAlgorithm, createArrayPlayer, createArrayTimeline } from "@grundyjs/algiviz/array";
+import { createArrayTrace, defineArrayAlgorithm, createArrayPlayer, createArrayTimeline, type SortedRegions } from "@grundyjs/algiviz/array";
 import { arrayScene, createArrayRenderer } from "@grundyjs/algiviz/canvas";
 import { createSceneRenderer, type Scene } from "@grundyjs/algiviz/scene";
 import { createPlayer, createTimeline, type Step } from "@grundyjs/algiviz/playback";
@@ -6,6 +6,23 @@ import { createPlayer, createTimeline, type Step } from "@grundyjs/algiviz/playb
 function check(value: unknown, message: string): asserts value {
     if (!value) throw new Error(message);
 }
+const optionalMarkers: SortedRegions = { sortedPrefixLength: undefined, sortedSuffixLength: undefined };
+const arrayTrace = createArrayTrace([2, 1]);
+arrayTrace.start({ sortedPrefixLength: 1, sortedSuffixLength: 1 });
+arrayTrace.select(0, optionalMarkers);
+for (const [operation, args] of [
+    [arrayTrace.swap, ['held', 1]], [arrayTrace.swap, [1, 'held']],
+    [arrayTrace.shift, ['held', 0]], [arrayTrace.shift, [1, 'held']],
+] as const) {
+    let rejected = false;
+    try { Reflect.apply(operation, undefined, args); } catch (error) { rejected = error instanceof RangeError; }
+    check(rejected, 'Installed array operation accepted a non-numeric position');
+}
+const restored = arrayTrace.insert(0, optionalMarkers);
+check(restored.index === 2 && restored.state.writes === 1, 'Rejected operation changed counters/index');
+check(restored.state.slots.map(item => item?.id).join() === 'item-0,item-1', 'Rejected operation lost identities');
+check(restored.state.sortedPrefixLength === 1 && restored.state.sortedSuffixLength === 1, 'Undefined markers changed regions');
+arrayTrace.done(optionalMarkers);
 const reverse = defineArrayAlgorithm(function* (array) {
     yield array.start();
     for (let i = 0; i < Math.floor(array.length / 2); i++) yield array.swap(i, array.length - i - 1);

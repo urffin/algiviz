@@ -49,7 +49,7 @@ iterator owns a separate workspace and copies/validates input on the first
 `next()`. `steps` collects the iterator into a frozen array. Yield every
 operation immediately, begin with `start`, and end with `done`. Each operation
 updates the workspace and returns an immutable snapshot; it does not draw.
-The player invokes the supplied `render` initially and on every `advance`.
+The player invokes the supplied `render` initially and on every `advance` or `nextStep`.
 Rendering errors close the iterator and propagate to the caller.
 
 ## Array operations
@@ -68,10 +68,13 @@ Rendering errors close the iterator and propagate to the caller.
 | `done(regions?)` | Finish; requires no held item; does not sort or infer sorted regions |
 
 `regions` can contain `sortedPrefixLength` and `sortedSuffixLength`.
-Omitted markers retain their previous values. The author decides when regions
+Omitted or explicitly `undefined` markers retain their previous values, including
+when TypeScript's `exactOptionalPropertyTypes` is enabled. The author decides when regions
 are sorted; AlgiViz validates their bounds but does not prove that claim. Positions
 are zero-based; invalid positions, occupied destinations and invalid operation
-order throw before mutating the workspace. Read snapshots rather than modifying
+order throw before mutating the workspace. `"held"` is accepted only by `compare`
+and `highlight`; `swap` and `shift` require integer indices for both positions.
+Read snapshots rather than modifying
 items yourself. `createArrayTrace(values)` exposes the same operations directly,
 with immediate input validation, for authors writing their own generator wrapper.
 
