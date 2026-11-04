@@ -98,6 +98,11 @@ Candidate CI and consumer integration checks remain release gates.
    The array reference now documents fixed length, one held item, trace-local IDs,
    immutable snapshots, counters and sorted-region markers in English and Russian.
    Local 0.11.1 checks passed all 117 tests and the installed-package consumer.
+   The [canvas API audit](canvas-api-audit.md), completed on 2026-11-05 against
+   0.11.1, recommends replacing a spread-based maximum that fails on large valid
+   arrays, defining Canvas context isolation, validating progress before drawing,
+   accepting colors: undefined in input types and rejecting invalid themes.
+   These are pending targeted fixes; no export redesign is proposed.
 2. Completed: contract reconciliation and coverage. 113 tests, packed consumers
    and CI passed at 59172ea; completion boundaries and state-player types are covered.
 3. Completed: live custom-object example and isolated published-package SVG consumer.
