@@ -1,6 +1,6 @@
 # API stabilization before 1.0
 
-Updated 2026-11-05 for 0.11.1; the original review used 0.11.0 (4f0f9cc).
+Updated 2026-11-05 for 0.11.2; the original review used 0.11.0 (4f0f9cc).
 This is a preparation plan, not authorization to publish 1.0.
 
 Decision on 2026-10-26: defer 1.0 and release the compatible changes as 0.8.1.
@@ -102,7 +102,7 @@ Candidate CI and consumer integration checks remain release gates.
    0.11.1, recommends replacing a spread-based maximum that fails on large valid
    arrays, defining Canvas context isolation, validating progress before drawing,
    accepting colors: undefined in input types and rejecting invalid themes.
-   The working fix on 2026-11-05 addresses these recommendations without changing
+   The 0.11.2 fix, prepared on 2026-11-05, addresses these recommendations without changing
    exports, adds ten Canvas contract regressions and documents the RU/EN behavior.
    All 127 tests and the installed-package consumer passed; native Canvas probes
    confirmed pixel equality and context restoration. Candidate CI remains required.

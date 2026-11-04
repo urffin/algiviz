@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.11.2 — 2026-11-05
+
+- Avoid argument-count limits when scaling large arrays in the Canvas renderer.
+- Isolate Canvas composite, filter and shadow settings alongside transform/alpha;
+  restore caller settings even when drawing throws.
+- Reject invalid frame progress before drawing; preserve the zero-sized bitmap no-op.
+- Require a valid light/dark theme at runtime and allow explicitly undefined colors
+  with exactOptionalPropertyTypes. Preserve the createSortRenderer compatibility alias.
+- Document Canvas coordinates, context ownership, scene adaptation, color priority
+  and error behavior in English and Russian; add renderer and packed-consumer regressions.
+
 ## 0.11.1 — 2026-11-05
 
 - Validate both numeric positions in array swap/shift before reading or mutating
