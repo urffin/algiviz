@@ -1,13 +1,15 @@
 # API stabilization before 1.0
 
-Updated 2026-11-05 against published **0.11.2**, release commit
+Updated 2026-11-06 against published **0.11.2**, release commit
 [`b7f46ade478c25738ac77a3023fb4cd6c0b3995e`](https://github.com/urffin/algiviz/commit/b7f46ade478c25738ac77a3023fb4cd6c0b3995e).
 
 The technical recommendations from the export, minimal API, array and Canvas
 audits are implemented and released. No remaining finding from these audits
 requires an API redesign or a new feature. **1.0 remains deferred**: readiness
-for long-term compatibility, experience from real users and checks of the actual
+for long-term compatibility, a defined support matrix and checks of the actual
 future candidate are separate from completion of these technical tasks.
+The owner's website and video production are current real-use evidence. External
+feedback is welcome when available, but is not a prerequisite for 1.0.
 This plan does not authorize a 1.0 release or a website upgrade.
 
 ## Readiness of the four modules
@@ -95,6 +97,14 @@ Additional integration evidence has a narrower scope than the release CI:
   inherited composite/filter/shadow settings, context restoration, rejection of
   invalid progress before pixel changes and preservation of inherited clipping.
   These complement the mock-based regressions; they do not certify browsers or FPS.
+- On 2026-11-06 the owner reported that adding the latest video visualizations
+  required no library API changes. This supports the application-owned algorithm
+  and visualization boundary in actual use. It is owner-reported evidence, not
+  a new website-version, browser or video-pipeline verification in this chat.
+
+Independent usage is currently unknown. Finding additional users and collecting
+their reviews is optional; it does not block stabilization or replace the
+existing integration evidence.
 
 The current release's successful CI does not certify a later 1.0 candidate.
 
@@ -126,22 +136,24 @@ The current release's successful CI does not certify a later 1.0 candidate.
   and pixel-perfect output guarantees are not prerequisites for 1.0.
 - CI verifies Node 22/24 and emitted ES2022 code; it does not establish support
   for every browser, TypeScript version or Node release. Any broader support
-  promise needs its own scope and evidence.
+  promise needs its own scope and evidence. The [support matrix](support-matrix.md)
+  separates current checks, proposed coverage and remaining verification.
 - Website upgrades and compatibility checks remain deferred by the user and
   belong in the website chat. They are not silently added to this release plan.
 
 ## What remains before 1.0, in order
 
-1. **Validate authoring experience in real integrations.** Collect concrete
-   feedback about snapshot ownership, controls, scene handlers and rendering.
-   Record issues and distinguish required contract fixes from application code
-   or optional helpers. The self-authored SVG consumer is completed evidence,
-   but independent-user feedback has not yet been collected. No fixed number of
-   new examples or new features is required.
+1. **Define and verify the support matrix.** Use the [matrix](support-matrix.md)
+   to record Node, TypeScript and browser versions, module-resolution modes and
+   actual results. Distinguish the library runtime from repository tooling and
+   standalone-demo requirements. Confirm proposed targets before advertising them.
 2. **Make an explicit compatibility decision.** Review the four module contracts
-   and deliberate limits above, document the supported runtime/browser/tooling
-   scope justified by testing, and decide whether to support these APIs long-term.
+   and deliberate limits above, use the owner's website/video experience and the
+   completed integrations to assess authoring friction, and decide whether to
+   support these APIs long-term within the verified support scope.
    Resolve any blocking findings first; otherwise continue compatible 0.x patches.
+   External feedback can inform this decision when available; waiting for new
+   users, a fixed number of reviews or additional algorithm examples is not required.
    There is no scheduled 1.0 date or automatic promotion after a patch release.
 3. **Verify an authorized 1.0 candidate.** Update version/lockfile/changelog,
    run `npm test` and `npm run test:package`, and require successful CI on that
@@ -152,5 +164,5 @@ The current release's successful CI does not certify a later 1.0 candidate.
    for the checked SHA, then verify npm's exact version, `latest` and provenance.
    Website work remains separately authorized and coordinated in its own chat.
 
-The next preparation step is collecting and recording integration feedback.
+The next preparation step is verifying the proposed support matrix.
 No unresolved required code change is identified by the completed audits.

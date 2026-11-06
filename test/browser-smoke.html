@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>AlgiViz browser compatibility smoke check</title>
+<style>body{max-width:1000px;margin:32px auto;padding:16px;font:16px system-ui}canvas{max-width:100%;border:1px solid #bbb}pre{white-space:pre-wrap;overflow-wrap:anywhere}li{margin:8px 0}</style>
+<h1>AlgiViz browser compatibility</h1>
+<p>Manual smoke check of the local build. This page sends no results to an external service.</p>
+<p id="status" role="status">Running…</p>
+<ul id="checks"></ul>
+<canvas id="canvas" width="400" height="300" aria-label="Canvas array rendering check"></canvas>
+<svg id="scene" width="200" height="40" aria-label="Retained SVG lifecycle check"></svg>
+<pre id="report"></pre>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/array":"../dist/array/index.js","@grundyjs/algiviz/canvas":"../dist/canvas/index.js"}}</script>
+<script type="module" src="./browser-smoke.mjs"></script>
+</html>
