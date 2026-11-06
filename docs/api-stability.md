@@ -137,7 +137,9 @@ The current release's successful CI does not certify a later 1.0 candidate.
 - CI verifies Node 22/24 and emitted ES2022 code; it does not establish support
   for every browser, TypeScript version or Node release. Any broader support
   promise needs its own scope and evidence. The [support matrix](support-matrix.md)
-  separates current checks, proposed coverage and remaining verification.
+  separates current checks, proposed coverage and remaining verification. The
+  updated workflow adds Node 26 and four TypeScript consumer versions; the first
+  remote run of the expanded matrix remains pending.
 - Website upgrades and compatibility checks remain deferred by the user and
   belong in the website chat. They are not silently added to this release plan.
 

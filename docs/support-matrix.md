@@ -23,12 +23,13 @@ DOM types. No CommonJS, Bun or Deno support promise is introduced here.
 | --- | --- | --- |
 | Node 22.x | Verified CI family | Windows and Linux: build, all 127 tests and installed-package consumer. Exact local runtime for the TypeScript checks below: 22.17.0 on Windows. |
 | Node 24.x | Verified CI family | The same four-entry-point checks on Windows and Linux. Current npm publishing also uses Node 24. |
-| Node 26.x | Proposed addition | Node 26 is LTS in the official release table as of this review. Add it to CI and obtain successful full-suite/packed-consumer results before claiming support. |
+| Node 26.x | Configured CI target; remote result pending | The workflow now includes full-suite/packed-consumer jobs on Windows and Linux. Obtain a successful run before claiming verified support. |
 | Other majors | Unverified / outside the proposal | Do not infer support from ES2022 output. EOL or prerelease majors are not proposed release targets. |
 
 The [release CI](https://github.com/urffin/algiviz/actions/runs/41932170508)
-verified 22/24 at the 0.11.2 SHA; the current [workflow](../.github/workflows/ci.yml)
-does not yet contain 26. Family checks are not a claim that every historical
+verified 22/24 at the 0.11.2 SHA; the updated [workflow](../.github/workflows/ci.yml)
+adds 26, for six runtime jobs in total. This new configuration is distinct from
+the already completed release CI. Family checks are not a claim that every historical
 minor/patch was tested. Prefer maintained patch releases when defining support.
 No `engines` field is changed until the advertised boundary is decided.
 
@@ -69,11 +70,25 @@ Checks reuse the actual [headless fixture](../test/package-headless.ts),
 - NodeNext uses `module: "NodeNext"`; Bundler uses `module: "ESNext"`.
 
 The library itself is built with pinned TypeScript **6.0.3**. Consumers do not
-need that exact compiler just because it builds the library. Current automated
-CI and `npm run test:package` use only that pinned compiler. Before promoting the
-proposal to an ongoing support policy, automate the lower bound, latest selected
-5.x and 6.0 consumer checks in both resolution modes against an installed tarball.
-Do not downgrade the library build compiler merely to test consumers.
+need that exact compiler just because it builds the library. The updated workflow
+adds four independent TypeScript consumer jobs on Ubuntu with Node 24, using all
+four compiler versions above. Each checks both module-resolution modes with and
+without DOM and executes the emitted DOM consumer: 16 configurations and eight
+runtime executions in total. The first remote run of these jobs remains pending.
+
+The [packed-consumer checker](../scripts/test-package.mjs) accepts an exact
+consumer compiler version and resolution mode:
+
+```sh
+npm run test:package -- --typescript 5.0.4 --resolution all
+```
+
+Alternate compilers are installed only in the check's temporary workspace.
+`npm pack` still builds the library with the pinned repository compiler. Plain
+`npm run test:package` retains its pinned-compiler/NodeNext behavior for the main
+runtime matrix and publishing workflow. `--resolution` accepts `NodeNext`,
+`Bundler` or `all`; `--typescript` requires an exact stable version. Repository
+dependencies and the lockfile are not replaced by consumer compiler selection.
 
 ## Browsers
 
@@ -122,12 +137,11 @@ code, not a fresh registry-tarball browser install or a future 1.0 candidate.
 
 ## Next work
 
-1. Add Node 26 to CI and verify its full test/installed-package checks.
-2. Make the successful TypeScript consumer matrix a repeatable CI gate while
-   keeping the build compiler pinned.
-3. Run the named browser targets, starting with available desktop engines;
+1. Verify and record the first remote run of the six runtime jobs and four
+   TypeScript consumer jobs, including the new Node 26 targets.
+2. Run the named browser targets, starting with available desktop engines;
    track Safari/iOS as pending until that environment is actually checked.
-4. Decide and document the advertised 1.0 support scope from these results, then
+3. Decide and document the advertised 1.0 support scope from these results, then
    apply the [exact-candidate release checks](api-stability.md#what-remains-before-10-in-order).
 
 External reviews and additional users are optional. The owner's website/video

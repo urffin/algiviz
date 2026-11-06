@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node: [22, 24]
+        node: [22, 24, 26]
     steps:
       - uses: actions/checkout@v6
         with:
@@ -36,3 +36,25 @@ jobs:
         run: npm test
       - name: Verify packed consumer
         run: npm run test:package
+
+  typescript:
+    name: TypeScript ${{ matrix.typescript }} consumer
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        typescript: ["5.0.4", "5.4.5", "5.9.3", "6.0.3"]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      # npm pack builds with the pinned compiler. Only the installed consumer
+      # uses the selected version; it does not replace repository dependencies.
+      - name: Verify NodeNext and Bundler consumers
+        run: npm run test:package -- --typescript ${{ matrix.typescript }} --resolution all
