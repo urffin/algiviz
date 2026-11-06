@@ -77,6 +77,7 @@ list of unresolved defects in 0.11.2.
 | Installed tarball | `npm run test:package` passed. It checks the complete runtime inventory, private/root/`/core` rejection, alias identity, every public type, strict `exactOptionalPropertyTypes`, runtime consumers and compilation of the TypeScript starter. See the [export fixture](../test/package-exports.mjs) and [consumer](../test/package-consumer.ts). |
 | Headless separation | The [headless fixture](../test/package-headless.ts) compiles `/playback`, `/scene` and `/array` with ES2022 and no DOM/ambient types. `/canvas` declarations intentionally require DOM types. |
 | Exact release CI | [Run 41932170508](https://github.com/urffin/algiviz/actions/runs/41932170508) passed on Windows/Linux with Node 22/24 at `b7f46ad`, including the packed consumer in all four jobs. |
+| Expanded compatibility CI | [Run 42171367290](https://github.com/urffin/algiviz/actions/runs/42171367290) passed at `b2d6c62` on 2026-11-06: six Node 22/24/26 jobs on Windows/Linux and four TypeScript 5.0.4/5.4.5/5.9.3/6.0.3 consumer jobs on Ubuntu/Node 24. See the [support matrix](support-matrix.md) for exact scope. |
 | Release and npm | [v0.11.2](https://github.com/urffin/algiviz/releases/tag/v0.11.2) targets that exact SHA. [Publishing workflow](https://github.com/urffin/algiviz/actions/runs/41932362639) succeeded; npm version 0.11.2, matching `gitHead`, `latest` and provenance were verified on 2026-11-05. |
 
 Additional integration evidence has a narrower scope than the release CI:
@@ -134,21 +135,22 @@ The current release's successful CI does not certify a later 1.0 candidate.
   optimization candidates. Benchmark a concrete workload before changing them.
   Automatic controllers, localization/formatting options, configurable easing
   and pixel-perfect output guarantees are not prerequisites for 1.0.
-- CI verifies Node 22/24 and emitted ES2022 code; it does not establish support
+- CI verifies Node 22/24/26 and emitted ES2022 code; it does not establish support
   for every browser, TypeScript version or Node release. Any broader support
   promise needs its own scope and evidence. The [support matrix](support-matrix.md)
-  separates current checks, proposed coverage and remaining verification. The
-  updated workflow adds Node 26 and four TypeScript consumer versions; the first
-  remote run of the expanded matrix remains pending.
+  separates current checks, proposed coverage and remaining verification. All ten
+  jobs in the first expanded Node/TypeScript run passed; named browser products
+  and historical browser versions remain separate unverified targets.
 - Website upgrades and compatibility checks remain deferred by the user and
   belong in the website chat. They are not silently added to this release plan.
 
 ## What remains before 1.0, in order
 
-1. **Define and verify the support matrix.** Use the [matrix](support-matrix.md)
-   to record Node, TypeScript and browser versions, module-resolution modes and
-   actual results. Distinguish the library runtime from repository tooling and
-   standalone-demo requirements. Confirm proposed targets before advertising them.
+1. **Complete the browser part of the support matrix.** Node/TypeScript coverage
+   is verified in the expanded CI. Use the [matrix](support-matrix.md) to record
+   actual browser versions and results. Distinguish the library runtime from
+   repository tooling and standalone-demo requirements. Confirm proposed targets
+   before advertising them; embedded Chromium is not every branded browser.
 2. **Make an explicit compatibility decision.** Review the four module contracts
    and deliberate limits above, use the owner's website/video experience and the
    completed integrations to assess authoring friction, and decide whether to
@@ -166,5 +168,5 @@ The current release's successful CI does not certify a later 1.0 candidate.
    for the checked SHA, then verify npm's exact version, `latest` and provenance.
    Website work remains separately authorized and coordinated in its own chat.
 
-The next preparation step is verifying the proposed support matrix.
+The next preparation step is verifying the proposed browser coverage.
 No unresolved required code change is identified by the completed audits.

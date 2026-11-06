@@ -1,7 +1,7 @@
 # Support matrix before 1.0
 
-Updated 2026-11-06 for AlgiViz 0.11.2. This is the initial support proposal and
-verification record, not a new package version or a promise about untested targets.
+Updated 2026-11-06 for AlgiViz 0.11.2. This records verified Node/TypeScript
+coverage and proposed browser coverage, not a promise about untested targets.
 See the [stabilization plan](api-stability.md) for the remaining release decisions.
 
 ## Scope and status
@@ -23,13 +23,17 @@ DOM types. No CommonJS, Bun or Deno support promise is introduced here.
 | --- | --- | --- |
 | Node 22.x | Verified CI family | Windows and Linux: build, all 127 tests and installed-package consumer. Exact local runtime for the TypeScript checks below: 22.17.0 on Windows. |
 | Node 24.x | Verified CI family | The same four-entry-point checks on Windows and Linux. Current npm publishing also uses Node 24. |
-| Node 26.x | Configured CI target; remote result pending | The workflow now includes full-suite/packed-consumer jobs on Windows and Linux. Obtain a successful run before claiming verified support. |
+| Node 26.x | Verified CI family | Full-suite/packed-consumer jobs passed on Windows and Linux in the expanded matrix. |
 | Other majors | Unverified / outside the proposal | Do not infer support from ES2022 output. EOL or prerelease majors are not proposed release targets. |
 
-The [release CI](https://github.com/urffin/algiviz/actions/runs/41932170508)
-verified 22/24 at the 0.11.2 SHA; the updated [workflow](../.github/workflows/ci.yml)
-adds 26, for six runtime jobs in total. This new configuration is distinct from
-the already completed release CI. Family checks are not a claim that every historical
+The [expanded compatibility CI](https://github.com/urffin/algiviz/actions/runs/42171367290)
+passed all six runtime jobs at `b2d6c62b27e7d81faba3da20234470d550a1b73e` on
+2026-11-06. Its Linux setup logs report Node 22.23.4, 24.22.2 and 26.13.0;
+the corresponding Windows major-version jobs also passed. The
+[workflow](../.github/workflows/ci.yml) keeps all six targets. The older
+[release CI](https://github.com/urffin/algiviz/actions/runs/41932170508) remains
+evidence for the exact published 0.11.2 SHA, which tested 22/24.
+Family checks are not a claim that every historical
 minor/patch was tested. Prefer maintained patch releases when defining support.
 No `engines` field is changed until the advertised boundary is decided.
 
@@ -74,7 +78,10 @@ need that exact compiler just because it builds the library. The updated workflo
 adds four independent TypeScript consumer jobs on Ubuntu with Node 24, using all
 four compiler versions above. Each checks both module-resolution modes with and
 without DOM and executes the emitted DOM consumer: 16 configurations and eight
-runtime executions in total. The first remote run of these jobs remains pending.
+runtime executions in total. All four jobs passed in the
+[expanded compatibility CI](https://github.com/urffin/algiviz/actions/runs/42171367290)
+on 2026-11-06 at `b2d6c62`, in addition to the earlier local checks. The unchanged
+default `test:package` path also passed in every Node/OS runtime job.
 
 The [packed-consumer checker](../scripts/test-package.mjs) accepts an exact
 consumer compiler version and resolution mode:
@@ -137,10 +144,10 @@ code, not a fresh registry-tarball browser install or a future 1.0 candidate.
 
 ## Next work
 
-1. Verify and record the first remote run of the six runtime jobs and four
-   TypeScript consumer jobs, including the new Node 26 targets.
-2. Run the named browser targets, starting with available desktop engines;
+1. Run the named browser targets, starting with available desktop engines;
    track Safari/iOS as pending until that environment is actually checked.
+2. Keep the Node/TypeScript CI gates passing for subsequent changes; the first
+   expanded run is complete and does not need to be repeated as a separate task.
 3. Decide and document the advertised 1.0 support scope from these results, then
    apply the [exact-candidate release checks](api-stability.md#what-remains-before-10-in-order).
 
