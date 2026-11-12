@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Your first Player</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c1423;color:#edf4ff;font:17px/1.6 system-ui}
+main{max-width:760px;margin:40px auto;padding:24px}nav,small{font-size:14px}a{color:#b39bff}
+h1{font-size:32px;line-height:1.2;margin:24px 0 16px}p{color:#b7c7dc}code{color:#d7caff}
+canvas{display:block;width:100%;height:auto;background:#0c1423}#player{margin:24px 0}
+a:focus-visible{outline:2px solid #83e6cf;outline-offset:4px}@media(max-width:600px){main{margin:0 auto;padding:20px}h1{font-size:26px}}
+</style>
+<main>
+<nav><a href="index.html">← All examples</a> · <a href="https://github.com/urffin/algiviz/blob/master/docs/getting-started.md">Step-by-step guide</a></nav>
+<h1>Your first Player</h1>
+<p>A generator supplies four positions: <code>40 → 200 → 360 → 560</code>.
+Your callback draws the circle; AlgiViz provides the controls.</p>
+<div id="player"><canvas width="600" height="160" aria-label="A circle moving between four positions"></canvas></div>
+<p>Press <strong>Start</strong> to draw the first position, then <strong>Next state</strong>
+to move the circle. One more click after the last position detects completion.
+<strong>Restart</strong> creates a fresh generator and shows the first position.</p>
+<small>This is the manual example from the README, without interpolation.
+<a href="getting-started.mjs">JavaScript source</a> ·
+<a href="optional-player.html">Timed playback, recording and SVG</a> ·
+<a href="visualization-pipeline.html">Manual playback with code highlighting</a></small>
+</main>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/player":"../dist/player/index.js"}}</script>
+<script type="module" src="getting-started.mjs"></script>
+</html>

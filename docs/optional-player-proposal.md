@@ -7,7 +7,32 @@ module contracts remain the stabilization baseline. A local example-only
 committed at `12f8fb3`. Implementation commit `fa22032` adds the
 [0.12.0 `/player` entry](player.md), absent in 0.11.2.
 
-## Release value of the current changes
+## Current progress
+
+0.12.0 was released at `9160f81`; all eleven
+[candidate CI jobs](https://github.com/urffin/algiviz/actions/runs/43205252404)
+and the publication workflow passed. npm version, latest, source commit,
+provenance and a fresh registry installation were verified. The introductory
+README and RU/EN guide were then updated at `79229ce`, also with eleven CI jobs passing.
+
+The [runnable README circle](../examples/getting-started.html) now uses the public
+`Player` with no custom control wiring. Embedded-browser checks on 2026-11-12
+covered Start, all four positions, exhaustion on the additional request, Restart
+and usable idle controls after navigating away and back; console warnings/errors
+were empty. The actual module was also checked with the existing DOM harness for
+pagehide cleanup, preservation of the drawing, and a single fresh idle instance
+on `pageshow` with `persisted: true`. These are local-build checks within the
+existing browser boundary. All 172 repository tests passed.
+
+The Canvas viewport sizing audit and an example-only prototype are now complete:
+see the [contract and checks](canvas-viewport-prototype.md)
+([Русский](ru/canvas-viewport-prototype.md)). BFS and binary search share CSS-content
+sizing, DPR handling and cleanup; all 182 tests passed. The next step is reviewing
+the boundary for a possible public helper, including real high-DPI checks and
+the separate bitmap-coordinate renderer contract. No package export or release
+is implied by this prototype.
+
+## Historical release assessment after 0.11.2
 
 At the proposal stage after published 0.11.2, `src`, `package.json` and `package-lock.json` had no
 changes. Boids, sand, the shared controller, tests and most documentation live
@@ -132,7 +157,7 @@ mounted UI in the supported browser host; old smoke results do not cover it.
 
 | Candidate | Concrete benefit | Boundary |
 | --- | --- | --- |
-| Optional player | Removes repeated scheduling and control wiring; the strongest demonstrated need | Prototype on the minimal walkthrough and one different domain before adding the export. |
+| Optional player | Shipped in 0.12.0; removes repeated scheduling and control wiring | The README circle, Canvas recording and SVG stream exercise the public API; preserve the headless and deferred-loading boundaries. |
 | Canvas viewport helper | Consolidates repeated CSS/bitmap size, DPR and resize handling seen in custom examples | Opt-in browser helper with explicit coordinate semantics and teardown; do not silently change the existing renderer's bitmap contract. |
 | Bounded rewind adapter | Allows a few backward steps while retaining a configured window of generator states | Only if needed: make history loss, replay, source ownership and the O(window × state size) cost explicit. Do not change forward-only core semantics. |
 | Cooperative scheduling / later worker adapter | Keeps long-running generation from monopolizing the UI | A controller can yield between operations, but cannot interrupt one expensive synchronous iterator.next(). Async/worker sources need a separate cancellation/error/serialization design. |

@@ -66,7 +66,8 @@ Restart вызывает фабрику заново, поэтому `source` п
 `previous`, `current` и `progress`. При удалении вызовите `player.dispose()`:
 панель, таймеры и слушатели удалятся, а Canvas и последний рисунок сохранятся.
 
-Попробуйте [пример с записью Canvas и потоком SVG](../../examples/optional-player.html).
+Запустите [пример круга из README](../../examples/getting-started.html), затем
+попробуйте [запись Canvas и поток SVG](../../examples/optional-player.html).
 [Справочник плеера](player.md) описывает подписи, скрытие панели, историю, ошибки,
 владение viewport и подключение `/player` через динамический `import()`.
 

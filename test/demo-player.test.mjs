@@ -35,6 +35,12 @@ test(`shared demo controller preserves sessions, disposal and stepping (${playba
         assert.equal(elements.previous.disabled, false);
         elements.next.onclick(); assert.equal(output.stepIndex, 1);
         elements.previous.onclick(); assert.equal(output.stepIndex, 0);
+        const beforeRestore = output, closedBeforeRestore = closed;
+        listeners.pageshow({ persisted: false });
+        elements.mode.value = 'generator'; // Browser-restored form value, not a new load request.
+        callback(0);
+        assert.equal(elements.mode.value, 'history');
+        assert.deepEqual(output, beforeRestore); assert.equal(closed, closedBeforeRestore);
     } finally {
         for (const [key, descriptor] of Object.entries(originals)) { if (descriptor) Object.defineProperty(globalThis, key, descriptor); else delete globalThis[key]; }
     }

@@ -66,7 +66,8 @@ alone does not interpolate your drawing: smooth movement requires using
 `player.dispose()` on teardown; controls, timers and listeners are removed while
 the canvas and its last drawing remain.
 
-Try the [Canvas recording and SVG stream example](../examples/optional-player.html).
+Run the [README circle example](../examples/getting-started.html), then try the
+[Canvas recording and SVG stream example](../examples/optional-player.html).
 The [player reference](player.md) covers labels, auto-hide, history, errors,
 viewport ownership and loading `/player` with dynamic `import()`.
 

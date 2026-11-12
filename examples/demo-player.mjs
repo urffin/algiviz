@@ -9,12 +9,13 @@ export function createDemoPlayer({ source, isTerminal, render, timing: playbackT
     const note = $('mode-note') ?? $('mode-help');
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     configureControls();
-    let player, timeline, factory, mode = 'history', time = 0, running = false, last = null, request = 0;
+    let player, timeline, factory, mode = 'history', time = 0, running = false, last = null, request = 0, restoreRequest = 0;
     const finished = () => player ? player.finished : time >= timeline.durationMs;
     function pause() { running = false; last = null; cancelAnimationFrame(request); }
     function draw() {
         if (!player && !timeline) return;
         const frame = player ? player.frame : timeline.sample(time);
+        $('mode').value = mode;
         seek.value = String(time);
         $('play').textContent = running ? 'Pause' : finished() ? 'Replay' : 'Play';
         render(reduced.matches ? { ...frame, previous: frame.current, progress: 1 } : frame,
@@ -63,8 +64,17 @@ export function createDemoPlayer({ source, isTerminal, render, timing: playbackT
         draw();
     });
     document.addEventListener('visibilitychange', () => { if (document.hidden) { pause(); draw(); } });
-    window.addEventListener('pagehide', () => { pause(); player?.dispose(); });
-    window.addEventListener('pageshow', event => { if (event.persisted) attempt(() => load()); });
+    window.addEventListener('pagehide', () => {
+        cancelAnimationFrame(restoreRequest); restoreRequest = 0;
+        pause(); player?.dispose();
+    });
+    window.addEventListener('pageshow', event => {
+        if (event.persisted) attempt(() => load());
+        // Navigation may restore form values after pageshow. Reflect the actual
+        // session's mode on the next frame without reloading or advancing it.
+        cancelAnimationFrame(restoreRequest);
+        restoreRequest = requestAnimationFrame(() => { restoreRequest = 0; $('mode').value = mode; });
+    });
     reduced.addEventListener('change', draw);
     return { load, draw, pause() { pause(); draw(); }, get mode() { return mode; } };
 }

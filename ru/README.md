@@ -79,7 +79,8 @@ const player = new Player(container, {
 включить Play/Pause и выбор скорости. При удалении визуализации вызовите
 `player.dispose()`; последний рисунок сохранится.
 
-Продолжите с [пошаговым руководством](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md):
+[Запустите этот пример локально](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html)
+или продолжите с [пошаговым руководством](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md):
 готовая панель, ручное управление и собственные типы объектов через `/scene`.
 В [справочнике плеера](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md)
 описаны история, перемотка, подписи и загрузка по запросу.
@@ -101,6 +102,7 @@ const player = new Player(container, {
 
 | Пример | Что демонстрирует |
 | --- | --- |
+| [Первый Player](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html) | Круг из README со стандартной панелью и ленивыми ручными шагами |
 | [Как рождается кадр](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html) | Путь от генератора через плеер и сцену к отрисовке, показанный средствами AlgiViz |
 | [Лаборатория сортировок](https://github.com/urffin/algiviz/blob/master/examples/index.html) | Сортировки вставками и пузырьком с операциями массива и готовым рендерером |
 | [Сортировка слиянием](https://github.com/urffin/algiviz/blob/master/examples/merge.html) | Собственное состояние и сцена из двух строк для основного массива и буфера |

@@ -17,6 +17,7 @@ included in the npm archive.
 
 | Example | What it demonstrates |
 | --- | --- |
+| [Your first Player](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html) | The README circle with the standard panel, lazy manual states and restart |
 | [Object lifecycle](https://github.com/urffin/algiviz/blob/master/examples/object-lifecycle.html) | Empty scenes, enter/update/exit, mixed advance/nextStep control and early disposal with a consumption log |
 | [Optional browser player](https://github.com/urffin/algiviz/blob/master/examples/optional-player.html) | Public `/player` import from the local build, a seekable Canvas recording and a forward-only SVG stream |
 | [How a frame is made](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html) | AlgiViz visualizes its own generator → player → scene → renderer pipeline (Russian walkthrough) |

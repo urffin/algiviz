@@ -17,6 +17,7 @@
 
 | Пример | Что демонстрирует |
 | --- | --- |
+| [Первый Player](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html) | Круг из README со стандартной панелью, ленивыми ручными шагами и перезапуском |
 | [Жизненный цикл объектов](https://github.com/urffin/algiviz/blob/master/examples/object-lifecycle.html) | Пустые сцены, enter/update/exit, чередование advance и nextStep, ранний dispose и журнал чтения генератора |
 | [Браузерный плеер](https://github.com/urffin/algiviz/blob/master/examples/optional-player.html) | Импорт `/player` из локальной сборки, запись Canvas с перемоткой и поток SVG только вперёд |
 | [Как рождается кадр](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html) | Путь от генератора через плеер и сцену к отрисовке, показанный средствами AlgiViz |

@@ -80,7 +80,8 @@ This example uses manual steps without interpolation. Add `stepDurationMs: 1000`
 to enable Play/Pause and speed controls. Call `player.dispose()` when removing the
 visualization; the last drawing remains.
 
-Continue with the [step-by-step guide](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md):
+[Run this example locally](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html),
+or continue with the [step-by-step guide](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md):
 ready-made controls, manual playback and custom object types with `/scene`.
 See the [player reference](https://github.com/urffin/algiviz/blob/master/docs/player.md)
 for history, seeking, labels and on-demand loading.
@@ -102,6 +103,7 @@ for history, seeking, labels and on-demand loading.
 
 | Example | What it demonstrates |
 | --- | --- |
+| [Your first Player](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html) | The README circle with standard controls and lazy manual states |
 | [How a frame is made](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html) | AlgiViz visualizes its own generator → player → scene → renderer pipeline (Russian walkthrough) |
 | [Sorting lab](https://github.com/urffin/algiviz/blob/master/examples/index.html) | Insertion and bubble sort using the array operations and renderer |
 | [Merge sort](https://github.com/urffin/algiviz/blob/master/examples/merge.html) | Custom state and a two-row scene for the main array and buffer |

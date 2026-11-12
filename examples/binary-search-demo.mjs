@@ -2,22 +2,24 @@ import { createDemoPlayer } from './demo-player.mjs';
 import { limits, generateValues } from './player-settings.mjs';
 import { binarySearch } from './binary-search-algorithm.mjs';
 import { binarySearchLayout, createBinarySearchRenderer } from './binary-search-scene.mjs';
+import { createCanvasViewport } from './canvas-viewport.mjs';
 const $ = id => document.getElementById(id);
-const canvas = document.querySelector('canvas'), ctx = canvas.getContext('2d');
+const canvas = document.querySelector('canvas');
+let viewport;
+function mountViewport() { viewport = createCanvasViewport(canvas, { onResize: () => playback.draw() }); }
+mountViewport();
+window.addEventListener('pagehide', () => viewport.dispose());
+window.addEventListener('pageshow', event => { if (event.persisted) mountViewport(); });
+const ctx = viewport.context;
 const renderer = createBinarySearchRenderer();
 const playback = createDemoPlayer({
     isTerminal: step => step.event.type === 'done',
     onError: error => { $('error').textContent = error.message; },
     render(frame, { running }) {
         const state = frame.current;
-        const width = Math.max(48, canvas.getBoundingClientRect().width);
-        const height = binarySearchLayout(width, state.values.length).height;
-        const ratio = window.devicePixelRatio || 1;
-        canvas.style.height = height + 'px';
-        const bitmapWidth = Math.round(width * ratio), bitmapHeight = Math.round(height * ratio);
-        if (canvas.width !== bitmapWidth) canvas.width = bitmapWidth;
-        if (canvas.height !== bitmapHeight) canvas.height = bitmapHeight;
-        ctx.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
+        const size = viewport.resize(width => binarySearchLayout(width, state.values.length).height);
+        if (!size) return;
+        const { width } = size;
         renderer.render(ctx, frame, width);
         const result = state.result === null ? 'pending' : state.result === -1 ? 'not found' : 'first occurrence at index ' + state.result;
         const text = 'Step ' + frame.stepIndex + ': ' + frame.event.type + ' · Target: ' + state.target +
@@ -54,6 +56,4 @@ $('generate').onclick = () => attempt(() => {
     // Always sorted; generated values follow the shared generation and mode limits.
     load(generateValues(Number($('size').value), 'sorted', playback.mode), target);
 });
-new ResizeObserver(() => playback.draw()).observe(canvas);
-window.addEventListener('resize', () => playback.draw());
 $('apply').click();

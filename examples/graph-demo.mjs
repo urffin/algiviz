@@ -1,8 +1,16 @@
 import { createDemoPlayer } from './demo-player.mjs';
 import { graphSteps, graphExamples } from './graph-algorithm.mjs';
 import { createGraphRenderer, graphLayout } from './graph-scene.mjs';
+import { createCanvasViewport } from './canvas-viewport.mjs';
 const $ = id => document.getElementById(id);
-const canvas = document.querySelector('canvas'), ctx = canvas.getContext('2d');
+const canvas = document.querySelector('canvas');
+let viewport;
+function mountViewport() { viewport = createCanvasViewport(canvas, { onResize: () => playback.draw() }); }
+mountViewport();
+window.addEventListener('pagehide', () => viewport.dispose());
+// Register before the demo controller: restore sizing before it reloads a session.
+window.addEventListener('pageshow', event => { if (event.persisted) mountViewport(); });
+const ctx = viewport.context;
 let shape = graphExamples[0].id, renderer = createGraphRenderer({ layout: shape });
 const preset = () => graphExamples.find(example => example.id === $('graph').value);
 const label = (state, id) => state.graph.nodes.find(node => node.id === id)?.label ?? '—';
@@ -27,13 +35,9 @@ const playback = createDemoPlayer({
     onError: error => { $('error').textContent = error.message; },
     render(frame, { running }) {
         const s = frame.current;
-        const width = Math.max(180, canvas.clientWidth), height = graphLayout(width, s.graph.nodes.length, shape).height;
-        const ratio = window.devicePixelRatio || 1;
-        canvas.style.height = (height + 2) + 'px';
-        const bitmapWidth = Math.round(width * ratio), bitmapHeight = Math.round(height * ratio);
-        if (canvas.width !== bitmapWidth) canvas.width = bitmapWidth;
-        if (canvas.height !== bitmapHeight) canvas.height = bitmapHeight;
-        ctx.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
+        const size = viewport.resize(width => graphLayout(width, s.graph.nodes.length, shape).height);
+        if (!size) return;
+        const { width, height } = size;
         renderer.render(ctx, frame, width, height);
         const text = 'Step ' + frame.stepIndex + ': ' + describeGraphStep(frame);
         $('status').setAttribute('aria-live', running ? 'off' : 'polite');
@@ -77,6 +81,4 @@ for (const example of graphExamples) {
 }
 $('graph').onchange = options;
 $('input-form').onsubmit = event => { event.preventDefault(); try { load(); } catch (error) { $('error').textContent = error.message; } };
-new ResizeObserver(() => playback.draw()).observe(canvas);
-window.addEventListener('resize', () => playback.draw());
 options(); load();
