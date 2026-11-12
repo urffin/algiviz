@@ -12,7 +12,7 @@ AlgiViz управляет воспроизведением и сопостав�
 [Интерактивная сортировка](https://grundyjs.ru/algorithms/insertion-sort/) ·
 [Обзор библиотеки](https://grundyjs.ru/algiviz/) ·
 [Пакет npm](https://www.npmjs.com/package/@grundyjs/algiviz) ·
-[Исходный код минимального примера](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html)
+[Начало работы](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md)
 
 - **Ваш алгоритм:** вы управляете циклами, условиями и порядком операций.
 - **Ваши объекты:** определяйте собственные типы и обработчики для Canvas, SVG или другой среды отрисовки.
@@ -32,103 +32,69 @@ npm install @grundyjs/algiviz
 ```
 
 У пакета нет корневой точки входа и сборки CommonJS. Импортируйте нужные модули:
-`/array`, `/playback`, `/scene` и `/canvas`.
+`/player`, `/playback`, `/scene`, `/array` и `/canvas`.
 
 Алгоритмы находятся в коде приложения и примерах. В версии 0.x минорные релизы могут нарушать обратную совместимость;
 при обновлении сверяйтесь с [CHANGELOG.md](../CHANGELOG.md).
 
-## Начните с одного собственного объекта
+## Начните с одного круга
 
-Четыре состояния одного круга: `40 → 200 → 360 → 560`. Генератор задаёт
-координаты, обработчик `dot` рисует круг, а плеер запрашивает следующее состояние.
-Добавьте Canvas и кнопку в HTML, а JavaScript ниже подключите как модуль через
-сборщик, разрешающий импорты установленного npm-пакета.
-
-![Минимальный пример AlgiViz: код, последовательная подсветка вызовов и состояние Canvas](https://raw.githubusercontent.com/urffin/algiviz/master/docs/assets/minimal.gif)
-
-*Реальные вызовы примера показаны замедленно. Точка меняет позицию на этапе отрисовки. [Открыть интерактивный разбор](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html).*
+Генератор задаёт четыре позиции, а `Player` создаёт панель управления и передаёт
+состояния вашей функции отрисовки. Добавьте HTML ниже, а JavaScript подключите как
+модуль через сборщик, разрешающий импорты установленного npm-пакета.
 
 ```html
-<canvas width="600" height="160"></canvas>
-<button id="next">Следующее состояние</button>
+<div id="player">
+  <canvas width="600" height="160"></canvas>
+</div>
 ```
 
 ```js
-import { createStatePlayer } from '@grundyjs/algiviz/playback';
-import { createSceneRenderer } from '@grundyjs/algiviz/scene';
+import { Player } from '@grundyjs/algiviz/player';
 
-const ctx = document.querySelector('canvas').getContext('2d');
-function* states() {
-    for (const x of [40, 200, 360, 560]) {
-        const state = { objects: [{ id: 'circle', type: 'dot', data: { x } }] };
-        yield state;
-    }
-}
-const renderer = createSceneRenderer({
-    dot(ctx, { current }) {
-        ctx.beginPath();
-        ctx.arc(current.data.x, 80, 18, 0, Math.PI * 2);
-        ctx.fillStyle = '#b39bff';
-        ctx.fill();
-    },
+const container = document.querySelector('#player');
+const canvas = container.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
+const player = new Player(container, {
+  viewport: canvas,
+  source: function* () {
+    for (const x of [40, 200, 360, 560]) yield { x };
+  },
+  render({ current }) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.arc(current.x, 80, 18, 0, Math.PI * 2);
+    ctx.fillStyle = '#b39bff';
+    ctx.fill();
+  },
 });
-const player = createStatePlayer(states(), {
-    render(frame) {
-        ctx.clearRect(0, 0, 600, 160);
-        renderer.render(ctx, frame);
-    },
-});
-document.querySelector('#next').onclick = () => player.nextStep();
 ```
 
-После последнего состояния ещё один клик обнаруживает конец генератора и сохраняет позицию круга. Чтения вперёд нет.
+Нажмите **Start**, чтобы показать первый кадр, и **Next state**, чтобы переместить
+круг. Источник читается по запросу; ещё один клик после последней позиции обнаружит
+завершение. Каждый снимок создаётся заново и больше не изменяется.
 
-Первый кадр (`x = 40`) рисуется сразу внутри `createStatePlayer(...)`. Каждый клик
-запрашивает следующее состояние: плеер возобновляет цикл до следующего
-`yield`, затем вызывает отрисовку. Здесь нет плавного перехода: обработчик рисует
-только `current`. Каждый снимок создаётся заново и больше не изменяется. При
-удалении визуализации вызовите `player.dispose()`.
+Здесь ручные шаги без плавного перехода. Добавьте `stepDurationMs: 1000`, чтобы
+включить Play/Pause и выбор скорости. При удалении визуализации вызовите
+`player.dispose()`; последний рисунок сохранится.
 
-[Интерактивный разбор с последовательной подсветкой кода](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html)
-показывает создание первого кадра по кнопке «Начать» и последующие итерации цикла.
-Это страница примера в репозитории; запускайте её по [инструкции локальной настройки](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md).
-
-## Как это устроено
-
-- **Алгоритм** выдаёт независимые снимки состояния через генератор.
-- **Плеер** запрашивает шаги и передаёт кадр вашей функции отрисовки.
-- **Сцена** описывает объекты: стабильный `id`, тип и собственные данные.
-- **Обработчик** выбирает геометрию и способ рисования. Плавность — его решение.
-
-Состояния после выдачи нельзя изменять. `createStatePlayer` завершается при исчерпании
-источника; `createPlayer` требует явного завершающего шага;
-при удалении визуализации вызовите `dispose()`. Алгоритмы, раскладка и цикл
-анимации принадлежат приложению. Необязательный браузерный `/player` может
-предоставить готовое управление и планирование кадров.
-
-## Режимы воспроизведения
-
-| | Генератор: `createPlayer` / `createStatePlayer` | История: `createTimeline` |
-| --- | --- | --- |
-| Получение шагов | По мере продвижения | Все шаги заранее |
-| Хранение | Соседние снимки | Вся история |
-| Перемотка назад | Нет | Да, через `sample(timeMs)` |
-| Общая длительность | Заранее неизвестна | Доступна |
-
-Генератор сокращает хранимую историю, но не стоимость создания каждого снимка.
-[Подробнее о памяти](https://github.com/urffin/algiviz/blob/master/docs/ru/performance.md).
+Продолжите с [пошаговым руководством](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md):
+готовая панель, ручное управление и собственные типы объектов через `/scene`.
+В [справочнике плеера](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md)
+описаны история, перемотка, подписи и загрузка по запросу.
 
 ## Модули и документация
 
 | Модуль | Назначение |
 | --- | --- |
+| [`/player`](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md) | Необязательный виджет `new Player(...)`, медиапанель, запись/поток и загрузка UI по запросу; добавлен в 0.12.0 |
 | [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/ru/playback.md) | Шаги, плеер, история, завершение и жизненный цикл |
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/ru/scene.md) | Собственные типы, сопоставление объектов и проекция |
 | [`/array` и `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md) | Операции массива, готовый рендерер и палитра |
-| [`/player`](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md) | Необязательный виджет `new Player(...)`, медиапанель, запись/поток и загрузка UI по запросу; добавлен в 0.12.0 |
 
 [Полный пример TypeScript](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·
-[Настройка проекта и интеграция](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md) ·
+[Начало работы](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md) ·
 [Разбор собственных объектов графа](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md)
 
 ## Примеры

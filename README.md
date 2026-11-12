@@ -12,7 +12,7 @@ renderer help you get started.
 [Live sorting demo](https://grundyjs.ru/algorithms/insertion-sort/) ·
 [Library overview](https://grundyjs.ru/algiviz/) ·
 [npm package](https://www.npmjs.com/package/@grundyjs/algiviz) ·
-[Minimal example source](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html)
+[Getting started](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md)
 
 - **Your algorithm:** control the loops, conditions and order of operations.
 - **Your objects:** define custom types and handlers for Canvas, SVG or another target.
@@ -32,104 +32,70 @@ npm install @grundyjs/algiviz
 ```
 
 There is no root entry point or CommonJS build. Import the modules you need:
-`/array`, `/playback`, `/scene` and `/canvas`.
+`/player`, `/playback`, `/scene`, `/array` and `/canvas`.
 
 Algorithms live in application code and examples.
 Version 0.x may introduce breaking changes
 in minor releases; consult [CHANGELOG.md](CHANGELOG.md) when updating.
 
-## Start with one custom object
+## Start with one circle
 
-Four states of one circle: `40 → 200 → 360 → 560`. The generator supplies
-coordinates, the `dot` handler draws the circle, and the player requests the next
-state. Add a canvas and button to your HTML, then load the JavaScript below as a
-module through a bundler that resolves imports from the installed npm package.
-
-![Minimal AlgiViz example: code, sequential call highlighting and Canvas state](https://raw.githubusercontent.com/urffin/algiviz/master/docs/assets/minimal.gif)
-
-*Actual example calls replayed slowly. The dot changes position at the drawing stage. [Explore the interactive walkthrough](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html).*
+The generator supplies four positions; `Player` creates the controls and passes
+states to your drawing callback. Add the HTML below, then load the JavaScript as
+a module through a bundler that resolves imports from the installed npm package.
 
 ```html
-<canvas width="600" height="160"></canvas>
-<button id="next">Next state</button>
+<div id="player">
+  <canvas width="600" height="160"></canvas>
+</div>
 ```
 
 ```js
-import { createStatePlayer } from '@grundyjs/algiviz/playback';
-import { createSceneRenderer } from '@grundyjs/algiviz/scene';
+import { Player } from '@grundyjs/algiviz/player';
 
-const ctx = document.querySelector('canvas').getContext('2d');
-function* states() {
-    for (const x of [40, 200, 360, 560]) {
-        const state = { objects: [{ id: 'circle', type: 'dot', data: { x } }] };
-        yield state;
-    }
-}
-const renderer = createSceneRenderer({
-    dot(ctx, { current }) {
-        ctx.beginPath();
-        ctx.arc(current.data.x, 80, 18, 0, Math.PI * 2);
-        ctx.fillStyle = '#b39bff';
-        ctx.fill();
-    },
+const container = document.querySelector('#player');
+const canvas = container.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
+const player = new Player(container, {
+  viewport: canvas,
+  source: function* () {
+    for (const x of [40, 200, 360, 560]) yield { x };
+  },
+  render({ current }) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.arc(current.x, 80, 18, 0, Math.PI * 2);
+    ctx.fillStyle = '#b39bff';
+    ctx.fill();
+  },
 });
-const player = createStatePlayer(states(), {
-    render(frame) {
-        ctx.clearRect(0, 0, 600, 160);
-        renderer.render(ctx, frame);
-    },
-});
-document.querySelector('#next').onclick = () => player.nextStep();
 ```
 
-After the last state, one more click detects generator exhaustion and keeps the final position. No lookahead is performed.
+Press **Start** to draw the first state and **Next state** to move the circle.
+The source is read lazily; one additional click after the last position detects
+completion. Each yielded snapshot is new and must not be mutated.
 
-The first frame (`x = 40`) is drawn immediately inside `createStatePlayer(...)`. Each
-click requests the next state: the player resumes the loop until the next
-`yield`, then renders. There is no interpolation here: the handler draws only
-`current`. Each snapshot is created afresh and never mutated. Call
-`player.dispose()` when removing the visualization.
+This example uses manual steps without interpolation. Add `stepDurationMs: 1000`
+to enable Play/Pause and speed controls. Call `player.dispose()` when removing the
+visualization; the last drawing remains.
 
-[Interactive walkthrough with sequential code highlighting](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html)
-shows initial rendering behind a Start button and the subsequent loop iterations
-(Russian UI). This is an example page in the repository; run it locally using
-the [local setup instructions](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md).
-
-## How it works
-
-- **Algorithm:** a generator emits independent state snapshots.
-- **Player:** requests steps and passes frames to your rendering callback.
-- **Scene:** describes objects with stable IDs, types and application-owned data.
-- **Handler:** chooses geometry and drawing behavior, including interpolation.
-
-Do not mutate emitted states. `createStatePlayer` completes on source exhaustion;
-`createPlayer` requires an explicit terminal step. Call `dispose()` when removing a visualization. Algorithms, layouts and animation
-scheduling belong to the application. The optional browser `/player` can provide
-standard controls and scheduling when desired.
-
-## Playback modes
-
-| | Generator: `createPlayer` / `createStatePlayer` | History: `createTimeline` |
-| --- | --- | --- |
-| Steps | Consumed on demand | Collected up front |
-| Retention | Adjacent snapshots | Complete history |
-| Seeking backward | No | Yes, via `sample(timeMs)` |
-| Total duration | Unknown in advance | Available |
-
-Generators reduce retained history, not the cost of producing each snapshot.
-[Memory and performance details](https://github.com/urffin/algiviz/blob/master/docs/performance.md).
+Continue with the [step-by-step guide](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md):
+ready-made controls, manual playback and custom object types with `/scene`.
+See the [player reference](https://github.com/urffin/algiviz/blob/master/docs/player.md)
+for history, seeking, labels and on-demand loading.
 
 ## Modules and documentation
 
 | Module | Purpose |
 | --- | --- |
+| [`/player`](https://github.com/urffin/algiviz/blob/master/docs/player.md) | Optional `new Player(...)` widget, media controls, recording/stream modes and on-demand UI loading; added in 0.12.0 |
 | [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/playback.md) | Steps, players, timelines, termination and lifecycle |
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Custom types, object matching and projection |
 | [`/array` and `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/array.md) | Array operations, ready-made rendering and palettes |
-| [`/player`](https://github.com/urffin/algiviz/blob/master/docs/player.md) | Optional `new Player(...)` widget, media controls, recording/stream modes and on-demand UI loading; added in 0.12.0 |
 
 [Complete TypeScript example](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·
-[Project setup and integration](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md) ·
+[Getting started](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md) ·
 [Custom graph walkthrough](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md)
 
 ## Examples

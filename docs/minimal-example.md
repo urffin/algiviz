@@ -1,5 +1,8 @@
 # A minimal custom object
 
+For the introduction in order — ready-made `Player`, manual controls, then `/scene` —
+start with [Getting started](getting-started.md) ([Русский](ru/getting-started.md)).
+
 The [module](../examples/minimal.mjs) and [page](../examples/minimal.html) form a
 standalone example. They do not import demo-player or other example infrastructure.
 

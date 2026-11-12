@@ -10,6 +10,9 @@ only playback code. Existing modules do not import the UI or its styles.
 
 ## Mount on demand
 
+For a complete first example and the progression to manual controls and scenes,
+see [Getting started](getting-started.md).
+
 Start with an HTML container containing a Canvas, SVG or other drawing element.
 Provide immutable states and your rendering callback:
 
