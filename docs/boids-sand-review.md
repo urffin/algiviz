@@ -57,6 +57,11 @@ is made.
 
 ## Next step
 
-The reviewed example changes are ready for their own commit and exact-commit CI.
-They require no new library API or release. Browser-support scope and any 1.0
-decision remain separate steps in the [stabilization plan](api-stability.md).
+The reviewed changes were committed and pushed at
+[`273b292`](https://github.com/urffin/algiviz/commit/273b292a6fa01dfaeb1717b6bbb7a4b149b4e6c9).
+[CI 43163212052](https://github.com/urffin/algiviz/actions/runs/43163212052)
+passed all ten Node/TypeScript jobs for that exact commit, including the
+145-test suite in all six Node/OS jobs. This closes the commit/CI step recorded
+above; the earlier working-copy observations remain dated evidence.
+The examples require no new library API or release. The support boundary and
+long-term compatibility decision are tracked in the [stabilization plan](api-stability.md).

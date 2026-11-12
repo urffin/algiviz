@@ -1,13 +1,15 @@
 # Support matrix before 1.0
 
-Updated 2026-11-12 for AlgiViz 0.11.2. This records verified Node/TypeScript
-coverage and proposed browser coverage, not a promise about untested targets.
+Updated 2026-11-12 for published AlgiViz 0.11.2 and repository commit `273b292`.
+The runtime/declarations are unchanged; repository checks include the new demos.
+This records the current support boundary and its concrete verification evidence.
 See the [stabilization plan](api-stability.md) for the remaining release decisions.
 
 ## Scope and status
 
 - **Verified** records a concrete version/configuration and successful checks.
-- **Proposed** identifies coverage to confirm before advertising 1.0 support.
+- **Future target** identifies optional coverage that needs its own checks before
+  being added to the support boundary.
 - **Unverified** is not a claim of incompatibility or support.
 
 Library runtime, consumer TypeScript, library build tooling and standalone HTML
@@ -17,14 +19,29 @@ It does not require a browser when importing `/playback`, `/scene` or `/array`.
 Drawing with `/canvas` requires a Canvas 2D implementation; its declarations need
 DOM types. No CommonJS, Bun or Deno support promise is introduced here.
 
+## Current support boundary
+
+| Area | Recorded boundary |
+| --- | --- |
+| Node runtime | CI tracks Node 22.x, 24.x and 26.x on Windows and Linux. Use the patch versions selected by the current CI; every historical minor/patch is not separately certified. |
+| TypeScript consumers | Verified compiler configurations: 5.0.4, 5.4.5, 5.9.3 and 6.0.3, with NodeNext/Bundler and ES2022, with or without DOM as appropriate below. These selected versions do not establish every intermediate or future compiler version. |
+| Headless imports | `/playback`, `/scene` and `/array` work without DOM types or a browser in the checked configurations. `/canvas` requires a Canvas 2D host and DOM types. |
+| Browser verification | Windows embedded Chromium, reported UA Chrome/157.0.0.0, for the recorded smoke and interactive scenarios. No general minimum Chromium version or desktop Chrome/Edge product promise is inferred from the host's UA. |
+| Other browser products | Desktop Chrome/Edge, Firefox, Safari/macOS/iOS, their historical versions and other WebViews are unverified and outside the current support claim. This does not mean they are known to be incompatible. |
+| Standalone demos | Native import maps and the host features used by each page are required. Their UI/controller code is outside the npm runtime; bundled applications may have different host requirements. |
+
+This is the boundary to use in current compatibility statements. An eventual
+1.0 candidate must be checked again within the chosen boundary; these results do
+not automatically certify future code. Expanding the browser list is optional.
+
 ## Node.js
 
 | Target | Status | Evidence and next action |
 | --- | --- | --- |
-| Node 22.x | Verified CI family | Windows and Linux: build, all 127 tests and installed-package consumer. Exact local runtime for the TypeScript checks below: 22.17.0 on Windows. |
+| Node 22.x | Verified CI family | Windows and Linux: build, all 145 repository tests and installed-package consumer. Exact local runtime for the earlier TypeScript checks below: 22.17.0 on Windows. |
 | Node 24.x | Verified CI family | The same four-entry-point checks on Windows and Linux. Current npm publishing also uses Node 24. |
 | Node 26.x | Verified CI family | Full-suite/packed-consumer jobs passed on Windows and Linux in the expanded matrix. |
-| Other majors | Unverified / outside the proposal | Do not infer support from ES2022 output. EOL or prerelease majors are not proposed release targets. |
+| Other majors | Unverified / outside the boundary | Do not infer support from ES2022 output. |
 
 The [expanded compatibility CI](https://github.com/urffin/algiviz/actions/runs/42171367290)
 passed all six runtime jobs at `b2d6c62b27e7d81faba3da20234470d550a1b73e` on
@@ -32,19 +49,24 @@ passed all six runtime jobs at `b2d6c62b27e7d81faba3da20234470d550a1b73e` on
 the corresponding Windows major-version jobs also passed. The
 [workflow](../.github/workflows/ci.yml) keeps all six targets. The older
 [release CI](https://github.com/urffin/algiviz/actions/runs/41932170508) remains
-evidence for the exact published 0.11.2 SHA, which tested 22/24.
+evidence for the exact published 0.11.2 SHA, which tested 22/24 and 127 tests.
+The latest [repository CI](https://github.com/urffin/algiviz/actions/runs/43163212052)
+passed all six runtime jobs at `273b292a6fa01dfaeb1717b6bbb7a4b149b4e6c9`
+on 2026-11-12, with 145 tests and the packed consumer in every job.
 Family checks are not a claim that every historical
 minor/patch was tested. Prefer maintained patch releases when defining support.
-No `engines` field is changed until the advertised boundary is decided.
+No `engines` field is added: this family/OS verification is not a demonstrated
+technical minimum, and the browser-capable package should not acquire an
+unmeasured Node installation restriction from this documentation update.
 
 Lifecycle source: [official Node release table](https://nodejs.org/en/about/previous-releases).
 This external lifecycle does not itself establish AlgiViz compatibility.
 
 ## TypeScript consumers
 
-The proposed consumer scope is TypeScript 5.x from the tested 5.0.4 baseline and
-TypeScript 6.0, with `NodeNext` or `Bundler` resolution. This is a selected-version
-compatibility result, not proof of every intermediate patch or future 6.x release.
+The consumer boundary comprises the four tested versions below, with `NodeNext`
+or `Bundler` resolution. This is a selected-version compatibility result, not
+proof of every intermediate patch or future 6.x release.
 5.0 is a deliberate starting point because it supports both resolution modes;
 it is not a demonstrated technical minimum for every possible configuration.
 `Bundler` was introduced in [TypeScript 5.0](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html#--moduleresolution-bundler).
@@ -82,6 +104,9 @@ runtime executions in total. All four jobs passed in the
 [expanded compatibility CI](https://github.com/urffin/algiviz/actions/runs/42171367290)
 on 2026-11-06 at `b2d6c62`, in addition to the earlier local checks. The unchanged
 default `test:package` path also passed in every Node/OS runtime job.
+All four consumer jobs passed again in the
+[2026-11-12 repository CI](https://github.com/urffin/algiviz/actions/runs/43163212052)
+at `273b292`, with the same 16 configurations and eight runtime executions.
 
 The [packed-consumer checker](../scripts/test-package.mjs) accepts an exact
 consumer compiler version and resolution mode:
@@ -99,17 +124,17 @@ dependencies and the lockfile are not replaced by consumer compiler selection.
 
 ## Browsers
 
-Proposed release coverage: current and previous stable Chrome/Edge and Firefox,
-plus current and previous major Safari on macOS/iOS. This is a coverage policy
-to verify, not a declaration that these targets have already passed. Record exact
-versions at each check; Firefox ESR, older browsers and embedded WebViews require
-separate evidence if they become support requirements.
+The current verified boundary is the embedded Windows host below. Possible
+future targets include current/previous Chrome, Edge and Firefox, and Safari on
+macOS/iOS. They are not required checks within the present narrow boundary.
+Record exact versions when adding coverage; product names, shared engines and
+ES2022 output do not substitute for running the relevant scenarios.
 
 | Target | Current result | Next action |
 | --- | --- | --- |
-| Embedded Chromium, reported UA Chrome/157.0.0.0 on Windows | Six smoke groups and minimal walkthrough passed on 2026-11-06; outstanding lifecycle and Sorting lab checks completed on 2026-11-12, with six smoke groups repeated successfully | Embedded-host checklist complete. See the [follow-up report](browser-checks-2026-11-12.md) for snapshot comparison, current demo scope and console results. Other products/versions remain separate targets. |
+| Embedded Chromium, reported UA Chrome/157.0.0.0 on Windows | Six smoke groups and minimal walkthrough passed on 2026-11-06; lifecycle and Sorting lab completed on 2026-11-12, with smoke repeated. Boids and sand UI checks also passed | Embedded-host checklist complete. See the [follow-up](browser-checks-2026-11-12.md) and [example review](boids-sand-review.md). Other products/versions remain separate targets. |
 | Chrome / Edge stable and previous | Unverified as specific products/versions | Desktop access was unavailable; the owner limited this pass to the embedded browser. Resume product-specific checks when access and scope permit. |
-| Firefox stable and previous | Unverified | Installed Firefox 133.0.3 was not tested and does not certify the proposed current/previous targets. Check Gecko separately when scope permits. |
+| Firefox stable and previous | Unverified | Installed Firefox 133.0.3 was not tested and does not certify the possible current/previous targets. Check Gecko separately if the scope is expanded. |
 | Safari macOS/iOS, current and previous major | Unverified | Check actual Safari, Canvas behavior and example controls. A different WebKit host is additional evidence rather than automatic Safari/iOS certification. |
 
 The runtime needs native ESM and the JavaScript features actually emitted/used;
@@ -143,19 +168,21 @@ not yet a browser CI job. The 2026-11-06 result covers the local compiled 0.11.2
 code, not a fresh registry-tarball browser install or a future 1.0 candidate.
 The [initial report](browser-checks-2026-11-06.md) preserves the interrupted run;
 the [2026-11-12 follow-up](browser-checks-2026-11-12.md) closes the outstanding
-embedded-host scenarios using the current working-copy demos. The broader
-product/version coverage gate remains open.
+embedded-host scenarios using the then-current working-copy demos. Boids, sand
+and their shared-controller changes were subsequently committed at `273b292` and
+passed exact-commit CI. Their browser check still uses the local build, not a new
+registry-tarball installation. Broader product/version coverage is deferred.
 
 ## Next work
 
-1. Decide whether the advertised browser scope will stay within verified
-   environments or require additional product/version checks. The embedded-host
-   checklist is complete; resume other proposed targets only when scope/access
-   permit. Safari/iOS remain pending.
-2. Keep the Node/TypeScript CI gates passing for subsequent changes; the first
-   expanded run is complete and does not need to be repeated as a separate task.
-3. Decide and document the advertised 1.0 support scope from these results, then
-   apply the [exact-candidate release checks](api-stability.md#what-remains-before-10-in-order).
+1. Maintain the recorded narrow boundary and keep the ten Node/TypeScript jobs
+   passing for subsequent changes. Current checks are complete.
+2. Make the long-term API compatibility decision, then apply the
+   [exact-candidate checks](api-stability.md#what-remains-before-10-in-order)
+   to any authorized 1.0 candidate within its stated support boundary.
+3. Optionally expand browser coverage when a concrete integration needs it and
+   access permits. Newly added browser UI modules need their own DOM, cleanup
+   and bundle-isolation checks; existing smoke results do not certify them.
 
 External reviews and additional users are optional. The owner's website/video
 integrations and the already completed custom-object examples are valid evidence

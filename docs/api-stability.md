@@ -2,12 +2,17 @@
 
 Updated 2026-11-12 against published **0.11.2**, release commit
 [`b7f46ade478c25738ac77a3023fb4cd6c0b3995e`](https://github.com/urffin/algiviz/commit/b7f46ade478c25738ac77a3023fb4cd6c0b3995e).
+Repository verification now includes
+[`273b292`](https://github.com/urffin/algiviz/commit/273b292a6fa01dfaeb1717b6bbb7a4b149b4e6c9)
+with Boids, falling sand and the shared demo controller. The package runtime,
+declarations, exports and version are unchanged from the published baseline.
 
 The technical recommendations from the export, minimal API, array and Canvas
 audits are implemented and released. No remaining finding from these audits
 requires an API redesign or a new feature. **1.0 remains deferred**: readiness
-for long-term compatibility, a defined support matrix and checks of the actual
-future candidate are separate from completion of these technical tasks.
+for long-term compatibility and checks of the actual future candidate are
+separate from completion of these technical tasks. The current support boundary
+is recorded in the [matrix](support-matrix.md#current-support-boundary).
 The owner's website and video production are current real-use evidence. External
 feedback is welcome when available, but is not a prerequisite for 1.0.
 This plan does not authorize a 1.0 release or a website upgrade.
@@ -73,11 +78,12 @@ list of unresolved defects in 0.11.2.
 
 | Check | Result and evidence |
 | --- | --- |
-| Build, type checks and tests | `npm test` passed all **127 tests**, including 2186 original array traces, playback completion/lifecycle coverage and ten Canvas regressions. |
+| Build, type checks and tests | The published baseline passed **127 tests**. The repository now passes **145 tests**, including eight Boids tests, nine sand tests and one additional shared-controller timing case. Existing coverage includes 2186 original array traces, playback completion/lifecycle and ten Canvas regressions. |
 | Installed tarball | `npm run test:package` passed. It checks the complete runtime inventory, private/root/`/core` rejection, alias identity, every public type, strict `exactOptionalPropertyTypes`, runtime consumers and compilation of the TypeScript starter. See the [export fixture](../test/package-exports.mjs) and [consumer](../test/package-consumer.ts). |
 | Headless separation | The [headless fixture](../test/package-headless.ts) compiles `/playback`, `/scene` and `/array` with ES2022 and no DOM/ambient types. `/canvas` declarations intentionally require DOM types. |
 | Exact release CI | [Run 41932170508](https://github.com/urffin/algiviz/actions/runs/41932170508) passed on Windows/Linux with Node 22/24 at `b7f46ad`, including the packed consumer in all four jobs. |
 | Expanded compatibility CI | [Run 42171367290](https://github.com/urffin/algiviz/actions/runs/42171367290) passed at `b2d6c62` on 2026-11-06: six Node 22/24/26 jobs on Windows/Linux and four TypeScript 5.0.4/5.4.5/5.9.3/6.0.3 consumer jobs on Ubuntu/Node 24. See the [support matrix](support-matrix.md) for exact scope. |
+| Latest repository CI | [Run 43163212052](https://github.com/urffin/algiviz/actions/runs/43163212052) passed all ten jobs at `273b292` on 2026-11-12: the 145-test suite and packed consumer on six Node/OS targets, plus all four TypeScript consumer jobs. This includes the committed examples and controller changes; it is not a new npm release. |
 | Release and npm | [v0.11.2](https://github.com/urffin/algiviz/releases/tag/v0.11.2) targets that exact SHA. [Publishing workflow](https://github.com/urffin/algiviz/actions/runs/41932362639) succeeded; npm version 0.11.2, matching `gitHead`, `latest` and provenance were verified on 2026-11-05. |
 
 Additional integration evidence has a narrower scope than the release CI:
@@ -111,6 +117,11 @@ Additional integration evidence has a narrower scope than the release CI:
   Sorting lab controls passed, with no warning/error console entries. It covers
   the current working-copy demos in embedded Chromium, not branded desktop
   products or a full historical-version matrix.
+- The [Boids and falling-sand review](boids-sand-review.md) passed local tests,
+  packed-consumer and embedded-browser UI checks on 2026-11-12. Both simulations
+  define their own state, objects and visualizations using existing public APIs.
+  Their inspected predictions, replay, mode limits, editing and error handling
+  required no package API changes. Their commit and exact-commit CI are complete.
 
 Independent usage is currently unknown. Finding additional users and collecting
 their reviews is optional; it does not block stabilization or replace the
@@ -155,13 +166,14 @@ The current release's successful CI does not certify a later 1.0 candidate.
 
 ## What remains before 1.0, in order
 
-1. **Finalize the advertised browser scope.** Node/TypeScript coverage is verified
-   in the expanded CI and the requested embedded-browser checklist is complete.
-   Use the [matrix](support-matrix.md) to distinguish this evidence from the
-   unverified branded products/versions. Either choose a scope justified by the
-   completed checks or arrange further verification when access/scope permit.
-   Do not advertise the full proposed matrix as already verified.
-2. **Make an explicit compatibility decision.** Review the four module contracts
+Completed preparation: the audits and their required fixes are closed; current
+repository CI and embedded-host checks passed; examples/controller changes are
+committed; the [support boundary](support-matrix.md#current-support-boundary) is
+recorded. Desktop Chrome/Edge, Firefox, Safari/iOS and historical versions remain
+outside the verified boundary. Broadening that boundary is optional work with
+its own checks, not an uncompleted requirement of the present scope.
+
+1. **Make an explicit compatibility decision.** Review the four module contracts
    and deliberate limits above, use the owner's website/video experience and the
    completed integrations to assess authoring friction, and decide whether to
    support these APIs long-term within the verified support scope.
@@ -169,14 +181,17 @@ The current release's successful CI does not certify a later 1.0 candidate.
    External feedback can inform this decision when available; waiting for new
    users, a fixed number of reviews or additional algorithm examples is not required.
    There is no scheduled 1.0 date or automatic promotion after a patch release.
-3. **Verify an authorized 1.0 candidate.** Update version/lockfile/changelog,
+2. **Verify an authorized 1.0 candidate.** Update version/lockfile/changelog,
    run `npm test` and `npm run test:package`, and require successful CI on that
    exact SHA. Perform focused browser checks of minimal playback, object lifecycle
    and Canvas palette/context behavior within the chosen browser support scope.
    Record the actual versions and results; older browser checks are not new ones.
-4. **Publish only with explicit authorization.** Use the GitHub Release workflow
+3. **Publish only with explicit authorization.** Use the GitHub Release workflow
    for the checked SHA, then verify npm's exact version, `latest` and provenance.
    Website work remains separately authorized and coordinated in its own chat.
 
-The next preparation step is deciding the advertised browser support scope.
-No unresolved required code change is identified by the completed audits.
+The next required stabilization step is the long-term compatibility decision.
+No unresolved required code change is identified by the completed audits. A
+separate [optional-player proposal](optional-player-proposal.md) evaluates useful
+0.x development and optimization work; it is not a new prerequisite for 1.0 or
+an authorization to implement or publish it.
