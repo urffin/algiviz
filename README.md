@@ -144,6 +144,8 @@ Generators reduce retained history, not the cost of producing each snapshot.
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
+| [Boids flock](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Seeded simulation, five obstacle layouts and one-bird inspection with neighbors and steering vectors |
+| [Falling sand](https://github.com/urffin/algiviz/blob/master/examples/sand.html) | Seeded cell simulation, paintable obstacles, a hopper gate and exact one-grain inspection with conflict resolution |
 
 [Full catalog, local setup and algorithm details](https://github.com/urffin/algiviz/blob/master/docs/examples.md).
 Examples live in the repository and are not included in the npm package.

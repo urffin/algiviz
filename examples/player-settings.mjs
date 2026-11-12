@@ -12,10 +12,10 @@ export function configureControls() {
         .map(value => `<option value="${value}"${value === 1 ? ' selected' : ''}>${value}×</option>`).join('');
     document.querySelector('#mode').innerHTML = '<option value="history">Full history · seeking</option><option value="generator">Generator · forward only</option>';
 }
-export function nextDelta(frame) {
-    return timing.stepDurationMs * (frame.progress < 1 ? 1 - frame.progress : 1);
+export function nextDelta(frame, playbackTiming = timing) {
+    return playbackTiming.stepDurationMs * (frame.progress < 1 ? 1 - frame.progress : 1);
 }
-export function stepTime(time, direction, duration) {
-    const step = direction < 0 ? Math.ceil(time / timing.stepDurationMs) - 1 : Math.floor(time / timing.stepDurationMs) + 1;
-    return Math.max(0, Math.min(duration - timing.finalHoldMs, step * timing.stepDurationMs));
+export function stepTime(time, direction, duration, playbackTiming = timing) {
+    const step = direction < 0 ? Math.ceil(time / playbackTiming.stepDurationMs) - 1 : Math.floor(time / playbackTiming.stepDurationMs) + 1;
+    return Math.max(0, Math.min(duration - playbackTiming.finalHoldMs, step * playbackTiming.stepDurationMs));
 }

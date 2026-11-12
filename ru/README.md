@@ -143,6 +143,8 @@ document.querySelector('#next').onclick = () => player.nextStep();
 | [DFS графа](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Стек вызовов, возвраты, глубина и путь дерева; история/генератор |
 | [Лабиринт](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Генерация рандомизированным DFS, волна BFS, поиск DFS, циклы и недостижимый выход; история/генератор |
 | [Обход дерева](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Собственные узлы, рёбра и указатель с Canvas и SVG с сохранением элементов |
+| [Стая Boids](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Воспроизводимая симуляция, пять окружений и разбор одной птицы с соседями и управляющими векторами |
+| [Падающий песок](https://github.com/urffin/algiviz/blob/master/examples/sand.html) | Воспроизводимая клеточная модель, редактор препятствий, затвор и разбор одной песчинки с разрешением конфликтов |
 
 [Полный каталог, локальный запуск и особенности алгоритмов](https://github.com/urffin/algiviz/blob/master/docs/ru/examples.md).
 Примеры находятся в репозитории и не входят в npm-пакет.

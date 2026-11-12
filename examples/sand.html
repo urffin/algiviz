@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Падающий песок</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0a1020;color:#eaf0fb;font:16px/1.5 system-ui}main{max-width:1280px;margin:auto;padding:24px}a{color:#aebfff}h1{font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-.04em;line-height:1.1;margin:18px 0 12px}h1 span{color:#f8cb72}h2{font-size:1.05rem;margin:0 0 10px}p,small{color:#b9c6db}button,input,select{font:inherit;background:#172338;color:inherit;border:1px solid #53647e;border-radius:8px;padding:9px 12px;max-width:100%}button{cursor:pointer}button:hover{background:#273957}button:disabled{opacity:.45;cursor:not-allowed}:focus-visible{outline:3px solid #9fb3ff;outline-offset:3px}button.primary{background:#f4c369;color:#172033;border-color:#f4c369;font-weight:650}label{display:flex;flex-direction:column;gap:5px;min-width:0}.controls{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin:14px 0}.inputs{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:12px;align-items:end;margin:24px 0 12px}.stage{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:18px;align-items:start}.canvas-wrap{min-width:0}canvas{display:block;width:100%;height:auto;border:1px solid #34445f;border-radius:12px;touch-action:none;cursor:crosshair}aside{padding:18px;border:1px solid #34445f;border-radius:12px;background:#111c30;min-width:0}aside p{font-size:.92rem}.neighbors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin:15px 0}.neighbor{display:flex;align-items:center;justify-content:center;aspect-ratio:1;border:1px solid #34445f;border-radius:8px;font-size:.76rem;color:#b9c6db;background:#0b1222}.neighbor.solid{background:#33415b}.neighbor.grain{color:#f8cb72}.neighbor.center{border:2px solid white}.neighbor.chosen{border:2px solid #5ee0b1}.decision{padding:12px;border-left:3px solid #5ee0b1;background:#0c2928;border-radius:5px;color:#d0fbee}#error{color:#fca5a5;min-height:1.5em}#edit-note{color:#f8cb72;min-height:1.4em}#status{font-variant-numeric:tabular-nums;color:#d9e5f7}.rules{padding-left:20px;font-size:.92rem}.rules li{margin:10px 0}.badge{font-size:.8rem;letter-spacing:.12em;color:#aebfff;text-transform:uppercase}.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:.83rem}.legend i{display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:2px}#seek{width:100%;padding:0;accent-color:#f4c369}#grain-number{width:85px}.keyboard{font-size:.8rem}.foot{max-width:920px;font-size:.88rem}.brush{border:1px solid #34445f;border-radius:10px;padding:12px 14px}.inspector-controls{display:flex;gap:8px;align-items:end;flex-wrap:wrap}.inspector-controls button{padding:9px}input[type=number]{width:100%}
+@media(max-width:850px){main{padding:16px}.stage{grid-template-columns:1fr}.inputs{grid-template-columns:1fr 1fr}.inputs button{grid-column:1/-1}aside{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}aside h2,aside .inspector-controls,aside .decision,aside .hint{grid-column:1/-1}.neighbors{max-width:220px}.rules{margin-top:10px}.controls button{flex-grow:1}}
+@media(max-width:450px){aside{display:block}.neighbors{max-width:180px}.badge{font-size:.7rem}.controls label{flex:1 1 110px}}
+</style>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js"}}</script>
+</head>
+<body><main>
+<a href="./index.html">← Примеры AlgiViz</a>
+<p class="badge">Клеточная модель · интерактивный прототип</p>
+<h1>Простые правила.<br><span>Целая песочница.</span></h1>
+<p>Насыпьте песок, нарисуйте стенку или откройте затвор. Выберите одну песчинку и посмотрите, почему она движется.</p>
+<form id="input-form" class="inputs">
+<label>Сцена<select id="preset"><option value="funnel">Воронка с затвором</option><option value="shelves">Полки</option><option value="passages">Два прохода</option><option value="empty">Пустая коробка</option></select></label>
+<label>Песчинки<input id="count" type="number" min="0" step="1" value="320" required></label>
+<label>Seed<input id="seed" type="text" inputmode="numeric" value="42" required></label>
+<label>Такты<input id="ticks" type="number" min="1" max="360" value="280" required></label>
+<button type="submit" class="primary">Новая сцена</button>
+</form>
+<p id="error" role="alert"></p>
+<div class="controls brush">
+<label>Инструмент<select id="tool"><option value="inspect">Разбор песчинки</option><option value="sand">Насыпать песок</option><option value="wall">Нарисовать стенку</option><option value="erase">Ластик</option></select></label>
+<label>Размер кисти<select id="brush"><option value="0">1 клетка</option><option value="1" selected>3 × 3</option><option value="2">5 × 5</option></select></label>
+<button id="open-gate" type="button">Открыть затвор</button>
+<label>Воспроизведение<select id="mode"></select></label>
+</div>
+<p id="edit-note" role="status">Рисование ставит воспроизведение на паузу. Изменённая сцена начинает новую историю.</p>
+<div class="stage">
+<div class="canvas-wrap">
+<canvas id="sand" width="1024" height="864" role="img" aria-label="Песок и препятствия на сетке. Выбор песчинки показывает соседние клетки и решение следующего такта. Для выбора с клавиатуры используйте номер рядом."></canvas>
+<div class="controls"><button id="play" class="primary" type="button">Запустить</button><button id="restart" type="button">Сначала</button><button id="previous" type="button">Шаг назад</button><button id="next" type="button">Шаг вперёд</button><label>Скорость<select id="speed"></select></label></div>
+<label>Положение<input id="seek" type="range" min="0" value="0" step="1"></label>
+<p id="status" role="status" aria-live="polite"></p><p id="mode-note" class="foot"></p>
+<div class="legend"><span><i style="background:#f8cb72"></i>Песок</span><span><i style="background:#53647e"></i>Стенка</span><span><i style="background:#5ee0b1"></i>Выбранная клетка</span><span><i style="background:#60a5fa"></i>Варианты движения</span></div>
+</div>
+<aside aria-label="Разбор одной песчинки">
+<h2 id="inspection-title">Одна песчинка — один такт</h2>
+<div class="inspector-controls"><label>Номер<input id="grain-number" type="number" min="1" value="1" step="1"></label><button id="select-grain" type="button">Разобрать</button><button id="clear-selection" type="button">Снять</button></div>
+<div id="neighbors" class="neighbors" aria-label="Соседние клетки 3 на 3"></div>
+<ol class="rules"><li><strong>Падение.</strong> Снизу свободно — вниз.</li><li><strong>Скатывание.</strong> Иначе — в свободную нижнюю диагональ, не пересекая стенку.</li><li><strong>Покой.</strong> Места нет — остаёмся.</li></ol>
+<p id="decision" class="decision">Нажмите на песчинку или укажите её номер.</p>
+<p id="inspection-note" class="hint">В разборе показан точный снимок поля и прогноз следующего такта.</p>
+</aside>
+</div>
+<p id="applied" class="foot"></p><p id="limit" class="foot"></p>
+<p class="foot">Все решения читают поле до начала такта. Если две песчинки выбирают одну клетку, проходит одна: выбор повторяется при том же seed. Остальные ждут следующий такт. Каждая песчинка сдвигается максимум на одну клетку.</p>
+<p class="foot">Это клеточная модель: такт не зависит от скорости плеера. «Сначала» повторяет применённую сцену. Переключение режима сохраняет её; рисование и открытие затвора создают новую историю из текущего положения.</p>
+<p><a href="./sand-algorithm.mjs">Модель</a> · <a href="./sand-scene.mjs">Сцена AlgiViz</a></p>
+</main><script type="module" src="./sand-demo.mjs"></script></body></html>

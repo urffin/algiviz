@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AlgiViz · Boids: three rules of a flock</title>
+  <style>
+    * { box-sizing:border-box }
+    body { margin:0; background:#101827; color:#f1f5f9; font:16px/1.5 system-ui }
+    main { max-width:1200px; margin:auto; padding:24px }
+    h1 { font-size:clamp(1.65rem,4vw,2.5rem); margin:16px 0 8px }
+    h2 { font-size:1.1rem; margin:0 0 12px }
+    p,small { color:#cbd5e1 }
+    a { color:#c4b5fd }
+    p { margin:12px 0 }
+    .controls { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:14px 0 }
+    .inputs { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; align-items:end; margin:20px 0 8px }
+    label { display:flex; flex-direction:column; gap:5px; min-width:0 }
+    .toggle { flex-direction:row; align-items:center; min-height:44px; gap:8px }
+    .rules { grid-column:1/-1; display:flex; flex-wrap:wrap; gap:8px 24px }
+    button,input,select { font:inherit; color:inherit }
+    button,select,input:not([type=checkbox]):not([type=range]) { min-height:44px; min-width:0; max-width:100%; padding:8px 10px; border:1px solid #64748b; border-radius:6px; background:#1e293b }
+    input[type=checkbox] { width:18px; height:18px; accent-color:#7dd3fc }
+    input[type=range] { width:100%; min-height:44px }
+    button { cursor:pointer }
+    button:hover { background:#334155 }
+    button:disabled,input:disabled,select:disabled { opacity:.45; cursor:not-allowed }
+    :focus-visible { outline:2px solid #c4b5fd; outline-offset:3px }
+    .stage { display:grid; gap:20px; align-items:start }
+    .stage.inspecting { grid-template-columns:minmax(0,1fr) 300px }
+    canvas { display:block; width:100%; border:1px solid #475569; border-radius:12px; touch-action:manipulation }
+    aside { min-width:0 }
+    [hidden] { display:none!important }
+    #error { color:#fca5a5; min-height:1.5em }
+    #draft-note { min-height:1.5em; color:#fbbf24 }
+    #status,#neighbor-summary,#applied,.values { font-variant-numeric:tabular-nums; overflow-wrap:anywhere }
+    #status { min-height:1.5em }
+    .values { width:100%; border-collapse:collapse; font-size:14px }
+    .values th,.values td { text-align:left; padding:7px 0; border-bottom:1px solid #334155 }
+    .values td { text-align:right; white-space:nowrap; padding-left:8px }
+    .values th { font-weight:400 }
+    .swatch { display:inline-block; width:14px; height:3px; vertical-align:middle; margin-right:8px; background:var(--swatch) }
+    .key { display:flex; flex-wrap:wrap; gap:8px 18px; font-size:14px; color:#cbd5e1 }
+    .key span { white-space:nowrap }
+    .muted { color:#94a3b8 }
+    @media(max-width:850px) { .stage.inspecting { grid-template-columns:1fr } aside { max-width:600px } }
+    @media(max-width:600px) { main { padding:16px } .inputs { grid-template-columns:repeat(2,minmax(0,1fr)) } .playback { gap:8px } .playback label { width:100% } .rules { gap:4px 16px } }
+  </style>
+  <script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js"}}</script>
+</head>
+<body>
+<main>
+  <a href="./index.html">All examples</a>
+  <h1>Three rules. One flock.</h1>
+  <p>Avoid crowding, align with nearby birds, and stay together. Inspect one bird to see how its next direction is calculated.</p>
+  <form id="input-form" class="inputs">
+    <label>Birds<input id="count" type="number" min="1" max="64" step="1" value="64" required></label>
+    <label>Seed<input id="seed" type="text" inputmode="numeric" value="93717" required></label>
+    <label>Obstacles<select id="obstacle">
+      <option value="none">Open space</option><option value="circle" selected>One circle</option>
+      <option value="islands">Three islands</option><option value="wall">A wall</option><option value="gate">A narrow passage</option>
+    </select></label>
+    <button type="submit">Apply &amp; restart</button>
+    <div class="rules">
+      <label class="toggle"><input id="rule-separation" type="checkbox" checked>Separation · avoid crowding</label>
+      <label class="toggle"><input id="rule-alignment" type="checkbox" checked>Alignment · fly together</label>
+      <label class="toggle"><input id="rule-cohesion" type="checkbox" checked>Cohesion · stay nearby</label>
+    </div>
+  </form>
+  <p id="draft-note" role="status" aria-live="polite"></p>
+  <div class="controls">
+    <label>Playback mode<select id="mode"></select></label>
+    <label class="toggle"><input id="inspect" type="checkbox">Inspect one bird</label>
+    <label>Selected bird<select id="bird" disabled></select></label>
+  </div>
+  <p id="error" role="alert"></p>
+  <div class="stage" id="stage">
+    <canvas id="flock" width="960" height="600" role="img" aria-label="Flock simulation. Inspection shows the selected bird, nearby birds, three steering forces, obstacle avoidance and the next heading. Numeric vectors are available beside the scene."></canvas>
+    <aside id="inspection" hidden aria-label="Selected bird calculation">
+      <h2 id="inspection-title">One bird, one update</h2>
+      <p id="neighbor-summary"></p>
+      <div class="key"><span><i class="swatch" style="--swatch:#67e8f9"></i>Neighbors · 90 units</span><span><i class="swatch" style="--swatch:#fbbf24"></i>Too close · 26 units</span></div>
+      <table class="values">
+        <thead><tr><th scope="col">Weighted vector</th><th scope="col">(x, y)</th></tr></thead>
+        <tbody>
+          <tr><th scope="row"><i class="swatch" style="--swatch:#fbbf24"></i>Separation</th><td id="value-separation"></td></tr>
+          <tr><th scope="row"><i class="swatch" style="--swatch:#60a5fa"></i>Alignment</th><td id="value-alignment"></td></tr>
+          <tr><th scope="row"><i class="swatch" style="--swatch:#c4b5fd"></i>Cohesion</th><td id="value-cohesion"></td></tr>
+          <tr><th scope="row"><i class="swatch" style="--swatch:#fb7185"></i>Obstacle avoidance</th><td id="value-obstacle"></td></tr>
+          <tr><th scope="row"><i class="swatch" style="--swatch:#34d399"></i>Sum Δv · dashed</th><td id="value-total"></td></tr>
+          <tr><th scope="row">Current velocity v</th><td id="value-velocity"></td></tr>
+          <tr><th scope="row"><i class="swatch" style="--swatch:#f8fafc"></i>Next velocity v′</th><td id="value-nextVelocity"></td></tr>
+        </tbody>
+      </table>
+      <p id="calculation-note"></p>
+      <p><small>The camera follows this bird. Inspection shows exact ticks; interpolation is disabled. Colored arrows use one scale: 1 unit of Δv = 700 world units. The white dashed arrow shows heading only.</small></p>
+    </aside>
+  </div>
+  <div class="controls playback">
+    <button id="play" type="button">Play</button><button id="restart" type="button">Restart</button>
+    <button id="previous" type="button">Previous step</button><button id="next" type="button">Next step</button>
+    <label>Speed<select id="speed"></select></label>
+  </div>
+  <label>Playback position<input id="seek" type="range" min="0" value="0" step="1"></label>
+  <p id="mode-note"></p>
+  <p id="status" role="status" aria-live="polite"></p>
+  <p id="applied"></p>
+  <p><small id="limit"></small></p>
+  <p>Opposite edges are connected. Birds see all neighbors within a circular radius, including across a seam. Obstacles use a separate avoidance force and a contact response; they are not a fourth flocking rule.</p>
+  <p>Apply captures the controls. Restart and mode changes replay the applied configuration and seed. Bird selection and inspection keep the simulation position and pause playback. The run ends after 600 ticks; Play then replays it.</p>
+  <p><a href="https://www.red3d.com/cwr/boids/" target="_blank" rel="noreferrer">Craig Reynolds · Boids</a> · <a href="./boids-algorithm.mjs">Simulation source</a> · <a href="./boids-scene.mjs">Scene source</a></p>
+</main>
+<script type="module" src="./boids-demo.mjs"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ import { createPlayer, createTimeline } from '@grundyjs/algiviz/playback';
 import { timing, limits, configureControls, nextDelta, stepTime } from './player-settings.mjs';
 
 // Browser glue shared by examples, deliberately outside the package API.
-export function createDemoPlayer({ source, isTerminal, render, onError = error => { throw error; } }) {
+export function createDemoPlayer({ source, isTerminal, render, timing: playbackTiming = timing, onError = error => { throw error; } }) {
     const $ = id => document.getElementById(id);
     const seek = $('seek') ?? $('time');
     const restart = $('restart') ?? $('reset');
@@ -22,8 +22,8 @@ export function createDemoPlayer({ source, isTerminal, render, onError = error =
     }
     function load(nextSource = factory ?? source, nextMode = mode) {
         // Construct before closing the old source, so invalid input preserves it.
-        const nextPlayer = nextMode === 'generator' ? createPlayer(nextSource(nextMode), { ...timing, isTerminal }) : null;
-        const nextTimeline = nextMode === 'history' ? createTimeline([...nextSource(nextMode)], timing) : null;
+        const nextPlayer = nextMode === 'generator' ? createPlayer(nextSource(nextMode), { ...playbackTiming, isTerminal }) : null;
+        const nextTimeline = nextMode === 'history' ? createTimeline([...nextSource(nextMode)], playbackTiming) : null;
         pause(); player?.dispose();
         player = nextPlayer; timeline = nextTimeline; factory = nextSource; mode = nextMode; time = 0;
         $('mode').value = mode;
@@ -58,13 +58,13 @@ export function createDemoPlayer({ source, isTerminal, render, onError = error =
     seek.oninput = () => { if (timeline) { pause(); time = Number(seek.value); draw(); } };
     for (const [id, direction] of [['previous', -1], ['next', 1]]) $(id).onclick = () => attempt(() => {
         pause();
-        if (player) { if (direction > 0) player.advance(nextDelta(player.frame)); }
-        else time = stepTime(time, direction, timeline.durationMs);
+        if (player) { if (direction > 0) player.advance(nextDelta(player.frame, playbackTiming)); }
+        else time = stepTime(time, direction, timeline.durationMs, playbackTiming);
         draw();
     });
     document.addEventListener('visibilitychange', () => { if (document.hidden) { pause(); draw(); } });
     window.addEventListener('pagehide', () => { pause(); player?.dispose(); });
     window.addEventListener('pageshow', event => { if (event.persisted) attempt(() => load()); });
     reduced.addEventListener('change', draw);
-    return { load, draw, get mode() { return mode; } };
+    return { load, draw, pause() { pause(); draw(); }, get mode() { return mode; } };
 }

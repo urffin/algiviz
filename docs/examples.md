@@ -28,6 +28,8 @@ included in the npm archive.
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
+| [Boids flock](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Seeded simulation, five obstacle layouts and one-bird inspection with neighbors and steering vectors |
+| [Falling sand](https://github.com/urffin/algiviz/blob/master/examples/sand.html) | Synchronous cellular updates, a gated funnel, editable obstacles and exact one-grain inspection |
 
 The minimal `visualization-pipeline.html` walkthrough uses its own start button and sequential highlighting. `object-lifecycle.html` uses deterministic quarter-transition and nextStep buttons to inspect lifecycle boundaries. Shared speeds and playback modes do not apply to these pages.
 
@@ -37,12 +39,74 @@ hold, speeds 0.25× through 32×, play/pause, restart and step controls.
 History enables backward stepping and seeking; generator mode disables both.
 Reduced motion disables interpolation, and hidden tabs pause playback.
 
+Boids reuses the same controls with a 50 ms simulation tick and a 1,000 ms final
+hold. Falling sand uses a 65 ms tick and an 800 ms final hold. Other examples keep their existing timing. The shared controller accepts an
+optional `timing` object and exposes `pause()` for inspection without reloading.
+
 All sorting examples accept up to **64 finite values with history** or **2,000 in
 generator mode**. Enter values or generate an array by count with Random, Sorted or
 Reverse order. These are demo limits, not library restrictions. Switching a large
 array to history requires first loading an array within the history limit.
 Dense charts hide labels; custom sorting examples preview the first 24 cells in
 their text status.
+
+## Boids: three rules of a flock
+
+Open [examples/boids.html](https://github.com/urffin/algiviz/blob/master/examples/boids.html).
+Apply separation, alignment and cohesion independently, a uint32 seed, bird count,
+and an obstacle preset: open space, one circle, three islands, a rounded wall or
+a narrow passage. Apply captures inputs; restart and mode changes replay those
+inputs rather than draft controls. The seeded LCG is fixed; no `Math.random()` is
+used. The run contains 600 synchronous updates and then stops.
+
+Inspection pauses playback and follows the selected bird. It shows a 90-unit
+neighbor radius, the 26-unit close-neighbor radius, neighbor IDs, the three weighted
+steering vectors, separate obstacle avoidance, their sum and the next velocity.
+Colored force arrows share a scale; the white dashed arrow indicates heading only.
+All vectors are computed from the exact current snapshot and predict the next
+update. Speed limiting and any contact response are stated separately. Inspection
+disables interpolation, while ordinary playback interpolates across the shortest
+wrapped displacement. Opposite edges are connected; perception is circular with
+no field-of-view angle. This is an educational variant of Reynolds's model, not a
+claim of biologically exact motion or guaranteed global alignment.
+
+The [simulation](https://github.com/urffin/algiviz/blob/master/examples/boids-algorithm.mjs),
+[scene](https://github.com/urffin/algiviz/blob/master/examples/boids-scene.mjs) and
+[UI](https://github.com/urffin/algiviz/blob/master/examples/boids-demo.mjs) are application code.
+Only public `/playback` and `/scene` exports are used. Each bird has a stable scene
+ID. A pure state projector caches immutable endpoints, and drawing computes layout
+from current dimensions. No new package export or release is needed.
+
+The demo accepts 64 birds with history (the shared limit), or at most 192 in
+generator mode (a lower local cap for quadratic neighbor scans). One update takes
+O(n² + nk) time for n birds and k obstacle pieces. Each snapshot stores O(n + k)
+data; history uses O(Tn + k), while lazy playback retains O(n + k) adjacent state
+data. Drawing and selected-bird analysis have separate costs. Increasing playback
+speed changes timing, not integration or simulated trajectories.
+
+## Falling sand
+
+Open [examples/sand.html](https://github.com/urffin/algiviz/blob/master/examples/sand.html).
+Choose a gated funnel, shelves, two passages or an empty box on a 64 × 54 grid.
+Paint sand and walls or erase cells with continuous 1-, 3- or 5-cell-wide brushes.
+Editing and opening the gate start a new paused history from the current field;
+restart and playback mode changes repeat that captured field.
+
+Each grain proposes a downward move, otherwise a free lower diagonal that does
+not cut through a wall, otherwise stays. All proposals read the previous field.
+Only one grain wins a contested destination; uint32 seed, tick and stable grain
+ID make the choice reproducible. Losing grains wait. This is a cellular model.
+Inspection pauses playback, follows a grain and shows its exact 3 × 3 neighborhood,
+candidate destinations and next-tick decision, including conflicts.
+
+The application-owned model, scene and UI use the shared player and public
+`/playback` and `/scene` APIs. Snapshots are independent and immutable; scene IDs
+follow grain identities. History permits 512 grains, lazy generator playback
+2,000, and runs last at most 360 ticks. These are local demo budgets. A tick scans
+G grid cells and resolves n proposals in O(G + n) time; history retains O(TG)
+snapshot data, generator playback retains O(G) adjacent snapshot data. Projection,
+drawing and optional inspection have separate costs. Playback speed changes
+presentation timing without changing the cellular updates.
 
 ## Merge sort
 

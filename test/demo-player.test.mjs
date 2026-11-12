@@ -2,7 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createDemoPlayer } from '../examples/demo-player.mjs';
 
-test('shared demo controller preserves rejected sessions and closes replaced generators', () => {
+for (const playbackTiming of [undefined, { stepDurationMs: 50, finalHoldMs: 1000 }])
+test(`shared demo controller preserves sessions, disposal and stepping (${playbackTiming?.stepDurationMs ?? 650}ms)`, () => {
     const ids = ['speed', 'mode', 'play', 'seek', 'restart', 'mode-note', 'previous', 'next', 'size'];
     const elements = Object.fromEntries(ids.map(id => [id, { value: id === 'speed' ? '1' : '', textContent: '' }]));
     const listeners = {};
@@ -16,7 +17,7 @@ test('shared demo controller preserves rejected sessions and closes replaced gen
     });
     try {
         function* steps() { try { yield { index: 0, state: 0, event: 'start' }; yield { index: 1, state: 1, event: 'done' }; } finally { closed++; } }
-        const demo = createDemoPlayer({ source: mode => { if (reject && mode === 'history') throw Error('limit'); return steps(); }, isTerminal: step => step.event === 'done', render: frame => { output = frame; }, onError: e => { error = e; } });
+        const demo = createDemoPlayer({ timing: playbackTiming, source: mode => { if (reject && mode === 'history') throw Error('limit'); return steps(); }, isTerminal: step => step.event === 'done', render: frame => { output = frame; }, onError: e => { error = e; } });
         demo.load(); elements.mode.value = 'generator'; elements.mode.onchange();
         assert.equal(elements.previous.disabled, true);
         const priorClosed = closed;
@@ -24,7 +25,9 @@ test('shared demo controller preserves rejected sessions and closes replaced gen
         assert.equal(error.message, 'limit'); assert.equal(demo.mode, 'generator'); assert.equal(closed, priorClosed);
         elements.next.onclick(); assert.equal(output.current, 1);
         elements.restart.onclick(); assert.equal(output.current, 0);
-        elements.play.onclick(); callback(0); callback(100); assert.ok(output.progress > 0 && output.progress < 1);
+        elements.play.onclick(); callback(0); callback(playbackTiming ? 25 : 100); assert.ok(output.progress > 0 && output.progress < 1);
+        const paused = output; demo.pause(); assert.equal(callback, null); demo.draw(); assert.deepEqual(output, paused);
+        elements.play.onclick(); callback(0); callback(1);
         globalThis.document.hidden = true; listeners.visibilitychange(); assert.equal(callback, null); assert.equal(elements.play.textContent, 'Play');
         const beforeHide = closed; listeners.pagehide(); assert.equal(closed, beforeHide + 1);
         listeners.pageshow({ persisted: true }); assert.equal(output.current, 0);
