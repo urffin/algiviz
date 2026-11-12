@@ -103,7 +103,8 @@ document.querySelector('#next').onclick = () => player.nextStep();
 Состояния после выдачи нельзя изменять. `createStatePlayer` завершается при исчерпании
 источника; `createPlayer` требует явного завершающего шага;
 при удалении визуализации вызовите `dispose()`. Алгоритмы, раскладка и цикл
-анимации принадлежат приложению.
+анимации принадлежат приложению. Необязательный браузерный `/player` может
+предоставить готовое управление и планирование кадров.
 
 ## Режимы воспроизведения
 
@@ -124,6 +125,7 @@ document.querySelector('#next').onclick = () => player.nextStep();
 | [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/ru/playback.md) | Шаги, плеер, история, завершение и жизненный цикл |
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/ru/scene.md) | Собственные типы, сопоставление объектов и проекция |
 | [`/array` и `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md) | Операции массива, готовый рендерер и палитра |
+| [`/player` — ещё не выпущен](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md) | Необязательная медиапанель, запись/поток и загрузка UI по запросу; в опубликованной 0.11.2 отсутствует |
 
 [Полный пример TypeScript](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·
 [Настройка проекта и интеграция](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md) ·

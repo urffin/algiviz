@@ -1,7 +1,9 @@
 # Support matrix before 1.0
 
 Updated 2026-11-12 for published AlgiViz 0.11.2 and repository commit `273b292`.
-The runtime/declarations are unchanged; repository checks include the new demos.
+The four baseline modules are unchanged; repository checks include the new demos.
+An unreleased working-tree `/player` adds a separate DOM-based UI contract; see
+the [reference](player.md) and [bundle evidence](player-bundle-check.md).
 This records the current support boundary and its concrete verification evidence.
 See the [stabilization plan](api-stability.md) for the remaining release decisions.
 
@@ -18,6 +20,9 @@ ships declarations; there are no bundled runtime dependencies or polyfills.
 It does not require a browser when importing `/playback`, `/scene` or `/array`.
 Drawing with `/canvas` requires a Canvas 2D implementation; its declarations need
 DOM types. No CommonJS, Bun or Deno support promise is introduced here.
+The optional `/player` also requires DOM types; importing it is checked without
+DOM globals, while mounting requires a browser DOM/window. Existing no-DOM
+fixtures deliberately do not import the UI declarations.
 
 ## Current support boundary
 
@@ -107,6 +112,10 @@ default `test:package` path also passed in every Node/OS runtime job.
 All four consumer jobs passed again in the
 [2026-11-12 repository CI](https://github.com/urffin/algiviz/actions/runs/43163212052)
 at `273b292`, with the same 16 configurations and eight runtime executions.
+Working-tree checks of the new installed `/player` additionally passed locally
+on 2026-11-12 for all four compilers and both resolution modes, preserving the
+headless fixtures and executing a DOM-free UI-import consumer. These are local
+candidate results; they do not extend the old remote CI evidence to new code.
 
 The [packed-consumer checker](../scripts/test-package.mjs) accepts an exact
 consumer compiler version and resolution mode:
@@ -175,8 +184,10 @@ registry-tarball installation. Broader product/version coverage is deferred.
 
 ## Next work
 
-1. Maintain the recorded narrow boundary and keep the ten Node/TypeScript jobs
-   passing for subsequent changes. Current checks are complete.
+1. Maintain the recorded narrow boundary and keep six Node and four TypeScript
+   jobs passing. The new working-tree bundle job brings the workflow to eleven
+   jobs; its installed-tarball checks passed locally and need exact-commit CI
+   along with the new player implementation.
 2. Make the long-term API compatibility decision, then apply the
    [exact-candidate checks](api-stability.md#what-remains-before-10-in-order)
    to any authorized 1.0 candidate within its stated support boundary.

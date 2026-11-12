@@ -52,6 +52,7 @@ try {
     const installed = JSON.parse(await readFile(join(workspace, "node_modules/@grundyjs/algiviz/package.json"), "utf8"));
     if (installed.version !== pkg.version) throw new Error("Installed version differs from packed version");
     await copyFile(join(root, "test/package-consumer.ts"), join(workspace, "consumer.ts"));
+    await copyFile(join(root, "test/package-player.ts"), join(workspace, "player.ts"));
     await copyFile(join(root, "examples/custom-objects.ts"), join(workspace, "custom-objects.ts"));
     for (const resolution of resolutions) {
         const compilerOptions = {
@@ -69,10 +70,11 @@ try {
         const domConfig = join(workspace, `tsconfig.dom.${resolution}.json`);
         await writeFile(domConfig, JSON.stringify({
             compilerOptions: { ...compilerOptions, lib: ["ES2022", "DOM"], noEmitOnError: true, outDir },
-            files: ["consumer.ts", "custom-objects.ts"]
+            files: ["consumer.ts", "custom-objects.ts", "player.ts"]
         }));
         execFileSync(process.execPath, [compiler, "-p", domConfig], { stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "consumer.js")], { cwd: workspace, stdio: "inherit" });
+        execFileSync(process.execPath, [join(workspace, outDir, "player.js")], { cwd: workspace, stdio: "inherit" });
         console.log(`TypeScript ${compilerVersion} / ${resolution}: headless, DOM and runtime consumer passed`);
     }
     await copyFile(join(root, "examples/minimal.mjs"), join(workspace, "minimal.mjs"));

@@ -32,8 +32,8 @@
 </details>
 </section>
 </div>
-<section class="code"><h2>Код подключения</h2><pre>const { mountPlayer } = await import('./optional-player.mjs');
-const ui = mountPlayer(container, {
+<section class="code"><h2>Код подключения</h2><pre>const { Player } = await import('@grundyjs/algiviz/player');
+const ui = new Player(container, {
   viewport: canvas, // Canvas, SVG или собственный DOM-элемент
   source: () => states(), // поток без перемотки
   // history: () => savedStates, // вместо source: запись со шкалой
@@ -41,9 +41,9 @@ const ui = mountPlayer(container, {
   // stepDurationMs: 1000, // для авторежима; обязательно для записи
 });
 // При удалении виджета: ui.dispose();</pre></section>
-<p>Это локальный прототип, не новый экспорт npm. Поток хранит соседние снимки; запись получает готовый конечный массив состояний. Шкала появляется только у записи; её можно скрыть настройкой <code>seekBar: false</code>.</p>
+<p>Локальная сборка нового модуля <code>/player</code>, пока не опубликованного в npm. Поток хранит соседние снимки; запись получает готовый конечный массив состояний. Шкала появляется только у записи; её можно скрыть настройкой <code>seekBar: false</code>.</p>
 <p>Изображение и панель управления образуют один плеер. Технические кнопки и счётчики спрятаны в «Проверке жизненного цикла»: удаление управления останавливает воспроизведение и сохраняет последний Canvas/SVG.</p>
 <p>После начала панель скрывается через две секунды бездействия. Движение мыши, касание или фокус с клавиатуры показывают её снова. Настройка <code>autoHide: false</code> оставляет постоянную панель под изображением.</p>
-<script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js"}}</script>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/player":"../dist/player/index.js"}}</script>
 <script type="module" src="optional-player-demo.mjs"></script>
 </main></html>

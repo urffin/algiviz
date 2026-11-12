@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased
+
+- Add optional `/player` with the `Player` constructor and typed options, status and
+  labels. Keep existing entry points independent of UI code and DOM declarations.
+- Support lazy plain-state streams and explicit finite recordings, optional
+  seeking, media controls, auto-hide, scoped lifecycle cleanup and multiple widgets.
+- Add strict installed-package consumers and raw/minified bundle-isolation checks
+  for existing-only, static UI and dynamic UI imports. No runtime dependencies.
+
 ## 0.11.2 — 2026-11-05
 
 - Avoid argument-count limits when scaling large arrays in the Canvas renderer.

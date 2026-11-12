@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createStateController } from '../examples/optional-player-controller.mjs';
-import { mountPlayer } from '../examples/optional-player.mjs';
+import { createStateController } from '../dist/player/controller.js';
+import { Player } from '@grundyjs/algiviz/player';
 
 function clock() {
     let id = 0;
@@ -23,7 +23,8 @@ function fixture(options = {}) {
 }
 
 test('optional modules import without DOM; manual initialization, no lookahead and extra completion request', () => {
-    assert.equal(typeof mountPlayer, 'function'); assert.equal(typeof globalThis.document, 'undefined');
+    assert.equal(typeof Player, 'function'); assert.equal(typeof globalThis.document, 'undefined');
+    assert.throws(() => Player(), TypeError);
     const { controller: ui, stats, frames } = fixture();
     assert.deepEqual(stats, { factories: 0, reads: 0, closes: 0 }); assert.equal(frames.length, 0);
     ui.start(); assert.equal(stats.reads, 1); assert.equal(ui.status.phase, 'paused');
@@ -186,8 +187,9 @@ test('scoped UI instances have no fixed IDs, preserve caller children and tear d
     const env = dom(), a = env.container(), b = env.container(), note = env.doc.createElement('p'); a.append(note);
     let aClosed = 0, bClosed = 0;
     const source = close => function* () { try { yield 0; yield 1; yield 2; } finally { close(); } };
-    const first = mountPlayer(a, { source: source(() => aClosed++), render() {}, labels: { start: 'Начать' } });
-    const second = mountPlayer(b, { source: source(() => bClosed++), render() {}, stepDurationMs: 100 });
+    const first = new Player(a, { source: source(() => aClosed++), render() {}, labels: { start: 'Начать' } });
+    const second = new Player(b, { source: source(() => bClosed++), render() {}, stepDurationMs: 100 });
+    assert.ok(first instanceof Player); assert.ok(second instanceof Player);
     assert.equal(first.frame, null); assert.equal(second.frame, null);
     assert.equal(control(a, 'start').attributes.get('aria-label'), 'Начать'); assert.equal(control(a, 'restart').hidden, true);
     const oldNext = control(a, 'next'); control(a, 'start').emit('click'); control(a, 'next').emit('click');
@@ -205,7 +207,7 @@ test('scoped UI instances have no fixed IDs, preserve caller children and tear d
 
 test('hidden tabs pause without reading ahead; reduced motion redraws the same raw frame and pagehide cleans up', () => {
     const env = dom(), container = env.container(), frames = []; let reads = 0, closed = 0;
-    const ui = mountPlayer(container, { stepDurationMs: 100, render: frame => frames.push(frame),
+    const ui = new Player(container, { stepDurationMs: 100, render: frame => frames.push(frame),
         source: function* () { try { while (true) yield ++reads; } finally { closed++; } } });
     ui.start(); ui.play(); env.scheduler.tick(0); env.scheduler.tick(25);
     assert.equal(ui.frame.progress, 0.25); const before = ui.frame;
@@ -220,20 +222,20 @@ test('hidden tabs pause without reading ahead; reduced motion redraws the same r
 
 test('UI disposal removes DOM/listeners even when source cleanup throws; remount starts idle', () => {
     const env = dom(), container = env.container(), cleanup = new Error('cleanup'); let closed = 0;
-    const ui = mountPlayer(container, { render() {}, source: () => ({ [Symbol.iterator]: () => ({
+    const ui = new Player(container, { render() {}, source: () => ({ [Symbol.iterator]: () => ({
         next: () => ({ value: 1, done: false }), return() { closed++; throw cleanup; },
     }) }) });
     ui.start(); const last = ui.frame;
     assert.throws(() => ui.dispose(), error => error === cleanup); ui.dispose();
     assert.equal(closed, 1); assert.deepEqual(ui.frame, last); assert.equal(container.children.length, 0);
     assert.equal(env.doc.listenerCount + env.view.listenerCount + env.media.listenerCount, 0);
-    const remounted = mountPlayer(container, { source: function* () { yield 7; }, render() {} });
+    const remounted = new Player(container, { source: function* () { yield 7; }, render() {} });
     assert.equal(remounted.status.phase, 'idle'); assert.equal(remounted.frame, null); remounted.dispose();
 });
 
 test('programmatic speeds remain visible with at most one custom option and never consume a state', () => {
     const env = dom(), container = env.container(); let reads = 0;
-    const ui = mountPlayer(container, { stepDurationMs: 100, source: function* () { yield ++reads; }, render() {} });
+    const ui = new Player(container, { stepDurationMs: 100, source: function* () { yield ++reads; }, render() {} });
     const select = panel(container).children.find(child => child.tag === 'label').children.find(child => child.tag === 'select');
     for (const speed of [1.5, 2.5, 3.5]) {
         ui.setSpeed(speed); assert.equal(select.value, String(speed)); assert.equal(select.children.length, 8);
@@ -250,7 +252,7 @@ test('integrated player hosts the same viewport and restores its original positi
         container.append(before, viewport, after);
         let reads = 0, closes = 0;
         const cleanup = new Error('cleanup');
-        const ui = mountPlayer(container, { viewport, render() {}, source: function* () {
+        const ui = new Player(container, { viewport, render() {}, source: function* () {
             try { while (true) yield ++reads; } finally { closes++; if (cleanupThrows) throw cleanup; }
         } });
         const root = container.children[1], stage = root.children.find(child => child.dataset?.role === 'viewport');
@@ -270,7 +272,7 @@ test('a viewport outside the supplied container is rejected without moving DOM o
     const env = dom(), container = env.container(), other = env.container(), viewport = env.doc.createElement('svg');
     other.append(viewport); let reads = 0;
     const options = { viewport, source: function* () { yield ++reads; }, render() {} };
-    assert.throws(() => mountPlayer(container, options), /direct child/);
+    assert.throws(() => new Player(container, options), /direct child/);
     assert.deepEqual(container.children, []); assert.deepEqual(other.children, [viewport]); assert.equal(reads, 0);
 });
 
@@ -328,7 +330,7 @@ test('seeking is unavailable for streams even when the iterable eventually finis
 test('media controls have accessible icon labels, a capability-driven optional seek bar, and Replay', () => {
     for (const seekBar of [true, false]) {
         const env = dom(), container = env.container(); let captures = 0;
-        const ui = mountPlayer(container, { history() { captures++; return [0, 1, 2]; }, stepDurationMs: 100, seekBar, render() {} });
+        const ui = new Player(container, { history() { captures++; return [0, 1, 2]; }, stepDurationMs: 100, seekBar, render() {} });
         const seek = control(container, 'seek');
         assert.equal(seek.hidden, !seekBar); assert.equal(seek.disabled, true); assert.equal(captures, 0);
         assert.equal(control(container, 'start').dataset.icon, 'play');
@@ -344,14 +346,14 @@ test('media controls have accessible icon labels, a capability-driven optional s
         ui.dispose(); assert.equal(env.scheduler.size, 0);
     }
     const env = dom(), container = env.container();
-    const ui = mountPlayer(container, { source: function* () { yield 1; }, render() {}, seekBar: true });
+    const ui = new Player(container, { source: function* () { yield 1; }, render() {}, seekBar: true });
     assert.equal(control(container, 'seek').hidden, true); assert.equal(control(container, 'previous').hidden, true); ui.dispose();
 });
 
 function overlayFixture(options = {}) {
     const env = dom(), container = env.container(), viewport = env.doc.createElement('canvas'); container.append(viewport);
     let reads = 0, closed = 0;
-    const ui = mountPlayer(container, { viewport, stepDurationMs: 100, render() {},
+    const ui = new Player(container, { viewport, stepDurationMs: 100, render() {},
         source: function* () { try { while (true) yield ++reads; } finally { closed++; } }, ...options });
     const root = container.children[0];
     return { ...env, container, viewport, ui, root, get reads() { return reads; }, get closed() { return closed; } };
@@ -411,4 +413,30 @@ test('overlay teardown cancels timers/listeners and autoHide false preserves the
     const fixed = overlayFixture({ autoHide: false }); fixed.ui.start(); fixed.expireTimers();
     assert.equal(fixed.root.dataset.overlay, 'false'); assert.equal(fixed.root.dataset.controls, 'visible');
     assert.equal(fixed.timers.size, 0); fixed.ui.dispose();
+});
+
+test('a rejected reentrant widget disposal keeps its shell recoverable for later cleanup', () => {
+    const env = dom(), container = env.container(), viewport = env.doc.createElement('canvas'); container.append(viewport);
+    let ui, reject = false, closes = 0;
+    ui = new Player(container, { viewport,
+        source: function* () { try { yield 0; yield 1; } finally { closes++; } },
+        render() { if (reject) ui.dispose(); },
+    });
+    ui.start(); reject = true; ui.next();
+    assert.equal(ui.status.phase, 'error'); assert.equal(closes, 1);
+    assert.equal(container.children[0].className, 'algiviz-player');
+    ui.dispose(); assert.equal(ui.status.phase, 'disposed');
+    assert.deepEqual(container.children, [viewport]); assert.equal(closes, 1);
+    assert.equal(env.timers.size + env.doc.listenerCount + env.view.listenerCount + env.media.listenerCount, 0);
+});
+
+test('labels copy defaults for explicit undefined; malformed UI options fail before mounting', () => {
+    const env = dom(), container = env.container(); let reads = 0;
+    const options = { source: function* () { yield ++reads; }, render() {} };
+    const ui = new Player(container, { ...options, labels: { start: undefined } });
+    assert.equal(control(container, 'start').attributes.get('aria-label'), 'Start'); ui.dispose();
+    for (const invalid of [{ autoHide: 'false' }, { seekBar: 1 }, { labels: { start: '' } },
+        { labels: { play: null } }, { onError: true }, { onStatus: null }, { viewport: null }])
+        assert.throws(() => new Player(container, { ...options, ...invalid }), TypeError);
+    assert.equal(container.children.length, 0); assert.equal(reads, 0);
 });

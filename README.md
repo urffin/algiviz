@@ -104,7 +104,8 @@ the [local setup instructions](https://github.com/urffin/algiviz/blob/master/doc
 
 Do not mutate emitted states. `createStatePlayer` completes on source exhaustion;
 `createPlayer` requires an explicit terminal step. Call `dispose()` when removing a visualization. Algorithms, layouts and animation
-scheduling belong to the application.
+scheduling belong to the application. The optional browser `/player` can provide
+standard controls and scheduling when desired.
 
 ## Playback modes
 
@@ -125,6 +126,7 @@ Generators reduce retained history, not the cost of producing each snapshot.
 | [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/playback.md) | Steps, players, timelines, termination and lifecycle |
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Custom types, object matching and projection |
 | [`/array` and `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/array.md) | Array operations, ready-made rendering and palettes |
+| [`/player` — unreleased](https://github.com/urffin/algiviz/blob/master/docs/player.md) | Optional media controls, recording/stream modes and on-demand UI loading; not in published 0.11.2 |
 
 [Complete TypeScript example](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·
 [Project setup and integration](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md) ·

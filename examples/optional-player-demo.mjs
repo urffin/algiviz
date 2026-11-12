@@ -45,7 +45,7 @@ const definitions = {
         draw: frame => graphRenderer.render(elements, frame),
     },
 };
-let mount;
+let Player;
 const examples = Object.fromEntries(Object.entries(definitions).map(([id, definition]) => {
     const stats = { sources: 0, yielded: 0, closed: 0 };
     let ui;
@@ -65,7 +65,7 @@ const examples = Object.fromEntries(Object.entries(definitions).map(([id, defini
         const input = definition.recorded ? { history() {
             stats.sources++; const states = definition.values(); stats.yielded += states.length; return states;
         } } : { source };
-        ui = mount($(`${id}-player`), { viewport: $(id), ...input, render: definition.draw, stepDurationMs: definition.stepDurationMs, labels, onStatus: metrics });
+        ui = new Player($(`${id}-player`), { viewport: $(id), ...input, render: definition.draw, stepDurationMs: definition.stepDurationMs, labels, onStatus: metrics });
         $(`${id}-dispose`).disabled = false; $(`${id}-remount`).disabled = true;
     }
     $(`${id}-dispose`).onclick = () => {
@@ -77,10 +77,10 @@ const examples = Object.fromEntries(Object.entries(definitions).map(([id, defini
 $('load').onclick = async () => {
     $('load').disabled = true;
     try {
-        ({ mountPlayer: mount } = await import('./optional-player.mjs'));
+        ({ Player } = await import('@grundyjs/algiviz/player'));
         for (const example of Object.values(examples)) example.attach();
         $('loading-status').textContent = 'Модуль подключён. Источники начнут читаться по кнопкам «Начать».';
     } catch (error) { $('loading-status').textContent = error.message; $('load').disabled = false; }
 };
 // pagehide disposes each widget; BFcache restoration remounts idle controls.
-window.addEventListener('pageshow', event => { if (event.persisted && mount) for (const example of Object.values(examples)) example.attach(); });
+window.addEventListener('pageshow', event => { if (event.persisted && Player) for (const example of Object.values(examples)) example.attach(); });

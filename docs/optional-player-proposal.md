@@ -3,8 +3,9 @@
 Assessment dated 2026-11-12, after `273b292` and its successful ten-job CI.
 This proposes a public package API, not a release decision. The existing four
 module contracts remain the stabilization baseline. A local example-only
-[prototype](optional-player-prototype.md) now demonstrates the first scope;
-there is still no `/player` npm entry point.
+[prototype](optional-player-prototype.md) demonstrated the first scope and was
+committed at `12f8fb3`. The working tree now prepares an
+[unreleased `/player` entry](player.md); published 0.11.2 still has no such entry.
 
 ## Release value of the current changes
 
@@ -18,7 +19,7 @@ useful now. Its notes must state that the runtime/declarations are unchanged;
 installing it will not install the new demo files. A patch is not necessary to
 use examples already available on GitHub. If an optional public player is the
 next deliverable, combining the README updates with **0.12.0** avoids a separate
-documentation-only release. A new public entry point/function is a feature under
+documentation-only release. A new public entry point/class is a feature under
 this project's 0.x release convention, even if old imports remain unchanged.
 [SemVer](https://semver.org/spec/v2.0.0.html) leaves 0.y.z APIs in development;
 this patch/minor distinction records the project's compatibility intent.
@@ -50,11 +51,11 @@ not import or re-export `/player`. The UI must not pull in `/array`, `/canvas`,
 algorithms, a framework, icons or fonts. Its caller supplies a renderer callback,
 which may target Canvas, SVG, DOM or another host.
 
-Conceptual use, **not a currently available export**:
+Use in the unreleased local implementation, **not published 0.11.2**:
 
 ```js
-const { mountPlayer } = await import('@grundyjs/algiviz/player');
-const ui = mountPlayer(container, {
+const { Player } = await import('@grundyjs/algiviz/player');
+const ui = new Player(container, {
   viewport: canvas,
   source: () => states(),
   render: draw,
@@ -97,7 +98,7 @@ and consumer tests rather than relying blindly on today's `sideEffects: false`.
   collection, hidden lookahead or mandatory step/event wrappers. For the proposed
   default, Start creates the source and shows the first frame; mounting alone
   does not consume it. Manual playback works without timing; timed controls
-  require `stepDurationMs`. Autoplay is opt-in and separate from initialization.
+  require `stepDurationMs`. Autoplay remains outside the first implementation.
 - Streaming playback has unknown total duration, no invented percentage or seek
   bar, and exhaustion detected by the existing extra request. Next stays visible
   while temporarily disabled; after completion Restart remains available.

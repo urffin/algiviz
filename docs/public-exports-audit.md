@@ -27,6 +27,16 @@ No root, /core, algorithm registration or bundled algorithm export exists.
 Relative imports inside declarations resolve shipped implementation modules; they
 do not require consumers to import those private paths themselves.
 
+Working-tree follow-up, 2026-11-12: the **unreleased `/player`** adds one runtime
+class, `Player`, and three type-only names: `PlayerOptions`, `PlayerStatus`,
+`PlayerLabels`. The totals become 15 runtime names (13 distinct functions and one
+class) and 26 type-only names. `Player<State>` also names the widget instance
+type. The `/playback` type-only `Player` remains unchanged; consumers importing
+both can alias that type to `PlaybackPlayer`. The original four namespaces are unchanged.
+The installed export inventory also rejects private player paths. The new
+declarations require DOM types; existing headless entry points do not import
+them. See the [reference](player.md) and [bundle evidence](player-bundle-check.md).
+
 ## Recommendations before 1.0
 
 1. **Keep all four entry points.** They separate generic playback, generic scenes,

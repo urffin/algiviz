@@ -1,19 +1,25 @@
-import { createStateController } from './optional-player-controller.mjs';
+import { createStateController, type StateController } from "./controller.js";
+import type { PlayerControls, PlayerOptions, PlayerLabels, PlayerStatus } from "./types.js";
 
-const defaults = Object.freeze({ start: 'Start', play: 'Play', pause: 'Pause', next: 'Next state', previous: 'Previous state', replay: 'Replay',
+const defaults: PlayerLabels = Object.freeze({ start: 'Start', play: 'Play', pause: 'Pause', next: 'Next state', previous: 'Previous state', replay: 'Replay',
     restart: 'Restart', speed: 'Speed', group: 'Visualization player', controls: 'Playback controls', idle: 'Press Start to read the first state.',
     paused: 'Paused', playing: 'Playing', finished: 'Finished', disposed: 'Disposed', step: 'State', error: 'Error',
     ready: 'Ready', seek: 'Playback position', time: 'Playback time', stream: 'STREAM', streamHint: 'Forward-only source · no seeking' });
 const speeds = [0.25, 0.5, 1, 2, 4, 8, 16];
-const icons = {
+type IconName = "play" | "pause" | "next" | "previous" | "restart";
+const icons: Record<IconName, readonly [string, boolean]> = {
     play: ['M8 5v14l11-7z', true], pause: ['M6 5h4v14H6zm8 0h4v14h-4z', true],
     next: ['M5 5v14l10-7zM17 5h2v14h-2z', true], previous: ['M19 5v14L9 12zM5 5h2v14H5z', true],
     restart: ['M4 11a8 8 0 1 1 2 7M4 4v7h7', false],
 };
-function timeLabel(value) {
+function timeLabel(value: number | null): string {
     if (value === null) return '—:—';
     const seconds = Math.floor(value / 1000), minutes = Math.floor(seconds / 60);
     return `${minutes}:${String(seconds % 60).padStart(2, '0')}`;
+}
+function errorMessage(error: unknown): string {
+    try { return error instanceof Error ? error.message : String(error); }
+    catch { return 'Unknown error'; }
 }
 const styles = `.algiviz-player{position:relative;overflow:hidden;border:1px solid var(--player-border,#3b4b64);border-radius:12px;background:var(--player-stage,#0c1423);font:inherit;color:var(--player-text,#fff)}
 .algiviz-player__viewport>canvas,.algiviz-player__viewport>svg{display:block;width:100%;height:auto;margin:0;border:0;border-radius:0}
@@ -35,21 +41,32 @@ const styles = `.algiviz-player{position:relative;overflow:hidden;border:1px sol
 .algiviz-player [data-action=seek]::-moz-range-track{height:3px;background:#ffffff40}.algiviz-player [data-action=seek]::-moz-range-progress{height:3px;background:var(--player-accent,#83e6cf)}.algiviz-player [data-action=seek]::-moz-range-thumb{width:11px;height:11px;border:0;background:var(--player-accent,#83e6cf)}
 .algiviz-player [data-action=seek]:disabled{opacity:.3;cursor:not-allowed}.algiviz-player [data-role=error]{color:var(--player-error,#ffb4b4);flex-basis:100%;margin:0;font-size:13px}`;
 
-// Local prototype. The caller's viewport is temporarily hosted inside the player.
-export function mountPlayer(container, options = {}) {
+/** Mount a lazy playback widget; temporarily host and restore the caller's viewport. */
+export function mountControls<State>(container: HTMLElement, options: PlayerOptions<State>): PlayerControls<State> {
     const doc = container?.ownerDocument, view = doc?.defaultView;
     if (!doc || !view || typeof container.append !== 'function') throw new TypeError('Expected a DOM container');
+    if (!options || typeof options !== 'object') throw new TypeError('Expected player options');
     const { source, history, render, viewport, seekBar = true, autoHide = true, stepDurationMs, finalHoldMs, onError, onStatus, labels: overrides } = options;
-    if (viewport && (viewport.ownerDocument !== doc || viewport.parentNode !== container))
+    if (viewport !== undefined && (!viewport || viewport.ownerDocument !== doc || viewport.parentNode !== container))
         throw new TypeError('Viewport must be a direct child of the player container');
-    const labels = { ...defaults, ...overrides };
+    if ((onStatus !== undefined && typeof onStatus !== 'function') || (onError !== undefined && typeof onError !== 'function'))
+        throw new TypeError('onStatus and onError must be functions');
+    if (typeof seekBar !== 'boolean' || typeof autoHide !== 'boolean') throw new TypeError('seekBar and autoHide must be booleans');
+    const labels = { ...defaults };
+    for (const key of Object.keys(defaults) as (keyof PlayerLabels)[]) {
+        const value = overrides?.[key];
+        if (value !== undefined) {
+            if (typeof value !== 'string' || !value.trim()) throw new TypeError('Player labels must be non-empty strings');
+            labels[key] = value;
+        }
+    }
     const root = doc.createElement('div'); root.className = 'algiviz-player';
     root.setAttribute('role', 'group'); root.setAttribute('aria-label', labels.group);
     const overlay = !!viewport && autoHide;
     root.dataset.overlay = String(overlay); root.dataset.controls = 'visible';
     if (overlay) root.tabIndex = 0;
     const style = doc.createElement('style'); style.textContent = styles; root.append(style);
-    let stage;
+    let stage: HTMLDivElement | undefined;
     if (viewport) {
         stage = doc.createElement('div'); stage.className = 'algiviz-player__viewport'; stage.dataset.role = 'viewport'; root.append(stage);
     }
@@ -57,9 +74,11 @@ export function mountPlayer(container, options = {}) {
     panel.setAttribute('role', 'group'); panel.setAttribute('aria-label', labels.controls); root.append(panel);
     const seek = doc.createElement('input'); seek.type = 'range'; seek.min = '0'; seek.max = '1'; seek.step = '1'; seek.value = '0';
     seek.dataset.action = 'seek'; seek.setAttribute('aria-label', labels.seek); panel.append(seek);
-    const buttons = {}, symbols = new Map();
-    function buttonLabel(button, text, icon) {
-        const symbol = symbols.get(button);
+    type Action = 'previous' | 'start' | 'play' | 'next' | 'restart';
+    const buttons = {} as Record<Action, HTMLButtonElement>;
+    const symbols = new Map<HTMLButtonElement, { path: SVGPathElement; caption: HTMLSpanElement; text?: string }>();
+    function buttonLabel(button: HTMLButtonElement, text: string, icon: IconName) {
+        const symbol = symbols.get(button)!;
         if (symbol.text !== text) {
             symbol.text = text; symbol.caption.textContent = text; button.title = text; button.setAttribute('aria-label', text);
         }
@@ -70,7 +89,7 @@ export function mountPlayer(container, options = {}) {
             symbol.path.setAttribute('stroke', filled ? 'none' : 'currentColor');
         }
     }
-    for (const action of ['previous', 'start', 'play', 'next', 'restart']) {
+    for (const action of ['previous', 'start', 'play', 'next', 'restart'] as const) {
         const button = doc.createElement('button'); button.type = 'button';
         const icon = doc.createElementNS('http://www.w3.org/2000/svg', 'svg'); icon.setAttribute('viewBox', '0 0 24 24');
         icon.setAttribute('aria-hidden', 'true'); icon.setAttribute('focusable', 'false');
@@ -91,15 +110,20 @@ export function mountPlayer(container, options = {}) {
     }
     speed.value = '1'; speedLabel.append(speed); panel.append(speedLabel);
     const alert = doc.createElement('p'); alert.dataset.role = 'error'; alert.setAttribute('role', 'alert'); panel.append(alert);
-    const removers = [];
-    function listen(target, event, callback) {
-        target.addEventListener(event, callback); removers.push(() => target.removeEventListener(event, callback));
+    const removers: (() => void)[] = [];
+    type Events = HTMLElementEventMap & DocumentEventMap & WindowEventMap & MediaQueryListEventMap;
+    function listen<Key extends keyof Events>(target: EventTarget, event: Key, callback: (event: Events[Key]) => void) {
+        const listener = callback as EventListener;
+        target.addEventListener(event, listener); removers.push(() => target.removeEventListener(event, listener));
     }
-    let controller, customSpeed, disposed = false, hideTimer = null, lastPhase, lastError;
+    let controller: StateController<State>;
+    let customSpeed: HTMLOptionElement | undefined;
+    let disposed = false, hideTimer: number | null = null;
+    let lastPhase: PlayerStatus["phase"] | undefined, lastError: boolean | undefined;
     let keyboardFocus = false, panelHover = false, speedFocused = false;
-    const pointers = new Set();
+    const pointers = new Set<number>();
     function cancelHide() {
-        if (hideTimer !== null) view.clearTimeout(hideTimer);
+        if (hideTimer !== null) view!.clearTimeout(hideTimer);
         hideTimer = null;
     }
     function pinned() {
@@ -109,7 +133,7 @@ export function mountPlayer(container, options = {}) {
     function scheduleHide() {
         cancelHide();
         if (!overlay || disposed || pinned()) return;
-        hideTimer = view.setTimeout(() => {
+        hideTimer = view!.setTimeout(() => {
             hideTimer = null;
             if (!disposed && !pinned()) root.dataset.controls = 'hidden';
         }, 2000);
@@ -118,7 +142,7 @@ export function mountPlayer(container, options = {}) {
         if (disposed) return;
         root.dataset.controls = 'visible'; scheduleHide();
     }
-    function update(state) {
+    function update(state: PlayerStatus) {
         root.dataset.phase = state.phase;
         buttons.start.hidden = state.started;
         buttons.start.disabled = !state.canStart;
@@ -133,41 +157,43 @@ export function mountPlayer(container, options = {}) {
         if (!speeds.includes(state.speed)) {
             if (!customSpeed) { customSpeed = doc.createElement('option'); speed.append(customSpeed); }
             customSpeed.value = String(state.speed); customSpeed.textContent = `${state.speed}×`;
-        } else if (customSpeed) { customSpeed.remove(); customSpeed = null; }
+        } else if (customSpeed) { customSpeed.remove(); customSpeed = undefined; }
         speedLabel.hidden = !state.timed; speed.disabled = state.phase === 'disposed'; speed.value = String(state.speed);
         output.setAttribute('aria-live', state.phase === 'playing' ? 'off' : 'polite');
         const summary = state.phase === 'finished' ? labels.finished : state.started ? `${labels.step} ${state.stepIndex ?? '—'}` : labels.ready;
         if (output.textContent !== summary) output.textContent = summary;
-        output.title = state.started ? labels[state.phase] ?? state.phase : labels.idle;
+        output.title = state.started ? state.phase === "idle" ? labels.idle : labels[state.phase] : labels.idle;
         output.setAttribute('aria-label', state.started ? `${labels.step} ${state.stepIndex ?? '—'} · ${output.title}` : labels.idle);
         seek.hidden = !seekBar || state.mode !== 'recording'; seek.disabled = !state.canSeek;
         seek.max = String(state.durationMs || 1); seek.value = String(state.positionMs ?? 0);
-        seek.style.setProperty('--position', `${state.durationMs ? (state.positionMs / state.durationMs) * 100 : 0}%`);
+        seek.style.setProperty('--position', `${state.durationMs ? ((state.positionMs ?? 0) / state.durationMs) * 100 : 0}%`);
         seek.setAttribute('aria-valuetext', `${timeLabel(state.positionMs)} / ${timeLabel(state.durationMs)}`);
         time.hidden = state.mode !== 'recording'; time.textContent = `${timeLabel(state.positionMs)} / ${timeLabel(state.durationMs)}`;
         stream.hidden = state.mode !== 'stream';
-        alert.textContent = !state.hasError ? '' : `${labels.error}: ${state.error?.message ?? String(state.error)}`;
+        alert.textContent = !state.hasError ? '' : `${labels.error}: ${errorMessage(state.error)}`;
         alert.hidden = !state.hasError;
         if (state.phase !== lastPhase || state.hasError !== lastError) reveal();
         lastPhase = state.phase; lastError = state.hasError;
     }
     controller = createStateController({ source, history, render, stepDurationMs, finalHoldMs, onError, onStatus, onChange: update,
         scheduler: { request: fn => view.requestAnimationFrame(fn), cancel: id => view.cancelAnimationFrame(id) } });
-    const handle = Object.freeze({
+    const handle: PlayerControls<State> = Object.freeze({
         get status() { return controller.status; },
         get frame() { return controller.frame; },
         start: () => controller.start(), play: () => controller.play(), pause: () => controller.pause(),
-        next: () => controller.next(), restart: () => controller.restart(), setSpeed: value => controller.setSpeed(value),
-        previous: () => controller.previous(), seek: value => controller.seek(value),
+        next: () => controller.next(), restart: () => controller.restart(), setSpeed: (value: number) => controller.setSpeed(value),
+        previous: () => controller.previous(), seek: (value: number) => controller.seek(value),
         dispose() {
             if (disposed) return;
-            disposed = true;
             try { controller.dispose(); }
             finally {
-                cancelHide();
-                for (const remove of removers.splice(0)) remove();
-                if (viewport && viewport.parentNode === stage) container.insertBefore(viewport, root.parentNode === container ? root : null);
-                root.remove();
+                if (controller.status.phase === "disposed") {
+                    disposed = true;
+                    cancelHide();
+                    for (const remove of removers.splice(0)) remove();
+                    if (viewport && viewport.parentNode === stage) container.insertBefore(viewport, root.parentNode === container ? root : null);
+                    root.remove();
+                }
             }
         },
     });
@@ -181,17 +207,17 @@ export function mountPlayer(container, options = {}) {
             listen(panel, 'pointerleave', () => { panelHover = false; scheduleHide(); });
             listen(root, 'keydown', () => { keyboardFocus = true; reveal(); });
             listen(root, 'focusin', event => {
-                keyboardFocus = event.target.matches(':focus-visible'); speedFocused = event.target === speed; reveal();
+                keyboardFocus = (event.target as Element).matches(':focus-visible'); speedFocused = event.target === speed; reveal();
             });
             listen(root, 'focusout', event => {
                 if (event.target === speed) speedFocused = false;
-                if (!root.contains(event.relatedTarget)) keyboardFocus = false;
+                if (!root.contains(event.relatedTarget as Node | null)) keyboardFocus = false;
                 scheduleHide();
             });
             listen(doc, 'pointerdown', event => {
-                if (!root.contains(event.target)) { keyboardFocus = false; speedFocused = false; scheduleHide(); }
+                if (!root.contains(event.target as Node | null)) { keyboardFocus = false; speedFocused = false; scheduleHide(); }
             });
-            const release = event => { pointers.delete(event.pointerId); scheduleHide(); };
+            const release = (event: PointerEvent) => { pointers.delete(event.pointerId); scheduleHide(); };
             listen(doc, 'pointerup', release); listen(doc, 'pointercancel', release);
             listen(view, 'blur', () => { pointers.clear(); panelHover = false; keyboardFocus = false; scheduleHide(); });
         }
@@ -211,7 +237,7 @@ export function mountPlayer(container, options = {}) {
         listen(view, 'pagehide', () => handle.dispose());
         const reduced = view.matchMedia('(prefers-reduced-motion: reduce)');
         listen(reduced, 'change', () => controller.setReducedMotion(reduced.matches));
-        if (viewport) { container.insertBefore(root, viewport); stage.append(viewport); }
+        if (viewport) { container.insertBefore(root, viewport); stage!.append(viewport); }
         else container.append(root);
         controller.setReducedMotion(reduced.matches);
     } catch (error) { try { handle.dispose(); } catch {} throw error; }

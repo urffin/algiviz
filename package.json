@@ -8,6 +8,7 @@
     "dist/playback",
     "dist/scene",
     "dist/canvas",
+    "dist/player",
     "README.md",
     "ru/README.md",
     "LICENSE",
@@ -29,6 +30,11 @@
       "import": "./dist/playback/index.js",
       "default": "./dist/playback/index.js"
     },
+    "./player": {
+      "types": "./dist/player/index.d.ts",
+      "import": "./dist/player/index.js",
+      "default": "./dist/player/index.js"
+    },
     "./canvas": {
       "types": "./dist/canvas/index.d.ts",
       "import": "./dist/canvas/index.js",
@@ -40,10 +46,12 @@
     "benchmark": "npm run build && node --expose-gc scripts/benchmark.mjs",
     "test": "npm run build && tsc -p test/tsconfig.json && node --test test/*.test.mjs",
     "test:package": "node scripts/test-package.mjs",
+    "test:bundle": "node scripts/test-bundle.mjs",
     "prepack": "npm run build",
     "prepublishOnly": "npm test"
   },
   "devDependencies": {
+    "esbuild": "0.28.2",
     "typescript": "6.0.3"
   },
   "license": "MIT",

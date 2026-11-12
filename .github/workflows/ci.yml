@@ -58,3 +58,19 @@ jobs:
       # uses the selected version; it does not replace repository dependencies.
       - name: Verify NodeNext and Bundler consumers
         run: npm run test:package -- --typescript ${{ matrix.typescript }} --resolution all
+
+  bundle:
+    name: Optional player bundle isolation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Verify installed-package bundles and lazy loading
+        run: npm run test:bundle

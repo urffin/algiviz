@@ -7,6 +7,13 @@ Repository verification now includes
 with Boids, falling sand and the shared demo controller. The package runtime,
 declarations, exports and version are unchanged from the published baseline.
 
+Working-tree follow-up: the optional-player prototype was committed at `12f8fb3`
+and is now being promoted to an **unreleased `/player`** entry point. Its
+[contract](player.md), [bundle checks](player-bundle-check.md) and new DOM types
+are additional to the four-module published baseline below. They do not reopen
+closed core findings or authorize publication; the new contract and exact-commit
+CI need their own review before release.
+
 The technical recommendations from the export, minimal API, array and Canvas
 audits are implemented and released. No remaining finding from these audits
 requires an API redesign or a new feature. **1.0 remains deferred**: readiness
@@ -35,14 +42,19 @@ list of unresolved defects in 0.11.2.
 
 ## Compatibility boundary to preserve
 
-- Keep the four ESM entry points. There are 14 runtime names (13 distinct
+- Keep the four baseline ESM entry points. There are 14 runtime names (13 distinct
   functions) and 23 type-only exports, recorded in the [public export audit](public-exports-audit.md).
   There is no root/CommonJS export; `/core` and bundled algorithms were removed
   in 0.7.0. Keep `createSortRenderer` as the identical `createArrayRenderer` alias.
-- Algorithms, domain types, immutable snapshot production, layout, controls and
-  scheduling belong to the application. New application-owned algorithm examples
+  The working-tree `/player` adds only `Player` and three type-only names, for
+  totals of 15 runtime names / 26 type-only names. Existing entry points do not
+  import it. See the [unreleased reference](player.md).
+- Algorithms, domain types, immutable snapshot production and layout belong to
+  the application. Controls/scheduling can be application-owned or delegated to
+  the optional browser widget; headless playback has no mandatory DOM/RAF layer.
+  New application-owned algorithm examples
   do not change the package API or by themselves require a minor package version.
-- Players read their first step/state during construction and invoke the render
+- Headless players read their first step/state during construction and invoke the render
   callback immediately when supplied. `nextStep()`
   completes the current transition or requests one next snapshot at a boundary;
   `advance(0)` redraws without reading. Positive timed advancement requires
@@ -131,9 +143,11 @@ The current release's successful CI does not certify a later 1.0 candidate.
 
 ## Deliberate limits and deferred work
 
-- Iteration is synchronous. There is no AsyncIterable, worker execution, RAF
-  scheduler or automatic cap on elapsed time. Long generation or large advance
-  calls can block the host; applications control scheduling and elapsed time.
+- Headless iteration is synchronous, with no AsyncIterable, worker or scheduler.
+  The optional browser widget adds RAF with its documented 100 ms wall-clock
+  clamp; it cannot interrupt one expensive iterator operation. Long generation
+  or large core advance calls can block the host. Applications control whether
+  to use the widget or provide their own scheduling and elapsed time.
 - Generator playback retains adjacent snapshots, but snapshot creation and
   application-owned data still cost memory/time. Each array emission copies n
   slots; full history deliberately retains every snapshot. The two-endpoint

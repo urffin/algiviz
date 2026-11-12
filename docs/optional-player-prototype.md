@@ -6,14 +6,19 @@ Implemented on 2026-11-12 after documentation commit `0d1490f`. This is local
 example code for evaluating integration and lifecycle behavior. It is not a new
 package export, a release or a replacement for the existing teaching walkthrough.
 
+The prototype was committed at `12f8fb3`. Its implementation has since moved to
+`src/player` in the working tree, with the [unreleased `/player` reference](player.md)
+and [bundle-isolation evidence](player-bundle-check.md). The observations below
+record the prototype stage; they do not replace checks of the new package entry.
+
 ## What is reusable
 
-- [optional-player-controller.mjs](../examples/optional-player-controller.mjs)
+- [Controller, now in src/player](../src/player/controller.ts)
   uses only public `/playback`. It owns either a lazy plain-state session or an
   explicitly provided recording, advancement, speed, frame scheduling, status
   and source cleanup. It has no DOM
   dependency and receives its scheduler from the view.
-- [optional-player.mjs](../examples/optional-player.mjs) mounts one player shell
+- [Mounting, now in src/player](../src/player/mount.ts) mounts one player shell
   containing the caller's viewport and an integrated, auto-hiding overlay panel,
   using its owner document/window. It has no fixed IDs,
   global DOM lookup or import-time DOM access. Text labels are configurable;
@@ -22,16 +27,17 @@ package export, a release or a replacement for the existing teaching walkthrough
   graph traversal, snapshots, Canvas drawing, retained SVG objects and diagnostic
   counters. Those domain/rendering choices do not enter the controller or view.
 
-The new modules and page are outside the npm package allowlist. `src`, exports,
-package metadata, dependencies and lockfile remain unchanged.
+At the prototype stage the modules/page were outside the npm allowlist. The
+working-tree promotion now adds `dist/player` and its export; the domain demo
+page remains example-only. The original four entry points remain unchanged.
 
 ## Integration and behavior
 
 Assuming a container with a Canvas/SVG child, immutable-state factory and draw callback:
 
 ```js
-const { mountPlayer } = await import('./optional-player.mjs');
-const ui = mountPlayer(container, {
+const { Player } = await import('@grundyjs/algiviz/player');
+const ui = new Player(container, {
   viewport: canvas,
   source: () => states(),
   render: draw,
@@ -201,10 +207,10 @@ host application's responsibility.
   no footer space was reserved. Console warning/error results were empty.
   Touch/held-drag behavior is unit-tested, not a claim of physical-phone testing.
 
-No new installed-package, production-bundle, accessibility or broad browser-matrix
-claim is made. The existing package API was not changed, so its consumer check
-was not repeated for this example-only prototype. The new source has not yet
-received an exact-commit CI run.
+The observations above did not test an installed UI package, production bundle,
+accessibility audit or broad browser matrix. The later package/type/bundle checks
+are recorded separately in the current reference/report. Exact-commit CI for the
+public-entry implementation is still pending.
 
 ## What this simplifies, and what remains
 
@@ -219,8 +225,7 @@ There is no explicit-step adapter, async source, worker, autoplay, editor or exp
 The public API naming/types, callback/reentrancy policy, styling/CSP policy and
 the scope of further adapters still need review.
 
-Next: review the working prototype, then decide on the public `/player` API and
-types. Before publishing, add the entry point/allowlist, installed consumers and
-real bundler fixtures proving isolation for existing-only, static and dynamic
-imports, including CSS. Record sizes in those actual builds rather than treating
-the local prototype's on-demand import as proof of every consumer's chunk layout.
+The entry point, typed API, installed consumers and bundle fixtures are now
+prepared in the working tree. Review that implementation and require successful
+exact-commit CI before any authorized release. Package version/publication remain
+separate steps.

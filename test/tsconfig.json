@@ -8,5 +8,5 @@
     "allowJs": true,
     "checkJs": true
   },
-  "files": ["scene-types.ts", "../examples/minimal.mjs", "../examples/custom-objects.ts"]
+  "files": ["scene-types.ts", "package-player.ts", "../examples/minimal.mjs", "../examples/custom-objects.ts"]
 }
