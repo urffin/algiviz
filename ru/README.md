@@ -125,7 +125,7 @@ document.querySelector('#next').onclick = () => player.nextStep();
 | [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/ru/playback.md) | Шаги, плеер, история, завершение и жизненный цикл |
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/ru/scene.md) | Собственные типы, сопоставление объектов и проекция |
 | [`/array` и `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md) | Операции массива, готовый рендерер и палитра |
-| [`/player` — ещё не выпущен](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md) | Необязательная медиапанель, запись/поток и загрузка UI по запросу; в опубликованной 0.11.2 отсутствует |
+| [`/player`](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md) | Необязательный виджет `new Player(...)`, медиапанель, запись/поток и загрузка UI по запросу; добавлен в 0.12.0 |
 
 [Полный пример TypeScript](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·
 [Настройка проекта и интеграция](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md) ·

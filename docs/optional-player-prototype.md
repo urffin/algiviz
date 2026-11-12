@@ -7,7 +7,7 @@ example code for evaluating integration and lifecycle behavior. It is not a new
 package export, a release or a replacement for the existing teaching walkthrough.
 
 The prototype was committed at `12f8fb3`. Its implementation has since moved to
-`src/player` in the working tree, with the [unreleased `/player` reference](player.md)
+`src/player`, with the [0.12.0 `/player` reference](player.md)
 and [bundle-isolation evidence](player-bundle-check.md). The observations below
 record the prototype stage; they do not replace checks of the new package entry.
 
@@ -225,7 +225,7 @@ There is no explicit-step adapter, async source, worker, autoplay, editor or exp
 The public API naming/types, callback/reentrancy policy, styling/CSP policy and
 the scope of further adapters still need review.
 
-The entry point, typed API, installed consumers and bundle fixtures are now
-prepared in the working tree. Review that implementation and require successful
-exact-commit CI before any authorized release. Package version/publication remain
-separate steps.
+The entry point, typed API, installed consumers and bundle fixtures were committed
+at `fa22032` and passed all eleven CI jobs. The public form selected for 0.12.0 is
+`new Player(container, options)`. Versioned candidates require their own successful
+exact-commit CI before publication.

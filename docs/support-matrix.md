@@ -1,8 +1,8 @@
 # Support matrix before 1.0
 
-Updated 2026-11-12 for published AlgiViz 0.11.2 and repository commit `273b292`.
-The four baseline modules are unchanged; repository checks include the new demos.
-An unreleased working-tree `/player` adds a separate DOM-based UI contract; see
+Updated 2026-11-12 for AlgiViz 0.12.0 and implementation commit `fa22032`.
+The four baseline modules are unchanged from 0.11.2; repository checks include the new demos.
+The optional `/player` adds a separate DOM-based UI contract; see
 the [reference](player.md) and [bundle evidence](player-bundle-check.md).
 This records the current support boundary and its concrete verification evidence.
 See the [stabilization plan](api-stability.md) for the remaining release decisions.
@@ -184,10 +184,11 @@ registry-tarball installation. Broader product/version coverage is deferred.
 
 ## Next work
 
-1. Maintain the recorded narrow boundary and keep six Node and four TypeScript
-   jobs passing. The new working-tree bundle job brings the workflow to eleven
-   jobs; its installed-tarball checks passed locally and need exact-commit CI
-   along with the new player implementation.
+1. Maintain the recorded narrow boundary and keep all eleven CI jobs passing:
+   six Node, four TypeScript and installed-package bundle isolation. All eleven
+   passed for implementation commit `fa22032` in
+   [CI](https://github.com/urffin/algiviz/actions/runs/43203994982).
+   Every versioned release candidate needs its own exact-commit run.
 2. Make the long-term API compatibility decision, then apply the
    [exact-candidate checks](api-stability.md#what-remains-before-10-in-order)
    to any authorized 1.0 candidate within its stated support boundary.

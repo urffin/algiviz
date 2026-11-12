@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="ru">
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AlgiViz · Прототип необязательного плеера</title>
+<title>AlgiViz · Необязательный плеер</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#0c1423;color:#e6edf8;font:16px/1.5 system-ui}main{max-width:1180px;margin:auto;padding:24px}a{color:#91bfff}h1{font-size:28px;margin:12px 0}h2{font-size:20px;margin:0 0 8px}p{color:#b7c7dc}button{font:inherit;padding:8px 12px;background:#18263b;color:#edf4ff;border:1px solid #64748b;border-radius:8px;cursor:pointer}button:disabled{opacity:.4;cursor:not-allowed}button:focus-visible{outline:2px solid #83e6cf;outline-offset:3px}.examples{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}.card{min-width:0;border:1px solid #2a3a55;background:#142036;border-radius:12px;padding:18px}canvas,svg{display:block;width:100%;height:auto;border-radius:12px;background:#0c1423}.metrics{font:13px/1.5 ui-monospace,monospace;color:#83e6cf;min-height:40px}.external{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.host-note{font-size:13px;color:#b7c7dc;margin:10px 0}.diagnostics{margin-top:16px;border-top:1px solid #2a3a55;padding-top:12px}.diagnostics summary{cursor:pointer;color:#b7c7dc;font-size:14px}.code{border:1px solid #2a3a55;border-radius:12px;padding:16px;margin-top:20px}pre{white-space:pre-wrap;overflow-wrap:anywhere;color:#83e6cf;font:14px/1.5 ui-monospace,monospace;margin:0}small{color:#b7c7dc}@media(max-width:760px){.examples{grid-template-columns:1fr}main{padding:14px}}
 </style>
 <main>
 <a href="index.html">← Все примеры</a>
 <h1>Один плеер · запись и поток</h1>
-<p>Локальный прототип на текущем API. Сначала подключите модуль, затем нажмите «Начать» в нужном примере. До этого источники не создаются.</p>
+<p>Плеер из модуля /player, доступного с AlgiViz 0.12.0. Сначала подключите модуль, затем нажмите «Начать» в нужном примере. До этого источники не создаются.</p>
 <button id="load">Подключить плееры</button> <small id="loading-status" role="status">Модуль управления ещё не загружен.</small>
 <div class="examples">
 <section class="card" id="dot-example">
@@ -41,7 +41,7 @@ const ui = new Player(container, {
   // stepDurationMs: 1000, // для авторежима; обязательно для записи
 });
 // При удалении виджета: ui.dispose();</pre></section>
-<p>Локальная сборка нового модуля <code>/player</code>, пока не опубликованного в npm. Поток хранит соседние снимки; запись получает готовый конечный массив состояний. Шкала появляется только у записи; её можно скрыть настройкой <code>seekBar: false</code>.</p>
+<p>Пример использует локальную сборку модуля <code>/player</code> из AlgiViz 0.12.0. Поток хранит соседние снимки; запись получает готовый конечный массив состояний. Шкала появляется только у записи; её можно скрыть настройкой <code>seekBar: false</code>.</p>
 <p>Изображение и панель управления образуют один плеер. Технические кнопки и счётчики спрятаны в «Проверке жизненного цикла»: удаление управления останавливает воспроизведение и сохраняет последний Canvas/SVG.</p>
 <p>После начала панель скрывается через две секунды бездействия. Движение мыши, касание или фокус с клавиатуры показывают её снова. Настройка <code>autoHide: false</code> оставляет постоянную панель под изображением.</p>
 <script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/player":"../dist/player/index.js"}}</script>

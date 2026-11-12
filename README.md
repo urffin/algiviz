@@ -126,7 +126,7 @@ Generators reduce retained history, not the cost of producing each snapshot.
 | [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/playback.md) | Steps, players, timelines, termination and lifecycle |
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Custom types, object matching and projection |
 | [`/array` and `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/array.md) | Array operations, ready-made rendering and palettes |
-| [`/player` — unreleased](https://github.com/urffin/algiviz/blob/master/docs/player.md) | Optional media controls, recording/stream modes and on-demand UI loading; not in published 0.11.2 |
+| [`/player`](https://github.com/urffin/algiviz/blob/master/docs/player.md) | Optional `new Player(...)` widget, media controls, recording/stream modes and on-demand UI loading; added in 0.12.0 |
 
 [Complete TypeScript example](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·
 [Project setup and integration](https://github.com/urffin/algiviz/blob/master/docs/minimal-example.md) ·

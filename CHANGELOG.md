@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.12.0 — 2026-11-12
 
 - Add optional `/player` with the `Player` constructor and typed options, status and
   labels. Keep existing entry points independent of UI code and DOM declarations.

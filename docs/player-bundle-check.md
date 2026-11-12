@@ -1,6 +1,6 @@
 # Optional player: bundle isolation — 2026-11-12
 
-Working-tree `/player` after prototype commit `12f8fb3`; no npm publication.
+The `/player` implementation at `fa22032`, included in 0.12.0.
 Measured on Windows, Node 22.17.0 and pinned esbuild 0.28.2, browser platform,
 ES2022 ESM, splitting enabled, no source maps/legal comments.
 
@@ -53,8 +53,10 @@ npm run test:bundle -- --report /absolute/path/to/bundle-report.json
 
 The report contains exact versions and output graphs. The task's local artifacts
 include `bundle-report.json`. The CI workflow adds one bundle job on Ubuntu/Node
-24 alongside the six runtime and four compiler jobs; remote results for the
-new implementation require its own commit/run. esbuild is a dev dependency only.
+24 alongside the six runtime and four compiler jobs. The implementation passed
+all eleven jobs at `fa22032` in
+[CI](https://github.com/urffin/algiviz/actions/runs/43203994982).
+Versioned release candidates need their own run. esbuild is a dev dependency only.
 
 The old runtime folders were not modified by the player extraction. No package
 version, release tag or registry publication was changed by these checks.

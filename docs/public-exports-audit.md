@@ -27,7 +27,7 @@ No root, /core, algorithm registration or bundled algorithm export exists.
 Relative imports inside declarations resolve shipped implementation modules; they
 do not require consumers to import those private paths themselves.
 
-Working-tree follow-up, 2026-11-12: the **unreleased `/player`** adds one runtime
+Follow-up for 0.12.0, 2026-11-12: the optional **`/player`** adds one runtime
 class, `Player`, and three type-only names: `PlayerOptions`, `PlayerStatus`,
 `PlayerLabels`. The totals become 15 runtime names (13 distinct functions and one
 class) and 26 type-only names. `Player<State>` also names the widget instance

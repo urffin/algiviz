@@ -4,12 +4,12 @@ Assessment dated 2026-11-12, after `273b292` and its successful ten-job CI.
 This proposes a public package API, not a release decision. The existing four
 module contracts remain the stabilization baseline. A local example-only
 [prototype](optional-player-prototype.md) demonstrated the first scope and was
-committed at `12f8fb3`. The working tree now prepares an
-[unreleased `/player` entry](player.md); published 0.11.2 still has no such entry.
+committed at `12f8fb3`. Implementation commit `fa22032` adds the
+[0.12.0 `/player` entry](player.md), absent in 0.11.2.
 
 ## Release value of the current changes
 
-Since published 0.11.2, `src`, `package.json` and `package-lock.json` have no
+At the proposal stage after published 0.11.2, `src`, `package.json` and `package-lock.json` had no
 changes. Boids, sand, the shared controller, tests and most documentation live
 only in the repository. The package allowlist includes the two READMEs, whose
 new catalog rows would appear in a fresh npm archive.
@@ -51,7 +51,7 @@ not import or re-export `/player`. The UI must not pull in `/array`, `/canvas`,
 algorithms, a framework, icons or fonts. Its caller supplies a renderer callback,
 which may target Canvas, SVG, DOM or another host.
 
-Use in the unreleased local implementation, **not published 0.11.2**:
+Usage from **0.12.0**:
 
 ```js
 const { Player } = await import('@grundyjs/algiviz/player');

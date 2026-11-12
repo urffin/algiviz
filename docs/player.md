@@ -2,9 +2,7 @@
 
 [README](../README.md) · [Русский](ru/player.md)
 
-**Unreleased:** `/player` is prepared in the working tree after the prototype
-commit `12f8fb3`. Published 0.11.2 does not contain this entry point. The package
-version has not been bumped and no release has been published.
+**Added in 0.12.0:** `/player` is an optional entry point for the browser widget.
 
 `@grundyjs/algiviz/player` provides the `Player` class and the type-only exports
 `PlayerOptions`, `PlayerStatus` and `PlayerLabels`. It imports
@@ -154,4 +152,6 @@ covered by the updated instance, lifecycle and installed-consumer checks.
 Console warnings/errors were empty. Browser-tool access was briefly interrupted
 by a tab-limit approval check; the agent test tab was closed and verification
 completed in an existing tab within the limit. No additional browser product is
-certified by this embedded-host check. Exact-commit remote CI is pending.
+certified by this embedded-host check. Implementation commit `fa22032` passed all
+11 [CI jobs](https://github.com/urffin/algiviz/actions/runs/43203994982); the
+versioned release candidate must pass its own exact-commit run.

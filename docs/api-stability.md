@@ -1,14 +1,15 @@
 # API stabilization before 1.0
 
-Updated 2026-11-12 against published **0.11.2**, release commit
+Updated 2026-11-12 for **0.12.0**. The four original modules retain the **0.11.2** baseline, release commit
 [`b7f46ade478c25738ac77a3023fb4cd6c0b3995e`](https://github.com/urffin/algiviz/commit/b7f46ade478c25738ac77a3023fb4cd6c0b3995e).
 Repository verification now includes
 [`273b292`](https://github.com/urffin/algiviz/commit/273b292a6fa01dfaeb1717b6bbb7a4b149b4e6c9)
-with Boids, falling sand and the shared demo controller. The package runtime,
-declarations, exports and version are unchanged from the published baseline.
+with Boids, falling sand and the shared demo controller. Those demos leave the
+four baseline module contracts unchanged; 0.12.0 adds the optional UI below.
 
-Working-tree follow-up: the optional-player prototype was committed at `12f8fb3`
-and is now being promoted to an **unreleased `/player`** entry point. Its
+The optional-player prototype was committed at `12f8fb3`; implementation commit
+`fa22032` adds the **0.12.0 `/player`** entry point and passed all eleven
+[CI jobs](https://github.com/urffin/algiviz/actions/runs/43203994982). Its
 [contract](player.md), [bundle checks](player-bundle-check.md) and new DOM types
 are additional to the four-module published baseline below. They do not reopen
 closed core findings or authorize publication; the new contract and exact-commit
@@ -46,9 +47,9 @@ list of unresolved defects in 0.11.2.
   functions) and 23 type-only exports, recorded in the [public export audit](public-exports-audit.md).
   There is no root/CommonJS export; `/core` and bundled algorithms were removed
   in 0.7.0. Keep `createSortRenderer` as the identical `createArrayRenderer` alias.
-  The working-tree `/player` adds only `Player` and three type-only names, for
+  The 0.12.0 `/player` adds only `Player` and three type-only names, for
   totals of 15 runtime names / 26 type-only names. Existing entry points do not
-  import it. See the [unreleased reference](player.md).
+  import it. See the [player reference](player.md).
 - Algorithms, domain types, immutable snapshot production and layout belong to
   the application. Controls/scheduling can be application-owned or delegated to
   the optional browser widget; headless playback has no mandatory DOM/RAF layer.

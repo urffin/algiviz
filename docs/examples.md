@@ -18,7 +18,7 @@ included in the npm archive.
 | Example | What it demonstrates |
 | --- | --- |
 | [Object lifecycle](https://github.com/urffin/algiviz/blob/master/examples/object-lifecycle.html) | Empty scenes, enter/update/exit, mixed advance/nextStep control and early disposal with a consumption log |
-| [Optional browser player — unreleased](https://github.com/urffin/algiviz/blob/master/examples/optional-player.html) | Public `/player` import from the local build, a seekable Canvas recording and a forward-only SVG stream |
+| [Optional browser player](https://github.com/urffin/algiviz/blob/master/examples/optional-player.html) | Public `/player` import from the local build, a seekable Canvas recording and a forward-only SVG stream |
 | [How a frame is made](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html) | AlgiViz visualizes its own generator → player → scene → renderer pipeline (Russian walkthrough) |
 | [Sorting lab](https://github.com/urffin/algiviz/blob/master/examples/index.html) | Insertion and bubble sort using the array operations and renderer |
 | [Merge sort](https://github.com/urffin/algiviz/blob/master/examples/merge.html) | Custom state and a two-row scene for the main array and buffer |
