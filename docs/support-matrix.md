@@ -1,6 +1,6 @@
 # Support matrix before 1.0
 
-Updated 2026-11-06 for AlgiViz 0.11.2. This records verified Node/TypeScript
+Updated 2026-11-12 for AlgiViz 0.11.2. This records verified Node/TypeScript
 coverage and proposed browser coverage, not a promise about untested targets.
 See the [stabilization plan](api-stability.md) for the remaining release decisions.
 
@@ -107,9 +107,9 @@ separate evidence if they become support requirements.
 
 | Target | Current result | Next action |
 | --- | --- | --- |
-| Embedded Chromium, reported UA Chrome/157.0.0.0 on Windows | Six manual browser smoke groups passed on 2026-11-06; Canvas filter is available | Retain as engine-level smoke evidence, not certification of branded Chrome or Edge releases. |
-| Chrome / Edge stable and previous | Unverified as specific products/versions | Run the browser smoke fixture and representative interactive examples; record versions, OS, results and console errors. |
-| Firefox stable and previous | Unverified | Run the same checks with Gecko, not only a Chromium-based host. |
+| Embedded Chromium, reported UA Chrome/157.0.0.0 on Windows | Six smoke groups and minimal walkthrough passed on 2026-11-06; outstanding lifecycle and Sorting lab checks completed on 2026-11-12, with six smoke groups repeated successfully | Embedded-host checklist complete. See the [follow-up report](browser-checks-2026-11-12.md) for snapshot comparison, current demo scope and console results. Other products/versions remain separate targets. |
+| Chrome / Edge stable and previous | Unverified as specific products/versions | Desktop access was unavailable; the owner limited this pass to the embedded browser. Resume product-specific checks when access and scope permit. |
+| Firefox stable and previous | Unverified | Installed Firefox 133.0.3 was not tested and does not certify the proposed current/previous targets. Check Gecko separately when scope permits. |
 | Safari macOS/iOS, current and previous major | Unverified | Check actual Safari, Canvas behavior and example controls. A different WebKit host is additional evidence rather than automatic Safari/iOS certification. |
 
 The runtime needs native ESM and the JavaScript features actually emitted/used;
@@ -141,11 +141,17 @@ resolve before that browser target is marked supported.
 The fixture runs manually in a browser; it is not included in `npm test` and is
 not yet a browser CI job. The 2026-11-06 result covers the local compiled 0.11.2
 code, not a fresh registry-tarball browser install or a future 1.0 candidate.
+The [initial report](browser-checks-2026-11-06.md) preserves the interrupted run;
+the [2026-11-12 follow-up](browser-checks-2026-11-12.md) closes the outstanding
+embedded-host scenarios using the current working-copy demos. The broader
+product/version coverage gate remains open.
 
 ## Next work
 
-1. Run the named browser targets, starting with available desktop engines;
-   track Safari/iOS as pending until that environment is actually checked.
+1. Decide whether the advertised browser scope will stay within verified
+   environments or require additional product/version checks. The embedded-host
+   checklist is complete; resume other proposed targets only when scope/access
+   permit. Safari/iOS remain pending.
 2. Keep the Node/TypeScript CI gates passing for subsequent changes; the first
    expanded run is complete and does not need to be repeated as a separate task.
 3. Decide and document the advertised 1.0 support scope from these results, then

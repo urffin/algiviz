@@ -1,6 +1,6 @@
 # API stabilization before 1.0
 
-Updated 2026-11-06 against published **0.11.2**, release commit
+Updated 2026-11-12 against published **0.11.2**, release commit
 [`b7f46ade478c25738ac77a3023fb4cd6c0b3995e`](https://github.com/urffin/algiviz/commit/b7f46ade478c25738ac77a3023fb4cd6c0b3995e).
 
 The technical recommendations from the export, minimal API, array and Canvas
@@ -102,6 +102,15 @@ Additional integration evidence has a narrower scope than the release CI:
   required no library API changes. This supports the application-owned algorithm
   and visualization boundary in actual use. It is owner-reported evidence, not
   a new website-version, browser or video-pipeline verification in this chat.
+- A further [embedded-browser check on 2026-11-06](browser-checks-2026-11-06.md)
+  passed six smoke groups and the interactive minimal walkthrough on reported
+  Chromium 157. Lifecycle interactions were partially checked; tool timeouts
+  interrupted early-disposal preservation/restart checks and Sorting lab was
+  not reached. The [2026-11-12 follow-up](browser-checks-2026-11-12.md) completed
+  those scenarios: early-disposal drawing preservation, restart/exhaustion and
+  Sorting lab controls passed, with no warning/error console entries. It covers
+  the current working-copy demos in embedded Chromium, not branded desktop
+  products or a full historical-version matrix.
 
 Independent usage is currently unknown. Finding additional users and collecting
 their reviews is optional; it does not block stabilization or replace the
@@ -146,11 +155,12 @@ The current release's successful CI does not certify a later 1.0 candidate.
 
 ## What remains before 1.0, in order
 
-1. **Complete the browser part of the support matrix.** Node/TypeScript coverage
-   is verified in the expanded CI. Use the [matrix](support-matrix.md) to record
-   actual browser versions and results. Distinguish the library runtime from
-   repository tooling and standalone-demo requirements. Confirm proposed targets
-   before advertising them; embedded Chromium is not every branded browser.
+1. **Finalize the advertised browser scope.** Node/TypeScript coverage is verified
+   in the expanded CI and the requested embedded-browser checklist is complete.
+   Use the [matrix](support-matrix.md) to distinguish this evidence from the
+   unverified branded products/versions. Either choose a scope justified by the
+   completed checks or arrange further verification when access/scope permit.
+   Do not advertise the full proposed matrix as already verified.
 2. **Make an explicit compatibility decision.** Review the four module contracts
    and deliberate limits above, use the owner's website/video experience and the
    completed integrations to assess authoring friction, and decide whether to
@@ -168,5 +178,5 @@ The current release's successful CI does not certify a later 1.0 candidate.
    for the checked SHA, then verify npm's exact version, `latest` and provenance.
    Website work remains separately authorized and coordinated in its own chat.
 
-The next preparation step is verifying the proposed browser coverage.
+The next preparation step is deciding the advertised browser support scope.
 No unresolved required code change is identified by the completed audits.
