@@ -25,15 +25,19 @@ DOM globals, while mounting requires a browser DOM/window. Existing no-DOM
 fixtures deliberately do not import the UI declarations.
 
 The [accepted `/canvas/viewport` design](canvas-viewport.md) is not yet a shipped
-entry. Its planned declarations require DOM types and creation requires the
-canvas owner's browser APIs; import must remain DOM-free. The prototype's
+entry. The repository implements it for the next release. Its declarations
+require DOM types and creation requires the canvas owner's browser APIs;
+DOM-free runtime import is checked with the installed package. The prototype's
 [checks](canvas-viewport-prototype.md#verification-and-limits) include embedded
 DPR 1 visibility tests and desktop Chrome native zoom on 2026-11-13 (reported UA
 Chrome/157.0.0.0). Twelve cases passed at DPR 1.25, 2.5 uncapped/capped and restored
 1; automatic bitmap/transform updates retained Step 1 and two source reads.
 The original scale was restored. This is a targeted viewport-prototype check,
 not the full desktop-product matrix. These results do not establish physical HiDPI support
-or add a sixth entry to the current package boundary.
+or broaden the published 0.12.0 boundary. The unreleased sixth entry has its own
+installed types/runtime/bundle checks. A new native check of the compiled helper
+remains pending: Chrome was unavailable when the fixture was switched to the
+public import; the earlier zoom results cover the prototype.
 
 ## Current support boundary
 

@@ -2,9 +2,9 @@
 
 [Русский](ru/canvas-viewport.md) · [Prototype and checks](canvas-viewport-prototype.md)
 
-Design fixed on 2026-11-12. **This entry point is not implemented or shipped in
-0.12.0.** The running implementation remains example-only at `7ba76ba`; this
-document defines the boundary for its later TypeScript/package implementation.
+Contract fixed on 2026-11-12; implemented in the repository on 2026-11-13 for the
+next release. **Published 0.12.0 does not include this entry.** Build the repository
+to use it before that release; the package version is not changed by this work.
 
 ## Entry point and dependency boundary
 
@@ -21,8 +21,8 @@ Creation requires a DOM canvas and its owner window, including ResizeObserver,
 RAF/cancellation, resolution matchMedia and computed-style/layout access.
 Declarations require DOM types; existing headless entries remain independent.
 
-The future implementation file is `src/canvas/viewport.ts`, independent of
-`src/canvas/index.ts`. Its explicit package mapping will be:
+The implementation is [src/canvas/viewport.ts](../src/canvas/viewport.ts),
+independent of `src/canvas/index.ts`. Its explicit package mapping is:
 
 ```json
 "./canvas/viewport": {
@@ -32,9 +32,43 @@ The future implementation file is `src/canvas/viewport.ts`, independent of
 }
 ```
 
-The existing `dist/canvas` allowlist will include these files. There will be no
-wildcard/private-path exports, root export or new CommonJS entry. The mapping is
-recorded here, not added to package.json before its target files exist.
+The existing `dist/canvas` allowlist includes these files. There are no
+wildcard/private-path exports, root export or new CommonJS entry.
+
+## Use with retained frames
+
+Set an independent CSS width, for example `canvas { width: 100%; }`. Keep the
+last frame in the application and redraw it after invalidation:
+
+```js
+import { createCanvasViewport } from "@grundyjs/algiviz/canvas/viewport";
+import { createStatePlayer } from "@grundyjs/algiviz/playback";
+
+const canvas = document.querySelector("canvas");
+let frame;
+const viewport = createCanvasViewport(canvas, { onResize: redraw, maxPixelRatio: 2 });
+function redraw() {
+  if (!frame) return;
+  const size = viewport.resize(width => width / 3);
+  if (!size) return;
+  const ctx = viewport.context;
+  ctx.clearRect(0, 0, size.width, size.height);
+  ctx.beginPath();
+  ctx.arc(frame.current.x * size.width, size.height / 2, 12, 0, Math.PI * 2);
+  ctx.fillStyle = "#b39bff";
+  ctx.fill();
+}
+const player = createStatePlayer([{ x: 0.2 }, { x: 0.8 }], {
+  render(next) { frame = next; redraw(); },
+});
+document.querySelector("button").onclick = () => player.nextStep();
+// On teardown: viewport.dispose(); player.dispose();
+```
+
+The same redraw function can be used with a `/player` widget. Dispose both
+objects on teardown; the viewport does not own playback. For on-demand loading,
+use `await import("@grundyjs/algiviz/canvas/viewport")`; a static import includes
+the helper immediately.
 
 ## Public signatures
 
@@ -181,9 +215,14 @@ uncapped sizing and restoration of the original scale. All twelve native cases
 passed at 1.25, 2.5 uncapped/capped and restored 1. Physical HiDPI displays remain
 unverified; see the [report](canvas-viewport-prototype.md#native-chrome-zoom-follow-up).
 
-Then implement the signatures, add installed-package consumers, DOM-free runtime
-import checks, selected TypeScript configurations, exact exports/private-path
-rejection and bundle fixtures. Existing-only bundles must remain unchanged; the
-new direct entry must not load array/scene/player dependencies. CI must pass for
-the exact future candidate. A feature release is planned as 0.13.0; this document
-does not create that release or advance the separate 1.0 decision.
+The repository now includes strict installed-package consumers, DOM-free runtime
+imports, exact exports/private-path rejection and bundle fixtures. All twelve
+viewport contract tests also run against the installed tarball. Existing four-entry
+and static/dynamic Player outputs remain byte-identical without the viewport
+files. The direct viewport bundle imports no other library module. In the local
+esbuild 0.28.2 fixture it is 2,456 minified bytes / 1,162 gzip bytes; dynamic loading
+adds 86 minified initial bytes to the existing-only fixture. These are fixture
+measurements, not universal application sizes.
+
+The exact future candidate still needs CI and release approval. A feature release
+is planned as 0.13.0; this work does not create it or advance the separate 1.0 decision.

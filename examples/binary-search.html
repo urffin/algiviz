@@ -20,5 +20,5 @@
 <p>If values[mid] &lt; target, move low to mid + 1. Otherwise move high to mid − 1; save mid first if equal. The answer is a zero-based index or −1. The counter counts inspected middle elements, not individual comparison operators.</p>
 <p>The iterative search uses O(log n) worst-case time and O(1) extra algorithm memory. This demo validates and copies input once in O(n), shares the frozen array between snapshots and stores O(n + log n) history data. Generator playback keeps O(n) input data and adjacent snapshots. No sorting is performed and input is never rearranged.</p>
 <p>This is application-owned example code using public /playback and /scene APIs, not a built-in algorithm or a new package export.</p>
-</main><script type="importmap">{"imports":{"@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/playback":"../dist/playback/index.js"}}</script>
+</main><script type="importmap">{"imports":{"@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/canvas/viewport":"../dist/canvas/viewport.js"}}</script>
 <script type="module" src="./binary-search-demo.mjs"></script></body></html>

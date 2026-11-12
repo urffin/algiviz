@@ -31,7 +31,8 @@ sizing, DPR handling and cleanup; all 182 tests and eleven
 [CI jobs](https://github.com/urffin/algiviz/actions/runs/43219455052) passed at `7ba76ba`.
 The [accepted contract](canvas-viewport.md) ([Русский](ru/canvas-viewport.md))
 fixes `createCanvasViewport` and the independent `/canvas/viewport` entry.
-Package exports still contain only the five shipped entries.
+Published 0.12.0 contains five entries. The repository adds `/canvas/viewport`
+for the next release; the version and registry are unchanged.
 
 Canvas viewport stages:
 
@@ -45,8 +46,12 @@ Canvas viewport stages:
    at 1.25, 2.5 uncapped/capped and restored 1, including repeat execution.
    Physical HiDPI displays remain unverified. See the
    [follow-up](canvas-viewport-prototype.md#native-chrome-zoom-follow-up).
-3. **Package implementation:** TypeScript, the selected explicit export, installed
-   consumers, private-path rejection and existing-only/direct-entry bundle checks.
+3. **Package implementation locally verified:** TypeScript, the sixth explicit
+   entry, installed consumers, private-path rejection and existing/direct/dynamic
+   bundle checks are implemented. BFS, binary search and the native browser
+   fixture use the public import. Browser connection was unavailable for a new
+   native check of the compiled entry; prior zoom results cover the prototype.
+   Review and commit these changes, then run exact-commit CI.
 4. **Release candidate:** prepare 0.13.0, verify its exact CI and publish only when
    authorized. Contract selection does not publish a module or reopen the 1.0 decision.
 

@@ -1,4 +1,4 @@
-import { createCanvasViewport } from '../examples/canvas-viewport.mjs';
+import { createCanvasViewport } from '@grundyjs/algiviz/canvas/viewport';
 import { createStatePlayer } from '@grundyjs/algiviz/playback';
 
 const $ = id => document.getElementById(id);

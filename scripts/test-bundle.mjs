@@ -20,6 +20,8 @@ const existing = ['playback', 'scene', 'array', 'canvas']
     .map(name => `export * from '@grundyjs/algiviz/${name}';`).join('\n');
 const sources = {
     existing,
+    viewport: "export { createCanvasViewport } from '@grundyjs/algiviz/canvas/viewport';",
+    viewportDynamic: `${existing}\nexport async function loadCanvasViewport() { return import('@grundyjs/algiviz/canvas/viewport'); }`,
     static: `${existing}\nexport { Player } from '@grundyjs/algiviz/player';`,
     dynamic: `${existing}\nexport async function loadPlayer() { return import('@grundyjs/algiviz/player'); }`,
 };
@@ -68,10 +70,20 @@ try {
     const manifest = JSON.parse(await readFile(join(installed, 'package.json'), 'utf8'));
     const baselineManifest = structuredClone(manifest);
     delete baselineManifest.exports['./player'];
+    delete baselineManifest.exports['./canvas/viewport'];
     baselineManifest.files = baselineManifest.files.filter(path => path !== 'dist/player');
     await writeFile(join(baselinePackage, 'package.json'), JSON.stringify(baselineManifest));
     for (const name of ['playback', 'scene', 'array', 'canvas'])
         await cp(join(installed, 'dist', name), join(baselinePackage, 'dist', name), { recursive: true });
+
+    for (const name of ['viewport.js', 'viewport.d.ts']) await rm(join(baselinePackage, 'dist/canvas', name));
+    const withoutViewport = join(workspace, 'without-viewport');
+    const withoutViewportPackage = join(withoutViewport, 'node_modules/@grundyjs/algiviz');
+    await cp(installed, withoutViewportPackage, { recursive: true });
+    const withoutViewportManifest = structuredClone(manifest);
+    delete withoutViewportManifest.exports['./canvas/viewport'];
+    await writeFile(join(withoutViewportPackage, 'package.json'), JSON.stringify(withoutViewportManifest));
+    for (const name of ['viewport.js', 'viewport.d.ts']) await rm(join(withoutViewportPackage, 'dist/canvas', name));
 
     const report = { package: `${manifest.name}@${manifest.version}`, esbuild: esbuildVersion,
         node: process.version, format: 'browser ESM, ES2022, splitting, no source maps',
@@ -82,6 +94,7 @@ try {
         for (const [name, code] of Object.entries(sources)) {
             const result = await bundle(current, name, minify, code);
             const initialModules = [...result.initial].flatMap(key => Object.keys(result.outputs[key].inputs));
+            if (name !== 'viewport') assert.equal(initialModules.some(path => path.endsWith('/dist/canvas/viewport.js')), false, `${name}: viewport in initial graph`);
             if (name !== 'static') {
                 assert.equal(initialModules.some(path => path.includes('/dist/player/')), false, `${name}: UI in initial graph`);
                 for (const key of result.initial)
@@ -90,8 +103,20 @@ try {
             if (name === 'existing') {
                 assert.equal(result.files.size, 1);
                 assert.deepEqual(result.files.get(result.entry), prior.files.get(prior.entry), 'Existing bundle changed with optional files present');
-            } else {
+            } else if (name === 'static' || name === 'dynamic') {
                 assert.ok([...result.files.values()].some(bytes => bytes.includes(Buffer.from('algiviz-player'))), 'Missing UI styles');
+            }
+            if (name === 'static' || name === 'dynamic') {
+                const oldUi = await bundle(withoutViewport, name, minify, code);
+                assert.deepEqual(result.files, oldUi.files, 'Existing UI bundle changed with viewport files present');
+            }
+            if (name === 'viewport') {
+                const modules = Object.values(result.outputs).flatMap(output => Object.keys(output.inputs)).filter(path => path.includes('/dist/'));
+                assert.deepEqual(modules, ['node_modules/@grundyjs/algiviz/dist/canvas/viewport.js']);
+            }
+            if (name === 'viewportDynamic') {
+                assert.ok(result.files.size > result.initial.size, 'Viewport import did not produce deferred outputs');
+                assert.ok(Object.values(result.outputs).some(output => Object.keys(output.inputs).some(path => path.endsWith('/dist/canvas/viewport.js'))));
             }
             if (name === 'dynamic') {
                 assert.ok(result.files.size > result.initial.size, 'Dynamic import did not produce deferred outputs');
@@ -107,14 +132,18 @@ try {
                     if (${JSON.stringify(name)} === 'dynamic') {
                         if ('Player' in m) throw Error('UI was re-exported eagerly');
                         if (typeof (await m.loadPlayer()).Player !== 'function') throw Error('Lazy export missing');
-                    } else if (${JSON.stringify(name)} === 'static' && typeof m.Player !== 'function') throw Error('Static export missing');`;
+                    } else if (${JSON.stringify(name)} === 'static' && typeof m.Player !== 'function') throw Error('Static export missing');
+                    if (${JSON.stringify(name)} === 'viewportDynamic') {
+                        if ('createCanvasViewport' in m) throw Error('Viewport re-exported eagerly');
+                        if (typeof (await m.loadCanvasViewport()).createCanvasViewport !== 'function') throw Error('Lazy viewport missing');
+                    } else if (${JSON.stringify(name)} === 'viewport' && typeof m.createCanvasViewport !== 'function') throw Error('Viewport export missing');`;
                 execFileSync(process.execPath, ['--input-type=module', '-e', check], { cwd: current, stdio: 'inherit' });
             }
         }
     }
     if (values.report) await writeFile(resolve(root, values.report), JSON.stringify(report, null, 2));
     console.log(JSON.stringify(report, null, 2));
-    console.log('Bundle isolation passed: unchanged existing imports; UI code/styles deferred by import().');
+    console.log('Bundle isolation passed: unchanged existing/UI imports; independent viewport; optional modules deferred by import().');
 } finally {
     const parent = await realpath(tmpdir()), target = await realpath(workspace), child = relative(parent, target);
     if (!child || child.startsWith('..') || isAbsolute(child) || dirname(target) !== parent)

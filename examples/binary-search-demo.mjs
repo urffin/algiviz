@@ -2,7 +2,7 @@ import { createDemoPlayer } from './demo-player.mjs';
 import { limits, generateValues } from './player-settings.mjs';
 import { binarySearch } from './binary-search-algorithm.mjs';
 import { binarySearchLayout, createBinarySearchRenderer } from './binary-search-scene.mjs';
-import { createCanvasViewport } from './canvas-viewport.mjs';
+import { createCanvasViewport } from '@grundyjs/algiviz/canvas/viewport';
 const $ = id => document.getElementById(id);
 const canvas = document.querySelector('canvas');
 let viewport;

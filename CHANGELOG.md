@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Add independent `/canvas/viewport` with createCanvasViewport and three public
+  types for CSS-content sizing, DPR caps, coalesced invalidation and disposal.
+- Use the public helper in BFS, binary search and the native browser fixture.
+- Check strict installed consumers, private paths, DOM-free imports and lazy
+  bundle isolation without changing existing module output.
+
 ## 0.12.0 — 2026-11-12
 
 - Add optional `/player` with the `Player` constructor and typed options, status and

@@ -1,7 +1,7 @@
 import { createDemoPlayer } from './demo-player.mjs';
 import { graphSteps, graphExamples } from './graph-algorithm.mjs';
 import { createGraphRenderer, graphLayout } from './graph-scene.mjs';
-import { createCanvasViewport } from './canvas-viewport.mjs';
+import { createCanvasViewport } from '@grundyjs/algiviz/canvas/viewport';
 const $ = id => document.getElementById(id);
 const canvas = document.querySelector('canvas');
 let viewport;

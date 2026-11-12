@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createCanvasViewport } from '../examples/canvas-viewport.mjs';
+import { createCanvasViewport } from '@grundyjs/algiviz/canvas/viewport';
 import { createStatePlayer } from '@grundyjs/algiviz/playback';
 
 class Events {
@@ -163,4 +163,30 @@ test('disposal during the layout callback prevents later bitmap mutations', () =
     const env = fixture(); const viewport = createCanvasViewport(env.canvas, { onResize() {} });
     assert.throws(() => viewport.resize(() => { viewport.dispose(); return 120; }), /disposed/);
     assert.equal(env.writes.length, 0); assert.equal(env.canvas.style.height, '111px');
+});
+
+
+test('options are captured, explicit undefined is uncapped, and subunit caps are supported', () => {
+    const env = fixture({ ratio: 3 }); let calls = 0;
+    const options = { onResize() { calls++; }, maxPixelRatio: undefined };
+    const viewport = createCanvasViewport(env.canvas, options);
+    assert.ok(Object.isFrozen(viewport)); assert.equal(viewport.context, env.context);
+    assert.equal(calls, 0, 'construction must not synchronously notify');
+    options.maxPixelRatio = 0.5; options.onResize = () => { throw Error('mutated callback'); };
+    assert.equal(viewport.resize(() => 100).pixelRatio, 3);
+    env.computed.width = '400px'; env.observers[0].fire(); env.flush();
+    assert.equal(calls, 1); viewport.dispose();
+    const capped = createCanvasViewport(env.canvas, { onResize() {}, maxPixelRatio: 0.5 });
+    assert.deepEqual(capped.resize(() => 100), { width: 400, height: 100, bitmapWidth: 200, bitmapHeight: 50, pixelRatio: 0.5 });
+    capped.dispose();
+});
+
+test('notification errors propagate without retry and the helper remains disposable', () => {
+    const env = fixture(); const primary = Error('redraw failed'); let calls = 0;
+    const viewport = createCanvasViewport(env.canvas, { onResize() { calls++; throw primary; } });
+    viewport.resize(() => 100); env.computed.width = '410px'; env.observers[0].fire();
+    assert.throws(() => env.flush(), error => error === primary);
+    assert.equal(env.frames.size, 0);
+    env.observers[0].fire(); env.flush(); assert.equal(calls, 1);
+    viewport.dispose(); assert.equal(env.view.count, 0); assert.equal(env.media[0].count, 0);
 });

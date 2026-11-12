@@ -39,10 +39,12 @@ them. See the [reference](player.md) and [bundle evidence](player-bundle-check.m
 
 Design follow-up, 2026-11-12: the [Canvas viewport contract](canvas-viewport.md)
 selects `/canvas/viewport` with `createCanvasViewport` and the types
-`CanvasViewport`, `CanvasViewportOptions`, `CanvasViewportSize`. These are planned,
-not installed exports, and are not included in the counts above. The entry will
-be independent of `/canvas` and other barrels; implementation must update the
-exact installed inventory and reject private paths before shipping it.
+`CanvasViewport`, `CanvasViewportOptions`, `CanvasViewportSize`. The repository
+implements these on 2026-11-13 for the next release: 16 runtime names (14 distinct
+functions and one class) and 29 type-only names across six entries. Published
+0.12.0 retains the five-entry inventory above. The installed consumer checks
+all six exact namespaces, rejects private viewport paths and checks all three
+new types with strict options. Existing `/canvas` and other barrels are unchanged.
 
 ## Recommendations before 1.0
 

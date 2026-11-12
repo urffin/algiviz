@@ -60,7 +60,7 @@ jobs:
         run: npm run test:package -- --typescript ${{ matrix.typescript }} --resolution all
 
   bundle:
-    name: Optional player bundle isolation
+    name: Optional modules bundle isolation
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

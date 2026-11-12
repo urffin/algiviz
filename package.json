@@ -35,6 +35,11 @@
       "import": "./dist/player/index.js",
       "default": "./dist/player/index.js"
     },
+    "./canvas/viewport": {
+      "types": "./dist/canvas/viewport.d.ts",
+      "import": "./dist/canvas/viewport.js",
+      "default": "./dist/canvas/viewport.js"
+    },
     "./canvas": {
       "types": "./dist/canvas/index.d.ts",
       "import": "./dist/canvas/index.js",

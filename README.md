@@ -93,6 +93,7 @@ for history, seeking, labels and on-demand loading.
 | [`/player`](https://github.com/urffin/algiviz/blob/master/docs/player.md) | Optional `new Player(...)` widget, media controls, recording/stream modes and on-demand UI loading; added in 0.12.0 |
 | [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/playback.md) | Steps, players, timelines, termination and lifecycle |
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Custom types, object matching and projection |
+| [`/canvas/viewport`](https://github.com/urffin/algiviz/blob/master/docs/canvas-viewport.md) | Optional CSS Canvas sizing, DPR and cleanup; repository build, next release |
 | [`/array` and `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/array.md) | Array operations, ready-made rendering and palettes |
 
 [Complete TypeScript example](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·

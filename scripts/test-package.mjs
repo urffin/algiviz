@@ -53,6 +53,7 @@ try {
     if (installed.version !== pkg.version) throw new Error("Installed version differs from packed version");
     await copyFile(join(root, "test/package-consumer.ts"), join(workspace, "consumer.ts"));
     await copyFile(join(root, "test/package-player.ts"), join(workspace, "player.ts"));
+    await copyFile(join(root, "test/package-viewport.ts"), join(workspace, "viewport.ts"));
     await copyFile(join(root, "examples/custom-objects.ts"), join(workspace, "custom-objects.ts"));
     for (const resolution of resolutions) {
         const compilerOptions = {
@@ -70,11 +71,12 @@ try {
         const domConfig = join(workspace, `tsconfig.dom.${resolution}.json`);
         await writeFile(domConfig, JSON.stringify({
             compilerOptions: { ...compilerOptions, lib: ["ES2022", "DOM"], noEmitOnError: true, outDir },
-            files: ["consumer.ts", "custom-objects.ts", "player.ts"]
+            files: ["consumer.ts", "custom-objects.ts", "player.ts", "viewport.ts"]
         }));
         execFileSync(process.execPath, [compiler, "-p", domConfig], { stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "consumer.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "player.js")], { cwd: workspace, stdio: "inherit" });
+        execFileSync(process.execPath, [join(workspace, outDir, "viewport.js")], { cwd: workspace, stdio: "inherit" });
         console.log(`TypeScript ${compilerVersion} / ${resolution}: headless, DOM and runtime consumer passed`);
     }
     await copyFile(join(root, "examples/minimal.mjs"), join(workspace, "minimal.mjs"));
@@ -82,6 +84,8 @@ try {
         .replace("../examples/minimal.mjs", "./minimal.mjs");
     await writeFile(join(workspace, "minimal.test.mjs"), minimalTest);
     execFileSync(process.execPath, ["--test", join(workspace, "minimal.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/canvas-viewport.test.mjs"), join(workspace, "viewport.test.mjs"));
+    execFileSync(process.execPath, ["--test", join(workspace, "viewport.test.mjs")], { cwd: workspace, stdio: "inherit" });
     console.log(`Packed consumer passed: ${pkg.name}@${pkg.version}`);
 } finally {
     // Delete only the unique temporary directory created by this invocation.

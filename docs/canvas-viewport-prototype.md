@@ -2,13 +2,14 @@
 
 [Русский](ru/canvas-viewport-prototype.md) · [Plan](optional-player-proposal.md)
 
-Assessment and local checks: 2026-11-13. The helper is
-[example code](../examples/canvas-viewport.mjs), not an npm export. Package version
-0.12.0, the five public entry points and existing Canvas renderer contracts are unchanged.
+Prototype assessment and checks through 2026-11-13 are recorded below. The helper
+was moved to [src/canvas/viewport.ts](../src/canvas/viewport.ts) afterward for the
+next release; BFS and binary search now use the public import. Published 0.12.0
+keeps five entries; the repository adds the sixth without changing existing contracts.
 
 The [accepted API contract](canvas-viewport.md) now fixes the future entry as
 `@grundyjs/algiviz/canvas/viewport`. This report records prototype behavior and
-verification; the contract defines the subsequent package implementation.
+verification; the contract now also describes the package implementation.
 
 ## What the examples need
 
@@ -27,7 +28,7 @@ host code that the previous observer snippets omitted.
 ## Local prototype interface
 
 ```js
-import { createCanvasViewport } from './canvas-viewport.mjs';
+import { createCanvasViewport } from '@grundyjs/algiviz/canvas/viewport';
 
 let frame = null;
 const viewport = createCanvasViewport(canvas, {
@@ -178,14 +179,37 @@ The fixture also records its user agent in the visible metrics.
 
 This is prototype verification in one Chrome configuration, not certification of
 all Chrome versions or a physical display/DPR migration. Physical HiDPI displays
-and other browser products remain separate coverage. The next gate is package
-implementation and its installed-consumer/bundle checks.
+and other browser products remain separate coverage. The package follow-up below records the subsequent implementation checks.
 
 ## Before a public API
 
 Naming, export placement and CSS-height/context ownership are fixed in the
 [contract](canvas-viewport.md): `createCanvasViewport` from `/canvas/viewport`,
 with CSS coordinates and no bitmap adapter in the first scope. Native visibility
-and real zoom/DPR checks are complete for the recorded hosts. Next implement types,
-installed consumers, export inventory and bundle isolation for that entry.
-Promotion and release remain separate steps.
+and real zoom/DPR checks are complete for the recorded prototype hosts.
+The TypeScript/package implementation is now present for the next release.
+Its new native-browser check, exact-commit CI and release remain separate steps.
+
+## Package follow-up, 2026-11-13
+
+The independent `/canvas/viewport` implementation replaces the local JavaScript
+copy. BFS, binary search and the browser fixture import the new entry. There are
+no changes to the existing module implementations or to the published version.
+
+Local verification: **184 tests passed**, including twelve viewport contract
+tests. All twelve also pass against the installed tarball. Strict consumers pass
+on TypeScript 5.0.4, 5.4.5, 5.9.3 and 6.0.3 with NodeNext and Bundler; no-DOM
+headless consumers and DOM-free viewport runtime import pass. The exact installed
+export inventory and private-path rejection include the new entry.
+
+Raw/minified old four-entry bundles and static/dynamic Player bundles are
+byte-identical without viewport files present. The direct viewport bundle imports
+only its own module: 4,496 raw / 2,456 minified / 1,162 minified gzip bytes in
+esbuild 0.28.2, Node 22.17.0 on Windows. Dynamic viewport loading adds 86 initial
+minified bytes to the four-entry fixture and defers the helper. These are local
+fixture measurements, not a registry-release or universal application comparison.
+
+Chrome was unavailable for the post-transfer native check. The earlier zoom
+results belong to the JavaScript prototype; wiring the fixture to the compiled
+entry does not itself repeat them. No other tab was selected. Review/commit and
+exact-commit CI remain before preparing the 0.13.0 candidate.

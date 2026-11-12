@@ -18,11 +18,11 @@ CI need their own review before release.
 Canvas viewport follow-up: prototype `7ba76ba` passed all 182 tests and eleven
 [CI jobs](https://github.com/urffin/algiviz/actions/runs/43219455052). Its
 [accepted contract](canvas-viewport.md) selects the independent `/canvas/viewport`
-entry, one runtime factory and three types. This is a design decision only:
-0.12.0 still has five public entries. Twelve native visibility checks passed at
+entry, one runtime factory and three types. The repository implements that entry
+for the next release; published 0.12.0 still has five public entries. Twelve native visibility checks passed at
 DPR 1. On 2026-11-13 desktop Chrome real zoom checks also passed through DPR 2.5,
 with caps, unchanged source reads and restoration of the original scale. The next
-gate is TypeScript/package implementation, as recorded in the
+gates are review/commit of the package implementation and exact-candidate CI, as recorded in the
 [plan](optional-player-proposal.md#current-progress). Existing `/canvas` keeps
 bitmap coordinates; no compatibility decision for 1.0 is implied.
 
@@ -61,6 +61,8 @@ list of unresolved defects in 0.11.2.
   The 0.12.0 `/player` adds only `Player` and three type-only names, for
   totals of 15 runtime names / 26 type-only names. Existing entry points do not
   import it. See the [player reference](player.md).
+  The unreleased `/canvas/viewport` adds one factory and three types (16 runtime
+  names / 29 type-only names), with no re-exports through existing modules.
 - Algorithms, domain types, immutable snapshot production and layout belong to
   the application. Controls/scheduling can be application-owned or delegated to
   the optional browser widget; headless playback has no mandatory DOM/RAF layer.
