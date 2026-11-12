@@ -188,7 +188,8 @@ Naming, export placement and CSS-height/context ownership are fixed in the
 with CSS coordinates and no bitmap adapter in the first scope. Native visibility
 and real zoom/DPR checks are complete for the recorded prototype hosts.
 The TypeScript/package implementation is now present for the next release.
-Its new native-browser check, exact-commit CI and release remain separate steps.
+Its compiled-entry native check and implementation CI are recorded below.
+A versioned release candidate still needs its own CI and release approval.
 
 ## Package follow-up, 2026-11-13
 
@@ -209,7 +210,37 @@ esbuild 0.28.2, Node 22.17.0 on Windows. Dynamic viewport loading adds 86 initia
 minified bytes to the four-entry fixture and defers the helper. These are local
 fixture measurements, not a registry-release or universal application comparison.
 
-Chrome was unavailable for the post-transfer native check. The earlier zoom
-results belong to the JavaScript prototype; wiring the fixture to the compiled
-entry does not itself repeat them. No other tab was selected. Review/commit and
-exact-commit CI remain before preparing the 0.13.0 candidate.
+Implementation commit `a05bd48953865bcd36e58143e61eb12821237870` passed all eleven
+[CI jobs](https://github.com/urffin/algiviz/actions/runs/43323095050). The initial
+browser connection limit was resolved; the following check now covers the
+compiled public entry, independently of the earlier prototype results.
+
+## Native checks after package transfer
+
+On 2026-11-13 the browser fixture was rerun at `a05bd48` in desktop Chrome on
+Windows (reported UA Chrome/157.0.0.0). The import map resolves the public
+`@grundyjs/algiviz/canvas/viewport` to `dist/canvas/viewport.js`. The served file
+was byte-identical to the local compiled file, and an in-memory TypeScript build
+matched it. This checks the committed local build, not a registry tarball in a browser.
+
+| Native configuration | Passed cases | Final bitmap |
+| --- | ---: | ---: |
+| Original DPR 1 | 12/12 | 319 × 160 |
+| DPR 1.25 | 12/12 | 399 × 200 |
+| DPR 2.5, uncapped | 12/12 | 798 × 399 |
+| DPR 2.5, maxPixelRatio 2 | 12/12 | 639 × 320 |
+| Restored original DPR 1 | 12/12 | 319 × 160 |
+
+All five runs cover both box models: fractional sizing/transform, unchanged-size
+pixel preservation, display:none, automatic redraw after showing at a new width,
+settled height feedback, and idempotent terminal dispose retaining pixels while
+stopping delivery/rejecting resize. Intermediate native zoom DPRs ≈1.1, 1.5,
+1.75 and 2 also automatically updated the bitmap.
+
+An additional live hidden-zoom check hid the capped Canvas at DPR 2.5 and changed
+native zoom to DPR 1.75. It retained bitmap 639 × 320, transform and height-call
+count while hidden; showing it automatically resized to 559 × 280. Every record
+kept Step 1 and two source reads. The original DPR, bitmap, transform, visibility
+and uncapped setting were restored. Native and console error lists were empty.
+No other tab was selected. Physical-display transitions and other browser
+products remain separate coverage; no release or support expansion is implied.

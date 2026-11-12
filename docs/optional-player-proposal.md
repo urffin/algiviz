@@ -46,12 +46,13 @@ Canvas viewport stages:
    at 1.25, 2.5 uncapped/capped and restored 1, including repeat execution.
    Physical HiDPI displays remain unverified. See the
    [follow-up](canvas-viewport-prototype.md#native-chrome-zoom-follow-up).
-3. **Package implementation locally verified:** TypeScript, the sixth explicit
-   entry, installed consumers, private-path rejection and existing/direct/dynamic
-   bundle checks are implemented. BFS, binary search and the native browser
-   fixture use the public import. Browser connection was unavailable for a new
-   native check of the compiled entry; prior zoom results cover the prototype.
-   Review and commit these changes, then run exact-commit CI.
+3. **Package implementation and native checks complete:** commit `a05bd48` adds
+   TypeScript, the sixth explicit entry, installed consumers, private-path rejection
+   and existing/direct/dynamic bundle checks. All eleven
+   [CI jobs](https://github.com/urffin/algiviz/actions/runs/43323095050) passed.
+   The compiled public entry passed five twelve-case native runs on 2026-11-13,
+   including capped high DPR, hidden zoom and restoration of the original scale.
+   See the [package check](canvas-viewport-prototype.md#native-checks-after-package-transfer).
 4. **Release candidate:** prepare 0.13.0, verify its exact CI and publish only when
    authorized. Contract selection does not publish a module or reopen the 1.0 decision.
 

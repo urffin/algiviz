@@ -21,8 +21,10 @@ Canvas viewport follow-up: prototype `7ba76ba` passed all 182 tests and eleven
 entry, one runtime factory and three types. The repository implements that entry
 for the next release; published 0.12.0 still has five public entries. Twelve native visibility checks passed at
 DPR 1. On 2026-11-13 desktop Chrome real zoom checks also passed through DPR 2.5,
-with caps, unchanged source reads and restoration of the original scale. The next
-gates are review/commit of the package implementation and exact-candidate CI, as recorded in the
+with caps, unchanged source reads and restoration of the original scale. Those
+native checks were repeated against the compiled public entry at `a05bd48`: five
+twelve-case runs passed. Implementation [CI](https://github.com/urffin/algiviz/actions/runs/43323095050)
+also passed all eleven jobs. The next gate is the versioned 0.13.0 candidate, as recorded in the
 [plan](optional-player-proposal.md#current-progress). Existing `/canvas` keeps
 bitmap coordinates; no compatibility decision for 1.0 is implied.
 

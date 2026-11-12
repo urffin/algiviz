@@ -32,12 +32,15 @@ DOM-free runtime import is checked with the installed package. The prototype's
 DPR 1 visibility tests and desktop Chrome native zoom on 2026-11-13 (reported UA
 Chrome/157.0.0.0). Twelve cases passed at DPR 1.25, 2.5 uncapped/capped and restored
 1; automatic bitmap/transform updates retained Step 1 and two source reads.
-The original scale was restored. This is a targeted viewport-prototype check,
-not the full desktop-product matrix. These results do not establish physical HiDPI support
-or broaden the published 0.12.0 boundary. The unreleased sixth entry has its own
-installed types/runtime/bundle checks. A new native check of the compiled helper
-remains pending: Chrome was unavailable when the fixture was switched to the
-public import; the earlier zoom results cover the prototype.
+The original scale was restored. This is targeted viewport coverage, not the
+full desktop-product matrix. The compiled public entry at `a05bd48` was separately
+checked on 2026-11-13: five twelve-case runs passed at DPR 1, 1.25, 2.5 uncapped,
+2.5 capped at 2, and restored 1. A hidden zoom change retained bitmap/transform
+and source reads, then redrew correctly when shown. The served JavaScript matched
+the compiled source. This is a local-build browser check, not a registry-tarball
+browser install. It does not establish physical HiDPI support or broaden the
+published 0.12.0 boundary. The unreleased sixth entry also passed its installed
+types/runtime/bundle checks and all eleven implementation CI jobs.
 
 ## Current support boundary
 
