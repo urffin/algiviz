@@ -1,7 +1,10 @@
 # Support matrix before 1.0
 
-Updated 2026-11-13 for the AlgiViz 0.13.0 candidate. Published 0.12.0
-and its `/player` implementation at `fa22032` remain the released baseline.
+Updated 2026-11-13 for published AlgiViz 0.13.0 at `443892c`. Its
+[eleven-job CI](https://github.com/urffin/algiviz/actions/runs/43326519526) and
+[publishing workflow](https://github.com/urffin/algiviz/actions/runs/43327210001)
+passed. Fresh registry installation, exact exports, DOM/headless types and
+registry signature/provenance were verified.
 The four baseline modules are unchanged from 0.11.2; repository checks include the new demos.
 The optional `/player` adds a separate DOM-based UI contract; see
 the [reference](player.md) and [bundle evidence](player-bundle-check.md).
@@ -26,7 +29,7 @@ DOM globals, while mounting requires a browser DOM/window. Existing no-DOM
 fixtures deliberately do not import the UI declarations.
 
 The [independent `/canvas/viewport` entry](canvas-viewport.md) is included in the
-0.13.0 candidate. Its declarations
+published 0.13.0. Its declarations
 require DOM types and creation requires the canvas owner's browser APIs;
 DOM-free runtime import is checked with the installed package. The prototype's
 [checks](canvas-viewport-prototype.md#verification-and-limits) include embedded
@@ -40,8 +43,11 @@ checked on 2026-11-13: five twelve-case runs passed at DPR 1, 1.25, 2.5 uncapped
 and source reads, then redrew correctly when shown. The served JavaScript matched
 the compiled source. This is a local-build browser check, not a registry-tarball
 browser install. It does not establish physical HiDPI support or broaden the
-published 0.12.0 boundary. The sixth entry in the 0.13.0 candidate also passed its installed
-types/runtime/bundle checks and all eleven implementation CI jobs.
+verified browser boundary. The sixth entry in 0.13.0 also passed installed
+types/runtime/bundle checks and all eleven candidate CI jobs. The registry
+installation subsequently passed twelve viewport contract tests, type checks,
+DOM-free runtime import and verified signatures/attestation; this does not turn
+the earlier local-build browser check into a registry-tarball browser run.
 
 ## Current support boundary
 

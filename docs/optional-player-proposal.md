@@ -31,10 +31,14 @@ sizing, DPR handling and cleanup; all 182 tests and eleven
 [CI jobs](https://github.com/urffin/algiviz/actions/runs/43219455052) passed at `7ba76ba`.
 The [accepted contract](canvas-viewport.md) ([Русский](ru/canvas-viewport.md))
 fixes `createCanvasViewport` and the independent `/canvas/viewport` entry.
-Published 0.12.0 contains five entries. The **0.13.0 candidate** adds
-`/canvas/viewport` as the sixth. Version, both lockfile fields, changelog and
-release-facing RU/EN documentation are prepared; registry publication remains
-separately authorized.
+**0.13.0 is published** at `443892cf050cf313defcf055cf28318741502946`, adding
+`/canvas/viewport` as the sixth entry. The [release](https://github.com/urffin/algiviz/releases/tag/v0.13.0),
+[eleven-job CI](https://github.com/urffin/algiviz/actions/runs/43326519526) and
+[publishing workflow](https://github.com/urffin/algiviz/actions/runs/43327210001)
+completed successfully. Registry version/latest, gitHead, provenance source/digest,
+registry signature and attestation were verified. A fresh registry install passed
+exact exports, all twelve viewport tests, strict DOM/headless consumers and
+DOM-free import; the published helper matches the browser-checked implementation.
 
 Canvas viewport stages:
 
@@ -55,10 +59,32 @@ Canvas viewport stages:
    The compiled public entry passed five twelve-case native runs on 2026-11-13,
    including capped high DPR, hidden zoom and restoration of the original scale.
    See the [package check](canvas-viewport-prototype.md#native-checks-after-package-transfer).
-4. **0.13.0 release candidate prepared:** version, lockfile, changelog and
-   release-facing documentation are updated. Require successful CI on the exact
-   versioned commit before publication. Publish only when authorized; preparation
-   does not publish the package or reopen the 1.0 decision.
+4. **0.13.0 released and verified:** exact-commit CI, stable GitHub Release, npm
+   latest/provenance/signatures and a fresh registry installation passed.
+   This stage is complete; the separate 1.0 decision remains deferred.
+
+## Current profiling stage
+
+Baseline profiling is complete on 2026-11-13: ten real-example scenarios in Node
+and two serial native embedded-Canvas runs, with all twenty pixel-replay checks
+passing. See the [RU/EN report and raw samples](performance-baseline-0.13.0.md).
+All 184 repository tests passed after adding the diagnostics. The measurements
+record baseline costs before choosing an optimization. Use actual
+insertion/merge, BFS, Boids and sand generators, scene mappers and renderers at
+small/labeled and dense inputs within each example's limits. Separate generation,
+uncached/cached projection, matching and matching plus counting dispatch. Measure
+complete real renderers with a mock Canvas in Node and native Canvas in the
+browser; these stages overlap and must not be summed or subtracted as a precise
+painting cost. Record input, frame-selection policy, warmup, sample distributions,
+Canvas size, environment and implementation SHA. Native Canvas timings are CPU
+submission costs, not FPS or GPU completion.
+
+No optimization, new public option, rewind adapter or scheduler is authorized by
+these measurements. The next proposed experiment is a bounded immutable-endpoint matching/order cache
+in a scene renderer, followed by the same workload and retained-memory checks.
+Large-merge matching cost 2.28–2.58 ms in the embedded browser; native drawing and
+Boids generation remain separate targets. No implementation of that experiment
+has begun. Preserve immutable snapshots, source order, validation and cleanup.
 
 ## Historical release assessment after 0.11.2
 
@@ -186,7 +212,7 @@ mounted UI in the supported browser host; old smoke results do not cover it.
 | Candidate | Concrete benefit | Boundary |
 | --- | --- | --- |
 | Optional player | Shipped in 0.12.0; removes repeated scheduling and control wiring | The README circle, Canvas recording and SVG stream exercise the public API; preserve the headless and deferred-loading boundaries. |
-| Canvas viewport helper | Consolidates repeated CSS/bitmap size, DPR and resize handling seen in custom examples | Opt-in browser helper with explicit coordinate semantics and teardown; do not silently change the existing renderer's bitmap contract. |
+| Canvas viewport helper | Shipped in 0.13.0; consolidates repeated CSS/bitmap size, DPR and resize handling | Opt-in browser helper with explicit coordinate semantics and teardown; do not silently change the existing renderer's bitmap contract. |
 | Bounded rewind adapter | Allows a few backward steps while retaining a configured window of generator states | Only if needed: make history loss, replay, source ownership and the O(window × state size) cost explicit. Do not change forward-only core semantics. |
 | Cooperative scheduling / later worker adapter | Keeps long-running generation from monopolizing the UI | A controller can yield between operations, but cannot interrupt one expensive synchronous iterator.next(). Async/worker sources need a separate cancellation/error/serialization design. |
 

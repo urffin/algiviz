@@ -1,0 +1,12 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · профилирование примеров</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101827;color:#edf4ff;font:15px/1.5 system-ui}main{max-width:1160px;margin:auto;padding:24px}button{font:inherit;background:#334663;color:inherit;padding:10px 16px;border:1px solid #7589a7;border-radius:7px;cursor:pointer}button:disabled{opacity:.5;cursor:wait}canvas{display:block;width:100%;max-width:960px;margin:20px 0;background:#101827}.scroll{overflow:auto}table{border-collapse:collapse;white-space:nowrap;font-variant-numeric:tabular-nums}th,td{text-align:right;padding:8px;border-bottom:1px solid #33415b}th:first-child,td:first-child{text-align:left}p{max-width:1000px}code,pre{background:#0b1322}pre{max-height:360px;overflow:auto;padding:12px}#status{color:#9ee6cd}
+</style><main><h1>Профилирование AlgiViz 0.13.0</h1>
+<p>Реальные генераторы, проекции и рендереры примеров. Время — медиана CPU на операцию, мс. Этапы пересекаются: их нельзя складывать или вычитать как точную стоимость рисования. Canvas replay повторяет записанные вызовы реального кадра; это отправка Canvas-команд, а не FPS или время GPU.</p>
+<button id="run">Запустить 10 сценариев</button><p id="status" role="status">Готово к измерению</p>
+<canvas width="960" height="540" aria-label="Текущий измеряемый пример"></canvas>
+<div class="scroll"><table><thead><tr><th>Сценарий</th><th>Объекты</th><th>Генерация*</th><th>Проекция</th><th>Cache</th><th>Matching</th><th>Match+dispatch</th><th>Renderer</th><th>Canvas replay</th></tr></thead><tbody id="rows"></tbody></table></div>
+<p>* Генерация — среднее на состояние для одинакового префикса из 16 состояний, включая инициализацию. Полный trace не собирается. Размер bitmap фиксирован: 960 × 540; масштаб браузера не меняется.</p>
+<details><summary>Исходные измерения и окружение</summary><pre id="report"></pre></details>
+</main><script type="importmap">{"imports":{"@grundyjs/algiviz/array":"../dist/array/index.js","@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/canvas":"../dist/canvas/index.js"}}</script><script type="module" src="profile-browser.mjs"></script></html>

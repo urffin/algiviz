@@ -26,3 +26,26 @@ variants. It reports generation of 1,000 steps, median rendering CPU time over f
 25,000. Drawing uses a mock Canvas: these are CPU comparisons, not browser FPS or
 GPU measurements. Heap samples use explicit GC and include the Node process;
 they are diagnostics, not portable pass/fail thresholds.
+
+## Profiling real examples
+
+Run `npm run benchmark -- --profile --output profile-node.json` to measure
+real insertion/merge, BFS, Boids and sand generators, scene projections, matching,
+dispatch and renderers. This uses a counting mock Canvas in Node. Build first,
+serve the repository over local HTTP and open `test/profile-browser.html` for
+the same workloads with native Canvas; press the run button and expand the JSON
+report. Native import maps resolve the locally compiled public entry points.
+No external browser debugging is required.
+
+The bounded diagnostic window samples adjacent state pairs from a source prefix,
+then exercises eight interpolation frames per pair. It does not collect a full
+trace. Timed series continue through the window instead of resetting to its first
+frame. Generation measures a separate fresh 16-state prefix, including startup.
+Seven samples, adaptive batching, warmup, selected indices and environment are
+recorded. Render timings include matching/projection; stages overlap. Do not add
+or subtract them as an exact breakdown. Canvas command replay verifies one
+captured frame per workload by byte-for-byte pixel comparison before measuring
+command submission. Neither backend reports FPS, GPU completion or a portable
+performance threshold. Run benchmarks serially, outside test/build activity.
+
+See the [0.13.0 baseline and optimization priorities](performance-baseline-0.13.0.md).
