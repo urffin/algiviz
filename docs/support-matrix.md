@@ -1,6 +1,7 @@
 # Support matrix before 1.0
 
-Updated 2026-11-12 for AlgiViz 0.12.0 and implementation commit `fa22032`.
+Updated 2026-11-13 for the AlgiViz 0.13.0 candidate. Published 0.12.0
+and its `/player` implementation at `fa22032` remain the released baseline.
 The four baseline modules are unchanged from 0.11.2; repository checks include the new demos.
 The optional `/player` adds a separate DOM-based UI contract; see
 the [reference](player.md) and [bundle evidence](player-bundle-check.md).
@@ -24,8 +25,8 @@ The optional `/player` also requires DOM types; importing it is checked without
 DOM globals, while mounting requires a browser DOM/window. Existing no-DOM
 fixtures deliberately do not import the UI declarations.
 
-The [accepted `/canvas/viewport` design](canvas-viewport.md) is not yet a shipped
-entry. The repository implements it for the next release. Its declarations
+The [independent `/canvas/viewport` entry](canvas-viewport.md) is included in the
+0.13.0 candidate. Its declarations
 require DOM types and creation requires the canvas owner's browser APIs;
 DOM-free runtime import is checked with the installed package. The prototype's
 [checks](canvas-viewport-prototype.md#verification-and-limits) include embedded
@@ -39,7 +40,7 @@ checked on 2026-11-13: five twelve-case runs passed at DPR 1, 1.25, 2.5 uncapped
 and source reads, then redrew correctly when shown. The served JavaScript matched
 the compiled source. This is a local-build browser check, not a registry-tarball
 browser install. It does not establish physical HiDPI support or broaden the
-published 0.12.0 boundary. The unreleased sixth entry also passed its installed
+published 0.12.0 boundary. The sixth entry in the 0.13.0 candidate also passed its installed
 types/runtime/bundle checks and all eleven implementation CI jobs.
 
 ## Current support boundary

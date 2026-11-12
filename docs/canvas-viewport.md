@@ -2,9 +2,8 @@
 
 [Русский](ru/canvas-viewport.md) · [Prototype and checks](canvas-viewport-prototype.md)
 
-Contract fixed on 2026-11-12; implemented in the repository on 2026-11-13 for the
-next release. **Published 0.12.0 does not include this entry.** Build the repository
-to use it before that release; the package version is not changed by this work.
+Contract fixed on 2026-11-12; implemented on 2026-11-13.
+**Available from 0.13.0.** Version 0.12.0 does not export this entry.
 
 ## Entry point and dependency boundary
 
@@ -224,5 +223,6 @@ esbuild 0.28.2 fixture it is 2,456 minified bytes / 1,162 gzip bytes; dynamic lo
 adds 86 minified initial bytes to the existing-only fixture. These are fixture
 measurements, not universal application sizes.
 
-The exact future candidate still needs CI and release approval. A feature release
-is planned as 0.13.0; this work does not create it or advance the separate 1.0 decision.
+The 0.13.0 candidate includes this entry. Its exact-commit CI and publication
+are tracked in the [release plan](optional-player-proposal.md#current-progress);
+publication requires separate authorization. The 1.0 decision remains deferred.

@@ -31,8 +31,10 @@ sizing, DPR handling and cleanup; all 182 tests and eleven
 [CI jobs](https://github.com/urffin/algiviz/actions/runs/43219455052) passed at `7ba76ba`.
 The [accepted contract](canvas-viewport.md) ([Русский](ru/canvas-viewport.md))
 fixes `createCanvasViewport` and the independent `/canvas/viewport` entry.
-Published 0.12.0 contains five entries. The repository adds `/canvas/viewport`
-for the next release; the version and registry are unchanged.
+Published 0.12.0 contains five entries. The **0.13.0 candidate** adds
+`/canvas/viewport` as the sixth. Version, both lockfile fields, changelog and
+release-facing RU/EN documentation are prepared; registry publication remains
+separately authorized.
 
 Canvas viewport stages:
 
@@ -53,8 +55,10 @@ Canvas viewport stages:
    The compiled public entry passed five twelve-case native runs on 2026-11-13,
    including capped high DPR, hidden zoom and restoration of the original scale.
    See the [package check](canvas-viewport-prototype.md#native-checks-after-package-transfer).
-4. **Release candidate:** prepare 0.13.0, verify its exact CI and publish only when
-   authorized. Contract selection does not publish a module or reopen the 1.0 decision.
+4. **0.13.0 release candidate prepared:** version, lockfile, changelog and
+   release-facing documentation are updated. Require successful CI on the exact
+   versioned commit before publication. Publish only when authorized; preparation
+   does not publish the package or reopen the 1.0 decision.
 
 ## Historical release assessment after 0.11.2
 

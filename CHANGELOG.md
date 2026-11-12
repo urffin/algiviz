@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.13.0 — 2026-11-13
 
 - Add independent `/canvas/viewport` with createCanvasViewport and three public
   types for CSS-content sizing, DPR caps, coalesced invalidation and disposal.

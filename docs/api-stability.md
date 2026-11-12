@@ -1,6 +1,6 @@
 # API stabilization before 1.0
 
-Updated 2026-11-12 for **0.12.0**. The four original modules retain the **0.11.2** baseline, release commit
+Updated 2026-11-13 for the **0.13.0 candidate**. The four original modules retain the **0.11.2** baseline, release commit
 [`b7f46ade478c25738ac77a3023fb4cd6c0b3995e`](https://github.com/urffin/algiviz/commit/b7f46ade478c25738ac77a3023fb4cd6c0b3995e).
 Repository verification now includes
 [`273b292`](https://github.com/urffin/algiviz/commit/273b292a6fa01dfaeb1717b6bbb7a4b149b4e6c9)
@@ -19,12 +19,12 @@ Canvas viewport follow-up: prototype `7ba76ba` passed all 182 tests and eleven
 [CI jobs](https://github.com/urffin/algiviz/actions/runs/43219455052). Its
 [accepted contract](canvas-viewport.md) selects the independent `/canvas/viewport`
 entry, one runtime factory and three types. The repository implements that entry
-for the next release; published 0.12.0 still has five public entries. Twelve native visibility checks passed at
+for 0.13.0; published 0.12.0 still has five public entries. Twelve native visibility checks passed at
 DPR 1. On 2026-11-13 desktop Chrome real zoom checks also passed through DPR 2.5,
 with caps, unchanged source reads and restoration of the original scale. Those
 native checks were repeated against the compiled public entry at `a05bd48`: five
 twelve-case runs passed. Implementation [CI](https://github.com/urffin/algiviz/actions/runs/43323095050)
-also passed all eleven jobs. The next gate is the versioned 0.13.0 candidate, as recorded in the
+also passed all eleven jobs. The next gate is successful CI for the exact versioned 0.13.0 candidate, as recorded in the
 [plan](optional-player-proposal.md#current-progress). Existing `/canvas` keeps
 bitmap coordinates; no compatibility decision for 1.0 is implied.
 
@@ -63,7 +63,7 @@ list of unresolved defects in 0.11.2.
   The 0.12.0 `/player` adds only `Player` and three type-only names, for
   totals of 15 runtime names / 26 type-only names. Existing entry points do not
   import it. See the [player reference](player.md).
-  The unreleased `/canvas/viewport` adds one factory and three types (16 runtime
+  The 0.13.0 candidate's `/canvas/viewport` adds one factory and three types (16 runtime
   names / 29 type-only names), with no re-exports through existing modules.
 - Algorithms, domain types, immutable snapshot production and layout belong to
   the application. Controls/scheduling can be application-owned or delegated to
