@@ -1,8 +1,10 @@
 # Optional player and optimization directions
 
 Assessment dated 2026-11-12, after `273b292` and its successful ten-job CI.
-This is a proposal, not an implemented API or a release decision. The existing
-four module contracts remain the stabilization baseline.
+This proposes a public package API, not a release decision. The existing four
+module contracts remain the stabilization baseline. A local example-only
+[prototype](optional-player-prototype.md) now demonstrates the first scope;
+there is still no `/player` npm entry point.
 
 ## Release value of the current changes
 
@@ -52,7 +54,8 @@ Conceptual use, **not a currently available export**:
 
 ```js
 const { mountPlayer } = await import('@grundyjs/algiviz/player');
-const ui = mountPlayer(document.querySelector('#controls'), {
+const ui = mountPlayer(container, {
+  viewport: canvas,
   source: () => states(),
   render: draw,
   stepDurationMs: 400,
@@ -85,18 +88,25 @@ and consumer tests rather than relying blindly on today's `sideEffects: false`.
 
 - Start, Play/Pause, Next, Restart, speed and a short status. Labels are
   configurable without an internationalization dependency; native controls have
-  accessible names and keyboard operation scoped to the focused instance.
+  accessible names and keyboard operation scoped to the focused instance. The
+  player can embed a caller-provided Canvas/SVG/DOM viewport with an auto-hiding
+  overlay panel and restore the same element on teardown. Keyboard focus and
+  active interaction keep controls visible; `autoHide: false` selects a permanent
+  footer. Drawing remains application-owned.
 - A factory for fresh plain-state iterables, using `createStatePlayer`. No eager
   collection, hidden lookahead or mandatory step/event wrappers. For the proposed
   default, Start creates the source and shows the first frame; mounting alone
   does not consume it. Manual playback works without timing; timed controls
   require `stepDurationMs`. Autoplay is opt-in and separate from initialization.
-- Lazy forward playback first: unknown total duration, no invented percentage
-  or seek bar, and exhaustion detected by the existing extra request. Next stays
-  visible while temporarily disabled; after completion Restart remains available.
-- A later explicit-step adapter can use `createPlayer` with a terminal predicate.
-  A history adapter can add Previous/seek for an explicitly supplied finite
-  timeline. Never turn an arbitrary generator into full history automatically.
+- Streaming playback has unknown total duration, no invented percentage or seek
+  bar, and exhaustion detected by the existing extra request. Next stays visible
+  while temporarily disabled; after completion Restart remains available.
+- Following the owner's media-player feedback, the local prototype also supports
+  an explicitly supplied finite array of plain states, adapted through
+  `createTimeline`. This recording has Previous, playback time and a seek bar;
+  `seekBar: false` hides the bar. Never turn an arbitrary generator into full
+  history automatically. A later explicit-step adapter can use `createPlayer`
+  with a terminal predicate.
 - A returned handle supports pause/restart/dispose and observable UI status for
   integration. It owns only its subtree, listeners, RAF and source; disposal is
   idempotent, preserves the caller's last drawing and closes the source once.
