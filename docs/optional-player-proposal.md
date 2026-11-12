@@ -27,10 +27,28 @@ existing browser boundary. All 172 repository tests passed.
 The Canvas viewport sizing audit and an example-only prototype are now complete:
 see the [contract and checks](canvas-viewport-prototype.md)
 ([Русский](ru/canvas-viewport-prototype.md)). BFS and binary search share CSS-content
-sizing, DPR handling and cleanup; all 182 tests passed. The next step is reviewing
-the boundary for a possible public helper, including real high-DPI checks and
-the separate bitmap-coordinate renderer contract. No package export or release
-is implied by this prototype.
+sizing, DPR handling and cleanup; all 182 tests and eleven
+[CI jobs](https://github.com/urffin/algiviz/actions/runs/43219455052) passed at `7ba76ba`.
+The [accepted contract](canvas-viewport.md) ([Русский](ru/canvas-viewport.md))
+fixes `createCanvasViewport` and the independent `/canvas/viewport` entry.
+Package exports still contain only the five shipped entries.
+
+Canvas viewport stages:
+
+1. **Design fixed:** one runtime factory and three types; CSS-content coordinates,
+   explicit height/context ownership, invalidation, errors and terminal disposal.
+   No re-export through `/canvas` or `/player`; the first scope has no bitmap mode.
+2. **Browser checks complete for the recorded hosts:** twelve native visibility
+   checks passed in the embedded browser at DPR 1. Desktop Chrome native zoom
+   passed on 2026-11-13 with DPR 1 through 2.5, capped/uncapped bitmap sizing,
+   preserved source reads and restored original scale. All twelve cases passed
+   at 1.25, 2.5 uncapped/capped and restored 1, including repeat execution.
+   Physical HiDPI displays remain unverified. See the
+   [follow-up](canvas-viewport-prototype.md#native-chrome-zoom-follow-up).
+3. **Package implementation:** TypeScript, the selected explicit export, installed
+   consumers, private-path rejection and existing-only/direct-entry bundle checks.
+4. **Release candidate:** prepare 0.13.0, verify its exact CI and publish only when
+   authorized. Contract selection does not publish a module or reopen the 1.0 decision.
 
 ## Historical release assessment after 0.11.2
 

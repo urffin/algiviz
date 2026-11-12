@@ -15,6 +15,17 @@ are additional to the four-module published baseline below. They do not reopen
 closed core findings or authorize publication; the new contract and exact-commit
 CI need their own review before release.
 
+Canvas viewport follow-up: prototype `7ba76ba` passed all 182 tests and eleven
+[CI jobs](https://github.com/urffin/algiviz/actions/runs/43219455052). Its
+[accepted contract](canvas-viewport.md) selects the independent `/canvas/viewport`
+entry, one runtime factory and three types. This is a design decision only:
+0.12.0 still has five public entries. Twelve native visibility checks passed at
+DPR 1. On 2026-11-13 desktop Chrome real zoom checks also passed through DPR 2.5,
+with caps, unchanged source reads and restoration of the original scale. The next
+gate is TypeScript/package implementation, as recorded in the
+[plan](optional-player-proposal.md#current-progress). Existing `/canvas` keeps
+bitmap coordinates; no compatibility decision for 1.0 is implied.
+
 The technical recommendations from the export, minimal API, array and Canvas
 audits are implemented and released. No remaining finding from these audits
 requires an API redesign or a new feature. **1.0 remains deferred**: readiness

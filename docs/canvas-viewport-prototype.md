@@ -2,9 +2,13 @@
 
 [Русский](ru/canvas-viewport-prototype.md) · [Plan](optional-player-proposal.md)
 
-Assessment and local checks: 2026-11-12. The helper is
+Assessment and local checks: 2026-11-13. The helper is
 [example code](../examples/canvas-viewport.mjs), not an npm export. Package version
 0.12.0, the five public entry points and existing Canvas renderer contracts are unchanged.
+
+The [accepted API contract](canvas-viewport.md) now fixes the future entry as
+`@grundyjs/algiviz/canvas/viewport`. This report records prototype behavior and
+verification; the contract defines the subsequent package implementation.
 
 ## What the examples need
 
@@ -20,7 +24,7 @@ adds DPR-only notifications and explicit cleanup. It is not an FPS improvement
 claim or a completed migration of every example; lifecycle handling also requires
 host code that the previous observer snippets omitted.
 
-## Proposed local interface
+## Local prototype interface
 
 ```js
 import { createCanvasViewport } from './canvas-viewport.mjs';
@@ -110,16 +114,78 @@ controller now synchronizes that select after pageshow, without reloading or
 advancing playback. Console warnings/errors were empty after the fix. Temporary
 viewport overrides were reset.
 
-Fractional/high DPR and DPR-only changes are currently unit-tested with the host
-harness, not certified on a physical high-DPI display. Direct native context
-transform inspection was unavailable through the browser tool; exact transform
-values are covered by the viewport tests. These local checks do not broaden the
-browser support matrix or replace installed-package checks for a future export.
+Fractional/high DPR and DPR-only changes were initially unit-tested with the host
+harness; the real Chrome zoom follow-up below adds native browser evidence,
+without certifying a physical high-DPI display. Direct native context
+inspection through the browser tool was unavailable in that first run; the
+follow-up fixture below exposes native readbacks in its UI. These local checks
+do not broaden the browser support matrix or replace installed-package checks.
+
+## Native hidden-to-visible follow-up
+
+The [browser fixture](../test/canvas-viewport-browser.html) imports the actual
+prototype and public playback entry. Build the project, serve the repository,
+open `/test/canvas-viewport-browser.html`, click Next state, then Run browser checks.
+The page uses real Canvas/ResizeObserver and no DPR override or CSS zoom.
+
+Embedded-browser result on 2026-11-12: **12 passed, 0 failed, actual DPR 1**.
+Both content-box and border-box passed fractional geometry/transform, unchanged
+resize retaining a painted pixel, display:none preserving bitmap/transform,
+automatic redraw on becoming visible at a different width, settled height
+feedback, and terminal disposal stopping delivery while preserving pixels.
+The generator remained at Step 1 with two reads throughout. Native and console
+error lists were empty.
+
+The final content size was 319.25 × 159.75, bitmap 319 × 160. Native transform
+readback was approximately 0.9992169142 / 1.0015649796. Canvas can round stored
+matrix values; the browser check uses a 1e-6 relative tolerance rather than
+claiming exact double-precision readback. Unit tests still check the exact values
+supplied to setTransform.
+
+The embedded browser's zoom shortcut left reported DPR at 1; its capability
+controls viewport size only. The following Chrome check closes that zoom gate.
+
+## Native Chrome zoom follow-up
+
+On 2026-11-13, the same fixture ran in desktop Chrome on Windows, with reported
+UA Chrome/157.0.0.0. Native browser zoom shortcuts changed the real DPR; no device
+scale override or CSS zoom was used. All actions stayed in the designated test
+tab, loaded by entering its URL in the active blank tab.
+
+| Reported DPR | Effective ratio | Bitmap for 319.25 × 159.75 CSS content |
+| ---: | ---: | ---: |
+| 1, original and restored | 1 | 319 × 160 |
+| ≈1.1 | ≈1.1 | 351 × 176 |
+| 1.25 | 1.25 | 399 × 200 |
+| 1.5 | 1.5 | 479 × 240 |
+| 1.75 | 1.75 | 559 × 280 |
+| 2 | 2 | 639 × 320 |
+| 2.5 | 2.5 | 798 × 399 |
+| 2.5, maxPixelRatio 2 | 2 | 639 × 320 |
+
+At ≈1.1 the browser resolves CSS width to 319.247 rather than 319.25; the bitmap
+and transform use that measured width. Automatic redraw retained Step 1 and two
+source reads through the zoom transitions and cap changes. Returning below the
+cap updated the effective ratio again. The original DPR, bitmap and transform
+were restored, and the optional cap was unchecked as before.
+
+All **12 native cases passed** at DPR 1.25, DPR 2.5 uncapped, DPR 2.5 capped at 2,
+and restored DPR 1. A repeated run at 1.25 also passed. Native errors and console
+warnings/errors were empty. The repeat exposed a fixture-only counting bug:
+the prior body result was counted as another passed case. Counts and result
+colors now target only check-list entries; running clears the prior body result.
+The fixture also records its user agent in the visible metrics.
+
+This is prototype verification in one Chrome configuration, not certification of
+all Chrome versions or a physical display/DPR migration. Physical HiDPI displays
+and other browser products remain separate coverage. The next gate is package
+implementation and its installed-consumer/bundle checks.
 
 ## Before a public API
 
-Review naming, export placement and CSS-height/context ownership. Decide whether
-a bitmap-only variant is needed for the array renderer. Check real high-DPI/zoom
-changes and a host with appearing/disappearing layout before widening guarantees.
-Then add types, installed consumers, export inventory and bundle-isolation checks
-for an explicitly chosen entry point. Promotion and release remain separate steps.
+Naming, export placement and CSS-height/context ownership are fixed in the
+[contract](canvas-viewport.md): `createCanvasViewport` from `/canvas/viewport`,
+with CSS coordinates and no bitmap adapter in the first scope. Native visibility
+and real zoom/DPR checks are complete for the recorded hosts. Next implement types,
+installed consumers, export inventory and bundle isolation for that entry.
+Promotion and release remain separate steps.

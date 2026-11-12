@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Canvas viewport browser checks</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101827;color:#edf4ff;font:15px/1.5 system-ui}
+main{max-width:920px;margin:auto;padding:20px}a{color:#c4b5fd}button,label{margin:4px 12px 4px 0}
+button{font:inherit;padding:8px 12px;background:#26364d;color:inherit;border:1px solid #64748b;border-radius:6px}
+button:disabled{opacity:.45}#stage{margin:20px 0}canvas{display:block;width:319.25px;background:#101827}
+[hidden]{display:none!important}pre{overflow:auto;max-height:360px;padding:12px;background:#0c1423;border-radius:8px}
+#summary,#checks [data-result=pass]{color:#83e6cf}#checks [data-result=fail]{color:#ffb4b4}li{margin:4px 0}
+:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}
+</style>
+<main>
+<a href="../examples/index.html">← Examples</a>
+<h1>Canvas viewport · browser checks</h1>
+<p>Real Canvas, ResizeObserver and resolution media queries. No DPR override or CSS zoom.
+Browser zoom must change the reported <code>dpr</code> to count as a zoom/DPR check.</p>
+<div>
+<button id="run">Run browser checks</button><button id="next">Next state</button>
+<label><input id="visible" type="checkbox" checked> Canvas visible</label>
+<label><input id="cap" type="checkbox"> Limit DPR to 2</label>
+</div>
+<div id="stage"><canvas width="319" height="160" aria-label="Viewport test circle"></canvas></div>
+<p id="summary" role="status">Ready to check</p>
+<ol id="checks"></ol>
+<details open><summary>Native metrics and source reads</summary><pre id="metrics"></pre></details>
+</main>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/playback":"../dist/playback/index.js"}}</script>
+<script type="module" src="canvas-viewport-browser.mjs"></script>
+</html>

@@ -37,6 +37,13 @@ The installed export inventory also rejects private player paths. The new
 declarations require DOM types; existing headless entry points do not import
 them. See the [reference](player.md) and [bundle evidence](player-bundle-check.md).
 
+Design follow-up, 2026-11-12: the [Canvas viewport contract](canvas-viewport.md)
+selects `/canvas/viewport` with `createCanvasViewport` and the types
+`CanvasViewport`, `CanvasViewportOptions`, `CanvasViewportSize`. These are planned,
+not installed exports, and are not included in the counts above. The entry will
+be independent of `/canvas` and other barrels; implementation must update the
+exact installed inventory and reject private paths before shipping it.
+
 ## Recommendations before 1.0
 
 1. **Keep all four entry points.** They separate generic playback, generic scenes,

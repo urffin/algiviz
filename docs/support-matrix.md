@@ -24,6 +24,17 @@ The optional `/player` also requires DOM types; importing it is checked without
 DOM globals, while mounting requires a browser DOM/window. Existing no-DOM
 fixtures deliberately do not import the UI declarations.
 
+The [accepted `/canvas/viewport` design](canvas-viewport.md) is not yet a shipped
+entry. Its planned declarations require DOM types and creation requires the
+canvas owner's browser APIs; import must remain DOM-free. The prototype's
+[checks](canvas-viewport-prototype.md#verification-and-limits) include embedded
+DPR 1 visibility tests and desktop Chrome native zoom on 2026-11-13 (reported UA
+Chrome/157.0.0.0). Twelve cases passed at DPR 1.25, 2.5 uncapped/capped and restored
+1; automatic bitmap/transform updates retained Step 1 and two source reads.
+The original scale was restored. This is a targeted viewport-prototype check,
+not the full desktop-product matrix. These results do not establish physical HiDPI support
+or add a sixth entry to the current package boundary.
+
 ## Current support boundary
 
 | Area | Recorded boundary |
@@ -142,7 +153,7 @@ ES2022 output do not substitute for running the relevant scenarios.
 | Target | Current result | Next action |
 | --- | --- | --- |
 | Embedded Chromium, reported UA Chrome/157.0.0.0 on Windows | Six smoke groups and minimal walkthrough passed on 2026-11-06; lifecycle and Sorting lab completed on 2026-11-12, with smoke repeated. Boids and sand UI checks also passed | Embedded-host checklist complete. See the [follow-up](browser-checks-2026-11-12.md) and [example review](boids-sand-review.md). Other products/versions remain separate targets. |
-| Chrome / Edge stable and previous | Unverified as specific products/versions | Desktop access was unavailable; the owner limited this pass to the embedded browser. Resume product-specific checks when access and scope permit. |
+| Chrome / Edge stable and previous | Full product/version matrix unverified | Targeted desktop Chrome viewport-prototype zoom checks passed on 2026-11-13, reported UA Chrome/157.0.0.0; see the [report](canvas-viewport-prototype.md#native-chrome-zoom-follow-up). This does not certify all modules, current/previous releases or Edge. |
 | Firefox stable and previous | Unverified | Installed Firefox 133.0.3 was not tested and does not certify the possible current/previous targets. Check Gecko separately if the scope is expanded. |
 | Safari macOS/iOS, current and previous major | Unverified | Check actual Safari, Canvas behavior and example controls. A different WebKit host is additional evidence rather than automatic Safari/iOS certification. |
 
