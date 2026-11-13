@@ -7,19 +7,29 @@ module contracts remain the stabilization baseline. A local example-only
 committed at `12f8fb3`. Implementation commit `fa22032` adds the
 [0.12.0 `/player` entry](player.md), absent in 0.11.2.
 
-## 0.14.0 release candidate
+## 0.14.0 released and verified
 
-The owner authorized review, commit/push and publication after exact-candidate CI
-on 2026-11-13. Version 0.14.0 combines the single-pair scene matching cache,
-array dispatcher reuse, standalone rewind buffer, streaming Previous controls
-and opt-in per-RAF stream work budgeting. Existing headless advance semantics
-and default forward-only widgets are preserved. Raw performance and native
-reports below retain the historical versions/hashes measured at each stage.
+[0.14.0](https://github.com/urffin/algiviz/releases/tag/v0.14.0) was published on
+2026-11-13 at `3e5bc02cd7d711549d7f3213edbae423bf5cf209`. It combines the
+single-pair scene matching cache, array dispatcher reuse, standalone rewind
+buffer, streaming Previous controls and opt-in per-RAF work budgeting. Earlier
+raw performance/native reports retain their historical measurement hashes.
 
-Preparation includes all 225 tests, installed-package and bundle checks, the
-performance benchmark, consistent package/lockfile versions and reviewed release
-notes. Publish through the stable GitHub Release only after all eleven CI jobs
-pass for the exact versioned commit, then verify npm/latest and provenance.
+All 225 local tests, installed-package consumers, bundle isolation and the
+performance benchmark passed. All eleven [exact-candidate CI jobs](https://github.com/urffin/algiviz/actions/runs/43417615630)
+passed before the release was created. The [publishing workflow](https://github.com/urffin/algiviz/actions/runs/43417927790)
+then passed for that same SHA.
+
+npm exact version and latest are 0.14.0; gitHead, tarball integrity and SLSA source
+commit/workflow/tag match the release. A fresh registry installation passed the
+runtime export/private-path inventory, strict headless and DOM consumers, and
+runtime integration checks. All 48 published build files match the local candidate
+after CRLF/LF normalization. `npm audit signatures` verified one registry signature
+and one attestation. [Verification data](releases/0.14.0.json) records the results.
+
+This release stage is complete. The next development direction can be assessed
+separately: asynchronous sources need a cancellation/error contract before a
+worker adapter. The long-term 1.0 compatibility decision also remains separate.
 
 ## Current progress
 
@@ -127,8 +137,8 @@ at capacities 3 and 64: evicted sampled values were collected; disposal while
 rewound kept only current, then dropping the adapter released current as well.
 The source iterator was released and closed once.
 
-The standalone adapter and subsequently authorized widget integration are complete
-locally and unreleased. Source-backed `/player` accepts opt-in `rewindCapacity`,
+The standalone adapter and subsequently authorized widget integration shipped
+in 0.14.0. Source-backed `/player` accepts opt-in `rewindCapacity`,
 shows Previous plus the retained range, and reports `rewindStartIndex` and
 `rewindEndIndex`. Previous pauses and restores an exact retained snapshot;
 Next/Play replay before reading new values. Existing timing is reused, including
@@ -167,10 +177,10 @@ and counters. The [rewind memory regression](benchmarks/player-work-budget-rewin
 was also rerun after shared-engine changes; it uses manual navigation with no
 RAF budget, checking the existing retention/cleanup contract.
 
-This stage is complete locally and unreleased. Next, review the accumulated
-changes and prepare an exact versioned candidate/CI before publication. Async
-sources and worker transport remain separate possible directions. No release
-was authorized or published as part of this implementation request.
+This stage shipped in 0.14.0; see the release verification above. Async sources
+and worker transport remain separate possible directions. The implementation
+stage itself did not publish a release; publication was subsequently authorized
+and verified separately.
 
 ## Historical release assessment after 0.11.2
 

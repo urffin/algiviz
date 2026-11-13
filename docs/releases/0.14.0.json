@@ -1,0 +1,50 @@
+{
+  "version": "0.14.0",
+  "latest": "0.14.0",
+  "gitHead": "3e5bc02cd7d711549d7f3213edbae423bf5cf209",
+  "integrity": "sha512-sXO3QD5E24yqhO8LY6V/BYvzYxYPnlez1fgawbe840bh9wqrrJhtFzBQkH+v8A6gSQKzZZnj7kMUhM5QwjBdtg==",
+  "tarball": "https://registry.npmjs.org/@grundyjs/algiviz/-/algiviz-0.14.0.tgz",
+  "provenance": {
+    "source": {
+      "uri": "git+https://github.com/urffin/algiviz@refs/tags/v0.14.0",
+      "digest": {
+        "gitCommit": "3e5bc02cd7d711549d7f3213edbae423bf5cf209"
+      }
+    },
+    "workflow": {
+      "ref": "refs/tags/v0.14.0",
+      "repository": "https://github.com/urffin/algiviz",
+      "path": ".github/workflows/npm-publish.yml"
+    },
+    "subjectDigestSha512": "b173b7403e44db8caa84ef0b63a57f058bf363160f9e57b3d5f81ac1b7bce346e1f70aabac986d173050907faff00ea04902b36599e3ee431484ce50c2305db6"
+  },
+  "checks": {
+    "runtimeExportsAndPrivatePaths": true,
+    "headlessTypes": true,
+    "domTypesAndRuntimeConsumer": true,
+    "normalizedBuildFilesCompared": 48,
+    "signatureAudit": "audited 1 package in 2s\n\n1 package has a verified registry signature\n\n1 package has a verified attestation"
+  },
+  "date": "2026-11-13T11:36:34.509Z",
+  "release": {
+    "url": "https://github.com/urffin/algiviz/releases/tag/v0.14.0",
+    "sha": "3e5bc02cd7d711549d7f3213edbae423bf5cf209"
+  },
+  "ci": {
+    "id": 43417615630,
+    "url": "https://github.com/urffin/algiviz/actions/runs/43417615630",
+    "conclusion": "success",
+    "jobs": 11
+  },
+  "publication": {
+    "id": 43417927790,
+    "url": "https://github.com/urffin/algiviz/actions/runs/43417927790",
+    "conclusion": "success"
+  },
+  "localChecks": {
+    "tests": 225,
+    "installedPackage": "NodeNext and Bundler",
+    "bundleIsolation": "passed",
+    "benchmark": "passed"
+  }
+}

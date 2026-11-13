@@ -1,6 +1,6 @@
 # API stabilization before 1.0
 
-Updated 2026-11-13 for published **0.13.0**. The four original modules retain the **0.11.2** baseline, release commit
+Updated 2026-11-13 for published **0.14.0**. The four original modules retain the **0.11.2** baseline, release commit
 [`b7f46ade478c25738ac77a3023fb4cd6c0b3995e`](https://github.com/urffin/algiviz/commit/b7f46ade478c25738ac77a3023fb4cd6c0b3995e).
 Repository verification now includes
 [`273b292`](https://github.com/urffin/algiviz/commit/273b292a6fa01dfaeb1717b6bbb7a4b149b4e6c9)
@@ -50,6 +50,14 @@ and source ownership. `/player` now optionally integrates it through
 `rewindCapacity` with Previous controls and window status. Existing forward-only
 playback and the published 0.13.0 contracts are unchanged. This addition requires its own compatibility
 review before any long-term API promise.
+
+0.14.0 publication follow-up: [release](https://github.com/urffin/algiviz/releases/tag/v0.14.0)
+`3e5bc02` passed all eleven exact-commit CI jobs and the publishing workflow.
+npm/latest, source/digest provenance, registry signature/attestation and a fresh
+registry installation were verified. The working export inventory is now the
+published 17 runtime names and 30 type-only names across the same six entries.
+See [verification data](releases/0.14.0.json). This closes 0.14.0 publication;
+the deliberate 1.0 compatibility decision below remains open.
 
 ## Readiness of the four modules
 

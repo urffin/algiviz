@@ -90,5 +90,5 @@ iterators are released at capacities 3/64 over 10,000 new values. This diagnosti
 uses manual navigation, with budgeting disabled; it checks retention regression,
 not per-RAF counts. The pending budget itself stores only numbers by inspection.
 
-Changes remain local and unreleased; no version bump, publication or exact-new-
-commit CI was performed in this stage.
+These implementation checks preceded publication. Version 0.14.0 was then
+published after exact-commit CI; see the [release verification](releases/0.14.0.json).
