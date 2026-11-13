@@ -1,6 +1,6 @@
 # API stabilization before 1.0
 
-Updated 2026-11-13 for published **0.14.0**. The four original modules retain the **0.11.2** baseline, release commit
+Updated 2026-11-13 for published **0.15.0**. The four original modules retain the **0.11.2** baseline, release commit
 [`b7f46ade478c25738ac77a3023fb4cd6c0b3995e`](https://github.com/urffin/algiviz/commit/b7f46ade478c25738ac77a3023fb4cd6c0b3995e).
 Repository verification now includes
 [`273b292`](https://github.com/urffin/algiviz/commit/273b292a6fa01dfaeb1717b6bbb7a4b149b4e6c9)
@@ -54,18 +54,21 @@ review before any long-term API promise.
 0.14.0 publication follow-up: [release](https://github.com/urffin/algiviz/releases/tag/v0.14.0)
 `3e5bc02` passed all eleven exact-commit CI jobs and the publishing workflow.
 npm/latest, source/digest provenance, registry signature/attestation and a fresh
-registry installation were verified. The working export inventory is now the
-published 17 runtime names and 30 type-only names across the same six entries.
+registry installation were verified. That release published
+17 runtime names and 30 type-only names across the same six entries.
 See [verification data](releases/0.14.0.json). This closes 0.14.0 publication;
 the deliberate 1.0 compatibility decision below remains open.
 
-0.15.0 candidate follow-up: `/playback` now additionally exports
-`createAsyncSource` and five types in the working tree (18 runtime names and
+0.15.0 publication follow-up: `/playback` now additionally exports
+`createAsyncSource` and five types in the published package (18 runtime names and
 36 type-only names across the same six entries, including PlayerCloseResult). The [adapter contract and
 local checks](async-source-api.md) cover lazy async iteration and cleanup;
 existing playback engines remain synchronous. The separate [widget integration](player-async-api.md)
-now supports asyncSource with waiting/control/cleanup contracts. This is not a
-release or a long-term compatibility decision.
+now supports asyncSource with waiting/control/cleanup contracts. Release
+`c0fa843` passed all eleven CI jobs, publication, npm/latest provenance, fresh
+registry consumers, signature and attestation checks. All 56 published build
+files match after CRLF/LF normalization. See [verification data](releases/0.15.0.json).
+The long-term 1.0 compatibility decision remains separate.
 
 ## Readiness of the four modules
 

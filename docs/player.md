@@ -4,9 +4,9 @@
 
 **Added in 0.12.0:** `/player` is an optional entry point for the browser widget.
 
-**0.15.0 candidate:** [asyncSource integration](player-async-api.md) is implemented
-locally, with waiting metadata and observable cleanup. It is not in published
-0.14.0. Synchronous sources/history remain supported.
+**Added in 0.15.0:** [asyncSource integration](player-async-api.md), waiting
+metadata and observable cleanup. Synchronous sources/history remain supported.
+[Release verification](releases/0.15.0.json).
 
 `@grundyjs/algiviz/player` provides the `Player` class and the type-only exports
 `PlayerOptions`, `PlayerStatus`, `PlayerLabels` and `PlayerCloseResult`. It imports

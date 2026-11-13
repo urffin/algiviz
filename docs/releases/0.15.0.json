@@ -1,0 +1,61 @@
+{
+  "version": "0.15.0",
+  "latest": "0.15.0",
+  "gitHead": "c0fa84345a60e9b49ab55de0a1eae4335b7c9221",
+  "integrity": "sha512-30TmxXdnCF4gGBal18l9i3LYBsIDGdtKOvmzfmGI2068G7hacTEZNf81ahySAQcjh5c9PPI2gnuBVQ+3096omw==",
+  "tarball": "https://registry.npmjs.org/@grundyjs/algiviz/-/algiviz-0.15.0.tgz",
+  "provenance": {
+    "source": {
+      "uri": "git+https://github.com/urffin/algiviz@refs/tags/v0.15.0",
+      "digest": {
+        "gitCommit": "c0fa84345a60e9b49ab55de0a1eae4335b7c9221"
+      }
+    },
+    "workflow": {
+      "ref": "refs/tags/v0.15.0",
+      "repository": "https://github.com/urffin/algiviz",
+      "path": ".github/workflows/npm-publish.yml"
+    },
+    "subjectDigestSha512": "df44e6c57767085e201816a5d7c97d8b72d806c20319db4a3af9b37e6188db4ebc1bb85a71311935ff356a1c9201072387973d3cf236827b81550fb7d3dea89b"
+  },
+  "checks": {
+    "version": "0.15.0",
+    "runtimeExportsAndPrivatePaths": true,
+    "headlessTypes": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "domTypesAndRuntimeConsumer": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "compiler": "6.0.3",
+    "strictAsyncSourceCases": 19,
+    "strictAsyncPlayerCases": 21,
+    "normalizedBuildFilesCompared": 56,
+    "signatureAudit": "audited 1 package in 4s\n\n1 package has a verified registry signature\n\n1 package has a verified attestation"
+  },
+  "date": "2026-11-13T17:20:01.940Z",
+  "release": {
+    "url": "https://github.com/urffin/algiviz/releases/tag/v0.15.0",
+    "sha": "c0fa84345a60e9b49ab55de0a1eae4335b7c9221"
+  },
+  "ci": {
+    "id": 43470187735,
+    "url": "https://github.com/urffin/algiviz/actions/runs/43470187735",
+    "conclusion": "success",
+    "jobs": 11
+  },
+  "publication": {
+    "id": 43470555545,
+    "url": "https://github.com/urffin/algiviz/actions/runs/43470555545",
+    "conclusion": "success"
+  },
+  "localChecks": {
+    "tests": 265,
+    "installedPackage": "NodeNext and Bundler",
+    "bundleIsolation": "passed",
+    "browserChecks": 13,
+    "browserReport": "../benchmarks/player-async-browser-2026-11-13.json"
+  }
+}

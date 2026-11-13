@@ -2,12 +2,13 @@
 
 [Русский](ru/player-async-api.md) · [Player](player.md) · [Adapter](async-source-api.md) · [Behavior](async-sources.md)
 
-## 0.15.0 release candidate, 2026-11-13
+## Published in 0.15.0, 2026-11-13
 
-The working tree implements asyncSource, waiting metadata and closed in /player
-using the separate createAsyncSource adapter. **Published 0.14.0 has neither async
-capability.** Existing sync/history options and synchronous command signatures
-remain supported. Publication and exact-commit CI are separate.
+Version 0.15.0 publishes asyncSource, waiting metadata and closed in /player
+using the separate createAsyncSource adapter. Existing sync/history options and
+synchronous command signatures remain supported. All eleven exact-commit CI jobs,
+the publishing workflow and fresh registry checks passed; see the
+[release verification](releases/0.15.0.json).
 
 Add `asyncSource: AsyncSourceFactory<State>` as the third exclusive source
 capability. The widget constructs/owns its adapter; callers do not pass an
@@ -329,7 +330,7 @@ legacy typed options/labels, explicit undefined label overrides, async State
 inference, exclusive factories, synchronous commands and readonly cleanup data.
 EN/RU declaration blocks match. No files were emitted or runtime code changed.
 
-Future runtime checks must cover initial/candidate waits, command coalescing and
+Required runtime checks cover initial/candidate waits, command coalescing and
 intent changes, manual Pause controls, cached playback with a pending read, EOF/
 holds, work limits and baseline reset, rollback/cleanup barriers, Replay races,
 errors/callback precedence, disposal in every stage, bounded reports and no late

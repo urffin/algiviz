@@ -7,6 +7,21 @@ module contracts remain the stabilization baseline. A local example-only
 committed at `12f8fb3`. Implementation commit `fa22032` adds the
 [0.12.0 `/player` entry](player.md), absent in 0.11.2.
 
+## 0.15.0 released and verified
+
+[0.15.0](https://github.com/urffin/algiviz/releases/tag/v0.15.0) was published on
+2026-11-13 at `c0fa84345a60e9b49ab55de0a1eae4335b7c9221`, adding the headless
+async adapter and asyncSource widget integration described below. All 265 local
+tests, installed consumers and 13 native browser checks passed. All eleven
+[exact-commit CI jobs](https://github.com/urffin/algiviz/actions/runs/43470187735)
+passed before publication; the [publishing workflow](https://github.com/urffin/algiviz/actions/runs/43470555545)
+also passed. npm exact/latest, source/digest provenance, registry signature and
+attestation, fresh NodeNext/Bundler consumers and 40 strict async cases were
+verified. All 56 published build files match after CRLF/LF normalization.
+[Verification data](releases/0.15.0.json) closes this release stage. Worker
+transport and the 1.0 compatibility decision remain separate next directions;
+no further stage or publication is started by this record.
+
 ## 0.14.0 released and verified
 
 [0.14.0](https://github.com/urffin/algiviz/releases/tag/v0.14.0) was published on
@@ -20,7 +35,7 @@ performance benchmark passed. All eleven [exact-candidate CI jobs](https://githu
 passed before the release was created. The [publishing workflow](https://github.com/urffin/algiviz/actions/runs/43417927790)
 then passed for that same SHA.
 
-npm exact version and latest are 0.14.0; gitHead, tarball integrity and SLSA source
+At that publication, npm exact version and latest were 0.14.0; gitHead, tarball integrity and SLSA source
 commit/workflow/tag match the release. A fresh registry installation passed the
 runtime export/private-path inventory, strict headless and DOM consumers, and
 runtime integration checks. All 48 published build files match the local candidate
@@ -32,7 +47,7 @@ the proposed [asynchronous-source behavioral contract](async-sources.md)
 ([Русский](ru/async-sources.md)), dated 2026-11-13: waiting, control intents,
 transactional restart, cooperative cancellation, cleanup and error precedence.
 The [public adapter API/types](async-source-api.md)
-([Русский](ru/async-source-api.md)) are now implemented locally, unreleased:
+([Русский](ru/async-source-api.md)) were implemented before 0.15.0 publication:
 one factory and five types for DOM-free cancellation, shared reads and observable
 cleanup. All 244 tests passed, including 19 adapter cases; those 19 also passed
 from a fresh local archive installation with strict unhandled-rejection handling.
@@ -40,7 +55,7 @@ Exact exports/private paths, TypeScript 6.0.3 ES2022-only headless and DOM/runti
 consumers in NodeNext/Bundler, and browser ESM bundle isolation passed.
 Published 0.14.0 has no async adapter. At that headless stage, /player was unchanged.
 The [widget integration API](player-async-api.md)
-([Русский](ru/player-async-api.md)) is now implemented locally: exclusive
+([Русский](ru/player-async-api.md)) was then implemented: exclusive
 asyncSource, four status fields, manual Pause/Replay intents, optional label roles
 and bounded PlayerCloseResult/closed. The synchronous playback engine is unchanged.
 All 265 tests passed, including 21 public async-widget cases; those 21 also passed
@@ -48,11 +63,8 @@ from a fresh local archive with strict rejection checks. TypeScript 5.0.4 and 6.
 NodeNext/Bundler DOM/headless consumers, private paths and bundle isolation passed.
 The built-in browser records 13/13 checks, including native Enter activation, with
 matching source/build hashes and no unexpected errors.
-This implementation stage is complete locally. The user requested publication
-on 2026-11-13: the accumulated changes form the 0.15.0 candidate. Publish only
-after all eleven CI jobs pass on its exact commit, then verify npm/provenance
-and a fresh registry installation. Worker transport and the 1.0 compatibility
-decision remain separate.
+This implementation and its 0.15.0 publication are complete and verified above.
+Worker transport and the 1.0 compatibility decision remain separate.
 
 ## Current progress
 

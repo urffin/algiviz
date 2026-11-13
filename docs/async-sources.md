@@ -1,20 +1,17 @@
-# Asynchronous state sources: proposed contract
+# Asynchronous state sources: contract
 
 [Русский](ru/async-sources.md) · [Development plan](optional-player-proposal.md) · [Player](player.md)
 
 ## Scope, 2026-11-13
 
-This contract covers a standalone adapter and later widget integration. The
-headless adapter is now implemented in the working tree, **unreleased**; published
-0.14.0 has no async adapter. Async integration in /player is now also implemented
-locally, without publication; see its API for current checks.
+This contract covers the standalone adapter and widget integration published
+in 0.15.0. See the [release verification](releases/0.15.0.json).
 Start/Pause/Restart and RAF sections below describe widget behavior;
-the adapter uses next/dispose as specified in its public API. No release starts
-from this implementation.
+the adapter uses next/dispose as specified in its public API.
 
 The first async capability accepts `AsyncIterable<State>` with immutable states,
 not only async generators. A separate headless adapter owns iteration; `/player`
-integration follows. Existing synchronous factories, return types, error delivery
+integration is available in 0.15.0. Existing synchronous factories, return types, error delivery
 and headless imports remain compatible. Recordings remain synchronous arrays.
 Render and notification callbacks remain synchronous; asynchronous renderers are
 outside this contract.
