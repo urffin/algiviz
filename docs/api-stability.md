@@ -43,6 +43,14 @@ The owner's website and video production are current real-use evidence. External
 feedback is welcome when available, but is not a prerequisite for 1.0.
 This plan does not authorize a 1.0 release or a website upgrade.
 
+0.14.0 bounded-navigation follow-up: `/playback` adds `createRewindBuffer`
+and `RewindBuffer<T>` as a separate synchronous-value adapter. Its
+[contract](rewind-buffer.md) records capacity, replay/history loss, exhaustion
+and source ownership. `/player` now optionally integrates it through
+`rewindCapacity` with Previous controls and window status. Existing forward-only
+playback and the published 0.13.0 contracts are unchanged. This addition requires its own compatibility
+review before any long-term API promise.
+
 ## Readiness of the four modules
 
 “Technically ready” means the reviewed contract is documented and covered by the
@@ -166,7 +174,8 @@ The current release's successful CI does not certify a later 1.0 candidate.
 
 - Headless iteration is synchronous, with no AsyncIterable, worker or scheduler.
   The optional browser widget adds RAF with its documented 100 ms wall-clock
-  clamp; it cannot interrupt one expensive iterator operation. Long generation
+  clamp and optional `maxStepsPerFrame` request budgeting with carried playback
+  time. It cannot interrupt one expensive iterator operation. Long generation
   or large core advance calls can block the host. Applications control whether
   to use the widget or provide their own scheduling and elapsed time.
 - Generator playback retains adjacent snapshots, but snapshot creation and

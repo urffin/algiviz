@@ -1,6 +1,6 @@
 import type { Item, ArraySnapshot } from "../array/types.js";
 import type { ArrayFrame } from "../array/timeline.js";
-import { createSceneRenderer, createSceneProjector, type Scene } from "../scene/index.js";
+import { createSceneRenderer, createSceneProjector, type Scene, type ObjectTransition, type SceneObject } from "../scene/index.js";
 
 export type ArrayObjects = { bar: { item: Item; index: number; held: boolean } };
 
@@ -61,6 +61,8 @@ function positions(state: ArraySnapshot): Map<string, { item: Item; index: numbe
     return result;
 }
 
+type DrawBar = (transition: ObjectTransition<SceneObject<ArrayObjects>>) => void;
+
 /** Full-frame bitmap renderer; the caller owns sizing and must provide an unclipped context. */
 export function createArrayRenderer(options: ArrayRendererOptions) {
     const theme = options?.theme;
@@ -71,6 +73,10 @@ export function createArrayRenderer(options: ArrayRendererOptions) {
         if (color !== undefined) colors[key] = color;
     }
     const projectFrame = createSceneProjector(arrayScene);
+    // The cached dispatcher never retains the per-call drawing callback or its context.
+    const sceneRenderer = createSceneRenderer<ArrayObjects, DrawBar, ArrayFrame["event"]>({
+        bar(draw, transition) { draw(transition); }
+    });
     return Object.freeze({
         render(ctx: CanvasRenderingContext2D, frame: ArrayFrame): void {
             const { width, height } = ctx.canvas;
@@ -110,38 +116,35 @@ export function createArrayRenderer(options: ArrayRendererOptions) {
                 ctx.fillStyle = colors.text;
                 ctx.fillText(`AlgiViz · ${event.type} · ${frame.stepIndex}`, margin, height * 0.07);
                 if (!count) ctx.fillText("Empty array", margin, baseline);
-                const sceneRenderer = createSceneRenderer<ArrayObjects, CanvasRenderingContext2D, ArrayFrame["event"]>({
-                    bar(ctx, transition) {
-                        const object = transition.current ?? transition.previous!;
-                        const id = object.id;
-                        const next = object.data;
-                        const old = transition.previous?.data ?? next;
-                        const x = margin + (old.index + (next.index - old.index) * p + 0.5) * cell;
-                        const size = Math.max(4, (Math.abs(next.item.value) / maxMagnitude) * available);
-                        const active =
-                            event.type === "highlight"
-                                ? event.itemIds.includes(id)
-                                : event.type === "compare" || event.type === "swap"
-                                  ? id === event.leftId || id === event.rightId
-                                  : "itemId" in event && event.itemId === id;
-                        ctx.fillStyle = next.held
-                            ? colors.held
-                            : active
-                              ? colors.active
-                              : next.index < frame.current.sortedPrefixLength ||
-                                  next.index >= count - (frame.current.sortedSuffixLength ?? 0)
-                                ? colors.sorted
-                                : colors.bar;
-                        ctx.fillRect(x - barWidth / 2, baseline - size, barWidth, size);
-                        if (cell < 24) return;
-                        ctx.fillStyle = colors.text;
-                        ctx.font = `${fontSize}px sans-serif`;
-                        ctx.textAlign = "center";
-                        ctx.fillText(String(next.item.value), x, baseline - size - fontSize, cell * 0.95);
-                        ctx.fillText(String(next.index), margin + (next.index + 0.5) * cell, baseline + height * 0.06);
-                    }
-                });
-                sceneRenderer.render(ctx, projected);
+                sceneRenderer.render(transition => {
+                    const object = transition.current ?? transition.previous!;
+                    const id = object.id;
+                    const next = object.data;
+                    const old = transition.previous?.data ?? next;
+                    const x = margin + (old.index + (next.index - old.index) * p + 0.5) * cell;
+                    const size = Math.max(4, (Math.abs(next.item.value) / maxMagnitude) * available);
+                    const active =
+                        event.type === "highlight"
+                            ? event.itemIds.includes(id)
+                            : event.type === "compare" || event.type === "swap"
+                              ? id === event.leftId || id === event.rightId
+                              : "itemId" in event && event.itemId === id;
+                    ctx.fillStyle = next.held
+                        ? colors.held
+                        : active
+                          ? colors.active
+                          : next.index < frame.current.sortedPrefixLength ||
+                              next.index >= count - (frame.current.sortedSuffixLength ?? 0)
+                            ? colors.sorted
+                            : colors.bar;
+                    ctx.fillRect(x - barWidth / 2, baseline - size, barWidth, size);
+                    if (cell < 24) return;
+                    ctx.fillStyle = colors.text;
+                    ctx.font = `${fontSize}px sans-serif`;
+                    ctx.textAlign = "center";
+                    ctx.fillText(String(next.item.value), x, baseline - size - fontSize, cell * 0.95);
+                    ctx.fillText(String(next.index), margin + (next.index + 0.5) * cell, baseline + height * 0.06);
+                }, projected);
                 ctx.textAlign = "left";
                 ctx.font = `${Math.max(11, Math.min(18, width * 0.03))}px sans-serif`;
                 ctx.fillStyle = colors.text;

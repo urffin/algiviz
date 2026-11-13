@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-13",
+  "host": "ChatGPT embedded browser on Windows; local public /player build",
+  "page": "examples/optional-player.html",
+  "sourceHashes": {
+    "src/player/controller.ts": "5fd5a84b895f0dbb4d1a29ce30c650d951a2aa7fcae7b270bd4da9df2d69ae32",
+    "src/player/rewind-session.ts": "f0fb7c4db679094df66cc5e8a9a7a13eab58fce5ed6f5946f5ee30fab5ce95d8",
+    "src/player/mount.ts": "c3ff056c693bd9bc552a3aa512342a98b571ff0f3312fb1c245aabc9a9001d9d",
+    "src/player/types.ts": "2f4738aefc3ee8a639c81fef935595ac6d6036eb0d3fde11968c1465fd81491b",
+    "examples/optional-player-demo.mjs": "b8ff65d3daf006b43e9976c9069cbcd359d45dbdb19151bccdc06bb7051b6e19",
+    "examples/optional-player.html": "02ae51678022de74c5e26deab5efae2db1791eae1779bb1e9c094cca227fd58a"
+  },
+  "results": {
+    "lazyStart": true,
+    "previousKeyboard": true,
+    "windowBoundary": [
+      2,
+      4
+    ],
+    "replayYieldCount": 5,
+    "finishedSourceCloseCount": 1,
+    "previousPausesPlay": true,
+    "restartAndRemount": true,
+    "disposeWhileRewound": true,
+    "independentRecording": true,
+    "consoleWarnings": 0,
+    "consoleErrors": 0
+  },
+  "finalObservation": {
+    "streamStep": 3,
+    "streamWindow": [
+      2,
+      4
+    ],
+    "factories": 3,
+    "yielded": 13,
+    "closed": 3,
+    "phase": "paused",
+    "recordingStep": 1,
+    "recordingPositionMs": 1000
+  },
+  "scope": "Native UI observations plus separate automated tests; no external browser debugging or historical browser/version claims."
+}

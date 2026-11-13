@@ -29,11 +29,18 @@ export function createPlayer<S, E>(
     return createPlayback(steps, options);
 }
 
+/** Internal per-advance accounting used only by opted-in browser sessions. */
+export interface AdvanceBudget {
+    remainingReads: number;
+    remainingMs: number;
+}
+
 /** Internal engine shared by explicit-step and exhaustion-based sources. */
 export function createPlayback<S, E>(
     steps: Iterable<Step<S, E>>,
     options: Parameters<typeof createPlayer<S, E>>[1],
     finishOnExhaustion = false,
+    budget?: AdvanceBudget,
 ): Player<S, E> {
     const manual = options.stepDurationMs === undefined;
     // Unit endpoint for manual steps; positive timed advancement is disallowed.
@@ -137,9 +144,15 @@ export function createPlayback<S, E>(
                 while (remaining > 0 && !finished) {
                     if (elapsed === stepDurationMs) {
                         if (terminal()) {
-                            hold += Math.min(remaining, finalHoldMs - hold);
+                            const amount = Math.min(remaining, finalHoldMs - hold);
+                            hold += amount;
+                            remaining -= amount;
                             complete();
                             break;
+                        }
+                        if (budget) {
+                            if (budget.remainingReads === 0) break;
+                            budget.remainingReads--;
                         }
                         const next = iterator.next();
                         if (next.done) {
@@ -157,6 +170,7 @@ export function createPlayback<S, E>(
                     remaining -= amount;
                     complete();
                 }
+                if (budget) budget.remainingMs = finished ? 0 : remaining;
                 const result = frame();
                 options.render?.(result);
                 return result;

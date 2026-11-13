@@ -62,3 +62,18 @@ It checks resolved frames against the release, measures repeated/interpolated/
 changing pairs and uncached calls, then streams 4,000 pairs with forced GC and
 WeakRefs. Heap samples include the process and are diagnostic, not thresholds.
 See the [results and cache lifetime review](scene-cache-performance.md).
+
+## Array dispatcher reuse
+
+`npm run benchmark -- --array-dispatch --output array-dispatch.json` compares
+`createArrayRenderer` before/after dispatcher reuse. A frozen fixture from
+`25040d1` supplies the baseline; both versions use the same current /scene.
+Paired CPU measurements cover a repeated pair, interpolated playback, changing
+pairs, exact manual steps and reverse seeking. Forced-GC checks separately track
+snapshot retention and collection of Canvas contexts, frames and events.
+
+For native Canvas, run
+`node scripts/benchmark-array-dispatch.mjs --serve --output array-dispatch-browser.json`
+and open `http://127.0.0.1:8765/test/array-dispatch-browser.html` in the embedded
+browser. The button compares pixels, restored Canvas settings and CPU time, then
+saves JSON through the local server. See [results and limits](array-dispatch-performance.md).

@@ -45,6 +45,7 @@ and SVG streaming with independent widgets.
 | Option | Retention and controls |
 | --- | --- |
 | `source: () => Iterable<State>` | Reads lazily, retains adjacent snapshots, unknown duration. Next requests one state or completes a partial transition. A request after the last yield detects exhaustion. No Previous or seeking. Timing is optional for manual use. |
+| `source` with `rewindCapacity: number` (0.14.0) | Retains a bounded window, including current. Previous pauses and returns to the preceding retained state. Next/Play replay the buffer before reading the source. No time slider or known duration. |
 | `history: () => readonly State[]` | Explicit dense, nonempty recording retained in full. Requires positive `stepDurationMs`. Supports Previous, time seeking and a known duration; completion is known at the final boundary. The factory is not called before Start. |
 
 Exactly one factory is required. An iterable is never silently collected to
@@ -65,6 +66,69 @@ slider onto a stream. Recordings use `createTimeline` internally; seeking clamps
 finite times and pauses playback. It does not recreate the recording. Invalid
 non-finite positions are rejected before affecting a usable session.
 
+## Bounded streaming navigation (0.14.0)
+
+Set `rewindCapacity` on a source-backed widget:
+
+```ts
+const ui = new Player(container, {
+  source: () => states(),
+  rewindCapacity: 100,
+  render: draw,
+  stepDurationMs: 500, // Optional for manual navigation.
+});
+ui.previous(); // After Start and at least one newer state.
+```
+
+Capacity must be a positive safe integer and includes current. Omitted or
+explicitly undefined preserves forward-only playback. Capacity 1 offers no
+backward step. The option is rejected for recordings, before source creation.
+Previous appears after Start and is disabled at the oldest retained state;
+there it is a no-op. The stream badge shows the inclusive retained range.
+The range does not move during replay, and no total duration or slider is inferred.
+
+Previous pauses Play, discards a partial transition and displays its preceding
+retained snapshot at progress 1. Next and Play resume from that snapshot, using
+buffered states before invoking the same source again. Source indices remain
+absolute; a source is not recreated to move backward. Old values are evicted only
+when a new source value fills the window. User states must remain immutable.
+
+The first end-of-source detection still needs a request after the last yield.
+After detection, Previous remains available while older states are retained.
+Replaying the final buffered state then knows it is terminal, without another
+source request. Returning backward resets any final hold; reaching that known
+final state starts the configured hold again. Restart creates a fresh window
+and source. Cleanup releases the window and source; the last readable frame may
+still retain its previous/current states, as may application callbacks. Memory
+bounds apply to the internal window, not references held by the application.
+
+See the standalone [buffer contract](rewind-buffer.md). No new public export or
+label role is required; `labels.previous` names the button and `labels.step`
+localizes the displayed range.
+
+## Stream work limit (0.14.0)
+
+Set `maxStepsPerFrame` on a source-backed widget to cap next-step requests in
+one RAF, including rewind replay and exhaustion probes:
+
+```ts
+const ui = new Player(container, {
+  source: () => states(), render: draw,
+  stepDurationMs: 10, maxStepsPerFrame: 20,
+  rewindCapacity: 100, // Optional; the two features work together.
+});
+```
+
+Omit the positive-safe-integer limit (or pass undefined) to preserve existing
+scheduling. Manual use is allowed but does not need a RAF budget. Recordings
+reject the option. Pending playback milliseconds carry across RAFs without
+skipping states; Pause/manual navigation/restart/error/dispose discard the debt.
+Speed changes preserve already accumulated playback time without scaling it again.
+The existing 100 ms wall-clock clamp still applies. Rendering/status happen once
+per RAF. A single next/render callback remains synchronous; this is a request
+count, not a time deadline or FPS guarantee. See the
+[full contract and checks](player-work-budget.md).
+
 ## Controls and status
 
 The `Player<State>` instance exposes readonly `status` and `frame`, plus `start`, `play`, `pause`,
@@ -75,7 +139,9 @@ until initialization and remains readable after disposal. Its event is undefined
 Status includes phase, mode, started/timed flags, speed, error/hasError, frame
 index/progress and `canStart`, `canPlay`, `canNext`, `canRestart`, `canSeek`,
 `canPrevious`. Recording position/duration are milliseconds; unavailable values
-are null. Unsupported stream Previous/seek and invalid speeds throw without
+are null. `rewindStartIndex`/`rewindEndIndex` are inclusive retained source positions
+for a started bounded stream, otherwise null. Stream seek, Previous without
+`rewindCapacity`, and invalid speeds throw without
 consuming the source. Positive finite speeds are accepted, including custom ones.
 
 Restart shows a paused first frame. The UI Replay button restarts and then plays;
@@ -158,3 +224,14 @@ completed in an existing tab within the limit. No additional browser product is
 certified by this embedded-host check. Implementation commit `fa22032` passed all
 11 [CI jobs](https://github.com/urffin/algiviz/actions/runs/43203994982); the
 versioned release candidate must pass its own exact-commit run.
+
+## Bounded-stream verification, 2026-11-13
+
+All 213 repository tests, strict installed consumers under NodeNext/Bundler and
+bundle isolation passed. The [native check report](player-rewind-checks-2026-11-13.md)
+records actual controls, keyboard activation, replay/source reads, window limits,
+completion, restart and teardown. The [memory diagnostic](benchmarks/player-rewind-memory.json)
+streams 10,000 new states at capacities 3/64 with repeated backward/forward moves;
+sampled evicted values and the source iterator are released. The final readable
+frame remains after disposal, and its last state is released when the controller
+is dropped. These are local checks; publication and new-commit CI are separate.

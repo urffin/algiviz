@@ -1,10 +1,11 @@
-import { createPlayer, createStatePlayer, createTimeline, createStepEmitter, type Player, type Step, type Frame, type Timeline } from '@grundyjs/algiviz/playback';
+import { createPlayer, createStatePlayer, createTimeline, createStepEmitter, createRewindBuffer, type RewindBuffer, type Player, type Step, type Frame, type Timeline } from '@grundyjs/algiviz/playback';
 import { createSceneFrame, createSceneProjector, createSceneRenderer, type SceneObject, type Scene, type ObjectTransition, type SceneFrame, type SceneVisualizations } from '@grundyjs/algiviz/scene';
 import { createArrayTrace, defineArrayAlgorithm, createArrayPlayer, createArrayTimeline, type ArrayTrace, type ArrayAlgorithm, type SortedRegions, type Item, type ArrayEvent, type ArraySnapshot, type ArrayStep, type ArrayPlayer, type ArrayFrame, type ArrayTimeline } from '@grundyjs/algiviz/array';
 
 // All headless exports must compile with lib ES2022 and no DOM or ambient types.
 interface Objects { node: { x: number } }
 export type PublicTypes = [Player<number,string>, Step<number,string>, Frame<number,string>, Timeline<number,string>,
+    RewindBuffer<{ x: number }>,
     SceneObject<Objects>, Scene<Objects>, ObjectTransition<SceneObject<Objects>>, SceneFrame<Objects,string>,
     SceneVisualizations<Objects,number[],string>, ArrayTrace, ArrayAlgorithm, SortedRegions, Item,
     ArrayEvent, ArraySnapshot, ArrayStep, ArrayPlayer, ArrayFrame, ArrayTimeline];
@@ -22,6 +23,20 @@ const userEvent: string = stateFrame.event;
 const wrongState: string = stateFrame.current.x;
 statePlayer.advance(0); statePlayer.dispose();
 createStatePlayer([1], { stepDurationMs: undefined, finalHoldMs: undefined }).dispose();
+// @ts-expect-error RAF work budgeting does not alter the headless public options.
+createStatePlayer([1], { maxStepsPerFrame: 1 });
+const rewind: RewindBuffer<{ x: number }> = createRewindBuffer([{ x: 1 }, { x: 2 }], { capacity: 2 });
+const rewindX: number = rewind.next().x;
+const rewindPosition: number = rewind.position;
+const rewindAvailable: boolean = rewind.canPrevious;
+rewind.previous(); rewind.dispose();
+// @ts-expect-error Value inference is preserved across backward navigation.
+const rewindWrong: string = rewind.previous().x;
+// @ts-expect-error Capacity is required.
+createRewindBuffer([1], {});
+// @ts-expect-error Asynchronous iteration is a separate future adapter.
+createRewindBuffer((async function* () { yield 1; })(), { capacity: 2 });
+void rewindX; void rewindPosition; void rewindAvailable;
 createPlayer(steps, { isTerminal: () => true }).nextStep();
 void event;
 const scene: Scene<Objects> = { objects: [{id:'a',type:'node',data:{x:1}}] };

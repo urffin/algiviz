@@ -99,6 +99,16 @@ const player = new Player(container, {
 [Начало работы](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md) ·
 [Разбор собственных объектов графа](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md)
 
+Добавлено в 0.14.0: [ограниченная перемотка назад](https://github.com/urffin/algiviz/blob/master/docs/ru/rewind-buffer.md)
+по значениям синхронного Iterable через `createRewindBuffer` из `/playback`.
+Опция
+[`rewindCapacity`](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md)
+в `/player` включает кнопку возврата для потока.
+
+В 0.14.0 опция
+[`maxStepsPerFrame`](https://github.com/urffin/algiviz/blob/master/docs/ru/player-work-budget.md)
+распределяет продвижение потока между кадрами, сохраняя остаток времени воспроизведения.
+
 ## Примеры
 
 | Пример | Что демонстрирует |

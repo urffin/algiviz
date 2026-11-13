@@ -107,7 +107,8 @@ interpolation while maintaining O(n) retained storage and fresh frame semantics.
 Cache misses still validate and build a plan; do not promise gains when endpoints
 change every call, during exact manual stepping, or when a renderer is recreated.
 
-The standard array renderer currently constructs its scene dispatcher per frame,
-so it cannot reuse this cache across calls. Reusing that dispatcher is a separate
-experiment. No changes to /canvas, domain algorithms, scheduling, projection-cache
-size, dependencies or publication were made in this work.
+The standard array renderer constructed its scene dispatcher per frame during
+these measurements. A separate [dispatcher reuse experiment](array-dispatch-performance.md)
+now records its CPU, memory and pixel checks. The results above describe only
+the original /scene work; domain algorithms, scheduling, projection-cache size,
+dependencies and publication were unchanged in that work.

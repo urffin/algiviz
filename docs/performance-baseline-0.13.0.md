@@ -71,6 +71,14 @@ All 20 Canvas replay checks passed. After fixing a missing /array import-map ent
 
 ## Optimization order
 
+Progress on 2026-11-13: items 1 and 2 have local implementations with
+[scene-cache results](scene-cache-performance.md) and
+[array-dispatcher results](array-dispatch-performance.md). The list below records
+the original baseline priorities. Item 3 remains an optional investigation of
+specific Canvas renderers. Subsequent general library development moved to the
+separate [bounded-navigation adapter](rewind-buffer.md); see the
+[current development status](optional-player-proposal.md#bounded-navigation-follow-up).
+
 1. Prototype a bounded immutable-endpoint matching/order cache inside a scene
    renderer. Dense insertion, merge and sand make matching a useful package-level
    target. Retain only the active pair; create fresh transition metadata for each

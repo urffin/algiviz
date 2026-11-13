@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.14.0 — 2026-11-13
+
+- Add `createRewindBuffer` and `RewindBuffer<T>` to `/playback` for bounded
+  manual navigation over synchronous iterable values, with lazy forward reads,
+  buffered replay and explicit source ownership. Capacity includes current.
+  Existing forward-only playback contracts are unchanged.
+- Add opt-in `rewindCapacity` to `/player` streams, Previous controls and inclusive
+  `rewindStartIndex`/`rewindEndIndex` status fields. Replay buffered values before
+  resuming the source, preserve timed playback/final holds and reset on restart.
+- Add opt-in `maxStepsPerFrame` to timed `/player` streams. Bound next-step
+  requests per RAF, carry unprocessed playback time forward and reset it on
+  manual navigation/pause/restart. Reuse core timing without limiting headless
+  `advance`; account for final hold time only once when carrying debt.
+- Cache matching and draw ordering for one immutable scene endpoint pair per
+  renderer. Keep standalone matching uncached, validation and retained frames
+  independent, and cache storage bounded to the active pair.
+- Reuse the array renderer's scene dispatcher across frames. Keep per-call draw
+  data isolated, with command/pixel parity and paired CPU/memory measurements.
+  Interpolation gains do not establish faster cache misses or every workload.
+
 ## 0.13.0 — 2026-11-13
 
 - Add independent `/canvas/viewport` with createCanvasViewport and three public

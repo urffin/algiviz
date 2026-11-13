@@ -43,6 +43,9 @@ export interface PlayerStatus {
     readonly canRestart: boolean;
     readonly canSeek: boolean;
     readonly canPrevious: boolean;
+    /** Inclusive retained source positions for bounded streams; otherwise null. */
+    readonly rewindStartIndex: number | null;
+    readonly rewindEndIndex: number | null;
 }
 
 /** Internal control surface shared by the controller and DOM mount. */
@@ -75,6 +78,11 @@ interface SharedOptions<State> {
 
 /** Exactly one factory. Streaming is lazy; history explicitly retains a finite array. */
 export type PlayerOptions<State> = SharedOptions<State> & (
-    { readonly source: () => Iterable<State>; readonly history?: undefined } |
-    { readonly history: () => readonly State[]; readonly source?: undefined; readonly stepDurationMs: number }
+    { readonly source: () => Iterable<State>; readonly history?: undefined;
+        /** Opt-in retained window, including current. Omit for forward-only playback. */
+        readonly rewindCapacity?: number | undefined;
+        /** Opt-in maximum next-step requests per RAF; unprocessed playback time carries forward. */
+        readonly maxStepsPerFrame?: number | undefined } |
+    { readonly history: () => readonly State[]; readonly source?: undefined; readonly stepDurationMs: number;
+        readonly rewindCapacity?: undefined; readonly maxStepsPerFrame?: undefined }
 );

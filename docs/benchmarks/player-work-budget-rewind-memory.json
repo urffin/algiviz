@@ -1,0 +1,86 @@
+{
+  "environment": {
+    "date": "2026-11-13T11:01:10.665Z",
+    "node": "v22.17.0",
+    "sourceHashes": {
+      "src/player/rewind-session.ts": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0",
+      "src/player/controller.ts": "22137ec6f2cba83ac551ec2047b163ae3240e1cdadd3cc88b265e59e1c297872",
+      "src/playback/rewind-buffer.ts": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70"
+    },
+    "harnessSha256": "0ae4a0af912679d6f5220ba2981372bad988b6bff2f0cbf15eb05ac56c9544ef"
+  },
+  "policy": {
+    "values": 10000,
+    "forcedGcPasses": 3,
+    "samples": 4,
+    "note": "Sampled WeakRefs and whole-process heap, not portable heap thresholds."
+  },
+  "cases": [
+    {
+      "capacity": 3,
+      "samples": [
+        {
+          "position": 2500,
+          "oldAlive": 0,
+          "activeAlive": 3,
+          "heapBytes": 4997952
+        },
+        {
+          "position": 5000,
+          "oldAlive": 0,
+          "activeAlive": 3,
+          "heapBytes": 5087264
+        },
+        {
+          "position": 7500,
+          "oldAlive": 0,
+          "activeAlive": 3,
+          "heapBytes": 5116224
+        },
+        {
+          "position": 10000,
+          "oldAlive": 0,
+          "activeAlive": 3,
+          "heapBytes": 5116496
+        }
+      ],
+      "afterDisposeAlive": 1,
+      "sourceReleased": true,
+      "closed": 1,
+      "afterDropAlive": 0
+    },
+    {
+      "capacity": 64,
+      "samples": [
+        {
+          "position": 2500,
+          "oldAlive": 0,
+          "activeAlive": 64,
+          "heapBytes": 5101536
+        },
+        {
+          "position": 5000,
+          "oldAlive": 0,
+          "activeAlive": 64,
+          "heapBytes": 5114952
+        },
+        {
+          "position": 7500,
+          "oldAlive": 0,
+          "activeAlive": 64,
+          "heapBytes": 5149800
+        },
+        {
+          "position": 10000,
+          "oldAlive": 0,
+          "activeAlive": 64,
+          "heapBytes": 5149928
+        }
+      ],
+      "afterDisposeAlive": 1,
+      "sourceReleased": true,
+      "closed": 1,
+      "afterDropAlive": 0
+    }
+  ]
+}

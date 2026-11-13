@@ -46,6 +46,13 @@ functions and one class) and 29 type-only names across six entries. Published
 all six exact namespaces, rejects private viewport paths and checks all three
 new types with strict options. Existing `/canvas` and other barrels are unchanged.
 
+Unreleased follow-up, 2026-11-13: `/playback` adds `createRewindBuffer` and
+the type `RewindBuffer<T>`, for working-copy totals of 17 runtime names and
+30 type-only names across the same six entries. The published 0.13.0 inventory
+remains unchanged. Installed consumers check the added runtime export, type,
+headless inference and private implementation-path rejection. See the
+[bounded navigation contract](rewind-buffer.md).
+
 ## Recommendations before 1.0
 
 1. **Keep all four entry points.** They separate generic playback, generic scenes,

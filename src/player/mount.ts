@@ -4,7 +4,7 @@ import type { PlayerControls, PlayerOptions, PlayerLabels, PlayerStatus } from "
 const defaults: PlayerLabels = Object.freeze({ start: 'Start', play: 'Play', pause: 'Pause', next: 'Next state', previous: 'Previous state', replay: 'Replay',
     restart: 'Restart', speed: 'Speed', group: 'Visualization player', controls: 'Playback controls', idle: 'Press Start to read the first state.',
     paused: 'Paused', playing: 'Playing', finished: 'Finished', disposed: 'Disposed', step: 'State', error: 'Error',
-    ready: 'Ready', seek: 'Playback position', time: 'Playback time', stream: 'STREAM', streamHint: 'Forward-only source · no seeking' });
+    ready: 'Ready', seek: 'Playback position', time: 'Playback time', stream: 'STREAM', streamHint: 'Sequential source · no time seeking' });
 const speeds = [0.25, 0.5, 1, 2, 4, 8, 16];
 type IconName = "play" | "pause" | "next" | "previous" | "restart";
 const icons: Record<IconName, readonly [string, boolean]> = {
@@ -46,7 +46,7 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
     const doc = container?.ownerDocument, view = doc?.defaultView;
     if (!doc || !view || typeof container.append !== 'function') throw new TypeError('Expected a DOM container');
     if (!options || typeof options !== 'object') throw new TypeError('Expected player options');
-    const { source, history, render, viewport, seekBar = true, autoHide = true, stepDurationMs, finalHoldMs, onError, onStatus, labels: overrides } = options;
+    const { source, history, render, viewport, seekBar = true, autoHide = true, stepDurationMs, finalHoldMs, rewindCapacity, maxStepsPerFrame, onError, onStatus, labels: overrides } = options;
     if (viewport !== undefined && (!viewport || viewport.ownerDocument !== doc || viewport.parentNode !== container))
         throw new TypeError('Viewport must be a direct child of the player container');
     if ((onStatus !== undefined && typeof onStatus !== 'function') || (onError !== undefined && typeof onError !== 'function'))
@@ -148,7 +148,8 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
         buttons.start.disabled = !state.canStart;
         buttons.next.hidden = !state.started; buttons.next.disabled = !state.canNext;
         buttons.restart.hidden = !state.started; buttons.restart.disabled = !state.canRestart;
-        buttons.previous.hidden = state.mode !== 'recording' || !state.started; buttons.previous.disabled = !state.canPrevious;
+        buttons.previous.hidden = (state.mode !== 'recording' && rewindCapacity === undefined) || !state.started;
+        buttons.previous.disabled = !state.canPrevious;
         buttons.play.hidden = !state.timed || !state.started;
         buttons.play.disabled = !state.canPlay && state.phase !== 'finished';
         buttonLabel(buttons.play, state.phase === 'finished' ? labels.replay : state.phase === 'playing' ? labels.pause : labels.play,
@@ -170,12 +171,14 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
         seek.setAttribute('aria-valuetext', `${timeLabel(state.positionMs)} / ${timeLabel(state.durationMs)}`);
         time.hidden = state.mode !== 'recording'; time.textContent = `${timeLabel(state.positionMs)} / ${timeLabel(state.durationMs)}`;
         stream.hidden = state.mode !== 'stream';
+        stream.textContent = state.rewindStartIndex === null ? labels.stream
+            : `${labels.stream} · ${labels.step} ${state.rewindStartIndex}–${state.rewindEndIndex}`;
         alert.textContent = !state.hasError ? '' : `${labels.error}: ${errorMessage(state.error)}`;
         alert.hidden = !state.hasError;
         if (state.phase !== lastPhase || state.hasError !== lastError) reveal();
         lastPhase = state.phase; lastError = state.hasError;
     }
-    controller = createStateController({ source, history, render, stepDurationMs, finalHoldMs, onError, onStatus, onChange: update,
+    controller = createStateController({ source, history, render, stepDurationMs, finalHoldMs, rewindCapacity, maxStepsPerFrame, onError, onStatus, onChange: update,
         scheduler: { request: fn => view.requestAnimationFrame(fn), cancel: id => view.cancelAnimationFrame(id) } });
     const handle: PlayerControls<State> = Object.freeze({
         get status() { return controller.status; },

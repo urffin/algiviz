@@ -100,6 +100,15 @@ for history, seeking, labels and on-demand loading.
 [Getting started](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md) ·
 [Custom graph walkthrough](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md)
 
+Added in 0.14.0: [bounded backward navigation](https://github.com/urffin/algiviz/blob/master/docs/rewind-buffer.md)
+over synchronous iterable values with `createRewindBuffer` in `/playback`.
+Enable streaming Previous controls with
+[`rewindCapacity`](https://github.com/urffin/algiviz/blob/master/docs/player.md) in `/player`.
+
+Streams in 0.14.0 can also opt into
+[`maxStepsPerFrame`](https://github.com/urffin/algiviz/blob/master/docs/player-work-budget.md)
+to spread source advancement across animation frames while retaining playback time.
+
 ## Examples
 
 | Example | What it demonstrates |

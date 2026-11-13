@@ -1,0 +1,350 @@
+{
+  "provenance": {
+    "src/playback/player.ts": "0945cddbbc695df285615b590b8735cca394c6b427e6acc63b411066d5ce14b9",
+    "src/playback/state-player.ts": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b",
+    "src/playback/state-steps.ts": "e136635b7f67c7c6b6409a2437d71601d1850707fae81911dba3972ac228399f",
+    "src/player/controller.ts": "22137ec6f2cba83ac551ec2047b163ae3240e1cdadd3cc88b265e59e1c297872",
+    "src/player/rewind-session.ts": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0",
+    "src/player/stream-playback.ts": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30",
+    "src/player/types.ts": "5a1be3ecd5e06ba93aabc1a5dc16ed4e847d552847072971dc68372209c37a1e",
+    "src/player/mount.ts": "66e7cb4486e22d8fe30a4fd1323bc0031ea28a3b9ef3285020d15cf909469697",
+    "dist/playback/player.js": "8bea96ff3a5b958ea1027a0df15b55795d0d8d8adf8589bc26282d26c523afa1",
+    "dist/player/controller.js": "d58ae74fc2b6021873073e56c0a1f3f6355f59c72f896cfaeb887802e8d10466",
+    "test/player-work-budget-browser.mjs": "f79f04f45b36e43bc8eeeb13d470053752528cf8e27326e10f90b78330c3810b"
+  },
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "dpr": 1,
+    "visibility": "visible",
+    "date": "2026-11-13T11:05:25.184Z"
+  },
+  "configuration": {
+    "maxStepsPerFrame": 2,
+    "rewindCapacity": 8,
+    "stepDurationMs": 1,
+    "speed": 16,
+    "finite": true
+  },
+  "counts": {
+    "factories": 4,
+    "requests": 815,
+    "yielded": 814,
+    "eof": 1,
+    "closed": 3,
+    "renders": 420,
+    "maxWork": 2,
+    "maxSourceRequests": 2
+  },
+  "violations": [],
+  "events": [
+    {
+      "phase": "playing",
+      "index": 786,
+      "requests": 787,
+      "range": [
+        779,
+        786
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 788,
+      "requests": 789,
+      "range": [
+        781,
+        788
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 790,
+      "requests": 791,
+      "range": [
+        783,
+        790
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 792,
+      "requests": 793,
+      "range": [
+        785,
+        792
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 794,
+      "requests": 795,
+      "range": [
+        787,
+        794
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 796,
+      "requests": 797,
+      "range": [
+        789,
+        796
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 798,
+      "requests": 799,
+      "range": [
+        791,
+        798
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 800,
+      "requests": 801,
+      "range": [
+        793,
+        800
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 802,
+      "requests": 803,
+      "range": [
+        795,
+        802
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 804,
+      "requests": 805,
+      "range": [
+        797,
+        804
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 804,
+      "requests": 805,
+      "range": [
+        797,
+        804
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 803,
+      "requests": 805,
+      "range": [
+        797,
+        804
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 802,
+      "requests": 805,
+      "range": [
+        797,
+        804
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 803,
+      "requests": 805,
+      "range": [
+        797,
+        804
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 0,
+      "requests": 806,
+      "range": [
+        0,
+        0
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 0,
+      "requests": 806,
+      "range": [
+        0,
+        0
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 0,
+      "requests": 806,
+      "range": [
+        0,
+        0
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 2,
+      "requests": 808,
+      "range": [
+        0,
+        2
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 4,
+      "requests": 810,
+      "range": [
+        0,
+        4
+      ]
+    },
+    {
+      "phase": "finished",
+      "index": 5,
+      "requests": 812,
+      "range": [
+        0,
+        5
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 4,
+      "requests": 812,
+      "range": [
+        0,
+        5
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 4,
+      "requests": 812,
+      "range": [
+        0,
+        5
+      ]
+    },
+    {
+      "phase": "playing",
+      "index": 4,
+      "requests": 812,
+      "range": [
+        0,
+        5
+      ]
+    },
+    {
+      "phase": "finished",
+      "index": 5,
+      "requests": 812,
+      "range": [
+        0,
+        5
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 0,
+      "requests": 813,
+      "range": [
+        0,
+        0
+      ]
+    },
+    {
+      "phase": "disposed",
+      "index": 0,
+      "requests": 813,
+      "range": [
+        null,
+        null
+      ]
+    },
+    {
+      "phase": "idle",
+      "index": null,
+      "requests": 813,
+      "range": [
+        null,
+        null
+      ]
+    },
+    {
+      "phase": "idle",
+      "index": null,
+      "requests": 813,
+      "range": [
+        null,
+        null
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 0,
+      "requests": 814,
+      "range": [
+        0,
+        0
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 1,
+      "requests": 815,
+      "range": [
+        0,
+        1
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 0,
+      "requests": 815,
+      "range": [
+        0,
+        1
+      ]
+    },
+    {
+      "phase": "paused",
+      "index": 1,
+      "requests": 815,
+      "range": [
+        0,
+        1
+      ]
+    }
+  ],
+  "status": {
+    "phase": "paused",
+    "started": true,
+    "timed": true,
+    "speed": 16,
+    "error": null,
+    "hasError": false,
+    "stepIndex": 1,
+    "progress": 1,
+    "mode": "stream",
+    "positionMs": null,
+    "durationMs": null,
+    "canStart": false,
+    "canPlay": true,
+    "canNext": true,
+    "canRestart": true,
+    "canSeek": false,
+    "canPrevious": true,
+    "rewindStartIndex": 0,
+    "rewindEndIndex": 1
+  }
+}

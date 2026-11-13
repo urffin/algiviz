@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createStateController } from '../dist/player/controller.js';
 import { Player } from '@grundyjs/algiviz/player';
+import { createStatePlayer } from '@grundyjs/algiviz/playback';
 
 function clock() {
     let id = 0;
@@ -21,6 +22,166 @@ function fixture(options = {}) {
         onError: error => errors.push(error), ...options });
     return { controller, scheduler, stats, frames, errors };
 }
+
+function behind(options = {}) {
+    const context = fixture({ stepDurationMs: 10, maxStepsPerFrame: 2,
+        source: function* () { let n = 0; while (true) yield n++; }, ...options });
+    context.controller.start(); context.controller.play(); context.scheduler.tick(0); context.scheduler.tick(100);
+    assert.equal(context.controller.frame.stepIndex, 2);
+    return context;
+}
+
+test('RAF budgets cap next requests and preserve all elapsed playback time across later frames', () => {
+    for (const rewindCapacity of [undefined, 1, 4]) {
+        let reads = 0, statuses = 0;
+        const context = behind({ rewindCapacity, source: function* () { while (true) yield reads++; }, onStatus() { statuses++; } });
+        const { controller: ui, scheduler, frames } = context;
+        assert.equal(reads, 3);
+        for (const position of [4, 6, 8, 10, 10]) {
+            const count = frames.length, changes = statuses, before = reads;
+            scheduler.tick(100);
+            assert.equal(ui.frame.stepIndex, position); assert.equal(ui.frame.progress, 1);
+            assert.equal(frames.length, count + 1); assert.equal(statuses, changes + 1);
+            assert.ok(reads - before <= 2);
+        }
+        assert.equal(reads, 11); ui.dispose();
+    }
+});
+
+test('budgeted playback reaches the same partial frame as headless full advance once debt drains', () => {
+    for (const duration of [10, 0.3]) for (const limit of [1, 3]) for (const rewindCapacity of [undefined, 5]) {
+        function* states() { let i = 0; while (true) yield Object.freeze({ i: i++ }); }
+        const expected = createStatePlayer(states(), { stepDurationMs: duration }); expected.advance(99.75);
+        const { controller: ui, scheduler } = fixture({ source: states, stepDurationMs: duration, maxStepsPerFrame: limit, rewindCapacity });
+        ui.start(); ui.play(); scheduler.tick(0); scheduler.tick(99.75);
+        for (let i = 0; i < Math.ceil(99.75 / duration / limit) + 2; i++) scheduler.tick(99.75);
+        assert.equal(ui.frame.stepIndex, expected.frame.stepIndex);
+        assert.deepEqual(ui.frame.current, expected.frame.current);
+        assert.ok(Math.abs(ui.frame.progress - expected.frame.progress) < 1e-9);
+        ui.dispose(); expected.dispose();
+    }
+});
+
+test('EOF probes count against a frame budget and final hold time is never counted twice', () => {
+    let calls = 0, returns = 0;
+    const { controller: ui, scheduler } = fixture({ maxStepsPerFrame: 1, stepDurationMs: 10, finalHoldMs: 150,
+        source: () => ({ [Symbol.iterator]: () => ({ next() {
+            calls++; return calls <= 2 ? { value: calls - 1, done: false } : { done: true };
+        }, return() { returns++; return { done: true }; } }) }) });
+    ui.start(); ui.play(); scheduler.tick(0); scheduler.tick(100);
+    assert.equal(calls, 2); assert.equal(ui.frame.stepIndex, 1); assert.equal(ui.status.phase, 'playing');
+    scheduler.tick(100); assert.equal(calls, 3); assert.equal(ui.status.phase, 'playing'); // Hold 90/150 ms.
+    scheduler.tick(100); assert.equal(calls, 3); assert.equal(ui.status.phase, 'playing'); // No debt remains.
+    scheduler.tick(150); assert.equal(ui.status.phase, 'playing');
+    scheduler.tick(160); assert.equal(ui.status.phase, 'finished'); assert.equal(scheduler.size, 0);
+    ui.dispose(); assert.equal(calls, 3); assert.equal(returns, 0);
+});
+
+test('Pause, Next and Previous discard backlog while retaining exact manual step behavior', () => {
+    for (const command of ['pause', 'next', 'previous']) {
+        const { controller: ui, scheduler } = behind({ rewindCapacity: 8 });
+        ui[command]();
+        const position = command === 'next' ? 3 : command === 'previous' ? 1 : 2;
+        assert.equal(ui.frame.stepIndex, position); assert.equal(ui.status.phase, 'paused'); assert.equal(scheduler.size, 0);
+        ui.play(); scheduler.tick(1000); assert.equal(ui.frame.stepIndex, position);
+        scheduler.tick(1005); assert.equal(ui.frame.stepIndex, position + 1); assert.equal(ui.frame.progress, 0.5);
+        ui.dispose();
+    }
+    const { controller: ui, scheduler } = behind();
+    ui.pause(); ui.play(); scheduler.tick(1000); scheduler.tick(1005);
+    ui.next(); assert.equal(ui.frame.stepIndex, 3); assert.equal(ui.frame.progress, 1); // Complete partial, no extra read.
+    ui.dispose();
+});
+
+test('speed changes preserve debt in playback milliseconds without multiplying it again', () => {
+    const { controller: ui, scheduler } = behind(); // 80 ms pending.
+    ui.setSpeed(2); scheduler.tick(500); assert.equal(ui.frame.stepIndex, 4); // No new wall time.
+    scheduler.tick(505); assert.equal(ui.frame.stepIndex, 6); // Add 10 ms, keep previous debt.
+    for (let i = 0; i < 8; i++) scheduler.tick(505);
+    assert.equal(ui.frame.stepIndex, 11); assert.equal(ui.frame.progress, 1); ui.dispose();
+});
+
+test('buffer replay is budgeted even when it performs no new source reads', () => {
+    let reads = 0;
+    const { controller: ui, scheduler } = fixture({ rewindCapacity: 6, maxStepsPerFrame: 1, stepDurationMs: 10,
+        source: function* () { let n = 0; while (true) { reads++; yield n++; } } });
+    ui.start(); for (let i = 0; i < 5; i++) ui.next();
+    for (let i = 0; i < 5; i++) ui.previous();
+    ui.play(); scheduler.tick(0); scheduler.tick(100);
+    assert.equal(ui.frame.stepIndex, 1); assert.equal(reads, 6);
+    for (let i = 2; i <= 5; i++) { scheduler.tick(100); assert.equal(ui.frame.stepIndex, i); assert.equal(reads, 6); }
+    scheduler.tick(100); assert.equal(ui.frame.stepIndex, 6); assert.equal(reads, 7);
+    assert.deepEqual([ui.status.rewindStartIndex, ui.status.rewindEndIndex], [1, 6]); ui.dispose();
+});
+
+test('budget and rewind retain known-terminal completion and final holds on replay', () => {
+    const { controller: ui, scheduler, stats } = fixture({ maxStepsPerFrame: 1, rewindCapacity: 4, stepDurationMs: 10, finalHoldMs: 20 });
+    ui.start(); for (let i = 0; i < 5; i++) ui.next(); assert.equal(ui.status.phase, 'finished');
+    ui.previous(); ui.previous(); ui.previous(); assert.equal(ui.frame.stepIndex, 0);
+    ui.play(); scheduler.tick(0); scheduler.tick(100); assert.equal(ui.frame.stepIndex, 1);
+    scheduler.tick(100); assert.equal(ui.frame.stepIndex, 2);
+    scheduler.tick(100); assert.equal(ui.frame.stepIndex, 3); assert.equal(ui.status.phase, 'finished');
+    assert.equal(stats.reads, 4); assert.equal(stats.closes, 1); ui.dispose();
+});
+
+test('restart success and rejection both discard pending work and keep source ownership', () => {
+    let rejected = false, closed = 0, factories = 0;
+    const { controller: ui, scheduler, errors } = behind({ rewindCapacity: 4, source() {
+        factories++; if (rejected) throw Error('rejected');
+        return (function* () { try { let n = 0; while (true) yield n++; } finally { closed++; } })();
+    } });
+    rejected = true; ui.restart(); assert.equal(ui.frame.stepIndex, 2); assert.equal(closed, 0); assert.equal(errors.length, 1);
+    ui.play(); scheduler.tick(1000); assert.equal(ui.frame.stepIndex, 2);
+    rejected = false; ui.restart(); assert.equal(ui.frame.stepIndex, 0); assert.equal(closed, 1);
+    ui.play(); scheduler.tick(2000); assert.equal(ui.frame.stepIndex, 0);
+    assert.equal(factories, 3); ui.dispose(); ui.dispose(); assert.equal(closed, 2); assert.equal(scheduler.size, 0);
+});
+
+test('budget validation precedes source acquisition; manual mode and disabled budgets retain existing semantics', () => {
+    let factories = 0;
+    for (const maxStepsPerFrame of [0, -1, 0.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1, '2', null])
+        assert.throws(() => createStateController({ source() { factories++; return [0]; }, maxStepsPerFrame, render() {} }), RangeError);
+    assert.throws(() => createStateController({ history() { factories++; return [0]; }, stepDurationMs: 10, maxStepsPerFrame: 2, render() {} }), /only available/);
+    assert.equal(factories, 0);
+    const manual = fixture({ maxStepsPerFrame: 1 }); manual.controller.start(); manual.controller.next();
+    assert.equal(manual.stats.reads, 2); assert.throws(() => manual.controller.play(), /stepDurationMs/); manual.controller.dispose();
+    for (const maxStepsPerFrame of [undefined, 1000]) {
+        const { controller: ui, scheduler } = fixture({ maxStepsPerFrame, stepDurationMs: 1,
+            source: function* () { let i = 0; while (true) yield i++; } });
+        ui.start(); ui.play(); scheduler.tick(0); scheduler.tick(10000); // Existing wall clamp still applies.
+        assert.equal(ui.frame.stepIndex, 100); ui.dispose();
+    }
+    const core = createStatePlayer((function* () { let n = 0; while (true) yield n++; })(), { stepDurationMs: 1 });
+    assert.equal(core.advance(100).stepIndex, 100); core.dispose();
+});
+
+test('budgeted failures preserve primary errors, cancel queued work and permit a fresh restart', () => {
+    for (const origin of ['source', 'render', 'status']) {
+        const primary = new Error(origin), cleanup = new Error('cleanup'); let fail = true, closes = 0;
+        const { controller: ui, scheduler, errors } = fixture({ maxStepsPerFrame: 2, stepDurationMs: 10, rewindCapacity: 4,
+            source: () => ({ [Symbol.iterator]() { let n = 0; return {
+                next() { if (fail && origin === 'source' && n === 3) throw primary; return { value: n++, done: false }; },
+                return() { closes++; if (fail) throw cleanup; return { done: true }; }
+            }; } }),
+            render(frame) { if (fail && origin === 'render' && frame.stepIndex === 2) throw primary; },
+            onStatus(status) { if (fail && origin === 'status' && status.stepIndex === 2) throw primary; } });
+        ui.start(); ui.play(); scheduler.tick(0); scheduler.tick(100);
+        if (origin === 'source') scheduler.tick(100);
+        assert.equal(errors[0], primary); assert.equal(ui.status.phase, 'error'); assert.equal(scheduler.size, 0); assert.equal(closes, 1);
+        fail = false; ui.restart(); ui.play(); scheduler.tick(1000); assert.equal(ui.frame.stepIndex, 0);
+        ui.dispose(); assert.equal(closes, 2);
+    }
+});
+
+test('non-finite accumulated playback time fails cleanly instead of draining an unbounded request', () => {
+    let closes = 0;
+    const { controller: ui, scheduler, errors } = fixture({ maxStepsPerFrame: 1, stepDurationMs: 1,
+        source: function* () { try { let i = 0; while (true) yield i++; } finally { closes++; } } });
+    ui.start(); ui.setSpeed(1e306); ui.play(); scheduler.tick(0); scheduler.tick(100);
+    assert.equal(ui.frame.stepIndex, 1); scheduler.tick(200);
+    assert.equal(ui.status.phase, 'error'); assert.ok(errors[0] instanceof RangeError); assert.equal(closes, 1);
+    assert.equal(scheduler.size, 0); ui.dispose(); assert.equal(closes, 1);
+});
 
 test('optional modules import without DOM; manual initialization, no lookahead and extra completion request', () => {
     assert.equal(typeof Player, 'function'); assert.equal(typeof globalThis.document, 'undefined');
@@ -182,6 +343,177 @@ function dom() {
 const panel = container => container.children.find(child => typeof child === 'object' && child.className === 'algiviz-player')
     .children.find(child => child.dataset?.role === 'controls');
 const control = (container, action) => panel(container).children.find(child => child.dataset?.action === action);
+
+test('public widget forwards the RAF budget and hidden-document pause discards its backlog', () => {
+    const env = dom(), container = env.container(); let reads = 0, closed = 0;
+    const ui = new Player(container, { stepDurationMs: 10, rewindCapacity: 6, maxStepsPerFrame: 2, autoHide: false,
+        source: function* () { try { while (true) yield reads++; } finally { closed++; } }, render() {} });
+    control(container, 'start').emit('click'); control(container, 'play').emit('click');
+    env.scheduler.tick(0); env.scheduler.tick(100);
+    assert.equal(ui.frame.stepIndex, 2); assert.equal(reads, 3);
+    env.doc.hidden = true; env.doc.emit('visibilitychange'); assert.equal(env.scheduler.size, 0);
+    env.scheduler.tick(100); assert.equal(reads, 3);
+    env.doc.hidden = false; env.doc.emit('visibilitychange');
+    control(container, 'play').emit('click'); env.scheduler.tick(1000); assert.equal(ui.frame.stepIndex, 2);
+    env.scheduler.tick(1005); assert.equal(ui.frame.progress, 0.5); assert.equal(reads, 4);
+    control(container, 'previous').emit('click'); assert.equal(ui.frame.stepIndex, 2); assert.equal(ui.frame.progress, 1);
+    const before = container.children.length;
+    assert.throws(() => new Player(container, { source: () => [0], maxStepsPerFrame: 0, render() {} }), RangeError);
+    assert.equal(container.children.length, before);
+    ui.dispose(); assert.equal(closed, 1); assert.equal(env.doc.listenerCount, 0);
+});
+
+test('bounded streams replay a retained window, keep absolute indices and rewind after exhaustion', () => {
+    const { controller: ui, stats } = fixture({ rewindCapacity: 3 });
+    assert.equal(ui.status.rewindStartIndex, null); ui.start();
+    assert.equal(ui.status.canPrevious, false); assert.equal(ui.status.rewindStartIndex, 0);
+    for (let i = 1; i <= 3; i++) { ui.next(); assert.equal(ui.frame.stepIndex, i); }
+    assert.deepEqual([ui.status.rewindStartIndex, ui.status.rewindEndIndex], [1, 3]);
+    ui.previous(); assert.equal(ui.frame.current.n, 2); assert.equal(ui.frame.progress, 1);
+    ui.previous(); assert.equal(ui.frame.current.n, 1); assert.equal(ui.status.canPrevious, false);
+    ui.previous(); assert.equal(ui.frame.current.n, 1); assert.equal(stats.reads, 4);
+    ui.next(); ui.next(); assert.equal(ui.frame.current.n, 3); assert.equal(ui.frame.stepIndex, 3);
+    assert.equal(stats.reads, 4); assert.equal(ui.status.phase, 'paused');
+    ui.next(); assert.equal(ui.status.phase, 'finished'); assert.equal(stats.closes, 1);
+    assert.equal(ui.status.canPrevious, true); assert.equal(ui.status.canSeek, false);
+    assert.equal(ui.status.positionMs, null); assert.equal(ui.status.durationMs, null);
+    ui.previous(); assert.equal(ui.status.phase, 'paused'); assert.equal(ui.frame.stepIndex, 2);
+    ui.next(); assert.equal(ui.status.phase, 'finished'); // Final buffered state is now known.
+    assert.equal(ui.frame.stepIndex, 3); assert.equal(stats.reads, 4); assert.equal(stats.closes, 1);
+    ui.dispose(); assert.equal(stats.closes, 1);
+});
+
+test('bounded timed playback agrees with ordinary streaming before any backward command', () => {
+    const a = fixture({ stepDurationMs: 100, finalHoldMs: 50 });
+    const b = fixture({ stepDurationMs: 100, finalHoldMs: 50, rewindCapacity: 3 });
+    a.controller.start(); b.controller.start();
+    for (const delta of [0, 1, 24, 75, 1, 99, 50, 50, 1, 49, 1, 100]) {
+        // A direct session tick sequence also exercises partial frames and final hold.
+        a.controller.play(); b.controller.play();
+        a.scheduler.tick(0); b.scheduler.tick(0);
+        a.scheduler.tick(delta); b.scheduler.tick(delta);
+        a.controller.pause(); b.controller.pause();
+        assert.deepEqual(b.controller.frame, a.controller.frame);
+        assert.equal(b.controller.status.phase, a.controller.status.phase);
+        assert.deepEqual(b.stats, a.stats);
+    }
+    a.controller.dispose(); b.controller.dispose();
+});
+
+test('Previous pauses a partial transition; Next and Play replay without additional source reads', () => {
+    const { controller: ui, scheduler, stats } = fixture({ stepDurationMs: 100, rewindCapacity: 3 });
+    ui.start(); ui.play(); scheduler.tick(0); scheduler.tick(25);
+    assert.equal(ui.frame.current.n, 1); assert.equal(ui.frame.progress, 0.25);
+    ui.previous(); assert.equal(ui.status.phase, 'paused'); assert.equal(scheduler.size, 0);
+    assert.equal(ui.frame.current.n, 0); assert.equal(ui.frame.previous.n, 0); assert.equal(ui.frame.progress, 1);
+    ui.play(); scheduler.tick(1000); scheduler.tick(1025);
+    assert.equal(ui.frame.current.n, 1); assert.equal(ui.frame.progress, 0.25); assert.equal(stats.reads, 2);
+    ui.next(); assert.equal(ui.frame.progress, 1); assert.equal(stats.reads, 2); assert.equal(scheduler.size, 0);
+    ui.next(); assert.equal(ui.frame.current.n, 2); assert.equal(stats.reads, 3);
+    ui.previous(); ui.setSpeed(2); ui.play(); scheduler.tick(2000); scheduler.tick(2025);
+    assert.equal(ui.frame.current.n, 2); assert.equal(ui.frame.progress, 0.5); assert.equal(stats.reads, 3);
+    scheduler.tick(2050); scheduler.tick(2100);
+    assert.equal(ui.frame.current.n, 3); assert.equal(stats.reads, 4);
+    ui.dispose(); assert.equal(stats.closes, 1);
+});
+
+test('known stream completion and final hold are restored when replaying the final buffered transition', () => {
+    const { controller: ui, stats, scheduler } = fixture({ rewindCapacity: 3, stepDurationMs: 100, finalHoldMs: 50 });
+    ui.start(); for (let i = 0; i < 3; i++) ui.next();
+    ui.next(); assert.equal(ui.status.phase, 'paused'); assert.equal(stats.closes, 1);
+    ui.previous(); assert.equal(ui.frame.current.n, 2);
+    ui.next(); assert.equal(ui.frame.current.n, 3); assert.equal(ui.status.phase, 'paused');
+    ui.play(); scheduler.tick(0); scheduler.tick(25); assert.equal(ui.status.phase, 'playing');
+    scheduler.tick(50); assert.equal(ui.status.phase, 'finished'); assert.equal(scheduler.size, 0);
+    ui.previous(); ui.next(); ui.next(); assert.equal(ui.status.phase, 'finished');
+    assert.equal(stats.reads, 4); assert.equal(stats.closes, 1); ui.dispose();
+});
+
+test('one timed advance can exceed the window and retain only the latest absolute positions', () => {
+    let reads = 0;
+    const { controller: ui, scheduler } = fixture({ rewindCapacity: 3, stepDurationMs: 10,
+        source: function* () { while (true) yield reads++; } });
+    ui.start(); ui.setSpeed(8); ui.play(); scheduler.tick(0); scheduler.tick(100);
+    assert.equal(ui.frame.stepIndex, 80); assert.equal(reads, 81);
+    assert.deepEqual([ui.status.rewindStartIndex, ui.status.rewindEndIndex], [78, 80]);
+    ui.previous(); ui.previous(); assert.equal(ui.frame.current, 78); assert.equal(ui.status.canPrevious, false);
+    ui.next(); ui.next(); assert.equal(reads, 81); ui.next();
+    assert.equal(ui.frame.stepIndex, 81); assert.equal(reads, 82); ui.dispose();
+});
+
+test('capacity one, singleton streams and invalid rewind configurations have explicit capabilities', () => {
+    const { controller: ui } = fixture({ rewindCapacity: 1 });
+    ui.start(); ui.next(); assert.equal(ui.status.canPrevious, false);
+    ui.previous(); assert.equal(ui.frame.current.n, 1); assert.deepEqual([ui.status.rewindStartIndex, ui.status.rewindEndIndex], [1, 1]);
+    ui.dispose();
+    const single = fixture({ rewindCapacity: 5, source: () => [42] }).controller;
+    single.start(); assert.equal(single.status.phase, 'paused'); single.next();
+    assert.equal(single.status.phase, 'finished'); assert.equal(single.status.canPrevious, false); single.dispose();
+    let calls = 0;
+    for (const rewindCapacity of [0, -1, 0.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1, null, '3'])
+        assert.throws(() => createStateController({ source() { calls++; return [1]; }, rewindCapacity, render() {} }), RangeError);
+    assert.throws(() => createStateController({ history() { calls++; return [1]; }, rewindCapacity: 3, stepDurationMs: 100, render() {} }), /only available/);
+    assert.equal(calls, 0);
+});
+
+test('a rejected bounded restart preserves the rewound buffer, while successful restart gets a fresh source', () => {
+    let reject = false;
+    const context = fixture({ rewindCapacity: 3 });
+    const { controller: ui, stats } = context;
+    ui.start(); ui.next(); ui.next(); ui.previous();
+    // Rejection of a separately prepared candidate must preserve the old cursor.
+    let factories = 0, closed = 0;
+    const second = fixture({ rewindCapacity: 3, source() {
+        factories++; if (reject) throw Error('rejected');
+        return (function* () { try { yield 0; yield 1; yield 2; } finally { closed++; } })();
+    } });
+    second.controller.start(); second.controller.next(); second.controller.next(); second.controller.previous();
+    const frame = second.controller.frame; reject = true; second.controller.restart();
+    assert.deepEqual(second.controller.frame, frame); assert.equal(second.controller.status.phase, 'paused'); assert.equal(closed, 0);
+    second.controller.previous(); assert.equal(second.controller.frame.current, 0);
+    reject = false; second.controller.restart(); assert.equal(closed, 1); assert.equal(factories, 3);
+    second.controller.dispose(); assert.equal(closed, 2);
+    ui.restart(); assert.equal(ui.frame.current.n, 0); assert.equal(stats.factories, 2); assert.equal(stats.closes, 1); ui.dispose();
+});
+
+test('bounded-source, backward-render and replacement cleanup failures close sources exactly once', () => {
+    for (const origin of ['source', 'render']) {
+        const primary = new Error(origin), cleanup = new Error('cleanup'); let reads = 0, closes = 0, backward = false;
+        const { controller: ui, errors } = fixture({ rewindCapacity: 3,
+            source: () => ({ [Symbol.iterator]: () => ({
+                next() { if (++reads === 3 && origin === 'source') throw primary; return { value: reads, done: false }; },
+                return() { closes++; throw cleanup; }
+            }) }), render() { if (backward && origin === 'render') throw primary; } });
+        ui.start(); ui.next();
+        if (origin === 'source') ui.next(); else { backward = true; ui.previous(); }
+        assert.equal(ui.status.phase, 'error'); assert.equal(errors[0], primary); assert.equal(closes, 1);
+        assert.equal(ui.status.canPrevious, false); ui.dispose(); assert.equal(closes, 1);
+    }
+    const cleanup = new Error('replace'); let acquired = 0, closed = 0;
+    const { controller: ui, errors } = fixture({ rewindCapacity: 2, source() {
+        const session = ++acquired; return { [Symbol.iterator]: () => ({ next: () => ({ value: session, done: false }),
+            return() { closed++; if (session === 1) throw cleanup; return { done: true }; } }) };
+    } });
+    ui.start(); ui.restart(); assert.equal(ui.status.phase, 'error'); assert.equal(errors[0], cleanup);
+    assert.equal(closed, 2); ui.dispose(); assert.equal(closed, 2);
+});
+
+test('bounded stream buttons expose only retained Previous, preserve recording controls and clean up scoped instances', () => {
+    const env = dom(), container = env.container(), other = env.container(); let reads = 0, closes = 0;
+    const ui = new Player(container, { rewindCapacity: 3, labels: { previous: 'Назад', step: 'Состояние', stream: 'ПОТОК' },
+        source: function* () { try { for (let i = 0; i < 5; i++) { reads++; yield i; } } finally { closes++; } }, render() {} });
+    const plain = new Player(other, { source: () => [0, 1], render() {} });
+    const previous = control(container, 'previous'); assert.equal(previous.hidden, true);
+    ui.start(); plain.start(); assert.equal(previous.hidden, false); assert.equal(previous.disabled, true);
+    assert.equal(previous.attributes.get('aria-label'), 'Назад'); assert.equal(control(other, 'previous').hidden, true);
+    for (let i = 0; i < 4; i++) control(container, 'next').emit('click');
+    assert.equal(reads, 5); assert.equal(previous.disabled, false); assert.equal(control(container, 'seek').hidden, true);
+    assert.equal(panel(container).children.find(child => child.dataset?.role === 'stream').textContent, 'ПОТОК · Состояние 2–4');
+    previous.emit('click'); previous.emit('click'); assert.equal(ui.frame.current, 2); assert.equal(previous.disabled, true);
+    control(container, 'next').emit('click'); assert.equal(ui.frame.current, 3); assert.equal(reads, 5);
+    assert.equal(plain.frame.current, 0); ui.dispose(); assert.equal(closes, 1); assert.equal(env.doc.listenerCount, 1);
+    previous.emit('click'); assert.equal(closes, 1); plain.dispose(); assert.equal(env.doc.listenerCount, 0);
+});
 
 test('scoped UI instances have no fixed IDs, preserve caller children and tear down only their own listeners', () => {
     const env = dom(), a = env.container(), b = env.container(), note = env.doc.createElement('p'); a.append(note);

@@ -1,7 +1,7 @@
 import { createArrayTrace, defineArrayAlgorithm, createArrayPlayer, createArrayTimeline, type SortedRegions } from "@grundyjs/algiviz/array";
 import { arrayScene, createArrayRenderer } from "@grundyjs/algiviz/canvas";
 import { createSceneRenderer, type Scene } from "@grundyjs/algiviz/scene";
-import { createPlayer, createTimeline, type Step } from "@grundyjs/algiviz/playback";
+import { createPlayer, createTimeline, createRewindBuffer, type RewindBuffer, type Step } from "@grundyjs/algiviz/playback";
 
 function check(value: unknown, message: string): asserts value {
     if (!value) throw new Error(message);
@@ -76,6 +76,14 @@ const { createStatePlayer } = await import("@grundyjs/algiviz/playback");
 const statesPlayer = createStatePlayer([{ x: 1 }, { x: 2 }]);
 const stateX: number = statesPlayer.nextStep().current.x;
 const stateEvent: undefined = statesPlayer.frame.event;
+const rewind: RewindBuffer<{ x: number }> = createRewindBuffer([{ x: 1 }, { x: 2 }, { x: 3 }], { capacity: 2 });
+check(rewind.current.x === 1 && rewind.position === 0, 'Rewind initial value failed');
+check(rewind.next().x === 2 && rewind.previous().x === 1, 'Rewind backward failed');
+check(rewind.next().x === 2 && rewind.next().x === 3 && rewind.startPosition === 1, 'Rewind window failed');
+check(rewind.next().x === 3 && rewind.sourceEnded && !rewind.canNext, 'Rewind exhaustion failed');
+check(rewind.previous().x === 2 && rewind.canNext, 'Rewind replay after exhaustion failed');
+rewind.dispose();
+check(Number(rewind.current.x) === 2 && !rewind.canNext && !rewind.canPrevious, 'Rewind disposal failed');
 void stateX; void stateEvent;
 statesPlayer.dispose();
 const emitStep = createStepEmitter(() => Object.freeze({ count: 1 }));

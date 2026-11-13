@@ -7,6 +7,20 @@ module contracts remain the stabilization baseline. A local example-only
 committed at `12f8fb3`. Implementation commit `fa22032` adds the
 [0.12.0 `/player` entry](player.md), absent in 0.11.2.
 
+## 0.14.0 release candidate
+
+The owner authorized review, commit/push and publication after exact-candidate CI
+on 2026-11-13. Version 0.14.0 combines the single-pair scene matching cache,
+array dispatcher reuse, standalone rewind buffer, streaming Previous controls
+and opt-in per-RAF stream work budgeting. Existing headless advance semantics
+and default forward-only widgets are preserved. Raw performance and native
+reports below retain the historical versions/hashes measured at each stage.
+
+Preparation includes all 225 tests, installed-package and bundle checks, the
+performance benchmark, consistent package/lockfile versions and reviewed release
+notes. Publish through the stable GitHub Release only after all eleven CI jobs
+pass for the exact versioned commit, then verify npm/latest and provenance.
+
 ## Current progress
 
 0.12.0 was released at `9160f81`; all eleven
@@ -89,10 +103,74 @@ pixel-replay checks with no console warnings/errors. Metadata, linked
 lookup, validation-before-dispatch, reentrancy and retained-frame immutability
 are covered; no new public entry, option, dependency or disposal method was added.
 
-The next proposed optimization is to reuse the standard array renderer's scene
-dispatcher so it can benefit from this cache. That is a separate experiment; no
-/canvas changes, new scheduler or rewind adapter have begun. Commit/review the
-current optimization and its evidence before starting another code change.
+Array dispatcher reuse is also implemented locally with
+[paired measurements, pixel checks and retained-memory results](array-dispatch-performance.md).
+Native Canvas command profiling remains an optional /canvas investigation;
+its benefits are specific to those renderers, rather than a required next step
+for arbitrary user visualizations.
+
+## Bounded navigation follow-up
+
+On 2026-11-13 the owner approved a standalone adapter first, with widget controls
+outside that scope. `/playback` now implements `createRewindBuffer` and
+`RewindBuffer<T>` for immutable synchronous iterable values. Its
+[RU/EN contract](rewind-buffer.md) covers the capacity-inclusive-current window,
+sequence positions, replay without source reads, exhaustion and source ownership.
+At that standalone stage, existing players, timing and browser controls were unchanged.
+
+All 204 repository tests passed, including 11 adapter tests and 5,120 reference
+navigation sequences. Installed-package consumers passed with TypeScript 6.0.3
+under NodeNext and Bundler, including ES2022-only/headless compilation and the
+new exact export/private-path checks. Bundle isolation passed. The
+[10,000-value retention diagnostic](benchmarks/rewind-buffer-memory.json) passed
+at capacities 3 and 64: evicted sampled values were collected; disposal while
+rewound kept only current, then dropping the adapter released current as well.
+The source iterator was released and closed once.
+
+The standalone adapter and subsequently authorized widget integration are complete
+locally and unreleased. Source-backed `/player` accepts opt-in `rewindCapacity`,
+shows Previous plus the retained range, and reports `rewindStartIndex` and
+`rewindEndIndex`. Previous pauses and restores an exact retained snapshot;
+Next/Play replay before reading new values. Existing timing is reused, including
+final holds, and restart creates a fresh buffer/source. No time seeking or full
+history is inferred for a stream.
+
+All 213 repository tests passed, including nine new widget integration cases.
+Installed-package TypeScript 6.0.3 consumers passed NodeNext and Bundler; bundle
+isolation passed. The [widget retention diagnostic](benchmarks/player-rewind-memory.json)
+passed with capacities 3/64 over 10,000 new states and repeated direction changes.
+[Embedded-browser checks](player-rewind-checks-2026-11-13.md) verified the actual
+button, keyboard operation, window limits, replay/read counts, restart, disposal,
+remount and independent recording controls, with no console warnings/errors.
+
+Next, review the new opt-in contract and checked changes before deciding on a
+release or another development direction. No subsequent implementation or
+publication is started by this record.
+
+## Stream work-budget follow-up
+
+The owner authorized contract-first implementation on 2026-11-13. The
+[RU/EN contract](player-work-budget.md) was recorded before source changes.
+Opt-in `maxStepsPerFrame` now bounds timed stream next-step requests per RAF,
+including buffered replay and exhaustion probes. Remaining playback milliseconds
+carry forward. Pause/manual navigation/restart/error/dispose discard that debt;
+speed changes preserve it in playback units. Recordings reject the stream option,
+and headless advance remains unbounded. One heavy call is still synchronous.
+
+All 225 tests passed, including 12 added budget regressions, strict installed
+NodeNext/Bundler consumers and bundle isolation. Native Chromium checks at
+1 ms/step, 16× speed and a limit of 2 observed maxima of two next-step requests
+and two underlying source requests per RAF, with zero recorded violations.
+Pause, manual buffer replay, completion/hold, restart/dispose and remount passed.
+[Raw native evidence](benchmarks/player-work-budget-browser.json) contains hashes
+and counters. The [rewind memory regression](benchmarks/player-work-budget-rewind-memory.json)
+was also rerun after shared-engine changes; it uses manual navigation with no
+RAF budget, checking the existing retention/cleanup contract.
+
+This stage is complete locally and unreleased. Next, review the accumulated
+changes and prepare an exact versioned candidate/CI before publication. Async
+sources and worker transport remain separate possible directions. No release
+was authorized or published as part of this implementation request.
 
 ## Historical release assessment after 0.11.2
 
@@ -221,8 +299,8 @@ mounted UI in the supported browser host; old smoke results do not cover it.
 | --- | --- | --- |
 | Optional player | Shipped in 0.12.0; removes repeated scheduling and control wiring | The README circle, Canvas recording and SVG stream exercise the public API; preserve the headless and deferred-loading boundaries. |
 | Canvas viewport helper | Shipped in 0.13.0; consolidates repeated CSS/bitmap size, DPR and resize handling | Opt-in browser helper with explicit coordinate semantics and teardown; do not silently change the existing renderer's bitmap contract. |
-| Bounded rewind adapter | Allows a few backward steps while retaining a configured window of generator states | Only if needed: make history loss, replay, source ownership and the O(window × state size) cost explicit. Do not change forward-only core semantics. |
-| Cooperative scheduling / later worker adapter | Keeps long-running generation from monopolizing the UI | A controller can yield between operations, but cannot interrupt one expensive synchronous iterator.next(). Async/worker sources need a separate cancellation/error/serialization design. |
+| Bounded rewind adapter | Implemented locally as `/playback`'s `createRewindBuffer` for synchronous iterable values; [contract and checks](rewind-buffer.md) | Capacity includes current; replay does not reread the source. Existing forward-only players are unchanged. Opt-in `rewindCapacity` now integrates the buffer with `/player` controls and window status. |
+| Cooperative scheduling / later worker adapter | Local `maxStepsPerFrame` limits stream advancement per RAF and carries playback-time debt; [contract and checks](player-work-budget.md) | One synchronous source/render call remains uninterruptible. Async/worker sources still need a separate cancellation/error/serialization design. |
 
 ## Optimization candidates from the current code
 
@@ -235,7 +313,7 @@ it does not report real browser FPS or GPU work.
 | Area | Current cost and candidate | Contract to preserve |
 | --- | --- | --- |
 | `/scene` | Implemented locally: a renderer caches the matching/order plan for one immutable endpoint pair. Standalone `createSceneFrame` remains uncached. See the speed/memory report above. | New progress/event metadata and immutable retained frames; validation before dispatch; type/ID errors and stable layer ordering. Standalone calls need not acquire global caches. |
-| `/canvas` | `createArrayRenderer.render` constructs a scene renderer and registry each frame. Consider reusing a dispatcher with explicit per-frame data. | Independent renderer instances and correct callback context; no stale dimensions, palette, frame or event. |
+| `/canvas` | Implemented locally: `createArrayRenderer` reuses its scene dispatcher and matching cache; per-call drawing inputs remain separate. See [paired measurements and correctness checks](array-dispatch-performance.md). | Independent renderer instances and correct callback context; no stale dimensions, palette, frame or event. Cache misses still rebuild the matching plan. |
 | Array highlights | Each bar calls `event.itemIds.includes(id)`: n bars with h highlighted IDs cost O(nh) membership work. Build/cache one Set per immutable highlight event for O(n + h) membership work. | Existing held/active/sorted color priority and event semantics; benchmark because small h may not justify the setup cost. |
 | Canvas drawing | Full repaint and labels can dominate actual browser time. Measure dense and labeled scenes separately before batching or caching static decoration. | Pixel behavior, paint order and context restoration; dirty-region rendering needs a distinct contract for arbitrary custom draws. |
 | Source generation | Each array emission copies O(n) slots. Reusing unchanged immutable items is already allowed; delta traces or mutable buffers would change snapshot/retention semantics. | Do not mutate old states to reduce allocation. Structural sharing or a delta format needs separate evidence and design. |

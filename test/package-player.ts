@@ -19,11 +19,14 @@ export function checkPlayerTypes(host: HTMLElement, viewport: HTMLCanvasElement)
             const event: string = frame.event;
             void x; void label;
         },
-        stepDurationMs: undefined, finalHoldMs: undefined, autoHide: undefined, seekBar: undefined,
+        stepDurationMs: undefined, finalHoldMs: undefined, autoHide: undefined, seekBar: undefined, rewindCapacity: 3, maxStepsPerFrame: 2,
         labels: { start: 'Начать', pause: undefined }, onStatus: undefined, onError: undefined,
     });
     const frame: Frame<{ x: number; label: string }, undefined> | null = widget.frame;
     const status: PlayerStatus = widget.next();
+    const windowStart: number | null = status.rewindStartIndex;
+    const windowEnd: number | null = status.rewindEndIndex;
+    widget.previous(); void windowStart; void windowEnd;
     // @ts-expect-error Status is read-only.
     status.phase = 'playing';
     // @ts-expect-error The returned frame keeps the inferred state type.
@@ -39,6 +42,15 @@ export function checkPlayerTypes(host: HTMLElement, viewport: HTMLCanvasElement)
     new Player(host, { source: () => [1], history: () => [1], render() {}, stepDurationMs: 100 });
     // @ts-expect-error Recording timing is mandatory.
     new Player(host, { history: () => [1], render() {} });
+    // @ts-expect-error A bounded rewind window is a stream option, not a recording option.
+    new Player(host, { history: () => [1], stepDurationMs: 100, rewindCapacity: 3, render() {} });
+    // @ts-expect-error Rewind capacity is numeric.
+    new Player(host, { source: () => [1], rewindCapacity: '3', render() {} });
+    // @ts-expect-error Work budgets apply to streams, not recorded timeline sampling.
+    new Player(host, { history: () => [1], stepDurationMs: 100, maxStepsPerFrame: 2, render() {} });
+    // @ts-expect-error The step budget is numeric.
+    new Player(host, { source: () => [1], maxStepsPerFrame: '2', render() {} });
+    new Player(host, { source: () => [1], maxStepsPerFrame: undefined, render() {} });
     // @ts-expect-error History is explicitly an array, not an iterable to collect.
     new Player(host, { history: function* () { yield 1; }, render() {}, stepDurationMs: 100 });
     // @ts-expect-error Only known label keys are accepted.

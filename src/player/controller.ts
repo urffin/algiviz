@@ -1,10 +1,17 @@
 import type { Frame } from "../playback/types.js";
 import type { PlayerControls, PlayerStatus } from "./types.js";
+import { createRewindSession } from "./rewind-session.js";
+import { createStreamPlayback } from "./stream-playback.js";
+import { stateSteps } from "../playback/state-steps.js";
 interface Session<State> {
     readonly frame: Frame<State, undefined>;
     readonly finished: boolean;
     readonly positionMs?: number;
     readonly durationMs?: number;
+    readonly canPrevious?: boolean;
+    readonly rewindStartIndex?: number;
+    readonly rewindEndIndex?: number;
+    readonly pendingMs?: number;
     advance(deltaMs: number): void;
     nextStep(): void;
     previousStep?(): void;
@@ -20,6 +27,8 @@ interface ControllerOptions<State> {
     render: (frame: Frame<State, undefined>) => void;
     stepDurationMs?: number | undefined;
     finalHoldMs?: number | undefined;
+    rewindCapacity?: number | undefined;
+    maxStepsPerFrame?: number | undefined;
     scheduler?: { request(callback: (now: number) => void): number; cancel(id: number): void } | undefined;
     onChange?: ((status: PlayerStatus) => void) | undefined;
     onStatus?: ((status: PlayerStatus) => void) | undefined;
@@ -61,13 +70,19 @@ class PreparationFailure {
     constructor(readonly error: unknown) {}
 }
 
-export function createStateController<State>({ source, history, render, stepDurationMs, finalHoldMs = 0,
+export function createStateController<State>({ source, history, render, stepDurationMs, finalHoldMs = 0, rewindCapacity, maxStepsPerFrame,
     scheduler, onChange = () => {}, onStatus = () => {}, onError = () => {} }: ControllerOptions<State>): StateController<State> {
     const recorded = history !== undefined;
     if ((source !== undefined) === recorded || typeof (recorded ? history : source) !== 'function' || typeof render !== 'function')
         throw new TypeError('Expected exactly one source/history factory and a render callback');
     const timed = stepDurationMs !== undefined;
     if (recorded && !timed) throw new TypeError('A recording requires stepDurationMs');
+    if (recorded && rewindCapacity !== undefined) throw new TypeError('rewindCapacity is only available for a stream');
+    if (rewindCapacity !== undefined && (!Number.isSafeInteger(rewindCapacity) || rewindCapacity < 1))
+        throw new RangeError('rewindCapacity must be a positive safe integer');
+    if (recorded && maxStepsPerFrame !== undefined) throw new TypeError('maxStepsPerFrame is only available for a stream');
+    if (maxStepsPerFrame !== undefined && (!Number.isSafeInteger(maxStepsPerFrame) || maxStepsPerFrame < 1))
+        throw new RangeError('maxStepsPerFrame must be a positive safe integer');
     if ((timed && (!Number.isFinite(stepDurationMs) || stepDurationMs <= 0)) ||
         !Number.isFinite(finalHoldMs) || finalHoldMs < 0)
         throw new RangeError('Expected positive step duration and non-negative final hold');
@@ -81,6 +96,7 @@ export function createStateController<State>({ source, history, render, stepDura
     let error: unknown = null;
     let request: number | null = null, last: number | null = null;
     let reducedMotion = false;
+    let pendingMs = 0;
     function status(): PlayerStatus {
         const finished = !failed && !!player?.finished;
         return Object.freeze({
@@ -92,11 +108,13 @@ export function createStateController<State>({ source, history, render, stepDura
             canNext: !disposed && started && !failed && !finished && !busy,
             canRestart: !disposed && started && !busy,
             canSeek: recorded && !disposed && !failed && !!player && (player.durationMs ?? 0) > 0 && !busy,
-            canPrevious: recorded && !disposed && !failed && !!player && (player.positionMs ?? 0) > 0 && !busy,
+            canPrevious: !disposed && !failed && !!player && !busy &&
+                (recorded ? (player.positionMs ?? 0) > 0 : !!player.canPrevious),
+            rewindStartIndex: player?.rewindStartIndex ?? null, rewindEndIndex: player?.rewindEndIndex ?? null,
         });
     }
     function stop() {
-        running = false; last = null;
+        running = false; last = null; pendingMs = 0;
         if (request !== null) scheduler!.cancel(request);
         request = null;
     }
@@ -140,7 +158,12 @@ export function createStateController<State>({ source, history, render, stepDura
     function replace() {
         let candidate: Session<State>;
         // A rejected source must not destroy the previous readable/usable session.
-        try { candidate = recorded ? createRecording(history!(), stepDurationMs!, finalHoldMs) : createStatePlayer(source!(), { stepDurationMs, finalHoldMs }); }
+        try {
+            candidate = recorded ? createRecording(history!(), stepDurationMs!, finalHoldMs)
+                : rewindCapacity !== undefined ? createRewindSession(source!(), rewindCapacity, { stepDurationMs, finalHoldMs }, maxStepsPerFrame)
+                : maxStepsPerFrame === undefined ? createStatePlayer(source!(), { stepDurationMs, finalHoldMs })
+                : createStreamPlayback(stateSteps(source!()), { stepDurationMs, finalHoldMs }, maxStepsPerFrame);
+        }
         catch (caught) { throw new PreparationFailure(caught); }
         try { player?.dispose(); }
         catch (caught) { closeQuietly(candidate); player = null; failed = true; throw caught; }
@@ -157,7 +180,10 @@ export function createStateController<State>({ source, history, render, stepDura
         act(() => {
             // Deliberately discard long wall-clock stalls, as the shared demo does.
             const delta = last === null ? 0 : Math.min(100, Math.max(0, now - last)) * speed;
-            last = now; const session = requireSession(); session.advance(delta); present();
+            last = now; const session = requireSession();
+            session.advance(pendingMs + delta);
+            pendingMs = session.pendingMs ?? 0;
+            present();
             if (session.finished) stop();
             if (running) request = scheduler!.request(tick);
         });
@@ -177,7 +203,7 @@ export function createStateController<State>({ source, history, render, stepDura
         pause() { return act(stop, false); },
         next() { return act(() => { const session = requireSession(); stop(); session.nextStep(); present(); }); },
         previous() {
-            if (!recorded) throw new Error('Previous is unavailable for a stream');
+            if (!recorded && rewindCapacity === undefined) throw new Error('Previous is unavailable for a stream without rewindCapacity');
             return act(() => { const session = requireSession(); stop(); session.previousStep!(); present(); });
         },
         seek(positionMs: number) {

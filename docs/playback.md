@@ -92,6 +92,15 @@ matching the player. If source consumption, a terminal predicate or rendering
 throws, cleanup is attempted without replacing that primary error. A standalone
 cleanup error from disposal or normal completion still propagates.
 
+## Bounded backward navigation
+
+The unreleased `createRewindBuffer(source, { capacity })` adapter retains a
+configured window of any synchronous iterable's immutable values. Use `previous()`
+and `next()` for manual navigation; replaying buffered values does not consume
+the source. Capacity includes the current value. This is a separate navigation
+handle, with no timing or changes to the existing forward-only players or widget.
+See the [contract, examples and lifecycle](rewind-buffer.md).
+
 ## Step emission helper
 
 `createStepEmitter` from `/playback` creates steps. It removes manual step numbering and freezes the step wrapper:

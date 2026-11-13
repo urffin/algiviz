@@ -1,0 +1,85 @@
+{
+  "environment": {
+    "date": "2026-11-13T10:12:03.189Z",
+    "node": "v22.17.0",
+    "platform": "win32",
+    "cpu": "AMD FX(tm)-8350 Eight-Core Processor           ",
+    "sourceSha256": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70",
+    "harnessSha256": "cddf1cfd843265f5bebbe8935e82b47acf423d9c5fcd21aaf85fc4434a5c1a4f"
+  },
+  "policy": {
+    "batches": 4,
+    "valuesPerBatch": 2500,
+    "forcedGcPasses": 3,
+    "oldWeakRefsPerBatch": 8,
+    "note": "Diagnostic whole-process heap and sampled WeakRefs, not portable heap thresholds."
+  },
+  "cases": [
+    {
+      "capacity": 3,
+      "samples": [
+        {
+          "sourcePosition": 2500,
+          "heapBytes": 4888128,
+          "oldAlive": 0,
+          "activeAlive": 3
+        },
+        {
+          "sourcePosition": 5000,
+          "heapBytes": 4903648,
+          "oldAlive": 0,
+          "activeAlive": 3
+        },
+        {
+          "sourcePosition": 7500,
+          "heapBytes": 4918920,
+          "oldAlive": 0,
+          "activeAlive": 3
+        },
+        {
+          "sourcePosition": 10000,
+          "heapBytes": 4929008,
+          "oldAlive": 0,
+          "activeAlive": 3
+        }
+      ],
+      "afterDisposeAlive": 1,
+      "sourceAlive": false,
+      "sourceCloseCalls": 1,
+      "afterDropAlive": 0
+    },
+    {
+      "capacity": 64,
+      "samples": [
+        {
+          "sourcePosition": 2500,
+          "heapBytes": 4930368,
+          "oldAlive": 0,
+          "activeAlive": 64
+        },
+        {
+          "sourcePosition": 5000,
+          "heapBytes": 4940312,
+          "oldAlive": 0,
+          "activeAlive": 64
+        },
+        {
+          "sourcePosition": 7500,
+          "heapBytes": 4955064,
+          "oldAlive": 0,
+          "activeAlive": 64
+        },
+        {
+          "sourcePosition": 10000,
+          "heapBytes": 4954848,
+          "oldAlive": 0,
+          "activeAlive": 64
+        }
+      ],
+      "afterDisposeAlive": 1,
+      "sourceAlive": false,
+      "sourceCloseCalls": 1,
+      "afterDropAlive": 0
+    }
+  ]
+}

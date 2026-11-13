@@ -8,6 +8,7 @@ import { mergeSort } from '../examples/merge-algorithm.mjs';
 import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
 import { createMergeRenderer } from '../examples/merge-scene.mjs';
 if (process.argv.includes('--scene-cache')) { await import('./benchmark-scene-cache.mjs'); process.exit(0); }
+if (process.argv.includes('--array-dispatch')) { await import('./benchmark-array-dispatch.mjs'); process.exit(0); }
 if (process.argv.includes('--profile')) { await import('./profile.mjs'); process.exit(0); }
 const n = 2000, values = Array.from({length:n}, (_,i)=>n-i);
 const noop = () => {};

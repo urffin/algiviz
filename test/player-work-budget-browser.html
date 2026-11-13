@@ -1,0 +1,14 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · работа за кадр</title><style>
+body{margin:24px auto;padding:0 20px;max-width:1000px;background:#101827;color:#edf4ff;font:16px/1.5 system-ui}h1{font-size:28px}button{font:inherit;padding:8px 14px;background:#243853;color:inherit;border:1px solid #6f87a6;border-radius:7px;cursor:pointer}button:disabled{opacity:.4}#host{margin:20px 0}#viewport{padding:30px;font-size:26px;min-height:90px}pre{font:13px/1.5 ui-monospace;white-space:pre-wrap;background:#0a1220;padding:16px;border-radius:8px}#metrics{color:#9ee6cd}#report{max-height:300px;overflow:auto}.actions{display:flex;gap:8px;flex-wrap:wrap}
+</style><h1>Ограничение работы потокового плеера</h1>
+<p>Длительность шага 1 мс, скорость 16×, окно 8 состояний. Лимит — 2 запроса следующего шага за RAF. Остаток времени переносится между кадрами; ручные команды его сбрасывают.</p>
+<div id="host"><div id="viewport">Нажмите «Начать»</div></div>
+<p id="metrics" role="status"></p><div class="actions">
+<button id="finite">Конечный поток</button><button id="long">Длинный поток</button>
+<button id="dispose">Удалить управление</button><button id="remount" disabled>Подключить снова</button>
+<button id="save">Сохранить отчёт</button></div><p id="saved" role="status"></p>
+<p>Счётчики проверяют число операций, а не FPS. Тяжёлый вызов источника или рисования остаётся синхронным. Конечный поток содержит 6 состояний и финальную паузу 50 мс.</p>
+<details><summary>Диагностика</summary><pre id="report"></pre></details>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/player":"../dist/player/index.js"}}</script>
+<script type="module" src="player-work-budget-browser.mjs"></script></html>

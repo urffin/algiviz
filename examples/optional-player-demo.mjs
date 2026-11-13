@@ -1,11 +1,11 @@
 import { createSceneRenderer } from '@grundyjs/algiviz/scene';
 
 const $ = id => document.getElementById(id);
-const labels = { start: 'Начать', play: 'Воспроизвести', pause: 'Пауза', next: 'Следующее состояние', previous: 'Предыдущее состояние', replay: 'Повторить',
+const labels = { start: 'Начать', play: 'Воспроизвести', pause: 'Пауза', next: 'Следующее состояние', previous: 'Назад', replay: 'Повторить',
     restart: 'Сначала', speed: 'Скорость', group: 'Плеер визуализации', controls: 'Управление воспроизведением',
     idle: 'Нажмите «Начать»: будет прочитан первый снимок.', paused: 'Пауза', playing: 'Воспроизведение',
     finished: 'Завершено', disposed: 'Управление удалено', step: 'Состояние', error: 'Ошибка', ready: 'Готово',
-    seek: 'Положение воспроизведения', time: 'Время воспроизведения', stream: 'ПОТОК', streamHint: 'Генератор · без перемотки' };
+    seek: 'Положение воспроизведения', time: 'Время воспроизведения', stream: 'ПОТОК', streamHint: 'Генератор · возврат в пределах окна' };
 const nodes = [{ id: 'A', x: 90, y: 90 }, { id: 'B', x: 285, y: 40 },
     { id: 'C', x: 285, y: 140 }, { id: 'D', x: 510, y: 90 }];
 const svg = $('graph'), elements = new Map(), ns = 'http://www.w3.org/2000/svg';
@@ -64,7 +64,7 @@ const examples = Object.fromEntries(Object.entries(definitions).map(([id, defini
     function attach() {
         const input = definition.recorded ? { history() {
             stats.sources++; const states = definition.values(); stats.yielded += states.length; return states;
-        } } : { source };
+        } } : { source, rewindCapacity: 3 };
         ui = new Player($(`${id}-player`), { viewport: $(id), ...input, render: definition.draw, stepDurationMs: definition.stepDurationMs, labels, onStatus: metrics });
         $(`${id}-dispose`).disabled = false; $(`${id}-remount`).disabled = true;
     }

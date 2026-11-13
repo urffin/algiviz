@@ -1,0 +1,159 @@
+import type { Item, ArraySnapshot } from "../array/types.js";
+import type { ArrayFrame } from "../array/timeline.js";
+import { createSceneRenderer, createSceneProjector, type Scene } from "../scene/index.js";
+
+export type ArrayObjects = { bar: { item: Item; index: number; held: boolean } };
+
+/** Adapts immutable array snapshots; freezes scene wrappers but retains Item references. */
+export function arrayScene(state: ArraySnapshot): Scene<ArrayObjects> {
+    return Object.freeze({
+        objects: Object.freeze(
+            [...positions(state)].map(([id, data]) =>
+                Object.freeze({ id, type: "bar" as const, data: Object.freeze(data) })
+            )
+        )
+    });
+}
+
+/** Canvas color strings for the semantic roles in the array renderer. */
+export interface ArrayPalette {
+    readonly background: string;
+    readonly text: string;
+    readonly bar: string;
+    readonly sorted: string;
+    readonly active: string;
+    readonly held: string;
+}
+/** Overrides are copied at renderer creation; omitted roles retain the theme color. */
+export type ArrayPaletteOverrides = { readonly [Role in keyof ArrayPalette]?: ArrayPalette[Role] | undefined };
+export interface ArrayRendererOptions {
+    readonly theme: "light" | "dark";
+    readonly colors?: ArrayPaletteOverrides | undefined;
+}
+
+const palettes = {
+    dark: {
+        background: "#101827",
+        text: "#f1f5f9",
+        bar: "#94a3b8",
+        sorted: "#34d399",
+        active: "#fbbf24",
+        held: "#c4b5fd"
+    },
+    light: {
+        background: "#f8fafc",
+        text: "#0f172a",
+        bar: "#475569",
+        sorted: "#047857",
+        active: "#b45309",
+        held: "#7c3aed"
+    }
+};
+
+export { createArrayRenderer as createSortRenderer };
+
+function positions(state: ArraySnapshot): Map<string, { item: Item; index: number; held: boolean }> {
+    const result = new Map<string, { item: Item; index: number; held: boolean }>();
+    state.slots.forEach((item, index) => {
+        if (item) result.set(item.id, { item, index, held: false });
+    });
+    if (state.held) result.set(state.held.id, { item: state.held, index: state.slots.indexOf(null), held: true });
+    return result;
+}
+
+/** Full-frame bitmap renderer; the caller owns sizing and must provide an unclipped context. */
+export function createArrayRenderer(options: ArrayRendererOptions) {
+    const theme = options?.theme;
+    if (theme !== "light" && theme !== "dark") throw new TypeError("Array renderer theme must be light or dark");
+    const colors = { ...palettes[theme] };
+    for (const key of Object.keys(colors) as (keyof ArrayPalette)[]) {
+        const color = options.colors?.[key];
+        if (color !== undefined) colors[key] = color;
+    }
+    const projectFrame = createSceneProjector(arrayScene);
+    return Object.freeze({
+        render(ctx: CanvasRenderingContext2D, frame: ArrayFrame): void {
+            const { width, height } = ctx.canvas;
+            if (width <= 0 || height <= 0) return;
+            if (!Number.isFinite(frame.progress) || frame.progress < 0 || frame.progress > 1) {
+                throw new RangeError("Array frame progress must be between zero and one");
+            }
+            const projected = projectFrame(frame);
+            const items = projected.current.objects;
+            const count = frame.current.slots.length;
+            const margin = Math.min(32, width * 0.05);
+            const cell = (width - 2 * margin) / Math.max(count, 1);
+            const barWidth = cell * 0.7;
+            const available = height * 0.48;
+            let maxMagnitude = 1;
+            for (const { data } of items) maxMagnitude = Math.max(maxMagnitude, Math.abs(data.item.value));
+            const baseline = height * 0.69;
+            const fontSize = Math.max(9, Math.min(20, cell * 0.45, width * 0.035));
+            const progress = frame.progress;
+            const p = progress * progress * (3 - 2 * progress);
+            const event = frame.event;
+            ctx.save();
+            try {
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.globalAlpha = 1;
+                ctx.globalCompositeOperation = "source-over";
+                ctx.filter = "none";
+                ctx.shadowColor = "rgba(0, 0, 0, 0)";
+                ctx.shadowBlur = 0;
+                ctx.shadowOffsetX = 0;
+                ctx.shadowOffsetY = 0;
+                ctx.fillStyle = colors.background;
+                ctx.fillRect(0, 0, width, height);
+                ctx.font = `${Math.max(12, Math.min(24, width * 0.045))}px sans-serif`;
+                ctx.textAlign = "left";
+                ctx.textBaseline = "middle";
+                ctx.fillStyle = colors.text;
+                ctx.fillText(`AlgiViz · ${event.type} · ${frame.stepIndex}`, margin, height * 0.07);
+                if (!count) ctx.fillText("Empty array", margin, baseline);
+                const sceneRenderer = createSceneRenderer<ArrayObjects, CanvasRenderingContext2D, ArrayFrame["event"]>({
+                    bar(ctx, transition) {
+                        const object = transition.current ?? transition.previous!;
+                        const id = object.id;
+                        const next = object.data;
+                        const old = transition.previous?.data ?? next;
+                        const x = margin + (old.index + (next.index - old.index) * p + 0.5) * cell;
+                        const size = Math.max(4, (Math.abs(next.item.value) / maxMagnitude) * available);
+                        const active =
+                            event.type === "highlight"
+                                ? event.itemIds.includes(id)
+                                : event.type === "compare" || event.type === "swap"
+                                  ? id === event.leftId || id === event.rightId
+                                  : "itemId" in event && event.itemId === id;
+                        ctx.fillStyle = next.held
+                            ? colors.held
+                            : active
+                              ? colors.active
+                              : next.index < frame.current.sortedPrefixLength ||
+                                  next.index >= count - (frame.current.sortedSuffixLength ?? 0)
+                                ? colors.sorted
+                                : colors.bar;
+                        ctx.fillRect(x - barWidth / 2, baseline - size, barWidth, size);
+                        if (cell < 24) return;
+                        ctx.fillStyle = colors.text;
+                        ctx.font = `${fontSize}px sans-serif`;
+                        ctx.textAlign = "center";
+                        ctx.fillText(String(next.item.value), x, baseline - size - fontSize, cell * 0.95);
+                        ctx.fillText(String(next.index), margin + (next.index + 0.5) * cell, baseline + height * 0.06);
+                    }
+                });
+                sceneRenderer.render(ctx, projected);
+                ctx.textAlign = "left";
+                ctx.font = `${Math.max(11, Math.min(18, width * 0.03))}px sans-serif`;
+                ctx.fillStyle = colors.text;
+                ctx.fillText(
+                    `Comparisons: ${frame.current.comparisons} · Writes: ${frame.current.writes}`,
+                    margin,
+                    height * 0.9,
+                    width - margin * 2
+                );
+            } finally {
+                ctx.restore();
+            }
+        }
+    });
+}
