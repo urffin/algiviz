@@ -27,9 +27,32 @@ runtime integration checks. All 48 published build files match the local candida
 after CRLF/LF normalization. `npm audit signatures` verified one registry signature
 and one attestation. [Verification data](releases/0.14.0.json) records the results.
 
-This release stage is complete. The next development direction can be assessed
-separately: asynchronous sources need a cancellation/error contract before a
-worker adapter. The long-term 1.0 compatibility decision also remains separate.
+This release stage is complete. The next development direction is specified in
+the proposed [asynchronous-source behavioral contract](async-sources.md)
+([Русский](ru/async-sources.md)), dated 2026-11-13: waiting, control intents,
+transactional restart, cooperative cancellation, cleanup and error precedence.
+The [public adapter API/types](async-source-api.md)
+([Русский](ru/async-source-api.md)) are now implemented locally, unreleased:
+one factory and five types for DOM-free cancellation, shared reads and observable
+cleanup. All 244 tests passed, including 19 adapter cases; those 19 also passed
+from a fresh local archive installation with strict unhandled-rejection handling.
+Exact exports/private paths, TypeScript 6.0.3 ES2022-only headless and DOM/runtime
+consumers in NodeNext/Bundler, and browser ESM bundle isolation passed.
+Published 0.14.0 has no async adapter. At that headless stage, /player was unchanged.
+The [widget integration API](player-async-api.md)
+([Русский](ru/player-async-api.md)) is now implemented locally: exclusive
+asyncSource, four status fields, manual Pause/Replay intents, optional label roles
+and bounded PlayerCloseResult/closed. The synchronous playback engine is unchanged.
+All 265 tests passed, including 21 public async-widget cases; those 21 also passed
+from a fresh local archive with strict rejection checks. TypeScript 5.0.4 and 6.0.3
+NodeNext/Bundler DOM/headless consumers, private paths and bundle isolation passed.
+The built-in browser records 13/13 checks, including native Enter activation, with
+matching source/build hashes and no unexpected errors.
+This implementation stage is complete locally. The user requested publication
+on 2026-11-13: the accumulated changes form the 0.15.0 candidate. Publish only
+after all eleven CI jobs pass on its exact commit, then verify npm/provenance
+and a fresh registry installation. Worker transport and the 1.0 compatibility
+decision remain separate.
 
 ## Current progress
 

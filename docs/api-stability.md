@@ -59,6 +59,14 @@ published 17 runtime names and 30 type-only names across the same six entries.
 See [verification data](releases/0.14.0.json). This closes 0.14.0 publication;
 the deliberate 1.0 compatibility decision below remains open.
 
+0.15.0 candidate follow-up: `/playback` now additionally exports
+`createAsyncSource` and five types in the working tree (18 runtime names and
+36 type-only names across the same six entries, including PlayerCloseResult). The [adapter contract and
+local checks](async-source-api.md) cover lazy async iteration and cleanup;
+existing playback engines remain synchronous. The separate [widget integration](player-async-api.md)
+now supports asyncSource with waiting/control/cleanup contracts. This is not a
+release or a long-term compatibility decision.
+
 ## Readiness of the four modules
 
 “Technically ready” means the reviewed contract is documented and covered by the
@@ -180,7 +188,8 @@ The current release's successful CI does not certify a later 1.0 candidate.
 
 ## Deliberate limits and deferred work
 
-- Headless iteration is synchronous, with no AsyncIterable, worker or scheduler.
+- Headless playback engines remain synchronous. A separate 0.15.0
+  `createAsyncSource` adapter accepts AsyncIterable without a worker or scheduler.
   The optional browser widget adds RAF with its documented 100 ms wall-clock
   clamp and optional `maxStepsPerFrame` request budgeting with carried playback
   time. It cannot interrupt one expensive iterator operation. Long generation

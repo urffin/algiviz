@@ -99,6 +99,13 @@ const player = new Player(container, {
 [Начало работы](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md) ·
 [Разбор собственных объектов графа](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md)
 
+Добавлено в 0.15.0: [асинхронные источники](https://github.com/urffin/algiviz/blob/master/docs/ru/player-async-api.md)
+через `asyncSource` в `/player` и отдельный
+[адаптер `createAsyncSource`](https://github.com/urffin/algiviz/blob/master/docs/ru/async-source-api.md)
+в `/playback`. Один запрос состояния, Pause без потери ожидаемого результата
+и наблюдаемая кооперативная отмена/очистка через `closed`.
+Async-итерация не переносит CPU-вычисления в другой поток.
+
 Добавлено в 0.14.0: [ограниченная перемотка назад](https://github.com/urffin/algiviz/blob/master/docs/ru/rewind-buffer.md)
 по значениям синхронного Iterable через `createRewindBuffer` из `/playback`.
 Опция

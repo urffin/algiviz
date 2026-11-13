@@ -1,7 +1,9 @@
 import { createStateController, type StateController } from "./controller.js";
 import type { PlayerControls, PlayerOptions, PlayerLabels, PlayerStatus } from "./types.js";
 
-const defaults: PlayerLabels = Object.freeze({ start: 'Start', play: 'Play', pause: 'Pause', next: 'Next state', previous: 'Previous state', replay: 'Replay',
+const defaults: { readonly [Key in keyof PlayerLabels]-?: string } = Object.freeze({
+    waiting: 'Requesting state', preparing: 'Preparing playback', cleanup: 'Waiting for source cleanup',
+    start: 'Start', play: 'Play', pause: 'Pause', next: 'Next state', previous: 'Previous state', replay: 'Replay',
     restart: 'Restart', speed: 'Speed', group: 'Visualization player', controls: 'Playback controls', idle: 'Press Start to read the first state.',
     paused: 'Paused', playing: 'Playing', finished: 'Finished', disposed: 'Disposed', step: 'State', error: 'Error',
     ready: 'Ready', seek: 'Playback position', time: 'Playback time', stream: 'STREAM', streamHint: 'Sequential source · no time seeking' });
@@ -46,7 +48,7 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
     const doc = container?.ownerDocument, view = doc?.defaultView;
     if (!doc || !view || typeof container.append !== 'function') throw new TypeError('Expected a DOM container');
     if (!options || typeof options !== 'object') throw new TypeError('Expected player options');
-    const { source, history, render, viewport, seekBar = true, autoHide = true, stepDurationMs, finalHoldMs, rewindCapacity, maxStepsPerFrame, onError, onStatus, labels: overrides } = options;
+    const { source, asyncSource, history, render, viewport, seekBar = true, autoHide = true, stepDurationMs, finalHoldMs, rewindCapacity, maxStepsPerFrame, onError, onStatus, labels: overrides } = options;
     if (viewport !== undefined && (!viewport || viewport.ownerDocument !== doc || viewport.parentNode !== container))
         throw new TypeError('Viewport must be a direct child of the player container');
     if ((onStatus !== undefined && typeof onStatus !== 'function') || (onError !== undefined && typeof onError !== 'function'))
@@ -100,6 +102,8 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
         button.dataset.action = action; buttonLabel(button, labels[action], action === 'start' ? 'play' : action); panel.append(button); buttons[action] = button;
     }
     const output = doc.createElement('output'); output.setAttribute('role', 'status'); panel.append(output);
+    const waiting = doc.createElement('span'); waiting.dataset.role = 'waiting';
+    waiting.setAttribute('role', 'status'); waiting.setAttribute('aria-live', 'polite'); panel.append(waiting);
     const time = doc.createElement('span'); time.dataset.role = 'time'; time.setAttribute('aria-label', labels.time); panel.append(time);
     const stream = doc.createElement('span'); stream.dataset.role = 'stream'; stream.textContent = labels.stream; stream.title = labels.streamHint; panel.append(stream);
     const speedLabel = doc.createElement('label');
@@ -118,7 +122,8 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
     }
     let controller: StateController<State>;
     let customSpeed: HTMLOptionElement | undefined;
-    let disposed = false, hideTimer: number | null = null;
+    let disposed = false, disposing = false, hideTimer: number | null = null;
+    let lastPending = '';
     let lastPhase: PlayerStatus["phase"] | undefined, lastError: boolean | undefined;
     let keyboardFocus = false, panelHover = false, speedFocused = false;
     const pointers = new Set<number>();
@@ -128,7 +133,7 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
     }
     function pinned() {
         const state = controller?.status;
-        return !state?.started || state.hasError || keyboardFocus || panelHover || pointers.size > 0 || speedFocused;
+        return !state?.started || state.hasError || !!state.preparing || state.cleanupPending || keyboardFocus || panelHover || pointers.size > 0 || speedFocused;
     }
     function scheduleHide() {
         cancelHide();
@@ -144,17 +149,25 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
     }
     function update(state: PlayerStatus) {
         root.dataset.phase = state.phase;
+        root.dataset.waiting = String(state.waiting);
+        root.dataset.preparing = state.preparing ?? '';
+        root.dataset.cleanupPending = String(state.cleanupPending);
+        (stage ?? root).setAttribute('aria-busy', String(!!state.preparing || !!controller?.dataBlocked));
         buttons.start.hidden = state.started;
         buttons.start.disabled = !state.canStart;
         buttons.next.hidden = !state.started; buttons.next.disabled = !state.canNext;
         buttons.restart.hidden = !state.started; buttons.restart.disabled = !state.canRestart;
         buttons.previous.hidden = (state.mode !== 'recording' && rewindCapacity === undefined) || !state.started;
         buttons.previous.disabled = !state.canPrevious;
-        buttons.play.hidden = !state.timed || !state.started;
-        buttons.play.disabled = !state.canPlay && state.phase !== 'finished';
-        buttonLabel(buttons.play, state.phase === 'finished' ? labels.replay : state.phase === 'playing' ? labels.pause : labels.play,
-            state.phase === 'finished' ? 'restart' : state.phase === 'playing' ? 'pause' : 'play');
-        buttons.play.setAttribute('aria-pressed', String(state.phase === 'playing'));
+        const replay = state.phase === 'finished' && state.timed && state.canRestart;
+        buttons.play.hidden = !state.canPause && (!state.timed || !state.started);
+        buttons.play.disabled = !state.canPause && !state.canPlay && !replay;
+        buttonLabel(buttons.play, state.canPause ? labels.pause : state.phase === 'finished' ? labels.replay : labels.play,
+            state.canPause ? 'pause' : state.phase === 'finished' ? 'restart' : 'play');
+        buttons.play.setAttribute('aria-pressed', String(state.canPause));
+        const pending = state.cleanupPending ? labels.cleanup : state.preparing ? labels.preparing : state.waiting ? labels.waiting : '';
+        if (waiting.textContent !== pending) waiting.textContent = pending;
+        waiting.hidden = !pending;
         if (!speeds.includes(state.speed)) {
             if (!customSpeed) { customSpeed = doc.createElement('option'); speed.append(customSpeed); }
             customSpeed.value = String(state.speed); customSpeed.textContent = `${state.speed}×`;
@@ -175,29 +188,39 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
             : `${labels.stream} · ${labels.step} ${state.rewindStartIndex}–${state.rewindEndIndex}`;
         alert.textContent = !state.hasError ? '' : `${labels.error}: ${errorMessage(state.error)}`;
         alert.hidden = !state.hasError;
-        if (state.phase !== lastPhase || state.hasError !== lastError) reveal();
+        if (state.phase !== lastPhase || state.hasError !== lastError || pending !== lastPending) reveal();
+        lastPending = pending;
         lastPhase = state.phase; lastError = state.hasError;
     }
-    controller = createStateController({ source, history, render, stepDurationMs, finalHoldMs, rewindCapacity, maxStepsPerFrame, onError, onStatus, onChange: update,
+    controller = createStateController({ source, asyncSource, history, render, stepDurationMs, finalHoldMs, rewindCapacity, maxStepsPerFrame, onError, onStatus, onChange: update, deferClose: true,
         scheduler: { request: fn => view.requestAnimationFrame(fn), cancel: id => view.cancelAnimationFrame(id) } });
     const handle: PlayerControls<State> = Object.freeze({
         get status() { return controller.status; },
         get frame() { return controller.frame; },
+        get closed() { return controller.closed; },
         start: () => controller.start(), play: () => controller.play(), pause: () => controller.pause(),
         next: () => controller.next(), restart: () => controller.restart(), setSpeed: (value: number) => controller.setSpeed(value),
         previous: () => controller.previous(), seek: (value: number) => controller.seek(value),
         dispose() {
-            if (disposed) return;
-            try { controller.dispose(); }
+            if (disposed || disposing) return;
+            disposing = true;
+            let failure: { error: unknown } | undefined;
+            try { controller.dispose(); } catch (error) { failure = { error }; }
             finally {
                 if (controller.status.phase === "disposed") {
                     disposed = true;
-                    cancelHide();
-                    for (const remove of removers.splice(0)) remove();
-                    if (viewport && viewport.parentNode === stage) container.insertBefore(viewport, root.parentNode === container ? root : null);
-                    root.remove();
+                    const clean = (action: () => void) => {
+                        try { action(); } catch (error) { controller.recordError('dispose', error); failure ??= { error }; }
+                    };
+                    clean(cancelHide);
+                    for (const remove of removers.splice(0)) clean(remove);
+                    clean(() => { if (viewport && viewport.parentNode === stage) container.insertBefore(viewport, root.parentNode === container ? root : null); });
+                    clean(() => root.remove());
+                    controller.finishDispose();
                 }
+                disposing = false;
             }
+            if (failure) throw failure.error;
         },
     });
     try {
@@ -226,9 +249,8 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
         }
         listen(buttons.start, 'click', () => controller.start());
         listen(buttons.play, 'click', () => {
-            if (controller.status.phase === 'finished') {
-                if (controller.restart().phase === 'paused') controller.play();
-            } else if (controller.status.phase === 'playing') controller.pause();
+            if (controller.status.canPause) controller.pause();
+            else if (controller.status.phase === 'finished') controller.replay();
             else controller.play();
         });
         listen(buttons.next, 'click', () => controller.next());

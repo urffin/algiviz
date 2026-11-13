@@ -1,6 +1,10 @@
 import type { Frame } from "../playback/types.js";
+import type { AsyncSourceFactory, AsyncSourceCloseResult } from "../playback/async-source.js";
 
 export interface PlayerLabels {
+    readonly waiting?: string | undefined;
+    readonly preparing?: string | undefined;
+    readonly cleanup?: string | undefined;
     readonly start: string;
     readonly play: string;
     readonly pause: string;
@@ -26,6 +30,10 @@ export interface PlayerLabels {
 }
 
 export interface PlayerStatus {
+    readonly waiting: boolean;
+    readonly preparing: "start" | "restart" | null;
+    readonly cleanupPending: boolean;
+    readonly canPause: boolean;
     readonly phase: "idle" | "paused" | "playing" | "finished" | "error" | "disposed";
     readonly mode: "recording" | "stream";
     readonly started: boolean;
@@ -48,8 +56,18 @@ export interface PlayerStatus {
     readonly rewindEndIndex: number | null;
 }
 
+export interface PlayerCloseResult {
+    readonly sources: readonly AsyncSourceCloseResult[];
+    readonly errorCount: number;
+    readonly firstError: {
+        readonly phase: "abort-listener" | "return" | "dispose" | "onStatus" | "onError";
+        readonly error: unknown;
+    } | null;
+}
+
 /** Internal control surface shared by the controller and DOM mount. */
 export interface PlayerControls<State> {
+    readonly closed: Promise<PlayerCloseResult>;
     readonly status: PlayerStatus;
     readonly frame: Frame<State, undefined> | null;
     start(): PlayerStatus;
@@ -78,11 +96,13 @@ interface SharedOptions<State> {
 
 /** Exactly one factory. Streaming is lazy; history explicitly retains a finite array. */
 export type PlayerOptions<State> = SharedOptions<State> & (
-    { readonly source: () => Iterable<State>; readonly history?: undefined;
+    { readonly source: () => Iterable<State>; readonly asyncSource?: undefined; readonly history?: undefined;
         /** Opt-in retained window, including current. Omit for forward-only playback. */
         readonly rewindCapacity?: number | undefined;
         /** Opt-in maximum next-step requests per RAF; unprocessed playback time carries forward. */
         readonly maxStepsPerFrame?: number | undefined } |
-    { readonly history: () => readonly State[]; readonly source?: undefined; readonly stepDurationMs: number;
+    { readonly asyncSource: AsyncSourceFactory<State>; readonly source?: undefined; readonly history?: undefined;
+        readonly rewindCapacity?: number | undefined; readonly maxStepsPerFrame?: number | undefined } |
+    { readonly history: () => readonly State[]; readonly source?: undefined; readonly asyncSource?: undefined; readonly stepDurationMs: number;
         readonly rewindCapacity?: undefined; readonly maxStepsPerFrame?: undefined }
 );

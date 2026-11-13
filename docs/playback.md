@@ -2,6 +2,16 @@
 
 [README](../README.md) · [Русский](ru/playback.md)
 
+## Asynchronous state sources (0.15.0)
+
+`createAsyncSource(factory)` owns a lazy `AsyncIterable<State>` session. Its
+`next()` shares an outstanding request and distinguishes value, EOF and owner
+cancellation. `dispose(reason?)` invalidates immediately; `closed` separately
+reports settled cleanup and diagnostics. It has no clock, rendering, rewind or
+widget controls. See the [public API and usage](async-source-api.md).
+This addition is implemented locally and is not in published 0.14.0.
+The synchronous playback engines below keep their existing contracts.
+
 ## Custom structures and renderers
 
 `/playback` does not know arrays, sorting, Canvas, or event names. A source yields

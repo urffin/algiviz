@@ -12,6 +12,7 @@ export class Player<State> {
 
     get status(): PlayerStatus { return this.#controls.status; }
     get frame(): Frame<State, undefined> | null { return this.#controls.frame; }
+    get closed() { return this.#controls.closed; }
     start(): PlayerStatus { return this.#controls.start(); }
     play(): PlayerStatus { return this.#controls.play(); }
     pause(): PlayerStatus { return this.#controls.pause(); }

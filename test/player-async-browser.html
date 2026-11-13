@@ -1,0 +1,12 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · asyncSource</title><style>
+body{margin:24px auto;padding:0 20px;max-width:1020px;background:#101827;color:#edf4ff;font:16px/1.5 system-ui}button{font:inherit;padding:8px 16px;margin:3px;background:#243853;color:inherit;border:1px solid #6f87a6;border-radius:7px}button:disabled{opacity:.4}#host{margin:20px 0}#viewport{height:120px;padding:22px;box-sizing:border-box;position:relative}#marker{display:block;width:18px;height:18px;background:#69dfb0;border-radius:50%;position:absolute;bottom:20px}pre{font:12px/1.4 ui-monospace;white-space:pre-wrap;max-height:380px;overflow:auto;background:#0a1220;padding:14px}#result{color:#86e7bc}
+</style><h1>Асинхронный источник: ожидание и управление</h1>
+<p>Источник выдаёт состояния только по кнопке. Это позволяет проверить ожидание, Pause, Next, подготовку Restart и позднюю очистку.</p>
+<div id="host"><div id="viewport"><span id="drawn">Первого кадра пока нет</span><span id="marker"></span></div></div>
+<div><button id="run">Выполнить проверки</button><button id="manual">Новый ручной плеер</button><button id="timed">Новый плеер с таймером</button></div>
+<div><button id="value">Выдать значение</button><button id="eof">Конец потока</button><button id="reject">Ошибка запроса</button><button id="dispose">Удалить управление</button></div>
+<div><button id="keyboard">Зафиксировать проверку клавиатуры</button><button id="save">Сохранить отчёт</button></div>
+<p id="result" role="status">Готово к проверке</p><pre id="diagnostics"></pre>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/player":"../dist/player/index.js"}}</script>
+<script type="module" src="player-async-browser.mjs"></script></html>

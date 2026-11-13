@@ -86,6 +86,11 @@ try {
     execFileSync(process.execPath, ["--test", join(workspace, "minimal.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/canvas-viewport.test.mjs"), join(workspace, "viewport.test.mjs"));
     execFileSync(process.execPath, ["--test", join(workspace, "viewport.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/async-source.test.mjs"), join(workspace, "async-source.test.mjs"));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "async-source.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/player-test-dom.mjs"), join(workspace, "player-test-dom.mjs"));
+    await copyFile(join(root, "test/player-async.test.mjs"), join(workspace, "player-async.test.mjs"));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-async.test.mjs")], { cwd: workspace, stdio: "inherit" });
     console.log(`Packed consumer passed: ${pkg.name}@${pkg.version}`);
 } finally {
     // Delete only the unique temporary directory created by this invocation.

@@ -3,6 +3,9 @@ import type { PlayerControls, PlayerStatus } from "./types.js";
 import { createRewindSession } from "./rewind-session.js";
 import { createStreamPlayback } from "./stream-playback.js";
 import { stateSteps } from "../playback/state-steps.js";
+import type { AsyncSourceFactory } from "../playback/async-source.js";
+import { createAsyncController } from "./async-controller.js";
+import { createCloseReport } from "./close-report.js";
 interface Session<State> {
     readonly frame: Frame<State, undefined>;
     readonly finished: boolean;
@@ -20,9 +23,15 @@ interface Session<State> {
 }
 export interface StateController<State> extends PlayerControls<State> {
     setReducedMotion(value: boolean): PlayerStatus;
+    replay(): PlayerStatus;
+    readonly dataBlocked: boolean;
+    finishDispose(): void;
+    recordError(phase: "abort-listener" | "return" | "dispose" | "onStatus" | "onError", error: unknown): void;
 }
-interface ControllerOptions<State> {
+export interface ControllerOptions<State> {
     source?: (() => Iterable<State>) | undefined;
+    asyncSource?: AsyncSourceFactory<State> | undefined;
+    deferClose?: boolean | undefined;
     history?: (() => readonly State[]) | undefined;
     render: (frame: Frame<State, undefined>) => void;
     stepDurationMs?: number | undefined;
@@ -70,11 +79,13 @@ class PreparationFailure {
     constructor(readonly error: unknown) {}
 }
 
-export function createStateController<State>({ source, history, render, stepDurationMs, finalHoldMs = 0, rewindCapacity, maxStepsPerFrame,
-    scheduler, onChange = () => {}, onStatus = () => {}, onError = () => {} }: ControllerOptions<State>): StateController<State> {
+export function createStateController<State>(options: ControllerOptions<State>): StateController<State> {
+    const { source, asyncSource, history, render, stepDurationMs, finalHoldMs = 0, rewindCapacity, maxStepsPerFrame,
+        scheduler, onChange = () => {}, onStatus = () => {}, onError = () => {} } = options;
     const recorded = history !== undefined;
-    if ((source !== undefined) === recorded || typeof (recorded ? history : source) !== 'function' || typeof render !== 'function')
-        throw new TypeError('Expected exactly one source/history factory and a render callback');
+    if ([source, asyncSource, history].filter(value => value !== undefined).length !== 1 ||
+        typeof (recorded ? history : asyncSource ?? source) !== 'function' || typeof render !== 'function')
+        throw new TypeError('Expected exactly one source/asyncSource/history factory and a render callback');
     const timed = stepDurationMs !== undefined;
     if (recorded && !timed) throw new TypeError('A recording requires stepDurationMs');
     if (recorded && rewindCapacity !== undefined) throw new TypeError('rewindCapacity is only available for a stream');
@@ -89,6 +100,9 @@ export function createStateController<State>({ source, history, render, stepDura
     if (timed && (!scheduler || typeof scheduler.request !== 'function' || typeof scheduler.cancel !== 'function'))
         throw new TypeError('Timed playback requires a frame scheduler');
 
+    if (asyncSource !== undefined) return createAsyncController(options);
+    const diagnostics = createCloseReport();
+
     let player: Session<State> | null = null;
     let frame: Frame<State, undefined> | null = null;
     let started = false, running = false, disposed = false;
@@ -101,6 +115,7 @@ export function createStateController<State>({ source, history, render, stepDura
         const finished = !failed && !!player?.finished;
         return Object.freeze({
             phase: disposed ? 'disposed' : failed ? 'error' : finished ? 'finished' : running ? 'playing' : started ? 'paused' : 'idle',
+            waiting: false, preparing: null, cleanupPending: false, canPause: !disposed && running,
             started, timed, speed, error, hasError, stepIndex: frame?.stepIndex ?? null, progress: frame?.progress ?? null,
             mode: recorded ? 'recording' : 'stream', positionMs: player?.positionMs ?? null, durationMs: player?.durationMs ?? null,
             canStart: !disposed && !started && !busy,
@@ -122,7 +137,9 @@ export function createStateController<State>({ source, history, render, stepDura
         frame = player!.frame;
         render(reducedMotion ? { ...frame, previous: frame.current, progress: 1 } : frame);
     }
-    function closeQuietly(candidate: Session<State> | null) { try { candidate?.dispose(); } catch { /* Preserve the primary failure. */ } }
+    function closeQuietly(candidate: Session<State> | null) {
+        try { candidate?.dispose(); } catch (caught) { diagnostics.record('dispose', caught); }
+    }
     function fail(caught: unknown, preserve = false) {
         stop(); error = caught; hasError = true;
         if (!preserve) {
@@ -149,10 +166,13 @@ export function createStateController<State>({ source, history, render, stepDura
         } finally { busy = false; }
         try { publish(); }
         catch (caught) {
+            diagnostics.record('onStatus', caught);
             if (!hasFailure) { fail(caught); failure = caught; hasFailure = true; }
             onChange(status());
         }
-        if (hasFailure) onError(failure);
+        if (hasFailure) {
+            try { onError(failure); } catch (caught) { diagnostics.record('onError', caught); throw caught; }
+        }
         return status();
     }
     function replace() {
@@ -166,7 +186,7 @@ export function createStateController<State>({ source, history, render, stepDura
         }
         catch (caught) { throw new PreparationFailure(caught); }
         try { player?.dispose(); }
-        catch (caught) { closeQuietly(candidate); player = null; failed = true; throw caught; }
+        catch (caught) { diagnostics.record('dispose', caught); closeQuietly(candidate); player = null; failed = true; throw caught; }
         player = candidate; started = true; failed = false;
         present();
     }
@@ -188,9 +208,14 @@ export function createStateController<State>({ source, history, render, stepDura
             if (running) request = scheduler!.request(tick);
         });
     }
-    return Object.freeze({
+    const controls: StateController<State> = Object.freeze({
         get status() { return status(); },
         get frame() { return frame; },
+        closed: diagnostics.closed,
+        dataBlocked: false,
+        recordError: diagnostics.record,
+        finishDispose() { if (disposed) diagnostics.finish(); },
+        replay() { const snapshot = controls.restart(); return snapshot.phase === 'paused' ? controls.play() : snapshot; },
         start() { return act(() => { if (!started) replace(); }); },
         play() {
             if (!timed) throw new Error('Set stepDurationMs to enable Play');
@@ -224,10 +249,19 @@ export function createStateController<State>({ source, history, render, stepDura
             if (busy || notifying) throw new Error('Playback cannot be disposed from a render/status callback');
             stop(); disposed = true;
             let failure: unknown; let hasFailure = false;
-            try { player?.dispose(); } catch (caught) { failure = caught; error = caught; hasError = true; hasFailure = true; }
+            try { player?.dispose(); } catch (caught) { diagnostics.record('dispose', caught); failure = caught; error = caught; hasError = true; hasFailure = true; }
             player = null;
-            try { publish(); } catch (caught) { if (!hasFailure) { failure = caught; error = caught; hasError = true; hasFailure = true; } }
-            if (hasFailure) { onError(failure); throw failure; }
+            try {
+                try { publish(); } catch (caught) {
+                    diagnostics.record('onStatus', caught);
+                    if (!hasFailure) { failure = caught; error = caught; hasError = true; hasFailure = true; }
+                }
+                if (hasFailure) {
+                    try { onError(failure); } catch (caught) { diagnostics.record('onError', caught); throw caught; }
+                    throw failure;
+                }
+            } finally { if (!options.deferClose) diagnostics.finish(); }
         },
     });
+    return controls;
 }

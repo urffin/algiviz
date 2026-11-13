@@ -4,8 +4,12 @@
 
 **Added in 0.12.0:** `/player` is an optional entry point for the browser widget.
 
+**0.15.0 candidate:** [asyncSource integration](player-async-api.md) is implemented
+locally, with waiting metadata and observable cleanup. It is not in published
+0.14.0. Synchronous sources/history remain supported.
+
 `@grundyjs/algiviz/player` provides the `Player` class and the type-only exports
-`PlayerOptions`, `PlayerStatus` and `PlayerLabels`. It imports
+`PlayerOptions`, `PlayerStatus`, `PlayerLabels` and `PlayerCloseResult`. It imports
 only playback code. Existing modules do not import the UI or its styles.
 
 ## Mount on demand
@@ -46,10 +50,11 @@ and SVG streaming with independent widgets.
 | --- | --- |
 | `source: () => Iterable<State>` | Reads lazily, retains adjacent snapshots, unknown duration. Next requests one state or completes a partial transition. A request after the last yield detects exhaustion. No Previous or seeking. Timing is optional for manual use. |
 | `source` with `rewindCapacity: number` (0.14.0) | Retains a bounded window, including current. Previous pauses and returns to the preceding retained state. Next/Play replay the buffer before reading the source. No time slider or known duration. |
+| `asyncSource: AsyncSourceFactory<State>` (0.15.0) | Owns a lazy async session with stream timing/rewind/budget options, one pending request and no prefetch. Pause stages a late result; Restart prepares before replacement. |
 | `history: () => readonly State[]` | Explicit dense, nonempty recording retained in full. Requires positive `stepDurationMs`. Supports Previous, time seeking and a known duration; completion is known at the final boundary. The factory is not called before Start. |
 
 Exactly one factory is required. An iterable is never silently collected to
-enable seeking. Both factories must support restart; each invocation supplies a
+enable seeking. All factories must support restart; each invocation supplies a
 fresh session. The generic state shape is inferred from the factory.
 
 ```ts
@@ -129,16 +134,32 @@ per RAF. A single next/render callback remains synchronous; this is a request
 count, not a time deadline or FPS guarantee. See the
 [full contract and checks](player-work-budget.md).
 
+## Async streams and cleanup (0.15.0)
+
+The asyncSource factory receives the cooperative DOM-free signal and returns a
+fresh AsyncIterable directly. Commands stay synchronous; Start initially reports
+preparing/waiting, and the first value is shown paused. Next coalesces outstanding
+requests; Pause stages a late result without changing the frame. Cached rewind
+playback can continue with a background request. At a real data stall the clock
+stops without RAF polling or accumulation of wait time.
+
+Restart preserves the old paused frame/window until a candidate's first value
+is ready and old cleanup settles. Candidate failure rolls back after its cleanup.
+A source ignoring cancellation can delay shutdown indefinitely. Dispose removes
+UI synchronously; ui.closed observes settled source/UI cleanup and a bounded
+PlayerCloseResult report. EOF alone does not resolve widget closed. See the
+[complete API and verification](player-async-api.md).
+
 ## Controls and status
 
-The `Player<State>` instance exposes readonly `status` and `frame`, plus `start`, `play`, `pause`,
+The `Player<State>` instance exposes readonly `status`, `frame` and `closed`, plus `start`, `play`, `pause`,
 `next`, `previous`, `seek(positionMs)`, `restart`, `setSpeed` and `dispose`.
 Commands return the new `PlayerStatus`; `dispose` returns void. The frame is null
 until initialization and remains readable after disposal. Its event is undefined.
 
 Status includes phase, mode, started/timed flags, speed, error/hasError, frame
 index/progress and `canStart`, `canPlay`, `canNext`, `canRestart`, `canSeek`,
-`canPrevious`. Recording position/duration are milliseconds; unavailable values
+`canPrevious`, plus waiting, preparing, cleanupPending and canPause. Recording position/duration are milliseconds; unavailable values
 are null. `rewindStartIndex`/`rewindEndIndex` are inclusive retained source positions
 for a started bounded stream, otherwise null. Stream seek, Previous without
 `rewindCapacity`, and invalid speeds throw without
@@ -153,12 +174,14 @@ This synchronous scheduler cannot interrupt one expensive iterator operation.
 
 `onStatus` is synchronous, including idle reporting before the `Player` constructor returns.
 Render/status callbacks must not synchronously change the same widget; reentrant
-commands are rejected. `onError` receives operational failures after cleanup;
+commands are rejected. For sync/history, `onError` receives operational failures after cleanup;
 exceptions thrown by this application callback propagate. Source preparation
 failure preserves the old paused session. Source/render/status failures close the
 failed session, preserve the readable frame and stop scheduling. Cleanup errors
 do not replace an earlier operational failure. Standalone dispose cleanup errors
-propagate after DOM/listener/timer cleanup.
+propagate after DOM/listener/timer cleanup. Async failures notify after logical
+stop, before physical cleanup. Async notification exceptions and later cleanup
+errors are recorded without detached promise rejections.
 
 ## Presentation and ownership
 

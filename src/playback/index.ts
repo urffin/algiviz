@@ -5,3 +5,5 @@ export { createTimeline } from "./timeline.js";
 export type { Step, Frame, Timeline } from "./types.js";
 export { createStepEmitter } from "./step-emitter.js";
 export { createRewindBuffer, type RewindBuffer } from "./rewind-buffer.js";
+export { createAsyncSource } from "./async-source.js";
+export type { AsyncSource, AsyncSourceSignal, AsyncSourceFactory, AsyncSourceReadResult, AsyncSourceCloseResult } from "./async-source.js";

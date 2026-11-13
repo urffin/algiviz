@@ -1,0 +1,146 @@
+{
+  "provenance": {
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "src/player/async-session.ts": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f",
+    "src/player/async-controller.ts": "0bb918c98821097aebb84b09cb5859b13861d21dea09e87562b843178eba2b99",
+    "src/player/controller.ts": "56dffc6f913fcb6b53c79f673c0c239d56a057a9165103ce80f1278b17d9d39d",
+    "src/player/types.ts": "01f365e00ca66661afaa7db51b46c4b136c2cea85865ba3654e984688e23d2ea",
+    "src/player/mount.ts": "f849c844e039a7842f3de2bc8850b2f5f000d9649a44219a512f190845fa064a",
+    "src/player/close-report.ts": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8",
+    "dist/player/async-session.js": "f2200835e2efd61b60cf58a45686cf1719491d776224c07b7ade5507c1c0ed9c",
+    "dist/player/async-controller.js": "d530cab2c22bbe9697a27d72c147c536f83b9055c41f82746e8a181e3f44cdbc",
+    "dist/player/mount.js": "e6b03d0f5f5af673a586d6835d5497afde2b60850c8350decf9006ef453f4fe6",
+    "test/player-async-browser.mjs": "e4e208588ecb745936a4ac6f791b71bd78762e351c2f79199ef29f3b7c564cb2"
+  },
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "dpr": 1,
+    "date": "2026-11-13T16:38:02.272Z"
+  },
+  "checks": [
+    {
+      "name": "idle does not acquire a source",
+      "passed": true
+    },
+    {
+      "name": "Start: disabled, preparing, busy stage",
+      "passed": true
+    },
+    {
+      "name": "first frame paused",
+      "passed": true
+    },
+    {
+      "name": "manual Next coalesces and exposes Pause",
+      "passed": true
+    },
+    {
+      "name": "Pause stages arrival without a render or abort",
+      "passed": true
+    },
+    {
+      "name": "Next consumes staged state",
+      "passed": true
+    },
+    {
+      "name": "Restart waits for old cleanup",
+      "passed": true
+    },
+    {
+      "name": "Restart installs candidate paused after cleanup",
+      "passed": true
+    },
+    {
+      "name": "failed candidate preserves old session",
+      "passed": true
+    },
+    {
+      "name": "dispose restores viewport before source closure",
+      "passed": true
+    },
+    {
+      "name": "closed observes late error without UI callbacks",
+      "passed": true
+    },
+    {
+      "name": "no unexpected browser errors",
+      "passed": true
+    },
+    {
+      "name": "native keyboard: staged Next after Pause",
+      "passed": true
+    }
+  ],
+  "unexpected": [],
+  "errors": [
+    "Error: candidate rejected"
+  ],
+  "status": {
+    "phase": "paused",
+    "mode": "stream",
+    "started": true,
+    "timed": false,
+    "speed": 1,
+    "error": null,
+    "hasError": false,
+    "waiting": false,
+    "preparing": null,
+    "cleanupPending": false,
+    "canPause": false,
+    "stepIndex": 1,
+    "progress": 1,
+    "positionMs": null,
+    "durationMs": null,
+    "canStart": false,
+    "canRestart": true,
+    "canPlay": false,
+    "canNext": true,
+    "canSeek": false,
+    "canPrevious": true,
+    "rewindStartIndex": 0,
+    "rewindEndIndex": 1
+  },
+  "frame": {
+    "previous": {
+      "n": 0
+    },
+    "current": {
+      "n": 1
+    },
+    "progress": 1,
+    "stepIndex": 1
+  },
+  "renders": 5,
+  "notifications": 26,
+  "closedReport": null,
+  "generations": [
+    {
+      "id": 0,
+      "requests": 3,
+      "pending": 0,
+      "aborted": true,
+      "returns": 1
+    },
+    {
+      "id": 1,
+      "requests": 2,
+      "pending": 0,
+      "aborted": true,
+      "returns": 1
+    },
+    {
+      "id": 2,
+      "requests": 1,
+      "pending": 0,
+      "aborted": true,
+      "returns": 1
+    },
+    {
+      "id": 3,
+      "requests": 2,
+      "pending": 0,
+      "aborted": false,
+      "returns": 0
+    }
+  ]
+}

@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.15.0 — 2026-11-13
+
+- Add `createAsyncSource` and five public types to `/playback` for lazy
+  `AsyncIterable<State>` sessions, shared pending reads, DOM-free cooperative
+  cancellation, immediate logical disposal and observable asynchronous cleanup.
+- Add exclusive `asyncSource` to `/player`, with optional timing, bounded rewind
+  and per-frame work limits. Preserve pending reads on Pause, coalesce Next,
+  freeze the clock at data stalls and prepare Restart before closing the old
+  session. Replay autoplays only while its intent remains current.
+- Extend `PlayerStatus` with `waiting`, `preparing`, `cleanupPending` and
+  `canPause`; add optional waiting/preparation/cleanup label roles and
+  `PlayerCloseResult`/`closed`. Phase/mode literals and synchronous commands
+  remain unchanged. Complete application-owned status mocks must add the four
+  new required metadata fields.
+- Keep cleanup diagnostics bounded and distinguish late cancelled-read errors
+  from actual cleanup failures. Dispose removes UI immediately; the close report
+  waits for owned source calls and UI teardown. Sources ignoring cancellation
+  can delay physical cleanup/Restart indefinitely.
+- Verify 265 repository tests, strict installed consumers, private paths, bundle
+  isolation and 13 built-in-browser checks, including keyboard controls.
+
 ## 0.14.0 — 2026-11-13
 
 - Add `createRewindBuffer` and `RewindBuffer<T>` to `/playback` for bounded

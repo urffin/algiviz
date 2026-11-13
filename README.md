@@ -100,6 +100,13 @@ for history, seeking, labels and on-demand loading.
 [Getting started](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md) ·
 [Custom graph walkthrough](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md)
 
+Added in 0.15.0: [asynchronous sources](https://github.com/urffin/algiviz/blob/master/docs/player-async-api.md)
+with `asyncSource` in `/player` and the standalone
+[`createAsyncSource` adapter](https://github.com/urffin/algiviz/blob/master/docs/async-source-api.md)
+in `/playback`. Read one state at a time, pause without losing a pending result,
+and observe cooperative cancellation/cleanup through `closed`.
+Async iteration does not move CPU work to another thread.
+
 Added in 0.14.0: [bounded backward navigation](https://github.com/urffin/algiviz/blob/master/docs/rewind-buffer.md)
 over synchronous iterable values with `createRewindBuffer` in `/playback`.
 Enable streaming Previous controls with

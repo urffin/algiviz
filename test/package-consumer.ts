@@ -2,10 +2,31 @@ import { createArrayTrace, defineArrayAlgorithm, createArrayPlayer, createArrayT
 import { arrayScene, createArrayRenderer } from "@grundyjs/algiviz/canvas";
 import { createSceneRenderer, type Scene } from "@grundyjs/algiviz/scene";
 import { createPlayer, createTimeline, createRewindBuffer, type RewindBuffer, type Step } from "@grundyjs/algiviz/playback";
+import { createAsyncSource, type AsyncSourceSignal } from "@grundyjs/algiviz/playback";
 
 function check(value: unknown, message: string): asserts value {
     if (!value) throw new Error(message);
 }
+const nativeAbort = new AbortController();
+let asyncFinally = 0;
+const asyncSource = createAsyncSource(async function* (signal) {
+    const unsubscribe = signal.subscribe(reason => nativeAbort.abort(reason));
+    try { yield { x: 7 }; } finally { unsubscribe(); asyncFinally++; }
+});
+const firstAsyncRead = asyncSource.next();
+check(firstAsyncRead === asyncSource.next(), 'Installed async reads do not coalesce');
+const firstAsyncState = await firstAsyncRead;
+check(firstAsyncState.kind === 'value' && firstAsyncState.value.x === 7, 'Installed async state failed');
+asyncSource.dispose('consumer finished');
+check(nativeAbort.signal.aborted && nativeAbort.signal.reason === 'consumer finished', 'AbortController bridge failed');
+const asyncClosed = await asyncSource.closed;
+check(asyncClosed.kind === 'disposed' && asyncClosed.cleanupErrors.length === 0 && asyncFinally === 1, 'Async cleanup failed');
+function checkPlatformSignal(signal: AsyncSourceSignal) {
+    // @ts-expect-error DOM-free source signals require an explicit platform bridge.
+    const native: AbortSignal = signal;
+    void native;
+}
+void checkPlatformSignal;
 const optionalMarkers: SortedRegions = { sortedPrefixLength: undefined, sortedSuffixLength: undefined };
 const arrayTrace = createArrayTrace([2, 1]);
 arrayTrace.start({ sortedPrefixLength: 1, sortedSuffixLength: 1 });
