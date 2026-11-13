@@ -182,8 +182,10 @@ The current release's successful CI does not certify a later 1.0 candidate.
   Only the documented paint settings are normalized. Invalid color strings are
   delegated to Canvas; arbitrary handwritten snapshots are not fully validated.
   Restoring context settings does not roll back pixels after a drawing error.
-- Scene indexing uses O(n) additional memory and layer ordering O(n log n) time
-  per frame. Removing the large-array argument-count failure is not a performance
+- Uncached scene indexing uses O(n) additional memory and layer ordering
+  O(n log n) time. The unreleased scene renderer now caches only the last immutable
+  endpoint pair; resolving each frame remains O(n). Its [speed/memory checks](scene-cache-performance.md)
+  preserve standalone validation and the existing snapshot contract. Removing the large-array argument-count failure is not a performance
   guarantee. Earlier heap/mock-Canvas measurements remain diagnostics described
   in [performance](performance.md), not browser FPS or portable thresholds.
 - Highlight membership and per-frame dispatcher allocation remain optional

@@ -37,27 +37,75 @@ export type SceneVisualizations<Types extends object, Context, Event> = {
     ) => void;
 };
 
-/** Matches stable identities. Data is not cloned: snapshots must be immutable. */
+type SceneMatch<Types extends object> = {
+    id: string;
+    previous: SceneObject<Types> | null;
+    current: SceneObject<Types> | null;
+    phase: ObjectTransition<SceneObject<Types>>["phase"];
+};
+
+type SceneMatchPlan<Types extends object> = {
+    ordered: SceneMatch<Types>[];
+    positions: Map<string, number>;
+};
+
+function validateProgress(progress: number): void {
+    if (!Number.isFinite(progress) || progress < 0 || progress > 1) {
+        throw new RangeError("Scene progress must be between zero and one");
+    }
+}
+
+function indexScene<Types extends object>(scene: Scene<Types>) {
+    const result = new Map<string, SceneObject<Types>>();
+    for (const object of scene.objects) {
+        if (typeof object.id !== "string" || !object.id || typeof object.type !== "string" || !object.type) {
+            throw new TypeError("Scene objects require non-empty string ids and types");
+        }
+        if (!Number.isFinite(object.zIndex ?? 0)) throw new RangeError("zIndex must be finite");
+        if (result.has(object.id)) throw new Error(`Duplicate scene object id: ${object.id}`);
+        result.set(object.id, object);
+    }
+    return result;
+}
+
+function matchScenes<Types extends object>(previousScene: Scene<Types>, currentScene: Scene<Types>): SceneMatchPlan<Types> {
+    const before = indexScene(previousScene), after = indexScene(currentScene);
+    const ordered: SceneMatch<Types>[] = [];
+    for (const [id, current] of after) {
+        const previous = before.get(id) ?? null;
+        if (previous && previous.type !== current.type) {
+            throw new Error(`Object ${id} changed type; use a new id for a different type`);
+        }
+        ordered.push({ id, previous, current, phase: previous === null ? "enter" : "update" });
+    }
+    for (const [id, previous] of before) {
+        if (!after.has(id)) ordered.push({ id, previous, current: null, phase: "exit" });
+    }
+    ordered.sort((a, b) => ((a.current ?? a.previous)!.zIndex ?? 0) - ((b.current ?? b.previous)!.zIndex ?? 0));
+    return { ordered, positions: new Map(ordered.map((object, i) => [object.id, i])) };
+}
+
+function resolveFrame<Types extends object, Event>(frame: Frame<Scene<Types>, Event>, plan: SceneMatchPlan<Types>): SceneFrame<Types, Event> {
+    const progress = frame.progress;
+    const objects = Object.freeze(plan.ordered.map(({ id, previous, current, phase }) => Object.freeze({
+        id, previous, current, phase, progress,
+        presence: phase === "enter" ? progress : phase === "exit" ? 1 - progress : 1
+    })));
+    // Capture only this plan and this frame's transitions, never mutable renderer state.
+    const positions = plan.positions;
+    return Object.freeze({
+        progress, stepIndex: frame.stepIndex, event: frame.event, objects,
+        get(id: string) { const index = positions.get(id); return index === undefined ? undefined : objects[index]; }
+    });
+}
+
+/** Matches without a cache or intermediate plan; snapshots must be immutable. */
 export function createSceneFrame<Types extends object, Event>(
     frame: Frame<Scene<Types>, Event>
 ): SceneFrame<Types, Event> {
-    if (!Number.isFinite(frame.progress) || frame.progress < 0 || frame.progress > 1) {
-        throw new RangeError("Scene progress must be between zero and one");
-    }
-    function index(scene: Scene<Types>) {
-        const result = new Map<string, SceneObject<Types>>();
-        for (const object of scene.objects) {
-            if (typeof object.id !== "string" || !object.id || typeof object.type !== "string" || !object.type) {
-                throw new TypeError("Scene objects require non-empty string ids and types");
-            }
-            if (!Number.isFinite(object.zIndex ?? 0)) throw new RangeError("zIndex must be finite");
-            if (result.has(object.id)) throw new Error(`Duplicate scene object id: ${object.id}`);
-            result.set(object.id, object);
-        }
-        return result;
-    }
-    const before = index(frame.previous),
-        after = index(frame.current);
+    validateProgress(frame.progress);
+    const before = indexScene(frame.previous),
+        after = indexScene(frame.current);
     const byId = new Map<string, ObjectTransition<SceneObject<Types>>>();
     for (const id of new Set([...after.keys(), ...before.keys()])) {
         const previous = before.get(id) ?? null,
@@ -91,23 +139,31 @@ export function createSceneFrame<Types extends object, Event>(
     });
 }
 
-/** Backend-independent dispatch: Context can be Canvas, SVG, DOM or a custom target. */
+/** Backend-independent dispatch; retains a matching plan for at most one immutable endpoint pair. */
 export function createSceneRenderer<Types extends object, Context, Event = unknown>(
     visualizations: SceneVisualizations<Types, Context, Event>
 ) {
     const registry = new Map(Object.entries(visualizations));
+    let cache: { previous: Scene<Types>; current: Scene<Types>; plan: SceneMatchPlan<Types> } | undefined;
     return Object.freeze({
         render(context: Context, frame: Frame<Scene<Types>, Event>): void {
-            const scene = createSceneFrame(frame);
-            // Validate the complete frame before dispatching any visualization.
-            for (const object of scene.objects) {
-                const type = (object.current ?? object.previous)!.type;
-                if (typeof registry.get(type) !== "function")
-                    throw new Error(`No visualization for scene type: ${type}`);
+            validateProgress(frame.progress);
+            let plan: SceneMatchPlan<Types>;
+            if (cache && cache.previous === frame.previous && cache.current === frame.current) {
+                plan = cache.plan;
+            } else {
+                plan = matchScenes(frame.previous, frame.current);
+                // Validate the complete pair before dispatch or cache replacement.
+                for (const object of plan.ordered) {
+                    const type = (object.current ?? object.previous)!.type;
+                    if (typeof registry.get(type) !== "function")
+                        throw new Error(`No visualization for scene type: ${type}`);
+                }
+                cache = { previous: frame.previous, current: frame.current, plan };
             }
+            const scene = resolveFrame(frame, plan);
             for (const object of scene.objects) {
                 const type = (object.current ?? object.previous)!.type;
-                // The registry is keyed by the same discriminant checked during matching.
                 const draw = registry.get(type) as (
                     context: Context,
                     object: ObjectTransition<SceneObject<Types>>,

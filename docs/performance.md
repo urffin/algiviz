@@ -49,3 +49,16 @@ command submission. Neither backend reports FPS, GPU completion or a portable
 performance threshold. Run benchmarks serially, outside test/build activity.
 
 See the [0.13.0 baseline and optimization priorities](performance-baseline-0.13.0.md).
+
+## Scene matching cache experiment
+
+Run `npm run benchmark -- --scene-cache --output scene-cache.json` for paired
+CPU comparisons against the released 0.13.0 scene implementation read from Git.
+The script transpiles that exact source into a temporary module using the
+existing TypeScript dependency; it does not install or fetch a package. The
+baseline release commit must exist in the local Git history. Both implementations
+run in the same process, in alternating order, on the same real-example scenes.
+It checks resolved frames against the release, measures repeated/interpolated/
+changing pairs and uncached calls, then streams 4,000 pairs with forced GC and
+WeakRefs. Heap samples include the process and are diagnostic, not thresholds.
+See the [results and cache lifetime review](scene-cache-performance.md).

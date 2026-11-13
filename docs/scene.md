@@ -58,20 +58,45 @@ renderer.render(ctx, {
 - `createSceneFrame(frame)` exposes the same resolved transitions without drawing.
   The registry is captured at renderer construction. Missing handlers, duplicate
   IDs, invalid progress/layers and changed types fail before any handler is called.
-- Scene processing is stateless, so arbitrary seeking is supported. Handlers may
+- Resolved output depends on the supplied frame, so arbitrary seeking is supported. Handlers may
   see zero-presence objects. They are frame draws, **not guaranteed lifecycle
   callbacks**: skipping steps can skip appearances/exits entirely. Clear Canvas
   each frame; a retained SVG/DOM backend must reconcile its elements against the
   current frame, removing stale IDs itself. Save/restore Canvas state inside each
   handler. Exceptions propagate; there is no rollback of drawing already performed.
 - Snapshots and user data are not cloned or deep-frozen. The author owns their
-  immutability, as with generic playback. Scene indexing uses O(n) additional
-  memory and layer ordering O(n log n) time per frame.
+  immutability, as with generic playback. Uncached scene indexing uses O(n) additional
+  memory and layer ordering O(n log n) time.
 
 `arrayScene(snapshot)` from `/canvas` adapts an array to a `Scene<ArrayObjects>`
 with `bar` objects whose data contains `item`, `index` and `held`. The built-in
 array renderer uses this same dispatcher. You can provide a different `bar`
 visualization using `createSceneRenderer<ArrayObjects, YourContext>`.
+
+## Renderer matching cache
+
+Reuse a renderer across frames. It retains a matching/order plan for only the
+last successfully validated pair of scene references (previous and current).
+An identity hit skips indexing, ordering and registry validation for that pair;
+new progress, presence, event and step index still produce fresh frozen frame
+and transition objects. Handlers run on every render, including zero presence.
+Linked-object lookup belongs to that resolved frame, even during reentrant draws.
+
+A new pair is fully validated before any handler or replacement of the cache.
+Invalid progress fails even on a hit. A draw error propagates without rolling
+back callbacks already run; retrying still produces fresh frame metadata.
+Seeking, reversed pairs and distinct scene identities rebuild the plan. Instances
+have independent caches; there is no global history, public cache option or
+new disposal method. The last pair remains reachable until replaced or the
+renderer itself is released. Frames retained by handlers/callers retain their
+own data independently.
+
+This requires immutable scenes, object IDs/types/layers and data, as above.
+In-place mutation does not invalidate the identity cache. Provide new scene
+references for new snapshots. Matching/order setup costs O(n log n) on a miss;
+materializing and dispatching an interpolated frame remains O(n), with O(n)
+retained cache storage for the active pair. `createSceneFrame` has no cache and
+validates/rebuilds every call. See the [speed/memory experiment](scene-cache-performance.md).
 
 ## State-to-scene projection
 

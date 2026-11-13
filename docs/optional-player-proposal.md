@@ -79,12 +79,20 @@ painting cost. Record input, frame-selection policy, warmup, sample distribution
 Canvas size, environment and implementation SHA. Native Canvas timings are CPU
 submission costs, not FPS or GPU completion.
 
-No optimization, new public option, rewind adapter or scheduler is authorized by
-these measurements. The next proposed experiment is a bounded immutable-endpoint matching/order cache
-in a scene renderer, followed by the same workload and retained-memory checks.
-Large-merge matching cost 2.28–2.58 ms in the embedded browser; native drawing and
-Boids generation remain separate targets. No implementation of that experiment
-has begun. Preserve immutable snapshots, source order, validation and cleanup.
+Following the owner's explicit instruction, the bounded scene matching cache is
+now implemented locally and remains unreleased. Each renderer retains only the
+last validated immutable pair; standalone matching is uncached. Paired speed,
+real-renderer checks and a 4,000-pair retained-memory check are recorded in the
+[RU/EN report](scene-cache-performance.md). All 190 tests, installed-package
+consumers and bundle-isolation checks pass. The final native build passed ten
+pixel-replay checks with no console warnings/errors. Metadata, linked
+lookup, validation-before-dispatch, reentrancy and retained-frame immutability
+are covered; no new public entry, option, dependency or disposal method was added.
+
+The next proposed optimization is to reuse the standard array renderer's scene
+dispatcher so it can benefit from this cache. That is a separate experiment; no
+/canvas changes, new scheduler or rewind adapter have begun. Commit/review the
+current optimization and its evidence before starting another code change.
 
 ## Historical release assessment after 0.11.2
 
@@ -218,14 +226,15 @@ mounted UI in the supported browser host; old smoke results do not cover it.
 
 ## Optimization candidates from the current code
 
-These are code-inspection hypotheses, not measured speedups or required fixes.
+The scene matching cache now has [measured local results](scene-cache-performance.md).
+The remaining rows are code-inspection hypotheses, not measured speedups or required fixes.
 Start with separate generation/projection/dispatch/drawing measurements on a
 representative workload. Existing `scripts/benchmark.mjs` uses a mock Canvas;
 it does not report real browser FPS or GPU work.
 
 | Area | Current cost and candidate | Contract to preserve |
 | --- | --- | --- |
-| `/scene` | `createSceneFrame` indexes both endpoints, forms ID sets and sorts transitions for every render. Cache the matching/order plan for the same immutable endpoint pair in a renderer, bounded to the active pair. | New progress/event metadata and immutable retained frames; validation before dispatch; type/ID errors and stable layer ordering. Standalone calls need not acquire global caches. |
+| `/scene` | Implemented locally: a renderer caches the matching/order plan for one immutable endpoint pair. Standalone `createSceneFrame` remains uncached. See the speed/memory report above. | New progress/event metadata and immutable retained frames; validation before dispatch; type/ID errors and stable layer ordering. Standalone calls need not acquire global caches. |
 | `/canvas` | `createArrayRenderer.render` constructs a scene renderer and registry each frame. Consider reusing a dispatcher with explicit per-frame data. | Independent renderer instances and correct callback context; no stale dimensions, palette, frame or event. |
 | Array highlights | Each bar calls `event.itemIds.includes(id)`: n bars with h highlighted IDs cost O(nh) membership work. Build/cache one Set per immutable highlight event for O(n + h) membership work. | Existing held/active/sorted color priority and event semantics; benchmark because small h may not justify the setup cost. |
 | Canvas drawing | Full repaint and labels can dominate actual browser time. Measure dense and labeled scenes separately before batching or caching static decoration. | Pixel behavior, paint order and context restoration; dirty-region rendering needs a distinct contract for arbitrary custom draws. |
