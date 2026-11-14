@@ -1,0 +1,151 @@
+{
+  "date": "2026-11-14T07:58:59.063Z",
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "dpr": 1
+  },
+  "checks": [
+    {
+      "name": "idle mount does not create a Worker",
+      "passed": true
+    },
+    {
+      "name": "Start exposes waiting/preparing and disables controls",
+      "passed": true
+    },
+    {
+      "name": "first transferred frame is paused at index zero",
+      "passed": true
+    },
+    {
+      "name": "manual Next coalesces and exposes Pause",
+      "passed": true
+    },
+    {
+      "name": "Pause stages a late Worker value without rendering/abort",
+      "passed": true
+    },
+    {
+      "name": "Next consumes staged state without another pull",
+      "passed": true
+    },
+    {
+      "name": "Play waiting schedules no RAF polling",
+      "passed": true
+    },
+    {
+      "name": "waiting time is discarded and transition starts at zero",
+      "passed": true
+    },
+    {
+      "name": "Next finishes an interpolation without requesting data",
+      "passed": true
+    },
+    {
+      "name": "Restart prepares one Worker and preserves old frame/ownership",
+      "passed": true
+    },
+    {
+      "name": "candidate waits for old cleanup with no additional pull",
+      "passed": true
+    },
+    {
+      "name": "Restart installs candidate paused after acknowledged shutdown",
+      "passed": true
+    },
+    {
+      "name": "candidate error quarantines old ready result",
+      "passed": true
+    },
+    {
+      "name": "failed candidate rollback preserves usable old Worker",
+      "passed": true
+    },
+    {
+      "name": "forced old shutdown permits Restart without cleanup error",
+      "passed": true
+    },
+    {
+      "name": "actual cleanup failure rejects replacement and preserves drawing",
+      "passed": true
+    },
+    {
+      "name": "dispose while waiting removes UI and restores viewport immediately",
+      "passed": true
+    },
+    {
+      "name": "closed waits Worker cleanup with no late UI callbacks",
+      "passed": true
+    },
+    {
+      "name": "dispose during Restart closes both Workers without installing candidate",
+      "passed": true
+    },
+    {
+      "name": "paused EOF stays staged and releases Worker once",
+      "passed": true
+    },
+    {
+      "name": "Next commits staged EOF",
+      "passed": true
+    },
+    {
+      "name": "Pause cancels Replay autoplay during Worker preparation",
+      "passed": true
+    },
+    {
+      "name": "no unexpected errors and at most two owned Workers",
+      "passed": true
+    },
+    {
+      "name": "native keyboard Start/Next/Pause consumes only the staged state",
+      "passed": true
+    },
+    {
+      "name": "final dispose releases all Workers and restores viewport",
+      "passed": true
+    }
+  ],
+  "unexpected": [],
+  "remainingOwnedWorkers": 0,
+  "maximumOwnedWorkers": 2,
+  "remainingRAF": 0,
+  "keyboard": {
+    "stepIndex": 1,
+    "index": 1,
+    "requests": 2
+  },
+  "provenance": {
+    "src/worker/types.ts": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9",
+    "src/worker/error.ts": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72",
+    "src/worker/protocol.ts": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc",
+    "src/worker/data.ts": "9fd2a36c59644615ef2f970e16ffd4a8af686636dae551c15adf6e1fc442c113",
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/runtime.ts": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef",
+    "dist/worker/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/worker/error.js": "58d1775a80232f4201a704686132e818e522c5a6c71517839ec9a8dd9cae70fc",
+    "dist/worker/protocol.js": "5f3ddcc2b4ca24cf19fd2d6a36e6cb134901b78d8b165e2b514544594121c8ef",
+    "dist/worker/data.js": "74e37c0b0a4a1a0baa4343dfb42cf0bbe3b3a3edf167693d11d9dda323baf262",
+    "dist/worker/index.js": "27ffc0d59aa1e0af8791bcaa6467fa0f125505930d355417bd5051908289c07d",
+    "dist/worker/runtime.js": "cb37667676669bfddc66fe6467bb73dca05091fce02f9db6d45973828f61efad",
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "dist/playback/async-source.js": "44aa496a5abefd8aa2b02319978079ce752d80e29aa6136acfc9408409237193",
+    "src/player/player.ts": "52c5a8f842e6d1eccef6141665b5ce08da0b60b5d77f98002966b0c480426919",
+    "src/player/controller.ts": "56dffc6f913fcb6b53c79f673c0c239d56a057a9165103ce80f1278b17d9d39d",
+    "src/player/async-controller.ts": "0bb918c98821097aebb84b09cb5859b13861d21dea09e87562b843178eba2b99",
+    "src/player/async-session.ts": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f",
+    "src/player/mount.ts": "f849c844e039a7842f3de2bc8850b2f5f000d9649a44219a512f190845fa064a",
+    "src/player/types.ts": "01f365e00ca66661afaa7db51b46c4b136c2cea85865ba3654e984688e23d2ea",
+    "src/player/close-report.ts": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8",
+    "dist/player/player.js": "fc6d3de63be984c05723ca3b5a73825a24b345d62c36a19edc40225a810fb2f5",
+    "dist/player/controller.js": "4c9538893bda9c6ce7ef44043723423fd48175f574f4cc90b7fbe078dd88043d",
+    "dist/player/async-controller.js": "d530cab2c22bbe9697a27d72c147c536f83b9055c41f82746e8a181e3f44cdbc",
+    "dist/player/async-session.js": "f2200835e2efd61b60cf58a45686cf1719491d776224c07b7ade5507c1c0ed9c",
+    "dist/player/mount.js": "e6b03d0f5f5af673a586d6835d5497afde2b60850c8350decf9006ef453f4fe6",
+    "dist/player/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/player/close-report.js": "a4bd9795d2f5045512fb28242c8eabf737958db1ecdb5ccea4e809d34eecbd64",
+    "test/player-worker-browser.html": "75bcacc23230a0fb176882adbf9ab51954aa61a704997aadc23bd89f81db65ff",
+    "test/player-worker-browser.mjs": "671fba066f2fdcf7b75a24ddf457beaf2f8558ff9d828742ce4c78494f763999",
+    "test/player-worker-native.mjs": "8bc45a9ba6dd7d5c58e049ec39b4991c9ab9e153c96624c99ff5cc0547b0dab2"
+  }
+}

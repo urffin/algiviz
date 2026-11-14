@@ -32,7 +32,8 @@ npm install @grundyjs/algiviz
 ```
 
 There is no root entry point or CommonJS build. Import the modules you need:
-`/player`, `/playback`, `/scene`, `/array`, `/canvas` and `/canvas/viewport`.
+`/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
+`/worker` and `/worker/runtime`.
 
 Algorithms live in application code and examples.
 Version 0.x may introduce breaking changes
@@ -95,10 +96,18 @@ for history, seeking, labels and on-demand loading.
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Custom types, object matching and projection |
 | [`/canvas/viewport`](https://github.com/urffin/algiviz/blob/master/docs/canvas-viewport.md) | Optional CSS Canvas sizing, DPR and cleanup; added in 0.13.0 |
 | [`/array` and `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/array.md) | Array operations, ready-made rendering and palettes |
+| [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Dedicated browser Worker source factory and transport errors; added in 0.16.0 |
+| [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Worker-side endpoint; separate WebWorker types |
 
 [Complete TypeScript example](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·
 [Getting started](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md) ·
 [Custom graph walkthrough](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md)
+
+**Added in 0.16.0:** the [Worker adapter](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md)
+adds optional `/worker` and `/worker/runtime` entries. It
+uses `createAsyncSource`, explicit ArrayBuffer transfer and observable shutdown;
+0.15.0 has neither Worker entry. [Player integration](https://github.com/urffin/algiviz/blob/master/docs/player-worker.md)
+uses the existing asyncSource option, with checked waiting, controls and cleanup.
 
 Added in 0.15.0: [asynchronous sources](https://github.com/urffin/algiviz/blob/master/docs/player-async-api.md)
 with `asyncSource` in `/player` and the standalone

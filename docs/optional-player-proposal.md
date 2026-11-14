@@ -7,6 +7,21 @@ module contracts remain the stabilization baseline. A local example-only
 committed at `12f8fb3`. Implementation commit `fa22032` adds the
 [0.12.0 `/player` entry](player.md), absent in 0.11.2.
 
+## 0.16.0 release candidate, 2026-11-14
+
+The owner requested review, commit and publication after successful CI. The
+candidate includes the optional Worker transport/endpoint and Player integration
+through asyncSource, with no Player/core runtime changes. Package and both root
+lockfile version fields are 0.16.0. Duplicate export/private-path test entries
+were removed during review; source/build/fixture hashes still match the 20-case
+standalone and 25-case native Player/Worker reports.
+
+All 304 repository tests, installed-package NodeNext/Bundler consumers and
+bundle isolation passed for 0.16.0. Publication must wait for all
+exact-candidate CI jobs, then use the stable GitHub Release/OIDC workflow. npm
+exact/latest, provenance, signatures and a fresh registry consumer must be
+verified afterwards. The separate 1.0 compatibility decision remains open.
+
 ## 0.15.0 released and verified
 
 [0.15.0](https://github.com/urffin/algiviz/releases/tag/v0.15.0) was published on
@@ -21,6 +36,93 @@ verified. All 56 published build files match after CRLF/LF normalization.
 [Verification data](releases/0.15.0.json) closes this release stage. Worker
 transport and the 1.0 compatibility decision remain separate next directions;
 no further stage or publication is started by this record.
+
+## Worker contract stage, 2026-11-14
+
+The owner requested a behavioral contract, without implementation. The
+[Worker source contract](worker-source.md) ([Русский](ru/worker-source.md)) now
+selects exclusive lazy ownership of a fresh dedicated module Worker, one pull in
+flight, versioned session/request validation, default structured-clone copying
+and explicit worker-to-host ArrayBuffer transfer. Shared memory is excluded.
+It preserves the 0.15.0 asyncSource/player controls and transactional Restart.
+Shutdown attempts cooperative cleanup, then termination after a configurable
+finite grace period (default 1000 ms); forced versus acknowledged shutdown is
+observable separately from actual cleanup errors. Closed must not resolve ahead
+of transport teardown, including EOF and cancellation during a read.
+
+This is a design document, not a checked runtime implementation. Acceptance
+cases include native Worker cloning/transfer/termination, error and intent races,
+cleanup reporting and the two-Worker ownership bound. The separate
+[API/type design](worker-source-api.md) now selects host/worker factories, transfer
+selection, shutdown options, errors and per-session completion reports. No
+implementation or release is started; the separate 1.0 decision remains open.
+
+## Worker API design stage, 2026-11-14
+
+The [public API/types](worker-source-api.md) ([Русский](ru/worker-source-api.md))
+select /worker for createWorkerSourceFactory/WorkerSourceError and
+/worker/runtime for exposeWorkerSource. A callable host factory is compatible
+with AsyncSourceFactory and returns one iterable session with its own closed
+report. Explicit worker-side ArrayBuffer selection, shutdown grace options,
+clone-safe reasons/errors, bounded cleanup and termination outcomes are typed.
+No new Player option, core re-export, callback journal or runtime code is added.
+
+All twelve design-stage compiler configurations passed: TypeScript 5.0.4/6.0.3,
+NodeNext/Bundler, ES2022-only headless, DOM host and WebWorker. Both examples,
+existing headless/player consumers and positive/negative cases passed with
+noEmit. TypeScript 5.0.4's structural ArrayBuffer/view ambiguity is recorded;
+runtime brand/reachability/shared-memory checks remain mandatory. This does not
+certify a real Worker lifecycle. Proposed next step is standalone transport and
+endpoint implementation, beginning with controlled request/shutdown cases and
+then native Worker acceptance. Implementation/release remains a separate task;
+the current scope is API design only.
+
+## Standalone Worker implementation, 2026-11-14
+
+The owner authorized implementation without /player integration. /worker and
+/worker/runtime are now implemented locally, unreleased: lazy exclusive Worker
+ownership, one pull, native clone snapshots/ArrayBuffer transfer, bounded remote
+errors, cooperative/forced shutdown and honest per-session closed reports.
+Actual cleanup errors pass through createAsyncSource's return barrier. DOM host
+and WebWorker declarations compile separately; old modules do not import either
+entry. WorkerSourceRemotePhase additionally includes teardown so endpoint
+listener-removal failures keep their real phase.
+
+All 293 repository tests passed, including 27 public Worker cases and one ID
+boundary check. Installed-package NodeNext/Bundler consumers passed with
+TypeScript 5.0.4 and 6.0.3, separately for headless/DOM/WebWorker environments;
+public exports/private paths and strict installed Worker runtime cases passed.
+Bundle checks cover existing/UI isolation, independent host/runtime graphs and
+dynamic Worker loading. The built-in browser passed 20 native dedicated-module
+Worker cases with no unexpected errors and no remaining owned Workers; the
+[report](checks/worker-source-browser-2026-11-14.json) records source/build hashes.
+
+This standalone stage left /player and the core async adapter unchanged. The
+subsequent owner-authorized control integration is recorded below. No commit
+or publication is started by this record.
+
+## Worker/Player integration, 2026-11-14
+
+The owner authorized connecting the Worker adapter to /player and checking
+waiting, Pause, Next, Restart and dispose. The [integration guide](player-worker.md)
+([Русский](ru/player-worker.md)) passes createWorkerSourceFactory as asyncSource.
+No Player/core implementation, source option, phase or command changes are needed.
+Transport shutdown remains observable through each Worker session's closed,
+separately from PlayerCloseResult.
+
+All 304 repository tests passed, including 11 controlled integration cases.
+Those cases also passed against installed local archives. Strict TypeScript
+5.0.4/6.0.3 NodeNext/Bundler consumers passed, including direct factory inference,
+synchronous commands and separate completion reports. Existing headless and
+DOM/WebWorker separation checks passed. Bundle isolation also passed joint
+deferred loading of /player and /worker. The built-in browser passed 25 native
+checks, including actual Enter activation and final disposal: at most two owned
+Workers, zero unexpected errors and zero remaining Workers/RAF. The
+[report](checks/player-worker-browser-2026-11-14.json) records source/build hashes.
+
+Next proposed step is accumulated-change review and, only when requested, a
+versioned release candidate with exact-commit CI and registry verification.
+These local results do not publish a release or make the separate 1.0 decision.
 
 ## 0.14.0 released and verified
 
@@ -344,8 +446,9 @@ mounted UI in the supported browser host; old smoke results do not cover it.
 | --- | --- | --- |
 | Optional player | Shipped in 0.12.0; removes repeated scheduling and control wiring | The README circle, Canvas recording and SVG stream exercise the public API; preserve the headless and deferred-loading boundaries. |
 | Canvas viewport helper | Shipped in 0.13.0; consolidates repeated CSS/bitmap size, DPR and resize handling | Opt-in browser helper with explicit coordinate semantics and teardown; do not silently change the existing renderer's bitmap contract. |
-| Bounded rewind adapter | Implemented locally as `/playback`'s `createRewindBuffer` for synchronous iterable values; [contract and checks](rewind-buffer.md) | Capacity includes current; replay does not reread the source. Existing forward-only players are unchanged. Opt-in `rewindCapacity` now integrates the buffer with `/player` controls and window status. |
-| Cooperative scheduling / later worker adapter | Local `maxStepsPerFrame` limits stream advancement per RAF and carries playback-time debt; [contract and checks](player-work-budget.md) | One synchronous source/render call remains uninterruptible. Async/worker sources still need a separate cancellation/error/serialization design. |
+| Bounded rewind adapter | Shipped in 0.14.0 as `/playback`'s `createRewindBuffer`; [contract and checks](rewind-buffer.md) | Capacity includes current; replay does not reread the source. Opt-in `rewindCapacity` integrates it with `/player` controls and window status. |
+| Cooperative scheduling / async sources | Work budgeting shipped in 0.14.0; asyncSource shipped in 0.15.0 | One expensive call remains uninterruptible on its executing thread. Preserve [budgeting](player-work-budget.md) and [async ownership/control](async-sources.md) contracts. |
+| Worker adapter | Transport/endpoint and [Player controls](player-worker.md) included in the 0.16.0 candidate | Owner authorized publication after exact-commit CI. Verify the registry afterwards; preserve fresh ownership, one pull, transfer and bounded shutdown. |
 
 ## Optimization candidates from the current code
 

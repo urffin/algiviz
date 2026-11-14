@@ -8,6 +8,9 @@
 metadata and observable cleanup. Synchronous sources/history remain supported.
 [Release verification](releases/0.15.0.json).
 
+**Added in 0.16.0:** [Worker factories](player-worker.md) connect directly through
+asyncSource, preserving waiting, controls, bounded rewind and observable cleanup.
+
 `@grundyjs/algiviz/player` provides the `Player` class and the type-only exports
 `PlayerOptions`, `PlayerStatus`, `PlayerLabels` and `PlayerCloseResult`. It imports
 only playback code. Existing modules do not import the UI or its styles.

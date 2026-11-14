@@ -54,6 +54,8 @@ try {
     await copyFile(join(root, "test/package-consumer.ts"), join(workspace, "consumer.ts"));
     await copyFile(join(root, "test/package-player.ts"), join(workspace, "player.ts"));
     await copyFile(join(root, "test/package-viewport.ts"), join(workspace, "viewport.ts"));
+    await copyFile(join(root, "test/package-worker.ts"), join(workspace, "worker.ts"));
+    await copyFile(join(root, "test/package-worker-runtime.ts"), join(workspace, "worker-runtime.ts"));
     await copyFile(join(root, "examples/custom-objects.ts"), join(workspace, "custom-objects.ts"));
     for (const resolution of resolutions) {
         const compilerOptions = {
@@ -71,12 +73,18 @@ try {
         const domConfig = join(workspace, `tsconfig.dom.${resolution}.json`);
         await writeFile(domConfig, JSON.stringify({
             compilerOptions: { ...compilerOptions, lib: ["ES2022", "DOM"], noEmitOnError: true, outDir },
-            files: ["consumer.ts", "custom-objects.ts", "player.ts", "viewport.ts"]
+            files: ["consumer.ts", "custom-objects.ts", "player.ts", "viewport.ts", "worker.ts"]
         }));
         execFileSync(process.execPath, [compiler, "-p", domConfig], { stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "consumer.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "player.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "viewport.js")], { cwd: workspace, stdio: "inherit" });
+        execFileSync(process.execPath, [join(workspace, outDir, "worker.js")], { cwd: workspace, stdio: "inherit" });
+        const workerConfig = join(workspace, `tsconfig.worker.${resolution}.json`);
+        await writeFile(workerConfig, JSON.stringify({
+            compilerOptions: { ...compilerOptions, lib: ["ES2022", "WebWorker"], noEmit: true }, files: ["worker-runtime.ts"]
+        }));
+        execFileSync(process.execPath, [compiler, "-p", workerConfig], { stdio: "inherit" });
         console.log(`TypeScript ${compilerVersion} / ${resolution}: headless, DOM and runtime consumer passed`);
     }
     await copyFile(join(root, "examples/minimal.mjs"), join(workspace, "minimal.mjs"));
@@ -91,6 +99,11 @@ try {
     await copyFile(join(root, "test/player-test-dom.mjs"), join(workspace, "player-test-dom.mjs"));
     await copyFile(join(root, "test/player-async.test.mjs"), join(workspace, "player-async.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-async.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/worker-test-transport.mjs"), join(workspace, "worker-test-transport.mjs"));
+    await copyFile(join(root, "test/worker-source.test.mjs"), join(workspace, "worker-source.test.mjs"));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "worker-source.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/player-worker.test.mjs"), join(workspace, "player-worker.test.mjs"));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-worker.test.mjs")], { cwd: workspace, stdio: "inherit" });
     console.log(`Packed consumer passed: ${pkg.name}@${pkg.version}`);
 } finally {
     // Delete only the unique temporary directory created by this invocation.

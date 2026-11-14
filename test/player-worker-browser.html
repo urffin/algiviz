@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Worker и player</title>
+<style>
+body{margin:24px auto;max-width:1100px;padding:0 24px;background:#101827;color:#edf4ff;font:16px/1.5 system-ui}
+button{font:inherit;padding:8px 14px;margin:4px;border:1px solid #8ba3c3;border-radius:6px;background:#213855;color:inherit}button:disabled{opacity:.45}
+#host{margin:22px 0}#viewport{position:relative;min-height:160px;padding:20px;box-sizing:border-box;background:#172942}#marker{position:absolute;bottom:25px;left:24px;width:20px;height:20px;border-radius:50%;background:#6fe0ba}
+pre{font:12px/1.4 ui-monospace;white-space:pre-wrap;max-height:260px;overflow:auto;background:#0b1421;padding:12px}.failed{color:#ff9595}li{margin:3px 0}
+</style>
+<h1>Worker-источник в /player</h1>
+<p>Управление использует публичный asyncSource. Worker выдаёт снимок или завершает очистку только по команде стенда.</p>
+<div id="host"><div id="viewport"><span id="drawing">Первого кадра пока нет</span><span id="marker"></span></div></div>
+<div>
+<button id="run">Выполнить автопроверки</button><button id="manual">Новый ручной плеер</button><button id="timed">Новый плеер с таймером</button>
+</div>
+<div>
+<button id="value">Выдать состояние</button><button id="cleanup">Разрешить очистку</button><button id="dispose">Удалить плеер</button>
+</div>
+<div><button id="keyboard">Зафиксировать клавиатуру</button><button id="save">Сохранить итоговую проверку</button></div>
+<p id="status" role="status">Готово к проверке</p><ol id="checks"></ol><pre id="diagnostics"></pre><pre id="report"></pre>
+<script type="module" src="./player-worker-browser.mjs"></script></html>

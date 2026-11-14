@@ -1,6 +1,6 @@
 {
   "name": "@grundyjs/algiviz",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "TypeScript toolkit for custom algorithm visualizations with step-by-step playback and extensible rendering",
   "type": "module",
   "files": [
@@ -9,6 +9,7 @@
     "dist/scene",
     "dist/canvas",
     "dist/player",
+    "dist/worker",
     "README.md",
     "ru/README.md",
     "LICENSE",
@@ -44,10 +45,20 @@
       "types": "./dist/canvas/index.d.ts",
       "import": "./dist/canvas/index.js",
       "default": "./dist/canvas/index.js"
+    },
+    "./worker": {
+      "types": "./dist/worker/index.d.ts",
+      "import": "./dist/worker/index.js",
+      "default": "./dist/worker/index.js"
+    },
+    "./worker/runtime": {
+      "types": "./dist/worker/runtime.d.ts",
+      "import": "./dist/worker/runtime.js",
+      "default": "./dist/worker/runtime.js"
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.worker.json",
     "benchmark": "npm run build && node --expose-gc scripts/benchmark.mjs",
     "test": "npm run build && tsc -p test/tsconfig.json && node --test test/*.test.mjs",
     "test:package": "node scripts/test-package.mjs",

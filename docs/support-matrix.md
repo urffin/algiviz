@@ -11,6 +11,23 @@ the [reference](player.md) and [bundle evidence](player-bundle-check.md).
 This records the current support boundary and its concrete verification evidence.
 See the [stabilization plan](api-stability.md) for the remaining release decisions.
 
+## 0.16.0 Worker adapter boundary
+
+The 0.16.0 candidate adds optional dedicated browser module Worker sources.
+The host entry /worker requires DOM declarations; /worker/runtime uses WebWorker
+declarations separately. Both import safely without Worker/DOM globals, while
+actual execution requires browser Worker APIs and native structuredClone.
+Existing headless declarations remain ES2022-only. SharedWorker, ServiceWorker
+and Node worker_threads are outside this API.
+
+The [standalone report](checks/worker-source-browser-2026-11-14.json) passed 20
+native cases; [Player integration](checks/player-worker-browser-2026-11-14.json)
+passed 25, including keyboard controls and disposal. Those local-build checks
+used the built-in Windows Chromium host and do not expand the browser-product
+boundary below. Installed consumers separately check DOM and WebWorker types,
+exports, runtime behavior and independent/lazy ESM graphs. Exact release CI and
+registry verification will be recorded after publication.
+
 ## Scope and status
 
 - **Verified** records a concrete version/configuration and successful checks.

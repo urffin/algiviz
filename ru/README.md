@@ -32,7 +32,8 @@ npm install @grundyjs/algiviz
 ```
 
 У пакета нет корневой точки входа и сборки CommonJS. Импортируйте нужные модули:
-`/player`, `/playback`, `/scene`, `/array`, `/canvas` и `/canvas/viewport`.
+`/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
+`/worker` и `/worker/runtime`.
 
 Алгоритмы находятся в коде приложения и примерах. В версии 0.x минорные релизы могут нарушать обратную совместимость;
 при обновлении сверяйтесь с [CHANGELOG.md](../CHANGELOG.md).
@@ -94,10 +95,18 @@ const player = new Player(container, {
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/ru/scene.md) | Собственные типы, сопоставление объектов и проекция |
 | [`/canvas/viewport`](https://github.com/urffin/algiviz/blob/master/docs/ru/canvas-viewport.md) | Необязательные CSS-размеры Canvas, DPR и очистка; добавлен в 0.13.0 |
 | [`/array` и `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md) | Операции массива, готовый рендерер и палитра |
+| [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Фабрика источника в выделенном браузерном Worker и ошибки транспорта; добавлена в 0.16.0 |
+| [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Обработчик внутри Worker; отдельные типы WebWorker |
 
 [Полный пример TypeScript](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·
 [Начало работы](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md) ·
 [Разбор собственных объектов графа](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md)
+
+**Добавлено в 0.16.0:** [Worker-адаптер](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md)
+добавляет `/worker` и `/worker/runtime`: `createAsyncSource`,
+явная передача ArrayBuffer и наблюдаемая остановка. В выпущенной 0.15.0 этих
+точек входа нет. [Подключение к Player](https://github.com/urffin/algiviz/blob/master/docs/ru/player-worker.md)
+использует прежний asyncSource; ожидание, управление и очистка проверены.
 
 Добавлено в 0.15.0: [асинхронные источники](https://github.com/urffin/algiviz/blob/master/docs/ru/player-async-api.md)
 через `asyncSource` в `/player` и отдельный

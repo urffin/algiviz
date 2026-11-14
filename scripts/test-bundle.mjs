@@ -24,6 +24,10 @@ const sources = {
     viewportDynamic: `${existing}\nexport async function loadCanvasViewport() { return import('@grundyjs/algiviz/canvas/viewport'); }`,
     static: `${existing}\nexport { Player } from '@grundyjs/algiviz/player';`,
     dynamic: `${existing}\nexport async function loadPlayer() { return import('@grundyjs/algiviz/player'); }`,
+    worker: "export { createWorkerSourceFactory, WorkerSourceError } from '@grundyjs/algiviz/worker';",
+    workerRuntime: "export { exposeWorkerSource } from '@grundyjs/algiviz/worker/runtime';",
+    workerDynamic: `${existing}\nexport async function loadWorker() { return import('@grundyjs/algiviz/worker'); }`,
+    workerPlayerDynamic: `${existing}\nexport async function loadWorkerPlayer() { return Promise.all([import('@grundyjs/algiviz/player'), import('@grundyjs/algiviz/worker')]); }`,
 };
 
 async function bundle(directory, name, minify, code) {
@@ -94,6 +98,17 @@ try {
         for (const [name, code] of Object.entries(sources)) {
             const result = await bundle(current, name, minify, code);
             const initialModules = [...result.initial].flatMap(key => Object.keys(result.outputs[key].inputs));
+            if (!['worker', 'workerRuntime'].includes(name)) assert.equal(initialModules.some(path => path.includes('/dist/worker/')), false, `${name}: worker code in initial graph`);
+            const workerModules = Object.values(result.outputs).flatMap(output => Object.keys(output.inputs));
+            if (name === 'worker') assert.equal(workerModules.some(path => path.endsWith('/worker/runtime.js')), false);
+            if (name === 'workerRuntime') assert.equal(workerModules.some(path => path.endsWith('/worker/index.js')), false);
+            if (name === 'workerDynamic') assert.ok(result.files.size > result.initial.size, 'Worker import did not produce deferred outputs');
+            if (name === 'workerPlayerDynamic') {
+                assert.ok(result.files.size > result.initial.size, 'Worker/player imports did not produce deferred outputs');
+                assert.ok(workerModules.some(path => path.endsWith('/worker/index.js')));
+                assert.ok(workerModules.some(path => path.endsWith('/player/player.js')));
+                assert.equal(workerModules.some(path => path.endsWith('/worker/runtime.js')), false);
+            }
             if (name !== 'viewport') assert.equal(initialModules.some(path => path.endsWith('/dist/canvas/viewport.js')), false, `${name}: viewport in initial graph`);
             if (name !== 'static') {
                 assert.equal(initialModules.some(path => path.includes('/dist/player/')), false, `${name}: UI in initial graph`);

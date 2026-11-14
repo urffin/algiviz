@@ -1,0 +1,112 @@
+{
+  "date": "2026-11-14T01:30:07.845Z",
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "crossOriginIsolated": true,
+    "sharedArrayBuffer": "function"
+  },
+  "checks": [
+    {
+      "name": "construction/disposal without a read creates no Worker",
+      "passed": true
+    },
+    {
+      "name": "same public promise, one pull, no prefetch and EOF release before done",
+      "passed": true
+    },
+    {
+      "name": "empty EOF releases Worker and preserves headless RangeError",
+      "passed": true
+    },
+    {
+      "name": "initialization is copied and host input remains attached",
+      "passed": true
+    },
+    {
+      "name": "default copy retains sender storage and prior host states",
+      "passed": true
+    },
+    {
+      "name": "ArrayBuffer transfer detaches sender and preserves host snapshots after cleanup",
+      "passed": true
+    },
+    {
+      "name": "cyclic/Map/Error-cause snapshots survive native structured clone",
+      "passed": true
+    },
+    {
+      "name": "remote thrown undefined has a bounded typed descriptor",
+      "passed": true
+    },
+    {
+      "name": "function payload is a serialization failure without retry",
+      "passed": true
+    },
+    {
+      "name": "bad-transfer payload is a serialization failure without retry",
+      "passed": true
+    },
+    {
+      "name": "shared payload is a serialization failure without retry",
+      "passed": true
+    },
+    {
+      "name": "cooperative cancellation is prompt and awaits serialized return",
+      "passed": true
+    },
+    {
+      "name": "abort/return errors reach outer cleanup diagnostics once",
+      "passed": true
+    },
+    {
+      "name": "late cancelled-read error stays diagnostic without failing cleanup",
+      "passed": true
+    },
+    {
+      "name": "never-settling next is forcibly terminated after grace",
+      "passed": true
+    },
+    {
+      "name": "CPU-bound Worker cannot block host cancellation/termination",
+      "passed": true
+    },
+    {
+      "name": "never-settling return cannot hold closed indefinitely",
+      "passed": true
+    },
+    {
+      "name": "native module-load error rejects and releases owned Worker",
+      "passed": true
+    },
+    {
+      "name": "silent Worker exit remains pending until owner cancellation",
+      "passed": true
+    },
+    {
+      "name": "zero grace cancels startup without late source activity",
+      "passed": true
+    }
+  ],
+  "unexpected": [],
+  "remainingWorkers": 0,
+  "provenance": {
+    "src/worker/types.ts": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9",
+    "src/worker/error.ts": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72",
+    "src/worker/protocol.ts": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc",
+    "src/worker/data.ts": "9fd2a36c59644615ef2f970e16ffd4a8af686636dae551c15adf6e1fc442c113",
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/runtime.ts": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef",
+    "dist/worker/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/worker/error.js": "58d1775a80232f4201a704686132e818e522c5a6c71517839ec9a8dd9cae70fc",
+    "dist/worker/protocol.js": "5f3ddcc2b4ca24cf19fd2d6a36e6cb134901b78d8b165e2b514544594121c8ef",
+    "dist/worker/data.js": "74e37c0b0a4a1a0baa4343dfb42cf0bbe3b3a3edf167693d11d9dda323baf262",
+    "dist/worker/index.js": "27ffc0d59aa1e0af8791bcaa6467fa0f125505930d355417bd5051908289c07d",
+    "dist/worker/runtime.js": "cb37667676669bfddc66fe6467bb73dca05091fce02f9db6d45973828f61efad",
+    "test/worker-browser.html": "0955ea1da2878068828af20c6229e75086d3cb76be314431875760eb656b2e1f",
+    "test/worker-browser.mjs": "e1a8fad660a0ca30efb0d365bc6f3dc19313153d1b9c703b8d7969db9910ec27",
+    "test/worker-native-fixture.mjs": "3deeff5e315fb6fa8663fe1a57d13a0d58b2da9f9b82d8c56f68cc6a5cfc007f",
+    "test/worker-silent-fixture.mjs": "ea09afbade78c89e111065f522b3dd38581535caea66aa9f8cd40916db3b9bf5",
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "dist/playback/async-source.js": "44aa496a5abefd8aa2b02319978079ce752d80e29aa6136acfc9408409237193"
+  }
+}

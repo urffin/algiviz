@@ -70,6 +70,17 @@ registry consumers, signature and attestation checks. All 56 published build
 files match after CRLF/LF normalization. See [verification data](releases/0.15.0.json).
 The long-term 1.0 compatibility decision remains separate.
 
+2026-11-14 Worker follow-up: the [behavioral contract](worker-source.md)
+([Русский](ru/worker-source.md)) specifies an optional transport over the existing
+asyncSource boundary. The 0.16.0 candidate adds two optional entries while
+preserving the existing six entries and support boundary. The separate [public API/type design](worker-source-api.md)
+([Русский](ru/worker-source-api.md)) now selects /worker and /worker/runtime,
+compatible factories, transfer, errors and shutdown reports. The entries and
+[Player integration](player-worker.md) are implemented and verified for 0.16.0.
+The existing asyncSource boundary needs no Player/core changes. Current checks
+include 304 repository tests and 25 native Player/Worker checks, in addition to
+the standalone adapter evidence. Worker transport is not a prerequisite for 1.0.
+
 ## Readiness of the four modules
 
 “Technically ready” means the reviewed contract is documented and covered by the

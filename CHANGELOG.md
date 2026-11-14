@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.16.0 — 2026-11-14
+
+- Add optional `/worker` and `/worker/runtime` entries for standalone dedicated
+  module Worker state sources, with lazy exclusive ownership, one pull at a time,
+  validated session/request messages and compatibility with `createAsyncSource`.
+- Add explicit ArrayBuffer transfer, clone-safe bounded remote errors, finite
+  cooperative shutdown grace and a separate never-rejecting transport report.
+  Preserve actual cleanup failures through the existing async return barrier.
+- Compile DOM host and WebWorker declarations separately, preserving the
+  headless entry graph.
+- Connect Worker factories through Player's existing asyncSource option. Verify
+  waiting without RAF polling, Pause/staged Next, transactional Restart and
+  synchronous UI disposal with deferred Worker cleanup. Add EN/RU guidance,
+  installed-package type/runtime checks and native control/keyboard verification.
+- Verify 304 repository tests, installed NodeNext/Bundler consumers, independent
+  host/runtime bundles and 20 standalone plus 25 Player/Worker native checks.
+
 ## 0.15.0 — 2026-11-13
 
 - Add `createAsyncSource` and five public types to `/playback` for lazy

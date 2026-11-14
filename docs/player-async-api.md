@@ -359,3 +359,11 @@ the thirteenth records the separately performed keyboard sequence. One deliberat
 candidate failure was reported; unexpected errors/unhandled rejections were empty.
 Source/build/fixture hashes match. These are local checks, not browser
 certification, a screen-reader audio test, publication or exact-commit CI.
+
+## Worker integration follow-up, 2026-11-14
+
+The 0.16.0 [Worker adapter](player-worker.md) now connects as asyncSource
+without changing this API or controller. Eleven controlled integration cases,
+installed-package types/runtime and 25 native Worker/control/keyboard checks
+passed. Waiting, Pause/staged Next, transactional Restart and dispose retain the
+semantics above; transport completion is observed separately per Worker session.

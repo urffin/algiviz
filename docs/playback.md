@@ -9,8 +9,10 @@
 cancellation. `dispose(reason?)` invalidates immediately; `closed` separately
 reports settled cleanup and diagnostics. It has no clock, rendering, rewind or
 widget controls. See the [public API and usage](async-source-api.md).
-This addition is implemented locally and is not in published 0.14.0.
+This addition is published in 0.15.0; see [release verification](releases/0.15.0.json).
 The synchronous playback engines below keep their existing contracts.
+The separate [Worker transport/API](worker-source-api.md) is added in 0.16.0;
+it adds no Worker dependency to this entry.
 
 ## Custom structures and renderers
 

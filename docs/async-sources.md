@@ -2,6 +2,12 @@
 
 [Русский](ru/async-sources.md) · [Development plan](optional-player-proposal.md) · [Player](player.md)
 
+The separate [Worker transport contract](worker-source.md), dated 2026-11-14,
+defines ownership/serialization and cooperative-then-forced shutdown in 0.16.0.
+[Player integration](player-worker.md) uses the existing asyncSource boundary
+and preserves this generic async contract. An
+ordinary async source still cannot be forcibly interrupted by this adapter.
+
 ## Scope, 2026-11-13
 
 This contract covers the standalone adapter and widget integration published
