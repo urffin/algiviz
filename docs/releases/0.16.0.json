@@ -1,0 +1,70 @@
+{
+  "version": "0.16.0",
+  "latest": "0.16.0",
+  "gitHead": "15f204195908f02e561fda50d1ba25dc4dab5b29",
+  "integrity": "sha512-97Hm5e/PtguM7bio8OQpyXBByp+0u0LgD8lVozkeZ7rLZU3edaHO5HMGmiP3TUo/aH0x5YRMWc2t6BnQY6IVEg==",
+  "tarball": "https://registry.npmjs.org/@grundyjs/algiviz/-/algiviz-0.16.0.tgz",
+  "provenance": {
+    "source": {
+      "uri": "git+https://github.com/urffin/algiviz@refs/tags/v0.16.0",
+      "digest": {
+        "gitCommit": "15f204195908f02e561fda50d1ba25dc4dab5b29"
+      }
+    },
+    "workflow": {
+      "ref": "refs/tags/v0.16.0",
+      "repository": "https://github.com/urffin/algiviz",
+      "path": ".github/workflows/npm-publish.yml"
+    },
+    "subjectDigestSha512": "f7b1e6e5efcfb60b8cedb8a8f0e429c97041ca9fb4bb42e00fc955a3391e67bacb654dde75a1cee473069a23f74d4a3f687d31e5844c59cdade819d063a21512"
+  },
+  "checks": {
+    "version": "0.16.0",
+    "runtimeExportsAndPrivatePaths": true,
+    "headlessTypes": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "domTypesAndRuntimeConsumer": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "workerTypes": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "compiler": "6.0.3",
+    "strictAsyncSourceCases": 19,
+    "strictAsyncPlayerCases": 21,
+    "strictWorkerCases": 27,
+    "strictWorkerPlayerCases": 11,
+    "normalizedBuildFilesCompared": 68,
+    "signatureAudit": "audited 1 package in 5s\n\n1 package has a verified registry signature\n\n1 package has a verified attestation"
+  },
+  "date": "2026-11-14T08:21:41.964Z",
+  "release": {
+    "url": "https://github.com/urffin/algiviz/releases/tag/v0.16.0",
+    "sha": "15f204195908f02e561fda50d1ba25dc4dab5b29"
+  },
+  "ci": {
+    "id": 43574960399,
+    "url": "https://github.com/urffin/algiviz/actions/runs/43574960399",
+    "conclusion": "success",
+    "jobs": 11
+  },
+  "publication": {
+    "id": 43575107851,
+    "url": "https://github.com/urffin/algiviz/actions/runs/43575107851",
+    "conclusion": "success"
+  },
+  "localChecks": {
+    "tests": 304,
+    "installedPackage": "NodeNext and Bundler",
+    "bundleIsolation": "passed",
+    "browserChecks": 45,
+    "browserReports": [
+      "../checks/worker-source-browser-2026-11-14.json",
+      "../checks/player-worker-browser-2026-11-14.json"
+    ]
+  }
+}

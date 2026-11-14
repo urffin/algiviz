@@ -13,7 +13,7 @@ See the [stabilization plan](api-stability.md) for the remaining release decisio
 
 ## 0.16.0 Worker adapter boundary
 
-The 0.16.0 candidate adds optional dedicated browser module Worker sources.
+The published 0.16.0 adds optional dedicated browser module Worker sources.
 The host entry /worker requires DOM declarations; /worker/runtime uses WebWorker
 declarations separately. Both import safely without Worker/DOM globals, while
 actual execution requires browser Worker APIs and native structuredClone.
@@ -25,8 +25,10 @@ native cases; [Player integration](checks/player-worker-browser-2026-11-14.json)
 passed 25, including keyboard controls and disposal. Those local-build checks
 used the built-in Windows Chromium host and do not expand the browser-product
 boundary below. Installed consumers separately check DOM and WebWorker types,
-exports, runtime behavior and independent/lazy ESM graphs. Exact release CI and
-registry verification will be recorded after publication.
+exports, runtime behavior and independent/lazy ESM graphs. All eleven exact-commit
+CI jobs and publication passed. Fresh registry consumers, signature, attestation
+and exact source/tag/digest provenance were verified; all 68 build files match
+after newline normalization. See [release verification](releases/0.16.0.json).
 
 ## Scope and status
 

@@ -7,20 +7,27 @@ module contracts remain the stabilization baseline. A local example-only
 committed at `12f8fb3`. Implementation commit `fa22032` adds the
 [0.12.0 `/player` entry](player.md), absent in 0.11.2.
 
-## 0.16.0 release candidate, 2026-11-14
+## 0.16.0 released and verified
 
-The owner requested review, commit and publication after successful CI. The
-candidate includes the optional Worker transport/endpoint and Player integration
-through asyncSource, with no Player/core runtime changes. Package and both root
-lockfile version fields are 0.16.0. Duplicate export/private-path test entries
-were removed during review; source/build/fixture hashes still match the 20-case
-standalone and 25-case native Player/Worker reports.
+[0.16.0](https://github.com/urffin/algiviz/releases/tag/v0.16.0) was published on
+2026-11-14 at 15f204195908f02e561fda50d1ba25dc4dab5b29. It adds optional /worker and
+/worker/runtime entries and integrates the factory through Player's existing
+asyncSource boundary. Review removed duplicate export/private-path checks;
+Player/core runtime behavior remained unchanged.
 
-All 304 repository tests, installed-package NodeNext/Bundler consumers and
-bundle isolation passed for 0.16.0. Publication must wait for all
-exact-candidate CI jobs, then use the stable GitHub Release/OIDC workflow. npm
-exact/latest, provenance, signatures and a fresh registry consumer must be
-verified afterwards. The separate 1.0 compatibility decision remains open.
+All 304 local tests, installed-package NodeNext/Bundler consumers and bundle
+isolation passed. The 20 standalone plus 25 Player/Worker native checks retain
+matching source/build/fixture hashes. All eleven [exact-commit CI jobs](https://github.com/urffin/algiviz/actions/runs/43574960399)
+passed before the stable GitHub Release, followed by the successful
+[publishing workflow](https://github.com/urffin/algiviz/actions/runs/43575107851).
+
+npm exact/latest, exact source/tag/digest provenance, registry signature and
+attestation passed. A fresh registry installation passed strict headless, DOM
+and WebWorker consumers under NodeNext/Bundler, exact exports/private paths,
+19 async-source, 21 async-Player, 27 Worker and 11 Worker/Player cases. All 68
+published build files match after CRLF/LF normalization.
+[Verification data](releases/0.16.0.json) closes this release stage. The separate
+1.0 compatibility decision remains open; no further stage starts by this record.
 
 ## 0.15.0 released and verified
 
@@ -120,9 +127,9 @@ checks, including actual Enter activation and final disposal: at most two owned
 Workers, zero unexpected errors and zero remaining Workers/RAF. The
 [report](checks/player-worker-browser-2026-11-14.json) records source/build hashes.
 
-Next proposed step is accumulated-change review and, only when requested, a
-versioned release candidate with exact-commit CI and registry verification.
-These local results do not publish a release or make the separate 1.0 decision.
+The subsequently requested accumulated-change review, exact-commit CI and
+publication are recorded in the 0.16.0 release section above. The separate
+1.0 compatibility decision remains open.
 
 ## 0.14.0 released and verified
 
@@ -448,7 +455,7 @@ mounted UI in the supported browser host; old smoke results do not cover it.
 | Canvas viewport helper | Shipped in 0.13.0; consolidates repeated CSS/bitmap size, DPR and resize handling | Opt-in browser helper with explicit coordinate semantics and teardown; do not silently change the existing renderer's bitmap contract. |
 | Bounded rewind adapter | Shipped in 0.14.0 as `/playback`'s `createRewindBuffer`; [contract and checks](rewind-buffer.md) | Capacity includes current; replay does not reread the source. Opt-in `rewindCapacity` integrates it with `/player` controls and window status. |
 | Cooperative scheduling / async sources | Work budgeting shipped in 0.14.0; asyncSource shipped in 0.15.0 | One expensive call remains uninterruptible on its executing thread. Preserve [budgeting](player-work-budget.md) and [async ownership/control](async-sources.md) contracts. |
-| Worker adapter | Transport/endpoint and [Player controls](player-worker.md) included in the 0.16.0 candidate | Owner authorized publication after exact-commit CI. Verify the registry afterwards; preserve fresh ownership, one pull, transfer and bounded shutdown. |
+| Worker adapter | Transport/endpoint and [Player controls](player-worker.md) released in 0.16.0; [verification](releases/0.16.0.json) | Release stage closed. Preserve fresh ownership, one pull, explicit transfer and bounded shutdown; 1.0 compatibility remains a separate decision. |
 
 ## Optimization candidates from the current code
 

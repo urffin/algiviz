@@ -108,6 +108,7 @@ adds optional `/worker` and `/worker/runtime` entries. It
 uses `createAsyncSource`, explicit ArrayBuffer transfer and observable shutdown;
 0.15.0 has neither Worker entry. [Player integration](https://github.com/urffin/algiviz/blob/master/docs/player-worker.md)
 uses the existing asyncSource option, with checked waiting, controls and cleanup.
+[Release verification](https://github.com/urffin/algiviz/blob/master/docs/releases/0.16.0.json).
 
 Added in 0.15.0: [asynchronous sources](https://github.com/urffin/algiviz/blob/master/docs/player-async-api.md)
 with `asyncSource` in `/player` and the standalone

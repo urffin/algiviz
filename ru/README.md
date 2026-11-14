@@ -107,6 +107,7 @@ const player = new Player(container, {
 явная передача ArrayBuffer и наблюдаемая остановка. В выпущенной 0.15.0 этих
 точек входа нет. [Подключение к Player](https://github.com/urffin/algiviz/blob/master/docs/ru/player-worker.md)
 использует прежний asyncSource; ожидание, управление и очистка проверены.
+[Проверка релиза](https://github.com/urffin/algiviz/blob/master/docs/releases/0.16.0.json).
 
 Добавлено в 0.15.0: [асинхронные источники](https://github.com/urffin/algiviz/blob/master/docs/ru/player-async-api.md)
 через `asyncSource` в `/player` и отдельный

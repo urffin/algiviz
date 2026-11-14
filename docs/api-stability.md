@@ -1,6 +1,6 @@
 # API stabilization before 1.0
 
-Updated 2026-11-13 for published **0.15.0**. The four original modules retain the **0.11.2** baseline, release commit
+Updated 2026-11-14 for published **0.16.0**. The four original modules retain the **0.11.2** baseline, release commit
 [`b7f46ade478c25738ac77a3023fb4cd6c0b3995e`](https://github.com/urffin/algiviz/commit/b7f46ade478c25738ac77a3023fb4cd6c0b3995e).
 Repository verification now includes
 [`273b292`](https://github.com/urffin/algiviz/commit/273b292a6fa01dfaeb1717b6bbb7a4b149b4e6c9)
@@ -72,14 +72,17 @@ The long-term 1.0 compatibility decision remains separate.
 
 2026-11-14 Worker follow-up: the [behavioral contract](worker-source.md)
 ([Русский](ru/worker-source.md)) specifies an optional transport over the existing
-asyncSource boundary. The 0.16.0 candidate adds two optional entries while
+asyncSource boundary. The 0.16.0 release adds two optional entries while
 preserving the existing six entries and support boundary. The separate [public API/type design](worker-source-api.md)
 ([Русский](ru/worker-source-api.md)) now selects /worker and /worker/runtime,
 compatible factories, transfer, errors and shutdown reports. The entries and
 [Player integration](player-worker.md) are implemented and verified for 0.16.0.
 The existing asyncSource boundary needs no Player/core changes. Current checks
 include 304 repository tests and 25 native Player/Worker checks, in addition to
-the standalone adapter evidence. Worker transport is not a prerequisite for 1.0.
+the standalone adapter evidence. All eleven exact-commit CI jobs, publication,
+fresh registry consumers and signature/provenance checks passed; all 68 published
+build files match after newline normalization. See [release verification](releases/0.16.0.json).
+Worker transport is not a prerequisite for 1.0.
 
 ## Readiness of the four modules
 
