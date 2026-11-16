@@ -1,0 +1,529 @@
+{
+  "date": "2026-11-14T13:12:44.658Z",
+  "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "isolated": true,
+  "provenance": {
+    "src/worker/data.ts": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064",
+    "test/worker-shared-buffer-browser.html": "ec5c7ffb05a2b7dc208a12bfdf7eabe700a9c1cf63beb8baed479cb0eacd863d",
+    "dist/worker/data.js": "7dbcedcf296c4d98444367f89212de3db2680e448e305249cc4eee14d0b78c55",
+    "dist/worker/error.js": "58d1775a80232f4201a704686132e818e522c5a6c71517839ec9a8dd9cae70fc",
+    "dist/worker/index.js": "27ffc0d59aa1e0af8791bcaa6467fa0f125505930d355417bd5051908289c07d",
+    "dist/worker/protocol.js": "5f3ddcc2b4ca24cf19fd2d6a36e6cb134901b78d8b165e2b514544594121c8ef",
+    "dist/worker/runtime.js": "cb37667676669bfddc66fe6467bb73dca05091fce02f9db6d45973828f61efad",
+    "dist/worker/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/playback/async-source.js": "44aa496a5abefd8aa2b02319978079ce752d80e29aa6136acfc9408409237193",
+    "dist/playback/index.js": "044c588c7e294e98a629e506b92f69e3203e156f6c3943e57df563d4f1105687"
+  },
+  "checks": [
+    {
+      "mode": "visible",
+      "direction": "input",
+      "shape": "buffer",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "input",
+      "shape": "view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "input",
+      "shape": "data-view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "input",
+      "shape": "nested",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "input",
+      "shape": "memory",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "state",
+      "shape": "buffer",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "state",
+      "shape": "view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "state",
+      "shape": "data-view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "state",
+      "shape": "nested",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "state",
+      "shape": "memory",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "state",
+      "shape": "ordinary",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "visible",
+      "direction": "state",
+      "shape": "ordinary",
+      "transfer": true,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "input",
+      "shape": "buffer",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "input",
+      "shape": "view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "input",
+      "shape": "data-view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "input",
+      "shape": "nested",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "input",
+      "shape": "memory",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "state",
+      "shape": "buffer",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "state",
+      "shape": "view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "state",
+      "shape": "data-view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "state",
+      "shape": "nested",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "state",
+      "shape": "memory",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "state",
+      "shape": "ordinary",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden",
+      "direction": "state",
+      "shape": "ordinary",
+      "transfer": true,
+      "passed": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "direction": "input",
+      "shape": "buffer",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "direction": "input",
+      "shape": "view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "direction": "input",
+      "shape": "data-view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "direction": "input",
+      "shape": "nested",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "direction": "state",
+      "shape": "buffer",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "direction": "state",
+      "shape": "view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "direction": "state",
+      "shape": "data-view",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "direction": "state",
+      "shape": "nested",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "direction": "state",
+      "shape": "ordinary",
+      "transfer": false,
+      "passed": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "direction": "state",
+      "shape": "ordinary",
+      "transfer": true,
+      "passed": true
+    }
+  ],
+  "contexts": [
+    {
+      "f2": "result",
+      "mode": "visible",
+      "checks": [
+        {
+          "mode": "visible",
+          "direction": "input",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "input",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "input",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "input",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "input",
+          "shape": "memory",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "memory",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": true,
+          "passed": true
+        }
+      ],
+      "unexpected": [],
+      "ownedWorkers": 0,
+      "isolated": true,
+      "hiddenConstructor": false
+    },
+    {
+      "f2": "result",
+      "mode": "hidden",
+      "checks": [
+        {
+          "mode": "hidden",
+          "direction": "input",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "input",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "input",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "input",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "input",
+          "shape": "memory",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "memory",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": true,
+          "passed": true
+        }
+      ],
+      "unexpected": [],
+      "ownedWorkers": 0,
+      "isolated": true,
+      "hiddenConstructor": true
+    },
+    {
+      "f2": "result",
+      "mode": "hidden-no-wasm",
+      "checks": [
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "input",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "input",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "input",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "input",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": true,
+          "passed": true
+        }
+      ],
+      "unexpected": [],
+      "ownedWorkers": 0,
+      "isolated": true,
+      "hiddenConstructor": true
+    }
+  ],
+  "passed": true,
+  "count": 34
+}

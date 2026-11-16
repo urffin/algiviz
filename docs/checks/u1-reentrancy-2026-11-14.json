@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-14T10:38:34.347Z",
+  "version": "0.16.0",
+  "status": "implemented-locally-unreleased",
+  "baseCommit": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "environment": {
+    "node": "v22.17.0",
+    "platform": "win32"
+  },
+  "checks": {
+    "repositoryTests": 373,
+    "newPublicU1Cases": 61,
+    "installedU1Cases": 61,
+    "initialBaseline": {
+      "cases": 59,
+      "passed": 18,
+      "failed": 41
+    },
+    "typescript": "6.0.3",
+    "resolutions": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "environments": [
+      "ES2022-only",
+      "DOM",
+      "WebWorker"
+    ],
+    "bundleIsolation": "passed",
+    "publicEntries": 8,
+    "runtimeNames": 21,
+    "publicEntryDeclarationsCompared": 8,
+    "publicEntryDeclarationsUnchanged": true,
+    "onlyChangedDeclaration": "dist/playback/state-steps.d.ts",
+    "changedDeclarationIsPrivate": true,
+    "privatePathRejected": true
+  },
+  "commands": [
+    "npm test",
+    "npm run test:package -- --resolution=all",
+    "npm run test:bundle"
+  ],
+  "provenanceSha256": {
+    "src/playback/player.ts": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787",
+    "src/playback/state-steps.ts": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff",
+    "test/playback-reentrancy.test.mjs": "773d18f6a649e9e2eea9ceeb7d74a9cb5284cfc883a8525bb34c1c90f6f12a3f",
+    "scripts/test-package.mjs": "22f3f02c2f84977980d27024f4441b87a39438ee4e639e666788a46ab3eac923"
+  },
+  "logs": {
+    "directory": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/",
+    "repository": "u1-tests.log",
+    "installedPackage": "u1-package.log",
+    "bundle": "u1-bundle.log",
+    "initialBaseline": "u1-before.log"
+  },
+  "notes": [
+    "61 public-API regressions cover caught and uncaught callbacks, getters, render, isTerminal, source acquisition/read/cleanup, idempotent disposal, per-instance guards and deferred calls.",
+    "The initial red baseline contains 59 cases; two more construction/native-generator regressions were added afterwards.",
+    "Existing Worker shared-memory fix and API audit remain separate accumulated changes. No release or version change."
+  ]
+}

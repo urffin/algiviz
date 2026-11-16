@@ -2,6 +2,8 @@
 
 [README](../README.md) · [Русский](ru/array.md)
 
+**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+
 ## User-defined algorithms
 
 
@@ -51,6 +53,8 @@ operation immediately, begin with `start`, and end with `done`. Each operation
 updates the workspace and returns an immutable snapshot; it does not draw.
 The player invokes the supplied `render` initially and on every `advance` or `nextStep`.
 Rendering errors close the iterator and propagate to the caller.
+The [U1 contract](headless-reentrancy.md) gives createArrayPlayer the same
+reentrancy rules as headless playback; implemented locally, not in released 0.16.0.
 
 ## Array operations
 
@@ -158,6 +162,10 @@ Insertion and bubble sort implementations live in [examples/algorithms.mjs](http
 The algorithms belong to the application; they require no changes to the library.
 
 ## Canvas rendering
+
+Dispatcher reuse shipped in 0.14.0; [before/after measurements](array-dispatch-performance.md)
+retain their original stage and do not imply universal speedups. This section
+covers the public `/canvas` entry under the same U3 policy as `/array`.
 
 `createArrayRenderer({ theme: "dark" | "light", colors? })` returns a frozen
 object with `render(ctx, frame): void`. `createSortRenderer` is the identical

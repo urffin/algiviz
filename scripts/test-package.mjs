@@ -94,16 +94,24 @@ try {
     execFileSync(process.execPath, ["--test", join(workspace, "minimal.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/canvas-viewport.test.mjs"), join(workspace, "viewport.test.mjs"));
     execFileSync(process.execPath, ["--test", join(workspace, "viewport.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/playback-reentrancy.test.mjs"), join(workspace, "playback-reentrancy.test.mjs"));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "playback-reentrancy.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/async-source.test.mjs"), join(workspace, "async-source.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "async-source.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-test-dom.mjs"), join(workspace, "player-test-dom.mjs"));
     await copyFile(join(root, "test/player-async.test.mjs"), join(workspace, "player-async.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-async.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/worker-test-transport.mjs"), join(workspace, "worker-test-transport.mjs"));
+    await copyFile(join(root, "test/worker-shared-buffer.test.mjs"), join(workspace, "worker-shared-buffer.test.mjs"));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "worker-shared-buffer.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/worker-source.test.mjs"), join(workspace, "worker-source.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "worker-source.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/worker-post-errors.test.mjs"), join(workspace, "worker-post-errors.test.mjs"));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "worker-post-errors.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-worker.test.mjs"), join(workspace, "player-worker.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-worker.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/player-speed.test.mjs"), join(workspace, "player-speed.test.mjs"));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-speed.test.mjs")], { cwd: workspace, stdio: "inherit" });
     console.log(`Packed consumer passed: ${pkg.name}@${pkg.version}`);
 } finally {
     // Delete only the unique temporary directory created by this invocation.

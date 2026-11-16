@@ -1,15 +1,28 @@
 const bufferLength = Object.getOwnPropertyDescriptor(ArrayBuffer.prototype, 'byteLength')!.get!;
 const sharedLength = typeof SharedArrayBuffer === 'undefined' ? undefined : Object.getOwnPropertyDescriptor(SharedArrayBuffer.prototype, 'byteLength')!.get!;
 const typedBuffer = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(Uint8Array.prototype), 'buffer')!.get!;
-const dataBuffer = Object.getOwnPropertyDescriptor(DataView.prototype, 'buffer')!.get!;
+const BufferView = DataView;
+const dataBuffer = Object.getOwnPropertyDescriptor(BufferView.prototype, 'buffer')!.get!;
+const memoryBuffer = typeof WebAssembly === 'undefined' || typeof WebAssembly.Memory !== 'function' ? undefined
+    : Object.getOwnPropertyDescriptor(WebAssembly.Memory.prototype, 'buffer')?.get;
 
 function isShared(value: object): boolean {
-    try { sharedLength?.call(value); return sharedLength !== undefined; } catch { return false; }
+    try {
+        if (sharedLength) sharedLength.call(value);
+        // Called only after ArrayBuffer branding failed. The intrinsic accepts
+        // only actual buffer storage, without coercion or application getters.
+        // A zero-length view neither copies bytes nor needs a shared constructor.
+        else new BufferView(value as ArrayBuffer, 0, 0);
+        return true;
+    } catch { return false; }
 }
 export function isBuffer(value: unknown): value is ArrayBuffer {
     try { bufferLength.call(value); return true; } catch { return false; }
 }
 function attached(value: ArrayBuffer) { new Uint8Array(value); }
+function memoryBacking(value: object): unknown {
+    try { return memoryBuffer?.call(value); } catch { return undefined; }
+}
 
 /** Inspect the actual cloned wire graph, not getters on the original source. */
 export function inspectData(value: unknown): Set<ArrayBuffer> {
@@ -19,8 +32,8 @@ export function inspectData(value: unknown): Set<ArrayBuffer> {
         if (typeof item === 'function' || typeof item === 'symbol') throw new TypeError('Expected cloneable state data');
         if (item === null || typeof item !== 'object' || seen.has(item)) continue;
         seen.add(item);
-        if (isShared(item)) throw new TypeError('Shared memory is not supported');
         if (isBuffer(item)) { attached(item); buffers.add(item); continue; }
+        if (isShared(item)) throw new TypeError('Shared memory is not supported');
         if (ArrayBuffer.isView(item)) {
             let buffer: unknown;
             try { buffer = dataBuffer.call(item); } catch { buffer = typedBuffer.call(item); }
@@ -28,6 +41,16 @@ export function inspectData(value: unknown): Set<ArrayBuffer> {
         }
         if (item instanceof Map) { Map.prototype.forEach.call(item, (v: unknown, k: unknown) => { pending.push(k, v); }); continue; }
         if (item instanceof Set) { Set.prototype.forEach.call(item, (v: unknown) => { pending.push(v); }); continue; }
+        // Memory's backing buffer is an internal slot, not an own property.
+        // The captured intrinsic also brands foreign-realm instances without
+        // reading a user-defined buffer getter or trusting Symbol.toStringTag.
+        const backing = memoryBacking(item);
+        if (backing !== undefined) {
+            // A native Memory buffer is ArrayBuffer or SharedArrayBuffer. Brand
+            // the former so shared storage is rejected even if SAB is hidden.
+            if (!isBuffer(backing)) throw new TypeError('Shared memory is not supported');
+            pending.push(backing);
+        }
         for (const key of Reflect.ownKeys(item)) {
             const property = Object.getOwnPropertyDescriptor(item, key)!;
             if ('value' in property) pending.push(property.value);

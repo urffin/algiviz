@@ -1,11 +1,188 @@
 # Optional player and optimization directions
 
+**Candidate preparation, 2026-11-16:** [1.0.0](candidate-1.0.md) is prepared
+locally, unpublished, with [migration notes](migration-1.0.md). The authorized
+scope includes local checks and commit; push, CI, native certification and
+publication remain separate. Historical stages below are retained.
+
+**Current status, 2026-11-14:** the [post-F2 eight-entry review](api-readiness-1.0.md)
+finds all eight entries ready locally within the declared boundary; F1/F2 and
+U1–U5 leave no known technical blocker. [Fresh evidence](checks/api-readiness-1.0-after-f2-2026-11-14.json) verifies
+inventory/provenance without repeating unchanged runtime suites. Remaining
+steps are G1 candidate definition, G2 exact-SHA CI, G3 native candidate checks,
+then separately instructed publication and registry verification. Dated stages
+below retain their scope; no feature or release starts from this plan.
+
+## Historical proposal context
+
 Assessment dated 2026-11-12, after `273b292` and its successful ten-job CI.
 This proposes a public package API, not a release decision. The existing four
 module contracts remain the stabilization baseline. A local example-only
 [prototype](optional-player-prototype.md) demonstrated the first scope and was
 committed at `12f8fb3`. Implementation commit `fa22032` adds the
 [0.12.0 `/player` entry](player.md), absent in 0.11.2.
+
+## F2 follow-up, 2026-11-14
+
+F2 is corrected locally without changing public API or publishing. All 509
+repository tests, 121 isolated public cases also run installed, strict
+NodeNext/Bundler consumers, fresh bundle isolation and 34 focused native checks
+pass. All eight entries now have no remaining known technical blocker within
+the reviewed boundary. G1–G3 remain; no candidate is selected automatically.
+See [fix evidence](checks/worker-shared-buffer-fix-2026-11-14.json).
+
+## Historical final eight-entry review before the F2 fix, 2026-11-14
+
+The owner authorized the final readiness review without API changes or publication.
+[Historical results](checks/api-readiness-1.0-2026-11-14.json) close F1/U1–U5
+within their scope but reproduce new F2 when SharedArrayBuffer is unavailable
+before import: bare buffers/views/nested graphs pass the shared validator.
+Twenty controlled cases include constructor-present and Memory controls. This
+is not a demonstrated native-browser exploit; no implementation was changed.
+Six entries are ready in their own reviewed boundary; both Worker entries need
+F2 correction. Remaining gates are F2, then candidate definition, exact-SHA CI
+and focused native verification; no extra feature or intermediate release is required.
+See [machine evidence](checks/api-readiness-1.0-2026-11-14.json).
+
+## U5 permanent regressions complete locally, 2026-11-14
+
+The owner authorized permanent U5 coverage without publication. All 503 repository
+tests pass, including 75 new public cases also run against the installed archive
+with strict NodeNext/Bundler consumers. Identity, init/pull/cancel, getter phases,
+primary/late/cleanup order, shared close errors and Player lifecycle are covered
+with the real adapter/endpoint over the in-process cloned-message transport.
+Production runtime/declarations, exports, version and dependencies are unchanged;
+no native-browser or CI rerun is claimed. See [regression evidence](checks/u5-post-errors-regressions-2026-11-14.json).
+That stage completed U5 coverage; later final review above found F2 as a separate
+validator blocker, not another required U5 implementation.
+
+## Historical U5 contract selection, 2026-11-14
+
+The owner authorized defining U5 without implementation or publication. The
+[selected contract](worker-post-errors.md) ([Русский](ru/worker-post-errors.md))
+preserves each original host postMessage throw as unknown. Failed active init/pull
+uses that primary with host/post context in closed; cancel throws are real cleanup
+issues and do not replace an already latched outcome. The existing cleanup summary
+WorkerSourceError is distinct from normalization of a primary send throw.
+Direct return, outer async reports, late errors and undefined are specified.
+
+Thirty read-only probes of the existing public adapter support the choice;
+[design evidence](checks/u5-post-errors-contract-2026-11-14.json) records their
+scope and unchanged implementation. No permanent test, API, version or dependency
+change was made at that design stage. Permanent regressions are now complete
+as described above; exact-candidate review remains separate. F1/U1/U2 are unreleased.
+
+## U3 compatibility policy selected, 2026-11-14
+
+The owner authorized a common policy for all eight public entries, without
+implementation or publication. The [selected policy](api-compatibility.md)
+([Русский](ru/api-compatibility.md)) gives optional Player/Worker the same intended
+1.x protection as the original entries. It covers public shapes/defaults/lifecycle,
+documented error classes/delivery/precedence, selected environments and loading.
+Closed unions and required structural additions are breaking; optional additions
+need compatibility review. Patch/minor/major rules and migration are explicit
+for both 0.x and 1.x. Private Worker wire formats require matched package versions.
+
+U3 is decided as policy, with no implementation/version/dependency/CI changes.
+See [read-only verification](checks/u3-compatibility-policy-2026-11-14.json).
+F1/U1/U2 remain implemented locally and unreleased. U4 is reconciled and U5 selected;
+remaining work is review of the complete baseline and an independently authorized
+release candidate; U5 permanent coverage is complete locally.
+No 1.0 date, next implementation stage or publication starts here.
+
+## U2 implemented locally, 2026-11-14
+
+After the design-only decision, the owner authorized implementing U2 without
+publication. The [selected contract](player-speed-validation.md)
+([Русский](ru/player-speed-validation.md)) accepts only primitive finite positive
+numbers and chooses built-in RangeError for any invalid value across
+source/history/asyncSource/Worker. Validation comes before lifecycle guards;
+rejection has no effects. Accepted changes retain pending time and intent,
+reset the wall-clock baseline and remain available during preparation/waiting/
+cleanup without starting, cancelling or recovering a session.
+
+Async/Worker now uses RangeError, matching sync/history. The change preserves
+public declarations/exports and the existing lifecycle/time accounting. All 428
+tests pass, including 55 new public U2 cases also run against the installed archive;
+strict NodeNext/Bundler consumers pass. Worker coverage uses the real adapter
+and endpoint over an in-process cloned-message transport, not a new native run.
+See [implementation evidence](checks/u2-speed-implementation-2026-11-14.json).
+The [design report](checks/u2-speed-contract-2026-11-14.json) remains the historical
+read-only baseline. U3/U5 are selected, U4 reconciled and U5 regressions pass; baseline readiness remains. F1/U1/U2
+stay implemented locally, unreleased; no version or dependency change.
+
+## U1 implemented locally, 2026-11-14
+
+The owner authorized implementing the selected headless reentrancy contract
+without publication. The shared playback engine now rejects same-instance
+nested commands before mutation and protects reads that enter step getters.
+Repeated dispose after logical disposal is a no-op. The private plain-state
+adapter gives cleanup back to its owner so disposal is latched before return,
+including after failed reads. No public signatures, exports, version or runtime
+dependencies changed; only the private state-steps declaration changes shape.
+
+All 373 repository tests passed, including 61 public U1 regressions. The suite
+covers render/predicate/source callbacks and accessors, caught/uncaught errors,
+normal versus disposal cleanup, other instances, initialization and deferred
+work. The initial 59-case baseline failed 41 cases before implementation.
+Installed-package and bundle verification are recorded in the
+[U1 evidence](checks/u1-reentrancy-2026-11-14.json). The [contract](headless-reentrancy.md)
+([Русский](ru/headless-reentrancy.md)) now describes the local implementation.
+
+U1 and the earlier F1 fix are implemented locally, unreleased. U2 has since been
+implemented, U3/U5 selected, U4 reconciled and U5 regressions pass. Remaining work is
+baseline readiness review; no publication or
+1.0 candidate starts with this stage.
+
+## Historical U1 contract selection, 2026-11-14
+
+The owner authorized selecting the headless reentrancy contract without
+implementation or publication. The [selected contract](headless-reentrancy.md)
+([Русский](ru/headless-reentrancy.md)) covers createPlayer, createStatePlayer and
+createArrayPlayer: reject same-instance nested nextStep/advance/first dispose
+synchronously; allow reads and other idle instances; make repeated dispose after
+logical disposal harmless. It specifies caught/uncaught errors, normal versus
+disposal cleanup, source/accessor callbacks and application-deferred commands.
+
+U1 is decided at the contract level; enforcement and acceptance tests remain a
+separate implementation task. No source, declarations, version or dependencies
+change at this stage. Next proposed work is implementing this selected behavior
+and its acceptance matrix, then resolving U2-U5 and the compatibility decision.
+The local F1 Worker fix and its verification remain intact and unreleased.
+
+## Shared Memory fix follow-up, 2026-11-14
+
+The owner authorized the F1 fix without a public API change or publication.
+The private wire-graph validator now brands WebAssembly.Memory through its
+captured native buffer getter and rejects shared backing storage in both
+directions. Public declarations, exports, error codes and lifecycle are unchanged.
+All 312 repository tests passed, including eight new regressions; a fresh
+installed archive passed 32 public Worker cases and strict NodeNext/Bundler
+consumers. Six native Worker checks passed: direct/nested input and state
+rejection, ordinary copy and transfer, and clean acknowledged shutdown. See the
+[fix report](checks/worker-memory-fix-browser-2026-11-14.json) and
+[review follow-up](api-readiness-0.16.0.md).
+
+F1 is resolved locally, unreleased; package version remains 0.16.0. Clarifications
+At that F1 stage U1-U5 remained open; later decisions are recorded above. No
+release candidate or publication started with that fix.
+
+## API review before 1.0, 2026-11-14
+
+The owner authorized review of all eight public entries, without API changes or
+publication. The [readiness report](api-readiness-0.16.0.md) inventories 21 runtime
+names and 68 type-only exports (56 unique type-only names). Three entries are
+ready, three require clarification and two Worker entries require implementation
+changes: shared WebAssembly.Memory bypasses isolation. Host postMessage errors
+require a separate choice between identity and normalization. The shared-memory
+issue was reproduced in
+both directions with actual browser Workers, with clean shutdown afterwards.
+
+The production baseline, version and dependencies remain unchanged. Release
+0.16.0 verification below remains valid for the scenarios it covered. The next
+proposed task is a separately authorized F1 fix with regressions, followed by
+contract/policy/documentation clarifications and a renewed readiness decision.
+No fix, release candidate or publication is started by this review.
 
 ## 0.16.0 released and verified
 
@@ -233,6 +410,10 @@ Canvas viewport stages:
 
 ## Current profiling stage
 
+**Historical stage, 2026-11-13:** the implementation/results below predate 0.14.0.
+Scene matching cache and array dispatcher reuse subsequently shipped in 0.14.0;
+neither remains an unimplemented optimization. See [current status](current-api.md).
+
 Baseline profiling is complete on 2026-11-13: ten real-example scenarios in Node
 and two serial native embedded-Canvas runs, with all twenty pixel-replay checks
 passing. See the [RU/EN report and raw samples](performance-baseline-0.13.0.md).
@@ -248,7 +429,7 @@ Canvas size, environment and implementation SHA. Native Canvas timings are CPU
 submission costs, not FPS or GPU completion.
 
 Following the owner's explicit instruction, the bounded scene matching cache is
-now implemented locally and remains unreleased. Each renderer retains only the
+was implemented locally at that measurement stage, then shipped in 0.14.0. Each renderer retains only the
 last validated immutable pair; standalone matching is uncached. Paired speed,
 real-renderer checks and a 4,000-pair retained-memory check are recorded in the
 [RU/EN report](scene-cache-performance.md). All 190 tests, installed-package

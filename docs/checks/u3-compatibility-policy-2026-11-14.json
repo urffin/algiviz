@@ -1,0 +1,234 @@
+{
+  "date": "2026-11-14T11:23:02.669Z",
+  "version": "0.16.0",
+  "status": "policy-selected-no-implementation-unreleased",
+  "scope": "U3: unified compatibility policy for eight public entries before 1.0",
+  "baseCommit": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "decision": {
+    "equalCoverage": true,
+    "currentExperimentalEntries": [],
+    "publicUnions": "Closed unless an API explicitly declares an open extension boundary beforehand",
+    "requiredStructuralAdditions": "Breaking, including output/report fields",
+    "optionalAdditions": "Minor only when existing supported calls, implementations, inference and defaults remain compatible; exact key sets are not extension guarantees",
+    "errors": "Documented classes, delivery, validation order and primary/cleanup precedence protected; messages/stacks not fixed identifiers; U5 unresolved",
+    "environments": "Retain recorded Node/TS/host boundary; no new browser claims; import safety, declarations and active host capabilities are separate",
+    "releaseRules": {
+      "zeroX": "Compatible patches; features in minors; intentional breaking changes in explicit breaking minors with migration",
+      "oneX": "Compatible patches/features in minors; incompatible changes require next major"
+    },
+    "workerInterop": "Matched package versions; private wire envelopes are not public application/persistence APIs",
+    "remaining": [
+      "U4 documentation reconciliation",
+      "U5 host postMessage exception boundary",
+      "Full baseline/candidate readiness review",
+      "Separately authorized exact-candidate verification/publication"
+    ]
+  },
+  "environment": {
+    "node": "v22.17.0",
+    "platform": "win32",
+    "typescript": "6.0.3"
+  },
+  "verification": {
+    "unchangedFiles": 218,
+    "unchangedScopes": [
+      "src",
+      "test",
+      "scripts",
+      "dist",
+      ".github",
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "tsconfig.worker.json"
+    ],
+    "runtimeImportsWithoutDOM": true,
+    "publicEntries": 8,
+    "runtimeNames": 21,
+    "typeOnlyNames": 68,
+    "uniqueTypeOnlyNames": 56,
+    "inventoryMatchesPriorAudit": true,
+    "rendererAliasIdentity": true,
+    "privateAndRootPathRejection": "Existing public package-export fixture passed",
+    "typeEnumeration": "Symbol enumeration only, skipLibCheck=true with combined libs; not a new strict consumer/compiler compatibility test",
+    "consumerAndFullTestSuiteRerun": false,
+    "nativeBrowserChecks": false,
+    "ciChanges": false,
+    "priorRuntimeEvidence": "U2 implementation report: 428 repository tests, 55 installed U2 cases, strict consumers and bundle isolation; historical evidence, not a new U3 test run"
+  },
+  "inventory": [
+    {
+      "entry": "./scene",
+      "runtime": [
+        "createSceneFrame",
+        "createSceneProjector",
+        "createSceneRenderer"
+      ],
+      "types": [
+        "ObjectTransition",
+        "Scene",
+        "SceneFrame",
+        "SceneObject",
+        "SceneVisualizations"
+      ]
+    },
+    {
+      "entry": "./array",
+      "runtime": [
+        "createArrayPlayer",
+        "createArrayTimeline",
+        "createArrayTrace",
+        "defineArrayAlgorithm"
+      ],
+      "types": [
+        "ArrayAlgorithm",
+        "ArrayEvent",
+        "ArrayFrame",
+        "ArrayPlayer",
+        "ArraySnapshot",
+        "ArrayStep",
+        "ArrayTimeline",
+        "ArrayTrace",
+        "Item",
+        "SortedRegions"
+      ]
+    },
+    {
+      "entry": "./playback",
+      "runtime": [
+        "createAsyncSource",
+        "createPlayer",
+        "createRewindBuffer",
+        "createStatePlayer",
+        "createStepEmitter",
+        "createTimeline"
+      ],
+      "types": [
+        "AsyncSource",
+        "AsyncSourceCloseResult",
+        "AsyncSourceFactory",
+        "AsyncSourceReadResult",
+        "AsyncSourceSignal",
+        "Frame",
+        "Player",
+        "RewindBuffer",
+        "Step",
+        "Timeline"
+      ]
+    },
+    {
+      "entry": "./player",
+      "runtime": [
+        "Player"
+      ],
+      "types": [
+        "PlayerCloseResult",
+        "PlayerLabels",
+        "PlayerOptions",
+        "PlayerStatus"
+      ]
+    },
+    {
+      "entry": "./canvas/viewport",
+      "runtime": [
+        "createCanvasViewport"
+      ],
+      "types": [
+        "CanvasViewport",
+        "CanvasViewportOptions",
+        "CanvasViewportSize"
+      ]
+    },
+    {
+      "entry": "./canvas",
+      "runtime": [
+        "arrayScene",
+        "createArrayRenderer",
+        "createSortRenderer"
+      ],
+      "types": [
+        "ArrayObjects",
+        "ArrayPalette",
+        "ArrayPaletteOverrides",
+        "ArrayRendererOptions"
+      ]
+    },
+    {
+      "entry": "./worker",
+      "runtime": [
+        "WorkerSourceError",
+        "createWorkerSourceFactory"
+      ],
+      "types": [
+        "WorkerSourceCancellation",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceCloseResult",
+        "WorkerSourceErrorCode",
+        "WorkerSourceErrorOptions",
+        "WorkerSourceFactory",
+        "WorkerSourceIssue",
+        "WorkerSourceIterator",
+        "WorkerSourceOptions",
+        "WorkerSourcePhase",
+        "WorkerSourceRemoteError",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceSession",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceSignal",
+        "WorkerSourceTermination",
+        "WorkerSourceThrownKind"
+      ]
+    },
+    {
+      "entry": "./worker/runtime",
+      "runtime": [
+        "exposeWorkerSource"
+      ],
+      "types": [
+        "WorkerSourceCancellation",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceCloseResult",
+        "WorkerSourceEndpointOptions",
+        "WorkerSourceErrorCode",
+        "WorkerSourceIssue",
+        "WorkerSourcePhase",
+        "WorkerSourceRemoteError",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceSignal",
+        "WorkerSourceTermination",
+        "WorkerSourceThrownKind",
+        "WorkerStateFactory",
+        "WorkerTransferSelector"
+      ]
+    }
+  ],
+  "provenanceSha256": {
+    "package.json": "abe3d7d317b05b7777314b912729446697bb49d831d8a7907364f9e47a0e1c27",
+    ".github/workflows/ci.yml": "36c731d7d9fa5c060ec3ef740ecad2b393e7c70c5b4a06716ff23f201ac7f04f",
+    "tsconfig.json": "b9729c023af5e26af7297d6e9a0c4a3d4bfb789bd737ba99e5e63b404791e678",
+    "tsconfig.worker.json": "a486499a90a2c582d7f830494265d9e58d6c6706ff8eb5c8b4fbacae08a10735",
+    "dist/scene/index.d.ts": "594bcb48b86e6d0a80c7d8fc3aa020c790750da1db4e48ab5f1cfd4c6e21a904",
+    "dist/array/index.d.ts": "278a06b76bc4b721647771361da945649134f80f388f1964deea142cd6c367ce",
+    "dist/playback/index.d.ts": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0",
+    "dist/player/index.d.ts": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d",
+    "dist/canvas/viewport.d.ts": "fb6ba0fb12390824cde00dc813338cffe85d93e60cf8230346f517e87206737f",
+    "dist/canvas/index.d.ts": "fad4e054eb2bf036895dadcb63eeeed572f21241f8528b435b404761a71309e2",
+    "dist/worker/index.d.ts": "e14608ea89c5210fe650f2b4b54eb21aa1850fbb8b553645a0f99831e4c60801",
+    "dist/worker/runtime.d.ts": "c27563c8529f25aff546a4b32cbb546fb86f4a4df83f14d7d2012f24c55f61bd"
+  },
+  "documentSha256": {
+    "docs/api-compatibility.md": "f6a0d7fdfef691c2ec672516013bf6a8cafdf955d96277889c31921daf578268",
+    "docs/ru/api-compatibility.md": "b85693833cd179db71c26a53fc5697e5acb65017a1fb29574c1a3daeb75d4b21",
+    "docs/api-stability.md": "d8cd5007f74848c68b6fb86970dbe927793c0bee8ad29b9076cdb56628bf7229",
+    "docs/api-readiness-0.16.0.md": "3a85677435049e799dac22a26370d3b3a1599832845d6e829ccda75f19f4b70a",
+    "docs/optional-player-proposal.md": "43a831af82f45b9442c026e5dfc2291c92be672957a9a9e96868c0e49e69ab92",
+    "docs/support-matrix.md": "88d090b6b436f6c7a52e00c66f9bd05ea83c56169b1f01fdbd7c3c7b1a116fb8"
+  },
+  "externalBeforeSnapshot": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/u3-policy-before.json",
+  "notes": [
+    "All source/test/build/CI and package metadata hashes match the beginning of this task, including prior accumulated F1/U1/U2 work.",
+    "This records a policy decision, not certification or publication of 1.0.",
+    "Prior audit/release/check JSON files are retained unchanged. No commit, dependency/version change or publication."
+  ]
+}

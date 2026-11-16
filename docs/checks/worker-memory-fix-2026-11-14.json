@@ -1,0 +1,45 @@
+{
+  "date": "2026-11-14T09:53:02.054Z",
+  "package": "@grundyjs/algiviz",
+  "version": "0.16.0",
+  "publishedBaseline": "15f204195908f02e561fda50d1ba25dc4dab5b29",
+  "workingBase": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "status": "fixed-locally-unreleased",
+  "checks": {
+    "repositoryTests": 312,
+    "newRegressionTests": 8,
+    "focusedWorkerTests": 35,
+    "beforeFix": {
+      "focusedTests": 35,
+      "passed": 28,
+      "failed": 7
+    },
+    "installedWorkerCases": 32,
+    "installedPlayerWorkerCases": 11,
+    "compiler": "6.0.3",
+    "resolutions": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "environments": [
+      "ES2022-only",
+      "DOM",
+      "WebWorker"
+    ],
+    "declarationsCompared": 34,
+    "declarationsUnchanged": true,
+    "declarationNormalization": "CRLF/LF",
+    "bundleIsolation": "passed",
+    "nativeChecks": 6,
+    "nativeReport": "worker-memory-fix-browser-2026-11-14.json",
+    "remainingOwnedWorkers": 0,
+    "unexpectedNativeErrors": 0
+  },
+  "provenance": {
+    "src/worker/data.ts": "054103f043ea5ea4dcd1518e7673cad06163f386b4be2e37ec3a0e636c0dbfc4",
+    "test/worker-source.test.mjs": "febfeabdafba26e04cb9874a75941720ff695f8fdb30eebc1b1543db90bec86b",
+    "test/worker-data.test.mjs": "24958296c6236c63a73f47be2e5cd6a9b5c29e881661a5a8a366f491b780f454",
+    "scripts/serve-api-review.mjs": "fc8f26c4d0512fcc3337b7d2ea1a3fe5de120195f2193395dd3a924c09610715",
+    "test/api-review-worker-browser.html": "1c120ba4a077fb5bf7646c3e61d650320fe8780019861a6256da359c20822dde"
+  }
+}

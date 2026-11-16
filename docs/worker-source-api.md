@@ -1,17 +1,19 @@
-# Worker source adapter: public API design
+# Worker source adapter: public API
 
 [Русский](ru/worker-source-api.md) · [Behavior](worker-source.md) · [Async adapter](async-source-api.md) · [Player](player-async-api.md) · [Plan](optional-player-proposal.md)
 
-## API design, 2026-11-14
+**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+
+## Current API, added in 0.16.0
 
 The declarations below are **implemented for 0.16.0**.
 Version 0.15.0 has no Worker entries.
 The behavior in [the Worker contract](worker-source.md), including the 1000 ms
 default shutdown grace period, remains the baseline. The transport/endpoint
-and [Player integration](player-worker.md) are verified locally. Player uses the
-existing asyncSource boundary without changes to its implementation or types.
+and [Player integration](player-worker.md) shipped in 0.16.0. Player uses the
+existing asyncSource boundary; local F1/U2 differences are marked in the status index.
 
-Select two optional entries:
+The two optional entries are:
 
 | Entry | Runtime exports | Declaration environment |
 | --- | --- | --- |
@@ -269,6 +271,13 @@ Only reachable, attached, non-shared ArrayBuffers may be listed, once each.
 Passing typed-array views themselves, other transferable resources, duplicates,
 unreachable or detached buffers is a serialization/transfer error, with no clone
 retry. SharedArrayBuffer/views are rejected throughout the supported data graph.
+Local F1 also rejects shared backing storage reached through WebAssembly.Memory,
+for initialization and emitted states, including nested graphs. This fix is
+unreleased: published 0.16.0 has the Memory bypass. See [current status](current-api.md).
+Local F2 also rejects direct shared buffers/views/nesting when the constructor
+is unavailable before import. The fallback uses captured intrinsic buffer branding
+without WebAssembly or shared allocation; public types and errors are unchanged.
+See [regressions](checks/worker-shared-buffer-fix-2026-11-14.json) and [native checks](checks/worker-shared-buffer-fix-browser-2026-11-14.json).
 Structural TypeScript types, especially older ArrayBuffer declarations, cannot
 enforce these brand/reachability rules; runtime checks remain mandatory.
 In TypeScript 5.0.4 even a Uint8Array can structurally satisfy ArrayBuffer; its
@@ -283,12 +292,17 @@ Ordinary local throws from application factories are preserved as unknown;
 instanceof WorkerSourceError is therefore not a test for every possible failure.
 Transport-generated and normalized remote errors use that class. Its codes are:
 
+**Selected U5:** host postMessage throws remain the original unknown value,
+without transport-error normalization; host/post context is carried by the
+session report. Cancel-send throws remain original cleanup issues inside the
+existing cleanup summary. See [precedence and direct/outer report rules](worker-post-errors.md).
+
 | code | Meaning |
 | --- | --- |
 | startup | Observable Worker startup/load failure before readiness. |
 | protocol | Version, envelope, session/request/phase or iterator-protocol failure. |
 | serialization | Payload validation, structured clone or transfer failure. |
-| transport | Observable worker execution/messageerror or channel-post failure. |
+| transport | Adapter-generated worker execution/messageerror failures. A raw host postMessage throw does not acquire this code. |
 | remote | A worker source factory/acquisition/next or selector threw/rejected. |
 | cleanup | One summary error for actual remote/host cleanup failures. |
 
@@ -339,7 +353,7 @@ claim of a physical browser Worker exit notification.
 | termination.kind forced | No valid acknowledgement before the non-extendable grace deadline; forced termination was attempted. This alone is not a cleanup error. |
 | termination.terminate requested / failed | terminate returned normally / threw; neither is a physical exit confirmation. A thrown terminate is also an actual cleanup issue. |
 | cleanup | Actual failures from remote abort/return and local closing protocol/post/termination/teardown, including failures observed before a forced stop. |
-| lateReadError | First genuine operational read failure observed after cancellation, or null. It excludes normal cancellation/termination and replaying the cleanup summary into the outer adapter. |
+| lateReadError | First genuine late operational issue after an earlier terminal outcome (failure or cancellation), or null. U5 preserves original value/context; it excludes normal cancellation/termination and replaying the cleanup summary into the outer adapter. |
 
 An acknowledged report does not imply cleanup count zero. A not-created report
 may be disposed (abort before first read) or failed (Worker factory threw).
@@ -437,6 +451,8 @@ the application.
 
 ## Design-stage verification
 
+**Historical verification:** counts, versions and hashes below belong to this stage; see [current status](current-api.md) for the later baseline.
+
 Type-check the common declarations and unchanged headless consumers with ES2022
 alone; check host declarations, the existing player consumer and new positive /
 negative cases with DOM; check the endpoint/source/transfer/signal with WebWorker
@@ -459,6 +475,8 @@ realm isolation, readonly metadata and report narrowing passed. No files were
 emitted, package dependencies changed or Worker executed.
 
 ## Standalone implementation and verification
+
+**Historical verification:** counts, versions and hashes below belong to this stage; see [current status](current-api.md) for the later baseline.
 
 Implemented locally on 2026-11-14 in [the host entry](../src/worker/index.ts)
 and [the Worker endpoint](../src/worker/runtime.ts), without changing /player or

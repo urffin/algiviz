@@ -2,6 +2,8 @@
 
 [Русский](ru/player-worker.md) · [Player](player.md) · [Worker API](worker-source-api.md)
 
+**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+
 **Added in 0.16.0, 2026-11-14.** Version 0.15.0 has no
 Worker entries. Pass `createWorkerSourceFactory` directly as `asyncSource`.
 The existing Player controller and types already support this boundary; there

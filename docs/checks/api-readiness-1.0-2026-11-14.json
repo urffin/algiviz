@@ -1,0 +1,751 @@
+{
+  "date": "2026-11-14T12:50:15.082Z",
+  "metadataVersion": "0.16.0",
+  "candidateVersion": null,
+  "baseCommit": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "scope": "Final readiness review of current uncommitted eight-entry tree, including local F1/U1/U2 and U5 permanent regressions; no API/code/version/publication change",
+  "conclusion": "not-ready-for-1.0",
+  "summary": {
+    "readyLocally": 6,
+    "requiresClarification": 0,
+    "requiresChange": 2,
+    "openTechnicalBlockers": 1,
+    "releaseGates": 3
+  },
+  "inventory": {
+    "entries": [
+      {
+        "entry": "./scene",
+        "runtime": [
+          "createSceneFrame",
+          "createSceneProjector",
+          "createSceneRenderer"
+        ],
+        "types": [
+          "ObjectTransition",
+          "Scene",
+          "SceneFrame",
+          "SceneObject",
+          "SceneVisualizations"
+        ]
+      },
+      {
+        "entry": "./array",
+        "runtime": [
+          "createArrayPlayer",
+          "createArrayTimeline",
+          "createArrayTrace",
+          "defineArrayAlgorithm"
+        ],
+        "types": [
+          "ArrayAlgorithm",
+          "ArrayEvent",
+          "ArrayFrame",
+          "ArrayPlayer",
+          "ArraySnapshot",
+          "ArrayStep",
+          "ArrayTimeline",
+          "ArrayTrace",
+          "Item",
+          "SortedRegions"
+        ]
+      },
+      {
+        "entry": "./playback",
+        "runtime": [
+          "createAsyncSource",
+          "createPlayer",
+          "createRewindBuffer",
+          "createStatePlayer",
+          "createStepEmitter",
+          "createTimeline"
+        ],
+        "types": [
+          "AsyncSource",
+          "AsyncSourceCloseResult",
+          "AsyncSourceFactory",
+          "AsyncSourceReadResult",
+          "AsyncSourceSignal",
+          "Frame",
+          "Player",
+          "RewindBuffer",
+          "Step",
+          "Timeline"
+        ]
+      },
+      {
+        "entry": "./player",
+        "runtime": [
+          "Player"
+        ],
+        "types": [
+          "PlayerCloseResult",
+          "PlayerLabels",
+          "PlayerOptions",
+          "PlayerStatus"
+        ]
+      },
+      {
+        "entry": "./canvas/viewport",
+        "runtime": [
+          "createCanvasViewport"
+        ],
+        "types": [
+          "CanvasViewport",
+          "CanvasViewportOptions",
+          "CanvasViewportSize"
+        ]
+      },
+      {
+        "entry": "./canvas",
+        "runtime": [
+          "arrayScene",
+          "createArrayRenderer",
+          "createSortRenderer"
+        ],
+        "types": [
+          "ArrayObjects",
+          "ArrayPalette",
+          "ArrayPaletteOverrides",
+          "ArrayRendererOptions"
+        ]
+      },
+      {
+        "entry": "./worker",
+        "runtime": [
+          "WorkerSourceError",
+          "createWorkerSourceFactory"
+        ],
+        "types": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceErrorCode",
+          "WorkerSourceErrorOptions",
+          "WorkerSourceFactory",
+          "WorkerSourceIssue",
+          "WorkerSourceIterator",
+          "WorkerSourceOptions",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceSession",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind"
+        ]
+      },
+      {
+        "entry": "./worker/runtime",
+        "runtime": [
+          "exposeWorkerSource"
+        ],
+        "types": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceEndpointOptions",
+          "WorkerSourceErrorCode",
+          "WorkerSourceIssue",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind",
+          "WorkerStateFactory",
+          "WorkerTransferSelector"
+        ]
+      }
+    ],
+    "runtimeNames": 21,
+    "typeOnlyNames": 68,
+    "uniqueTypeOnlyNames": 56
+  },
+  "entryStatuses": [
+    {
+      "entry": "./scene",
+      "runtime": [
+        "createSceneFrame",
+        "createSceneProjector",
+        "createSceneRenderer"
+      ],
+      "types": [
+        "ObjectTransition",
+        "Scene",
+        "SceneFrame",
+        "SceneObject",
+        "SceneVisualizations"
+      ],
+      "status": "ready-locally",
+      "blockingFinding": null
+    },
+    {
+      "entry": "./array",
+      "runtime": [
+        "createArrayPlayer",
+        "createArrayTimeline",
+        "createArrayTrace",
+        "defineArrayAlgorithm"
+      ],
+      "types": [
+        "ArrayAlgorithm",
+        "ArrayEvent",
+        "ArrayFrame",
+        "ArrayPlayer",
+        "ArraySnapshot",
+        "ArrayStep",
+        "ArrayTimeline",
+        "ArrayTrace",
+        "Item",
+        "SortedRegions"
+      ],
+      "status": "ready-locally",
+      "blockingFinding": null
+    },
+    {
+      "entry": "./playback",
+      "runtime": [
+        "createAsyncSource",
+        "createPlayer",
+        "createRewindBuffer",
+        "createStatePlayer",
+        "createStepEmitter",
+        "createTimeline"
+      ],
+      "types": [
+        "AsyncSource",
+        "AsyncSourceCloseResult",
+        "AsyncSourceFactory",
+        "AsyncSourceReadResult",
+        "AsyncSourceSignal",
+        "Frame",
+        "Player",
+        "RewindBuffer",
+        "Step",
+        "Timeline"
+      ],
+      "status": "ready-locally",
+      "blockingFinding": null
+    },
+    {
+      "entry": "./player",
+      "runtime": [
+        "Player"
+      ],
+      "types": [
+        "PlayerCloseResult",
+        "PlayerLabels",
+        "PlayerOptions",
+        "PlayerStatus"
+      ],
+      "status": "ready-locally",
+      "blockingFinding": null
+    },
+    {
+      "entry": "./canvas/viewport",
+      "runtime": [
+        "createCanvasViewport"
+      ],
+      "types": [
+        "CanvasViewport",
+        "CanvasViewportOptions",
+        "CanvasViewportSize"
+      ],
+      "status": "ready-locally",
+      "blockingFinding": null
+    },
+    {
+      "entry": "./canvas",
+      "runtime": [
+        "arrayScene",
+        "createArrayRenderer",
+        "createSortRenderer"
+      ],
+      "types": [
+        "ArrayObjects",
+        "ArrayPalette",
+        "ArrayPaletteOverrides",
+        "ArrayRendererOptions"
+      ],
+      "status": "ready-locally",
+      "blockingFinding": null
+    },
+    {
+      "entry": "./worker",
+      "runtime": [
+        "WorkerSourceError",
+        "createWorkerSourceFactory"
+      ],
+      "types": [
+        "WorkerSourceCancellation",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceCloseResult",
+        "WorkerSourceErrorCode",
+        "WorkerSourceErrorOptions",
+        "WorkerSourceFactory",
+        "WorkerSourceIssue",
+        "WorkerSourceIterator",
+        "WorkerSourceOptions",
+        "WorkerSourcePhase",
+        "WorkerSourceRemoteError",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceSession",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceSignal",
+        "WorkerSourceTermination",
+        "WorkerSourceThrownKind"
+      ],
+      "status": "requires-change-F2",
+      "blockingFinding": "F2"
+    },
+    {
+      "entry": "./worker/runtime",
+      "runtime": [
+        "exposeWorkerSource"
+      ],
+      "types": [
+        "WorkerSourceCancellation",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceCloseResult",
+        "WorkerSourceEndpointOptions",
+        "WorkerSourceErrorCode",
+        "WorkerSourceIssue",
+        "WorkerSourcePhase",
+        "WorkerSourceRemoteError",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceSignal",
+        "WorkerSourceTermination",
+        "WorkerSourceThrownKind",
+        "WorkerStateFactory",
+        "WorkerTransferSelector"
+      ],
+      "status": "requires-change-F2",
+      "blockingFinding": "F2"
+    }
+  ],
+  "closedFindings": [
+    {
+      "id": "F1",
+      "status": "closed-locally-in-original-Memory-object-scope",
+      "limit": "F2 is a separate direct-buffer branch; native F1 evidence stays historical"
+    },
+    {
+      "id": "U1",
+      "status": "closed-locally",
+      "cases": 61
+    },
+    {
+      "id": "U2",
+      "status": "closed-locally",
+      "cases": 55
+    },
+    {
+      "id": "U3",
+      "status": "policy-selected"
+    },
+    {
+      "id": "U4",
+      "status": "documentation-reconciled",
+      "followup": "Updated lateReadError caption to agree with already selected U5 after earlier failure/cancellation; no contract/code change"
+    },
+    {
+      "id": "U5",
+      "status": "closed-locally-with-permanent-regressions",
+      "cases": 75
+    }
+  ],
+  "findings": [
+    {
+      "id": "F2",
+      "status": "open",
+      "kind": "technical-contract-blocker",
+      "entries": [
+        "./worker",
+        "./worker/runtime"
+      ],
+      "file": "src/worker/data.ts",
+      "cause": "sharedLength is captured only if global SharedArrayBuffer is present; isShared cannot brand shared storage when absent. Memory-specific F1 branding does not cover direct buffer/view/nested input.",
+      "trigger": "SharedArrayBuffer unavailable before first module import; shared backing store obtained through WebAssembly.Memory.buffer",
+      "evidence": "Public factory/async adapter and real endpoint over in-process structuredClone transport, separate fresh Node process per configuration",
+      "observedConstructorAbsent": {
+        "cases": 10,
+        "acceptedShared": 8,
+        "rejectedMemoryControls": 2,
+        "initialByte": 7,
+        "senderWriteObservedByReceiver": 42,
+        "receiverWriteObservedBySender": true
+      },
+      "constructorPresentControl": {
+        "cases": 10,
+        "rejected": 10
+      },
+      "nativeBrowserExploitDemonstrated": false,
+      "scopeLimit": "Unavailable constructor modeled in Node; not a claim that a non-isolated native browser permits shared posting or that every default host fails",
+      "requiredClosure": [
+        "Constructor-present/absent, both-direction permanent regressions for buffer/Uint8Array/DataView/nested Map and Memory controls",
+        "Reliable shared-storage validation preserving F1, ordinary copy/transfer, false-brand and primary/cleanup behavior",
+        "Re-evaluate both entries and affected native host boundary without violating U3 import/resource constraints"
+      ],
+      "probes": {
+        "absent": {
+          "date": "2026-11-14T12:40:53.809Z",
+          "constructor": "hidden",
+          "method": "Fresh Node process, public adapter and real endpoint over in-process cloned-message transport; unavailable constructor modeled before module import; not native browser exploitation",
+          "observations": [
+            {
+              "direction": "input",
+              "shape": "buffer",
+              "result": "value",
+              "before": 7,
+              "after": 42,
+              "sharedMutation": true,
+              "receiverMutation": true,
+              "terminations": 1,
+              "closeKind": "disposed"
+            },
+            {
+              "direction": "input",
+              "shape": "view",
+              "result": "value",
+              "before": 7,
+              "after": 42,
+              "sharedMutation": true,
+              "receiverMutation": true,
+              "terminations": 1,
+              "closeKind": "disposed"
+            },
+            {
+              "direction": "input",
+              "shape": "data-view",
+              "result": "value",
+              "before": 7,
+              "after": 42,
+              "sharedMutation": true,
+              "receiverMutation": true,
+              "terminations": 1,
+              "closeKind": "disposed"
+            },
+            {
+              "direction": "input",
+              "shape": "nested",
+              "result": "value",
+              "before": 7,
+              "after": 42,
+              "sharedMutation": true,
+              "receiverMutation": true,
+              "terminations": 1,
+              "closeKind": "disposed"
+            },
+            {
+              "direction": "input",
+              "shape": "memory",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            },
+            {
+              "direction": "state",
+              "shape": "buffer",
+              "result": "value",
+              "before": 7,
+              "after": 42,
+              "sharedMutation": true,
+              "receiverMutation": true,
+              "terminations": 1,
+              "closeKind": "disposed"
+            },
+            {
+              "direction": "state",
+              "shape": "view",
+              "result": "value",
+              "before": 7,
+              "after": 42,
+              "sharedMutation": true,
+              "receiverMutation": true,
+              "terminations": 1,
+              "closeKind": "disposed"
+            },
+            {
+              "direction": "state",
+              "shape": "data-view",
+              "result": "value",
+              "before": 7,
+              "after": 42,
+              "sharedMutation": true,
+              "receiverMutation": true,
+              "terminations": 1,
+              "closeKind": "disposed"
+            },
+            {
+              "direction": "state",
+              "shape": "nested",
+              "result": "value",
+              "before": 7,
+              "after": 42,
+              "sharedMutation": true,
+              "receiverMutation": true,
+              "terminations": 1,
+              "closeKind": "disposed"
+            },
+            {
+              "direction": "state",
+              "shape": "memory",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            }
+          ]
+        },
+        "available": {
+          "date": "2026-11-14T12:40:53.982Z",
+          "constructor": "visible",
+          "method": "Fresh Node process, public adapter and real endpoint over in-process cloned-message transport; unavailable constructor modeled before module import; not native browser exploitation",
+          "observations": [
+            {
+              "direction": "input",
+              "shape": "buffer",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            },
+            {
+              "direction": "input",
+              "shape": "view",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            },
+            {
+              "direction": "input",
+              "shape": "data-view",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            },
+            {
+              "direction": "input",
+              "shape": "nested",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            },
+            {
+              "direction": "input",
+              "shape": "memory",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            },
+            {
+              "direction": "state",
+              "shape": "buffer",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            },
+            {
+              "direction": "state",
+              "shape": "view",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            },
+            {
+              "direction": "state",
+              "shape": "data-view",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            },
+            {
+              "direction": "state",
+              "shape": "nested",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            },
+            {
+              "direction": "state",
+              "shape": "memory",
+              "result": "rejected",
+              "error": "WorkerSourceError",
+              "code": "serialization",
+              "terminations": 1,
+              "closeKind": "failed"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "remainingReleaseGates": [
+    {
+      "id": "G1",
+      "category": "candidate-definition",
+      "status": "not-started",
+      "description": "After F2 closure, select version/migration and freeze immutable SHA/archive; no intermediate release/new feature prerequisite"
+    },
+    {
+      "id": "G2",
+      "category": "exact-candidate-CI",
+      "status": "not-started",
+      "description": "11 configured jobs on exact candidate: Node 22/24/26 x Windows/Linux, four TS compiler jobs with NodeNext/Bundler, bundle isolation"
+    },
+    {
+      "id": "G3",
+      "category": "focused-native-candidate-verification",
+      "status": "not-started",
+      "description": "Chosen existing Windows built-in browser boundary; affected Worker/Player plus selected minimal/scene/Canvas/viewport checks; record actual host/candidate/hash"
+    }
+  ],
+  "evidenceVerification": {
+    "runtimeTestGroups": [
+      {
+        "finding": "F1",
+        "path": "docs/checks/worker-memory-fix-2026-11-14.json",
+        "matchedRuntimeTestFiles": [
+          "src/worker/data.ts",
+          "test/worker-source.test.mjs",
+          "test/worker-data.test.mjs"
+        ]
+      },
+      {
+        "finding": "U1",
+        "path": "docs/checks/u1-reentrancy-2026-11-14.json",
+        "matchedRuntimeTestFiles": [
+          "src/playback/player.ts",
+          "src/playback/state-steps.ts",
+          "test/playback-reentrancy.test.mjs"
+        ]
+      },
+      {
+        "finding": "U2",
+        "path": "docs/checks/u2-speed-implementation-2026-11-14.json",
+        "matchedRuntimeTestFiles": [
+          "src/player/controller.ts",
+          "src/player/async-controller.ts",
+          "src/player/types.ts",
+          "test/player-speed.test.mjs"
+        ]
+      },
+      {
+        "finding": "U5",
+        "path": "docs/checks/u5-post-errors-regressions-2026-11-14.json",
+        "matchedRuntimeTestFiles": [
+          "src/worker/index.ts",
+          "src/worker/error.ts",
+          "src/worker/protocol.ts",
+          "src/worker/types.ts",
+          "src/playback/async-source.ts",
+          "test/worker-post-errors.test.mjs",
+          "test/worker-test-transport.mjs",
+          "test/player-test-dom.mjs",
+          "scripts/test-package.mjs"
+        ]
+      }
+    ],
+    "lastCompletedFullSuite": 503,
+    "lastSuiteRerun": false,
+    "latestInstalledU5Cases": 75,
+    "installedConsumers": "Prior U5 strict TypeScript 6.0.3 NodeNext/Bundler ES2022/DOM/WebWorker checks; provenance matched",
+    "newReadOnlyF2Cases": 20,
+    "publicRuntimeImportsAndPrivatePathFixture": "passed",
+    "typeEnumeration": "Symbol enumeration only; not a new compiler/consumer check",
+    "publicDeclarationsUnchanged": true,
+    "onlyChangedDeclarationFromPreU1": "dist/playback/state-steps.d.ts",
+    "declarationPrivate": true,
+    "nativeChecksRerun": false,
+    "ciStarted": false,
+    "bundleRerun": false,
+    "registryChecked": false
+  },
+  "unchanged": {
+    "implementationTestBuildMetadataFiles": 219,
+    "historicalAuditReleaseBenchmarkArtifacts": 31,
+    "scopes": [
+      "src",
+      "test",
+      "scripts",
+      "dist",
+      ".github",
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "tsconfig.worker.json"
+    ]
+  },
+  "documentationVerification": {
+    "markdownFiles": 74,
+    "localAndRepositoryMappedLinks": 957,
+    "fragments": 47,
+    "selfReportLinks": 3,
+    "translatedReviewTableRows": [
+      8,
+      6,
+      2,
+      4
+    ]
+  },
+  "provenanceSha256": {
+    "src/worker/data.ts": "054103f043ea5ea4dcd1518e7673cad06163f386b4be2e37ec3a0e636c0dbfc4",
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/runtime.ts": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef",
+    "test/worker-data.test.mjs": "24958296c6236c63a73f47be2e5cd6a9b5c29e881661a5a8a366f491b780f454",
+    "package.json": "abe3d7d317b05b7777314b912729446697bb49d831d8a7907364f9e47a0e1c27",
+    ".github/workflows/ci.yml": "36c731d7d9fa5c060ec3ef740ecad2b393e7c70c5b4a06716ff23f201ac7f04f"
+  },
+  "documentSha256": {
+    "docs/api-readiness-1.0.md": "97e0dba96543aaa49ba9b2140e95971bcaef66710a1a9c484aa13573894c6f5b",
+    "docs/ru/api-readiness-1.0.md": "b48d7d8b6f0fc66f99ce1de0cc2b61771f29aa1d5c0817f77891b82ecdb9ac3d",
+    "docs/current-api.md": "8b0d336f0eac97238f3959c6aa991fc04c3f2f5d98074fa3728b96075d006eae",
+    "docs/ru/current-api.md": "1119879d1494a0cf175b23afa59ab0e5b9722fa22944f0486c01a15b52118305",
+    "docs/api-stability.md": "e02cb246963bbce6997e6f035a13633b59852eddfa81d169367f70f5f1e6b600",
+    "docs/optional-player-proposal.md": "5446b62d8ad01dbdfd080e5b1121df21cfe74a41c2d41b32907a74b2f6ddaa86",
+    "docs/api-readiness-0.16.0.md": "3c664756b76b8912d721f834e69b3bdb8f436d84a87d3b06f8eb4502df8a5c59",
+    "docs/worker-source-api.md": "0faad07a0c041ce64ca24e9b0cb116fd8f93a222a8c45933ad7fcc8dd087ec92",
+    "docs/ru/worker-source-api.md": "6765b65129b09f8bcf60b65edb88d714cb954fe63ee7ec6779657dc846bb73fd",
+    "docs/worker-source.md": "3d422138d6a91ab3079215883651d7044241a4041a66c24a8ee0c8de9fbe3807",
+    "docs/ru/worker-source.md": "f03d14dd51c08c9fb26206b8cc209b178ffdb64bf27500cdd36c6fb856a48809",
+    "README.md": "9a97dac37c66273ea405957f5e14f266be6bdaac598333241b58115dec46c770",
+    "ru/README.md": "99ac51a86e2f4bfe9063e0c9cab320922bdc8a6a2481275b37737a53c0572cc2"
+  },
+  "externalArtifacts": {
+    "before": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/final-readiness-before.json",
+    "inventoryEvidence": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/final-review-inventory-evidence.json",
+    "probeScript": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/final-review-shared-probe.mjs",
+    "constructorHidden": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/final-review-shared-hidden.json",
+    "constructorVisible": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/final-review-shared-visible.json"
+  },
+  "notes": [
+    "Existing 503 passing tests do not cover the newly found F2 branch; no permanent F2 tests added in this audit.",
+    "F1/U1-U5 closure does not imply whole-library readiness when a new blocker is reproduced.",
+    "No mandatory new API feature, broader browser support, intermediate 0.x publication or external-user quota added.",
+    "No commit/push, API/implementation/version/dependency/CI changes or publication."
+  ]
+}

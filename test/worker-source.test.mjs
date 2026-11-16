@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { runInNewContext } from 'node:vm';
 import { createAsyncSource } from '@grundyjs/algiviz/playback';
 import { createWorkerSourceFactory, WorkerSourceError } from '@grundyjs/algiviz/worker';
 import { exposeWorkerSource } from '@grundyjs/algiviz/worker/runtime';
@@ -18,6 +19,88 @@ function setup(source, options = {}) {
 async function rejected(read, code, phase) {
     await assert.rejects(read, error => error instanceof WorkerSourceError && error.code === code && (!phase || error.phase === phase));
 }
+
+function sharedMemoryPayload(mode) {
+    const memory = mode === 'foreign'
+        ? runInNewContext('new WebAssembly.Memory({ initial: 1, maximum: 1, shared: true })')
+        : new WebAssembly.Memory({ initial: 1, maximum: 1, shared: true });
+    if (mode !== 'nested') return memory;
+    const graph = new Map();
+    graph.set(graph, new Set([new Error('nested memory', { cause: { memory } })]));
+    return graph;
+}
+
+test('shared WebAssembly.Memory initialization is rejected before posting init or acquiring the Worker source', async () => {
+    for (const mode of ['direct', 'nested', 'foreign']) {
+        let acquisitions = 0;
+        const env = setup(function* () { acquisitions++; yield 1; }, { input: () => sharedMemoryPayload(mode) });
+        await rejected(env.adapter.next(), 'serialization', 'serialize');
+        const report = await env.session.closed;
+        await env.adapter.closed;
+        assert.equal(acquisitions, 0, mode);
+        assert.equal(env.link.sent.some(packet => packet.type === 'init' || packet.type === 'pull'), false, mode);
+        assert.equal(report.origin, 'host', mode); assert.equal(report.cleanup.count, 0, mode);
+        assert.equal(env.link.terminations, 1, mode); assert.equal(env.link.hostListeners, 0, mode);
+    }
+});
+
+test('shared WebAssembly.Memory states are rejected without delivering a value or retrying the read', async () => {
+    for (const mode of ['direct', 'nested', 'foreign']) {
+        let reads = 0, returns = 0;
+        const env = setup(function* () { try { reads++; yield sharedMemoryPayload(mode); reads++; yield 2; } finally { returns++; } });
+        await rejected(env.adapter.next(), 'serialization', 'serialize');
+        const report = await env.session.closed; await env.adapter.closed;
+        assert.equal(reads, 1, mode); assert.equal(returns, 1, mode);
+        assert.equal(env.link.replies.some(packet => packet.type === 'value'), false, mode);
+        assert.equal(env.link.sent.filter(packet => packet.type === 'pull').length, 1, mode);
+        assert.equal(report.origin, 'worker', mode); assert.equal(report.cleanup.count, 0, mode);
+        assert.equal(env.link.terminations, 1, mode); assert.equal(env.link.hostListeners, 0, mode);
+    }
+});
+
+test('Worker endpoint independently rejects a shared Memory injected into an otherwise valid init message', async () => {
+    let link, acquisitions = 0;
+    const factory = createWorkerSourceFactory({
+        worker() {
+            link = transport(function* () { acquisitions++; yield 1; });
+            const post = link.worker.postMessage.bind(link.worker);
+            link.worker.postMessage = (packet, transfer) => post(packet.type === 'init' ? { ...packet, input: sharedMemoryPayload('nested') } : packet, transfer);
+            return link.worker;
+        }, input: () => undefined,
+    });
+    const source = createAsyncSource(factory);
+    await rejected(source.next(), 'serialization', 'serialize'); await source.closed;
+    assert.equal(acquisitions, 0); assert.equal(link.sent.some(packet => packet.type === 'pull'), false);
+    assert.equal(link.replies.find(packet => packet.type === 'error').remote.phase, 'serialize');
+    assert.equal(link.terminations, 1); assert.equal(link.hostListeners, 0);
+});
+
+test('host receiver independently rejects shared Memory in a state from a bypassed endpoint', async () => {
+    const env = setup(null, { endpoint: false });
+    const read = env.adapter.next(), init = env.link.sent[0];
+    env.link.reply({ ...init, type: 'ready' }); await turn();
+    env.link.reply({ channel: init.channel, version: init.version, session: init.session,
+        type: 'value', request: 1, value: sharedMemoryPayload('nested') });
+    await rejected(read, 'serialization', 'serialize'); await env.adapter.closed;
+    assert.equal((await env.session.closed).origin, 'host');
+    assert.equal(env.link.sent.filter(packet => packet.type === 'pull').length, 1);
+    assert.equal(env.link.terminations, 1); assert.equal(env.link.hostListeners, 0);
+});
+
+test('a rejected shared Memory state preserves earlier transferred snapshots and closes once', async () => {
+    let reads = 0, returns = 0;
+    const sender = new Uint8Array([7, 8]).buffer;
+    const env = setup(function* () {
+        try { reads++; yield { buffer: sender }; reads++; yield { memory: sharedMemoryPayload('direct') }; }
+        finally { returns++; }
+    }, { transfer: state => state.buffer ? [state.buffer] : [] });
+    const first = (await env.adapter.next()).value;
+    assert.equal(sender.byteLength, 0);
+    await rejected(env.adapter.next(), 'serialization', 'serialize'); await env.adapter.closed;
+    assert.deepEqual([...new Uint8Array(first.buffer)], [7, 8]); assert.equal(first.buffer.byteLength, 2);
+    await rejected(env.adapter.next(), 'serialization', 'serialize');
+    assert.equal(reads, 2); assert.equal(returns, 1); assert.equal(env.link.terminations, 1);
+});
 
 test('Worker factory/session acquisition is lazy, stable, and disposal before read creates nothing', async () => {
     const env = setup(function* () { yield 1; });

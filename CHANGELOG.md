@@ -1,5 +1,48 @@
 # Changelog
 
+## Unreleased
+
+## 1.0.0 — candidate prepared 2026-11-16, not published
+
+Promote the eight existing ESM entries to the common 1.x compatibility policy:
+/playback, /scene, /array, /canvas, /canvas/viewport, /player, /worker and
+/worker/runtime. Public signatures, export names and runtime dependencies are
+unchanged from 0.16.0. This candidate still requires exact-SHA CI and focused
+native candidate verification before a separately authorized release.
+
+### Migration from 0.16.0
+
+- **U1 — observable control change:** createPlayer, createStatePlayer and
+  createArrayPlayer now reject same-instance nextStep/advance/initial dispose
+  entered from render, isTerminal, source callbacks or step getters with a
+  synchronous Error before side effects. Issue commands after the outer callback
+  returns. Frame/finished reads, other idle players and repeated dispose after
+  logical disposal remain allowed. Uncaught callback errors retain primary-error
+  and at-most-once cleanup behavior.
+- **U2 — error-class change:** Player.setSpeed uses synchronous RangeError for
+  every invalid value across sync/history/async/Worker sources; async/Worker
+  previously used TypeError. Accept only primitive finite positive numbers,
+  without coercion. Validation runs before lifecycle guards and changes no
+  playback state on rejection. Update catch branches relying on TypeError.
+- See the [English migration guide](https://github.com/urffin/algiviz/blob/master/docs/migration-1.0.md)
+  and [Russian guide](https://github.com/urffin/algiviz/blob/master/docs/ru/migration-1.0.md)
+  for before/after examples, disposal and validation ordering.
+
+### Fixes and contract coverage
+
+- **F1/F2:** reject shared storage in Worker input/state and receiver graphs,
+  including WebAssembly.Memory, buffers, typed views, DataView, foreign instances
+  and nested/cyclic containers. Recognize shared buffers without a global
+  SharedArrayBuffer constructor; retain ordinary ArrayBuffer copy/transfer,
+  prior snapshots and cleanup. No WebAssembly allocation fallback is introduced.
+- **U5:** retain original host postMessage exceptions as unknown for init/pull;
+  preserve primary/disposal precedence and report cancel failures as cleanup.
+  Add permanent falsy/opaque-throw, error-priority and close-report coverage.
+- Add permanent repository and installed-package regressions for U1/U2/F1/F2/U5;
+  reconcile EN/RU references and retain dated audit/release evidence separately.
+  The selected U3 policy covers types, closed unions, errors and environments
+  equally for all eight entries. No browser/host support expansion is claimed.
+
 ## 0.16.0 — 2026-11-14
 
 - Add optional `/worker` and `/worker/runtime` entries for standalone dedicated

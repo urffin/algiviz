@@ -1,5 +1,7 @@
 # Public exports audit
 
+**Historical report:** versions, counts and measurements below belong to their original stage. See [current eight-entry status and local changes](current-api.md); U4 does not rerun these checks.
+
 Inspected 2026-10-26 at 49be3cc, package version 0.8.0. This document proposes
 compatibility decisions; it does not change exports or authorize a release.
 

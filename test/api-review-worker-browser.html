@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<title>Ревизия API 0.16.0 — общая память</title>
+<style>body{font:16px system-ui;max-width:960px;margin:32px auto;background:#101827;color:#f1f5f9}button{font:inherit;padding:12px}pre{white-space:pre-wrap;background:#1c2c43;padding:20px}li{margin:12px 0}</style>
+<h1>Worker API 0.16.0: проверка общей памяти</h1>
+<p>Настоящие выделенные модульные Worker. Ожидаемый контракт: источник отклоняет общую память.</p>
+<button id="run">Проверить общую память</button>
+<p id="status" role="status">Готово к проверке</p>
+<ol id="checks"></ol><pre id="report"></pre>
+<script type="module">
+import { createAsyncSource } from '/dist/playback/index.js';
+import { createWorkerSourceFactory, WorkerSourceError } from '/dist/worker/index.js';
+const verify = new URL(location.href).searchParams.get('verify') === '1';
+if (verify) {
+    document.querySelector('h1').textContent = 'Worker: регрессия запрета общей памяти';
+    document.getElementById('run').textContent = 'Проверить исправление';
+}
+const unexpected = [], owned = new Set();
+addEventListener('error', e => unexpected.push(e.message));
+addEventListener('unhandledrejection', e => unexpected.push(String(e.reason)));
+const workerCode = `
+import { exposeWorkerSource } from ${JSON.stringify(new URL('/dist/worker/runtime.js', location.href).href)};
+let memory;
+addEventListener('message', e => {
+    if (e.data?.audit !== 'inspect') return;
+    if (e.data.mutate) Atomics.store(new Uint8Array(memory.buffer), 0, 42);
+    postMessage({audit:'answer', value:Atomics.load(new Uint8Array(memory.buffer), 0)});
+});
+exposeWorkerSource({scope:self, source:function*(input) {
+    memory = input.mode === 'input' ? input.memory : new WebAssembly.Memory({initial:1, maximum:1, shared:true});
+    if (input.mode === 'state') Atomics.store(new Uint8Array(memory.buffer), 0, 7);
+    yield input.mode === 'input' ? {value:Atomics.load(new Uint8Array(memory.buffer), 0)} : {memory};
+}});`;
+async function probe(mode) {
+    let worker, session, objectURL;
+    const inputMemory = mode === 'input' ? new WebAssembly.Memory({initial:1, maximum:1, shared:true}) : undefined;
+    if (inputMemory) Atomics.store(new Uint8Array(inputMemory.buffer), 0, 7);
+    const factory = createWorkerSourceFactory({
+        worker() {
+            objectURL = URL.createObjectURL(new Blob([workerCode], {type:'text/javascript'}));
+            worker = new Worker(objectURL, {type:'module'}); owned.add(worker);
+            const terminate = worker.terminate.bind(worker);
+            worker.terminate = () => { owned.delete(worker); terminate(); };
+            return worker;
+        }, input: () => ({mode, memory:inputMemory}),
+    });
+    const source = createAsyncSource(signal => (session = factory(signal)));
+    let result;
+    try {
+        const first = await source.next();
+        const answer = new Promise(resolve => {
+            function receive(e) { if (e.data?.audit === 'answer') { worker.removeEventListener('message', receive); resolve(e.data.value); } }
+            worker.addEventListener('message', receive);
+        });
+        const before = mode === 'input' ? first.value.value : Atomics.load(new Uint8Array(first.value.memory.buffer), 0);
+        if (inputMemory) Atomics.store(new Uint8Array(inputMemory.buffer), 0, 42);
+        worker.postMessage({audit:'inspect', mutate:mode === 'state'});
+        const workerValue = await answer;
+        const after = mode === 'input' ? workerValue : Atomics.load(new Uint8Array(first.value.memory.buffer), 0);
+        result = {mode, accepted:true, before, after, violatesIsolation:before === 7 && after === 42};
+    } catch(error) { result = {mode, accepted:false, name:error.name, code:error.code, message:error.message, violatesIsolation:false}; }
+    finally {
+        source.dispose('api-review'); await source.closed;
+        result.termination = (await session.closed).termination;
+        if (objectURL) URL.revokeObjectURL(objectURL);
+    }
+    return result;
+}
+async function verifyRejection(mode, nested) {
+    let worker, session, objectURL, delivered = false;
+    const memory = new WebAssembly.Memory({initial:1, maximum:1, shared:true});
+    const wrap = value => nested ? new Map([[1, new Set([new Error('nested', {cause:{memory:value}})])]]) : value;
+    const code = `
+        import { exposeWorkerSource } from ${JSON.stringify(new URL('/dist/worker/runtime.js', location.href).href)};
+        exposeWorkerSource({scope:self, source:function*() {
+            const memory = new WebAssembly.Memory({initial:1, maximum:1, shared:true});
+            yield ${nested ? "new Map([[1,new Set([new Error('nested',{cause:{memory}})])]])" : 'memory'};
+        }});`;
+    const factory = createWorkerSourceFactory({worker() {
+        objectURL = URL.createObjectURL(new Blob([code], {type:'text/javascript'}));
+        worker = new Worker(objectURL, {type:'module'}); owned.add(worker);
+        const terminate = worker.terminate.bind(worker);
+        worker.terminate = () => { owned.delete(worker); terminate(); };
+        return worker;
+    }, input: () => mode === 'input' ? wrap(memory) : undefined});
+    const source = createAsyncSource(signal => (session = factory(signal)));
+    let result;
+    try { await source.next(); delivered = true; result = {mode, nested, passed:false, delivered}; }
+    catch(error) {
+        result = {mode, nested, delivered, name:error.name, code:error.code, origin:error.origin, phase:error.phase,
+            passed:error instanceof WorkerSourceError && error.code === 'serialization' && error.phase === 'serialize' && error.origin === (mode === 'input' ? 'host' : 'worker')};
+    } finally {
+        source.dispose('memory-fix-check'); const closed = await source.closed, transport = await session.closed;
+        result.termination = transport.termination; result.cleanupCount = transport.cleanup.count;
+        result.passed &&= closed.kind === 'failed' && closed.cleanupErrors.length === 0 && transport.cleanup.count === 0;
+        if (objectURL) URL.revokeObjectURL(objectURL);
+    }
+    return result;
+}
+async function verifyBuffers(transfer) {
+    let worker, session, objectURL;
+    const code = `
+        import { exposeWorkerSource } from ${JSON.stringify(new URL('/dist/worker/runtime.js', location.href).href)};
+        let previous;
+        exposeWorkerSource({scope:self, source:function*() {
+            for(let n=1;n<=2;n++) {
+                const previousBytes = previous?.byteLength ?? null;
+                const buffer = new Uint8Array([n]).buffer; previous = buffer;
+                yield {buffer, previousBytes};
+            }
+        }, transfer:state=>${transfer ? '[state.buffer]' : '[]'}});`;
+    const factory = createWorkerSourceFactory({worker() {
+        objectURL = URL.createObjectURL(new Blob([code], {type:'text/javascript'}));
+        worker = new Worker(objectURL, {type:'module'}); owned.add(worker);
+        const terminate = worker.terminate.bind(worker);
+        worker.terminate = () => { owned.delete(worker); terminate(); }; return worker;
+    }, input: () => undefined});
+    const source = createAsyncSource(signal => (session = factory(signal)));
+    let result, first;
+    try {
+        first = (await source.next()).value;
+        const second = (await source.next()).value;
+        result = {mode:transfer ? 'transfer-control' : 'copy-control', previousBytes:second.previousBytes,
+            passed:second.previousBytes === (transfer ? 0 : 1) && new Uint8Array(first.buffer)[0] === 1 && new Uint8Array(second.buffer)[0] === 2};
+    } catch(error) { result = {mode:'buffer-control', passed:false, error:String(error)}; }
+    finally {
+        source.dispose('memory-fix-check'); const closed = await source.closed, transport = await session.closed;
+        result.termination = transport.termination;
+        result.passed &&= closed.cleanupErrors.length === 0 && first?.buffer.byteLength === 1 && new Uint8Array(first.buffer)[0] === 1;
+        if (objectURL) URL.revokeObjectURL(objectURL);
+    }
+    return result;
+}
+document.getElementById('run').onclick = async () => {
+    document.getElementById('run').disabled = true;
+    try {
+        const provenance = await fetch('/provenance').then(r => r.json());
+        const results = verify ? [await verifyRejection('input', false), await verifyRejection('input', true),
+            await verifyRejection('state', false), await verifyRejection('state', true), await verifyBuffers(false), await verifyBuffers(true)]
+            : [await probe('input'), await probe('state')];
+        const report = {date:new Date().toISOString(), environment:{userAgent:navigator.userAgent, crossOriginIsolated}, results,
+            unexpected, remainingOwnedWorkers:owned.size, provenance};
+        const response = await fetch('/report', {method:'POST', body:JSON.stringify(report)});
+        if (!response.ok) throw new Error(await response.text());
+        document.getElementById('checks').replaceChildren(...results.map(result => {
+            const li = document.createElement('li');
+            li.textContent = verify ? `${result.mode}${result.nested ? ' (вложенная память)' : ''}: ${result.passed ? 'пройдено' : 'ОШИБКА'}`
+                : `${result.mode}: принято=${result.accepted}; ${result.before} → ${result.after}; нарушение изоляции=${result.violatesIsolation}`;
+            return li;
+        }));
+        document.getElementById('report').textContent = JSON.stringify(report, null, 2);
+        document.getElementById('status').textContent = verify
+            ? `${results.filter(r => r.passed).length}/${results.length} проверок пройдено; Worker: ${owned.size}; неожиданных ошибок: ${unexpected.length}; отчёт сохранён.`
+            : `Проверено ${results.length} направления; нарушений: ${results.filter(r => r.violatesIsolation).length}; Worker: ${owned.size}; отчёт сохранён.`;
+    } catch(error) { document.getElementById('status').textContent = `Ошибка проверки: ${error.message}`; }
+};
+</script>
+</html>

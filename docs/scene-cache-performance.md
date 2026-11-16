@@ -1,11 +1,13 @@
 # Bounded scene matching cache: speed and memory
 
+**Historical report:** versions, counts and measurements below belong to their original stage. See [current eight-entry status and local changes](current-api.md); U4 does not rerun these checks.
+
 [Scene contract](scene.md#renderer-matching-cache) · [Русский](ru/scene-cache-performance.md)
 
-Local, unreleased implementation checked on 2026-11-13. Profiling baseline and
+The then-unreleased implementation was checked on 2026-11-13 and shipped in 0.14.0. Profiling baseline and
 documentation were committed separately at `32b0ee0`; no package version or public
 export was added. The previous implementation is the exact source from published
-0.13.0, `443892cf050cf313defcf055cf28318741502946`. Current source hashes and
+0.13.0, `443892cf050cf313defcf055cf28318741502946`. Measured source hashes and
 measurement metadata are in [paired results](benchmarks/scene-cache-comparison.json).
 
 ## Implementation and retained ownership

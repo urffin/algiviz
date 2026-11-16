@@ -2,6 +2,8 @@
 
 [README](../README.md) · [Русский](ru/scene.md)
 
+**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+
 ## User-defined objects and visualizations
 
 Define a type map with your own data, then
@@ -74,6 +76,9 @@ array renderer uses this same dispatcher. You can provide a different `bar`
 visualization using `createSceneRenderer<ArrayObjects, YourContext>`.
 
 ## Renderer matching cache
+
+The bounded matching cache shipped in 0.14.0. Its [paired measurements](scene-cache-performance.md)
+are historical workload results, not an unreleased feature or a general speed guarantee.
 
 Reuse a renderer across frames. It retains a matching/order plan for only the
 last successfully validated pair of scene references (previous and current).

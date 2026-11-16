@@ -2,6 +2,8 @@
 
 [Русский](ru/canvas-viewport.md) · [Prototype and checks](canvas-viewport-prototype.md)
 
+**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+
 Contract fixed on 2026-11-12; implemented on 2026-11-13.
 **Available from 0.13.0.** Version 0.12.0 does not export this entry.
 
@@ -207,6 +209,8 @@ a new helper on persisted pageshow **before** restoring playback that can draw.
 
 ## Implementation gates
 
+**Historical verification:** counts, versions and hashes below belong to this stage; see [current status](current-api.md) for the later baseline.
+
 The contract and entry choice are fixed; implementation and release are separate.
 Native visibility checks passed in the embedded browser at DPR 1. Desktop Chrome
 real zoom/DPR checks passed on 2026-11-13 from DPR 1 through 2.5, with capped and
@@ -223,6 +227,6 @@ esbuild 0.28.2 fixture it is 2,456 minified bytes / 1,162 gzip bytes; dynamic lo
 adds 86 minified initial bytes to the existing-only fixture. These are fixture
 measurements, not universal application sizes.
 
-The 0.13.0 candidate includes this entry. Its exact-commit CI and publication
-are tracked in the [release plan](optional-player-proposal.md#current-progress);
-publication requires separate authorization. The 1.0 decision remains deferred.
+The entry shipped in 0.13.0; its exact-release CI/registry verification is recorded
+in the [support history](support-matrix.md). Measurements in this section belong
+to that implementation stage, not a new U4 run. The 1.0 decision remains separate.

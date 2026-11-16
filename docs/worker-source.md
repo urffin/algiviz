@@ -2,9 +2,11 @@
 
 [Русский](ru/worker-source.md) · [Async behavior](async-sources.md) · [Adapter API](async-source-api.md) · [Player integration](player-async-api.md) · [Plan](optional-player-proposal.md)
 
-## Design stage, 2026-11-14
+**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
-This selects behavior for the browser Worker transport over the 0.15.0
+## Current contract, added in 0.16.0
+
+This describes the browser Worker transport over the 0.15.0
 async-source contract. The transport/endpoint are **added in 0.16.0**;
 version 0.15.0 has no Worker entries. The separate
 [public API and implementation checks](worker-source-api.md) records names,
@@ -105,6 +107,13 @@ or a promise to restore already affected sender resources.
 
 SharedArrayBuffer and views backed by it are excluded, including inside nested
 containers, and must be rejected before accepting/posting supported payloads.
+**Local F1, unreleased:** this also covers shared backing storage hidden behind
+WebAssembly.Memory in input/state graphs. Published 0.16.0 has that bypass;
+[current status](current-api.md) distinguishes the fix from the release.
+**Local F2, unreleased:** direct shared buffers, views and nested input/state
+graphs are also rejected when SharedArrayBuffer is unavailable before import.
+Captured intrinsic branding works without WebAssembly or allocating shared memory.
+See [permanent regressions](checks/worker-shared-buffer-fix-2026-11-14.json) and [native checks](checks/worker-shared-buffer-fix-browser-2026-11-14.json).
 There is no shared mutable state or automatic transfer-back/buffer pool. The
 supported data graph must be checked with cycle handling; this is not a constant
 time validation promise. State schema validation remains application-owned.
@@ -127,13 +136,17 @@ host serialization/deserialization time and memory.
 | Worker abort listener/return failure or host teardown failure | Actual cleanup failure; retain it in cleanup diagnostics, even if the Worker is subsequently terminated. |
 | Owner cancellation wins before delivery | Normal cancellation, not a new onError. Late values are discarded; genuine late failures remain diagnostic. |
 
-Local thrown values retain their identity through `createAsyncSource` as before.
+Local application factory/source callback throws retain their identity through
+`createAsyncSource`. **U5 selects original host postMessage throws as unknown**,
+with action context in the report. Active init/pull throws are primary host/post
+failures; cancel throws are cleanup issues and do not replace a latched outcome.
+See the [complete rule, precedence and reports](worker-post-errors.md).
 A remote thrown value cannot retain cross-thread identity: transmit a bounded,
 clone-safe descriptor with origin/phase and best-effort name/message/stack, then
 reject with one local error representing it. Do not depend on cloning the thrown
 object itself, running its custom stringifier or preserving its prototype/cause.
 Distinguish an absent value from a thrown `undefined`. Descriptor field names,
-length limits and the public error type are settled at the API stage.
+length limits and the public error type are defined in the [API reference](worker-source-api.md).
 
 Serialization of a state failing must trigger a small clone-safe error response;
 if even that cannot be sent, surface an uncaught worker failure where the host

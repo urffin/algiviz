@@ -1,5 +1,7 @@
 # Real-example performance baseline: 0.13.0
 
+**Historical report:** versions, counts and measurements below belong to their original stage. See [current eight-entry status and local changes](current-api.md); U4 does not rerun these checks.
+
 [Performance guide](performance.md) · [Русский](ru/performance-baseline-0.13.0.md)
 
 Measured 2026-11-13 (Moscow), using the unchanged library at release commit

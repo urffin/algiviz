@@ -2,6 +2,8 @@
 
 [Русский](ru/async-source-api.md) · [Behavioral contract](async-sources.md) · [Development plan](optional-player-proposal.md)
 
+**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+
 ## Published in 0.15.0, 2026-11-13
 
 Version 0.15.0 publishes one runtime export, `createAsyncSource`, and five
@@ -187,11 +189,13 @@ release. A cleanup-only failure leaves `kind: "disposed"` with nonempty
 Report objects, diagnostic wrappers and the diagnostic array are immutable;
 states, reasons and thrown values are not cloned or deeply frozen. The adapter
 does not retain a lifetime history of sessions; each report belongs to one adapter.
-The future widget must consume reports without reporting a primary error twice
+The [widget integration](player-async-api.md) consumes reports without reporting a primary error twice
 or issuing callbacks after logical disposal. Its cleanup barrier must inspect
 `cleanupErrors`, not interpret every `lateReadError` as failure to close.
 
 ## Design-stage type checks
+
+**Historical verification:** counts, versions and hashes below belong to this stage; see [current status](current-api.md) for the later baseline.
 
 Historical design-only check on 2026-11-13: TypeScript 6.0.3 accepted the exact declaration block
 with positive and negative in-memory consumers under NodeNext and Bundler, both
@@ -214,6 +218,8 @@ covered by the implementation checks below; widget cases remain separate.
 Type checking declarations alone does not verify runtime behavior.
 
 ## Implementation and local verification
+
+**Historical verification:** counts, versions and hashes below belong to this stage; see [current status](current-api.md) for the later baseline.
 
 Implemented in [async-source.ts](../src/playback/async-source.ts) and exported
 through `/playback`. All **244 tests** passed, including **19 async-source tests**.

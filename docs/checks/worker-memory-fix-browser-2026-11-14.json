@@ -1,0 +1,106 @@
+{
+  "date": "2026-11-14T09:46:44.309Z",
+  "environment": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "crossOriginIsolated": true
+  },
+  "results": [
+    {
+      "mode": "input",
+      "nested": false,
+      "delivered": false,
+      "name": "WorkerSourceError",
+      "code": "serialization",
+      "origin": "host",
+      "phase": "serialize",
+      "passed": true,
+      "termination": {
+        "kind": "acknowledged",
+        "terminate": "requested"
+      },
+      "cleanupCount": 0
+    },
+    {
+      "mode": "input",
+      "nested": true,
+      "delivered": false,
+      "name": "WorkerSourceError",
+      "code": "serialization",
+      "origin": "host",
+      "phase": "serialize",
+      "passed": true,
+      "termination": {
+        "kind": "acknowledged",
+        "terminate": "requested"
+      },
+      "cleanupCount": 0
+    },
+    {
+      "mode": "state",
+      "nested": false,
+      "delivered": false,
+      "name": "WorkerSourceError",
+      "code": "serialization",
+      "origin": "worker",
+      "phase": "serialize",
+      "passed": true,
+      "termination": {
+        "kind": "acknowledged",
+        "terminate": "requested"
+      },
+      "cleanupCount": 0
+    },
+    {
+      "mode": "state",
+      "nested": true,
+      "delivered": false,
+      "name": "WorkerSourceError",
+      "code": "serialization",
+      "origin": "worker",
+      "phase": "serialize",
+      "passed": true,
+      "termination": {
+        "kind": "acknowledged",
+        "terminate": "requested"
+      },
+      "cleanupCount": 0
+    },
+    {
+      "mode": "copy-control",
+      "previousBytes": 1,
+      "passed": true,
+      "termination": {
+        "kind": "acknowledged",
+        "terminate": "requested"
+      }
+    },
+    {
+      "mode": "transfer-control",
+      "previousBytes": 0,
+      "passed": true,
+      "termination": {
+        "kind": "acknowledged",
+        "terminate": "requested"
+      }
+    }
+  ],
+  "unexpected": [],
+  "remainingOwnedWorkers": 0,
+  "provenance": {
+    "src/worker/data.ts": "054103f043ea5ea4dcd1518e7673cad06163f386b4be2e37ec3a0e636c0dbfc4",
+    "src/worker/error.ts": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72",
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/protocol.ts": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc",
+    "src/worker/runtime.ts": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef",
+    "src/worker/types.ts": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9",
+    "dist/worker/data.js": "c0121c79a46d993d4efdffb79d7e50da55b3f73ca4df3a9ca7276702e6d7a9d4",
+    "dist/worker/error.js": "58d1775a80232f4201a704686132e818e522c5a6c71517839ec9a8dd9cae70fc",
+    "dist/worker/index.js": "27ffc0d59aa1e0af8791bcaa6467fa0f125505930d355417bd5051908289c07d",
+    "dist/worker/protocol.js": "5f3ddcc2b4ca24cf19fd2d6a36e6cb134901b78d8b165e2b514544594121c8ef",
+    "dist/worker/runtime.js": "cb37667676669bfddc66fe6467bb73dca05091fce02f9db6d45973828f61efad",
+    "dist/worker/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "dist/playback/async-source.js": "44aa496a5abefd8aa2b02319978079ce752d80e29aa6136acfc9408409237193",
+    "test/api-review-worker-browser.html": "1c120ba4a077fb5bf7646c3e61d650320fe8780019861a6256da359c20822dde"
+  }
+}

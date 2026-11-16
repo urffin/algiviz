@@ -1,6 +1,39 @@
 # API stabilization before 1.0
 
-Updated 2026-11-14 for published **0.16.0**. The four original modules retain the **0.11.2** baseline, release commit
+**Candidate preparation, 2026-11-16:** [1.0.0 candidate](candidate-1.0.md) has
+version/lock, [migration](migration-1.0.md), release notes and local preparation
+checks. Publication is not authorized; exact-SHA CI/native gates remain. Earlier
+review/status sections below retain their stage scope.
+
+**Post-F2 readiness recheck, 2026-11-14:** all eight entries are ready locally,
+with no known technical blocker or unresolved API clarification in the reviewed
+boundary. [Current assessment](api-readiness-1.0.md) and [fresh evidence](checks/api-readiness-1.0-after-f2-2026-11-14.json)
+verify the closed F1/F2 and U1–U5 status. G1–G3 candidate definition/verification
+and separately authorized publication remain. API, implementation and version
+are unchanged by this recheck; this is not a release approval.
+
+**Current U3/U4 status, 2026-11-14:** the [eight-entry status index](current-api.md)
+separates published 0.16.0 from local F1/U1/U2 and the historical reports. U4 is
+closed as documentation reconciliation; [U5 now selects original post throws](worker-post-errors.md).
+Permanent U5 regressions pass locally; the subsequently found F2 is now fixed. The [common compatibility policy](api-compatibility.md)
+([Русский](ru/api-compatibility.md)) now defines the intended 1.x guarantees,
+error/type/environment boundaries and 0.x/1.x change rules. This documentation
+decision changes no implementation and authorizes no release. F1/U1/U2 remain
+implemented locally, unreleased; actual candidate verification remains.
+The dated four-module/release evidence below is history within its stated scope,
+not a different policy for optional modules. U3 evidence is in the
+[policy report](checks/u3-compatibility-policy-2026-11-14.json).
+
+U5 follow-up: all **503 tests** pass, including **75 permanent public regressions**
+also run against the installed archive with strict NodeNext/Bundler consumers.
+Identity, init/pull/cancel, getter phases, primary/late/cleanup priority and
+transport/async/Player reports are covered without production changes. See
+[regression evidence](checks/u5-post-errors-regressions-2026-11-14.json).
+
+## Historical release context and follow-ups
+
+The following dated records describe their release/stage, not a new check of the
+working tree. The original four modules had the **0.11.2** baseline, release commit
 [`b7f46ade478c25738ac77a3023fb4cd6c0b3995e`](https://github.com/urffin/algiviz/commit/b7f46ade478c25738ac77a3023fb4cd6c0b3995e).
 Repository verification now includes
 [`273b292`](https://github.com/urffin/algiviz/commit/273b292a6fa01dfaeb1717b6bbb7a4b149b4e6c9)
@@ -84,7 +117,81 @@ fresh registry consumers and signature/provenance checks passed; all 68 publishe
 build files match after newline normalization. See [release verification](releases/0.16.0.json).
 Worker transport is not a prerequisite for 1.0.
 
-## Readiness of the four modules
+## U2 implemented locally, 2026-11-14
+
+The [selected U2 contract](player-speed-validation.md)
+([Русский](ru/player-speed-validation.md)) accepts primitive finite positive
+numbers and selects built-in RangeError for all invalid values across
+source/history/asyncSource/Worker, without coercion. Value validation precedes
+disposal/reentrancy checks and has no effects when rejected. Accepted changes
+retain pending playback time and intent, reset the wall-clock baseline and
+remain usable during async preparation/waiting/cleanup. The document defines
+lifecycle/error precedence and implementation acceptance cases.
+
+The async controller now uses RangeError; the synchronous controller already
+satisfied U2. All 428 repository tests pass, including 55 new public U2 cases
+also checked against the installed archive with strict NodeNext/Bundler consumers.
+Tests cover invalid runtime types, caught/uncaught callbacks, disposal ordering,
+waiting/preparation/cleanup, clock baselines and bounded-work debt. Worker cases
+use the real adapter/endpoint with an in-process cloned-message transport.
+No public declarations, exports, version or dependencies change. See
+[implementation evidence](checks/u2-speed-implementation-2026-11-14.json).
+The [design evidence](checks/u2-speed-contract-2026-11-14.json) remains a historical
+before-implementation snapshot. U3/U5 are selected, U4 reconciled and U5 regressions pass; the release
+readiness decision remain open; publication remains deferred.
+
+## U1 implemented locally, 2026-11-14
+
+The selected [U1 contract](headless-reentrancy.md) ([Русский](ru/headless-reentrancy.md))
+is implemented locally, unreleased. Same-instance commands are rejected before
+mutation; frame reads, other instances and repeated dispose after logical stop
+retain their defined behavior. A private plain-state adapter lets the engine
+latch disposal before source cleanup. All 373 tests passed, including 61 new U1
+cases. Public declarations/signatures are unchanged; only the private state-steps
+declaration changes. See [implementation evidence](checks/u1-reentrancy-2026-11-14.json).
+The earlier design record below is retained as history; no version/publication
+change is implied. U2 is now implemented and U3 selected as described above;
+U5 is selected and permanently covered locally; release readiness remains; U4 is reconciled.
+
+## Historical U1 headless reentrancy decision, 2026-11-14
+
+The [selected U1 contract](headless-reentrancy.md) ([Русский](ru/headless-reentrancy.md))
+selects synchronous rejection of commands reentered on the same active headless instance, while
+allowing reads, other idle instances and idempotent disposal after logical stop.
+The document defines cleanup/error precedence and the future acceptance matrix.
+This is a design decision, not implemented enforcement or a publication. U1 is
+no longer undecided: /playback and /array now require the selected guard behavior
+to be implemented/verified before treating that contract as available.
+
+## F1 fix follow-up, 2026-11-14
+
+The owner-authorized shared Memory fix is implemented locally, unreleased, with
+no public API/version change. The common validator checks the native Memory
+backing store, including foreign realms and nested data. All 312 tests, installed
+NodeNext/Bundler consumers and 32 public Worker cases passed. Six native Worker
+checks confirm rejection in both directions and preserved copy/transfer. See the
+[review follow-up](api-readiness-0.16.0.md) and [native report](checks/worker-memory-fix-browser-2026-11-14.json).
+The original review below describes published 0.16.0; it is retained as history.
+
+## Historical eight-entry API review, 2026-11-14
+
+The [0.16.0 API readiness review](api-readiness-0.16.0.md) now covers all eight
+public entries and supersedes the earlier four-module-only readiness assessment
+for the next 1.0 decision. Three entries are ready within their documented
+boundary, three need contract clarification and the two Worker entries require
+implementation changes. Shared WebAssembly.Memory bypasses the shared-memory
+rejection in both directions (confirmed with native Workers). Host postMessage
+exceptions expose a separate ambiguity between identity preservation and
+WorkerSourceError normalization; this is a contract clarification.
+
+The review additionally records headless callback reentrancy, source-dependent
+Player speed error classes, compatibility policy and stale documentation as
+clarifications. It changes no production API, version or dependencies and does
+not publish or start fixes. Address the confirmed isolation finding before
+deciding that the complete API is ready for 1.0; the historical checks below remain evidence for
+their stated scope, not a denial of the new findings.
+
+## Historical readiness of the four modules
 
 “Technically ready” means the reviewed contract is documented and covered by the
 checks below. It does not mean 1.0 has been approved or every integration tested.
@@ -101,6 +208,10 @@ findings and dated follow-ups; their historical defect descriptions are not a
 list of unresolved defects in 0.11.2.
 
 ## Compatibility boundary to preserve
+
+This section records the historical four-module baseline and later additions.
+The [U3 policy](api-compatibility.md) now applies equally to all eight entries;
+historical export counts below do not redefine the current inventory.
 
 - Keep the four baseline ESM entry points. There are 14 runtime names (13 distinct
   functions) and 23 type-only exports, recorded in the [public export audit](public-exports-audit.md).
@@ -148,7 +259,7 @@ list of unresolved defects in 0.11.2.
   palette uses a new renderer and redraws the same frame. Preserve held → active
   → sorted → ordinary-bar priority and the required light/dark theme.
 
-## Verification completed for the current baseline
+## Historical verification of the four-module baseline
 
 | Check | Result and evidence |
 | --- | --- |
@@ -226,13 +337,14 @@ The current release's successful CI does not certify a later 1.0 candidate.
   delegated to Canvas; arbitrary handwritten snapshots are not fully validated.
   Restoring context settings does not roll back pixels after a drawing error.
 - Uncached scene indexing uses O(n) additional memory and layer ordering
-  O(n log n) time. The unreleased scene renderer now caches only the last immutable
+  O(n log n) time. Since 0.14.0 the scene renderer caches only the last immutable
   endpoint pair; resolving each frame remains O(n). Its [speed/memory checks](scene-cache-performance.md)
   preserve standalone validation and the existing snapshot contract. Removing the large-array argument-count failure is not a performance
   guarantee. Earlier heap/mock-Canvas measurements remain diagnostics described
   in [performance](performance.md), not browser FPS or portable thresholds.
-- Highlight membership and per-frame dispatcher allocation remain optional
-  optimization candidates. Benchmark a concrete workload before changing them.
+- Array dispatcher reuse shipped in 0.14.0; [measurements](array-dispatch-performance.md)
+  remain historical evidence for their workloads. Highlight membership and native
+  Canvas costs are possible further investigations, not required API work.
   Automatic controllers, localization/formatting options, configurable easing
   and pixel-perfect output guarantees are not prerequisites for 1.0.
 - CI verifies Node 22/24/26 and emitted ES2022 code; it does not establish support
@@ -246,32 +358,32 @@ The current release's successful CI does not certify a later 1.0 candidate.
 
 ## What remains before 1.0, in order
 
-Completed preparation: the audits and their required fixes are closed; current
-repository CI and embedded-host checks passed; examples/controller changes are
-committed; the [support boundary](support-matrix.md#current-support-boundary) is
-recorded. Desktop Chrome/Edge, Firefox, Safari/iOS and historical versions remain
-outside the verified boundary. Broadening that boundary is optional work with
-its own checks, not an uncompleted requirement of the present scope.
+The [post-F2 eight-entry review](api-readiness-1.0.md) leaves no known technical
+blocker in the reviewed boundary. The [support scope](support-matrix.md#current-support-boundary)
+is retained; broadening it is optional work.
 
-1. **Make an explicit compatibility decision.** Review the four module contracts
-   and deliberate limits above, use the owner's website/video experience and the
-   completed integrations to assess authoring friction, and decide whether to
-   support these APIs long-term within the verified support scope.
-   Resolve any blocking findings first; otherwise continue compatible 0.x patches.
-   External feedback can inform this decision when available; waiting for new
-   users, a fixed number of reviews or additional algorithm examples is not required.
-   There is no scheduled 1.0 date or automatic promotion after a patch release.
-2. **Verify an authorized 1.0 candidate.** Update version/lockfile/changelog,
-   run `npm test` and `npm run test:package`, and require successful CI on that
-   exact SHA. Perform focused browser checks of minimal playback, object lifecycle
-   and Canvas palette/context behavior within the chosen browser support scope.
-   Record the actual versions and results; older browser checks are not new ones.
-3. **Publish only with explicit authorization.** Use the GitHub Release workflow
-   for the checked SHA, then verify npm's exact version, `latest` and provenance.
-   Website work remains separately authorized and coordinated in its own chat.
+1. **G1: define an authorized candidate.** Apply U3; choose the version and align
+   package/lock/changelog/migration notes, including F1/F2, U1 and U2 changes.
+   Commit intended code/tests/docs and freeze the SHA/archive/hashes. There is
+   no automatic promotion or required intermediate 0.x release/new feature.
+2. **G2: verify the exact candidate.** Repository, installed-package and bundle
+   checks plus all 11 configured CI jobs must pass on its SHA. Older 0.16.0 CI
+   and pre-candidate local results cannot certify it.
+3. **G3: record native candidate checks.** Verify focused playback/scene/Canvas/
+   viewport and affected Worker/Player data, controls and cleanup within the
+   built-in Windows browser boundary; record candidate/build/host provenance.
+   Recheck affected results after changes.
+4. **Publish only under a separate instruction after G1–G3.** Match tag/version
+   and the checked SHA; use GitHub Release → npm and verify workflow success,
+   exact version/latest, fresh registry consumers and signature/provenance.
+   The publishing workflow does not enforce all 11 CI jobs itself. Website
+   work remains separately authorized.
 
-The next required stabilization step is the long-term compatibility decision.
-No unresolved required code change is identified by the completed audits. A
+F1, U1 and U2 are resolved in the local working tree; U3 is selected as a policy.
+Publication remains deferred. Permanent U5 coverage and final baseline review are
+complete locally; F2 is corrected and verified, leaving G1–G3 candidate
+gates in the [final review](api-readiness-1.0.md). The historical four-module audits identified
+no remaining required code change within their historical scope. A
 separate [optional-player proposal](optional-player-proposal.md) evaluates useful
 0.x development and optimization work; it is not a new prerequisite for 1.0 or
 an authorization to implement or publish it.

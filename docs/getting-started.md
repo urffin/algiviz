@@ -2,6 +2,10 @@
 
 [README](../README.md) · [Русский](ru/getting-started.md)
 
+See [current eight-entry status](current-api.md) and [U3 compatibility](api-compatibility.md).
+The basic example below needs 0.12.0; the full eight-entry published baseline is
+0.16.0. Local F1/U1/U2 are explicitly unreleased, not enabled by npm installation.
+
 Start with ready-made controls, switch to manual playback when your application
 owns the interface, then introduce `/scene` for custom object types. Algorithms,
 state and drawing stay application-owned throughout.

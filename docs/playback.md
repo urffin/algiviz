@@ -2,6 +2,8 @@
 
 [README](../README.md) · [Русский](ru/playback.md)
 
+**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+
 ## Asynchronous state sources (0.15.0)
 
 `createAsyncSource(factory)` owns a lazy `AsyncIterable<State>` session. Its
@@ -104,9 +106,19 @@ matching the player. If source consumption, a terminal predicate or rendering
 throws, cleanup is attempted without replacing that primary error. A standalone
 cleanup error from disposal or normal completion still propagates.
 
+### Reentrancy contract (U1; implemented locally, unreleased)
+
+The [headless reentrancy contract](headless-reentrancy.md) selects synchronous
+rejection of nextStep, advance (including zero) and first dispose commands
+entered on the same active instance from render, isTerminal or source callbacks.
+Reading frame/finished and controlling another idle player remain allowed;
+repeated dispose after logical disposal is a no-op. The working tree enforces
+this behavior; published 0.16.0 does not. The document records error precedence,
+cleanup, getters and implementation verification.
+
 ## Bounded backward navigation
 
-The unreleased `createRewindBuffer(source, { capacity })` adapter retains a
+Published in 0.14.0, `createRewindBuffer(source, { capacity })` retains a
 configured window of any synchronous iterable's immutable values. Use `previous()`
 and `next()` for manual navigation; replaying buffered values does not consume
 the source. Capacity includes the current value. This is a separate navigation

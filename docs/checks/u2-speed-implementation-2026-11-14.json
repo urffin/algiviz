@@ -1,0 +1,104 @@
+{
+  "date": "2026-11-14T11:00:57.199Z",
+  "version": "0.16.0",
+  "status": "implemented-locally-unreleased",
+  "scope": "U2: unified Player.setSpeed validation",
+  "baseCommit": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "environment": {
+    "node": "v22.17.0",
+    "platform": "win32",
+    "typescript": "6.0.3"
+  },
+  "implementation": {
+    "change": "Use built-in RangeError instead of TypeError in async-controller speed validation. Synchronous/history validation already satisfies U2.",
+    "argumentCoercion": false,
+    "validationBeforeLifecycleGuards": true,
+    "newPublicAPI": false
+  },
+  "checks": {
+    "repositoryTests": 428,
+    "newPublicU2Cases": 55,
+    "installedU2Cases": 55,
+    "initialBaseline": {
+      "cases": 53,
+      "passed": 29,
+      "failed": 24,
+      "note": "Initial tests before the implementation. Two delayed failure-cleanup cases and test-fixture refinements were added afterwards."
+    },
+    "sourceConfigurations": 11,
+    "sourceKinds": [
+      "source",
+      "history",
+      "asyncSource",
+      "worker"
+    ],
+    "runtimeInvalidValuesPerSweep": 22,
+    "callbackContexts": [
+      "source factory",
+      "iterator acquisition",
+      "next",
+      "Worker factory",
+      "input",
+      "render",
+      "onStatus",
+      "disposal notification"
+    ],
+    "resolutions": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "consumerEnvironments": [
+      "ES2022-only",
+      "DOM",
+      "WebWorker"
+    ],
+    "bundleIsolation": "passed",
+    "unchangedDeclarations": 41,
+    "publicEntryDeclarationsUnchanged": true,
+    "publicEntries": 8,
+    "runtimeExportNames": 21,
+    "runtimeExportsUnchanged": true,
+    "privatePathRejected": true,
+    "onlyChangedBuildFile": "dist/player/async-controller.js",
+    "packageAndLockUnchanged": true,
+    "priorF1AndU1SourceUnchanged": true,
+    "nativeBrowserVerification": false,
+    "workerTransport": "Public real host adapter and runtime endpoint over existing in-process structuredClone transport; no new native Worker/browser run"
+  },
+  "coverage": [
+    "Invalid numeric values, wrong runtime types, throwing conversion hooks and revoked proxy; no coercion.",
+    "No rejected-call changes to status, frame, DOM writes, scheduler requests/cancellations, UI timers, factory/read/return/abort counters, Worker messages/transfers/termination.",
+    "Value-first errors in callbacks and after disposal; caught errors permit normal continuation; uncaught errors preserve ordinary outer failure identity.",
+    "Valid boundaries/custom values, manual/timed controls, phase/error persistence and restart settings.",
+    "Async/Worker preparation, pending Play/Next, staged result, replacement cleanup and failed/disposed cleanup barriers.",
+    "Invalid-call baseline preservation, valid/equal-speed baseline reset, no waiting-time accumulation, and bounded-work playback-debt preservation.",
+    "Large valid speed followed by separately handled operational arithmetic overflow."
+  ],
+  "commands": [
+    "npm test",
+    "npm run test:package -- --resolution=all",
+    "npm run test:bundle"
+  ],
+  "provenanceSha256": {
+    "src/player/controller.ts": "56dffc6f913fcb6b53c79f673c0c239d56a057a9165103ce80f1278b17d9d39d",
+    "src/player/async-controller.ts": "5526a150720229bf466cab7f9d366638297f4dfc59250ac76120fe182b71638d",
+    "src/player/types.ts": "01f365e00ca66661afaa7db51b46c4b136c2cea85865ba3654e984688e23d2ea",
+    "test/player-speed.test.mjs": "47cb7173ae43d1625316351ddc8026c10c75dfd2e3c7c424e221e836f5009056",
+    "scripts/test-package.mjs": "ee940e5a6080abb7f369bf9639eca51bdcdb5aeb709e97117b8edf2609b24460",
+    "test/player-test-dom.mjs": "646a8d45082462ac93ecf9d7bea406293d2c489eb4e7c035183594317bfc02a2",
+    "test/worker-test-transport.mjs": "c595352bb174fb8a77b16bc43cc8e8de9fa35dd781aa2ece8da13d2c9d68fe72"
+  },
+  "logs": {
+    "directory": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/",
+    "initialBaseline": "u2-before.log",
+    "focused": "u2-focused.log",
+    "repository": "u2-tests.log",
+    "installedPackage": "u2-package.log",
+    "bundle": "u2-bundle.log"
+  },
+  "notes": [
+    "Design evidence u2-speed-contract-2026-11-14.json is retained as the historical pre-implementation snapshot.",
+    "The sandbox blocked dist overwrites with EPERM; the authorized local build/test commands completed with elevated execution.",
+    "No commit, version/dependency change, release or publication."
+  ]
+}

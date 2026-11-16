@@ -1,0 +1,115 @@
+{
+  "date": "2026-11-14T12:28:32.178Z",
+  "version": "0.16.0",
+  "status": "U5-permanent-regressions-passed-locally-unreleased",
+  "baseCommit": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "environment": {
+    "node": "v22.17.0",
+    "platform": "win32",
+    "typescript": "6.0.3"
+  },
+  "scope": "Permanent U5 public-adapter and Player regressions plus installed-package verification; no production change",
+  "checks": {
+    "repositoryTests": 503,
+    "newPublicU5Cases": 75,
+    "focusedU5Cases": 75,
+    "installedU5Cases": 75,
+    "errorValueVariants": 16,
+    "cancellationConsumerLayers": [
+      "direct transport",
+      "createAsyncSource"
+    ],
+    "resolutions": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "consumerLibraries": [
+      "ES2022-only",
+      "DOM",
+      "WebWorker"
+    ],
+    "unhandledRejections": "strict for focused/installed U5 suite",
+    "unchangedFiles": 125,
+    "unchangedScopes": [
+      "src",
+      "dist",
+      ".github",
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "tsconfig.worker.json",
+      "shared Worker/DOM test fixtures"
+    ],
+    "unchangedDeclarations": 41,
+    "productionAndBuildByteIdentical": true,
+    "publicEntries": 8,
+    "runtimeExportNames": 21,
+    "typeOnlyExports": 68,
+    "publicExportAliasAndPrivatePathFixture": "passed",
+    "historicalArtifactsVerified": 29,
+    "localDocumentationLinks": 261,
+    "translatedContractTables": [
+      5,
+      5,
+      6
+    ],
+    "nativeBrowserOrWorkerRun": false,
+    "ciRun": false,
+    "registryPublication": false,
+    "bundleIsolationRerun": false
+  },
+  "coverage": [
+    "Init/pull identity for Error, native-like DOMException names, undefined/null/falsy, negative zero/NaN, string/symbol/bigint, frozen/opaque object and an already tagged WorkerSourceError.",
+    "Cancel errors in direct transport and outer async adapter: original first cleanup issue, shared summary wrapper, delayed closed, disposed reason and no duplicate cleanup.",
+    "Primary and secondary cancel/terminate/teardown failures, including undefined and the same thrown object at separate occurrences.",
+    "Abort/return or an observed Worker error wins before a later post throw; lateReadError presence/context and immutable finished reports.",
+    "Getter create/post boundaries; Worker/input factory and preflight serialization control cases.",
+    "Earlier protocol cleanup issue remains the summary first issue when cancel posting fails afterwards.",
+    "Successful copy/transfer/EOF; no cancel on EOF; no resend after posting-then-throw; acknowledgement can still win after a cancel throw.",
+    "Player initial undefined error/retry, pull primary versus cleanup, immediate UI disposal/no late callbacks, Restart cleanup barrier and uninstalled-candidate release."
+  ],
+  "commands": [
+    "node --unhandled-rejections=strict --test test/worker-post-errors.test.mjs",
+    "npm test",
+    "npm run test:package -- --resolution=all"
+  ],
+  "transportScope": "Real public host adapter and endpoint over existing in-process structuredClone transport with fake clock/minimal DOM; not new native browser verification.",
+  "provenanceSha256": {
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/error.ts": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72",
+    "src/worker/protocol.ts": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc",
+    "src/worker/types.ts": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9",
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "test/worker-post-errors.test.mjs": "0f8471b2a40182153beaceac0c15b4ea4012f4d20afc823ce287536d80558466",
+    "test/worker-test-transport.mjs": "c595352bb174fb8a77b16bc43cc8e8de9fa35dd781aa2ece8da13d2c9d68fe72",
+    "test/player-test-dom.mjs": "646a8d45082462ac93ecf9d7bea406293d2c489eb4e7c035183594317bfc02a2",
+    "scripts/test-package.mjs": "17a98690be0d1397ab4a5e2f287a08c968eccff668af9ec91c4c785dcf344bb4"
+  },
+  "documentSha256": {
+    "docs/worker-post-errors.md": "51fecb044fa64f65097002bf00d7b9c9c988099a6237a1b1959e90d5f6e5a328",
+    "docs/ru/worker-post-errors.md": "c8ddad6079c3ae4c8fafc24039bca7c50ead50867747c1881c3e7af78d175ef3",
+    "docs/current-api.md": "eb5d70297d523a076f8539a23bf24c05ce05e1349a5f0adb628806289db14c06",
+    "docs/ru/current-api.md": "b82242db770a8d8e58edc2b663a7acd6a3e34947f98246432cc44646a4c6d2e9",
+    "docs/api-stability.md": "0543217fc0dbbba5e89356519dc06671a534f18252c0fc7a1964fe6a07c9a737",
+    "docs/optional-player-proposal.md": "bf8bc86b77ddfe84f62586204126a2812991d36d20da5eb33d3e6aff9b789b66",
+    "docs/api-compatibility.md": "dd32dc4e856841abc5d5cfcb58f1d851009a490d3d58198919cdcf75a04e4db9",
+    "docs/ru/api-compatibility.md": "1629dee41eb121fd741b4a86021e41846cfc156dd45159a774fead2d7525c3ee",
+    "docs/api-readiness-0.16.0.md": "129d8ebff88421020b49a1d94b21961c379133d6c931f37a92bf6b3ca07911c0",
+    "README.md": "1f75877911f5b536f154bc9db5a689debf3f96037a94e418a398b683397606b4",
+    "ru/README.md": "ab19a74975d583e93a847789e4bc3bc02b3522106bd42d777d965c03766c7a78"
+  },
+  "logs": {
+    "directory": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/",
+    "focused": "u5-regressions-focused.log",
+    "repository": "u5-regressions-tests.log",
+    "installedPackage": "u5-regressions-package.log",
+    "beforeHashes": "u5-regressions-before.json"
+  },
+  "notes": [
+    "Current production already satisfies the selected U5 contract; no production source fix was needed.",
+    "Permanent tests are copied/run by the installed-package checker, with public imports only.",
+    "Bundle checks were not rerun because production and built output bytes are unchanged; prior bundle evidence retains its original scope.",
+    "Design/probe report and prior audit/release artifacts are retained as history.",
+    "No commit, version/dependency change, release or publication; candidate readiness is a separate review."
+  ]
+}

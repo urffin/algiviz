@@ -2,6 +2,8 @@
 
 [README](../README.md) · [Русский](ru/player.md)
 
+**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+
 **Added in 0.12.0:** `/player` is an optional entry point for the browser widget.
 
 **Added in 0.15.0:** [asyncSource integration](player-async-api.md), waiting
@@ -168,6 +170,12 @@ for a started bounded stream, otherwise null. Stream seek, Previous without
 `rewindCapacity`, and invalid speeds throw without
 consuming the source. Positive finite speeds are accepted, including custom ones.
 
+U2 selects a [unified speed-validation contract](player-speed-validation.md):
+RangeError for every invalid value, without coercion, before lifecycle guards.
+It is implemented locally, unreleased: all source kinds now use RangeError.
+Published 0.16.0 still uses TypeError for asyncSource (including Worker). The
+document defines updates during waiting/preparation and the regression matrix.
+
 Restart shows a paused first frame. The UI Replay button restarts and then plays;
 programmatic `play()` does not restart an already completed session. Timed Play
 requires `stepDurationMs`. Next during Play pauses and completes one transition.
@@ -234,6 +242,8 @@ existing-only byte equality against the same four modules without `/player`,
 static UI imports, and dynamic-import initial/deferred dependency graphs. It also
 executes the minified outputs and lazy loader in Node without DOM globals.
 This is a concrete esbuild configuration, not a guarantee about every bundler.
+
+### Historical verification, 2026-11-12
 
 Working-tree verification on 2026-11-12: **172 tests passed**. Installed consumers
 passed TypeScript 5.0.4, 5.4.5, 5.9.3 and 6.0.3 in NodeNext/Bundler modes, including

@@ -1,6 +1,28 @@
 # Support matrix before 1.0
 
-Updated 2026-11-13 for published AlgiViz 0.13.0 at `443892c`. Its
+**Candidate update, 2026-11-16:** [1.0.0 local preparation](candidate-1.0.md)
+retains this environment boundary. Exact-SHA CI/native verification remains;
+the older local and release checks below keep their original version scope.
+
+**Current status, 2026-11-14:** [all eight entries](current-api.md) are published
+in 0.16.0; F1/F2/U1/U2 are local and unreleased, and U5 has permanent coverage.
+The [post-F2 readiness review](api-readiness-1.0.md) finds no remaining known
+technical blocker within the same boundary. Latest completed local evidence is
+the F2 stage: 509 repository tests, strict installed NodeNext/Bundler consumers,
+bundle isolation and 34 focused native Worker cases. This documentation recheck
+verifies provenance rather than repeating those runs; it adds no environment
+promise. G1–G3 exact-candidate definition/CI/native verification remain separate.
+
+**U3 policy decision, 2026-11-14:** the [eight-entry compatibility policy](api-compatibility.md)
+([Русский](ru/api-compatibility.md)) adopts the recorded target boundary, distinguishes
+runtime imports from declaration/host requirements and classifies target removal
+as breaking. This adds no target, engines restriction, CI change or fresh browser
+certification. Dated checks below remain historical evidence for their stated
+versions; U4 is reconciled, while exact-candidate verification remains separate.
+
+## Historical 0.13.0 release context
+
+Recorded 2026-11-13 for published AlgiViz 0.13.0 at `443892c`. Its
 [eleven-job CI](https://github.com/urffin/algiviz/actions/runs/43326519526) and
 [publishing workflow](https://github.com/urffin/algiviz/actions/runs/43327210001)
 passed. Fresh registry installation, exact exports, DOM/headless types and
@@ -8,7 +30,8 @@ registry signature/provenance were verified.
 The four baseline modules are unchanged from 0.11.2; repository checks include the new demos.
 The optional `/player` adds a separate DOM-based UI contract; see
 the [reference](player.md) and [bundle evidence](player-bundle-check.md).
-This records the current support boundary and its concrete verification evidence.
+This records that release's evidence; the current support boundary below covers
+all eight entries and is governed by U3.
 See the [stabilization plan](api-stability.md) for the remaining release decisions.
 
 ## 0.16.0 Worker adapter boundary
@@ -75,6 +98,8 @@ the earlier local-build browser check into a registry-tarball browser run.
 | Node runtime | CI tracks Node 22.x, 24.x and 26.x on Windows and Linux. Use the patch versions selected by the current CI; every historical minor/patch is not separately certified. |
 | TypeScript consumers | Verified compiler configurations: 5.0.4, 5.4.5, 5.9.3 and 6.0.3, with NodeNext/Bundler and ES2022, with or without DOM as appropriate below. These selected versions do not establish every intermediate or future compiler version. |
 | Headless imports | `/playback`, `/scene` and `/array` work without DOM types or a browser in the checked configurations. `/canvas` requires a Canvas 2D host and DOM types. |
+| UI and viewport | `/player` and `/canvas/viewport` require DOM declaration libraries and their explicit browser hosts. Runtime import is safe without DOM globals; this does not enable mounting/sizing in Node. |
+| Worker entries | `/worker` host uses DOM declarations (browser-Worker host use is also documented); `/worker/runtime` uses separately checked WebWorker declarations. Both import without browser globals; active dedicated module Worker APIs are required. |
 | Browser verification | Windows embedded Chromium, reported UA Chrome/157.0.0.0, for the recorded smoke and interactive scenarios. No general minimum Chromium version or desktop Chrome/Edge product promise is inferred from the host's UA. |
 | Other browser products | Desktop Chrome/Edge, Firefox, Safari/macOS/iOS, their historical versions and other WebViews are unverified and outside the current support claim. This does not mean they are known to be incompatible. |
 | Standalone demos | Native import maps and the host features used by each page are required. Their UI/controller code is outside the npm runtime; bundled applications may have different host requirements. |
@@ -84,6 +109,10 @@ This is the boundary to use in current compatibility statements. An eventual
 not automatically certify future code. Expanding the browser list is optional.
 
 ## Node.js
+
+The table and CI runs in this section are historical evidence with their original
+suite sizes, not new eight-entry/U4 runs. Current targets are the boundary above;
+0.16.0 release and local U2 evidence are linked from the status index.
 
 | Target | Status | Evidence and next action |
 | --- | --- | --- |
@@ -112,6 +141,11 @@ Lifecycle source: [official Node release table](https://nodejs.org/en/about/prev
 This external lifecycle does not itself establish AlgiViz compatibility.
 
 ## TypeScript consumers
+
+The detailed 0.11.x tables below retain their original four-module scope. Later
+0.12–0.16 entry/consumer verification is recorded in the linked release reports;
+local U2 most recently checked the eight-entry consumers with TypeScript 6.0.3.
+This distinction adds no claim of a new run on the other selected compilers.
 
 The consumer boundary comprises the four tested versions below, with `NodeNext`
 or `Bundler` resolution. This is a selected-version compatibility result, not

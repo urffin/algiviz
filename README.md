@@ -25,6 +25,13 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
+Repository status, 2026-11-16: **1.0.0 is a local, unpublished candidate**; published
+baseline evidence remains 0.16.0. The candidate includes F1/F2 and U1/U2 fixes,
+U5 regressions and the common compatibility policy for all eight entries.
+[Candidate and remaining gates](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.0.md) ·
+[Migration from 0.16.0](https://github.com/urffin/algiviz/blob/master/docs/migration-1.0.md).
+Exact-candidate CI and native verification remain before release.
+
 ## Install
 
 ```sh

@@ -1,0 +1,433 @@
+{
+  "date": "2026-11-14T10:48:59.671Z",
+  "version": "0.16.0",
+  "status": "contract-selected-not-implemented-unreleased",
+  "scope": "U2: Player.setSpeed validation for all source kinds",
+  "decision": {
+    "signature": "setSpeed(value: number): PlayerStatus",
+    "accepted": "Primitive number, finite, strictly greater than zero",
+    "rejection": "Built-in RangeError for every invalid value, including runtime wrong types; no coercion",
+    "order": [
+      "value validation",
+      "disposed guard",
+      "active-operation/reentrancy guard",
+      "ordinary speed update and status publication"
+    ],
+    "validUpdate": "Preserve intent, pending reads, playback debt and errors; reset wall-clock baseline; apply to future intervals",
+    "implementationRequired": true
+  },
+  "environment": {
+    "node": "v22.17.0",
+    "platform": "win32"
+  },
+  "verification": {
+    "method": "Read-only public-package probes using the existing minimal DOM host; hash comparison before/after documentation edits",
+    "sourceConfigurations": 4,
+    "invalidValueCasesPerConfiguration": 16,
+    "invalidValueProbes": 64,
+    "validValuesPerConfiguration": 5,
+    "validBoundaryAndCustomProbes": 20,
+    "callbackAndDisposedPriorityProbes": 16,
+    "coercionHooksInvoked": 0,
+    "factoryCalls": 0,
+    "currentErrors": {
+      "source": "RangeError",
+      "history": "RangeError",
+      "asyncSource": "TypeError",
+      "worker": "TypeError"
+    },
+    "workerProbe": "Idle factory wiring only; no Worker instantiated or active transport verified",
+    "unchangedImplementationFiles": 215,
+    "unchangedScopes": [
+      "src",
+      "test",
+      "scripts",
+      "dist",
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "tsconfig.worker.json"
+    ],
+    "fullTestSuiteRerun": false,
+    "reason": "Documentation-only design; all implementation/test/build/dependency files match the before snapshot. Target U2 acceptance remains future work."
+  },
+  "currentBehavior": [
+    {
+      "mode": "source",
+      "errors": [
+        {
+          "value": "zero",
+          "error": "RangeError"
+        },
+        {
+          "value": "negative-zero",
+          "error": "RangeError"
+        },
+        {
+          "value": "negative",
+          "error": "RangeError"
+        },
+        {
+          "value": "NaN",
+          "error": "RangeError"
+        },
+        {
+          "value": "Infinity",
+          "error": "RangeError"
+        },
+        {
+          "value": "-Infinity",
+          "error": "RangeError"
+        },
+        {
+          "value": "undefined",
+          "error": "RangeError"
+        },
+        {
+          "value": "null",
+          "error": "RangeError"
+        },
+        {
+          "value": "string",
+          "error": "RangeError"
+        },
+        {
+          "value": "boolean",
+          "error": "RangeError"
+        },
+        {
+          "value": "boxed",
+          "error": "RangeError"
+        },
+        {
+          "value": "object",
+          "error": "RangeError"
+        },
+        {
+          "value": "array",
+          "error": "RangeError"
+        },
+        {
+          "value": "bigint",
+          "error": "RangeError"
+        },
+        {
+          "value": "symbol",
+          "error": "RangeError"
+        }
+      ],
+      "callbackPriority": [
+        {
+          "value": 0,
+          "error": "RangeError"
+        },
+        {
+          "value": 2,
+          "error": "Error"
+        }
+      ],
+      "disposedPriority": [
+        {
+          "value": 0,
+          "error": "RangeError"
+        },
+        {
+          "value": 2,
+          "error": "Error"
+        }
+      ],
+      "validBoundariesAccepted": true,
+      "noCoercion": true,
+      "lazyFactoryCalls": 0
+    },
+    {
+      "mode": "history",
+      "errors": [
+        {
+          "value": "zero",
+          "error": "RangeError"
+        },
+        {
+          "value": "negative-zero",
+          "error": "RangeError"
+        },
+        {
+          "value": "negative",
+          "error": "RangeError"
+        },
+        {
+          "value": "NaN",
+          "error": "RangeError"
+        },
+        {
+          "value": "Infinity",
+          "error": "RangeError"
+        },
+        {
+          "value": "-Infinity",
+          "error": "RangeError"
+        },
+        {
+          "value": "undefined",
+          "error": "RangeError"
+        },
+        {
+          "value": "null",
+          "error": "RangeError"
+        },
+        {
+          "value": "string",
+          "error": "RangeError"
+        },
+        {
+          "value": "boolean",
+          "error": "RangeError"
+        },
+        {
+          "value": "boxed",
+          "error": "RangeError"
+        },
+        {
+          "value": "object",
+          "error": "RangeError"
+        },
+        {
+          "value": "array",
+          "error": "RangeError"
+        },
+        {
+          "value": "bigint",
+          "error": "RangeError"
+        },
+        {
+          "value": "symbol",
+          "error": "RangeError"
+        }
+      ],
+      "callbackPriority": [
+        {
+          "value": 0,
+          "error": "RangeError"
+        },
+        {
+          "value": 2,
+          "error": "Error"
+        }
+      ],
+      "disposedPriority": [
+        {
+          "value": 0,
+          "error": "RangeError"
+        },
+        {
+          "value": 2,
+          "error": "Error"
+        }
+      ],
+      "validBoundariesAccepted": true,
+      "noCoercion": true,
+      "lazyFactoryCalls": 0
+    },
+    {
+      "mode": "asyncSource",
+      "errors": [
+        {
+          "value": "zero",
+          "error": "TypeError"
+        },
+        {
+          "value": "negative-zero",
+          "error": "TypeError"
+        },
+        {
+          "value": "negative",
+          "error": "TypeError"
+        },
+        {
+          "value": "NaN",
+          "error": "TypeError"
+        },
+        {
+          "value": "Infinity",
+          "error": "TypeError"
+        },
+        {
+          "value": "-Infinity",
+          "error": "TypeError"
+        },
+        {
+          "value": "undefined",
+          "error": "TypeError"
+        },
+        {
+          "value": "null",
+          "error": "TypeError"
+        },
+        {
+          "value": "string",
+          "error": "TypeError"
+        },
+        {
+          "value": "boolean",
+          "error": "TypeError"
+        },
+        {
+          "value": "boxed",
+          "error": "TypeError"
+        },
+        {
+          "value": "object",
+          "error": "TypeError"
+        },
+        {
+          "value": "array",
+          "error": "TypeError"
+        },
+        {
+          "value": "bigint",
+          "error": "TypeError"
+        },
+        {
+          "value": "symbol",
+          "error": "TypeError"
+        }
+      ],
+      "callbackPriority": [
+        {
+          "value": 0,
+          "error": "TypeError"
+        },
+        {
+          "value": 2,
+          "error": "Error"
+        }
+      ],
+      "disposedPriority": [
+        {
+          "value": 0,
+          "error": "TypeError"
+        },
+        {
+          "value": 2,
+          "error": "Error"
+        }
+      ],
+      "validBoundariesAccepted": true,
+      "noCoercion": true,
+      "lazyFactoryCalls": 0
+    },
+    {
+      "mode": "worker",
+      "errors": [
+        {
+          "value": "zero",
+          "error": "TypeError"
+        },
+        {
+          "value": "negative-zero",
+          "error": "TypeError"
+        },
+        {
+          "value": "negative",
+          "error": "TypeError"
+        },
+        {
+          "value": "NaN",
+          "error": "TypeError"
+        },
+        {
+          "value": "Infinity",
+          "error": "TypeError"
+        },
+        {
+          "value": "-Infinity",
+          "error": "TypeError"
+        },
+        {
+          "value": "undefined",
+          "error": "TypeError"
+        },
+        {
+          "value": "null",
+          "error": "TypeError"
+        },
+        {
+          "value": "string",
+          "error": "TypeError"
+        },
+        {
+          "value": "boolean",
+          "error": "TypeError"
+        },
+        {
+          "value": "boxed",
+          "error": "TypeError"
+        },
+        {
+          "value": "object",
+          "error": "TypeError"
+        },
+        {
+          "value": "array",
+          "error": "TypeError"
+        },
+        {
+          "value": "bigint",
+          "error": "TypeError"
+        },
+        {
+          "value": "symbol",
+          "error": "TypeError"
+        }
+      ],
+      "callbackPriority": [
+        {
+          "value": 0,
+          "error": "TypeError"
+        },
+        {
+          "value": 2,
+          "error": "Error"
+        }
+      ],
+      "disposedPriority": [
+        {
+          "value": 0,
+          "error": "TypeError"
+        },
+        {
+          "value": 2,
+          "error": "Error"
+        }
+      ],
+      "validBoundariesAccepted": true,
+      "noCoercion": true,
+      "lazyFactoryCalls": 0
+    }
+  ],
+  "implementationProvenanceSha256": {
+    "src/player/player.ts": "52c5a8f842e6d1eccef6141665b5ce08da0b60b5d77f98002966b0c480426919",
+    "src/player/types.ts": "01f365e00ca66661afaa7db51b46c4b136c2cea85865ba3654e984688e23d2ea",
+    "src/player/controller.ts": "56dffc6f913fcb6b53c79f673c0c239d56a057a9165103ce80f1278b17d9d39d",
+    "src/player/async-controller.ts": "0bb918c98821097aebb84b09cb5859b13861d21dea09e87562b843178eba2b99",
+    "src/player/mount.ts": "f849c844e039a7842f3de2bc8850b2f5f000d9649a44219a512f190845fa064a"
+  },
+  "documentSha256": {
+    "docs/player-speed-validation.md": "e93ea64b94f6b8e66665b6a791b52d4ec78b10f82574a4d62873191951cf6062",
+    "docs/ru/player-speed-validation.md": "d45fdb63bbed6514af24c6b48ef5edc7aa117509016634e3a3854db1695e5392",
+    "docs/player.md": "e8016c2b16517c846a31664040831b443357c67c0a49f3d63fc5131e9394c8d1",
+    "docs/ru/player.md": "627a213b118e67a050885bc1c4a53b558936d4e7c2aa5962b83988a824910a55",
+    "docs/api-readiness-0.16.0.md": "2a83c498185098c54298ef7f39e260b7359daae126b2d6a7d746f6784399ffbc",
+    "docs/api-stability.md": "5c6c1637cbafbe515951336186ad1d73d21060e0b7f5f71e7a6fe98cfbe9b56a",
+    "docs/optional-player-proposal.md": "2d4c52bc4f43a834996948ba6bce18f13162d8d43c742b0d81ddb1697d8d91e5"
+  },
+  "externalArtifacts": {
+    "beforeSnapshot": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/u2-design-before.json",
+    "currentBehavior": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/u2-current-behavior.json"
+  },
+  "notes": [
+    "F1/U1 accumulated local implementation remains unchanged and unreleased.",
+    "Original 0.16.0 audit and its observations remain historical evidence.",
+    "No commit, version change, dependency change or publication in this task."
+  ]
+}

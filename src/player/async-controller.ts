@@ -237,7 +237,7 @@ export function createAsyncController<State>(options: ControllerOptions<State>):
         },
         seek() { throw new Error('Seeking is unavailable for a stream'); },
         setSpeed(value: number) {
-            if (!Number.isFinite(value) || value <= 0) throw new TypeError('Speed must be positive');
+            if (!Number.isFinite(value) || value <= 0) throw new RangeError('Speed must be positive');
             return act(() => { speed = value; last = null; }, false);
         },
         setReducedMotion(value: boolean) { return act(() => { reduced = !!value; if (current && !failed) present(); }, false); },

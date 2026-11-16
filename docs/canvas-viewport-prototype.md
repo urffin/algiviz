@@ -1,5 +1,7 @@
 # Canvas viewport prototype
 
+**Historical report:** versions, counts and measurements below belong to their original stage. See [current eight-entry status and local changes](current-api.md); U4 does not rerun these checks.
+
 [Русский](ru/canvas-viewport-prototype.md) · [Plan](optional-player-proposal.md)
 
 Prototype assessment and checks through 2026-11-13 are recorded below. The helper

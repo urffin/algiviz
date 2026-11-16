@@ -2,6 +2,8 @@
 
 [Русский](ru/player-async-api.md) · [Player](player.md) · [Adapter](async-source-api.md) · [Behavior](async-sources.md)
 
+**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+
 ## Published in 0.15.0, 2026-11-13
 
 Version 0.15.0 publishes asyncSource, waiting metadata and closed in /player
@@ -230,6 +232,10 @@ usable. Start/Restart coalesce an existing preparation; they cannot bypass a
 cleanup barrier by creating another adapter. Calls after disposal and mutations
 from render/status callbacks retain existing rejection rules.
 
+**Local U2, unreleased:** [speed validation](player-speed-validation.md) now uses
+RangeError for every invalid value, without coercion/effects and before disposal/
+reentrancy checks, for all source kinds. Published 0.16.0 async/Worker uses TypeError.
+
 `canStart` requires no installed frame, no preparation/cleanup barrier and a live
 widget. `canRestart` requires `started`, no preparation/cleanup barrier and a live
 widget. During preparation both are false, even though repeated programmatic
@@ -317,6 +323,8 @@ also recorded. Async failures after disposal go only into the report.
 
 ## Design-stage declaration checks
 
+**Historical verification:** counts, versions and hashes below belong to this stage; see [current status](current-api.md) for the later baseline.
+
 Type-check inference, mutual exclusion and explicit undefined, old typed options
 and full labels, unchanged phase/mode/method types, new status/report narrowing
 and readonly guarantees in NodeNext/Bundler with strict DOM consumers. Headless
@@ -338,6 +346,8 @@ callbacks. Native checks use the built-in browser for controls/keyboard/status
 announcements. Implementation results are recorded below.
 
 ## Implementation and verification
+
+**Historical verification:** counts, versions and hashes below belong to this stage; see [current status](current-api.md) for the later baseline.
 
 Separate async controller/session code keeps the synchronous playback engine
 unchanged. A bounded Map window stores available states, alongside one uncommitted
@@ -361,6 +371,8 @@ Source/build/fixture hashes match. These are local checks, not browser
 certification, a screen-reader audio test, publication or exact-commit CI.
 
 ## Worker integration follow-up, 2026-11-14
+
+**Historical verification:** counts, versions and hashes below belong to this stage; see [current status](current-api.md) for the later baseline.
 
 The 0.16.0 [Worker adapter](player-worker.md) now connects as asyncSource
 without changing this API or controller. Eleven controlled integration cases,

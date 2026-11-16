@@ -1,5 +1,9 @@
 # Array dispatcher reuse
 
+The optimization shipped in 0.14.0; original measurements below are retained without a new run.
+
+**Historical report:** versions, counts and measurements below belong to their original stage. See [current eight-entry status and local changes](current-api.md); U4 does not rerun these checks.
+
 [Русский](ru/array-dispatch-performance.md) · [Original priorities](performance-baseline-0.13.0.md#optimization-order)
 
 The local implementation was verified on 2026-11-13. `createArrayRenderer` now

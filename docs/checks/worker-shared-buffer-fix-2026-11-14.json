@@ -1,0 +1,304 @@
+{
+  "date": "2026-11-14T13:19:32.508Z",
+  "version": "0.16.0",
+  "status": "F2-fixed-locally-unreleased",
+  "baseCommit": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "environment": {
+    "node": "v22.17.0",
+    "platform": "win32",
+    "typescript": "6.0.3"
+  },
+  "scope": "Close the constructor-absent shared-buffer validation bypass without public API changes or publication",
+  "implementation": {
+    "productionFile": "src/worker/data.ts",
+    "behavior": "Brand ordinary ArrayBuffer first; if the optional SharedArrayBuffer byteLength getter is absent, a captured DataView intrinsic with zero byte length recognizes remaining actual shared storage without coercion or application getters",
+    "noWebAssemblyFallbackOrSharedAllocation": true,
+    "publicAPIChanged": false,
+    "guards": [
+      "host init preflight",
+      "endpoint received input",
+      "endpoint state preflight",
+      "host received state"
+    ]
+  },
+  "verification": {
+    "redBeforeFix": {
+      "tests": 9,
+      "passed": 5,
+      "failed": 4,
+      "failures": [
+        "private constructor-absent branding",
+        "private captured DataView branding",
+        "public hidden context",
+        "public hidden-no-wasm context"
+      ]
+    },
+    "focusedAfterFix": {
+      "tests": 9,
+      "passed": 9
+    },
+    "repository": {
+      "command": "npm test",
+      "tests": 509,
+      "passed": 509
+    },
+    "permanentF2": {
+      "parentTests": 3,
+      "privateAddedTests": 3,
+      "isolatedPublicCases": 121,
+      "contexts": {
+        "visible": 41,
+        "hidden": 41,
+        "hidden-no-wasm": 39
+      },
+      "counting": "121 child cases execute inside three parent tests already included in the repository total of 509; do not add 121 to that total",
+      "data": [
+        "bare/zero-length shared buffer",
+        "Uint8Array",
+        "DataView",
+        "nested Map",
+        "cyclic Map/Set/Error cause",
+        "Error cause",
+        "foreign buffer/view",
+        "WebAssembly.Memory backing buffer/view",
+        "F1 Memory object with WebAssembly available"
+      ],
+      "controls": [
+        "sender preflight and receiver injection in input/state",
+        "same primary exception on repeat read and closed",
+        "cleanup/source-return and single termination",
+        "retained earlier transferred snapshot",
+        "ordinary zero-byte/copy/transfer and aliases",
+        "invalid shared transfer list without detaching ordinary buffer",
+        "false tag/prototype/getter/coercion traps",
+        "lazy factories/no Worker before read",
+        "no Memory allocation and captured native DataView"
+      ]
+    },
+    "installed": {
+      "commands": [
+        "npm run test:package",
+        "npm run test:package -- --resolution Bundler"
+      ],
+      "passed": true,
+      "isolatedPublicCasesPerRun": 121,
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "libraries": [
+        "ES2022-only",
+        "DOM",
+        "WebWorker"
+      ],
+      "strict": true,
+      "runtimeExportsAndPrivatePathBoundary": "passed"
+    },
+    "bundle": {
+      "command": "npm run test:bundle",
+      "passed": true
+    },
+    "native": {
+      "report": "docs/checks/worker-shared-buffer-fix-browser-2026-11-14.json",
+      "cases": 34,
+      "passed": true,
+      "host": "Windows built-in browser, dedicated module Workers, cross-origin isolated",
+      "contexts": [
+        "visible",
+        "hidden",
+        "hidden-no-wasm"
+      ],
+      "controlledGlobalsBeforeModuleImport": true,
+      "remainingOwnedWorkers": 0,
+      "unexpectedErrors": 0,
+      "limit": "Focused local boundary only; not exact-candidate certification or expanded browser support"
+    },
+    "baselineComparedFiles": 125,
+    "changedBaselineFiles": [
+      {
+        "path": "src/worker/data.ts",
+        "before": "054103f043ea5ea4dcd1518e7673cad06163f386b4be2e37ec3a0e636c0dbfc4",
+        "after": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064"
+      },
+      {
+        "path": "dist/worker/data.js",
+        "before": "c0121c79a46d993d4efdffb79d7e50da55b3f73ca4df3a9ca7276702e6d7a9d4",
+        "after": "7dbcedcf296c4d98444367f89212de3db2680e448e305249cc4eee14d0b78c55"
+      }
+    ],
+    "unchangedDeclarations": 41,
+    "unchangedBaselineFiles": 123,
+    "preservedScopes": [
+      "other production src/dist",
+      ".github",
+      "package metadata/lock/dependencies",
+      "tsconfigs",
+      "shared test fixtures"
+    ],
+    "logHashes": {
+      "f2-before-tests": "34e2905c59bdc0f2d8351fba599520ff11e6bd8b9fe681beff09c57e076b0472",
+      "f2-focused": "af29b45484f790cb09fc6df28fc460962ce820acdcf3a33fe2e310dfd3cac630",
+      "f2-tests": "65f597bd6d3d929edc3f8fb55f3e1c883b76b2ef4914692301dc247ce8fe04d7",
+      "f2-package": "adbadff39e218d02df31da0aa5e456e9eed131613233c38c9572146e96495223",
+      "f2-package-bundler": "cd4c3f6eac42fda9c22b73264d93c03c7ab212a4c54e1bbef3baf8b77ab7cac2",
+      "f2-bundle": "8b886ebfe05eeb9c1fd762e01f5b97a85111dd71530f69141142e6de4ba29fc4"
+    },
+    "documentation": {
+      "markdownFiles": 74,
+      "localOrRepositoryMappedLinks": 974,
+      "passed": true
+    }
+  },
+  "readinessFollowUp": {
+    "readyLocally": 8,
+    "openKnownTechnicalBlockers": 0,
+    "boundary": "Same defined eight-entry review scope",
+    "remaining": [
+      "G1: separately authorized immutable candidate/version/migration",
+      "G2: all 11 CI jobs on the exact candidate SHA",
+      "G3: focused native verification of that candidate"
+    ],
+    "originalAuditPreserved": "docs/checks/api-readiness-1.0-2026-11-14.json"
+  },
+  "provenance": {
+    "src/worker/data.ts": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064",
+    "test/worker-data.test.mjs": "c11b75eeb07c19641fef41d606ce65600623d30ac58e9a85d4a66b7cd5613778",
+    "test/worker-shared-buffer.test.mjs": "a627530ac4a48c0c6b512756809f484f327b0aa8bc08becbf1dda79555b21541",
+    "test/worker-shared-buffer-browser.html": "ec5c7ffb05a2b7dc208a12bfdf7eabe700a9c1cf63beb8baed479cb0eacd863d",
+    "scripts/serve-worker-shared-buffer.mjs": "15e55bc78f78af4e3bc13daa5d2a33b26807fd2d35aed436f555b253a224c856",
+    "scripts/test-package.mjs": "5b16cb745b9f29f1ef469c4bb92f82c20b78aa65cef25bf40a70fccd76c7034e",
+    "docs/checks/api-readiness-1.0-2026-11-14.json": "ca4c729d52696022ec5d19f0f87bbc06c31c1e220b7bd24919c078b385ccab1f",
+    "docs/checks/worker-shared-buffer-fix-browser-2026-11-14.json": "5506865fec6097806450171ca98d29cb2969cb8993c0b27bfe9899d9708f405c"
+  },
+  "preservedBaselineHashes": {
+    "src/array/index.ts": "81d69fe2de995f6ab546d43527502a005b0300d6247e311dc9859fc7a3ca5d5d",
+    "src/array/player.ts": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f",
+    "src/array/snapshot-builder.ts": "e05d3ff0c47177d8d7b0c6ba26a98cc2abe23988028e08b941c40884670ec2e8",
+    "src/array/timeline.ts": "3849e56b429c14965f0191bab4236fed19ea762cf7ddabb206d0670d69064cf3",
+    "src/array/trace.ts": "899b445fa0efdf2cc43a94794d2b91e1ac1e991ec94ecc9725dc3d2afdefbec0",
+    "src/array/types.ts": "c7ee02522d9985b85b3a8d78869818989ad2da66d6a0dddedde6dd3165e3b517",
+    "src/canvas/index.ts": "2b83c9753b16d2df58b9c76626815eb0121970d60cd8ce64573ad490dd9e7389",
+    "src/canvas/viewport.ts": "a26ab096e666ffcb84e01b11ee302be2776e5d2a4ec1a48e1aa0185ef6149411",
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "src/playback/index.ts": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0",
+    "src/playback/player.ts": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787",
+    "src/playback/rewind-buffer.ts": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70",
+    "src/playback/state-player.ts": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b",
+    "src/playback/state-steps.ts": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff",
+    "src/playback/step-emitter.ts": "a42c006b86a441ab47bf720427164b10ca626ffd6bd7cab6a735dcc63ce41770",
+    "src/playback/timeline.ts": "8095ff07cd9bf7afad108dd13e7e7ebb63e7cfb3d2fce5d2d45d620150074088",
+    "src/playback/types.ts": "053f6e9b76c2d9c9847ec71219b2a90ec9f4a2ad7ec6629f992e974a73ec4261",
+    "src/player/async-controller.ts": "5526a150720229bf466cab7f9d366638297f4dfc59250ac76120fe182b71638d",
+    "src/player/async-session.ts": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f",
+    "src/player/close-report.ts": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8",
+    "src/player/controller.ts": "56dffc6f913fcb6b53c79f673c0c239d56a057a9165103ce80f1278b17d9d39d",
+    "src/player/index.ts": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d",
+    "src/player/mount.ts": "f849c844e039a7842f3de2bc8850b2f5f000d9649a44219a512f190845fa064a",
+    "src/player/player.ts": "52c5a8f842e6d1eccef6141665b5ce08da0b60b5d77f98002966b0c480426919",
+    "src/player/rewind-session.ts": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0",
+    "src/player/stream-playback.ts": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30",
+    "src/player/types.ts": "01f365e00ca66661afaa7db51b46c4b136c2cea85865ba3654e984688e23d2ea",
+    "src/scene/index.ts": "858bbb12d580c53b9f158ae50ab9976704f61bb1615120bab5ec046ec699db4b",
+    "src/worker/error.ts": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72",
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/protocol.ts": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc",
+    "src/worker/runtime.ts": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef",
+    "src/worker/types.ts": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9",
+    "dist/array/index.d.ts": "278a06b76bc4b721647771361da945649134f80f388f1964deea142cd6c367ce",
+    "dist/array/index.js": "d9affd87227649dd8386a0550e27750524a86d1e64d2432ee8d2bae0ab681412",
+    "dist/array/player.d.ts": "7d9f3238b6fab096679351cf1486bacd8fbb3f177181ba217a5611c4a1833e15",
+    "dist/array/player.js": "bc502a21189ddf46e7c5a26a9f168bd9370a3c44cbcabdca20bc79508d8ef378",
+    "dist/array/snapshot-builder.d.ts": "852a503698a6316dde092552250f145d1292da159b5c9f58071de9f07e2940bd",
+    "dist/array/snapshot-builder.js": "3837c97e8d61035f596bb39eb05fcf683b2479b20efde57ff0a94c8bb9b0335e",
+    "dist/array/timeline.d.ts": "9f90b373410f15ff50c297b8d34dd82e5ce2b511f90ea42e217a5f54aac05f89",
+    "dist/array/timeline.js": "6edddc02d02445ab097092ba7de7e6f6338444cb55895cd928d0ebe1c872ee17",
+    "dist/array/trace.d.ts": "0f1c3c6e6de5068039b1b2499f273f53ad0689730979d35eb1c84ea662c2aa0e",
+    "dist/array/trace.js": "2ebef390952eaf5b45d451793332e4350828182cb6238e4b912d05619f7d9641",
+    "dist/array/types.d.ts": "b828b7c3a255863c76ca75f29cf489cfbb06bdd383c0d04ffb90b2a8bd620d34",
+    "dist/array/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/canvas/index.d.ts": "fad4e054eb2bf036895dadcb63eeeed572f21241f8528b435b404761a71309e2",
+    "dist/canvas/index.js": "a0282598d4239bef67edf100ff041ea1c1b23e38bfb90bbc7c2790da896e866b",
+    "dist/canvas/viewport.d.ts": "fb6ba0fb12390824cde00dc813338cffe85d93e60cf8230346f517e87206737f",
+    "dist/canvas/viewport.js": "f6251d1932144a5dc86915dd585e99e9c36ed4519ade48fff3c1f29a508bdd18",
+    "dist/compat/algorithms.d.ts": "ec556514fe204d59548e351b6f72add8a2325dcec7a68d045d518f006328e6f7",
+    "dist/compat/algorithms.js": "38fe7b6af2fa0e95763c6cb5a35c7908c154ce3ffd3a936d70f51bbd12b3fe58",
+    "dist/core/bubble-sort.d.ts": "b2d492213ab3ffb95f753134fe3af2ef7fa533162c8ac755af3ba1835541f436",
+    "dist/core/bubble-sort.js": "00aeda18eb3177534b67a442c8cce1345fa7ecba27bf1247e35b84bc92d98867",
+    "dist/core/index.d.ts": "80a093e098d247e1ca7926ac05856075e3e081d7ec0b935fe9dac5d72d69ffd3",
+    "dist/core/index.js": "ec8fcd37b575f4b4fec5e3b549f823b3161a500779f330a227cc4ab049577507",
+    "dist/core/insertion-sort.d.ts": "7f6c71b1e55e889d84aa89820fb7481463049f299775a0146fad57d75138d5aa",
+    "dist/core/insertion-sort.js": "f945531fb309c1300db880a8971715c3d57bdb8036bf4ac787fe332b057094b1",
+    "dist/core/player.d.ts": "864a106baa9d863e6f18200d7ff1bed804f6912ad55e3536a94ad6c35c63ba12",
+    "dist/core/player.js": "5dbeecaf27cf99d69dbe2812d79391fce171b3ef6f721778d7d331badb1d0c1e",
+    "dist/core/timeline.d.ts": "000b30fe41fd328e0a1cc9c526b36022172496ed1ec5109798923c4f5493bf57",
+    "dist/core/timeline.js": "bfccc768c71d710c98379701fb3bda8f767fdb7a025978bcc6bfc93429f46622",
+    "dist/core/types.d.ts": "5d98764e59f5d53cb044d2a9df57caa4d2cd87ee1f6dc516ae6267b0e80a9b0e",
+    "dist/core/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/examples/custom-objects.js": "9232096290845d3bf5bb67425f846b92f5bd7575afa4d4d674520ab49b6f6e8d",
+    "dist/playback/async-source.d.ts": "c1f47389196b89734894516be5d5b22135d37cff5a4aec9b78f521c552a823df",
+    "dist/playback/async-source.js": "44aa496a5abefd8aa2b02319978079ce752d80e29aa6136acfc9408409237193",
+    "dist/playback/index.d.ts": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0",
+    "dist/playback/index.js": "044c588c7e294e98a629e506b92f69e3203e156f6c3943e57df563d4f1105687",
+    "dist/playback/player.d.ts": "30eba377e9c2fd03ada6bc8cd8222ddbf13beeed5c46dcbd428c1027228cde9d",
+    "dist/playback/player.js": "d958fbf79c7f15382a2b459cacc18111c10efdde476c20607d8cb44c2bc3b1b3",
+    "dist/playback/rewind-buffer.d.ts": "d7413ef9ab87ddcf7f2d6ee84c5ef77a6e09ee1072bda55a4a2bc8427d7ddad5",
+    "dist/playback/rewind-buffer.js": "2c4d516c0f4a45fa3e2667643f31fe72035494531888677f8947d3c78f41592e",
+    "dist/playback/state-player.d.ts": "e39fcce7ba4d5f69c491b94fee82ffb494a9262ace88f84a7c3bc2591344cc85",
+    "dist/playback/state-player.js": "661bdf01f2c2825b949dda2ecfa4289bd58f09b84359d52b030ee760a404a499",
+    "dist/playback/state-steps.d.ts": "096812bb856069241ad6bd51d4730552c7f246b2c88d36150088402c591644b0",
+    "dist/playback/state-steps.js": "34e53c7779c38b1fc5f79f91db8e92270ee75432269e59329b354a9faf6abbe1",
+    "dist/playback/step-emitter.d.ts": "c433ea463f31964fe82eb0e836c9e327baa5bfd98b29a4d6542bc0552bd192cf",
+    "dist/playback/step-emitter.js": "9890fd6c100e531ab90f3820fbe24cb8e301db2ae2da43d5ac4a04269e4b4faa",
+    "dist/playback/timeline.d.ts": "e3f15472849515ba50f8cc4e2212686f8c2546b9b2277b6104c2920cb7431bc8",
+    "dist/playback/timeline.js": "5917dc68668c722776ee40d12c3f516e363b829a2bfa24547e5abc4829adf84b",
+    "dist/playback/types.d.ts": "7dfc49e3afaa1905044a6c93e9a473070bd6dc7382c7eee3b6ba64443b5f82e1",
+    "dist/playback/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/player/async-controller.d.ts": "30bbdab902137c9d3ab1b52fac3ba992748c42d67f824474a8270e1bbd122d98",
+    "dist/player/async-controller.js": "741ddc7c511419e51672a406a8ff6e7db38b972e7d5cd5c8eecc7768c3d09718",
+    "dist/player/async-session.d.ts": "c0ac8328e81f7222d20a99e3e1f642406643df12bb68b467cb0ecc9cb3e4c504",
+    "dist/player/async-session.js": "f2200835e2efd61b60cf58a45686cf1719491d776224c07b7ade5507c1c0ed9c",
+    "dist/player/close-report.d.ts": "f2c05344262cd38b2c643e5a74ae246e421b02e0d9d87b81af0b01141f342c04",
+    "dist/player/close-report.js": "a4bd9795d2f5045512fb28242c8eabf737958db1ecdb5ccea4e809d34eecbd64",
+    "dist/player/controller.d.ts": "2bb526cd6c9da427660017b5ecf6433b11c8cf60e0ea6103045218cba556eb66",
+    "dist/player/controller.js": "4c9538893bda9c6ce7ef44043723423fd48175f574f4cc90b7fbe078dd88043d",
+    "dist/player/index.d.ts": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d",
+    "dist/player/index.js": "975dce9e70cb2bef6d0dcedf63ca72d019438692b9b5483e39fc316991215709",
+    "dist/player/mount.d.ts": "722ce79d9adb3fb77af891c3f40ddddbcc8144babaf0accc6227d90fcdfa22ab",
+    "dist/player/mount.js": "e6b03d0f5f5af673a586d6835d5497afde2b60850c8350decf9006ef453f4fe6",
+    "dist/player/player.d.ts": "3198d221056116e8d38bbf73fdb1d054379ff1642f438965121b09c7923e4413",
+    "dist/player/player.js": "fc6d3de63be984c05723ca3b5a73825a24b345d62c36a19edc40225a810fb2f5",
+    "dist/player/rewind-session.d.ts": "6710dce3a4517dd2c4574242a76761693ecfbab73cd7d9922cfe76857ecb1d2f",
+    "dist/player/rewind-session.js": "6de6641781d5b9f77af76832c0753de9942bb11478abac7660e9210b77f86809",
+    "dist/player/stream-playback.d.ts": "eb7d718a5718c9cc97882713632a45a92c55ea6d7d28f7901c9fcfa58e431418",
+    "dist/player/stream-playback.js": "6bfae958919b99f4a265bc0b353e5b508fb10ac232ef86d16b7453105ff7bcf8",
+    "dist/player/types.d.ts": "d28814cbebd2f2dfc00dac2c8d1faf8b4aebb09b7d618e602b7141311d2ffbe2",
+    "dist/player/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/scene/index.d.ts": "594bcb48b86e6d0a80c7d8fc3aa020c790750da1db4e48ab5f1cfd4c6e21a904",
+    "dist/scene/index.js": "48225899cca5a0b262a07379c464b248274fb8972d545cd20822d6fbe679668b",
+    "dist/worker/data.d.ts": "30c756f4d09420cf889d53b207f4341a52f4d35ca83ee0428962fced00db2d0f",
+    "dist/worker/error.d.ts": "dc80436fbabc3923723df1982512d74dcac0cdaa20599a7375970c0381040ba8",
+    "dist/worker/error.js": "58d1775a80232f4201a704686132e818e522c5a6c71517839ec9a8dd9cae70fc",
+    "dist/worker/index.d.ts": "e14608ea89c5210fe650f2b4b54eb21aa1850fbb8b553645a0f99831e4c60801",
+    "dist/worker/index.js": "27ffc0d59aa1e0af8791bcaa6467fa0f125505930d355417bd5051908289c07d",
+    "dist/worker/protocol.d.ts": "ed564a0d138108ace6f0476b2c8df92d39f8b6f5c326c0858b91a6ebd2c0ba22",
+    "dist/worker/protocol.js": "5f3ddcc2b4ca24cf19fd2d6a36e6cb134901b78d8b165e2b514544594121c8ef",
+    "dist/worker/runtime.d.ts": "c27563c8529f25aff546a4b32cbb546fb86f4a4df83f14d7d2012f24c55f61bd",
+    "dist/worker/runtime.js": "cb37667676669bfddc66fe6467bb73dca05091fce02f9db6d45973828f61efad",
+    "dist/worker/types.d.ts": "743075cd74340be55b140c815965012cfab050c12069847573b8689a76537293",
+    "dist/worker/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    ".github/workflows/ci.yml": "36c731d7d9fa5c060ec3ef740ecad2b393e7c70c5b4a06716ff23f201ac7f04f",
+    ".github/workflows/npm-publish.yml": "bd603e2fea20d5be252df2a18b22531ff2fad1eeb979859bb01985b0cf4f888d",
+    "package.json": "abe3d7d317b05b7777314b912729446697bb49d831d8a7907364f9e47a0e1c27",
+    "package-lock.json": "4246584f6ea114da70c5a6aa564d954cc809a9d7772121f47b592a26a6403875",
+    "tsconfig.json": "b9729c023af5e26af7297d6e9a0c4a3d4bfb789bd737ba99e5e63b404791e678",
+    "tsconfig.worker.json": "a486499a90a2c582d7f830494265d9e58d6c6706ff8eb5c8b4fbacae08a10735",
+    "test/worker-test-transport.mjs": "c595352bb174fb8a77b16bc43cc8e8de9fa35dd781aa2ece8da13d2c9d68fe72",
+    "test/player-test-dom.mjs": "646a8d45082462ac93ecf9d7bea406293d2c489eb4e7c035183594317bfc02a2"
+  },
+  "limitations": [
+    "No commit, push, CI, version change or publication",
+    "Published 0.16.0 is unchanged",
+    "Hidden constructor tests are controlled configurations, not a claim that every native deployment accepts shared messages",
+    "Both-globals-absent cases cover direct buffers/views/graphs, not Memory object branding without WebAssembly"
+  ]
+}

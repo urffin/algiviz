@@ -1,0 +1,206 @@
+{
+  "date": "2026-11-14T11:38:55.024Z",
+  "version": "0.16.0",
+  "status": "U4-documentation-reconciled-no-implementation-unreleased",
+  "baseCommit": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "scope": "Current references for all eight entries in EN/RU, F1/U1/U2 local status, selected U3 policy and historical evidence labels",
+  "verification": {
+    "unchangedImplementationFiles": 218,
+    "unchangedScopes": [
+      "src",
+      "test",
+      "scripts",
+      "dist",
+      ".github",
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "tsconfig.worker.json"
+    ],
+    "unchangedHistoricalArtifacts": 28,
+    "unchangedFencedExamplesAndDeclarations": 92,
+    "existingMarkdownFilesWithFenceComparison": 68,
+    "markdownFilesChecked": 70,
+    "localAndRepositoryMappedLinksChecked": 895,
+    "fragmentLinksChecked": 51,
+    "selfReportLinksCheckedAfterWrite": 3,
+    "referenceLanguagePairs": 13,
+    "coveredPublicEntries": 8,
+    "runtimeExportNames": 21,
+    "typeOnlyExports": 68,
+    "uniqueTypeOnlyNames": 56,
+    "runtimePublicExportFixture": "passed: exact namespaces, alias identity, root/private rejection",
+    "translatedStatusAndReferenceTables": [
+      7,
+      8
+    ],
+    "codeTestsRerun": false,
+    "strictConsumerChecksRerun": false,
+    "browserOrWorkerChecksRerun": false,
+    "ciOrRegistryChecksRerun": false,
+    "newEnvironmentClaims": false
+  },
+  "entryReferences": {
+    "./playback": "playback",
+    "./scene": "scene",
+    "./array": "array",
+    "./canvas": "array",
+    "./canvas/viewport": "canvas-viewport",
+    "./player": "player",
+    "./worker": "worker-source-api",
+    "./worker/runtime": "worker-source-api"
+  },
+  "referencePairs": [
+    {
+      "en": "docs/playback.md",
+      "ru": "docs/ru/playback.md"
+    },
+    {
+      "en": "docs/scene.md",
+      "ru": "docs/ru/scene.md"
+    },
+    {
+      "en": "docs/array.md",
+      "ru": "docs/ru/array.md"
+    },
+    {
+      "en": "docs/player.md",
+      "ru": "docs/ru/player.md"
+    },
+    {
+      "en": "docs/canvas-viewport.md",
+      "ru": "docs/ru/canvas-viewport.md"
+    },
+    {
+      "en": "docs/worker-source.md",
+      "ru": "docs/ru/worker-source.md"
+    },
+    {
+      "en": "docs/worker-source-api.md",
+      "ru": "docs/ru/worker-source-api.md"
+    },
+    {
+      "en": "docs/rewind-buffer.md",
+      "ru": "docs/ru/rewind-buffer.md"
+    },
+    {
+      "en": "docs/async-source-api.md",
+      "ru": "docs/ru/async-source-api.md"
+    },
+    {
+      "en": "docs/async-sources.md",
+      "ru": "docs/ru/async-sources.md"
+    },
+    {
+      "en": "docs/player-async-api.md",
+      "ru": "docs/ru/player-async-api.md"
+    },
+    {
+      "en": "docs/player-worker.md",
+      "ru": "docs/ru/player-worker.md"
+    },
+    {
+      "en": "docs/player-work-budget.md",
+      "ru": "docs/ru/player-work-budget.md"
+    }
+  ],
+  "currentStatus": {
+    "published": "0.16.0",
+    "F1": "implemented locally, unreleased; published Memory bypass marked",
+    "U1": "implemented locally, unreleased",
+    "U2": "implemented locally, unreleased; published async/Worker TypeError distinguished",
+    "U3": "policy selected for all eight entries",
+    "U4": "documentation reconciled",
+    "U5": "open; no identity/normalization choice in U4"
+  },
+  "historyRules": [
+    "Original audit table/export counts remain dated historical snapshots.",
+    "Raw check/release/benchmark artifacts remain byte-identical.",
+    "Examples and declaration fences remain unchanged.",
+    "Rewind, scene matching cache and array dispatcher reuse correctly marked as released in 0.14.0; viewport as 0.13.0.",
+    "Stage-local test counts and native/registry/CI evidence are explicitly separated from the current contract.",
+    "Latest runtime result is the prior U2 report (428 tests, 55 installed U2 cases); no fresh runtime result claimed by this docs pass."
+  ],
+  "provenanceSha256": {
+    "package.json": "abe3d7d317b05b7777314b912729446697bb49d831d8a7907364f9e47a0e1c27",
+    ".github/workflows/ci.yml": "36c731d7d9fa5c060ec3ef740ecad2b393e7c70c5b4a06716ff23f201ac7f04f"
+  },
+  "documentSha256": {
+    "docs/api-compatibility.md": "0a5c2740812a27dbdde5e0eb344702259c986e920b617952739dbab2053d9bc1",
+    "docs/api-readiness-0.16.0.md": "6d5909fe29ba2f255260cd3de431343d6139a46aa3e5597a8be65d47ea8cac70",
+    "docs/api-stability.md": "94e900da9cc968d96abb917faa4381b93131173b4809dba5b19d65612c15de24",
+    "docs/array-api-audit.md": "7d965ed53e29a0594435dfd30478607d3a9023d20b419528a50c4ed2eb4597f9",
+    "docs/array-dispatch-performance.md": "e14859d620977891a295ab02ef4f1f8cb54b84ad903a05a1a7840a1645b29fc4",
+    "docs/array.md": "137e353addb860f6c40fd3bca236b8abada317ef25840b9fe23f75bf36a604f6",
+    "docs/assets/README.md": "d4573aed10067cc485ddbf92a5901884a2b075372a37c4aae960fc4b3729112e",
+    "docs/async-source-api.md": "39b9eaa86c74cd86136d2aa7d7b8a1d7f8a2b8decf2fc40b1646db5d06d9aca8",
+    "docs/async-sources.md": "c289de2ba9ca9e2af151ce777c85f45133c481b2a3117215dfb7840231cc7233",
+    "docs/boids-sand-review.md": "d9265fef94bdf74a0ee2d93fdea96a444b19bfbe23574ac2322a04df4bf33097",
+    "docs/browser-checks-2026-11-06.md": "c94f08477d71eaa0e9a66c2c6aca18e5c02ef5580d4638f3f4e6f9007ed71a8e",
+    "docs/browser-checks-2026-11-12.md": "16f1fdf74343f3560568acf2af4ebfbabef5fec98060188ce3a4a718579c7d7a",
+    "docs/canvas-api-audit.md": "b8e4145750445378fced4b89b3b672587010583b44dce6c12036e215828ec507",
+    "docs/canvas-viewport-prototype.md": "9578a0064791a7d4b5c516f82d7cec1a557805455261b685e703032e2ea6672b",
+    "docs/canvas-viewport.md": "d65c632e76b0e9707a7f726e2e6bbd5f32d3b50791d4c9b2a0e21f7480cdb3b8",
+    "docs/current-api.md": "17c48f5be28020eaa5a4d7f532d2f9a66cc3804b8e142898ee0da50d73d98bfb",
+    "docs/custom-graph-example.md": "9b263940d9f840264236112d8ade3a45a27b57786ebf5edd7806a1bdffa0c49a",
+    "docs/examples.md": "695129e7cb6e7fe61eccc6b5c8913e5b7de59ed2b37fddc67f84449b30b95fec",
+    "docs/getting-started.md": "352885844ae0d8138c6f45619fd819046c34e4cc6bfa7706654c86a2fb1d0581",
+    "docs/headless-reentrancy.md": "861889e80aa6fdf56470d3870d19f5e612663d61fe31b0f65f62aa4293ddabdf",
+    "docs/minimal-api-audit.md": "1ef0d3df8eee80c435cd5980c490a33438e556cec1fdaae1b6543b4c724626d8",
+    "docs/minimal-example.md": "5bae02a51ead1a20194e3bb33163f854c6d74b9e705de74e8c8a9172a5d1cf4f",
+    "docs/next-step-experiment.md": "0184f6e63b3ae66d80611d11d8a68e09b5c432b7fcd0777208c4a00c937a599c",
+    "docs/optional-player-proposal.md": "70994f7f5f0a8ff0a584fbc56a58185bfadbc86812464e24a88076c01aaeea6c",
+    "docs/optional-player-prototype.md": "2fa25a4630beec53f35773fc737815c04d74621fda625bd73761cfc4e073bc75",
+    "docs/performance-baseline-0.13.0.md": "151a90c7efbbc814222f8c99e180c6fe48d44c848ddffe4400f64c5d0870d69b",
+    "docs/performance.md": "e1d9bec9456c63494be61e9cfa8f5f88ec03abf17a781e286f0f4a713f69fe55",
+    "docs/playback.md": "530e02805349f7f3ecefd92f9ba7980ec6959107509c81121153ae3b53580730",
+    "docs/player-async-api.md": "f8dba6d6c14a5449f1af383afb1fa6103c8cabef191ebb5801c85ef8a6748267",
+    "docs/player-bundle-check.md": "8ad02386b09175189b6d9858f10b012af98f262d1c1dc557aacd98a375491775",
+    "docs/player-rewind-checks-2026-11-13.md": "29a3a3788fd86026cf55b043becb91b7ba9c7b18b11f01686e18ecccd2fbfea2",
+    "docs/player-speed-validation.md": "b24014379545129afbe8c31c2bbdff9ad68aeedb6dbbdcdc34e2615fe6247f68",
+    "docs/player-work-budget.md": "808233cf578c85d57e925037f5e89c088cc219e5e6919695f0d72788a2151a9b",
+    "docs/player-worker.md": "a32d98983b69be4109f262450415031150e04f2a0ccce92534feccc2551a9f0c",
+    "docs/player.md": "92e397db782e7a8b1760d2b3e09cbdd5397c95d42f4442c2d84ce958fc3b05ab",
+    "docs/public-exports-audit.md": "e6ca8a89d991da976b9c64e5af6cdf519c5deac336b883ae423a5a1014d620ad",
+    "docs/publishing.md": "98f595e4520be3585341fb8df39efca4fb2053dc1f846259f0569fdbd58476a6",
+    "docs/rewind-buffer.md": "73d96408b95885f27d6e2d6c8c166fa4cebd17533d507e55f334e4e161dc4516",
+    "docs/ru/api-compatibility.md": "62e022cf115c1991d21c6d4805f53b5e8b4a47415219b3eacd79958a758dc605",
+    "docs/ru/array-dispatch-performance.md": "7bcddb5b5774dbf39331d5b947bdb5a4afbfbda2203ba9272f9698466cc32989",
+    "docs/ru/array.md": "4bbad611469da958fb84854735403f7f93cb3cc3f9cda83efc344c1e70429fcb",
+    "docs/ru/async-source-api.md": "37bccce4577583249097cc77736d652e7f8e5df3db2ecf3446e5ee6265c632ea",
+    "docs/ru/async-sources.md": "bce0547ff48e6822bf8ddf747d09b7052a028d1a0f182e99c1b4ae9308c05bb0",
+    "docs/ru/canvas-viewport-prototype.md": "4546c4b2c2e9e0d0e8a67db562c9fd55f7283a9e4ce33645f46918fa358aa632",
+    "docs/ru/canvas-viewport.md": "6366391316c2d40fc67baf70bf6408c13541c5a8fc12c09eb9cb615f522f140e",
+    "docs/ru/current-api.md": "c41b2cfe054cd39cbf0b7d3725867dd5c7f202b9a5c09af3651395b5a075f969",
+    "docs/ru/examples.md": "ea6dc93db6b36c324970f9aac3bf4560ada02fe4379ab9962eac2ecd686acce7",
+    "docs/ru/getting-started.md": "a71cce4c40939302b43ca5bb9da442e63a08fbf03e2f9c6a2333cbd3a1c8e7ff",
+    "docs/ru/headless-reentrancy.md": "73242de952aed7d297a01e9774ee23e4ee5281ef863855543a37579c463a3ca4",
+    "docs/ru/performance-baseline-0.13.0.md": "b404ededbc08100bee1affcca733edee162ca08ec5292b9c043777540ebb818b",
+    "docs/ru/performance.md": "8b5365865cd62d47b4315fed5f7d216a59758d29c645a143fa671ea43f26482a",
+    "docs/ru/playback.md": "8e83623ce6eb7e8860b9215dfcdc16e3462d2676f817938b32d9e2ac6ae7b365",
+    "docs/ru/player-async-api.md": "4abf001cd0e32b3981d6f3b6ec172aedd89f5ca907765dc77b49d3ab68934bad",
+    "docs/ru/player-speed-validation.md": "e082a847a53eb92d5315121c3d841e333fdd98ec5213aec80a0fe8de478db07d",
+    "docs/ru/player-work-budget.md": "e1cb7f4f3aec5e4a036e9118a42788d2af8404dc1e09244c0bfce9c2b055fec9",
+    "docs/ru/player-worker.md": "6677e4436991b09bc35b9780a17e00ac97431c84c252b37099df348d77382ad5",
+    "docs/ru/player.md": "cd191400dd8eecbd7a821c5f2e1b42d41c4056d6ab7878dab568a0ddf9386511",
+    "docs/ru/publishing.md": "e055346af1e624b7311a51aeb71fcfdacfa3c3661051dcfe7fca923fa31f1cc6",
+    "docs/ru/rewind-buffer.md": "f1b1a640f5d96a349056b9098c36967d1213d2236b9f8eec120d52a09bbf1757",
+    "docs/ru/scene-cache-performance.md": "d2e73e28737609a79c64c66eee7a95f81d43fd4c4fa767e600aa18d7ce2cd807",
+    "docs/ru/scene.md": "61873dea1b05ca76c661be3dbc6cc83d04341c10a867af32f182c56f682d0b44",
+    "docs/ru/worker-source-api.md": "82ba071e500587f016043e72c9628383d017f85467b602b1735bfff6c703b979",
+    "docs/ru/worker-source.md": "6663c7a116b48a69450952e727444b0d2ce6166573fdd08175e5803498761e69",
+    "docs/scene-cache-performance.md": "d070c999dfcbc493558ebbfb64f4572acd8a6538cffca1ec4de13a4bedb2c7d9",
+    "docs/scene.md": "88737252e418f1f4e6a94b17f5faa361721b994ca2e9e2289afcbc7b4163f066",
+    "docs/support-matrix.md": "ec5d0b69d801b17e2f67fc1fcf0207179d26aaba15e2a4098e343ac806f15a0c",
+    "docs/worker-source-api.md": "bf737a9aac61d199934e7aac2c341d19009a44f9101db7866a38a9813b5289e2",
+    "docs/worker-source.md": "0fbbc593be0fa6f4662a2080b135ae238e9c78482724f2c66be4ce97c56c33cf",
+    "README.md": "7445a18995d8204c1ef4aa7e5c012759517aabab72b8971a6bd40802666f6913",
+    "ru/README.md": "fc63b972939af2a55e460d51c8b4fe43446c1e14c1f3ff639486d878d0ad62f6"
+  },
+  "externalBeforeSnapshot": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/u4-docs-before.json",
+  "notes": [
+    "All accumulated F1/U1/U2 implementation, tests and scripts preserved.",
+    "U5 and subsequent baseline/candidate review remain; closing U4 starts neither.",
+    "No commit, version/dependency change, publication or browser support expansion."
+  ]
+}

@@ -1,0 +1,381 @@
+{
+  "date": "2026-11-14T11:56:30.942Z",
+  "version": "0.16.0",
+  "status": "U5-contract-selected-no-implementation-unreleased",
+  "baseCommit": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "decision": {
+    "hostSendThrow": "Preserve original unknown value by Object.is; no transport WorkerSourceError wrapping, coercion, clone, mutation or new cause field",
+    "actualSendScope": [
+      "init",
+      "pull",
+      "cancel"
+    ],
+    "activeFailure": "Original primary; failed report origin host, phase post; prompt rejection before shutdown",
+    "shutdownFailure": "Original cancel throw recorded as cleanup issue; existing shared cleanup WorkerSourceError summarizes cleanup without replacing latched outcome",
+    "precedence": "First terminal host observation wins; genuine later init/pull throw before final closure is first lateReadError, not automatically cleanup; finished reports remain closed",
+    "normalizationBoundary": "Remote/adapter-generated failures retain existing classification; host send exception is not assigned code transport",
+    "newAPI": false,
+    "permanentRegressions": "Separate next task; no test/source changes in this design step"
+  },
+  "verification": {
+    "readOnlyFaultInjectionCases": 30,
+    "probeMethod": "Existing real public host adapter/runtime endpoint over in-process cloned-message transport with fake clock, using built dist; no native browser failure reproduction",
+    "currentImplementationMatchesSelectedPaths": true,
+    "unchangedImplementationFiles": 218,
+    "unchangedScopes": [
+      "src",
+      "test",
+      "scripts",
+      "dist",
+      ".github",
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "tsconfig.worker.json"
+    ],
+    "unchangedHistoricalArtifacts": 29,
+    "unchangedFencedExamplesAndDeclarations": 92,
+    "markdownFilesChecked": 72,
+    "localAndRepositoryMappedLinks": 916,
+    "fragmentsChecked": 45,
+    "reportSelfLinksCheckedAfterWrite": 6,
+    "translatedContractTableRows": [
+      5,
+      5,
+      6
+    ],
+    "publicExportFixture": "passed",
+    "publicEntries": 8,
+    "runtimeExportNames": 21,
+    "typeOnlyExports": 68,
+    "fullSuiteRerun": false,
+    "installedConsumerChecksRerun": false,
+    "ciRun": false,
+    "nativeBrowserRun": false
+  },
+  "probeResults": [
+    {
+      "role": "init",
+      "value": "Error",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "init",
+      "value": "DOMException",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "init",
+      "value": "undefined",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "init",
+      "value": "null",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "init",
+      "value": "false",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "init",
+      "value": "zero",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "init",
+      "value": "string",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "init",
+      "value": "symbol",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "init",
+      "value": "opaque",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "init",
+      "value": "WorkerSourceError",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull",
+      "value": "Error",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull",
+      "value": "DOMException",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull",
+      "value": "undefined",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull",
+      "value": "null",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull",
+      "value": "false",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull",
+      "value": "zero",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull",
+      "value": "string",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull",
+      "value": "symbol",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull",
+      "value": "opaque",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull",
+      "value": "WorkerSourceError",
+      "primaryIdentity": true,
+      "outerIdentity": true,
+      "reportPhase": "post",
+      "cleanupCount": 0
+    },
+    {
+      "role": "primary-and-cancel",
+      "primary": "undefined",
+      "primaryIdentity": true,
+      "secondaryIdentity": true,
+      "cleanupWrapperCode": "cleanup"
+    },
+    {
+      "role": "primary-and-cancel",
+      "primary": "Error",
+      "primaryIdentity": true,
+      "secondaryIdentity": true,
+      "cleanupWrapperCode": "cleanup"
+    },
+    {
+      "role": "cancel",
+      "value": "undefined",
+      "outerAdapter": false,
+      "disposalWon": true,
+      "originalCleanupIdentity": true,
+      "sharedCleanupWrapper": true
+    },
+    {
+      "role": "cancel",
+      "value": "undefined",
+      "outerAdapter": true,
+      "disposalWon": true,
+      "originalCleanupIdentity": true,
+      "sharedCleanupWrapper": true
+    },
+    {
+      "role": "cancel",
+      "value": "Error",
+      "outerAdapter": false,
+      "disposalWon": true,
+      "originalCleanupIdentity": true,
+      "sharedCleanupWrapper": true
+    },
+    {
+      "role": "cancel",
+      "value": "Error",
+      "outerAdapter": true,
+      "disposalWon": true,
+      "originalCleanupIdentity": true,
+      "sharedCleanupWrapper": true
+    },
+    {
+      "role": "init-method-getter",
+      "primaryIdentity": true,
+      "phase": "post"
+    },
+    {
+      "role": "pull-method-getter",
+      "primaryIdentity": true,
+      "phase": "post"
+    },
+    {
+      "role": "init-cancel-before-throw",
+      "disposalWon": true,
+      "undefinedLateIssuePresent": true,
+      "cleanupCount": 0
+    },
+    {
+      "role": "pull-cancel-before-throw",
+      "disposalWon": true,
+      "undefinedLateIssuePresent": true,
+      "cleanupCount": 0
+    }
+  ],
+  "provenanceSha256": {
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/error.ts": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72",
+    "src/worker/types.ts": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9",
+    "src/worker/protocol.ts": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc",
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "test/worker-test-transport.mjs": "c595352bb174fb8a77b16bc43cc8e8de9fa35dd781aa2ece8da13d2c9d68fe72",
+    "package.json": "abe3d7d317b05b7777314b912729446697bb49d831d8a7907364f9e47a0e1c27",
+    ".github/workflows/ci.yml": "36c731d7d9fa5c060ec3ef740ecad2b393e7c70c5b4a06716ff23f201ac7f04f"
+  },
+  "documentSha256": {
+    "docs/api-compatibility.md": "73cdccfb5502cbf07c8d982e32ea2e97706aeb548d0cd519204a2959ce6c1fdc",
+    "docs/api-readiness-0.16.0.md": "a15a09d6a454fad46dec9ce47f62db4b7cd03810963da56a3e3e49fb6327036a",
+    "docs/api-stability.md": "a8d5fd2a40dd0121e2f0370a2a9be472b2787c4cc48482f7484979cc44d71476",
+    "docs/array-api-audit.md": "7d965ed53e29a0594435dfd30478607d3a9023d20b419528a50c4ed2eb4597f9",
+    "docs/array-dispatch-performance.md": "e14859d620977891a295ab02ef4f1f8cb54b84ad903a05a1a7840a1645b29fc4",
+    "docs/array.md": "137e353addb860f6c40fd3bca236b8abada317ef25840b9fe23f75bf36a604f6",
+    "docs/assets/README.md": "d4573aed10067cc485ddbf92a5901884a2b075372a37c4aae960fc4b3729112e",
+    "docs/async-source-api.md": "39b9eaa86c74cd86136d2aa7d7b8a1d7f8a2b8decf2fc40b1646db5d06d9aca8",
+    "docs/async-sources.md": "c289de2ba9ca9e2af151ce777c85f45133c481b2a3117215dfb7840231cc7233",
+    "docs/boids-sand-review.md": "d9265fef94bdf74a0ee2d93fdea96a444b19bfbe23574ac2322a04df4bf33097",
+    "docs/browser-checks-2026-11-06.md": "c94f08477d71eaa0e9a66c2c6aca18e5c02ef5580d4638f3f4e6f9007ed71a8e",
+    "docs/browser-checks-2026-11-12.md": "16f1fdf74343f3560568acf2af4ebfbabef5fec98060188ce3a4a718579c7d7a",
+    "docs/canvas-api-audit.md": "b8e4145750445378fced4b89b3b672587010583b44dce6c12036e215828ec507",
+    "docs/canvas-viewport-prototype.md": "9578a0064791a7d4b5c516f82d7cec1a557805455261b685e703032e2ea6672b",
+    "docs/canvas-viewport.md": "d65c632e76b0e9707a7f726e2e6bbd5f32d3b50791d4c9b2a0e21f7480cdb3b8",
+    "docs/current-api.md": "d255906414aa6ecfc1d5b1ee45b02a1701a1909934acc901fa7bb31a9394d808",
+    "docs/custom-graph-example.md": "9b263940d9f840264236112d8ade3a45a27b57786ebf5edd7806a1bdffa0c49a",
+    "docs/examples.md": "695129e7cb6e7fe61eccc6b5c8913e5b7de59ed2b37fddc67f84449b30b95fec",
+    "docs/getting-started.md": "352885844ae0d8138c6f45619fd819046c34e4cc6bfa7706654c86a2fb1d0581",
+    "docs/headless-reentrancy.md": "861889e80aa6fdf56470d3870d19f5e612663d61fe31b0f65f62aa4293ddabdf",
+    "docs/minimal-api-audit.md": "1ef0d3df8eee80c435cd5980c490a33438e556cec1fdaae1b6543b4c724626d8",
+    "docs/minimal-example.md": "5bae02a51ead1a20194e3bb33163f854c6d74b9e705de74e8c8a9172a5d1cf4f",
+    "docs/next-step-experiment.md": "0184f6e63b3ae66d80611d11d8a68e09b5c432b7fcd0777208c4a00c937a599c",
+    "docs/optional-player-proposal.md": "9330391da90f991f123d4ff6e4111943993c8ff0f431ed3afe6abf92b5ca1edb",
+    "docs/optional-player-prototype.md": "2fa25a4630beec53f35773fc737815c04d74621fda625bd73761cfc4e073bc75",
+    "docs/performance-baseline-0.13.0.md": "151a90c7efbbc814222f8c99e180c6fe48d44c848ddffe4400f64c5d0870d69b",
+    "docs/performance.md": "e1d9bec9456c63494be61e9cfa8f5f88ec03abf17a781e286f0f4a713f69fe55",
+    "docs/playback.md": "530e02805349f7f3ecefd92f9ba7980ec6959107509c81121153ae3b53580730",
+    "docs/player-async-api.md": "f8dba6d6c14a5449f1af383afb1fa6103c8cabef191ebb5801c85ef8a6748267",
+    "docs/player-bundle-check.md": "8ad02386b09175189b6d9858f10b012af98f262d1c1dc557aacd98a375491775",
+    "docs/player-rewind-checks-2026-11-13.md": "29a3a3788fd86026cf55b043becb91b7ba9c7b18b11f01686e18ecccd2fbfea2",
+    "docs/player-speed-validation.md": "b24014379545129afbe8c31c2bbdff9ad68aeedb6dbbdcdc34e2615fe6247f68",
+    "docs/player-work-budget.md": "808233cf578c85d57e925037f5e89c088cc219e5e6919695f0d72788a2151a9b",
+    "docs/player-worker.md": "a32d98983b69be4109f262450415031150e04f2a0ccce92534feccc2551a9f0c",
+    "docs/player.md": "92e397db782e7a8b1760d2b3e09cbdd5397c95d42f4442c2d84ce958fc3b05ab",
+    "docs/public-exports-audit.md": "e6ca8a89d991da976b9c64e5af6cdf519c5deac336b883ae423a5a1014d620ad",
+    "docs/publishing.md": "98f595e4520be3585341fb8df39efca4fb2053dc1f846259f0569fdbd58476a6",
+    "docs/rewind-buffer.md": "73d96408b95885f27d6e2d6c8c166fa4cebd17533d507e55f334e4e161dc4516",
+    "docs/ru/api-compatibility.md": "83a0f178c470daba38ff39b370bd49e2c98b8785a2863a4c98aa0a10272ac3b5",
+    "docs/ru/array-dispatch-performance.md": "7bcddb5b5774dbf39331d5b947bdb5a4afbfbda2203ba9272f9698466cc32989",
+    "docs/ru/array.md": "4bbad611469da958fb84854735403f7f93cb3cc3f9cda83efc344c1e70429fcb",
+    "docs/ru/async-source-api.md": "37bccce4577583249097cc77736d652e7f8e5df3db2ecf3446e5ee6265c632ea",
+    "docs/ru/async-sources.md": "bce0547ff48e6822bf8ddf747d09b7052a028d1a0f182e99c1b4ae9308c05bb0",
+    "docs/ru/canvas-viewport-prototype.md": "4546c4b2c2e9e0d0e8a67db562c9fd55f7283a9e4ce33645f46918fa358aa632",
+    "docs/ru/canvas-viewport.md": "6366391316c2d40fc67baf70bf6408c13541c5a8fc12c09eb9cb615f522f140e",
+    "docs/ru/current-api.md": "60992e20b958d41e2f3f881eef73485c2bfad33faf7b3bfdee99b70bbd667aa6",
+    "docs/ru/examples.md": "ea6dc93db6b36c324970f9aac3bf4560ada02fe4379ab9962eac2ecd686acce7",
+    "docs/ru/getting-started.md": "a71cce4c40939302b43ca5bb9da442e63a08fbf03e2f9c6a2333cbd3a1c8e7ff",
+    "docs/ru/headless-reentrancy.md": "73242de952aed7d297a01e9774ee23e4ee5281ef863855543a37579c463a3ca4",
+    "docs/ru/performance-baseline-0.13.0.md": "b404ededbc08100bee1affcca733edee162ca08ec5292b9c043777540ebb818b",
+    "docs/ru/performance.md": "8b5365865cd62d47b4315fed5f7d216a59758d29c645a143fa671ea43f26482a",
+    "docs/ru/playback.md": "8e83623ce6eb7e8860b9215dfcdc16e3462d2676f817938b32d9e2ac6ae7b365",
+    "docs/ru/player-async-api.md": "4abf001cd0e32b3981d6f3b6ec172aedd89f5ca907765dc77b49d3ab68934bad",
+    "docs/ru/player-speed-validation.md": "e082a847a53eb92d5315121c3d841e333fdd98ec5213aec80a0fe8de478db07d",
+    "docs/ru/player-work-budget.md": "e1cb7f4f3aec5e4a036e9118a42788d2af8404dc1e09244c0bfce9c2b055fec9",
+    "docs/ru/player-worker.md": "6677e4436991b09bc35b9780a17e00ac97431c84c252b37099df348d77382ad5",
+    "docs/ru/player.md": "cd191400dd8eecbd7a821c5f2e1b42d41c4056d6ab7878dab568a0ddf9386511",
+    "docs/ru/publishing.md": "e055346af1e624b7311a51aeb71fcfdacfa3c3661051dcfe7fca923fa31f1cc6",
+    "docs/ru/rewind-buffer.md": "f1b1a640f5d96a349056b9098c36967d1213d2236b9f8eec120d52a09bbf1757",
+    "docs/ru/scene-cache-performance.md": "d2e73e28737609a79c64c66eee7a95f81d43fd4c4fa767e600aa18d7ce2cd807",
+    "docs/ru/scene.md": "61873dea1b05ca76c661be3dbc6cc83d04341c10a867af32f182c56f682d0b44",
+    "docs/ru/worker-post-errors.md": "671afccbbc1eb6360cbf6a9c30d333ff7dacbfeefe245660260cdb1048f1d5f5",
+    "docs/ru/worker-source-api.md": "fdae8240b8d11e0d1d99c6feb185fb564ea45831a181e34ca1c6a33bb9faa7ab",
+    "docs/ru/worker-source.md": "64e0556ca50f7a7e8422c35ecbacdec99e2d9f4861e5ca8beb720cacee7b5dcb",
+    "docs/scene-cache-performance.md": "d070c999dfcbc493558ebbfb64f4572acd8a6538cffca1ec4de13a4bedb2c7d9",
+    "docs/scene.md": "88737252e418f1f4e6a94b17f5faa361721b994ca2e9e2289afcbc7b4163f066",
+    "docs/support-matrix.md": "ec5d0b69d801b17e2f67fc1fcf0207179d26aaba15e2a4098e343ac806f15a0c",
+    "docs/worker-post-errors.md": "a8c2568e85c610fea912c2c0146c2d68d9f1af8d928db1739b07c238c4c794e7",
+    "docs/worker-source-api.md": "84cce1a0f078e0957de2a40826aac4653ddf007bc72f87ab5e5694e7ee7a1157",
+    "docs/worker-source.md": "462aed651a3aa84788e20db206270878002d6aa9a4d7c7cd96cd6c521b984d0d",
+    "README.md": "3a5978d13599b273c07e36aca7452793a8bc6f8ad9261331f434f85a4c1fa3be",
+    "ru/README.md": "1b1e351330a4fdc53987d41f4c3ac7f6fb865f43c37e97324963f13bcf757d26"
+  },
+  "externalArtifacts": {
+    "before": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/u5-design-before.json",
+    "probeScript": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/u5-probes.mjs",
+    "probes": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/u5-current-probes.json"
+  },
+  "notes": [
+    "No permanent tests added; acceptance matrix covers additional success/factory/teardown/Player paths for subsequent regression work.",
+    "All prior F1/U1/U2 implementation and historical audit/release/measurement JSON remain unchanged.",
+    "Latest full suite/installed checks remain U2 evidence; this report adds only the named read-only probes and documentation checks.",
+    "U5 resolved as contract; candidate readiness and any publication remain separate. No commit/version/dependency change."
+  ]
+}

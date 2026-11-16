@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ru"><meta charset="utf-8"><title>F2 — запрет общей памяти</title>
+<style>body{font:16px system-ui;max-width:960px;margin:32px auto;background:#101827;color:#edf4ff}button{font:inherit;padding:12px}pre{white-space:pre-wrap}li{margin:6px 0}</style>
+<h1>F2: SharedArrayBuffer и настоящий Worker</h1>
+<p>Проверка собранных публичных entry в изолированных iframe и module Worker.</p>
+<button id="run">Проверить F2</button><p id="status" role="status">Готово</p><ol id="checks"></ol><pre id="report"></pre>
+<script type="module">
+const mode = new URL(location.href).searchParams.get('mode');
+const assert = (condition, message) => { if (!condition) throw new Error(message); };
+if (mode) {
+    const NativeShared = SharedArrayBuffer, NativeMemory = WebAssembly.Memory;
+    const unexpected = [], owned = new Set(), checks = [];
+    addEventListener('error', event => unexpected.push(event.message));
+    addEventListener('unhandledrejection', event => unexpected.push(String(event.reason)));
+    if (mode !== 'visible') Object.defineProperty(globalThis, 'SharedArrayBuffer', { configurable: true, value: undefined });
+    if (mode === 'hidden-no-wasm') Object.defineProperty(globalThis, 'WebAssembly', { configurable: true, value: undefined });
+    const { createAsyncSource } = await import('/dist/playback/index.js');
+    const { createWorkerSourceFactory, WorkerSourceError } = await import('/dist/worker/index.js');
+    const runtimeURL = new URL('/dist/worker/runtime.js', location.href).href;
+    const workerCode = `
+const mode = ${JSON.stringify(mode)};
+const NativeShared = SharedArrayBuffer, NativeMemory = WebAssembly.Memory;
+if (mode !== 'visible') Object.defineProperty(globalThis, 'SharedArrayBuffer', {configurable:true,value:undefined});
+if (mode === 'hidden-no-wasm') Object.defineProperty(globalThis, 'WebAssembly', {configurable:true,value:undefined});
+// Dynamic import must follow the global change. Retain messages while that
+// bootstrap awaits; a native Worker can otherwise dispatch init too early.
+const pending = []; const bufferMessage = event => pending.push(event.data);
+self.addEventListener('message', bufferMessage);
+const { exposeWorkerSource } = await import(${JSON.stringify(runtimeURL)});
+let transfer = false;
+function shared(shape) {
+ const buffer = new NativeShared(4);
+ if (shape === 'buffer') return buffer;
+ if (shape === 'view') return new Uint8Array(buffer);
+ if (shape === 'data-view') return new DataView(buffer);
+ if (shape === 'nested') {const graph=new Map();graph.set(graph,new Set([new Error('shared',{cause:{buffer}})]));return graph;}
+ return new NativeMemory({initial:1,maximum:1,shared:true});
+}
+exposeWorkerSource({scope:self,source:function*(input){
+ if(input.direction==='input'){yield input.payload;return;}
+ if(input.shape==='ordinary'){
+  transfer=input.transfer; const buffer=new Uint8Array([7,8]).buffer;
+  yield {buffer}; yield {senderLength:buffer.byteLength}; return;
+ }
+ yield shared(input.shape);
+},transfer:value=>transfer&&value.buffer?[value.buffer]:[]});
+self.removeEventListener('message', bufferMessage);
+for (const data of pending) self.dispatchEvent(new MessageEvent('message', {data}));`;
+    function shared(shape) {
+        const buffer = new NativeShared(4);
+        if (shape === 'buffer') return buffer;
+        if (shape === 'view') return new Uint8Array(buffer);
+        if (shape === 'data-view') return new DataView(buffer);
+        if (shape === 'nested') { const graph = new Map(); graph.set(graph, new Set([new Error('shared', { cause: { buffer } })])); return graph; }
+        return new NativeMemory({ initial: 1, maximum: 1, shared: true });
+    }
+    async function probe(direction, shape, transfer = false) {
+        parent.postMessage({ f2: 'progress', mode, direction, shape }, location.origin);
+        let session, worker, url, terminations = 0;
+        const factory = createWorkerSourceFactory({ worker() {
+            url = URL.createObjectURL(new Blob([workerCode], { type: 'text/javascript' }));
+            worker = new Worker(url, { type: 'module' }); owned.add(worker);
+            const terminate = worker.terminate.bind(worker);
+            worker.terminate = () => { terminations++; owned.delete(worker); terminate(); }; return worker;
+        }, input: () => direction === 'input' ? { direction, payload: shared(shape) } : { direction, shape, transfer },
+            shutdown: { gracePeriodMs: 500 } });
+        const source = createAsyncSource(signal => (session = factory(signal)));
+        try {
+            if (shape === 'ordinary') {
+                const first = await source.next(), second = await source.next();
+                assert([...new Uint8Array(first.value.buffer)].join() === '7,8', 'Receiver bytes');
+                assert(second.value.senderLength === (transfer ? 0 : 2), 'Sender detach/copy');
+                assert((await source.next()).kind === 'done', 'Natural EOF');
+                assert((await session.closed).kind === 'completed', 'Completed transport');
+            } else {
+                const box = await source.next().then(value => ({ value }), error => ({ error }));
+                assert(box.error instanceof WorkerSourceError, 'Expected serialization failure');
+                assert(box.error.code === 'serialization' && box.error.phase === 'serialize', 'Serialization context');
+                assert(box.error.origin === (direction === 'input' ? 'host' : 'worker'), 'Serialization origin');
+                const outer = await source.closed, closed = await session.closed;
+                assert(outer.kind === 'failed' && outer.error === box.error, 'Outer primary');
+                assert(closed.kind === 'failed' && closed.error === box.error && closed.cleanup.count === 0, 'Transport primary/cleanup');
+            }
+            assert(terminations === 1, 'Terminate exactly once');
+            checks.push({ mode, direction, shape, transfer, passed: true });
+        } catch (error) { checks.push({ mode, direction, shape, transfer, passed: false, error: String(error) }); }
+        finally { source.dispose(); await source.closed; await session?.closed; if (url) URL.revokeObjectURL(url); }
+    }
+    const shapes = ['buffer', 'view', 'data-view', 'nested', ...(mode === 'hidden-no-wasm' ? [] : ['memory'])];
+    for (const direction of ['input', 'state']) for (const shape of shapes) await probe(direction, shape);
+    await probe('state', 'ordinary', false); await probe('state', 'ordinary', true);
+    parent.postMessage({ f2: 'result', mode, checks, unexpected, ownedWorkers: owned.size,
+        isolated: crossOriginIsolated, hiddenConstructor: typeof SharedArrayBuffer === 'undefined' }, location.origin);
+} else {
+    document.getElementById('run').onclick = async () => {
+        const button = document.getElementById('run'); button.disabled = true;
+        const status = document.getElementById('status'), checks = [], contexts = [];
+        try {
+            assert(crossOriginIsolated, 'Cross-origin isolation required');
+            document.getElementById('checks').replaceChildren();
+            for (const mode of ['visible', 'hidden', 'hidden-no-wasm']) {
+                status.textContent = 'Проверяется ' + mode;
+                const frame = document.createElement('iframe'); frame.hidden = true;
+                const result = await new Promise((resolve, reject) => {
+                    const timer = setTimeout(() => { removeEventListener('message', receive); frame.remove(); reject(new Error('Frame timeout: ' + mode)); }, 30000);
+                    function receive(event) { if (event.origin !== location.origin || event.source !== frame.contentWindow) return;
+                        if (event.data?.f2 === 'progress') { status.textContent = `${mode}: ${event.data.direction}/${event.data.shape}`; return; }
+                        if (event.data?.f2 !== 'result') return;
+                        clearTimeout(timer); removeEventListener('message', receive); resolve(event.data); }
+                    addEventListener('message', receive); frame.src = '?mode=' + mode; document.body.append(frame);
+                });
+                frame.remove(); contexts.push(result); checks.push(...result.checks);
+                for (const check of result.checks) { const li = document.createElement('li'); li.textContent = `${check.passed ? 'PASS' : 'FAIL'} ${mode}: ${check.direction}/${check.shape}${check.transfer ? '/transfer' : ''}`; document.getElementById('checks').append(li); }
+            }
+            const report = { date: new Date().toISOString(), ua: navigator.userAgent, isolated: crossOriginIsolated,
+                provenance: await (await fetch('/provenance')).json(), checks, contexts,
+                passed: checks.every(check => check.passed) && contexts.every(value => value.ownedWorkers === 0 && value.unexpected.length === 0),
+                count: checks.length };
+            const saved = await fetch('/report-f2', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(report) });
+            assert(saved.ok, 'Save report'); document.getElementById('report').textContent = JSON.stringify(report, null, 2);
+            status.textContent = `${report.passed ? 'PASS' : 'FAIL'}: ${checks.filter(check => check.passed).length}/${checks.length}, отчёт сохранён`;
+        } catch (error) { status.textContent = 'FAIL: ' + error; } finally { button.disabled = false; }
+    };
+}
+</script></html>

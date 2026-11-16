@@ -1,5 +1,7 @@
 # Optional player prototype
 
+**Historical report:** versions, counts and measurements below belong to their original stage. See [current eight-entry status and local changes](current-api.md); U4 does not rerun these checks.
+
 [Proposal](optional-player-proposal.md) · [Interactive page](../examples/optional-player.html)
 
 Implemented on 2026-11-12 after documentation commit `0d1490f`. This is local

@@ -1,0 +1,344 @@
+{
+  "date": "2026-11-14T09:30:36.629Z",
+  "version": "0.16.0",
+  "baselineCommit": "15f204195908f02e561fda50d1ba25dc4dab5b29",
+  "reviewCommit": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "environment": {
+    "node": "v22.17.0",
+    "platform": "win32",
+    "typescript": "6.0.3",
+    "document": "undefined",
+    "Worker": "undefined"
+  },
+  "inventory": {
+    "entries": [
+      {
+        "entry": "./scene",
+        "runtime": [
+          "createSceneFrame",
+          "createSceneProjector",
+          "createSceneRenderer"
+        ],
+        "types": [
+          "ObjectTransition",
+          "Scene",
+          "SceneFrame",
+          "SceneObject",
+          "SceneVisualizations"
+        ]
+      },
+      {
+        "entry": "./array",
+        "runtime": [
+          "createArrayPlayer",
+          "createArrayTimeline",
+          "createArrayTrace",
+          "defineArrayAlgorithm"
+        ],
+        "types": [
+          "ArrayAlgorithm",
+          "ArrayEvent",
+          "ArrayFrame",
+          "ArrayPlayer",
+          "ArraySnapshot",
+          "ArrayStep",
+          "ArrayTimeline",
+          "ArrayTrace",
+          "Item",
+          "SortedRegions"
+        ]
+      },
+      {
+        "entry": "./playback",
+        "runtime": [
+          "createAsyncSource",
+          "createPlayer",
+          "createRewindBuffer",
+          "createStatePlayer",
+          "createStepEmitter",
+          "createTimeline"
+        ],
+        "types": [
+          "AsyncSource",
+          "AsyncSourceCloseResult",
+          "AsyncSourceFactory",
+          "AsyncSourceReadResult",
+          "AsyncSourceSignal",
+          "Frame",
+          "Player",
+          "RewindBuffer",
+          "Step",
+          "Timeline"
+        ]
+      },
+      {
+        "entry": "./player",
+        "runtime": [
+          "Player"
+        ],
+        "types": [
+          "PlayerCloseResult",
+          "PlayerLabels",
+          "PlayerOptions",
+          "PlayerStatus"
+        ]
+      },
+      {
+        "entry": "./canvas/viewport",
+        "runtime": [
+          "createCanvasViewport"
+        ],
+        "types": [
+          "CanvasViewport",
+          "CanvasViewportOptions",
+          "CanvasViewportSize"
+        ]
+      },
+      {
+        "entry": "./canvas",
+        "runtime": [
+          "arrayScene",
+          "createArrayRenderer",
+          "createSortRenderer"
+        ],
+        "types": [
+          "ArrayObjects",
+          "ArrayPalette",
+          "ArrayPaletteOverrides",
+          "ArrayRendererOptions"
+        ]
+      },
+      {
+        "entry": "./worker",
+        "runtime": [
+          "WorkerSourceError",
+          "createWorkerSourceFactory"
+        ],
+        "types": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceErrorCode",
+          "WorkerSourceErrorOptions",
+          "WorkerSourceFactory",
+          "WorkerSourceIssue",
+          "WorkerSourceIterator",
+          "WorkerSourceOptions",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceSession",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind"
+        ]
+      },
+      {
+        "entry": "./worker/runtime",
+        "runtime": [
+          "exposeWorkerSource"
+        ],
+        "types": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceEndpointOptions",
+          "WorkerSourceErrorCode",
+          "WorkerSourceIssue",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind",
+          "WorkerStateFactory",
+          "WorkerTransferSelector"
+        ]
+      }
+    ],
+    "runtimeNames": 21,
+    "typeOnlyNames": 68,
+    "uniqueTypeOnlyNames": 56,
+    "runtimeNamespacesMatch": true,
+    "privatePathsRejected": true,
+    "rendererAliasIdentity": true,
+    "method": "TypeScript symbol enumeration and actual runtime import; not a compiler compatibility test"
+  },
+  "probes": {
+    "sharedMemory": [
+      {
+        "mode": "input",
+        "accepted": true,
+        "before": 7,
+        "after": 42,
+        "violatesIsolation": true
+      },
+      {
+        "mode": "state",
+        "accepted": true,
+        "before": 7,
+        "after": 42,
+        "violatesIsolation": true
+      }
+    ],
+    "directSharedControl": {
+      "directSharedArrayBufferRejected": true
+    },
+    "postFailures": [
+      {
+        "packetType": "init",
+        "name": "InvalidStateError",
+        "code": 11,
+        "isWorkerSourceError": false,
+        "originalValuePreserved": true,
+        "contractQuestion": "Does the local-throw identity guarantee include host postMessage, or must the channel failure be normalized?",
+        "normalizedInterpretation": {
+          "class": "WorkerSourceError",
+          "code": "transport",
+          "origin": "host",
+          "phase": "post"
+        },
+        "closeKind": "failed",
+        "closeOrigin": "host",
+        "closePhase": "post"
+      },
+      {
+        "packetType": "pull",
+        "name": "InvalidStateError",
+        "code": 11,
+        "isWorkerSourceError": false,
+        "originalValuePreserved": true,
+        "contractQuestion": "Does the local-throw identity guarantee include host postMessage, or must the channel failure be normalized?",
+        "normalizedInterpretation": {
+          "class": "WorkerSourceError",
+          "code": "transport",
+          "origin": "host",
+          "phase": "post"
+        },
+        "closeKind": "failed",
+        "closeOrigin": "host",
+        "closePhase": "post"
+      }
+    ],
+    "factoryThrowControl": {
+      "applicationFactoryFailurePreserved": true
+    },
+    "headlessReentrancy": {
+      "returned": 1,
+      "current": 2,
+      "reads": 3,
+      "renders": [
+        0,
+        1,
+        2
+      ],
+      "note": "A contract clarification, not an assertion that reentrancy must be supported or forbidden"
+    },
+    "speedErrors": [
+      {
+        "mode": "source",
+        "value": "0",
+        "error": "RangeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "source",
+        "value": "-1",
+        "error": "RangeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "source",
+        "value": "NaN",
+        "error": "RangeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "source",
+        "value": "Infinity",
+        "error": "RangeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "history",
+        "value": "0",
+        "error": "RangeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "history",
+        "value": "-1",
+        "error": "RangeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "history",
+        "value": "NaN",
+        "error": "RangeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "history",
+        "value": "Infinity",
+        "error": "RangeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "asyncSource",
+        "value": "0",
+        "error": "TypeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "asyncSource",
+        "value": "-1",
+        "error": "TypeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "asyncSource",
+        "value": "NaN",
+        "error": "TypeError",
+        "speed": 1,
+        "phase": "idle"
+      },
+      {
+        "mode": "asyncSource",
+        "value": "Infinity",
+        "error": "TypeError",
+        "speed": 1,
+        "phase": "idle"
+      }
+    ]
+  },
+  "provenance": {
+    "package.json": "abe3d7d317b05b7777314b912729446697bb49d831d8a7907364f9e47a0e1c27",
+    "src/worker/data.ts": "9fd2a36c59644615ef2f970e16ffd4a8af686636dae551c15adf6e1fc442c113",
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/runtime.ts": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef",
+    "src/playback/player.ts": "0945cddbbc695df285615b590b8735cca394c6b427e6acc63b411066d5ce14b9",
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "src/array/player.ts": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f",
+    "dist/worker/data.js": "74e37c0b0a4a1a0baa4343dfb42cf0bbe3b3a3edf167693d11d9dda323baf262",
+    "dist/worker/index.js": "27ffc0d59aa1e0af8791bcaa6467fa0f125505930d355417bd5051908289c07d",
+    "dist/worker/runtime.js": "cb37667676669bfddc66fe6467bb73dca05091fce02f9db6d45973828f61efad",
+    "dist/playback/player.js": "8bea96ff3a5b958ea1027a0df15b55795d0d8d8adf8589bc26282d26c523afa1",
+    "src/player/controller.ts": "56dffc6f913fcb6b53c79f673c0c239d56a057a9165103ce80f1278b17d9d39d",
+    "src/player/async-controller.ts": "0bb918c98821097aebb84b09cb5859b13861d21dea09e87562b843178eba2b99",
+    "test/player-test-dom.mjs": "646a8d45082462ac93ecf9d7bea406293d2c489eb4e7c035183594317bfc02a2",
+    "test/worker-test-transport.mjs": "c595352bb174fb8a77b16bc43cc8e8de9fa35dd781aa2ece8da13d2c9d68fe72",
+    "scripts/review-api-0.16.0.mjs": "07ddaf0e191ae9a2d86e4cde72def22203026e86681b5771bb917fff9b29679b"
+  }
+}

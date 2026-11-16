@@ -42,6 +42,11 @@ export function createPlayback<S, E>(
     finishOnExhaustion = false,
     budget?: AdvanceBudget,
 ): Player<S, E> {
+    let busy = true;
+    let disposed = false;
+    const checkIdle = () => {
+        if (busy) throw new Error("Playback cannot be changed from a callback");
+    };
     const manual = options.stepDurationMs === undefined;
     // Unit endpoint for manual steps; positive timed advancement is disallowed.
     const { stepDurationMs = 1, finalHoldMs = 0 } = options;
@@ -67,13 +72,13 @@ export function createPlayback<S, E>(
         if (first.done) throw new RangeError("Player requires at least one step");
         current = first.value;
     } catch (error) {
+        disposed = true;
         closeAfterFailure();
         throw error;
     }
     let previous = current;
     let elapsed = stepDurationMs;
     let hold = 0;
-    let disposed = false;
     let finished = false;
     let exhausted = false;
     const terminal = () => exhausted || options.isTerminal(current);
@@ -93,14 +98,25 @@ export function createPlayback<S, E>(
         complete();
         options.render?.(frame());
     } catch (error) {
+        disposed = true;
         closeAfterFailure();
         throw error;
+    } finally {
+        busy = false;
     }
     return Object.freeze({
-        get frame() { return frame(); },
+        get frame() {
+            // Reads may enter application step getters. Nested reads preserve
+            // an outer operation's ownership rather than unlocking it.
+            const active = busy;
+            busy = true;
+            try { return frame(); } finally { busy = active; }
+        },
         get finished() { return finished; },
         nextStep(): Frame<S, E> {
+            checkIdle();
             if (disposed) throw new Error("Player has been disposed");
+            busy = true;
             try {
                 if (!finished) {
                     if (elapsed === stepDurationMs) {
@@ -129,9 +145,12 @@ export function createPlayback<S, E>(
                 disposed = true;
                 closeAfterFailure();
                 throw error;
+            } finally {
+                busy = false;
             }
         },
         advance(deltaMs: number): Frame<S, E> {
+            checkIdle();
             if (disposed) throw new Error("Player has been disposed");
             if (!Number.isFinite(deltaMs) || deltaMs < 0) {
                 throw new RangeError("Expected finite non-negative playback time");
@@ -139,6 +158,7 @@ export function createPlayback<S, E>(
             if (manual && deltaMs > 0) {
                 throw new Error("Set stepDurationMs to use advance with positive time; use nextStep for manual playback");
             }
+            busy = true;
             try {
                 let remaining = deltaMs;
                 while (remaining > 0 && !finished) {
@@ -178,11 +198,16 @@ export function createPlayback<S, E>(
                 disposed = true;
                 closeAfterFailure();
                 throw error;
+            } finally {
+                busy = false;
             }
         },
         dispose() {
+            if (disposed) return;
+            checkIdle();
+            busy = true;
             disposed = true;
-            close();
+            try { close(); } finally { busy = false; }
         }
     });
 }

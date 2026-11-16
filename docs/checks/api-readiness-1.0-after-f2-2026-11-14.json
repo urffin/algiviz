@@ -1,0 +1,779 @@
+{
+  "date": "2026-11-14T13:34:36.492Z",
+  "metadataVersion": "0.16.0",
+  "candidateVersion": null,
+  "baseCommit": "12173e01b9e175f18ea63c6becf41eb7724a9c56",
+  "scope": "Documentation-only recheck of all eight public entries after the F2 fix, including F1 and U1–U5; no API, implementation, test, workflow or package change",
+  "conclusion": "ready-to-prepare-an-authorized-1.0-candidate-within-the-reviewed-boundary",
+  "summary": {
+    "readyLocally": 8,
+    "requiresClarification": 0,
+    "requiresChange": 0,
+    "openKnownTechnicalBlockers": 0,
+    "remainingPreReleaseGates": 3,
+    "publicationAuthorized": false
+  },
+  "inventory": {
+    "entries": [
+      {
+        "entry": "./scene",
+        "runtime": [
+          "createSceneFrame",
+          "createSceneProjector",
+          "createSceneRenderer"
+        ],
+        "types": [
+          "ObjectTransition",
+          "Scene",
+          "SceneFrame",
+          "SceneObject",
+          "SceneVisualizations"
+        ]
+      },
+      {
+        "entry": "./array",
+        "runtime": [
+          "createArrayPlayer",
+          "createArrayTimeline",
+          "createArrayTrace",
+          "defineArrayAlgorithm"
+        ],
+        "types": [
+          "ArrayAlgorithm",
+          "ArrayEvent",
+          "ArrayFrame",
+          "ArrayPlayer",
+          "ArraySnapshot",
+          "ArrayStep",
+          "ArrayTimeline",
+          "ArrayTrace",
+          "Item",
+          "SortedRegions"
+        ]
+      },
+      {
+        "entry": "./playback",
+        "runtime": [
+          "createAsyncSource",
+          "createPlayer",
+          "createRewindBuffer",
+          "createStatePlayer",
+          "createStepEmitter",
+          "createTimeline"
+        ],
+        "types": [
+          "AsyncSource",
+          "AsyncSourceCloseResult",
+          "AsyncSourceFactory",
+          "AsyncSourceReadResult",
+          "AsyncSourceSignal",
+          "Frame",
+          "Player",
+          "RewindBuffer",
+          "Step",
+          "Timeline"
+        ]
+      },
+      {
+        "entry": "./player",
+        "runtime": [
+          "Player"
+        ],
+        "types": [
+          "PlayerCloseResult",
+          "PlayerLabels",
+          "PlayerOptions",
+          "PlayerStatus"
+        ]
+      },
+      {
+        "entry": "./canvas/viewport",
+        "runtime": [
+          "createCanvasViewport"
+        ],
+        "types": [
+          "CanvasViewport",
+          "CanvasViewportOptions",
+          "CanvasViewportSize"
+        ]
+      },
+      {
+        "entry": "./canvas",
+        "runtime": [
+          "arrayScene",
+          "createArrayRenderer",
+          "createSortRenderer"
+        ],
+        "types": [
+          "ArrayObjects",
+          "ArrayPalette",
+          "ArrayPaletteOverrides",
+          "ArrayRendererOptions"
+        ]
+      },
+      {
+        "entry": "./worker",
+        "runtime": [
+          "WorkerSourceError",
+          "createWorkerSourceFactory"
+        ],
+        "types": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceErrorCode",
+          "WorkerSourceErrorOptions",
+          "WorkerSourceFactory",
+          "WorkerSourceIssue",
+          "WorkerSourceIterator",
+          "WorkerSourceOptions",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceSession",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind"
+        ]
+      },
+      {
+        "entry": "./worker/runtime",
+        "runtime": [
+          "exposeWorkerSource"
+        ],
+        "types": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceEndpointOptions",
+          "WorkerSourceErrorCode",
+          "WorkerSourceIssue",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind",
+          "WorkerStateFactory",
+          "WorkerTransferSelector"
+        ]
+      }
+    ],
+    "runtimeNames": 21,
+    "typeOnlyNames": 68,
+    "uniqueTypeOnlyNames": 56
+  },
+  "entryStatuses": [
+    {
+      "entry": "/playback",
+      "runtime": 6,
+      "types": 10,
+      "status": "Ready locally",
+      "boundary": "Existing U3 public/error/type/environment policy; exact-candidate gates still required"
+    },
+    {
+      "entry": "/scene",
+      "runtime": 3,
+      "types": 5,
+      "status": "Ready locally",
+      "boundary": "Existing U3 public/error/type/environment policy; exact-candidate gates still required"
+    },
+    {
+      "entry": "/array",
+      "runtime": 4,
+      "types": 10,
+      "status": "Ready locally",
+      "boundary": "Existing U3 public/error/type/environment policy; exact-candidate gates still required"
+    },
+    {
+      "entry": "/canvas",
+      "runtime": 3,
+      "types": 4,
+      "status": "Ready locally",
+      "boundary": "Existing U3 public/error/type/environment policy; exact-candidate gates still required"
+    },
+    {
+      "entry": "/canvas/viewport",
+      "runtime": 1,
+      "types": 3,
+      "status": "Ready locally",
+      "boundary": "Existing U3 public/error/type/environment policy; exact-candidate gates still required"
+    },
+    {
+      "entry": "/player",
+      "runtime": 1,
+      "types": 4,
+      "status": "Ready locally",
+      "boundary": "Existing U3 public/error/type/environment policy; exact-candidate gates still required"
+    },
+    {
+      "entry": "/worker",
+      "runtime": 2,
+      "types": 17,
+      "status": "Ready locally",
+      "boundary": "Existing U3 public/error/type/environment policy; exact-candidate gates still required"
+    },
+    {
+      "entry": "/worker/runtime",
+      "runtime": 1,
+      "types": 15,
+      "status": "Ready locally",
+      "boundary": "Existing U3 public/error/type/environment policy; exact-candidate gates still required"
+    }
+  ],
+  "dispositions": [
+    {
+      "id": "F1",
+      "status": "closed-locally-unreleased",
+      "evidence": "docs/checks/worker-memory-fix-2026-11-14.json",
+      "limit": "Original eight regressions/six native cases; constructor-independent buffer validation is the later F2 extension"
+    },
+    {
+      "id": "F2",
+      "status": "closed-locally-unreleased",
+      "evidence": "docs/checks/worker-shared-buffer-fix-2026-11-14.json",
+      "limit": "121 isolated public cases and 34 native cases in controlled available/hidden/hidden-no-wasm contexts, same documented boundary"
+    },
+    {
+      "id": "U1",
+      "status": "closed-locally-unreleased",
+      "evidence": "docs/checks/u1-reentrancy-2026-11-14.json",
+      "publicInstalledCases": 61
+    },
+    {
+      "id": "U2",
+      "status": "closed-locally-unreleased",
+      "evidence": "docs/checks/u2-speed-implementation-2026-11-14.json",
+      "publicInstalledCases": 55
+    },
+    {
+      "id": "U3",
+      "status": "common-policy-selected",
+      "evidence": "docs/checks/u3-compatibility-policy-2026-11-14.json"
+    },
+    {
+      "id": "U4",
+      "status": "documentation-reconciled-and-current-status-refreshed",
+      "evidence": "docs/checks/u4-documentation-2026-11-14.json",
+      "followUp": "Current EN/RU table updated after F2; support-matrix introduction no longer calls the U2 428-test run latest"
+    },
+    {
+      "id": "U5",
+      "status": "closed-locally-with-permanent-coverage",
+      "evidence": "docs/checks/u5-post-errors-regressions-2026-11-14.json",
+      "publicInstalledCases": 75
+    }
+  ],
+  "freshChecks": {
+    "runtimeFixture": "Passed fresh exact namespaces, alias identity, root/private path rejection without DOM/Worker globals",
+    "typeEnumeration": "Fresh symbol enumeration with skipLibCheck and combined libraries; not a new strict consumer check",
+    "inventoryMatchesPreF2Review": true,
+    "priorEvidenceProvenance": {
+      "worker-memory-fix": {
+        "file": "docs/checks/worker-memory-fix-2026-11-14.json",
+        "sha256": "9c03f09351a44ea9f13fe03eac7d0fec42fe5b2bb812c7887e70dd8171f9adc0",
+        "matches": [
+          "test/worker-source.test.mjs",
+          "scripts/serve-api-review.mjs",
+          "test/api-review-worker-browser.html"
+        ],
+        "superseded": [
+          "src/worker/data.ts",
+          "test/worker-data.test.mjs"
+        ]
+      },
+      "u1-reentrancy": {
+        "file": "docs/checks/u1-reentrancy-2026-11-14.json",
+        "sha256": "e98f1499c7ea1dfb94d275969c2132902f837f2fc9e11455c5de37485421f329",
+        "matches": [
+          "src/playback/player.ts",
+          "src/playback/state-steps.ts",
+          "test/playback-reentrancy.test.mjs"
+        ],
+        "superseded": [
+          "scripts/test-package.mjs"
+        ]
+      },
+      "u2-speed-implementation": {
+        "file": "docs/checks/u2-speed-implementation-2026-11-14.json",
+        "sha256": "108eb3de97098608e335b712ed0532bb9dd5cbae303f6e7067340c8e6cc8ad3b",
+        "matches": [
+          "src/player/controller.ts",
+          "src/player/async-controller.ts",
+          "src/player/types.ts",
+          "test/player-speed.test.mjs",
+          "test/player-test-dom.mjs",
+          "test/worker-test-transport.mjs"
+        ],
+        "superseded": [
+          "scripts/test-package.mjs"
+        ]
+      },
+      "u3-compatibility-policy": {
+        "file": "docs/checks/u3-compatibility-policy-2026-11-14.json",
+        "sha256": "26359e772d7eac0e81fc0fdfea7423e5f237415db8fca3ae316cdaa2ef612c87",
+        "matches": [
+          "package.json",
+          ".github/workflows/ci.yml",
+          "tsconfig.json",
+          "tsconfig.worker.json",
+          "dist/scene/index.d.ts",
+          "dist/array/index.d.ts",
+          "dist/playback/index.d.ts",
+          "dist/player/index.d.ts",
+          "dist/canvas/viewport.d.ts",
+          "dist/canvas/index.d.ts",
+          "dist/worker/index.d.ts",
+          "dist/worker/runtime.d.ts"
+        ],
+        "superseded": []
+      },
+      "u4-documentation": {
+        "file": "docs/checks/u4-documentation-2026-11-14.json",
+        "sha256": "2a6f5bf5e0f9c28be7d6655cb433a7bcd1435437d8f756856b228f98dfda0993",
+        "matches": [
+          "package.json",
+          ".github/workflows/ci.yml"
+        ],
+        "superseded": []
+      },
+      "u5-post-errors-regressions": {
+        "file": "docs/checks/u5-post-errors-regressions-2026-11-14.json",
+        "sha256": "2764e38c03dd98780e597b734e5879497b7bb994b34d9a333585a769eb152307",
+        "matches": [
+          "src/worker/index.ts",
+          "src/worker/error.ts",
+          "src/worker/protocol.ts",
+          "src/worker/types.ts",
+          "src/playback/async-source.ts",
+          "test/worker-post-errors.test.mjs",
+          "test/worker-test-transport.mjs",
+          "test/player-test-dom.mjs"
+        ],
+        "superseded": [
+          "scripts/test-package.mjs"
+        ]
+      },
+      "worker-shared-buffer-fix": {
+        "file": "docs/checks/worker-shared-buffer-fix-2026-11-14.json",
+        "sha256": "4298d75df2bfcca215fde9734c8f562de13e304b92da22a5f425b274e302cf6d",
+        "matches": [
+          "src/worker/data.ts",
+          "test/worker-data.test.mjs",
+          "test/worker-shared-buffer.test.mjs",
+          "test/worker-shared-buffer-browser.html",
+          "scripts/serve-worker-shared-buffer.mjs",
+          "scripts/test-package.mjs",
+          "docs/checks/api-readiness-1.0-2026-11-14.json",
+          "docs/checks/worker-shared-buffer-fix-browser-2026-11-14.json"
+        ],
+        "superseded": []
+      }
+    },
+    "supersededHashInterpretation": "F1 validator/private tests extended by F2; older installed-package runners extended by later regression stages, with final runner hash matched to F2",
+    "f2BaselineFilesVerified": 125,
+    "unchangedBuiltDeclarations": 41,
+    "nativeReportProvenanceVerified": true,
+    "nativeReport": "docs/checks/worker-shared-buffer-fix-browser-2026-11-14.json",
+    "nativeReportSha256": "5506865fec6097806450171ca98d29cb2969cb8993c0b27bfe9899d9708f405c",
+    "matchedF2Logs": [
+      "f2-before-tests",
+      "f2-focused",
+      "f2-tests",
+      "f2-package",
+      "f2-package-bundler",
+      "f2-bundle"
+    ],
+    "ciConfigurationJobs": 11,
+    "publishTrigger": "Published non-prerelease GitHub Release; exact-SHA CI is a separate required release gate"
+  },
+  "latestCompletedRuntimeEvidence": {
+    "stage": "F2, reused after provenance verification; not rerun during this review",
+    "repositoryTests": 509,
+    "isolatedPublicF2Cases": 121,
+    "isolatedPublicF2Contexts": {
+      "visible": 41,
+      "hidden": 41,
+      "hidden-no-wasm": 39
+    },
+    "isolatedCasesIncludedViaParentTests": 3,
+    "doNotAddChildCasesToRepositoryTotal": true,
+    "installed": {
+      "passed": true,
+      "typescript": "6.0.3",
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "libraries": [
+        "ES2022-only",
+        "DOM",
+        "WebWorker"
+      ]
+    },
+    "bundleIsolation": "passed at F2",
+    "native": {
+      "cases": 34,
+      "ownedWorkersRemaining": 0,
+      "unexpectedErrors": 0,
+      "host": "Windows built-in browser, cross-origin isolated, dedicated module Workers"
+    },
+    "fullSuiteRerun": false,
+    "strictConsumersRerun": false,
+    "bundleRerun": false,
+    "browserRun": false
+  },
+  "remainingReleaseSteps": [
+    {
+      "id": "G1",
+      "status": "not-started",
+      "step": "Define separately authorized candidate: version/package/lock/changelog/migration, commit intended work, freeze exact SHA/archive/hashes",
+      "migration": [
+        "F1/F2 forbidden shared-memory rejection",
+        "U1 nested headless commands must be scheduled after callbacks",
+        "U2 invalid async/Worker speed uses RangeError rather than TypeError"
+      ]
+    },
+    {
+      "id": "G2",
+      "status": "not-started",
+      "step": "Local repository/installed/bundle checks and all 11 CI jobs on exact candidate SHA",
+      "jobs": {
+        "node": 6,
+        "typescript": 4,
+        "bundle": 1
+      },
+      "node": [
+        "22",
+        "24",
+        "26"
+      ],
+      "os": [
+        "Windows",
+        "Linux"
+      ],
+      "typescript": [
+        "5.0.4",
+        "5.4.5",
+        "5.9.3",
+        "6.0.3"
+      ],
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ]
+    },
+    {
+      "id": "G3",
+      "status": "not-started",
+      "step": "Focused native candidate verification with candidate/build/host provenance in existing Windows built-in browser boundary",
+      "checks": [
+        "minimal playback",
+        "scene enter/update/exit",
+        "Canvas and viewport sizing/disposal",
+        "Worker F1/F2 input/state, copy/transfer and cleanup",
+        "Player waiting/Pause/Next/Restart/dispose"
+      ],
+      "changeRule": "Recheck affected results if source/artifact changes"
+    },
+    {
+      "id": "publication",
+      "status": "not-authorized",
+      "step": "After G1–G3 and a separate release instruction, match tag/version/SHA, publish through GitHub Release → npm, verify exact version/latest, registry consumers, digest/source and signature/provenance",
+      "automaticCIGateInPublishWorkflow": false
+    }
+  ],
+  "unchanged": {
+    "protectedFiles": 241,
+    "historicalJsonArtifacts": 19,
+    "scopes": [
+      "src",
+      "test",
+      "scripts",
+      "dist",
+      ".github",
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "tsconfig.worker.json",
+      "all existing docs/checks and docs/releases"
+    ],
+    "implementationAPIAndMetadataUnchanged": true
+  },
+  "documentSha256": {
+    "docs/api-readiness-1.0.md": "f0ae821c02e532ff9c403cb7e1c852e9011307526b8a4a43bcf9187d20875985",
+    "docs/ru/api-readiness-1.0.md": "563c9af56914881ecda6982c931f181e9f1910e071758a514bcfce869a436293",
+    "docs/current-api.md": "cd23cfb259018269385ef53ef6fc5849af4b60f0d3b12104cf5cd73b1d97678e",
+    "docs/ru/current-api.md": "ce7b639ec73e09ff6b13a123538314573a47f2b41464eeddd1af4032220d4168",
+    "docs/api-stability.md": "39a4544174acf7574ef0fcb7816af6b96820d590890245769da3c89ddbe485fa",
+    "docs/support-matrix.md": "4d2b11dfbd77ad7aa229189578196d9477a2b3d8d8cdb85762f75857629c6c55",
+    "docs/optional-player-proposal.md": "5546d4a76fab87e3e775dfe016beca4b9e4453aa397a9afc6783eb25329b72ed"
+  },
+  "protectedBeforeAndAfterHashes": {
+    "src/array/index.ts": "81d69fe2de995f6ab546d43527502a005b0300d6247e311dc9859fc7a3ca5d5d",
+    "src/array/player.ts": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f",
+    "src/array/snapshot-builder.ts": "e05d3ff0c47177d8d7b0c6ba26a98cc2abe23988028e08b941c40884670ec2e8",
+    "src/array/timeline.ts": "3849e56b429c14965f0191bab4236fed19ea762cf7ddabb206d0670d69064cf3",
+    "src/array/trace.ts": "899b445fa0efdf2cc43a94794d2b91e1ac1e991ec94ecc9725dc3d2afdefbec0",
+    "src/array/types.ts": "c7ee02522d9985b85b3a8d78869818989ad2da66d6a0dddedde6dd3165e3b517",
+    "src/canvas/index.ts": "2b83c9753b16d2df58b9c76626815eb0121970d60cd8ce64573ad490dd9e7389",
+    "src/canvas/viewport.ts": "a26ab096e666ffcb84e01b11ee302be2776e5d2a4ec1a48e1aa0185ef6149411",
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "src/playback/index.ts": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0",
+    "src/playback/player.ts": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787",
+    "src/playback/rewind-buffer.ts": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70",
+    "src/playback/state-player.ts": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b",
+    "src/playback/state-steps.ts": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff",
+    "src/playback/step-emitter.ts": "a42c006b86a441ab47bf720427164b10ca626ffd6bd7cab6a735dcc63ce41770",
+    "src/playback/timeline.ts": "8095ff07cd9bf7afad108dd13e7e7ebb63e7cfb3d2fce5d2d45d620150074088",
+    "src/playback/types.ts": "053f6e9b76c2d9c9847ec71219b2a90ec9f4a2ad7ec6629f992e974a73ec4261",
+    "src/player/async-controller.ts": "5526a150720229bf466cab7f9d366638297f4dfc59250ac76120fe182b71638d",
+    "src/player/async-session.ts": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f",
+    "src/player/close-report.ts": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8",
+    "src/player/controller.ts": "56dffc6f913fcb6b53c79f673c0c239d56a057a9165103ce80f1278b17d9d39d",
+    "src/player/index.ts": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d",
+    "src/player/mount.ts": "f849c844e039a7842f3de2bc8850b2f5f000d9649a44219a512f190845fa064a",
+    "src/player/player.ts": "52c5a8f842e6d1eccef6141665b5ce08da0b60b5d77f98002966b0c480426919",
+    "src/player/rewind-session.ts": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0",
+    "src/player/stream-playback.ts": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30",
+    "src/player/types.ts": "01f365e00ca66661afaa7db51b46c4b136c2cea85865ba3654e984688e23d2ea",
+    "src/scene/index.ts": "858bbb12d580c53b9f158ae50ab9976704f61bb1615120bab5ec046ec699db4b",
+    "src/worker/data.ts": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064",
+    "src/worker/error.ts": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72",
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/protocol.ts": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc",
+    "src/worker/runtime.ts": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef",
+    "src/worker/types.ts": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9",
+    "test/api-review-worker-browser.html": "1c120ba4a077fb5bf7646c3e61d650320fe8780019861a6256da359c20822dde",
+    "test/array-dispatch-browser.html": "422a781498e250c682a7d17463bd48274e8038a4875b6031d8806500b0fdd673",
+    "test/array-dispatch-browser.mjs": "35fdd7ee05023cec85d9f0e98aedc3e945f33d800e2adaf5de624c414aa38b84",
+    "test/array-dispatch-workloads.mjs": "6a9e88fcd4a64adae0249dc9ef36b48cf010085d4d18d5802155e990b548a06c",
+    "test/array-dispatch.test.mjs": "04b42707e2cb0252322e6dac6c60f47dce15e5f30eba7655a34400ac6474c1cb",
+    "test/array-validation.test.mjs": "2a6930957fc4aa05ad8fa35f298651501a02e9230f674c800ef396d38fd050c2",
+    "test/async-source.test.mjs": "52f47f3ae34f7e355e230af17be89e686ec0c53def66ef32e4ba7463031d5989",
+    "test/bfs-path-example.test.mjs": "786761508096b328e2b4d6e0dedbac6fda6ad10a67967eff817a474d57661731",
+    "test/binary-search-example.test.mjs": "c7d848358eb94492a91d0f31e9f54384cee6c671ccf07f3b3b7efc5d468c6f12",
+    "test/boids-example.test.mjs": "f3bde93a5866c944ca0e3cb946396d0d89e5b7b36ca4770623437a2dd4205172",
+    "test/browser-smoke.html": "a59e9cba0bcd45455a512c47f16c668c60bb01b13efd51314774a112589d5c89",
+    "test/browser-smoke.mjs": "6a003328f3d81baccddb94a381c4cbeb293f2bfe56169bd42c67da79f30a711b",
+    "test/bubble-sort.test.mjs": "004199071eb3b0883e4c99c905068027270c80c318a6c21266c1ebd7c1a825b9",
+    "test/canvas-contract.test.mjs": "b9e69724553e47d3ba8086e59f1f43e099a56c19455be12b13ba38f00ec2048a",
+    "test/canvas-palette.test.mjs": "f445cd55f23983eeec54c45096f452adf09f8f17bd5eb5b82218e1bf1ad39c17",
+    "test/canvas-viewport-browser.html": "2da71816e4c9dbd3233d3baca62e0ac6c0b062edba5c619d70217646c7e35e04",
+    "test/canvas-viewport-browser.mjs": "ce3c74611f3c98083b389b58cc57709fb20fa105dd41fdefec0562257c53e72b",
+    "test/canvas-viewport.test.mjs": "b777e9e53f3dde48effad374d0bba7824847871b5558ee24c2e6975b3a3dc52d",
+    "test/demo-player.test.mjs": "370a82cf6c621dee815dd9bd8475542d827a5e3c599c7be611b7b6ca6b599036",
+    "test/dfs-example.test.mjs": "8e1a586621149f0ea9501f4ab6437d4809bb99f9e646c5146e816fdac8259a28",
+    "test/fixtures/array-dispatch-before.ts": "eb1d378693183baa32491e8ea9e8c16435d1abf722f84dee2c61e1e90b49cadf",
+    "test/graph-example.test.mjs": "c0bc4d2b6b90987561cbc125e9de393f805ad289df0358359d9dd20e56038409",
+    "test/heap-example.test.mjs": "9f1fa62df67ca60e5e75c6fa19676ce1004830be872244c6b6b9782d1a9aed97",
+    "test/insertion-sort.test.mjs": "bc8cc8047e9b62f70e1f4e939616264444443f19bf8e313bf26df9f38f3ca7d2",
+    "test/maze-example.test.mjs": "fe6d51c68cbc82f2835abf09861400cdadc67469b334d264e7cf484f7e88bbc5",
+    "test/merge-example.test.mjs": "160c1033c906284d12ca8edf5ada54f71979b1ba60390047dbaf623471cc3d65",
+    "test/minimal-example.test.mjs": "117339ca2576706fcf5c2d9f3e9d10fd22eaea9960d5205304c759b21da3c0be",
+    "test/minimal-state-page.test.mjs": "3a04decb1fb21885dc4699319bac22be0e05e51bd2cd617f5224f9949a983c17",
+    "test/next-step-experiment.test.mjs": "937960a68872a79862986b59880adecaddc3371441e23213592914a4e5587d6f",
+    "test/object-lifecycle.test.mjs": "ec51f1771baebfbfbed85a25047fa75588bcd0a881d83132e65a0abf114c6bee",
+    "test/optional-player.test.mjs": "dfbe0dec84fdefd4150c7eb4da6cb840081291e22dc6853872cbd7a293ea8450",
+    "test/package-consumer.ts": "7c4a35a4f51b1aa8949ed87023dee5cfa0d0e0da0789750d039bf9f462943fe3",
+    "test/package-exports.mjs": "2964238dbc51d2025e2e6700c861aca472be3c164c42daa8c10b166940861f74",
+    "test/package-headless.ts": "0e2d2dcbd099db3a2d429c4f1c8cac89f0efdb79853c620b2c008e8981028748",
+    "test/package-player.ts": "8865ad229886fde9900fb8d1f5f210afb5ad659de893546e91ef81515ffe3146",
+    "test/package-viewport.ts": "0e176902b12d3a701ada370d14eedbf333f70107b7509eb3bba088e646b3fbd3",
+    "test/package-worker-runtime.ts": "e9ee1ffe03d274483fd7d51ee6b4117581147e015a2becd9af6e10f3f9d58c48",
+    "test/package-worker.ts": "16e835ae730152d76dc1c55bde859c8b2bb7118a5adea3e50b2092ab92c55963",
+    "test/playback-completion-matrix.test.mjs": "7c3604e6339ed942362a1b663603ea835c7b4995d680c6a7f1c9ea6a9efc4620",
+    "test/playback-contract.test.mjs": "c7a63fc26208bf37ac0c4b9f981183c17c459fe3b8bb5c2cb4d39e482f015f38",
+    "test/playback-reentrancy.test.mjs": "773d18f6a649e9e2eea9ceeb7d74a9cb5284cfc883a8525bb34c1c90f6f12a3f",
+    "test/player-async-browser.html": "467e7e103cf2854797f5abb0bc551bee9a63735f9a94a0915db655b632248fd0",
+    "test/player-async-browser.mjs": "e4e208588ecb745936a4ac6f791b71bd78762e351c2f79199ef29f3b7c564cb2",
+    "test/player-async.test.mjs": "4d54b2c06f0c58211a5005fe386ea93d73fef47a912e6948fcd25a4c13d6561a",
+    "test/player-speed.test.mjs": "47cb7173ae43d1625316351ddc8026c10c75dfd2e3c7c424e221e836f5009056",
+    "test/player-test-dom.mjs": "646a8d45082462ac93ecf9d7bea406293d2c489eb4e7c035183594317bfc02a2",
+    "test/player-work-budget-browser.html": "8e08d8a562a02eb798baa3e619fdcd219d4344f69686d4569a38d547af97eecd",
+    "test/player-work-budget-browser.mjs": "f79f04f45b36e43bc8eeeb13d470053752528cf8e27326e10f90b78330c3810b",
+    "test/player-worker-browser.html": "75bcacc23230a0fb176882adbf9ab51954aa61a704997aadc23bd89f81db65ff",
+    "test/player-worker-browser.mjs": "671fba066f2fdcf7b75a24ddf457beaf2f8558ff9d828742ce4c78494f763999",
+    "test/player-worker-native.mjs": "8bc45a9ba6dd7d5c58e049ec39b4991c9ab9e153c96624c99ff5cc0547b0dab2",
+    "test/player-worker.test.mjs": "d61c7727cdfdac0ff49dd4b6fbc17bf37d5a902ca187420220a429645b786e65",
+    "test/player.test.mjs": "eae6b2933d877b9fce2d066852ff9be463f3fd0e0d0bd9fe33e393ce9b1e77d1",
+    "test/profile-browser.html": "eb09d5ec5015d73f2264e94075f13f28dd3d7bc5a7695d1a30e0b3d5b93ac028",
+    "test/profile-browser.mjs": "86ac34499c431e63720a87bbca2b4effd2a10370cff883560ceaebc263274232",
+    "test/profile-workloads.mjs": "95878e82e69de5393855b3ffb88fc83bda2df947df4fa4d3e93479e42eaa9109",
+    "test/public-api.test.mjs": "bb5ff7d2a1c373c56608acac0b1a32e67edcdf9fc58959294aca02eaed65ce19",
+    "test/quick-example.test.mjs": "65c36e0540ae9521b03d6888628264178b6abd913401471cf1aa853064abb7c4",
+    "test/rewind-buffer.test.mjs": "5e5e8b222a5f7e9fc4e4bf31b92548de28449f6d2c53a9001981c858a8a6ca7f",
+    "test/sand-example.test.mjs": "0a0a72b93dae12146ad50b030e324928e1aa4fa4d4ef12dbb691c60915e4ec39",
+    "test/scene-cache.test.mjs": "badc6a491ca2030b25f5e89fe849036f084b379bac20c2fe72cc95f78f45ca8c",
+    "test/scene-projector.test.mjs": "2c83468c5aca4e1716d7bd1ee53cb3e28df5a6978bc09315f0ec03cc5d4c7191",
+    "test/scene-types.ts": "00f1d89129c24671f199c50ac7e32944bb2d2d73cd60aaf524662c9eb2ec5d96",
+    "test/scene.test.mjs": "3fc5763f52b166e5ecac4db507731e40ce545731355c5fc0a418a56e6f0904db",
+    "test/state-source-experiment.test.mjs": "69b2aeb120053fb1c9aba11939e0dcbf63659dfa72eed6ca9e87a86ff606501d",
+    "test/step-emitter.test.mjs": "c4a67db77fd35776a742dfdf2f063e9b478e7b5ba164b4494bb15bfa0b52f065",
+    "test/timeline.test.mjs": "0031d0fc7ecf991df7648f111ca35bee2f582b0a340cd24fd886903b15eff33d",
+    "test/tree-pointer.test.mjs": "428822fb716918ec5d0def4b5cd772d15ae566716e71a5a435085d76ec56a2bb",
+    "test/tree-svg.test.mjs": "bcfcf084c09b047bafc8196e6f3aaa85cc8e88544fe8b7c7c4f62c7f9ceb564b",
+    "test/tsconfig.json": "d5fef0d44c41f6a5aa09c5df17011ac2c40f34b0f1c443e6f99b4de71348db36",
+    "test/visualization-pipeline.test.mjs": "1c6d1191e06a7f518f21f7aa740a2953ab97f383a65c83e56e88145c97cb605a",
+    "test/worker-browser.html": "0955ea1da2878068828af20c6229e75086d3cb76be314431875760eb656b2e1f",
+    "test/worker-browser.mjs": "e1a8fad660a0ca30efb0d365bc6f3dc19313153d1b9c703b8d7969db9910ec27",
+    "test/worker-data.test.mjs": "c11b75eeb07c19641fef41d606ce65600623d30ac58e9a85d4a66b7cd5613778",
+    "test/worker-native-fixture.mjs": "3deeff5e315fb6fa8663fe1a57d13a0d58b2da9f9b82d8c56f68cc6a5cfc007f",
+    "test/worker-post-errors.test.mjs": "0f8471b2a40182153beaceac0c15b4ea4012f4d20afc823ce287536d80558466",
+    "test/worker-protocol.test.mjs": "742e472bcd64a364355bfe611966c59bc147e94840cbd9ee80de631cf64fc76b",
+    "test/worker-shared-buffer-browser.html": "ec5c7ffb05a2b7dc208a12bfdf7eabe700a9c1cf63beb8baed479cb0eacd863d",
+    "test/worker-shared-buffer.test.mjs": "a627530ac4a48c0c6b512756809f484f327b0aa8bc08becbf1dda79555b21541",
+    "test/worker-silent-fixture.mjs": "ea09afbade78c89e111065f522b3dd38581535caea66aa9f8cd40916db3b9bf5",
+    "test/worker-source.test.mjs": "febfeabdafba26e04cb9874a75941720ff695f8fdb30eebc1b1543db90bec86b",
+    "test/worker-test-transport.mjs": "c595352bb174fb8a77b16bc43cc8e8de9fa35dd781aa2ece8da13d2c9d68fe72",
+    "scripts/array-dispatch-baseline.mjs": "328fa42f39dc06712e09ca18b4368acfa74229ee3962cbda41ab22c5c9a40e2f",
+    "scripts/benchmark-array-dispatch.mjs": "7d293281873fe16ce3faafd4983da640ea4f5db454a4e2939ccc72fa4a73e308",
+    "scripts/benchmark-scene-cache.mjs": "1ef340f74363c9920f1e52371613d120d0a48e44c96706cbe9f1968ec84ce0ba",
+    "scripts/benchmark.mjs": "7b3582ef622792f111c3975f160cb66c67f271003ac381cdd9e45f87ea38714e",
+    "scripts/check-player-rewind-memory.mjs": "0ae4a0af912679d6f5220ba2981372bad988b6bff2f0cbf15eb05ac56c9544ef",
+    "scripts/check-rewind-memory.mjs": "cddf1cfd843265f5bebbe8935e82b47acf423d9c5fcd21aaf85fc4434a5c1a4f",
+    "scripts/export-minimal-gif-node.mjs": "ce3aa519de4b87a0d092753ff374ceb03d85b36147f6831f3abbb37f0c079aae",
+    "scripts/profile.mjs": "96a8a874f3e97216d76035f58bfff77cb06923046835e9b2fe76e1df3c4942bb",
+    "scripts/review-api-0.16.0.mjs": "07ddaf0e191ae9a2d86e4cde72def22203026e86681b5771bb917fff9b29679b",
+    "scripts/serve-api-review.mjs": "fc8f26c4d0512fcc3337b7d2ea1a3fe5de120195f2193395dd3a924c09610715",
+    "scripts/serve-minimal-gif.mjs": "a9abcf477dba2f1c03789cf3f8a5b252e1c488c7601d46af5694e526e4ae6f56",
+    "scripts/serve-player-async.mjs": "158f6ee5e4b50af349cf7fb3d44591bfae6aca8def79b6c4590f1385118a9838",
+    "scripts/serve-player-work-budget.mjs": "ae7918d822959eebecb3ba09af949d88dd0bf4d52b091ea183b2077d81fdc2f7",
+    "scripts/serve-worker-shared-buffer.mjs": "15e55bc78f78af4e3bc13daa5d2a33b26807fd2d35aed436f555b253a224c856",
+    "scripts/serve-worker.mjs": "d80b93df49141e1e2acdfabbb4f1e2e5d3d9076fa90c426c18ea2a8829d4d8ad",
+    "scripts/test-bundle.mjs": "b1d624c3c0157b2566184eb2c70cbc342ece29d159acc1eab9ee351a9cf52f99",
+    "scripts/test-package.mjs": "5b16cb745b9f29f1ef469c4bb92f82c20b78aa65cef25bf40a70fccd76c7034e",
+    "dist/array/index.d.ts": "278a06b76bc4b721647771361da945649134f80f388f1964deea142cd6c367ce",
+    "dist/array/index.js": "d9affd87227649dd8386a0550e27750524a86d1e64d2432ee8d2bae0ab681412",
+    "dist/array/player.d.ts": "7d9f3238b6fab096679351cf1486bacd8fbb3f177181ba217a5611c4a1833e15",
+    "dist/array/player.js": "bc502a21189ddf46e7c5a26a9f168bd9370a3c44cbcabdca20bc79508d8ef378",
+    "dist/array/snapshot-builder.d.ts": "852a503698a6316dde092552250f145d1292da159b5c9f58071de9f07e2940bd",
+    "dist/array/snapshot-builder.js": "3837c97e8d61035f596bb39eb05fcf683b2479b20efde57ff0a94c8bb9b0335e",
+    "dist/array/timeline.d.ts": "9f90b373410f15ff50c297b8d34dd82e5ce2b511f90ea42e217a5f54aac05f89",
+    "dist/array/timeline.js": "6edddc02d02445ab097092ba7de7e6f6338444cb55895cd928d0ebe1c872ee17",
+    "dist/array/trace.d.ts": "0f1c3c6e6de5068039b1b2499f273f53ad0689730979d35eb1c84ea662c2aa0e",
+    "dist/array/trace.js": "2ebef390952eaf5b45d451793332e4350828182cb6238e4b912d05619f7d9641",
+    "dist/array/types.d.ts": "b828b7c3a255863c76ca75f29cf489cfbb06bdd383c0d04ffb90b2a8bd620d34",
+    "dist/array/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/canvas/index.d.ts": "fad4e054eb2bf036895dadcb63eeeed572f21241f8528b435b404761a71309e2",
+    "dist/canvas/index.js": "a0282598d4239bef67edf100ff041ea1c1b23e38bfb90bbc7c2790da896e866b",
+    "dist/canvas/viewport.d.ts": "fb6ba0fb12390824cde00dc813338cffe85d93e60cf8230346f517e87206737f",
+    "dist/canvas/viewport.js": "f6251d1932144a5dc86915dd585e99e9c36ed4519ade48fff3c1f29a508bdd18",
+    "dist/compat/algorithms.d.ts": "ec556514fe204d59548e351b6f72add8a2325dcec7a68d045d518f006328e6f7",
+    "dist/compat/algorithms.js": "38fe7b6af2fa0e95763c6cb5a35c7908c154ce3ffd3a936d70f51bbd12b3fe58",
+    "dist/core/bubble-sort.d.ts": "b2d492213ab3ffb95f753134fe3af2ef7fa533162c8ac755af3ba1835541f436",
+    "dist/core/bubble-sort.js": "00aeda18eb3177534b67a442c8cce1345fa7ecba27bf1247e35b84bc92d98867",
+    "dist/core/index.d.ts": "80a093e098d247e1ca7926ac05856075e3e081d7ec0b935fe9dac5d72d69ffd3",
+    "dist/core/index.js": "ec8fcd37b575f4b4fec5e3b549f823b3161a500779f330a227cc4ab049577507",
+    "dist/core/insertion-sort.d.ts": "7f6c71b1e55e889d84aa89820fb7481463049f299775a0146fad57d75138d5aa",
+    "dist/core/insertion-sort.js": "f945531fb309c1300db880a8971715c3d57bdb8036bf4ac787fe332b057094b1",
+    "dist/core/player.d.ts": "864a106baa9d863e6f18200d7ff1bed804f6912ad55e3536a94ad6c35c63ba12",
+    "dist/core/player.js": "5dbeecaf27cf99d69dbe2812d79391fce171b3ef6f721778d7d331badb1d0c1e",
+    "dist/core/timeline.d.ts": "000b30fe41fd328e0a1cc9c526b36022172496ed1ec5109798923c4f5493bf57",
+    "dist/core/timeline.js": "bfccc768c71d710c98379701fb3bda8f767fdb7a025978bcc6bfc93429f46622",
+    "dist/core/types.d.ts": "5d98764e59f5d53cb044d2a9df57caa4d2cd87ee1f6dc516ae6267b0e80a9b0e",
+    "dist/core/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/examples/custom-objects.js": "9232096290845d3bf5bb67425f846b92f5bd7575afa4d4d674520ab49b6f6e8d",
+    "dist/playback/async-source.d.ts": "c1f47389196b89734894516be5d5b22135d37cff5a4aec9b78f521c552a823df",
+    "dist/playback/async-source.js": "44aa496a5abefd8aa2b02319978079ce752d80e29aa6136acfc9408409237193",
+    "dist/playback/index.d.ts": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0",
+    "dist/playback/index.js": "044c588c7e294e98a629e506b92f69e3203e156f6c3943e57df563d4f1105687",
+    "dist/playback/player.d.ts": "30eba377e9c2fd03ada6bc8cd8222ddbf13beeed5c46dcbd428c1027228cde9d",
+    "dist/playback/player.js": "d958fbf79c7f15382a2b459cacc18111c10efdde476c20607d8cb44c2bc3b1b3",
+    "dist/playback/rewind-buffer.d.ts": "d7413ef9ab87ddcf7f2d6ee84c5ef77a6e09ee1072bda55a4a2bc8427d7ddad5",
+    "dist/playback/rewind-buffer.js": "2c4d516c0f4a45fa3e2667643f31fe72035494531888677f8947d3c78f41592e",
+    "dist/playback/state-player.d.ts": "e39fcce7ba4d5f69c491b94fee82ffb494a9262ace88f84a7c3bc2591344cc85",
+    "dist/playback/state-player.js": "661bdf01f2c2825b949dda2ecfa4289bd58f09b84359d52b030ee760a404a499",
+    "dist/playback/state-steps.d.ts": "096812bb856069241ad6bd51d4730552c7f246b2c88d36150088402c591644b0",
+    "dist/playback/state-steps.js": "34e53c7779c38b1fc5f79f91db8e92270ee75432269e59329b354a9faf6abbe1",
+    "dist/playback/step-emitter.d.ts": "c433ea463f31964fe82eb0e836c9e327baa5bfd98b29a4d6542bc0552bd192cf",
+    "dist/playback/step-emitter.js": "9890fd6c100e531ab90f3820fbe24cb8e301db2ae2da43d5ac4a04269e4b4faa",
+    "dist/playback/timeline.d.ts": "e3f15472849515ba50f8cc4e2212686f8c2546b9b2277b6104c2920cb7431bc8",
+    "dist/playback/timeline.js": "5917dc68668c722776ee40d12c3f516e363b829a2bfa24547e5abc4829adf84b",
+    "dist/playback/types.d.ts": "7dfc49e3afaa1905044a6c93e9a473070bd6dc7382c7eee3b6ba64443b5f82e1",
+    "dist/playback/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/player/async-controller.d.ts": "30bbdab902137c9d3ab1b52fac3ba992748c42d67f824474a8270e1bbd122d98",
+    "dist/player/async-controller.js": "741ddc7c511419e51672a406a8ff6e7db38b972e7d5cd5c8eecc7768c3d09718",
+    "dist/player/async-session.d.ts": "c0ac8328e81f7222d20a99e3e1f642406643df12bb68b467cb0ecc9cb3e4c504",
+    "dist/player/async-session.js": "f2200835e2efd61b60cf58a45686cf1719491d776224c07b7ade5507c1c0ed9c",
+    "dist/player/close-report.d.ts": "f2c05344262cd38b2c643e5a74ae246e421b02e0d9d87b81af0b01141f342c04",
+    "dist/player/close-report.js": "a4bd9795d2f5045512fb28242c8eabf737958db1ecdb5ccea4e809d34eecbd64",
+    "dist/player/controller.d.ts": "2bb526cd6c9da427660017b5ecf6433b11c8cf60e0ea6103045218cba556eb66",
+    "dist/player/controller.js": "4c9538893bda9c6ce7ef44043723423fd48175f574f4cc90b7fbe078dd88043d",
+    "dist/player/index.d.ts": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d",
+    "dist/player/index.js": "975dce9e70cb2bef6d0dcedf63ca72d019438692b9b5483e39fc316991215709",
+    "dist/player/mount.d.ts": "722ce79d9adb3fb77af891c3f40ddddbcc8144babaf0accc6227d90fcdfa22ab",
+    "dist/player/mount.js": "e6b03d0f5f5af673a586d6835d5497afde2b60850c8350decf9006ef453f4fe6",
+    "dist/player/player.d.ts": "3198d221056116e8d38bbf73fdb1d054379ff1642f438965121b09c7923e4413",
+    "dist/player/player.js": "fc6d3de63be984c05723ca3b5a73825a24b345d62c36a19edc40225a810fb2f5",
+    "dist/player/rewind-session.d.ts": "6710dce3a4517dd2c4574242a76761693ecfbab73cd7d9922cfe76857ecb1d2f",
+    "dist/player/rewind-session.js": "6de6641781d5b9f77af76832c0753de9942bb11478abac7660e9210b77f86809",
+    "dist/player/stream-playback.d.ts": "eb7d718a5718c9cc97882713632a45a92c55ea6d7d28f7901c9fcfa58e431418",
+    "dist/player/stream-playback.js": "6bfae958919b99f4a265bc0b353e5b508fb10ac232ef86d16b7453105ff7bcf8",
+    "dist/player/types.d.ts": "d28814cbebd2f2dfc00dac2c8d1faf8b4aebb09b7d618e602b7141311d2ffbe2",
+    "dist/player/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    "dist/scene/index.d.ts": "594bcb48b86e6d0a80c7d8fc3aa020c790750da1db4e48ab5f1cfd4c6e21a904",
+    "dist/scene/index.js": "48225899cca5a0b262a07379c464b248274fb8972d545cd20822d6fbe679668b",
+    "dist/worker/data.d.ts": "30c756f4d09420cf889d53b207f4341a52f4d35ca83ee0428962fced00db2d0f",
+    "dist/worker/data.js": "7dbcedcf296c4d98444367f89212de3db2680e448e305249cc4eee14d0b78c55",
+    "dist/worker/error.d.ts": "dc80436fbabc3923723df1982512d74dcac0cdaa20599a7375970c0381040ba8",
+    "dist/worker/error.js": "58d1775a80232f4201a704686132e818e522c5a6c71517839ec9a8dd9cae70fc",
+    "dist/worker/index.d.ts": "e14608ea89c5210fe650f2b4b54eb21aa1850fbb8b553645a0f99831e4c60801",
+    "dist/worker/index.js": "27ffc0d59aa1e0af8791bcaa6467fa0f125505930d355417bd5051908289c07d",
+    "dist/worker/protocol.d.ts": "ed564a0d138108ace6f0476b2c8df92d39f8b6f5c326c0858b91a6ebd2c0ba22",
+    "dist/worker/protocol.js": "5f3ddcc2b4ca24cf19fd2d6a36e6cb134901b78d8b165e2b514544594121c8ef",
+    "dist/worker/runtime.d.ts": "c27563c8529f25aff546a4b32cbb546fb86f4a4df83f14d7d2012f24c55f61bd",
+    "dist/worker/runtime.js": "cb37667676669bfddc66fe6467bb73dca05091fce02f9db6d45973828f61efad",
+    "dist/worker/types.d.ts": "743075cd74340be55b140c815965012cfab050c12069847573b8689a76537293",
+    "dist/worker/types.js": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+    ".github/workflows/ci.yml": "36c731d7d9fa5c060ec3ef740ecad2b393e7c70c5b4a06716ff23f201ac7f04f",
+    ".github/workflows/npm-publish.yml": "bd603e2fea20d5be252df2a18b22531ff2fad1eeb979859bb01985b0cf4f888d",
+    "docs/checks/api-readiness-0.16.0.json": "219d341c3d0cac6731f9f61b56d8fe66da02df36352ec6dbb20e9ccdcc2b73f4",
+    "docs/checks/api-readiness-1.0-2026-11-14.json": "ca4c729d52696022ec5d19f0f87bbc06c31c1e220b7bd24919c078b385ccab1f",
+    "docs/checks/api-review-worker-native-2026-11-14.json": "a9e8c164e166f27831c7a41ed00da04e1b500af3615cb270bd73ae9176408e50",
+    "docs/checks/player-worker-browser-2026-11-14.json": "476edb0909773d7cb0858f542c7289aaa5cb0ac088513e8922101c4a86dbd856",
+    "docs/checks/u1-reentrancy-2026-11-14.json": "e98f1499c7ea1dfb94d275969c2132902f837f2fc9e11455c5de37485421f329",
+    "docs/checks/u2-speed-contract-2026-11-14.json": "c625c209392e22e946dd09b6ff1a2898bf7fbaec4b4c77b4919d0ebe86d23b45",
+    "docs/checks/u2-speed-implementation-2026-11-14.json": "108eb3de97098608e335b712ed0532bb9dd5cbae303f6e7067340c8e6cc8ad3b",
+    "docs/checks/u3-compatibility-policy-2026-11-14.json": "26359e772d7eac0e81fc0fdfea7423e5f237415db8fca3ae316cdaa2ef612c87",
+    "docs/checks/u4-documentation-2026-11-14.json": "2a6f5bf5e0f9c28be7d6655cb433a7bcd1435437d8f756856b228f98dfda0993",
+    "docs/checks/u5-post-errors-contract-2026-11-14.json": "2168c1b5e1d1ebd2ce4ac98c5b25969ed1cfc1c5dd38f7b3964d9f3d166467a7",
+    "docs/checks/u5-post-errors-regressions-2026-11-14.json": "2764e38c03dd98780e597b734e5879497b7bb994b34d9a333585a769eb152307",
+    "docs/checks/worker-memory-fix-2026-11-14.json": "9c03f09351a44ea9f13fe03eac7d0fec42fe5b2bb812c7887e70dd8171f9adc0",
+    "docs/checks/worker-memory-fix-browser-2026-11-14.json": "66722ac52ba60ea4c342b8fe441124518f517d55c160d492953a2edb4658bf0b",
+    "docs/checks/worker-shared-buffer-fix-2026-11-14.json": "4298d75df2bfcca215fde9734c8f562de13e304b92da22a5f425b274e302cf6d",
+    "docs/checks/worker-shared-buffer-fix-browser-2026-11-14.json": "5506865fec6097806450171ca98d29cb2969cb8993c0b27bfe9899d9708f405c",
+    "docs/checks/worker-source-browser-2026-11-14.json": "5dd5e964012fbf4de732f24f4db65e623487e5716e5f0c86900bbc1c54227030",
+    "docs/releases/0.14.0.json": "877ff7c134768ce17c6750d4dbec3eec73da0c41da608b7d05876bac5e573fc4",
+    "docs/releases/0.15.0.json": "43c98b79e57fcfcbbe399c674c5cb773ddbcb8234691b1b27a3ad8cff1edf483",
+    "docs/releases/0.16.0.json": "f8c444d5b94e6d18d5e5be2e19099633ba8c5c811b758e3caf4223399a614527",
+    "package.json": "abe3d7d317b05b7777314b912729446697bb49d831d8a7907364f9e47a0e1c27",
+    "package-lock.json": "4246584f6ea114da70c5a6aa564d954cc809a9d7772121f47b592a26a6403875",
+    "tsconfig.json": "b9729c023af5e26af7297d6e9a0c4a3d4bfb789bd737ba99e5e63b404791e678",
+    "tsconfig.worker.json": "a486499a90a2c582d7f830494265d9e58d6c6706ff8eb5c8b4fbacae08a10735"
+  },
+  "originalPreF2Report": "docs/checks/api-readiness-1.0-2026-11-14.json",
+  "externalArtifacts": {
+    "before": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/readiness-after-f2-before.json",
+    "evidence": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/readiness-after-f2-evidence.json",
+    "reviewScript": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/review-after-f2.mjs"
+  },
+  "limits": [
+    "Local technical readiness is not exact-candidate certification or release approval",
+    "No commit/push/CI/browser/registry/publication was started",
+    "Package metadata remains 0.16.0; no immutable 1.0 candidate yet",
+    "No new browser/host/compiler support promise",
+    "No intermediate 0.x release, feature, external-user quota or website upgrade required"
+  ],
+  "documentationVerification": {
+    "markdownFiles": 74,
+    "localAndRepositoryMappedLinks": 1008,
+    "fragments": 53,
+    "translatedEntryRows": 8,
+    "translatedDispositionRows": 7,
+    "releaseRows": 4,
+    "gitDiffCheck": "passed"
+  }
+}

@@ -2,6 +2,8 @@
 
 [English](../player-worker.md) · [Плеер](player.md) · [Worker API](worker-source-api.md)
 
+**Текущий справочник:** [опубликованный и локальный статус](current-api.md) · [политика U3](api-compatibility.md). Датированные проверки ниже относятся только к указанным этапам.
+
 **Добавлено в 0.16.0, 2026-11-14.** В версии 0.15.0
 Worker-точек входа нет. `createWorkerSourceFactory` передаётся прямо в
 `asyncSource`. Существующие контроллер и типы Player уже поддерживают эту
