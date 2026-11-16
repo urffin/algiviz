@@ -2,16 +2,46 @@
 
 ## Unreleased
 
-## 1.0.0 — candidate prepared 2026-11-16, not published
+## 1.0.0 — candidate updated 2026-11-16, not published
 
 Promote the eight existing ESM entries to the common 1.x compatibility policy:
 /playback, /scene, /array, /canvas, /canvas/viewport, /player, /worker and
-/worker/runtime. Public signatures, export names and runtime dependencies are
-unchanged from 0.16.0. This candidate still requires exact-SHA CI and focused
-native candidate verification before a separately authorized release.
+/worker/runtime. The entry paths, runtime export names and runtime dependencies
+are unchanged. Public types/options now include explicit Player steps and array
+result annotations. This replaces the earlier 5e2fd18 candidate; its successful
+CI does not certify this source. The new candidate requires its own exact-SHA CI
+and focused native verification before a separately authorized release.
+
+### Explicit steps and array results
+
+- Add the exclusive `stepSource: () => Iterable<Step<State, Event>>` branch and
+  required synchronous `isTerminal` predicate to `/player`. Infer State/Event in
+  `Player<State, Event = undefined>`, `PlayerOptions` and render/frame. Capture
+  immutable step envelopes, classify each new position once, retain terminal
+  metadata during bounded rewind and close the iterator once at its completed
+  terminal endpoint. No extra EOF click or read beyond terminal; premature EOF
+  is an operational RangeError. Existing state-only branches keep undefined events.
+- Add `done({ result: [position] })` and type-only `ArrayDoneOptions` to `/array`.
+  Store copied, frozen, unique `resultItemIds` in the final snapshot, preserving
+  the existing done event, counters and sorted-region semantics. Reject malformed
+  collections/lengths and invalid positions before committing completion.
+- Add optional `/canvas` palette role `result`, green by default. Color priority
+  is held > active > result > sorted > ordinary bar; rendering remains stateless
+  through repaint, seeking, rewind and Restart. Existing unmarked traces and
+  six-role palettes keep their behavior and structural compatibility.
+- Make minimum search with stock Canvas rendering and standard Player controls
+  the EN/RU quickstart. The fixed nonempty example uses 31 JS lines, one renderer
+  and no frame conversion. Preserve plain-state/pre, manual createArrayPlayer,
+  and scenes/interpolation as progressive learning stages. These algorithms
+  belong to examples, not new package algorithm exports.
 
 ### Migration from 0.16.0
 
+- **PlayerOptions union change:** source/history/asyncSource are joined by
+  stepSource. Existing source selection remains explicit; update exhaustive
+  source/asyncSource/else-history narrowing to handle all four branches. The
+  defaulted event generic does not make this closed-union widening nonbreaking
+  under U3. No existing application has to opt in to explicit steps or results.
 - **U1 — observable control change:** createPlayer, createStatePlayer and
   createArrayPlayer now reject same-instance nextStep/advance/initial dispose
   entered from render, isTerminal, source callbacks or step getters with a

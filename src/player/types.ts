@@ -1,4 +1,4 @@
-import type { Frame } from "../playback/types.js";
+import type { Frame, Step } from "../playback/types.js";
 import type { AsyncSourceFactory, AsyncSourceCloseResult } from "../playback/async-source.js";
 
 export interface PlayerLabels {
@@ -66,10 +66,10 @@ export interface PlayerCloseResult {
 }
 
 /** Internal control surface shared by the controller and DOM mount. */
-export interface PlayerControls<State> {
+export interface PlayerControls<State, Event = undefined> {
     readonly closed: Promise<PlayerCloseResult>;
     readonly status: PlayerStatus;
-    readonly frame: Frame<State, undefined> | null;
+    readonly frame: Frame<State, Event> | null;
     start(): PlayerStatus;
     play(): PlayerStatus;
     pause(): PlayerStatus;
@@ -81,8 +81,8 @@ export interface PlayerControls<State> {
     dispose(): void;
 }
 
-interface SharedOptions<State> {
-    readonly render: (frame: Frame<State, undefined>) => void;
+interface SharedOptions<State, Event> {
+    readonly render: (frame: Frame<State, Event>) => void;
     /** Optional existing direct child of the mount container; restored on dispose. */
     readonly viewport?: Element | undefined;
     readonly stepDurationMs?: number | undefined;
@@ -95,7 +95,7 @@ interface SharedOptions<State> {
 }
 
 /** Exactly one factory. Streaming is lazy; history explicitly retains a finite array. */
-export type PlayerOptions<State> = SharedOptions<State> & (
+type StateSources<State> = (
     { readonly source: () => Iterable<State>; readonly asyncSource?: undefined; readonly history?: undefined;
         /** Opt-in retained window, including current. Omit for forward-only playback. */
         readonly rewindCapacity?: number | undefined;
@@ -105,4 +105,15 @@ export type PlayerOptions<State> = SharedOptions<State> & (
         readonly rewindCapacity?: number | undefined; readonly maxStepsPerFrame?: number | undefined } |
     { readonly history: () => readonly State[]; readonly source?: undefined; readonly asyncSource?: undefined; readonly stepDurationMs: number;
         readonly rewindCapacity?: undefined; readonly maxStepsPerFrame?: undefined }
+);
+
+/** Exactly one lazy factory. Explicit steps require a synchronous terminal predicate. */
+export type PlayerOptions<State, Event = undefined> = SharedOptions<State, Event> & (
+    { readonly stepSource: () => Iterable<Step<State, Event>>;
+        readonly isTerminal: (step: Step<State, Event>) => boolean;
+        readonly source?: undefined; readonly asyncSource?: undefined; readonly history?: undefined;
+        readonly rewindCapacity?: number | undefined; readonly maxStepsPerFrame?: number | undefined } |
+    ([undefined] extends [Event] ? StateSources<State> & {
+        readonly stepSource?: undefined; readonly isTerminal?: undefined;
+    } : never)
 );

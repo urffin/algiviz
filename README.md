@@ -25,9 +25,9 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Repository status, 2026-11-16: **1.0.0 is a local, unpublished candidate**; published
-baseline evidence remains 0.16.0. The candidate includes F1/F2 and U1/U2 fixes,
-U5 regressions and the common compatibility policy for all eight entries.
+Repository status, 2026-11-16: **1.0.0 is an updated, unpublished candidate**;
+published baseline remains 0.16.0. It includes stepSource/isTerminal, array result
+markers, F1/F2 and U1/U2 fixes, U5 regressions and the common compatibility policy.
 [Candidate and remaining gates](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.0.md) ·
 [Migration from 0.16.0](https://github.com/urffin/algiviz/blob/master/docs/migration-1.0.md).
 Exact-candidate CI and native verification remain before release.
@@ -46,53 +46,21 @@ Algorithms live in application code and examples.
 Version 0.x may introduce breaking changes
 in minor releases; consult [CHANGELOG.md](CHANGELOG.md) when updating.
 
-## Start with one circle
+## Quickstart: find a minimum on Canvas
 
-The generator supplies four positions; `Player` creates the controls and passes
-states to your drawing callback. Add the HTML below, then load the JavaScript as
-a module through a bundler that resolves imports from the installed npm package.
+The main quickstart uses unpublished `stepSource`/`isTerminal` and `done({ result })`.
+Its installation commands build this working copy; published 0.16.0 and the
+earlier candidate 5e2fd18 do not contain that API.
 
-```html
-<div id="player">
-  <canvas width="600" height="160"></canvas>
-</div>
-```
+[Copy one complete HTML file and the exact run commands](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md).
+A one-pass minimum search compares [7,3,5,2,6]. Array operations capture snapshots,
+the standard renderer draws Canvas, and Player supplies Start/Next/Restart. The
+minimum stays green and the answer remains visible as “Minimum: 2”. The fixed
+nonempty example uses 31 JS lines; your algorithm stays application-owned.
 
-```js
-import { Player } from '@grundyjs/algiviz/player';
-
-const container = document.querySelector('#player');
-const canvas = container.querySelector('canvas');
-const ctx = canvas.getContext('2d');
-
-const player = new Player(container, {
-  viewport: canvas,
-  source: function* () {
-    for (const x of [40, 200, 360, 560]) yield { x };
-  },
-  render({ current }) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.beginPath();
-    ctx.arc(current.x, 80, 18, 0, Math.PI * 2);
-    ctx.fillStyle = '#b39bff';
-    ctx.fill();
-  },
-});
-```
-
-Press **Start** to draw the first state and **Next state** to move the circle.
-The source is read lazily; one additional click after the last position detects
-completion. Each yielded snapshot is new and must not be mutated.
-
-This example uses manual steps without interpolation. Add `stepDurationMs: 1000`
-to enable Play/Pause and speed controls. Call `player.dispose()` when removing the
-visualization; the last drawing remains.
-
-[Run this example locally](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html),
-or continue with the [step-by-step guide](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md):
-ready-made controls, manual playback and custom object types with `/scene`.
-See the [player reference](https://github.com/urffin/algiviz/blob/master/docs/player.md)
-for history, seeking, labels and on-demand loading.
+[Compare Player and one-button examples](https://github.com/urffin/algiviz/blob/master/docs/quickstart-comparison.md),
+or follow the [progressive tutorial](https://github.com/urffin/algiviz/blob/master/docs/learning-path.md):
+plain states/pre → createArrayPlayer → standard Player → scenes/interpolation.
 
 ## Modules and documentation
 
@@ -137,7 +105,7 @@ to spread source advancement across animation frames while retaining playback ti
 
 | Example | What it demonstrates |
 | --- | --- |
-| [Your first Player](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html) | The README circle with standard controls and lazy manual states |
+| [Your first Player](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html) | One-pass minimum search, standard Canvas renderer, Player controls and explicit result |
 | [How a frame is made](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html) | AlgiViz visualizes its own generator → player → scene → renderer pipeline (Russian walkthrough) |
 | [Sorting lab](https://github.com/urffin/algiviz/blob/master/examples/index.html) | Insertion and bubble sort using the array operations and renderer |
 | [Merge sort](https://github.com/urffin/algiviz/blob/master/examples/merge.html) | Custom state and a two-row scene for the main array and buffer |

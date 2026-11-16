@@ -1,7 +1,9 @@
-# A minimal custom object
+# Next step: scenes and interpolation
 
-For the introduction in order — ready-made `Player`, manual controls, then `/scene` —
-start with [Getting started](getting-started.md) ([Русский](ru/getting-started.md)).
+Complete the [copyable array quickstart](getting-started.md)
+([Русский](ru/getting-started.md)) first. This is the next step: a custom token,
+explicit step events, scene identity and interpolated drawing. The filename
+`minimal.mjs` is retained; this is not the initial setup example.
 
 The [module](../examples/minimal.mjs) and [page](../examples/minimal.html) form a
 standalone example. They do not import demo-player or other example infrastructure.
@@ -41,9 +43,9 @@ does. No registration of object types in the library is required.
 
 The page advances manually to keep the integration short. For continuous animation,
 call `advance(deltaMs)` from the application's animation loop, pause on hidden tabs
-and honor reduced motion. Restart requires a fresh player/source. Generator mode
-has no backward seeking; `createTimeline` is the alternative when retaining history
-is acceptable.
+and honor reduced motion. Restart requires a fresh player/source. This example
+advances forward only. Use [bounded rewind](rewind-buffer.md) for a retained window
+or `createTimeline` when retaining complete history is acceptable.
 
 `npm run test:package` copies this exact module into an isolated directory, installs
 the packed library and checks initial, intermediate and final drawing coordinates,

@@ -1,0 +1,90 @@
+{
+  "date": "2026-11-16",
+  "scope": "Local unpublished stepSource/isTerminal implementation; not a release candidate certification",
+  "baseCommit": "5e2fd1836a8b84e53c97867bf143b1a77b022e49",
+  "version": "1.0.0",
+  "publishedBaseline": "0.16.0",
+  "publication": false,
+  "commitCreated": false,
+  "tests": {
+    "repository": {
+      "passed": 542,
+      "failed": 0
+    },
+    "stepSourceRegressions": 20,
+    "minimumExampleChecks": 13,
+    "installedPackage": {
+      "compilers": [
+        "5.0.4",
+        "5.4.5",
+        "5.9.3",
+        "6.0.3"
+      ],
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "passed": true,
+      "includesStepSourceRegressions": true
+    },
+    "bundleIsolation": true
+  },
+  "behaviors": [
+    "lazy admission and exactly-once classification",
+    "finite custom indices and immutable shallow envelopes",
+    "terminal interpolation, hold and no trailing read",
+    "bounded ordinal rewind, cached terminal replay and frame budget",
+    "Pause and debt reset; reduced motion",
+    "prepare-before-replace Restart, rollback and error precedence",
+    "reentrancy, U2 ordering, idempotent disposal and widget close report",
+    "legacy async/Worker frame identity preserved"
+  ],
+  "quickstart": {
+    "languages": [
+      "en",
+      "ru"
+    ],
+    "copiedHtmlExecuted": true,
+    "vite": "8.3.8",
+    "archiveInstalled": true,
+    "buildsPassed": true,
+    "jsLines": {
+      "player": 47,
+      "manual": 47
+    },
+    "nextCommandsAfterStart": 10,
+    "frameAdapter": false,
+    "packageInstall": "working-copy archive; not npm 0.16.0"
+  },
+  "nativeBrowser": {
+    "passed": false,
+    "attempted": true,
+    "reason": "Built-in CUA service_info timed out; no browser session or external debugger was used",
+    "remaining": "Focused native verification before release"
+  },
+  "archive": {
+    "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\step-source-check-aU8YuB\\grundyjs-algiviz-1.0.0.tgz",
+    "integrity": "sha512-lIMCDUZFeCqJpRqu+RBv5Uqk0MbM7H0jr6f3Qf3yzUy5gWo1bQ0OXOhuA8weoTJbEbFtZS2zm3475EUGZKbDPw==",
+    "sha256": "7dc0cda9af457d16a596e9b34b2d82896acbfbbca08707d970d56c2243444b3c",
+    "distEntriesMatchingWorkingTree": 70,
+    "purpose": "retained local quickstart verification artifact; not the earlier 5e2fd18 candidate"
+  },
+  "hashes": {
+    "package.json": "a7a2a15e28cdf09522cdf9e1b00f492b66045a80d54cbace2456da051aaecf76",
+    "package-lock.json": "e811417423443c38738aaca396ba966fad2d983b3f46fc45658d3b09f1bbe3f6",
+    "src/player/types.ts": "c841f1fd2296c3535340e9f7dde29ed9e1a20b41bd6719d68146463f70055c2a",
+    "src/player/player.ts": "97bad8b05e115b5e5c38b26fddd59b00db1212b8d00463022b4902de33928bed",
+    "src/player/controller.ts": "029b880fbc85272181bd2da1df825fc086c23b05053e66fa5a1bc1396ef51026",
+    "src/player/async-controller.ts": "80fab81a5572ddb57837390410d8de856ebd5ddc65134bba336ad62d539d1803",
+    "src/player/mount.ts": "c6d82fdfe8cd37425878bc29643b8d1c9967c4808176e614dbc57eeb6691763d",
+    "src/player/step-session.ts": "5ff0ab5fd20bd6c63297806b2a0ebda9e3f55ece31727cac5c86929ebda839ff",
+    "test/player-steps.test.mjs": "765acd231a2b1918505e86af33381e3d319faba392d93c7d23a94001186293af",
+    "test/minimum-example.test.mjs": "e1e3e00f3a1c15416a5253dbb2ef4118ab54c6c5316de264ff411861b827faa1",
+    "test/package-player.ts": "aeb618f0a0e816a2c81ebbe75f5123d48e348b4baeda78280cd1526a2994ef27",
+    "scripts/test-package.mjs": "6432f957bed66a341366347637111d6214bf56483a20ef9a162cf69a3c3be50a",
+    "examples/getting-started.mjs": "1910620f5d6ade942c5bba90793f4ab791d433e6b37424796f3c9f0f43d22319",
+    "examples/minimum-player.html": "b875f71fed9a10acdd0dc5d453c0418b7630c0bbfe7693711897f528b662e06a",
+    "docs/getting-started.md": "f4c3ef683029295352e847cfb41811eb0481a7d364080725d0e55542a2e43f92",
+    "docs/ru/getting-started.md": "433b62cfc54fd6e99ef01959ae9083fc517d9e1829633663506e55709440c0a0"
+  }
+}

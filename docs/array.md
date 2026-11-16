@@ -4,6 +4,10 @@
 
 **Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
+**Local, unpublished:** [result markers](array-result.md) support
+`done({ result: [position] })` and stock green result rendering. Published
+0.16.0 does not contain this capability.
+
 ## User-defined algorithms
 
 
@@ -69,7 +73,7 @@ reentrancy rules as headless playback; implemented locally, not in released 0.16
 | `shift(from, to, regions?)` | Move an item into the hole; count one write |
 | `insert(to, regions?)` | Fill the hole with the held item; count one write |
 | `pass(end, regions?)` | Describe a completed pass without changing items or counters |
-| `done(regions?)` | Finish; requires no held item; does not sort or infer sorted regions |
+| `done(options?)` | Finish; requires no held item; does not sort or infer sorted regions |
 
 `regions` can contain `sortedPrefixLength` and `sortedSuffixLength`.
 Omitted or explicitly `undefined` markers retain their previous values, including
@@ -161,6 +165,18 @@ has established.
 Insertion and bubble sort implementations live in [examples/algorithms.mjs](https://github.com/urffin/algiviz/blob/master/examples/algorithms.mjs).
 The algorithms belong to the application; they require no changes to the library.
 
+### Result markers
+
+`ArrayDoneOptions extends SortedRegions` adds optional result positions to done.
+For example, `done({ result: [min] })` records owned, frozen resultItemIds in the
+final snapshot. The event stays done; no sortedness is asserted and counters
+are unchanged. [] explicitly selects none; omission/undefined preserves the
+legacy snapshot shape. Repeated positions resolve to unique IDs; the input is
+not retained. Wrong collections/holes give TypeError and invalid positions give
+RangeError, before state mutation. See the [contract](array-result.md) for
+validation order and presentation guarantees. Library empty-array support stays
+intact; the main quickstart deliberately uses a fixed nonempty input.
+
 ## Canvas rendering
 
 Dispatcher reuse shipped in 0.14.0; [before/after measurements](array-dispatch-performance.md)
@@ -191,7 +207,7 @@ Positions between slots use smoothstep `p * p * (3 - 2 * p)`, where `p` is frame
 progress. Negative values use magnitude for bar height and retain their sign in
 labels; this is not a signed-axis plot. Events, counters, held status and sorted
 markers come from `current` and are not interpolated. Colors take precedence in
-this order: held, active, sorted, ordinary bar.
+this order: held, active, result, sorted, ordinary bar.
 
 Within `save`/`restore`, rendering sets an identity transform, `globalAlpha = 1`,
 `globalCompositeOperation = "source-over"`, `filter = "none"`, a transparent
@@ -238,7 +254,7 @@ const renderer = createArrayRenderer({ theme: 'light', colors });
 renderer.render(ctx, currentFrame);
 ```
 
-`ArrayPalette` defines six string roles: `background` (full canvas), `text`
+`ArrayPalette` retains its six original string roles: `background` (full canvas), `text`
 (all labels), `bar` (ordinary bars), `sorted` (sorted prefix/suffix), `active`
 (highlighted/compared/moved items), and `held` (the held item, taking precedence
 over active and sorted). `ArrayPaletteOverrides` is its partial form;
@@ -251,3 +267,7 @@ has no effect. To switch theme or palette, create a new renderer and render the
 same current frame. This changes colors only, not playback, snapshots, layout or
 bitmap/DPR handling. Try the theme presets, six color inputs and reset control
 in [Sorting lab](https://github.com/urffin/algiviz/blob/master/examples/index.html).
+
+The additional optional result role controls result color (light #047857,
+dark #34d399). Use colors.result for an independent override; existing six-role
+palettes remain valid.

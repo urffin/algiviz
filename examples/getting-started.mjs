@@ -1,26 +1,39 @@
 import { Player } from '@grundyjs/algiviz/player';
+import { createArrayTrace } from '@grundyjs/algiviz/array';
+import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
 
 function mount() {
-    const container = document.querySelector('#player');
-    const canvas = container.querySelector('canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const container = document.querySelector('#player');
+  const canvas = container.querySelector('canvas');
+  const ctx = canvas.getContext('2d');
+  const result = document.querySelector('#result');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  result.textContent = 'Press Start';
 
-    return new Player(container, {
-        viewport: canvas,
-        source: function* () {
-            for (const x of [40, 200, 360, 560]) yield { x };
-        },
-        render({ current }) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.beginPath();
-            ctx.arc(current.x, 80, 18, 0, Math.PI * 2);
-            ctx.fillStyle = '#b39bff';
-            ctx.fill();
-        },
-    });
+  function* minimum(values) {
+    const array = createArrayTrace(values);
+    result.textContent = 'Searching…';
+    yield array.start();
+    let min = 0;
+    yield array.highlight([min]);
+    for (let i = 1; i < array.length; i++) {
+      yield array.compare(min, i);
+      if (array.at(i).value < array.at(min).value) min = i;
+      yield array.highlight([min]);
+    }
+    result.textContent = 'Minimum: ' + array.at(min).value;
+    yield array.done({ result: [min] });
+  }
+
+  const renderer = createArrayRenderer({ theme: 'light' });
+  const player = new Player(container, {
+    viewport: canvas,
+    stepSource: () => minimum([7, 3, 5, 2, 6]),
+    isTerminal: step => step.event.type === 'done',
+    render: frame => renderer.render(ctx, frame),
+  });
+  return player;
 }
 
 mount();
-// Player disposes on pagehide. BFcache restoration starts a new idle session.
 window.addEventListener('pageshow', event => { if (event.persisted) mount(); });

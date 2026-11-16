@@ -1,3 +1,4 @@
+import type { ArrayDoneOptions } from '@grundyjs/algiviz/array';
 import { createPlayer, createStatePlayer, createTimeline, createStepEmitter, createRewindBuffer, type RewindBuffer, type Player, type Step, type Frame, type Timeline } from '@grundyjs/algiviz/playback';
 import { createAsyncSource, type AsyncSource, type AsyncSourceSignal, type AsyncSourceFactory,
     type AsyncSourceReadResult, type AsyncSourceCloseResult } from '@grundyjs/algiviz/playback';
@@ -136,3 +137,31 @@ const asyncIterator: AsyncIterator<{ x: number }> = asyncInput;
 type BrowserAbortSignal = AbortSignal;
 asyncInput.dispose(undefined); undefinedInput.dispose(); customAsyncInput.dispose('unmount');
 void asyncRead; void asyncClose; void asyncWaiting; void asyncReadTypes; void asyncCloseTypes;
+
+export function checkArrayResults(trace: ArrayTrace, oldState: ArraySnapshot) {
+ const options: ArrayDoneOptions = { result: Object.freeze([0]), sortedPrefixLength: undefined };
+ trace.done(options); trace.done({ result: [] }); trace.done({ result: undefined });
+ const state: ArraySnapshot = { ...oldState, resultItemIds: undefined };
+ const ids: readonly string[] | undefined = state.resultItemIds; void ids;
+ const oldDone: (options?: SortedRegions) => ArrayStep = trace.done; void oldDone;
+ const legacy: Omit<ArrayTrace, 'done'> & { done(options?:SortedRegions):ArrayStep } = trace;
+ const compatible: ArrayTrace = legacy; void compatible;
+ // @ts-expect-error Result positions must be an array.
+ trace.done({ result: 0 });
+ // @ts-expect-error Use [] for no selected result.
+ trace.done({ result: null });
+ // @ts-expect-error held is not a result position.
+ trace.done({ result: ['held'] });
+ // @ts-expect-error Sets are not positional arrays.
+ trace.done({ result: new Set([0]) });
+ // @ts-expect-error Typed arrays are not result arrays.
+ trace.done({ result: new Uint8Array([0]) });
+ // @ts-expect-error The result array is readonly.
+ state.resultItemIds?.push('id');
+ // @ts-expect-error Snapshot metadata is readonly.
+ state.resultItemIds = [];
+ // @ts-expect-error The field remains optional for old snapshots.
+ const count: number = oldState.resultItemIds.length; void count;
+ // @ts-expect-error ArrayEvent does not gain a new discriminant.
+ const event: ArrayEvent = { type: 'result' }; void event;
+}

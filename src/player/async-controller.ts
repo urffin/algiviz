@@ -13,13 +13,13 @@ interface Owned<State> {
 }
 
 /** Async-specific intents and preparation; synchronous engines keep their controller. */
-export function createAsyncController<State>(options: ControllerOptions<State>): StateController<State> {
+export function createAsyncController<State, Event = undefined>(options: ControllerOptions<State, Event>): StateController<State, Event> {
     const { render, scheduler, stepDurationMs, finalHoldMs = 0, rewindCapacity, maxStepsPerFrame,
         onChange = () => {}, onStatus = () => {}, onError = () => {} } = options;
     const diagnostics = createCloseReport();
     const owned = new Set<Owned<State>>();
     let current: Owned<State> | null = null, candidate: Owned<State> | null = null;
-    let frame: Frame<State, undefined> | null = null;
+    let frame: Frame<State, Event> | null = null;
     let preparing: "start" | "restart" | null = null;
     let preparationFailure: { error: unknown } | null = null;
     let started = false, disposed = false, failed = false, running = false, manual = false, replay = false;
@@ -69,13 +69,15 @@ export function createAsyncController<State>(options: ControllerOptions<State>):
         disposalSnapshot = [];
     }
     function present() {
-        frame = current!.session.frame;
+        const next = current!.session.frame;
+        // The public state-only branch requires Event to include undefined.
+        frame = next as Frame<State, Event> | null;
         if (frame) render(reduced ? { ...frame, previous: frame.current, progress: 1 } : frame);
     }
     function fatal(caught: unknown) {
         stop(); error = caught; hasError = true; failed = true;
         const old = current, next = candidate;
-        if (old?.session.frame) frame = old.session.frame;
+        if (old?.session.frame) frame = old.session.frame as Frame<State, Event>;
         current = null; candidate = null; preparing = null; preparationFailure = null;
         retire(old, caught); retire(next, caught);
         failures.push(caught);

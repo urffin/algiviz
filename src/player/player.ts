@@ -3,15 +3,15 @@ import type { PlayerControls, PlayerOptions, PlayerStatus } from "./types.js";
 import type { Frame } from "../playback/types.js";
 
 /** Optional browser widget. Construction creates idle controls; start reads the first state. */
-export class Player<State> {
-    readonly #controls: PlayerControls<State>;
+export class Player<State, Event = undefined> {
+    readonly #controls: PlayerControls<State, Event>;
 
-    constructor(container: HTMLElement, options: PlayerOptions<State>) {
+    constructor(container: HTMLElement, options: PlayerOptions<State, Event>) {
         this.#controls = mountControls(container, options);
     }
 
     get status(): PlayerStatus { return this.#controls.status; }
-    get frame(): Frame<State, undefined> | null { return this.#controls.frame; }
+    get frame(): Frame<State, Event> | null { return this.#controls.frame; }
     get closed() { return this.#controls.closed; }
     start(): PlayerStatus { return this.#controls.start(); }
     play(): PlayerStatus { return this.#controls.play(); }

@@ -16,7 +16,12 @@ separately authorized publication/registry checks. This is not a release approva
 **Candidate update, 2026-11-16:** package/lock metadata is now **1.0.0**, locally
 prepared and unpublished. [Candidate status](candidate-1.0.md) records preparation
 checks and remaining exact-SHA CI/native gates; [migration](migration-1.0.md)
-explains U1/U2 differences. The 2026-11-14 audit/F2 evidence below retains its
+explains U1/U2, explicit-step source narrowing and optional array-result changes.
+The refreshed candidate replaces 5e2fd18; its own commit, origin push and all
+11 exact-SHA CI jobs are authorized in the current preparation task.
+The [new preparation report](checks/candidate-1.0.0-explicit-steps-2026-11-16.json)
+records the checks; earlier CI/native results retain their original scope.
+The 2026-11-14 audit/F2 evidence below retains its
 stage-specific hashes and package metadata.
 
 ## Published versus local
@@ -31,8 +36,13 @@ stage-specific hashes and package metadata.
 | U4 | **Documentation reconciled:** this index and linked references separate current guarantees from dated evidence; [documentation verification](checks/u4-documentation-2026-11-14.json) |
 | U5 | **Contract selected and permanently covered locally:** original host postMessage throw is preserved as unknown; report gives host/post context, cancel failure is cleanup. [Contract](worker-post-errors.md), [75 public/installed regressions](checks/u5-post-errors-regressions-2026-11-14.json). No production change needed |
 | F2 | **Implemented locally, unreleased:** reject shared buffers/views and nested input/state graphs without the SharedArrayBuffer constructor. Captured intrinsic branding needs no WebAssembly fallback or shared allocation. [Fix](checks/worker-shared-buffer-fix-2026-11-14.json), [native evidence](checks/worker-shared-buffer-fix-browser-2026-11-14.json) |
+| Player explicit steps | **Implemented locally, unpublished:** [stepSource/isTerminal](player-step-source.md), Event frames and terminal/rewind/work/cleanup. Candidate 5e2fd18 and its CI do not cover these changes |
+| Array result markers | **Implemented locally, unpublished:** [done({ result })](array-result.md), ArrayDoneOptions, resultItemIds and colors.result. The quickstart uses one renderer and fixed nonempty input |
 
-F1/F2/U1/U2 do not change public signatures/exports. Latest verification has
+The pre-implementation quickstart stage passed 520 tests (11 example checks).
+New implementation results are in the local report linked below.
+
+F1/F2/U1/U2 do not change public signatures/exports. At the F2 stage verification had
 **509 passing repository tests**. Three parent tests run **121 isolated public
 F2 cases** (41/41/39) with the constructor present, absent, and absent together
 with WebAssembly. The same cases pass against installed archives; strict
@@ -48,7 +58,7 @@ CI/registry certification, version change or publication is claimed.
 
 ## Eight-entry reference map
 
-The current inventory is **21 runtime names, 68 type-only exports, 56 distinct
+The current inventory is **21 runtime names, 69 type-only exports, 57 distinct
 type-only names**. Shared Worker types count at both entry paths. See the full
 [inventory and compatibility rules](api-compatibility.md#public-surface).
 
@@ -92,3 +102,18 @@ language when assessing the working tree. Historical numbers and raw results
 are retained rather than rewritten. U5 is selected and permanently covered
 locally. F2 is now corrected and permanently covered; G1–G3 candidate
 definition/CI/native verification remain before 1.0. This review starts no release.
+
+stepSource implementation checks: [local report](checks/player-step-source-implementation-2026-11-16.json). Earlier reports above retain their stage-specific scope.
+
+Later quickstart output simplification: 33 JS lines, with the generator writing
+the result before yielding done and render only drawing Canvas. API/production
+code is unchanged; 542 tests and EN/RU Vite builds pass. [Stage report](checks/quickstart-result-2026-11-16.json).
+
+The next quickstart stage keeps the final minimum bar green on done (43/45 JS
+lines for Player/manual). The logical event stays done; rendering uses minimumId
+from the final snapshot. API is unchanged; 542 tests and EN/RU Vite builds pass.
+[Stage report](checks/quickstart-green-minimum-2026-11-16.json).
+
+The current quickstart uses the stock result marker and 31 JS lines in both
+variants; only the example drops its empty-input branch. Library empty-result
+support remains. [Implementation checks](checks/array-result-implementation-2026-11-16.json).

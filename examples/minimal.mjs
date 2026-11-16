@@ -1,6 +1,7 @@
 import { createPlayer, createStepEmitter } from '@grundyjs/algiviz/playback';
 import { createSceneRenderer } from '@grundyjs/algiviz/scene';
 
+// Next after getting-started.html: explicit steps, scenes and interpolation.
 // This object type and its algorithm belong entirely to the application.
 /** @typedef {{ token: { x: number } }} Objects */
 export function* tokenSteps() {

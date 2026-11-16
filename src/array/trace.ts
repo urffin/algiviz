@@ -6,6 +6,10 @@ export interface SortedRegions {
     readonly sortedPrefixLength?: number | undefined;
     readonly sortedSuffixLength?: number | undefined;
 }
+/** Positions selected as the result when completing a trace. */
+export interface ArrayDoneOptions extends SortedRegions {
+    readonly result?: readonly number[] | undefined;
+}
 export interface ArrayTrace {
     readonly length: number;
     readonly held: Item | null;
@@ -18,7 +22,7 @@ export interface ArrayTrace {
     shift(from: number, to: number, regions?: SortedRegions): ArrayStep;
     insert(to: number, regions?: SortedRegions): ArrayStep;
     pass(end: number, regions?: SortedRegions): ArrayStep;
-    done(regions?: SortedRegions): ArrayStep;
+    done(options?: ArrayDoneOptions): ArrayStep;
 }
 
 /** Operations own mutations, counters and immutable snapshots, but no algorithm. */
@@ -38,11 +42,14 @@ export function createArrayTrace(values: readonly number[]): ArrayTrace {
         if (!value) throw new Error(`No item at ${position}`);
         return value;
     }
+    function validateRegion(value: number | undefined) {
+        if (value !== undefined && (!Number.isInteger(value) || value < 0 || value > slots.length)) {
+            throw new RangeError("Sorted region length must be between zero and array length");
+        }
+    }
     function regions(update: SortedRegions = {}) {
         for (const value of [update.sortedPrefixLength, update.sortedSuffixLength]) {
-            if (value !== undefined && (!Number.isInteger(value) || value < 0 || value > slots.length)) {
-                throw new RangeError("Sorted region length must be between zero and array length");
-            }
+            validateRegion(value);
         }
         if (update.sortedPrefixLength !== undefined) state.sortedPrefixLength = update.sortedPrefixLength;
         if (update.sortedSuffixLength !== undefined) state.sortedSuffixLength = update.sortedSuffixLength;
@@ -96,10 +103,37 @@ export function createArrayTrace(values: readonly number[]): ArrayTrace {
             active(); index(end); regions(update);
             return emit({ type: "pass", end });
         },
-        done(update?: SortedRegions) {
+        done(update: ArrayDoneOptions = {}) {
             active();
             if (state.held) throw new Error("Insert the held item before completing the trace");
-            regions(update); phase = "done";
+            // Capture/validate before committing any annotations or the terminal phase.
+            const prefix = update.sortedPrefixLength;
+            validateRegion(prefix);
+            const suffix = update.sortedSuffixLength;
+            validateRegion(suffix);
+            const positions = update.result;
+            let resultIds: readonly string[] | undefined;
+            if (positions !== undefined) {
+                if (!Array.isArray(positions)) throw new TypeError("Result positions must be a dense array");
+                const length = positions.length;
+                if (!Number.isInteger(length) || length < 0 || length > 0xffffffff) {
+                    throw new TypeError("Result positions must have a valid array length");
+                }
+                for (let i = 0; i < length; i++) {
+                    if (!Object.hasOwn(positions, i)) throw new TypeError("Result positions must not be sparse");
+                }
+                const ids = new Set<string>();
+                for (let i = 0; i < length; i++) {
+                    const position = positions[i]!;
+                    index(position);
+                    ids.add(item(position).id);
+                }
+                resultIds = Object.freeze([...ids]);
+            }
+            if (prefix !== undefined) state.sortedPrefixLength = prefix;
+            if (suffix !== undefined) state.sortedSuffixLength = suffix;
+            if (resultIds !== undefined) state.resultItemIds = resultIds;
+            phase = "done";
             return emit({ type: "done" });
         }
     });

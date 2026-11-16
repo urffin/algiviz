@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Learning: plain states</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c1423;color:#edf4ff;font:17px/1.6 system-ui}
+main{max-width:760px;margin:40px auto;padding:24px}nav,small{font-size:14px}a{color:#b39bff}
+h1{font-size:32px;line-height:1.2;margin:24px 0 16px}p{color:#b7c7dc}code{color:#d7caff}
+pre{margin:0;padding:24px;font-size:32px;white-space:pre-wrap}#player{margin:24px 0}
+a:focus-visible{outline:2px solid #83e6cf;outline-offset:4px}@media(max-width:600px){main{margin:0 auto;padding:20px}h1{font-size:26px}}
+</style>
+<main>
+<nav><a href="index.html">← All examples</a> · <a href="https://github.com/urffin/algiviz/blob/master/docs/getting-started.md">Minimum-search quickstart</a></nav>
+<h1>Learning: plain states and arbitrary output</h1>
+<p>A generator supplies three array snapshots: <code>[3,1,2] → [1,3,2] → [1,2,3]</code>.
+Your callback displays the numbers; AlgiViz provides the controls.</p>
+<div id="player"><pre aria-label="Current array">Press Start</pre></div>
+<p>Press <strong>Start</strong>, then <strong>Next state</strong> twice to reach the sorted snapshot.
+One more click detects completion. <strong>Restart</strong> displays the first snapshot again.</p>
+<small>The snapshots are written explicitly to introduce playback, not a sorting algorithm.
+<a href="https://github.com/urffin/algiviz/blob/master/docs/getting-started.md">Continue to the minimum-search quickstart</a> ·
+<a href="pre-states.mjs">JavaScript source</a> ·
+<a href="minimal.html">Next: scenes and interpolation</a></small>
+</main>
+<script type="importmap">{"imports":{"@grundyjs/algiviz/player":"../dist/player/index.js"}}</script>
+<script type="module" src="pre-states.mjs"></script>
+</html>

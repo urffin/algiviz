@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-16",
+  "scope": "Quickstart output simplification after stepSource implementation; prior implementation report remains historical",
+  "apiChanged": false,
+  "versionChanged": false,
+  "publication": false,
+  "productionAndPackageFilesUnchanged": 37,
+  "javascriptLines": {
+    "previous": {
+      "player": 47,
+      "manual": 47
+    },
+    "current": {
+      "player": 33,
+      "manual": 33
+    }
+  },
+  "result": {
+    "initial": "Press Start",
+    "running": "Searching…",
+    "complete": "Minimum: 2",
+    "empty": "No minimum: empty array",
+    "written": "By the generator before yielding start/done; render only draws Canvas",
+    "usesIdLookup": false,
+    "storesMinimumInRender": false
+  },
+  "checks": {
+    "repositoryTests": 542,
+    "failed": 0,
+    "minimumExampleChecks": 13,
+    "vite": "8.3.8",
+    "languages": [
+      "en",
+      "ru"
+    ],
+    "copiedHtmlExecution": true,
+    "viteBuildsPassed": true,
+    "emptySingletonNegativeEqualMinima": true,
+    "restartAndEarlyDispose": true,
+    "nativeBrowser": {
+      "passed": false,
+      "reason": "Built-in service_info timeout; no external debugging used"
+    }
+  },
+  "hashes": {
+    "examples/getting-started.mjs": "4973de364d2d6dc4a7ca26b8ff203765736b9727854bace22d97f03ea62dc1e0",
+    "examples/minimum-player.html": "478750e688f17e8d4d2ac3b1c0fcfc6a9ba58db6fc19a04ff06165d4779d68ca",
+    "examples/minimum-manual.html": "e62f54d4ef4a8cebab363c9b7b17996573c28a71e7a8c43fc8bd592b3308955b",
+    "docs/getting-started.md": "bbeee243a276904e077c096700d6c01c925a62a0f6cd65a7bfba77bb987876d3",
+    "docs/ru/getting-started.md": "b0b5b8907d37e5354f5ad4e09b996eac322cff1d8077a90fa539048c03dc67ff",
+    "docs/quickstart-comparison.md": "d10b4aa572e7db65377d84c24ae7891561ab7ae9ada2cb971729bc49a0ab3ba8",
+    "docs/ru/quickstart-comparison.md": "c44cccd7f197822117c1e838267c114e6049137cd5412dc867860344ee62b86d",
+    "docs/learning-path.md": "99eb9d65022c4a8e562ee542a71c04bf3ec0fb502bb7cf5f97ff114a709a3496",
+    "docs/ru/learning-path.md": "f55c1446d15ba4ede48baabfb12ad1d350551640dde98ae981db4ca75a1c7b5f",
+    "test/minimum-example.test.mjs": "e034525d010a55aebeff5e50cb060a27b61afc61eebe66b7e4c492e312b5879d"
+  }
+}

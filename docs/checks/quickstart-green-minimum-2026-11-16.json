@@ -1,0 +1,61 @@
+{
+  "date": "2026-11-16",
+  "scope": "Quickstart final minimum bar highlight; text color unchanged",
+  "apiChanged": false,
+  "versionChanged": false,
+  "publication": false,
+  "productionAndPackageFilesUnchanged": 37,
+  "jsLines": {
+    "before": {
+      "player": 33,
+      "manual": 33
+    },
+    "after": {
+      "player": 43,
+      "manual": 45
+    }
+  },
+  "implementation": {
+    "finalSnapshotMetadata": "minimumId; frozen snapshot, null for empty input",
+    "presentation": "Separate stock array renderer with active=#047857; done is projected as highlight only for drawing",
+    "logicalTerminalEvent": "done",
+    "retainsMinimumInRender": false,
+    "valueLookupById": false,
+    "sortedRegionsInvented": false
+  },
+  "checks": {
+    "repositoryTests": 542,
+    "failed": 0,
+    "minimumExampleChecks": 13,
+    "finalOnlyGreen": true,
+    "exactlySelectedMinimumGreen": true,
+    "restartClearsHighlight": true,
+    "emptyNoHighlight": true,
+    "singletonHighlight": true,
+    "firstEqualMinimum": true,
+    "earlyDispose": true,
+    "copiedEnRuHtmlExecuted": true,
+    "viteBuilds": [
+      "en",
+      "ru"
+    ],
+    "vite": "8.3.8",
+    "nativeBrowser": {
+      "passed": false,
+      "reason": "Built-in browser service_info timeout; no external browser debugging"
+    }
+  },
+  "hashes": {
+    "examples/getting-started.mjs": "25ba2975051c8ee375bb5453c4f1e5a274ff4e8589a0d03fa9d40ec9a2730480",
+    "examples/getting-started.html": "b198ac4e20c9ed4b77cde49f3a4025c98610fc18131e541d6a52f0178a782c04",
+    "examples/minimum-player.html": "2ac9ac188cbf03640b2d314392bbbd1cc7d5c64b7cfd4884132e2fa5ca6bebdf",
+    "examples/minimum-manual.html": "7ec3b5c3c8cbfebed6b185ffa5ec78ce40d4b6d57bf2e1b88ecd6bfa44183cd8",
+    "docs/getting-started.md": "8920899047af4c062f7da6468e4151cf13de88a59bc85acdbd2e5d1b3eed58ea",
+    "docs/ru/getting-started.md": "ff06db41c288ecf4f86eb8acdcf9786acc7eb2213834781338f54a59c6ec1430",
+    "docs/learning-path.md": "2cb92a803563b8e8ba725441ff1b093e29c968420a27238ccbc2bee073cdc8c6",
+    "docs/ru/learning-path.md": "bf8debc06ab1c1bae2ee8fade664849bb3f6c7256e3a820efcb76df79d5aa469",
+    "docs/quickstart-comparison.md": "8776b273cb6ca46743ec05417948e3be28739bc64c68cb5cda1ec32691b26edb",
+    "docs/ru/quickstart-comparison.md": "e18831b3a93b418758e63576fcecf6ae93c36a2dd7082d58103d13b6f05bdcc3",
+    "test/minimum-example.test.mjs": "18f8728bea805cf054cbf41a3b6f71eb46b65efc2159b7a1c4af18bbbe3d4693"
+  }
+}

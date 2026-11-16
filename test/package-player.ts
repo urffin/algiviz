@@ -1,3 +1,5 @@
+import { createArrayTrace, type ArraySnapshot, type ArrayEvent } from '@grundyjs/algiviz/array';
+import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
 import { Player, type PlayerOptions, type PlayerStatus, type PlayerLabels, type PlayerCloseResult } from '@grundyjs/algiviz/player';
 import type { Frame } from '@grundyjs/algiviz/playback';
 
@@ -131,4 +133,34 @@ export function checkCloseResult(report: PlayerCloseResult) {
         }
     }
     void count;
+}
+
+export function checkStepPlayerTypes(host: HTMLElement, legacy: PlayerOptions<number>) {
+    const p = new Player(host, { stepSource: function* () { yield { index: 0, state: { x: 1 }, event: { done: true } }; },
+        isTerminal(step) { const x: number = step.state.x; return step.event.done && x > 0; },
+        render(frame) { const event: boolean = frame.event.done; const x: number = frame.current.x; void event; void x; } });
+    const frame: Frame<{ x: number }, { done: boolean }> | null = p.frame;
+    const old: Player<number> = new Player(host, legacy); void old; void frame;
+    new Player<number, string | undefined>(host, { source: () => [1], render() {} });
+    // @ts-expect-error An event type excluding undefined cannot use state-only sources.
+    new Player<number, string>(host, { source: () => [1], render() {} });
+    // @ts-expect-error never must not bypass the state-only branch constraint.
+    new Player<number, never>(host, { source: () => [1], render() {} });
+    // @ts-expect-error Explicit steps require isTerminal.
+    new Player(host, { stepSource: () => [{ index: 0, state: 1, event: true }], render() {} });
+    // @ts-expect-error The predicate is exclusive to stepSource.
+    new Player(host, { source: () => [1], isTerminal: () => true, render() {} });
+    // @ts-expect-error Factories remain mutually exclusive.
+    new Player(host, { stepSource: () => [], history: () => [1], isTerminal: () => true, render() {}, stepDurationMs: 1 });
+    // @ts-expect-error A predicate cannot return a promise.
+    new Player(host, { stepSource: () => [{ index: 0, state: 1, event: true }], isTerminal: async () => true, render() {} });
+    // @ts-expect-error Async-only step iterables are outside this contract.
+    new Player(host, { stepSource: async function* () { yield { index: 0, state: 1, event: true }; }, isTerminal: () => true, render() {} });
+}
+
+export function checkDirectArrayRenderer(host: HTMLElement, ctx: CanvasRenderingContext2D) {
+ const renderer = createArrayRenderer({ theme: 'light' });
+ const widget = new Player(host, { stepSource: function* () { const a = createArrayTrace([3,1]); yield a.start(); yield a.done(); },
+ isTerminal: step => step.event.type === 'done', render: frame => renderer.render(ctx, frame) });
+ const frame: Frame<ArraySnapshot, ArrayEvent> | null = widget.frame; void frame;
 }

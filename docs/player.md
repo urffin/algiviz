@@ -4,6 +4,9 @@
 
 **Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
+**Local, unpublished:** [stepSource and isTerminal](player-step-source.md)
+connect typed explicit steps directly to render and complete without an EOF read.
+
 **Added in 0.12.0:** `/player` is an optional entry point for the browser widget.
 
 **Added in 0.15.0:** [asyncSource integration](player-async-api.md), waiting
@@ -56,6 +59,7 @@ and SVG streaming with independent widgets.
 | `source: () => Iterable<State>` | Reads lazily, retains adjacent snapshots, unknown duration. Next requests one state or completes a partial transition. A request after the last yield detects exhaustion. No Previous or seeking. Timing is optional for manual use. |
 | `source` with `rewindCapacity: number` (0.14.0) | Retains a bounded window, including current. Previous pauses and returns to the preceding retained state. Next/Play replay the buffer before reading the source. No time slider or known duration. |
 | `asyncSource: AsyncSourceFactory<State>` (0.15.0) | Owns a lazy async session with stream timing/rewind/budget options, one pending request and no prefetch. Pause stages a late result; Restart prepares before replacement. |
+| `stepSource: () => Iterable<Step<State, Event>>` + `isTerminal` | Explicit synchronous steps, classified once per position. Frame exposes State/Event/index directly. Supports timing, rewindCapacity and maxStepsPerFrame; no seeking. |
 | `history: () => readonly State[]` | Explicit dense, nonempty recording retained in full. Requires positive `stepDurationMs`. Supports Previous, time seeking and a known duration; completion is known at the final boundary. The factory is not called before Start. |
 
 Exactly one factory is required. An iterable is never silently collected to
@@ -271,3 +275,8 @@ streams 10,000 new states at capacities 3/64 with repeated backward/forward move
 sampled evicted values and the source iterator are released. The final readable
 frame remains after disposal, and its last state is released when the controller
 is dropped. These are local checks; publication and new-commit CI are separate.
+
+Types: `Player<State, Event = undefined>` and `PlayerOptions<State, Event = undefined>`.
+Legacy source/history/asyncSource keep event: undefined. Event types excluding
+undefined (including never) reject those branches. isTerminal is required only
+for stepSource; empty input or EOF without a terminal step gives RangeError.

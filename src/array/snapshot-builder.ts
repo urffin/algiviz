@@ -15,6 +15,7 @@ export function createSortTrace(values: readonly number[]) {
         held: Item | null;
         sortedPrefixLength: number;
         sortedSuffixLength?: number;
+        resultItemIds?: readonly string[];
     } = { slots, held: null, sortedPrefixLength: 0 };
     let index = 0;
     let comparisons = 0;

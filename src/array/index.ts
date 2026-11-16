@@ -1,5 +1,5 @@
 export { createArrayTrace, defineArrayAlgorithm } from "./trace.js";
-export type { ArrayTrace, ArrayAlgorithm, SortedRegions } from "./trace.js";
+export type { ArrayTrace, ArrayAlgorithm, SortedRegions, ArrayDoneOptions } from "./trace.js";
 export type { Item, ArrayEvent, ArraySnapshot, ArrayStep } from "./types.js";
 export { createArrayPlayer } from "./player.js";
 export { createArrayTimeline } from "./timeline.js";

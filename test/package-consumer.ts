@@ -142,3 +142,11 @@ catch (error) { progressRejected = error instanceof RangeError; }
 check(progressRejected && canvasDraws === 0, 'Installed renderer drew an invalid frame');
 createArrayRenderer(noColors).render(canvasContext, lazy.frame);
 check(canvasDraws > 0, 'Installed renderer did not draw a valid frame');
+
+const resultColors: ArrayPaletteOverrides = { result: '#047857' };
+createSortRenderer({ theme: 'light', colors: resultColors });
+const legacyPalette: ArrayPalette = palette;
+const resultPalette: ArrayPalette = { ...legacyPalette, result: undefined };
+void resultPalette;
+// @ts-expect-error Result colors must be strings.
+createArrayRenderer({ theme: 'light', colors: { result: 123 } });

@@ -2,10 +2,104 @@
 
 [English](../migration-1.0.md) · [Совместимость](api-compatibility.md) · [Статус кандидата](candidate-1.0.md)
 
-**1.0.0 — подготовленный локально, неопубликованный кандидат.** Здесь описаны
-отличия от выпущенной 0.16.0. До релиза нужны CI и native-проверки именно кандидата.
-Новых публичных методов, опций, status-полей, типов и экспортов не требуется.
-Восемь ESM-путей и отсутствие runtime-зависимостей сохранены.
+**1.0.0 — неопубликованный кандидат, обновлённый явными шагами и результатами массива.**
+Здесь описаны отличия от выпущенной 0.16.0 и прежнего кандидата 5e2fd18. Его CI
+не покрывает новый код. Приложения могут не включать новые возможности, но
+исчерпывающие проверки PlayerOptions должны учитывать новую ветку. Восемь ESM-
+путей, runtime-имена экспортов и отсутствие runtime-зависимостей сохранены.
+До релиза остаётся native-проверка актуального кандидата.
+
+## Player: явные шаги без адаптера кадра
+
+Новая взаимоисключающая ветка stepSource предназначена для генератора
+Step<State, Event>, в том числе шагов ArrayTrace. Обычный source по-прежнему
+считает каждое выданное значение состоянием, даже если в нём есть index/state/
+event. При переходе нужно изменить и имя опции, и убрать раскрытие вложенного
+state в render: новая ветка сразу передаёт State и Event.
+
+```js
+const ui = new Player(container, {
+  viewport: canvas,
+  stepSource: () => minimum([7, 3, 5, 2, 6]),
+  isTerminal: step => step.event.type === 'done',
+  render: frame => renderer.render(ctx, frame),
+});
+```
+
+Здесь frame.current/previous — снимки массива, не обёртки ArrayStep.
+Player<State, Event = undefined> и PlayerOptions<State, Event = undefined>
+выводят оба типа; getter кадра — Frame<State, Event> | null. Прежнее применение
+одного generic сохраняет event: undefined. Явный Event, исключающий undefined
+(включая never), не допускает state-only ветки.
+
+isTerminal обязателен только для stepSource и синхронно возвращает примитивный
+boolean. Он вызывается один раз на новую позицию, не при повторе буфера.
+Автоматического распознавания done, async-шагов или сбора iterable в history
+нет. Async/Worker по-прежнему используют state-only ветку asyncSource.
+
+Терминальный шаг завершает переход и однократно закрывает итератор до final hold,
+без чтения EOF и дополнительного клика. Финальные побочные эффекты выполняйте
+до yield: код после терминального yield не обязан исполниться. Пустой источник/
+EOF без терминального шага даёт операционный RangeError через status.error/
+hasError и onError по прежним правилам sync-виджета. Команды возвращают status;
+нового синхронного throw из Next при ошибке источника нет. Pause, ограниченный
+Previous, подготовка перед заменой при Restart и идемпотентный dispose сохраняют
+контракт. Терминальный признак хранится вместе с записью окна.
+
+При приёме шага фиксируется замороженная обёртка index/state/event. Тождество
+producer-wrapper и его дополнительные поля не сохраняются; ссылки State/Event
+сохраняются. Index — примитивное конечное число: неверный тип даёт TypeError,
+неконечное число RangeError. Допустимы повторы и дробные индексы; границы окна
+по-прежнему порядковые позиции. Подробности — в [контракте](player-step-source.md).
+
+### Обновите проверки типа источника
+
+PlayerOptions теперь выбирает ровно одну из **четырёх** фабрик. Ветка
+source/asyncSource/else-history должна учитывать stepSource: последний else
+больше не обязательно history. Например:
+
+```ts
+function sourceKind<State, Event>(options: PlayerOptions<State, Event>) {
+  if (options.stepSource !== undefined) return 'steps';
+  if (options.source !== undefined) return 'states';
+  if (options.asyncSource !== undefined) return 'async';
+  return 'history';
+}
+```
+
+По U3 расширение закрытого union является breaking, несмотря на opt-in и
+generic Event с default. Прежние source/history/asyncSource и runtime-форма
+их кадров не меняются.
+
+## Array: результат в done
+
+Необязательный API заменяет собственный финальный снимок, второй рендерер и
+подмену события для отображения в quickstart:
+
+```js
+result.textContent = 'Minimum: ' + array.at(min).value;
+yield array.done({ result: [min] });
+```
+
+Передаются позиции на момент завершения. Trace получает собственные замороженные
+уникальные ID в необязательном ArraySnapshot.resultItemIds. Событие остаётся
+done; сортировка и новые счётчики не выводятся. Type-only экспорт
+ArrayDoneOptions extends SortedRegions сохраняет совместные sorted/result-опции.
+Несколько результатов — несколько позиций; [] явно означает отсутствие
+выделения, в том числе на пустом входе. Пропуск/undefined сохраняет старую форму
+снимка. Неверная коллекция, дырки или подменённая некорректная длина дают
+TypeError; неверные позиции — RangeError до изменения собственных данных trace.
+
+Один штатный рендерер читает аннотацию. Необязательный colors.result по умолчанию
+зелёный; приоритет held > active > result > sorted > обычный столбец. Цвет не
+зависит от предыдущего render. Перемотка на снимок без отметки убирает её,
+Restart начинает без результата. Старые done(), sorted-маркеры, палитры из шести
+ролей и рукописные снимки сохраняют смысл и совместимость типов. При чтении
+старых и новых снимков используйте ?? [] для необязательного поля.
+
+[Главный quickstart](getting-started.md) намеренно использует фиксированный
+непустой вход и 31 строку JS. Это не убирает поддержку пустых массивов в
+библиотеке. Валидация и цвета подробно описаны в [контракте](array-result.md).
 
 ## U1: команды headless-плеера после возврата из callbacks
 
@@ -73,8 +167,8 @@ pending-чтений `createAsyncSource`. Полный [контракт U1](hea
 
 ## U2: неверная скорость виджета даёт RangeError
 
-`Player.setSpeed(value: number)` использует единый контракт для `source`, `history`
-и `asyncSource`, включая Worker. Sync/history уже давали `RangeError`; async/Worker
+`Player.setSpeed(value: number)` использует единый контракт для `source`, `history`,
+`asyncSource` и нового `stepSource`, включая Worker. Sync/history уже давали `RangeError`; async/Worker
 в 0.16.0 давали `TypeError`. Обновите зависящие от класса ошибки обработчики:
 
 ```js

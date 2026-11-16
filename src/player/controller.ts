@@ -1,4 +1,5 @@
-import type { Frame } from "../playback/types.js";
+import { createStepSession } from "./step-session.js";
+import type { Frame, Step } from "../playback/types.js";
 import type { PlayerControls, PlayerStatus } from "./types.js";
 import { createRewindSession } from "./rewind-session.js";
 import { createStreamPlayback } from "./stream-playback.js";
@@ -6,34 +7,36 @@ import { stateSteps } from "../playback/state-steps.js";
 import type { AsyncSourceFactory } from "../playback/async-source.js";
 import { createAsyncController } from "./async-controller.js";
 import { createCloseReport } from "./close-report.js";
-interface Session<State> {
-    readonly frame: Frame<State, undefined>;
+interface Session<State, Event = undefined> {
+    readonly frame: Frame<State, Event>;
     readonly finished: boolean;
     readonly positionMs?: number;
     readonly durationMs?: number;
-    readonly canPrevious?: boolean;
-    readonly rewindStartIndex?: number;
-    readonly rewindEndIndex?: number;
-    readonly pendingMs?: number;
+    readonly canPrevious?: boolean | undefined;
+    readonly rewindStartIndex?: number | undefined;
+    readonly rewindEndIndex?: number | undefined;
+    readonly pendingMs?: number | undefined;
     advance(deltaMs: number): void;
     nextStep(): void;
     previousStep?(): void;
     seek?(positionMs: number): void;
     dispose(): void;
 }
-export interface StateController<State> extends PlayerControls<State> {
+export interface StateController<State, Event = undefined> extends PlayerControls<State, Event> {
     setReducedMotion(value: boolean): PlayerStatus;
     replay(): PlayerStatus;
     readonly dataBlocked: boolean;
     finishDispose(): void;
     recordError(phase: "abort-listener" | "return" | "dispose" | "onStatus" | "onError", error: unknown): void;
 }
-export interface ControllerOptions<State> {
+export interface ControllerOptions<State, Event = undefined> {
+    stepSource?: (() => Iterable<Step<State, Event>>) | undefined;
+    isTerminal?: ((step: Step<State, Event>) => boolean) | undefined;
     source?: (() => Iterable<State>) | undefined;
     asyncSource?: AsyncSourceFactory<State> | undefined;
     deferClose?: boolean | undefined;
     history?: (() => readonly State[]) | undefined;
-    render: (frame: Frame<State, undefined>) => void;
+    render: (frame: Frame<State, Event>) => void;
     stepDurationMs?: number | undefined;
     finalHoldMs?: number | undefined;
     rewindCapacity?: number | undefined;
@@ -45,7 +48,7 @@ export interface ControllerOptions<State> {
 }
 import { createStatePlayer, createTimeline } from '../playback/index.js';
 
-function createRecording<State>(states: readonly State[], stepDurationMs: number, finalHoldMs: number): Session<State> {
+function createRecording<State, Event>(states: readonly State[], stepDurationMs: number, finalHoldMs: number): Session<State, Event> {
     if (!Array.isArray(states)) throw new TypeError('Recording factory must return an array of states');
     const steps = Array.from({ length: states.length }, (_, index) => {
         if (!(index in states)) throw new TypeError('Recording states must not be sparse');
@@ -59,7 +62,8 @@ function createRecording<State>(states: readonly State[], stepDurationMs: number
         time = Math.max(0, Math.min(value, timeline.durationMs));
     }
     return Object.freeze({
-        get frame() { return timeline.sample(time); },
+        // Public state-only options require Event to include undefined.
+        get frame() { return timeline.sample(time) as Frame<State, Event>; },
         get finished() { return time >= timeline.durationMs; },
         get positionMs() { return time; },
         durationMs: timeline.durationMs,
@@ -79,13 +83,15 @@ class PreparationFailure {
     constructor(readonly error: unknown) {}
 }
 
-export function createStateController<State>(options: ControllerOptions<State>): StateController<State> {
-    const { source, asyncSource, history, render, stepDurationMs, finalHoldMs = 0, rewindCapacity, maxStepsPerFrame,
+export function createStateController<State, Event>(options: ControllerOptions<State, Event>): StateController<State, Event> {
+    const { source, asyncSource, history, stepSource, isTerminal, render, stepDurationMs, finalHoldMs = 0, rewindCapacity, maxStepsPerFrame,
         scheduler, onChange = () => {}, onStatus = () => {}, onError = () => {} } = options;
     const recorded = history !== undefined;
-    if ([source, asyncSource, history].filter(value => value !== undefined).length !== 1 ||
-        typeof (recorded ? history : asyncSource ?? source) !== 'function' || typeof render !== 'function')
-        throw new TypeError('Expected exactly one source/asyncSource/history factory and a render callback');
+    if ([source, asyncSource, history, stepSource].filter(value => value !== undefined).length !== 1 ||
+        typeof (recorded ? history : stepSource ?? asyncSource ?? source) !== 'function' || typeof render !== 'function')
+        throw new TypeError('Expected exactly one source/asyncSource/history/stepSource factory and a render callback');
+    if (stepSource !== undefined ? typeof isTerminal !== 'function' : isTerminal !== undefined)
+        throw new TypeError('isTerminal is required only with stepSource');
     const timed = stepDurationMs !== undefined;
     if (recorded && !timed) throw new TypeError('A recording requires stepDurationMs');
     if (recorded && rewindCapacity !== undefined) throw new TypeError('rewindCapacity is only available for a stream');
@@ -103,8 +109,8 @@ export function createStateController<State>(options: ControllerOptions<State>):
     if (asyncSource !== undefined) return createAsyncController(options);
     const diagnostics = createCloseReport();
 
-    let player: Session<State> | null = null;
-    let frame: Frame<State, undefined> | null = null;
+    let player: Session<State, Event> | null = null;
+    let frame: Frame<State, Event> | null = null;
     let started = false, running = false, disposed = false;
     let failed = false, hasError = false, busy = false, notifying = false, speed = 1;
     let error: unknown = null;
@@ -137,7 +143,7 @@ export function createStateController<State>(options: ControllerOptions<State>):
         frame = player!.frame;
         render(reducedMotion ? { ...frame, previous: frame.current, progress: 1 } : frame);
     }
-    function closeQuietly(candidate: Session<State> | null) {
+    function closeQuietly(candidate: Session<State, Event> | null) {
         try { candidate?.dispose(); } catch (caught) { diagnostics.record('dispose', caught); }
     }
     function fail(caught: unknown, preserve = false) {
@@ -175,14 +181,25 @@ export function createStateController<State>(options: ControllerOptions<State>):
         }
         return status();
     }
+    function widenStateSession(session: Session<State>): Session<State, Event> {
+        // PlayerOptions permits state-only branches only when Event includes undefined.
+        return { get frame() { return session.frame as Frame<State, Event>; },
+            get finished() { return session.finished; }, get pendingMs() { return session.pendingMs; },
+            get canPrevious() { return session.canPrevious; },
+            get rewindStartIndex() { return session.rewindStartIndex; },
+            get rewindEndIndex() { return session.rewindEndIndex; },
+            advance: delta => session.advance(delta), nextStep: () => session.nextStep(),
+            previousStep: () => session.previousStep?.(), dispose: () => session.dispose() };
+    }
     function replace() {
-        let candidate: Session<State>;
+        let candidate: Session<State, Event>;
         // A rejected source must not destroy the previous readable/usable session.
         try {
-            candidate = recorded ? createRecording(history!(), stepDurationMs!, finalHoldMs)
-                : rewindCapacity !== undefined ? createRewindSession(source!(), rewindCapacity, { stepDurationMs, finalHoldMs }, maxStepsPerFrame)
+            candidate = stepSource !== undefined ? createStepSession(stepSource(), isTerminal!, { stepDurationMs, finalHoldMs }, rewindCapacity, maxStepsPerFrame)
+                : recorded ? createRecording<State, Event>(history!(), stepDurationMs!, finalHoldMs)
+                : widenStateSession(rewindCapacity !== undefined ? createRewindSession(source!(), rewindCapacity, { stepDurationMs, finalHoldMs }, maxStepsPerFrame)
                 : maxStepsPerFrame === undefined ? createStatePlayer(source!(), { stepDurationMs, finalHoldMs })
-                : createStreamPlayback(stateSteps(source!()), { stepDurationMs, finalHoldMs }, maxStepsPerFrame);
+                : createStreamPlayback(stateSteps(source!()), { stepDurationMs, finalHoldMs }, maxStepsPerFrame));
         }
         catch (caught) { throw new PreparationFailure(caught); }
         try { player?.dispose(); }
@@ -190,7 +207,7 @@ export function createStateController<State>(options: ControllerOptions<State>):
         player = candidate; started = true; failed = false;
         present();
     }
-    function requireSession(): Session<State> {
+    function requireSession(): Session<State, Event> {
         if (!player || failed) throw new Error('Start or restart playback first');
         return player;
     }
@@ -208,7 +225,7 @@ export function createStateController<State>(options: ControllerOptions<State>):
             if (running) request = scheduler!.request(tick);
         });
     }
-    const controls: StateController<State> = Object.freeze({
+    const controls: StateController<State, Event> = Object.freeze({
         get status() { return status(); },
         get frame() { return frame; },
         closed: diagnostics.closed,

@@ -1,0 +1,122 @@
+{
+  "date": "2026-11-16",
+  "scope": "Local unpublished done({ result }) implementation and fixed-nonempty quickstart simplification",
+  "baseCommit": "5e2fd1836a8b84e53c97867bf143b1a77b022e49",
+  "workingTreeContainsEarlierUncommittedPlayerChanges": true,
+  "version": "1.0.0",
+  "publishedBaseline": "0.16.0",
+  "versionOrDependencyChanges": false,
+  "publication": false,
+  "commitCreated": false,
+  "api": {
+    "newTypeOnlyExport": "ArrayDoneOptions",
+    "newRuntimeExports": [],
+    "newOptionalFields": [
+      "ArrayDoneOptions.result",
+      "ArraySnapshot.resultItemIds",
+      "ArrayPalette.result"
+    ],
+    "eventUnchanged": "done",
+    "colorPriority": [
+      "held",
+      "active",
+      "result",
+      "sorted",
+      "bar"
+    ]
+  },
+  "checks": {
+    "repository": {
+      "passed": 551,
+      "failed": 0,
+      "resultApiRegressions": 11,
+      "minimumExampleChecks": 11
+    },
+    "installedPackage": {
+      "typescript": [
+        "5.0.4",
+        "5.4.5",
+        "5.9.3",
+        "6.0.3"
+      ],
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "passed": true,
+      "includesResultRegressions": true
+    },
+    "bundleIsolation": true,
+    "quickstart": {
+      "languages": [
+        "en",
+        "ru"
+      ],
+      "copiedHtmlExecuted": true,
+      "vite": "8.3.8",
+      "buildsPassed": true,
+      "jsLines": {
+        "player": 31,
+        "manual": 31
+      },
+      "fixedNonemptyInput": true,
+      "resultCall": "array.done({ result: [min] })",
+      "renderers": 1,
+      "eventConversion": false,
+      "customTerminalSnapshot": false
+    },
+    "nativeBrowser": {
+      "passed": false,
+      "attempted": true,
+      "reason": "Built-in service_info timeout; no external debugger used",
+      "remaining": "Native verification before release"
+    },
+    "unrelatedProductionFilesUnchanged": 30,
+    "packageAndLockUnchanged": true
+  },
+  "coverage": [
+    "legacy omission/undefined and explicit empty results",
+    "dense arrays, invalid collections/positions, stable IDs and deduplication",
+    "atomic errors, validation precedence and falsy getter/proxy throws",
+    "owned frozen metadata, no result carry-forward or changed counters",
+    "both themes and independent result palette overrides",
+    "held/active/result/sorted precedence and unchanged scene shape",
+    "done header, stateless repaint, reverse seek, hold and resize",
+    "bounded rewind without rereads/reclassification, Restart and idempotent dispose",
+    "fixed-input quickstart without custom result rendering"
+  ],
+  "archive": {
+    "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\array-result-check-JMc76L\\grundyjs-algiviz-1.0.0.tgz",
+    "integrity": "sha512-xi86zb9Fl58wd5FXEc9NXqtaEDZCQOjBqozIgPU1X9V3IZqXjgyb5EEE6+lMYFfuADvuly0D7oLItnjh4jMs3w==",
+    "sha256": "41b60393bc07779706061246cd4c9843985256c646f0e147de2d65b00ecf7655",
+    "distFilesMatchingCurrentBuild": 70,
+    "purpose": "Local verification archive; not a published release or candidate 5e2fd18"
+  },
+  "hashes": {
+    "src/array/trace.ts": "2460c13ae839ae2b34de9adb2ed143628b29f6fb58444aae2078d55a3dd41bdb",
+    "src/array/types.ts": "707b4984f81df9c5db1d9eb253800ac9e5968cb3e3f63cca32e9e7d89a897a14",
+    "src/array/snapshot-builder.ts": "b8032b7a26b9106f606c9cc0ec1657063a599e72356397b8383b9fc9def75b66",
+    "src/array/index.ts": "d0922f5c0ea917db55a5528aef6a476ba93144c00c70f1da4c97153070f8442d",
+    "src/canvas/index.ts": "b901e35d3cc6ca78c5ef05bbf9b10efef8830f1aa3058a086ce009d8df73a965",
+    "test/array-result.test.mjs": "b60122bcc54f7ab7fa34dec0311c5a4c582441836a09e689161237ec5ac1c78d",
+    "test/minimum-example.test.mjs": "11fa38319ef2bf5b429b67213dfb8671d2414de38a916d209169f99ab1f1df97",
+    "test/package-headless.ts": "a552d1ffa603cfbc3d03b4ecbab39859b5ce7b2bc285b790330142864fe9b987",
+    "test/package-consumer.ts": "93af6f9984fe509ce2d42770c49179e7ee2c0a2d7afc8114fcf7455fc3c71466",
+    "scripts/test-package.mjs": "dc61c70c5f9784b077c652d4110d41791e14bbeb6190fb853bc41317450eb644",
+    "examples/getting-started.mjs": "e7154ecdb44a04c630c3b4948b05e430937de673470feb0390d821627e65d10b",
+    "examples/minimum-player.html": "892a466546cd640ce0f041a93214302278dae4f6e5d3334c368fb9df4850183b",
+    "examples/minimum-manual.html": "c628b18268700af6b6e5e563178aa5837318043c24adb3f76c11ce5431a6a6b3",
+    "docs/array.md": "87167eda1440027667847402170d014367c40afa03b8c8d702a7be038c316ed3",
+    "docs/ru/array.md": "b4aa2a407b0538a6bc5bcbff78c175aa0b11c038ab27e48a4273d98bffd851ca",
+    "docs/array-result.md": "487063ef0df7b3e2beae85edbe5fa34168d9207300dfc8329030787a79851fd0",
+    "docs/ru/array-result.md": "b1a5f231596f7d5ac91a15c71f5a665b79ee8ed2644c4d6af42da311189ecee8",
+    "docs/getting-started.md": "5329db7ee4692288dbbba23f50eca79c23fdbfccb50f2b9baf444c9d3e42a7b8",
+    "docs/ru/getting-started.md": "6c7591be557cc34046093748ff7b54add26032c2d5a4da3d96ba78e5be80dd1c",
+    "docs/learning-path.md": "99eb9d65022c4a8e562ee542a71c04bf3ec0fb502bb7cf5f97ff114a709a3496",
+    "docs/ru/learning-path.md": "f55c1446d15ba4ede48baabfb12ad1d350551640dde98ae981db4ca75a1c7b5f",
+    "docs/quickstart-comparison.md": "bb8e2913767eee7206b5647a56b550969168f5a87e3ba3f8af3ad86a3d322d02",
+    "docs/ru/quickstart-comparison.md": "a1cb5b1c0d4304e1c4e4d76bb94860186800ad8d9a3b8516d87d86cee78d1cf7",
+    "docs/current-api.md": "115c3bc4324db160a20c6c2c32735ea2ef870d1e53d685e2403785027dbb9e20",
+    "docs/ru/current-api.md": "c5b198de91e4ffa73d88c703ff2604a17d5fbb87b1db614f35392096c5a5065b"
+  }
+}

@@ -19,6 +19,8 @@ export interface ArraySnapshot {
     readonly sortedPrefixLength: number;
     /** Final sorted trailing slots. Omitted by older traces and insertion sort. */
     readonly sortedSuffixLength?: number;
+    /** Explicit result annotation; omitted on legacy and unmarked snapshots. */
+    readonly resultItemIds?: readonly string[] | undefined;
     readonly comparisons: number;
     /** Writes into array slots; selecting a key does not count as a write. */
     readonly writes: number;

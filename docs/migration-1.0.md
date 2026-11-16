@@ -2,10 +2,104 @@
 
 [Русский](ru/migration-1.0.md) · [Compatibility policy](api-compatibility.md) · [Candidate status](candidate-1.0.md)
 
-**1.0.0 is a locally prepared, unpublished candidate.** These notes describe its
-changes from published 0.16.0. Exact-candidate CI and native checks remain before
-release. No new public method, option, status field, type or export is required.
-The eight ESM import paths and the lack of runtime dependencies are retained.
+**1.0.0 is an unpublished candidate, updated with explicit steps and array results.**
+These notes describe changes from published 0.16.0 and the earlier candidate
+5e2fd18. That candidate's CI does not cover the new code. Existing applications
+need not opt in to the new capabilities, but exhaustive PlayerOptions narrowing
+must account for its new branch. The eight ESM paths, runtime export names and
+lack of runtime dependencies are retained. Native verification remains before release.
+
+## Player: explicit steps without a frame bridge
+
+Use the new exclusive `stepSource` branch when the generator yields
+`Step<State, Event>`, such as ArrayTrace steps. Ordinary `source` still treats
+each yielded value as a State, even if it has index/state/event properties.
+Switching only the option name while retaining the old nested-state bridge is
+incorrect. The new branch passes State endpoints and Event directly:
+
+```js
+const ui = new Player(container, {
+  viewport: canvas,
+  stepSource: () => minimum([7, 3, 5, 2, 6]),
+  isTerminal: step => step.event.type === 'done',
+  render: frame => renderer.render(ctx, frame),
+});
+```
+
+Here `frame.current`/`previous` are array snapshots, not ArrayStep wrappers.
+`Player<State, Event = undefined>` and `PlayerOptions<State, Event = undefined>`
+infer both generics; the frame getter is `Frame<State, Event> | null`. Legacy
+one-generic usages keep undefined events. An explicitly selected Event excluding
+undefined (including never) cannot be used with state-only branches.
+
+`isTerminal` is required only for stepSource and must return a primitive boolean
+synchronously. It is called once per admitted position, not on buffered replay.
+There is no automatic done detection, async-step mode or collecting an iterable
+into history. Async/Worker sources keep their existing state-only asyncSource path.
+
+The accepted terminal step finishes its transition and closes the owned iterator
+once before the final hold, without an EOF probe or extra click. Put final side
+effects before yielding it; code after a terminal yield is not guaranteed to run.
+Empty input/EOF without a terminal step is an operational RangeError, reported
+through status.error/hasError and onError under the existing synchronous-widget
+rules. Commands return status; this does not introduce a new throw from Next
+for source errors. Pause, bounded Previous, prepare-before-replace Restart and
+idempotent dispose retain their contracts. A terminal bit is cached in the window.
+
+Admission captures a frozen index/state/event envelope. Producer wrapper identity
+and extra wrapper fields are not retained; State/Event references are preserved.
+Index must be a primitive finite number (wrong type TypeError, nonfinite
+RangeError). Its value may be repeated/fractional; rewind bounds remain ordinal
+positions. See the [complete contract](player-step-source.md).
+
+### Update source-selection narrowing
+
+PlayerOptions now selects exactly one of **four** factories. Code that used
+source/asyncSource/else-history must add stepSource; do not assume the final
+branch is always history. For example:
+
+```ts
+function sourceKind<State, Event>(options: PlayerOptions<State, Event>) {
+  if (options.stepSource !== undefined) return 'steps';
+  if (options.source !== undefined) return 'states';
+  if (options.asyncSource !== undefined) return 'async';
+  return 'history';
+}
+```
+
+This closed-union widening is classified as breaking under U3 despite being
+opt-in and despite the defaulted Event generic. Existing source/history/
+asyncSource selection and their runtime frame shapes are unchanged.
+
+## Array: mark a result on done
+
+The new optional API replaces the quickstart's custom final snapshot, second
+renderer and presentation-only highlight conversion:
+
+```js
+result.textContent = 'Minimum: ' + array.at(min).value;
+yield array.done({ result: [min] });
+```
+
+Result entries are positions at completion time, resolved to copied, frozen,
+unique IDs in optional `ArraySnapshot.resultItemIds`. The event remains done;
+no sorting or counter changes are inferred. The type-only export
+`ArrayDoneOptions extends SortedRegions` preserves combined sorted/result options.
+Multiple results use several positions; [] explicitly selects none, including
+empty input. Omission/undefined keeps the legacy snapshot shape. Invalid
+collections, sparse arrays or malformed reported lengths give TypeError;
+invalid positions give RangeError, before trace-owned state is committed.
+
+One stock renderer reads the annotation. Optional `colors.result` defaults to
+green; priority is held > active > result > sorted > ordinary bar. It does not
+depend on the last rendered frame. Rewind to an unmarked snapshot removes the
+color; Restart starts without result metadata. Existing done(), sorted markers,
+six-role palettes and old handwritten snapshots keep their meaning and types.
+Guard the optional field with `?? []` when consuming both old and new snapshots.
+
+The [main quickstart](getting-started.md) deliberately assumes a fixed nonempty
+input and uses 31 JS lines. That simplification does not remove library support
+for empty arrays. See [result contract](array-result.md) for validation and colors.
 
 ## U1: issue headless commands after callbacks return
 
@@ -74,7 +168,7 @@ coalescing reads of `createAsyncSource`. See the [complete U1 contract](headless
 ## U2: handle invalid widget speed as RangeError
 
 `Player.setSpeed(value: number)` now has the same error contract for `source`,
-`history` and `asyncSource`, including Worker-backed sources. Sync/history already
+`history`, `asyncSource` and the new `stepSource`, including Worker-backed sources. Sync/history already
 used `RangeError`; async/Worker used `TypeError` in 0.16.0. Update error-specific
 handlers on those paths:
 

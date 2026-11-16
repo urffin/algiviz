@@ -99,6 +99,8 @@ try {
     await copyFile(join(root, "test/async-source.test.mjs"), join(workspace, "async-source.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "async-source.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-test-dom.mjs"), join(workspace, "player-test-dom.mjs"));
+    await copyFile(join(root, "test/array-result.test.mjs"), join(workspace, "array-result.test.mjs"));
+    execFileSync(process.execPath, ["--test", join(workspace, "array-result.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-async.test.mjs"), join(workspace, "player-async.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-async.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/worker-test-transport.mjs"), join(workspace, "worker-test-transport.mjs"));
@@ -110,6 +112,8 @@ try {
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "worker-post-errors.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-worker.test.mjs"), join(workspace, "player-worker.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-worker.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    await copyFile(join(root, "test/player-steps.test.mjs"), join(workspace, "player-steps.test.mjs"));
+    execFileSync(process.execPath, ["--test", join(workspace, "player-steps.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-speed.test.mjs"), join(workspace, "player-speed.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-speed.test.mjs")], { cwd: workspace, stdio: "inherit" });
     console.log(`Packed consumer passed: ${pkg.name}@${pkg.version}`);

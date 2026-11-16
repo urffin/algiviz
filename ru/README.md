@@ -25,9 +25,9 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Статус репозитория, 2026-11-16: **1.0.0 — локальный, неопубликованный кандидат**;
-свидетельство опубликованной базы остаётся 0.16.0. Кандидат включает F1/F2 и U1/U2,
-U5-регрессии и общую политику совместимости восьми entry.
+Статус репозитория, 2026-11-16: **1.0.0 — обновлённый, неопубликованный кандидат**;
+опубликованная база остаётся 0.16.0. Он включает stepSource/isTerminal, результаты
+массива, F1/F2, U1/U2, U5-регрессии и общую политику совместимости восьми entry.
 [Кандидат и оставшиеся условия](https://github.com/urffin/algiviz/blob/master/docs/ru/candidate-1.0.md) ·
 [Миграция с 0.16.0](https://github.com/urffin/algiviz/blob/master/docs/ru/migration-1.0.md).
 До релиза остаются CI точного кандидата и его native-проверки.
@@ -45,53 +45,21 @@ npm install @grundyjs/algiviz
 Алгоритмы находятся в коде приложения и примерах. В версии 0.x минорные релизы могут нарушать обратную совместимость;
 при обновлении сверяйтесь с [CHANGELOG.md](../CHANGELOG.md).
 
-## Начните с одного круга
+## Quickstart: поиск минимума на Canvas
 
-Генератор задаёт четыре позиции, а `Player` создаёт панель управления и передаёт
-состояния вашей функции отрисовки. Добавьте HTML ниже, а JavaScript подключите как
-модуль через сборщик, разрешающий импорты установленного npm-пакета.
+Главный quickstart использует ещё не опубликованные `stepSource`/`isTerminal` и `done({ result })`.
+Команды установки собирают эту рабочую копию; опубликованная 0.16.0 и прежний
+кандидат 5e2fd18 такого API не содержат.
 
-```html
-<div id="player">
-  <canvas width="600" height="160"></canvas>
-</div>
-```
+[Скопируйте один полный HTML и точные команды запуска](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md).
+Однопроходный поиск минимума сравнивает [7,3,5,2,6]. Операции массива создают снимки,
+штатный рендерер рисует Canvas, Player даёт Start/Next/Restart. Ответ остаётся
+видимым: “Minimum: 2”, столбец минимума — зелёным. Пример для фиксированного
+непустого массива занимает 31 строку JS; сам алгоритм принадлежит приложению.
 
-```js
-import { Player } from '@grundyjs/algiviz/player';
-
-const container = document.querySelector('#player');
-const canvas = container.querySelector('canvas');
-const ctx = canvas.getContext('2d');
-
-const player = new Player(container, {
-  viewport: canvas,
-  source: function* () {
-    for (const x of [40, 200, 360, 560]) yield { x };
-  },
-  render({ current }) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.beginPath();
-    ctx.arc(current.x, 80, 18, 0, Math.PI * 2);
-    ctx.fillStyle = '#b39bff';
-    ctx.fill();
-  },
-});
-```
-
-Нажмите **Start**, чтобы показать первый кадр, и **Next state**, чтобы переместить
-круг. Источник читается по запросу; ещё один клик после последней позиции обнаружит
-завершение. Каждый снимок создаётся заново и больше не изменяется.
-
-Здесь ручные шаги без плавного перехода. Добавьте `stepDurationMs: 1000`, чтобы
-включить Play/Pause и выбор скорости. При удалении визуализации вызовите
-`player.dispose()`; последний рисунок сохранится.
-
-[Запустите этот пример локально](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html)
-или продолжите с [пошаговым руководством](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md):
-готовая панель, ручное управление и собственные типы объектов через `/scene`.
-В [справочнике плеера](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md)
-описаны история, перемотка, подписи и загрузка по запросу.
+[Сравнение Player и одной кнопки](https://github.com/urffin/algiviz/blob/master/docs/ru/quickstart-comparison.md)
+и [пошаговая инструкция](https://github.com/urffin/algiviz/blob/master/docs/ru/learning-path.md):
+обычные состояния/pre → createArrayPlayer → готовый Player → сцены/интерполяция.
 
 ## Модули и документация
 
@@ -137,7 +105,7 @@ Async-итерация не переносит CPU-вычисления в др�
 
 | Пример | Что демонстрирует |
 | --- | --- |
-| [Первый Player](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html) | Круг из README со стандартной панелью и ленивыми ручными шагами |
+| [Первый Player](https://github.com/urffin/algiviz/blob/master/examples/getting-started.html) | Однопроходный поиск минимума, штатный Canvas, панель Player и явный итог |
 | [Как рождается кадр](https://github.com/urffin/algiviz/blob/master/examples/visualization-pipeline.html) | Путь от генератора через плеер и сцену к отрисовке, показанный средствами AlgiViz |
 | [Лаборатория сортировок](https://github.com/urffin/algiviz/blob/master/examples/index.html) | Сортировки вставками и пузырьком с операциями массива и готовым рендерером |
 | [Сортировка слиянием](https://github.com/urffin/algiviz/blob/master/examples/merge.html) | Собственное состояние и сцена из двух строк для основного массива и буфера |

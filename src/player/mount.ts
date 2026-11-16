@@ -44,11 +44,11 @@ const styles = `.algiviz-player{position:relative;overflow:hidden;border:1px sol
 .algiviz-player [data-action=seek]:disabled{opacity:.3;cursor:not-allowed}.algiviz-player [data-role=error]{color:var(--player-error,#ffb4b4);flex-basis:100%;margin:0;font-size:13px}`;
 
 /** Mount a lazy playback widget; temporarily host and restore the caller's viewport. */
-export function mountControls<State>(container: HTMLElement, options: PlayerOptions<State>): PlayerControls<State> {
+export function mountControls<State, Event = undefined>(container: HTMLElement, options: PlayerOptions<State, Event>): PlayerControls<State, Event> {
     const doc = container?.ownerDocument, view = doc?.defaultView;
     if (!doc || !view || typeof container.append !== 'function') throw new TypeError('Expected a DOM container');
     if (!options || typeof options !== 'object') throw new TypeError('Expected player options');
-    const { source, asyncSource, history, render, viewport, seekBar = true, autoHide = true, stepDurationMs, finalHoldMs, rewindCapacity, maxStepsPerFrame, onError, onStatus, labels: overrides } = options;
+    const { source, asyncSource, history, stepSource, isTerminal, render, viewport, seekBar = true, autoHide = true, stepDurationMs, finalHoldMs, rewindCapacity, maxStepsPerFrame, onError, onStatus, labels: overrides } = options;
     if (viewport !== undefined && (!viewport || viewport.ownerDocument !== doc || viewport.parentNode !== container))
         throw new TypeError('Viewport must be a direct child of the player container');
     if ((onStatus !== undefined && typeof onStatus !== 'function') || (onError !== undefined && typeof onError !== 'function'))
@@ -120,7 +120,7 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
         const listener = callback as EventListener;
         target.addEventListener(event, listener); removers.push(() => target.removeEventListener(event, listener));
     }
-    let controller: StateController<State>;
+    let controller: StateController<State, Event>;
     let customSpeed: HTMLOptionElement | undefined;
     let disposed = false, disposing = false, hideTimer: number | null = null;
     let lastPending = '';
@@ -192,9 +192,9 @@ export function mountControls<State>(container: HTMLElement, options: PlayerOpti
         lastPending = pending;
         lastPhase = state.phase; lastError = state.hasError;
     }
-    controller = createStateController({ source, asyncSource, history, render, stepDurationMs, finalHoldMs, rewindCapacity, maxStepsPerFrame, onError, onStatus, onChange: update, deferClose: true,
+    controller = createStateController({ source, asyncSource, history, stepSource, isTerminal, render, stepDurationMs, finalHoldMs, rewindCapacity, maxStepsPerFrame, onError, onStatus, onChange: update, deferClose: true,
         scheduler: { request: fn => view.requestAnimationFrame(fn), cancel: id => view.cancelAnimationFrame(id) } });
-    const handle: PlayerControls<State> = Object.freeze({
+    const handle: PlayerControls<State, Event> = Object.freeze({
         get status() { return controller.status; },
         get frame() { return controller.frame; },
         get closed() { return controller.closed; },

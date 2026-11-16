@@ -21,6 +21,8 @@ export interface ArrayPalette {
     readonly text: string;
     readonly bar: string;
     readonly sorted: string;
+    /** Optional for compatibility with existing six-role palettes. */
+    readonly result?: string | undefined;
     readonly active: string;
     readonly held: string;
 }
@@ -37,6 +39,7 @@ const palettes = {
         text: "#f1f5f9",
         bar: "#94a3b8",
         sorted: "#34d399",
+        result: "#34d399",
         active: "#fbbf24",
         held: "#c4b5fd"
     },
@@ -45,6 +48,7 @@ const palettes = {
         text: "#0f172a",
         bar: "#475569",
         sorted: "#047857",
+        result: "#047857",
         active: "#b45309",
         held: "#7c3aed"
     }
@@ -98,6 +102,8 @@ export function createArrayRenderer(options: ArrayRendererOptions) {
             const progress = frame.progress;
             const p = progress * progress * (3 - 2 * progress);
             const event = frame.event;
+            const resultIds = frame.current.resultItemIds === undefined ? undefined
+                : new Set(frame.current.resultItemIds);
             ctx.save();
             try {
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -133,10 +139,12 @@ export function createArrayRenderer(options: ArrayRendererOptions) {
                         ? colors.held
                         : active
                           ? colors.active
-                          : next.index < frame.current.sortedPrefixLength ||
-                              next.index >= count - (frame.current.sortedSuffixLength ?? 0)
-                            ? colors.sorted
-                            : colors.bar;
+                          : resultIds?.has(id)
+                            ? colors.result
+                            : next.index < frame.current.sortedPrefixLength ||
+                                next.index >= count - (frame.current.sortedSuffixLength ?? 0)
+                              ? colors.sorted
+                              : colors.bar;
                     ctx.fillRect(x - barWidth / 2, baseline - size, barWidth, size);
                     if (cell < 24) return;
                     ctx.fillStyle = colors.text;
