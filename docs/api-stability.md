@@ -1,10 +1,13 @@
 # API stabilization before 1.0
 
 **Core review, 2026-11-16:** [all four future model sketches fit](core-readiness-1.0.md)
-without core changes. The [1.0.0 candidate](candidate-1.0.md) a9b93f8 is in origin
-with all 11 CI jobs successful; 26 native stepSource/result/control checks pass.
-Final documentation/SHA and the remaining native G3 scope precede a separately
-authorized publication. Earlier review/status sections retain their stage scope.
+without core changes. The [1.0.0 documentation candidate](candidate-1.0.md)
+76f76ed is in origin with all 11 CI jobs successful. Its remaining native G3
+scope passes [133 checks](checks/candidate-1.0.0-g3-76f76ed-2026-11-16.json), alongside
+the retained 26-check stepSource/result/control scope on the identical payload.
+The evidence/status docs follow their own commit and exact-SHA CI; publication
+is separately authorized.
+Earlier review/status sections retain their stage scope.
 
 **Post-F2 readiness recheck, 2026-11-14:** all eight entries are ready locally,
 with no known technical blocker or unresolved API clarification in the reviewed
@@ -363,18 +366,17 @@ The [current core review](core-readiness-1.0.md) leaves no known API/implementat
 blocker after all four model sketches. The [support scope](support-matrix.md#current-support-boundary)
 is retained; broadening it and implementing new structures remain optional work.
 
-1. **G1/G2 on a9b93f8 are complete.** Version/lock, notes and code are committed;
-   origin matches and all 11 exact-SHA jobs pass. Review and separately commit/
-   push the accumulated documentation if included in the release. This review
-   does not create that commit or change version/API/implementation.
+1. **G1/G2 on 76f76ed are complete.** Origin matches and all 11 exact-SHA jobs
+   pass. Review and separately commit/push the new native evidence/status docs
+   if included in the release. This native task creates no commit or version change.
 2. **Verify the final release SHA.** If documentation changes the SHA, require
    all 11 jobs on the final commit. Reuse unchanged local/payload checks with
    explicit hashes, without claiming another SHA's CI as its own.
-3. **Finish native G3.** Retain the passed 26-case stepSource/result/control
-   report. Complete generic scene lifecycle, Canvas/viewport sizing/DPR/disposal
-   and affected async/Worker data/transfer/F1/F2/waiting/control/cleanup on the
-   final candidate/artifact in the existing Windows browser boundary. Preserve
-   actual run/SHA/build/host provenance; recheck affected results after changes.
+3. **Retain the completed native G3 evidence.** The remaining 133 cases passed
+   on 76f76ed in the existing Windows browser boundary, including actual DPR
+   change and zero remaining Workers/RAF. Keep the earlier 26-case run's real
+   SHA and payload equivalence. Recheck affected observations after code/artifact
+   changes; documentation-only commits may reuse the unchanged native payload.
 4. **Publish only under a separate instruction after G1–G3.** Match tag/version
    and the checked SHA; use GitHub Release → npm and verify workflow success,
    exact version/latest, fresh registry consumers and signature/provenance.
@@ -382,8 +384,9 @@ is retained; broadening it and implementing new structures remain optional work.
    work remains separately authorized.
 
 F1/F2 and U1–U5 are resolved in the unpublished candidate. Publication remains
-deferred; the [current gate table](core-readiness-1.0.md#remaining-release-steps)
-records completed G1/G2 and the final-documentation/G3 remainder. The historical four-module audits identified
+deferred; the [current gate list](candidate-1.0.md#remaining-release-gates)
+records completed G1/G2/G3 for 76f76ed and the pending evidence documentation.
+The historical four-module audits identified
 no remaining required code change within their historical scope. A
 separate [optional-player proposal](optional-player-proposal.md) evaluates useful
 0.x development and optimization work; it is not a new prerequisite for 1.0 or

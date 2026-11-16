@@ -9,18 +9,21 @@ mark local changes explicitly. They do not make those changes available in npm.
 **Core recheck, 2026-11-16:** the [consolidated review](core-readiness-1.0.md)
 finds no core API blocker after graph/tree/grid/list checks: 125 successful
 application assertions and 16 type configurations, without new implementations.
-F1/F2 and U1–U5 remain resolved. G1/G2 are complete for a9b93f8; native G3 is
-partly complete. The final documentation/SHA, G3 remainder and separately
-authorized publication remain. [Machine record](checks/api-readiness-1.0-core-extensibility-2026-11-16.json).
+F1/F2 and U1–U5 remain resolved. The historical [machine review](checks/api-readiness-1.0-core-extensibility-2026-11-16.json)
+retains its pre-freeze scope. G1/G2 now pass on 76f76ed and its remaining native
+G3 scope passes [133/133 checks](checks/candidate-1.0.0-g3-76f76ed-2026-11-16.json).
+The evidence/status docs follow their own [commit and exact-SHA CI](candidate-1.0.md);
+publication is separately authorized.
 
 **Candidate update, 2026-11-16:** package/lock metadata is now **1.0.0**, locally
 prepared and unpublished. [Candidate status](candidate-1.0.md) records preparation
 checks and remaining exact-SHA CI/native gates; [migration](migration-1.0.md)
 explains U1/U2, explicit-step source narrowing and optional array-result changes.
-The refreshed candidate replaces 5e2fd18. Its commit/origin SHA is a9b93f8;
-all [11 exact-SHA CI jobs](https://github.com/urffin/algiviz/actions/runs/43860619331)
-passed. The same artifact passed 26 native stepSource/result/control checks;
-Worker/viewport and other G3 remainder are not certified by that subset.
+The refreshed candidate replaces 5e2fd18. Its documentation commit/origin SHA is
+76f76ed; all [11 exact-SHA CI jobs](https://github.com/urffin/algiviz/actions/runs/43945251321)
+passed. The unchanged 75-file payload retains the earlier 26 native stepSource/
+result/control checks and now passes 133 remaining scene/viewport/async/Worker
+G3 checks, including actual DPR change and final cleanup.
 The [new preparation report](checks/candidate-1.0.0-explicit-steps-2026-11-16.json)
 records the checks; earlier CI/native results retain their original scope.
 The 2026-11-14 audit/F2 evidence below retains its
@@ -106,8 +109,9 @@ use matched package versions; their wire format is private.
 Current contract/status links take precedence over stage-specific planning
 language when assessing the working tree. Historical numbers and raw results
 are retained rather than rewritten. U5 is selected and permanently covered
-locally. F2 is corrected and permanently covered. The [current gate table](core-readiness-1.0.md#remaining-release-steps)
-records completed G1/G2 on a9b93f8 and the final-documentation/G3 remainder.
+locally. F2 is corrected and permanently covered. The [current gate list](candidate-1.0.md#remaining-release-gates)
+records G1/G2 and selected G3 complete on 76f76ed, pending evidence documentation
+and separately authorized publication.
 This review starts no release.
 
 stepSource implementation checks: [local report](checks/player-step-source-implementation-2026-11-16.json). Earlier reports above retain their stage-specific scope.

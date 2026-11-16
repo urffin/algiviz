@@ -2,6 +2,12 @@
 
 [Русский](ru/core-readiness-1.0.md) · [Candidate](candidate-1.0.md) · [Current API](current-api.md) · [Compatibility](api-compatibility.md)
 
+**Later native acceptance, 2026-11-16:** documentation commit 76f76ed passed all
+11 CI jobs and the [remaining G3 scope passed 133 native checks](checks/candidate-1.0.0-g3-76f76ed-2026-11-16.json),
+including actual DPR 1 → approximately 1.1 and zero remaining Workers/RAF. The
+[candidate page](candidate-1.0.md) holds the current gate status; the assessment
+and pre-commit gate table below retain their historical scope. No publication.
+
 **Later documentation freeze:** [candidate follow-up](candidate-1.0.md) prepares
 these documents/reports for an authorized commit/push and exact-SHA CI. The
 assessment and gate table below retain their pre-commit review-time scope.

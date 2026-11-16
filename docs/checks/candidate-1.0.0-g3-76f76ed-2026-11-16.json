@@ -1,0 +1,1356 @@
+{
+  "date": "2026-11-16T20:25:56.085Z",
+  "candidateVersion": "1.0.0",
+  "candidateCommit": "76f76eda83d796b04fd3c8ec84c1c1caee0fd03c",
+  "status": "remaining-G3-native-scope-passed",
+  "summary": {
+    "automaticPassed": 127,
+    "zoomAndFinalCleanupPassed": 6,
+    "totalPassed": 133,
+    "failed": 0,
+    "unexpectedErrors": 0,
+    "remainingWorkers": 0,
+    "remainingRAF": 0
+  },
+  "scope": [
+    "generic scene identity/layers/projection/enter-update-exit/retargeting/backwards and skipped-exit retained SVG",
+    "native Canvas paint/pixel/context restoration and invalid-progress side effects",
+    "native viewport fractional content-box/border-box geometry, hidden/show resize, pixels, feedback and disposal",
+    "real browser DPR change, observed bitmap/base-transform invalidation without advancing playback",
+    "asyncSource Player waiting, Pause/staged Next, rewind, Restart/rollback/cleanup barriers, no polling and dispose",
+    "dedicated module Worker copy/transfer/structured clone, remote/serialization/startup failures, cancellation and cooperative/forced cleanup",
+    "Worker-backed Player waiting, timed playback, Restart/rollback/cleanup barriers, EOF/Replay and disposal of current/candidate",
+    "F1/F2 input/state shared buffer/view/DataView/nested graph/WebAssembly.Memory rejection with constructors visible/hidden/no WebAssembly"
+  ],
+  "method": "Native browser JavaScript fixtures executed in the user-opened built-in browser. Real DOM controls/button.click, Canvas getImageData, SVG DOM, ResizeObserver, matchMedia, RAF and dedicated module Workers. User changed actual browser zoom and clicked final verification. Transparent native Worker/RAF counters delegate to the original APIs. No Node DOM/Canvas/Worker substitutes or external browser debugging.",
+  "browser": {
+    "surface": "Built-in browser, opened/refreshed by user and confirmed in chat",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "platform": "Win32",
+    "devicePixelRatio": 1.100000023841858,
+    "visibility": "visible",
+    "crossOriginIsolated": true,
+    "sharedArrayBuffer": "function",
+    "canvas": "CanvasRenderingContext2D",
+    "resizeObserver": "function",
+    "realRaf": true,
+    "baselineDpr": 1,
+    "observedDprValues": [
+      1,
+      1.100000023841858
+    ],
+    "zoomApproximatePercent": 110,
+    "tabId": null
+  },
+  "suites": [
+    {
+      "name": "Scenes and Canvas smoke",
+      "passed": true,
+      "count": 6,
+      "checks": [
+        {
+          "name": "Plain states: mixed controls, exhaustion and early disposal",
+          "passed": true
+        },
+        {
+          "name": "Explicit steps: indices, terminal playback and timeline",
+          "passed": true
+        },
+        {
+          "name": "Custom objects: projection, enter/exit and retained SVG cleanup",
+          "passed": true
+        },
+        {
+          "name": "Array adapter, palette and array playback",
+          "passed": true
+        },
+        {
+          "name": "Canvas: inherited paint settings, restoration and invalid progress",
+          "passed": true
+        },
+        {
+          "name": "Dense arrays and zero-sized bitmap",
+          "passed": true
+        }
+      ],
+      "resources": {
+        "remainingWorkers": null,
+        "nativeTrackedWorkers": null,
+        "remainingRAF": null
+      },
+      "controlledSourceErrors": [],
+      "maximumOwnedWorkers": null
+    },
+    {
+      "name": "Scene references, retained SVG and skipped exits",
+      "passed": true,
+      "count": 13,
+      "checks": [
+        {
+          "name": "scene retarget retains both endpoint references",
+          "passed": true
+        },
+        {
+          "name": "scene get resolves removed old target and entering new target",
+          "passed": true
+        },
+        {
+          "name": "scene get retains zero-presence endpoint at progress 0",
+          "passed": true
+        },
+        {
+          "name": "scene get retains zero-presence endpoint at progress 1",
+          "passed": true
+        },
+        {
+          "name": "scene pure projector caches endpoints with event/progress independent",
+          "passed": true
+        },
+        {
+          "name": "retained native SVG preserves node identity",
+          "passed": true
+        },
+        {
+          "name": "native SVG layering draws link below nodes",
+          "passed": true
+        },
+        {
+          "name": "native SVG retarget geometry uses both old/new references",
+          "passed": true
+        },
+        {
+          "name": "retained SVG reconciles skipped exit",
+          "passed": true
+        },
+        {
+          "name": "retained SVG supports backwards seek without stale nodes",
+          "passed": true
+        },
+        {
+          "name": "scene validates full pair before native handler side effects",
+          "passed": true
+        },
+        {
+          "name": "scene source terminal and dispose close once",
+          "passed": true
+        },
+        {
+          "name": "scene timeline final identity is independent of source index",
+          "passed": true
+        }
+      ],
+      "resources": {
+        "remainingWorkers": null,
+        "nativeTrackedWorkers": null,
+        "remainingRAF": null
+      },
+      "controlledSourceErrors": [],
+      "maximumOwnedWorkers": null
+    },
+    {
+      "name": "Canvas viewport native geometry and disposal",
+      "passed": true,
+      "count": 12,
+      "checks": [
+        {
+          "name": "PASS · content-box: fractional geometry and native transform",
+          "passed": true
+        },
+        {
+          "name": "PASS · content-box: unchanged resize preserves pixels",
+          "passed": true
+        },
+        {
+          "name": "PASS · content-box: display:none preserves bitmap, transform and source",
+          "passed": true
+        },
+        {
+          "name": "PASS · content-box: showing canvas redraws automatically without a step",
+          "passed": true
+        },
+        {
+          "name": "PASS · content-box: height feedback settles",
+          "passed": true
+        },
+        {
+          "name": "PASS · content-box: dispose preserves pixels and stops resize delivery",
+          "passed": true
+        },
+        {
+          "name": "PASS · border-box: fractional geometry and native transform",
+          "passed": true
+        },
+        {
+          "name": "PASS · border-box: unchanged resize preserves pixels",
+          "passed": true
+        },
+        {
+          "name": "PASS · border-box: display:none preserves bitmap, transform and source",
+          "passed": true
+        },
+        {
+          "name": "PASS · border-box: showing canvas redraws automatically without a step",
+          "passed": true
+        },
+        {
+          "name": "PASS · border-box: height feedback settles",
+          "passed": true
+        },
+        {
+          "name": "PASS · border-box: dispose preserves pixels and stops resize delivery",
+          "passed": true
+        }
+      ],
+      "resources": {
+        "remainingWorkers": null,
+        "nativeTrackedWorkers": null,
+        "remainingRAF": 0
+      },
+      "controlledSourceErrors": [],
+      "maximumOwnedWorkers": null
+    },
+    {
+      "name": "Async Player waiting, Pause, Next, Restart and cleanup",
+      "passed": true,
+      "count": 19,
+      "checks": [
+        {
+          "name": "idle does not acquire a source",
+          "passed": true
+        },
+        {
+          "name": "Start: disabled, preparing, busy stage",
+          "passed": true
+        },
+        {
+          "name": "first frame paused",
+          "passed": true
+        },
+        {
+          "name": "manual Next coalesces and exposes Pause",
+          "passed": true
+        },
+        {
+          "name": "Pause stages arrival without a render or abort",
+          "passed": true
+        },
+        {
+          "name": "Next consumes staged state",
+          "passed": true
+        },
+        {
+          "name": "Restart waits for old cleanup",
+          "passed": true
+        },
+        {
+          "name": "Restart installs candidate paused after cleanup",
+          "passed": true
+        },
+        {
+          "name": "failed candidate preserves old session",
+          "passed": true
+        },
+        {
+          "name": "dispose restores viewport before source closure",
+          "passed": true
+        },
+        {
+          "name": "closed observes late error without UI callbacks",
+          "passed": true
+        },
+        {
+          "name": "no unexpected browser errors",
+          "passed": true
+        },
+        {
+          "name": "G3 timed async waiting has one request and no RAF polling",
+          "passed": true
+        },
+        {
+          "name": "G3 timed async Pause stages late data without render or abort",
+          "passed": true
+        },
+        {
+          "name": "G3 timed async Next consumes ready value without another request",
+          "passed": true
+        },
+        {
+          "name": "G3 async Previous restores retained state",
+          "passed": true
+        },
+        {
+          "name": "G3 async buffered Next does not refetch",
+          "passed": true
+        },
+        {
+          "name": "G3 async speed validation has no coercion or source effects",
+          "passed": true
+        },
+        {
+          "name": "G3 timed async dispose closes once and stops callbacks/RAF",
+          "passed": true
+        }
+      ],
+      "resources": {
+        "remainingWorkers": null,
+        "nativeTrackedWorkers": null,
+        "remainingRAF": 0
+      },
+      "controlledSourceErrors": [
+        "Error: candidate rejected"
+      ],
+      "maximumOwnedWorkers": null
+    },
+    {
+      "name": "Worker transport copy, transfer, cancellation and termination",
+      "passed": true,
+      "count": 20,
+      "checks": [
+        {
+          "name": "construction/disposal without a read creates no Worker",
+          "passed": true
+        },
+        {
+          "name": "same public promise, one pull, no prefetch and EOF release before done",
+          "passed": true
+        },
+        {
+          "name": "empty EOF releases Worker and preserves headless RangeError",
+          "passed": true
+        },
+        {
+          "name": "initialization is copied and host input remains attached",
+          "passed": true
+        },
+        {
+          "name": "default copy retains sender storage and prior host states",
+          "passed": true
+        },
+        {
+          "name": "ArrayBuffer transfer detaches sender and preserves host snapshots after cleanup",
+          "passed": true
+        },
+        {
+          "name": "cyclic/Map/Error-cause snapshots survive native structured clone",
+          "passed": true
+        },
+        {
+          "name": "remote thrown undefined has a bounded typed descriptor",
+          "passed": true
+        },
+        {
+          "name": "function payload is a serialization failure without retry",
+          "passed": true
+        },
+        {
+          "name": "bad-transfer payload is a serialization failure without retry",
+          "passed": true
+        },
+        {
+          "name": "shared payload is a serialization failure without retry",
+          "passed": true
+        },
+        {
+          "name": "cooperative cancellation is prompt and awaits serialized return",
+          "passed": true
+        },
+        {
+          "name": "abort/return errors reach outer cleanup diagnostics once",
+          "passed": true
+        },
+        {
+          "name": "late cancelled-read error stays diagnostic without failing cleanup",
+          "passed": true
+        },
+        {
+          "name": "never-settling next is forcibly terminated after grace",
+          "passed": true
+        },
+        {
+          "name": "CPU-bound Worker cannot block host cancellation/termination",
+          "passed": true
+        },
+        {
+          "name": "never-settling return cannot hold closed indefinitely",
+          "passed": true
+        },
+        {
+          "name": "native module-load error rejects and releases owned Worker",
+          "passed": true
+        },
+        {
+          "name": "silent Worker exit remains pending until owner cancellation",
+          "passed": true
+        },
+        {
+          "name": "zero grace cancels startup without late source activity",
+          "passed": true
+        }
+      ],
+      "resources": {
+        "remainingWorkers": 0,
+        "nativeTrackedWorkers": 0,
+        "remainingRAF": 0
+      },
+      "controlledSourceErrors": [],
+      "maximumOwnedWorkers": null
+    },
+    {
+      "name": "Player Worker waiting, Restart barriers and cleanup",
+      "passed": true,
+      "count": 23,
+      "checks": [
+        {
+          "name": "idle mount does not create a Worker",
+          "passed": true
+        },
+        {
+          "name": "Start exposes waiting/preparing and disables controls",
+          "passed": true
+        },
+        {
+          "name": "first transferred frame is paused at index zero",
+          "passed": true
+        },
+        {
+          "name": "manual Next coalesces and exposes Pause",
+          "passed": true
+        },
+        {
+          "name": "Pause stages a late Worker value without rendering/abort",
+          "passed": true
+        },
+        {
+          "name": "Next consumes staged state without another pull",
+          "passed": true
+        },
+        {
+          "name": "Play waiting schedules no RAF polling",
+          "passed": true
+        },
+        {
+          "name": "waiting time is discarded and transition starts at zero",
+          "passed": true
+        },
+        {
+          "name": "Next finishes an interpolation without requesting data",
+          "passed": true
+        },
+        {
+          "name": "Restart prepares one Worker and preserves old frame/ownership",
+          "passed": true
+        },
+        {
+          "name": "candidate waits for old cleanup with no additional pull",
+          "passed": true
+        },
+        {
+          "name": "Restart installs candidate paused after acknowledged shutdown",
+          "passed": true
+        },
+        {
+          "name": "candidate error quarantines old ready result",
+          "passed": true
+        },
+        {
+          "name": "failed candidate rollback preserves usable old Worker",
+          "passed": true
+        },
+        {
+          "name": "forced old shutdown permits Restart without cleanup error",
+          "passed": true
+        },
+        {
+          "name": "actual cleanup failure rejects replacement and preserves drawing",
+          "passed": true
+        },
+        {
+          "name": "dispose while waiting removes UI and restores viewport immediately",
+          "passed": true
+        },
+        {
+          "name": "closed waits Worker cleanup with no late UI callbacks",
+          "passed": true
+        },
+        {
+          "name": "dispose during Restart closes both Workers without installing candidate",
+          "passed": true
+        },
+        {
+          "name": "paused EOF stays staged and releases Worker once",
+          "passed": true
+        },
+        {
+          "name": "Next commits staged EOF",
+          "passed": true
+        },
+        {
+          "name": "Pause cancels Replay autoplay during Worker preparation",
+          "passed": true
+        },
+        {
+          "name": "no unexpected errors and at most two owned Workers",
+          "passed": true
+        }
+      ],
+      "resources": {
+        "remainingWorkers": 0,
+        "nativeTrackedWorkers": 0,
+        "remainingRAF": 0
+      },
+      "controlledSourceErrors": [],
+      "maximumOwnedWorkers": 2
+    },
+    {
+      "name": "F1/F2 input/state shared-memory rejection across globals",
+      "passed": true,
+      "count": 34,
+      "checks": [
+        {
+          "mode": "visible",
+          "direction": "input",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "input",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "input",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "input",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "input",
+          "shape": "memory",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "memory",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "visible",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": true,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "input",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "input",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "input",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "input",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "input",
+          "shape": "memory",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "memory",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": true,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "input",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "input",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "input",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "input",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "buffer",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "data-view",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "nested",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": false,
+          "passed": true
+        },
+        {
+          "mode": "hidden-no-wasm",
+          "direction": "state",
+          "shape": "ordinary",
+          "transfer": true,
+          "passed": true
+        }
+      ],
+      "resources": {
+        "remainingWorkers": 0,
+        "nativeTrackedWorkers": null,
+        "remainingRAF": null
+      },
+      "controlledSourceErrors": [],
+      "maximumOwnedWorkers": null
+    }
+  ],
+  "zoomAndFinalCleanup": {
+    "checks": [
+      {
+        "name": "Native browser zoom changed real devicePixelRatio",
+        "passed": true,
+        "detail": {
+          "baselineDpr": 1,
+          "currentDpr": 1.100000023841858
+        }
+      },
+      {
+        "name": "Real viewport bitmap follows changed native DPR",
+        "passed": true,
+        "detail": {
+          "size": {
+            "width": 319.247,
+            "height": 159.7485,
+            "bitmapWidth": 351,
+            "bitmapHeight": 176,
+            "pixelRatio": 1.100000023841858
+          }
+        }
+      },
+      {
+        "name": "Real Canvas base transform follows rounded bitmap",
+        "passed": true,
+        "detail": {
+          "transform": [
+            1.0994621515274048,
+            1.101731777191162
+          ]
+        }
+      },
+      {
+        "name": "DPR observation redraws retained state without source consumption",
+        "passed": true,
+        "detail": {
+          "samples": 2,
+          "reads": 1
+        }
+      },
+      {
+        "name": "Disposed viewport preserves bitmap/pixels and cancels callbacks",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Final native viewport/source cleanup has no RAF or Worker leak",
+        "passed": true,
+        "detail": {
+          "sourceClosed": 1,
+          "raf": 0,
+          "workers": 0
+        }
+      }
+    ],
+    "samples": [
+      {
+        "dpr": 1,
+        "size": {
+          "width": 319.25,
+          "height": 159.75,
+          "bitmapWidth": 319,
+          "bitmapHeight": 160,
+          "pixelRatio": 1
+        },
+        "transform": [
+          0.9992169141769409,
+          1.0015649795532227
+        ],
+        "reads": 1,
+        "time": 199.18499994277954
+      },
+      {
+        "dpr": 1.100000023841858,
+        "size": {
+          "width": 319.247,
+          "height": 159.7485,
+          "bitmapWidth": 351,
+          "bitmapHeight": 176,
+          "pixelRatio": 1.100000023841858
+        },
+        "transform": [
+          1.0994621515274048,
+          1.101731777191162
+        ],
+        "reads": 1,
+        "time": 83890.63499999046
+      }
+    ],
+    "sourceReads": 1,
+    "sourceClosed": 1
+  },
+  "sharedMemoryContexts": [
+    {
+      "mode": "visible",
+      "count": 12,
+      "ownedWorkers": 0,
+      "unexpected": [],
+      "isolated": true,
+      "hiddenConstructor": false
+    },
+    {
+      "mode": "hidden",
+      "count": 12,
+      "ownedWorkers": 0,
+      "unexpected": [],
+      "isolated": true,
+      "hiddenConstructor": true
+    },
+    {
+      "mode": "hidden-no-wasm",
+      "count": 10,
+      "ownedWorkers": 0,
+      "unexpected": [],
+      "isolated": true,
+      "hiddenConstructor": true
+    }
+  ],
+  "visualInspection": {
+    "reviewed": [
+      "baselineViewport.png",
+      "zoomViewport.png",
+      "canvasSmoke.png"
+    ],
+    "notes": "Native exported PNGs show the retained purple marker at native DPR 1 and approximately 1.1 with correctly resized bitmap; array smoke output renders without inherited-paint artifacts. SVG identity/layers/retarget coordinates are checked against real DOM. This is not a full UI accessibility or hardware Player-keyboard audit."
+  },
+  "images": {
+    "baselineViewport": {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\native-g3-76f76ed-M0NDzV/baselineViewport.png",
+      "sha256": "19a37bd9a5864cc76c1ec8b43abcf588ac825e4508bdfb21dc38375cb8977599"
+    },
+    "canvasSmoke": {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\native-g3-76f76ed-M0NDzV/canvasSmoke.png",
+      "sha256": "4d37afe0bcfb98978886b8a27d89f7734d89dd81458f9cdd914f53b33ea34c9e"
+    },
+    "viewportSuite": {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\native-g3-76f76ed-M0NDzV/viewportSuite.png",
+      "sha256": "e43a19f53aea2d69b6961342f33169f469abd187901cb4c37e6faa5b149cbe35"
+    },
+    "zoomViewport": {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\native-g3-76f76ed-M0NDzV/zoomViewport.png",
+      "sha256": "9735d9ab7a03ccef5cff011d81b23a212253a76aaf6884239159e89d3bd33284"
+    }
+  },
+  "sceneSvg": {
+    "path": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/native-g3-76f76ed-M0NDzV/scene.svg",
+    "sha256": "b51b4340bf7956022ae0eb66673e686c3de75c00ec5c2fe12232e37a1a64d26e"
+  },
+  "artifact": {
+    "archive": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\grundyjs-algiviz-1.0.0.tgz",
+    "sha256": "24ca57a98246dd33971cdae353e6bd83a97922333ace87d4edb9915642126972",
+    "integrity": "sha512-0IqVwGx0Ks0U4IldFknsCQ9YfiOUPxXDipvbcBwEbTSVeB2UAJRVHVjCWjVH770RGiNFATfvLe0ryeeYGRanlw==",
+    "installedPayloadFilesMatchedBeforeAndAfter": 75,
+    "manifest": {
+      "CHANGELOG.md": {
+        "sha256": "84cf5c3f8698cd2813223c44fa7eb45d80a656a88fdfd1f2628c52b8f315544c",
+        "lfSha256": "84cf5c3f8698cd2813223c44fa7eb45d80a656a88fdfd1f2628c52b8f315544c"
+      },
+      "dist/array/index.d.ts": {
+        "sha256": "bf6db8b2f8cb22bb07307ecb15042e3d1c8c95953d3f49ec5a0e0bcc0811e560",
+        "lfSha256": "bf6db8b2f8cb22bb07307ecb15042e3d1c8c95953d3f49ec5a0e0bcc0811e560"
+      },
+      "dist/array/index.js": {
+        "sha256": "d9affd87227649dd8386a0550e27750524a86d1e64d2432ee8d2bae0ab681412",
+        "lfSha256": "d9affd87227649dd8386a0550e27750524a86d1e64d2432ee8d2bae0ab681412"
+      },
+      "dist/array/player.d.ts": {
+        "sha256": "7d9f3238b6fab096679351cf1486bacd8fbb3f177181ba217a5611c4a1833e15",
+        "lfSha256": "7d9f3238b6fab096679351cf1486bacd8fbb3f177181ba217a5611c4a1833e15"
+      },
+      "dist/array/player.js": {
+        "sha256": "bc502a21189ddf46e7c5a26a9f168bd9370a3c44cbcabdca20bc79508d8ef378",
+        "lfSha256": "bc502a21189ddf46e7c5a26a9f168bd9370a3c44cbcabdca20bc79508d8ef378"
+      },
+      "dist/array/snapshot-builder.d.ts": {
+        "sha256": "b69a37ff158e567f8a5f90affd0d1d4371735cd8edd69f69d86e95d3bdc11195",
+        "lfSha256": "b69a37ff158e567f8a5f90affd0d1d4371735cd8edd69f69d86e95d3bdc11195"
+      },
+      "dist/array/snapshot-builder.js": {
+        "sha256": "3837c97e8d61035f596bb39eb05fcf683b2479b20efde57ff0a94c8bb9b0335e",
+        "lfSha256": "3837c97e8d61035f596bb39eb05fcf683b2479b20efde57ff0a94c8bb9b0335e"
+      },
+      "dist/array/timeline.d.ts": {
+        "sha256": "9f90b373410f15ff50c297b8d34dd82e5ce2b511f90ea42e217a5f54aac05f89",
+        "lfSha256": "9f90b373410f15ff50c297b8d34dd82e5ce2b511f90ea42e217a5f54aac05f89"
+      },
+      "dist/array/timeline.js": {
+        "sha256": "6edddc02d02445ab097092ba7de7e6f6338444cb55895cd928d0ebe1c872ee17",
+        "lfSha256": "6edddc02d02445ab097092ba7de7e6f6338444cb55895cd928d0ebe1c872ee17"
+      },
+      "dist/array/trace.d.ts": {
+        "sha256": "2f7385d68216a6588fad8ca23868c34eb5cf89a80550fe69b2391fad79d9da3b",
+        "lfSha256": "2f7385d68216a6588fad8ca23868c34eb5cf89a80550fe69b2391fad79d9da3b"
+      },
+      "dist/array/trace.js": {
+        "sha256": "755b8e1a423cded441782ead532da77e81592dc2cc392347667e05012e34304e",
+        "lfSha256": "755b8e1a423cded441782ead532da77e81592dc2cc392347667e05012e34304e"
+      },
+      "dist/array/types.d.ts": {
+        "sha256": "0ed723f8deb18df3c64b9264a77dbcaeae3bc611517aab61866a1154430e19a3",
+        "lfSha256": "0ed723f8deb18df3c64b9264a77dbcaeae3bc611517aab61866a1154430e19a3"
+      },
+      "dist/array/types.js": {
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "lfSha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      "dist/canvas/index.d.ts": {
+        "sha256": "1f89b4e4d9c18b95028b740e42043a0337572f8c88cc987544b0746f9fd5970a",
+        "lfSha256": "1f89b4e4d9c18b95028b740e42043a0337572f8c88cc987544b0746f9fd5970a"
+      },
+      "dist/canvas/index.js": {
+        "sha256": "80cf6c7482625ec1b2370defb5adcd42c4ff92199afe4bb72a78f79d72e43a29",
+        "lfSha256": "80cf6c7482625ec1b2370defb5adcd42c4ff92199afe4bb72a78f79d72e43a29"
+      },
+      "dist/canvas/viewport.d.ts": {
+        "sha256": "fb6ba0fb12390824cde00dc813338cffe85d93e60cf8230346f517e87206737f",
+        "lfSha256": "fb6ba0fb12390824cde00dc813338cffe85d93e60cf8230346f517e87206737f"
+      },
+      "dist/canvas/viewport.js": {
+        "sha256": "f6251d1932144a5dc86915dd585e99e9c36ed4519ade48fff3c1f29a508bdd18",
+        "lfSha256": "f6251d1932144a5dc86915dd585e99e9c36ed4519ade48fff3c1f29a508bdd18"
+      },
+      "dist/playback/async-source.d.ts": {
+        "sha256": "c1f47389196b89734894516be5d5b22135d37cff5a4aec9b78f521c552a823df",
+        "lfSha256": "c1f47389196b89734894516be5d5b22135d37cff5a4aec9b78f521c552a823df"
+      },
+      "dist/playback/async-source.js": {
+        "sha256": "44aa496a5abefd8aa2b02319978079ce752d80e29aa6136acfc9408409237193",
+        "lfSha256": "44aa496a5abefd8aa2b02319978079ce752d80e29aa6136acfc9408409237193"
+      },
+      "dist/playback/index.d.ts": {
+        "sha256": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0",
+        "lfSha256": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0"
+      },
+      "dist/playback/index.js": {
+        "sha256": "044c588c7e294e98a629e506b92f69e3203e156f6c3943e57df563d4f1105687",
+        "lfSha256": "044c588c7e294e98a629e506b92f69e3203e156f6c3943e57df563d4f1105687"
+      },
+      "dist/playback/player.d.ts": {
+        "sha256": "30eba377e9c2fd03ada6bc8cd8222ddbf13beeed5c46dcbd428c1027228cde9d",
+        "lfSha256": "30eba377e9c2fd03ada6bc8cd8222ddbf13beeed5c46dcbd428c1027228cde9d"
+      },
+      "dist/playback/player.js": {
+        "sha256": "d958fbf79c7f15382a2b459cacc18111c10efdde476c20607d8cb44c2bc3b1b3",
+        "lfSha256": "d958fbf79c7f15382a2b459cacc18111c10efdde476c20607d8cb44c2bc3b1b3"
+      },
+      "dist/playback/rewind-buffer.d.ts": {
+        "sha256": "d7413ef9ab87ddcf7f2d6ee84c5ef77a6e09ee1072bda55a4a2bc8427d7ddad5",
+        "lfSha256": "d7413ef9ab87ddcf7f2d6ee84c5ef77a6e09ee1072bda55a4a2bc8427d7ddad5"
+      },
+      "dist/playback/rewind-buffer.js": {
+        "sha256": "2c4d516c0f4a45fa3e2667643f31fe72035494531888677f8947d3c78f41592e",
+        "lfSha256": "2c4d516c0f4a45fa3e2667643f31fe72035494531888677f8947d3c78f41592e"
+      },
+      "dist/playback/state-player.d.ts": {
+        "sha256": "e39fcce7ba4d5f69c491b94fee82ffb494a9262ace88f84a7c3bc2591344cc85",
+        "lfSha256": "e39fcce7ba4d5f69c491b94fee82ffb494a9262ace88f84a7c3bc2591344cc85"
+      },
+      "dist/playback/state-player.js": {
+        "sha256": "661bdf01f2c2825b949dda2ecfa4289bd58f09b84359d52b030ee760a404a499",
+        "lfSha256": "661bdf01f2c2825b949dda2ecfa4289bd58f09b84359d52b030ee760a404a499"
+      },
+      "dist/playback/state-steps.d.ts": {
+        "sha256": "096812bb856069241ad6bd51d4730552c7f246b2c88d36150088402c591644b0",
+        "lfSha256": "096812bb856069241ad6bd51d4730552c7f246b2c88d36150088402c591644b0"
+      },
+      "dist/playback/state-steps.js": {
+        "sha256": "34e53c7779c38b1fc5f79f91db8e92270ee75432269e59329b354a9faf6abbe1",
+        "lfSha256": "34e53c7779c38b1fc5f79f91db8e92270ee75432269e59329b354a9faf6abbe1"
+      },
+      "dist/playback/step-emitter.d.ts": {
+        "sha256": "c433ea463f31964fe82eb0e836c9e327baa5bfd98b29a4d6542bc0552bd192cf",
+        "lfSha256": "c433ea463f31964fe82eb0e836c9e327baa5bfd98b29a4d6542bc0552bd192cf"
+      },
+      "dist/playback/step-emitter.js": {
+        "sha256": "9890fd6c100e531ab90f3820fbe24cb8e301db2ae2da43d5ac4a04269e4b4faa",
+        "lfSha256": "9890fd6c100e531ab90f3820fbe24cb8e301db2ae2da43d5ac4a04269e4b4faa"
+      },
+      "dist/playback/timeline.d.ts": {
+        "sha256": "e3f15472849515ba50f8cc4e2212686f8c2546b9b2277b6104c2920cb7431bc8",
+        "lfSha256": "e3f15472849515ba50f8cc4e2212686f8c2546b9b2277b6104c2920cb7431bc8"
+      },
+      "dist/playback/timeline.js": {
+        "sha256": "5917dc68668c722776ee40d12c3f516e363b829a2bfa24547e5abc4829adf84b",
+        "lfSha256": "5917dc68668c722776ee40d12c3f516e363b829a2bfa24547e5abc4829adf84b"
+      },
+      "dist/playback/types.d.ts": {
+        "sha256": "7dfc49e3afaa1905044a6c93e9a473070bd6dc7382c7eee3b6ba64443b5f82e1",
+        "lfSha256": "7dfc49e3afaa1905044a6c93e9a473070bd6dc7382c7eee3b6ba64443b5f82e1"
+      },
+      "dist/playback/types.js": {
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "lfSha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      "dist/player/async-controller.d.ts": {
+        "sha256": "b33e2b4e698a38a5d23cbd039c243abb0da30d56d648557fac122dfde709751c",
+        "lfSha256": "b33e2b4e698a38a5d23cbd039c243abb0da30d56d648557fac122dfde709751c"
+      },
+      "dist/player/async-controller.js": {
+        "sha256": "d5af36f3a0e81c5651337fea1d781ddd92b59a4ddfe396c6dd1e7a8e6be99567",
+        "lfSha256": "d5af36f3a0e81c5651337fea1d781ddd92b59a4ddfe396c6dd1e7a8e6be99567"
+      },
+      "dist/player/async-session.d.ts": {
+        "sha256": "c0ac8328e81f7222d20a99e3e1f642406643df12bb68b467cb0ecc9cb3e4c504",
+        "lfSha256": "c0ac8328e81f7222d20a99e3e1f642406643df12bb68b467cb0ecc9cb3e4c504"
+      },
+      "dist/player/async-session.js": {
+        "sha256": "f2200835e2efd61b60cf58a45686cf1719491d776224c07b7ade5507c1c0ed9c",
+        "lfSha256": "f2200835e2efd61b60cf58a45686cf1719491d776224c07b7ade5507c1c0ed9c"
+      },
+      "dist/player/close-report.d.ts": {
+        "sha256": "f2c05344262cd38b2c643e5a74ae246e421b02e0d9d87b81af0b01141f342c04",
+        "lfSha256": "f2c05344262cd38b2c643e5a74ae246e421b02e0d9d87b81af0b01141f342c04"
+      },
+      "dist/player/close-report.js": {
+        "sha256": "a4bd9795d2f5045512fb28242c8eabf737958db1ecdb5ccea4e809d34eecbd64",
+        "lfSha256": "a4bd9795d2f5045512fb28242c8eabf737958db1ecdb5ccea4e809d34eecbd64"
+      },
+      "dist/player/controller.d.ts": {
+        "sha256": "7f5c0a98906f9a2ab00efb358dc23b3a16c2f47effac0093a7ac374f07be5c18",
+        "lfSha256": "7f5c0a98906f9a2ab00efb358dc23b3a16c2f47effac0093a7ac374f07be5c18"
+      },
+      "dist/player/controller.js": {
+        "sha256": "5175c28edd9adf38bbd0ad8ee425a830e8fb1daf1ddafeafb3e9c2a7a793b882",
+        "lfSha256": "5175c28edd9adf38bbd0ad8ee425a830e8fb1daf1ddafeafb3e9c2a7a793b882"
+      },
+      "dist/player/index.d.ts": {
+        "sha256": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d",
+        "lfSha256": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d"
+      },
+      "dist/player/index.js": {
+        "sha256": "975dce9e70cb2bef6d0dcedf63ca72d019438692b9b5483e39fc316991215709",
+        "lfSha256": "975dce9e70cb2bef6d0dcedf63ca72d019438692b9b5483e39fc316991215709"
+      },
+      "dist/player/mount.d.ts": {
+        "sha256": "372fec6daf3d6ab0ff177c86320cd1ab05dab5a3c080b3af3130035f284e080c",
+        "lfSha256": "372fec6daf3d6ab0ff177c86320cd1ab05dab5a3c080b3af3130035f284e080c"
+      },
+      "dist/player/mount.js": {
+        "sha256": "e8d0f669cef161b9483cd6d5f2559188e0498085637f2846facf44851f68cb0d",
+        "lfSha256": "b4041f779398e89f8a674e9bc9b2d4b766993e58f4ce9d823b151358287c984a"
+      },
+      "dist/player/player.d.ts": {
+        "sha256": "ffde26ce03fdfd4cc0f7e178fc35c885c8e3b658d6831f6a7863ba5803fc8b0d",
+        "lfSha256": "ffde26ce03fdfd4cc0f7e178fc35c885c8e3b658d6831f6a7863ba5803fc8b0d"
+      },
+      "dist/player/player.js": {
+        "sha256": "fc6d3de63be984c05723ca3b5a73825a24b345d62c36a19edc40225a810fb2f5",
+        "lfSha256": "fc6d3de63be984c05723ca3b5a73825a24b345d62c36a19edc40225a810fb2f5"
+      },
+      "dist/player/rewind-session.d.ts": {
+        "sha256": "6710dce3a4517dd2c4574242a76761693ecfbab73cd7d9922cfe76857ecb1d2f",
+        "lfSha256": "6710dce3a4517dd2c4574242a76761693ecfbab73cd7d9922cfe76857ecb1d2f"
+      },
+      "dist/player/rewind-session.js": {
+        "sha256": "6de6641781d5b9f77af76832c0753de9942bb11478abac7660e9210b77f86809",
+        "lfSha256": "6de6641781d5b9f77af76832c0753de9942bb11478abac7660e9210b77f86809"
+      },
+      "dist/player/step-session.d.ts": {
+        "sha256": "41de1f11ff6543b860f6abfff0771f81cd5754ad78271cdf7ebd71744b00ee42",
+        "lfSha256": "41de1f11ff6543b860f6abfff0771f81cd5754ad78271cdf7ebd71744b00ee42"
+      },
+      "dist/player/step-session.js": {
+        "sha256": "473093594d9bd8178d6ee9be4fd2ea37d57d91d17345b63fff1f442f2c6c43ce",
+        "lfSha256": "473093594d9bd8178d6ee9be4fd2ea37d57d91d17345b63fff1f442f2c6c43ce"
+      },
+      "dist/player/stream-playback.d.ts": {
+        "sha256": "eb7d718a5718c9cc97882713632a45a92c55ea6d7d28f7901c9fcfa58e431418",
+        "lfSha256": "eb7d718a5718c9cc97882713632a45a92c55ea6d7d28f7901c9fcfa58e431418"
+      },
+      "dist/player/stream-playback.js": {
+        "sha256": "6bfae958919b99f4a265bc0b353e5b508fb10ac232ef86d16b7453105ff7bcf8",
+        "lfSha256": "6bfae958919b99f4a265bc0b353e5b508fb10ac232ef86d16b7453105ff7bcf8"
+      },
+      "dist/player/types.d.ts": {
+        "sha256": "555a5dbad8847db31415edeb850f0d23b84c1fa01684158c80e569a5402f7553",
+        "lfSha256": "555a5dbad8847db31415edeb850f0d23b84c1fa01684158c80e569a5402f7553"
+      },
+      "dist/player/types.js": {
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "lfSha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      "dist/scene/index.d.ts": {
+        "sha256": "594bcb48b86e6d0a80c7d8fc3aa020c790750da1db4e48ab5f1cfd4c6e21a904",
+        "lfSha256": "594bcb48b86e6d0a80c7d8fc3aa020c790750da1db4e48ab5f1cfd4c6e21a904"
+      },
+      "dist/scene/index.js": {
+        "sha256": "48225899cca5a0b262a07379c464b248274fb8972d545cd20822d6fbe679668b",
+        "lfSha256": "48225899cca5a0b262a07379c464b248274fb8972d545cd20822d6fbe679668b"
+      },
+      "dist/worker/data.d.ts": {
+        "sha256": "30c756f4d09420cf889d53b207f4341a52f4d35ca83ee0428962fced00db2d0f",
+        "lfSha256": "30c756f4d09420cf889d53b207f4341a52f4d35ca83ee0428962fced00db2d0f"
+      },
+      "dist/worker/data.js": {
+        "sha256": "7dbcedcf296c4d98444367f89212de3db2680e448e305249cc4eee14d0b78c55",
+        "lfSha256": "7dbcedcf296c4d98444367f89212de3db2680e448e305249cc4eee14d0b78c55"
+      },
+      "dist/worker/error.d.ts": {
+        "sha256": "dc80436fbabc3923723df1982512d74dcac0cdaa20599a7375970c0381040ba8",
+        "lfSha256": "dc80436fbabc3923723df1982512d74dcac0cdaa20599a7375970c0381040ba8"
+      },
+      "dist/worker/error.js": {
+        "sha256": "58d1775a80232f4201a704686132e818e522c5a6c71517839ec9a8dd9cae70fc",
+        "lfSha256": "58d1775a80232f4201a704686132e818e522c5a6c71517839ec9a8dd9cae70fc"
+      },
+      "dist/worker/index.d.ts": {
+        "sha256": "e14608ea89c5210fe650f2b4b54eb21aa1850fbb8b553645a0f99831e4c60801",
+        "lfSha256": "e14608ea89c5210fe650f2b4b54eb21aa1850fbb8b553645a0f99831e4c60801"
+      },
+      "dist/worker/index.js": {
+        "sha256": "27ffc0d59aa1e0af8791bcaa6467fa0f125505930d355417bd5051908289c07d",
+        "lfSha256": "27ffc0d59aa1e0af8791bcaa6467fa0f125505930d355417bd5051908289c07d"
+      },
+      "dist/worker/protocol.d.ts": {
+        "sha256": "ed564a0d138108ace6f0476b2c8df92d39f8b6f5c326c0858b91a6ebd2c0ba22",
+        "lfSha256": "ed564a0d138108ace6f0476b2c8df92d39f8b6f5c326c0858b91a6ebd2c0ba22"
+      },
+      "dist/worker/protocol.js": {
+        "sha256": "5f3ddcc2b4ca24cf19fd2d6a36e6cb134901b78d8b165e2b514544594121c8ef",
+        "lfSha256": "5f3ddcc2b4ca24cf19fd2d6a36e6cb134901b78d8b165e2b514544594121c8ef"
+      },
+      "dist/worker/runtime.d.ts": {
+        "sha256": "c27563c8529f25aff546a4b32cbb546fb86f4a4df83f14d7d2012f24c55f61bd",
+        "lfSha256": "c27563c8529f25aff546a4b32cbb546fb86f4a4df83f14d7d2012f24c55f61bd"
+      },
+      "dist/worker/runtime.js": {
+        "sha256": "cb37667676669bfddc66fe6467bb73dca05091fce02f9db6d45973828f61efad",
+        "lfSha256": "cb37667676669bfddc66fe6467bb73dca05091fce02f9db6d45973828f61efad"
+      },
+      "dist/worker/types.d.ts": {
+        "sha256": "743075cd74340be55b140c815965012cfab050c12069847573b8689a76537293",
+        "lfSha256": "743075cd74340be55b140c815965012cfab050c12069847573b8689a76537293"
+      },
+      "dist/worker/types.js": {
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+        "lfSha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      "LICENSE": {
+        "sha256": "81499e10ad9a685876459984eac0a4ed3acf975f049c4aaa931cd351bf210121",
+        "lfSha256": "f4500fb740d9bfddf29b50c36bf357f398dc4820b89ce52157c5e6abdcf25c72"
+      },
+      "package.json": {
+        "sha256": "a7a2a15e28cdf09522cdf9e1b00f492b66045a80d54cbace2456da051aaecf76",
+        "lfSha256": "a7a2a15e28cdf09522cdf9e1b00f492b66045a80d54cbace2456da051aaecf76"
+      },
+      "README.md": {
+        "sha256": "bf8077bb5a3585cc21a42a82c29d039073915281c6dfdf8796c4ebf0cac7cb4b",
+        "lfSha256": "bf8077bb5a3585cc21a42a82c29d039073915281c6dfdf8796c4ebf0cac7cb4b"
+      },
+      "ru/README.md": {
+        "sha256": "e3bd4156f590484d4c9ae232c60c61c997ee8a80385dfb8eeb70adce861d6481",
+        "lfSha256": "e3bd4156f590484d4c9ae232c60c61c997ee8a80385dfb8eeb70adce861d6481"
+      }
+    },
+    "codeEquivalentTo": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+    "publicApiOrImplementationChanged": false
+  },
+  "provenance": {
+    "rawBrowserReport": {
+      "path": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/native-g3-76f76ed-M0NDzV/browser-report.json",
+      "sha256": "f3e1227e7ee29f09bbe617783b10710451ea319fbca8445e930755d07aaa9b94"
+    },
+    "requests": {
+      "path": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/native-g3-76f76ed-M0NDzV/requests.json",
+      "sha256": "40410986b68b7a871787033c55ef7d9db4f9ced411c1f75798e10a7225468572"
+    },
+    "servedFixtureHashes": {
+      "test/browser-smoke.html": "a59e9cba0bcd45455a512c47f16c668c60bb01b13efd51314774a112589d5c89",
+      "test/browser-smoke.mjs": "6a003328f3d81baccddb94a381c4cbeb293f2bfe56169bd42c67da79f30a711b",
+      "test/canvas-viewport-browser.html": "2da71816e4c9dbd3233d3baca62e0ac6c0b062edba5c619d70217646c7e35e04",
+      "test/canvas-viewport-browser.mjs": "ce3c74611f3c98083b389b58cc57709fb20fa105dd41fdefec0562257c53e72b",
+      "test/player-async-browser.html": "467e7e103cf2854797f5abb0bc551bee9a63735f9a94a0915db655b632248fd0",
+      "test/player-async-browser.mjs": "e4e208588ecb745936a4ac6f791b71bd78762e351c2f79199ef29f3b7c564cb2",
+      "test/worker-browser.html": "0955ea1da2878068828af20c6229e75086d3cb76be314431875760eb656b2e1f",
+      "test/worker-browser.mjs": "e1a8fad660a0ca30efb0d365bc6f3dc19313153d1b9c703b8d7969db9910ec27",
+      "test/worker-native-fixture.mjs": "3deeff5e315fb6fa8663fe1a57d13a0d58b2da9f9b82d8c56f68cc6a5cfc007f",
+      "test/worker-silent-fixture.mjs": "ea09afbade78c89e111065f522b3dd38581535caea66aa9f8cd40916db3b9bf5",
+      "test/player-worker-browser.html": "75bcacc23230a0fb176882adbf9ab51954aa61a704997aadc23bd89f81db65ff",
+      "test/player-worker-browser.mjs": "671fba066f2fdcf7b75a24ddf457beaf2f8558ff9d828742ce4c78494f763999",
+      "test/player-worker-native.mjs": "8bc45a9ba6dd7d5c58e049ec39b4991c9ab9e153c96624c99ff5cc0547b0dab2",
+      "test/worker-shared-buffer-browser.html": "ec5c7ffb05a2b7dc208a12bfdf7eabe700a9c1cf63beb8baed479cb0eacd863d",
+      "fixture/main.mjs": "0ab8a608b12c626b59017e148583c643f7bde4d71663030021e8afae25e5c496",
+      "fixture/scene.mjs": "f892de9718dacf74cf744c91d91253c3315d697692cb3be91cfb129a0c1f3bff",
+      "fixture/async-bridge.mjs": "1d49e12a68a3aa85f42272d72376ea3e3d0b4faa63222daa7fb2638df212e1f3",
+      "fixture/worker-player-bridge.mjs": "87ee5c4ce71d927beacbe186c829071d735760bd43b1efa03051c9c4830f5e03",
+      "fixture/viewport-bridge.mjs": "7d1e2f57a19e12bc46cebe17d0c7c629c75a4dc7f5c63e3b4ec9f31dba9883c3",
+      "fixture/server.mjs": "c40f5196981babf28614b3c79bedd4e848b94045b0c4fa5675419318ea88407a"
+    },
+    "server": {
+      "path": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/native-g3-76f76ed-M0NDzV/server.mjs",
+      "sha256": "c40f5196981babf28614b3c79bedd4e848b94045b0c4fa5675419318ea88407a"
+    },
+    "fixtureChanges": "Repository fixture sources remain unchanged; test-only native resource counters and observation/cleanup bridges are served from the external verification folder."
+  },
+  "earlierAttempt": {
+    "file": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/native-g3-76f76ed-M0NDzV/attempt1-browser-report.json",
+    "sha256": "f6a739d99a10c562c56bf7218e7b5b0f16437ea309dcb75a6d88996cb94c0807",
+    "outcome": "Test harness raced an iframe about:blank document and accessed its missing button before F1/F2 started. The first six suites passed. Fixed only the external harness to await iframe load; the entire successful 133-check run is the second attempt. No library change."
+  },
+  "automation": {
+    "builtInCua": "service_info timed out; no browser debugging attached",
+    "windowsUi": "list_apps recovered, but Google Chrome UI action was denied; no Chrome tab was opened by automation",
+    "externalBrowserDebuggingUsed": false,
+    "userHandoff": "User opened and refreshed the built-in page, changed native zoom, and pressed final verification. Final outcome observed through same-origin saved reports."
+  },
+  "ci": {
+    "sha": "76f76eda83d796b04fd3c8ec84c1c1caee0fd03c",
+    "run": "https://github.com/urffin/algiviz/actions/runs/43945251321",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "TypeScript 6.0.3 consumer",
+        "conclusion": "success"
+      },
+      {
+        "name": "TypeScript 5.4.5 consumer",
+        "conclusion": "success"
+      },
+      {
+        "name": "Node 26 / windows-latest",
+        "conclusion": "success"
+      },
+      {
+        "name": "Node 22 / windows-latest",
+        "conclusion": "success"
+      },
+      {
+        "name": "Node 24 / windows-latest",
+        "conclusion": "success"
+      },
+      {
+        "name": "Node 26 / ubuntu-latest",
+        "conclusion": "success"
+      },
+      {
+        "name": "Node 24 / ubuntu-latest",
+        "conclusion": "success"
+      },
+      {
+        "name": "Optional modules bundle isolation",
+        "conclusion": "success"
+      },
+      {
+        "name": "TypeScript 5.9.3 consumer",
+        "conclusion": "success"
+      },
+      {
+        "name": "TypeScript 5.0.4 consumer",
+        "conclusion": "success"
+      },
+      {
+        "name": "Node 22 / ubuntu-latest",
+        "conclusion": "success"
+      }
+    ],
+    "newRunStarted": false
+  },
+  "retainedEarlierScope": {
+    "report": "candidate-1.0.0-native-a9b93f8-2026-11-16.json",
+    "sha": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+    "passed": 26,
+    "scope": [
+      "stepSource",
+      "done result green bar",
+      "bounded rewind",
+      "Restart",
+      "dispose",
+      "real Play/Pause/Next and final hold"
+    ],
+    "reuseBasis": "Same 75-file installed payload/archive and unchanged code between a9b93f8 and 76f76ed. Its run is not relabeled as a 76f76ed run."
+  },
+  "conclusion": {
+    "remainingG3ClosedForThisCandidateAndScope": true,
+    "broaderBrowserSupportClaimed": false,
+    "hardwarePlayerKeyboardOrAccessibilityCertified": false,
+    "tagOrPublicationAuthorized": false
+  },
+  "repository": {
+    "head": "76f76eda83d796b04fd3c8ec84c1c1caee0fd03c",
+    "sourceChanged": false,
+    "versionChanged": false,
+    "commitCreated": false,
+    "pushed": false,
+    "tagCreated": false,
+    "publicationPerformed": false,
+    "onlyNewDocumentationAndReportPending": true
+  },
+  "documentationValidation": {
+    "markdownFiles": 96,
+    "relativeLinks": 1071,
+    "markdownFragments": 52,
+    "broken": 0,
+    "jsonReportsParsed": 34,
+    "diffCheck": "passed",
+    "protectedFilesUnchanged": 298,
+    "onlyDocumentationChanges": true
+  }
+}

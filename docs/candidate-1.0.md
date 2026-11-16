@@ -2,26 +2,35 @@
 
 [Русский](ru/candidate-1.0.md) · [Migration](migration-1.0.md) · [Current API](current-api.md)
 
-**Documentation freeze follow-up, 2026-11-16:** the accumulated design/readiness
-documents and reports are prepared for the authorized commit/push and all 11 CI
-jobs on its resulting SHA. The [freeze check](checks/candidate-1.0.0-docs-freeze-2026-11-16.json)
-records the intended files, source/payload equivalence and link/report checks.
-The commit containing that record defines the documentation revision; its exact
-SHA and CI result are recorded after commit, without a self-referential SHA here.
-The a9b93f8 evidence below remains tied to that earlier code/payload baseline.
-Native G3 remainder, tag/Release and publication are outside this follow-up.
+**G3 evidence commit follow-up, 2026-11-16:** the verified native report and
+EN/RU status updates are included in the authorized documentation commit/push.
+The commit first adding the G3 record identifies this evidence revision; all 11
+CI jobs must succeed on that resulting SHA. The native run remains identified
+as 76f76ed, with unchanged code/payload reusable by hash. No new native run,
+tag, Release or npm publication is part of this follow-up.
+
+**Current acceptance, 2026-11-16:** the documentation candidate is
+**76f76eda83d796b04fd3c8ec84c1c1caee0fd03c**, committed/pushed with all
+[11 exact-SHA CI jobs successful](https://github.com/urffin/algiviz/actions/runs/43945251321).
+The remaining native G3 scope now passes **133/133 checks** in the user-opened
+built-in Windows browser: scenes, Canvas/viewport, real DPR change, async/Worker
+data, controls and cleanup. [G3 record](checks/candidate-1.0.0-g3-76f76ed-2026-11-16.json).
+The [freeze check](checks/candidate-1.0.0-docs-freeze-2026-11-16.json) and earlier
+a9b93f8 records keep their original stage scope. The 75-file installed payload
+and code remain identical. The native-check task left G3 evidence/status edits
+for the subsequent commit follow-up above; tag/Release/publication remain unauthorized.
 
 **Updated 2026-11-16; unpublished.** This candidate includes explicit Player
 steps, array result markers and the simplified minimum quickstart, in addition
 to F1/F2 and U1–U5. It replaces the earlier candidate **5e2fd18**. That commit's
 11 successful CI jobs are historical and do not certify these changes.
 
-G1/G2 are complete on **a9b93f8db8db92ac1ba08ca4f127be82aad53f95**: origin/master
-matches and all 11 jobs in [run 43860619331](https://github.com/urffin/algiviz/actions/runs/43860619331)
-are successful. Native checks passed the requested 26-case stepSource/result/
-control scope; the wider G3 remainder stays open. The [consolidated core review](core-readiness-1.0.md)
-also records four compatible future model sketches and the documentation state
-at review time. No tag, Release or publication is authorized here.
+The earlier code candidate a9b93f8 passed [its own CI](https://github.com/urffin/algiviz/actions/runs/43860619331)
+and 26 native stepSource/result/control checks. Those native observations are
+retained by exact payload equivalence, without relabeling their run SHA. The
+[consolidated core review](core-readiness-1.0.md) records four compatible future
+model sketches and its historical pre-freeze gate table. Current G1/G2 and the
+remaining G3 completion are identified above. No tag or publication is performed.
 The published baseline remains [0.16.0](releases/0.16.0.json).
 
 ## Candidate contents
@@ -65,15 +74,14 @@ not rewrite, the preparation report's pre-commit/pre-native status fields.
 
 ## Remaining release gates
 
-1. Preserve G1/G2 for a9b93f8. Commit/push the checked documentation under the
-   authorized freeze follow-up above, then identify its resulting SHA.
+1. G1/G2 and the selected G3 scope are complete for 76f76ed. Commit/push the
+   verified native evidence/status docs under the follow-up above.
 2. Require all **11 jobs on the final release SHA** if it changes: Node 22/24/26
    Windows/Linux, four selected TypeScript consumers and bundle isolation.
    Unchanged payload checks may be reused with hashes; CI remains SHA-specific.
-3. Finish the [native G3 remainder](core-readiness-1.0.md#remaining-release-steps):
-   generic scene lifecycle, Canvas/viewport sizing/DPR/disposal and affected
-   async/Worker data/transfer/F1/F2/waiting/control/cleanup. Retain the 26 passed
-   checks, recording which artifact/SHA each native observation actually used.
+3. Retain the 133-check G3 record and earlier 26-check scope with their actual
+   source/artifact hashes. Documentation-only commits can reuse unchanged native
+   payload checks; changed code/artifact requires affected checks again.
 4. Tag/release/npm publication require a separate instruction after the release
    gates, followed by exact-version/latest, registry consumer and provenance checks.
    Pushing this candidate alone does not trigger npm-publish.yml, which is
