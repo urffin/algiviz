@@ -1,0 +1,267 @@
+{
+  "date": "2026-11-16",
+  "scope": "Future matrix/grid contract sketch and current-core fit with graph/tree boundaries; no implementation or publication",
+  "candidateSourceCommit": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+  "implementationChanged": false,
+  "publicDeclarationsChanged": false,
+  "exportMapChanged": false,
+  "newEntryPresent": false,
+  "entryNameSelected": false,
+  "examplesOrTestsChanged": false,
+  "dependenciesOrVersionChanged": false,
+  "commitCreated": false,
+  "publication": false,
+  "conclusion": {
+    "coreApiChangeRequired": false,
+    "onePointZeroBlockerFound": false,
+    "boundedTo": "Finite dense rectangular generic matrices with fixed dimensions per trace, immutable values/marks/results, aggregate or per-cell scene strategies",
+    "graphBoundary": "Adjacency and conversions explicit; changing walls does not silently permit dynamic topology in the graph sketch",
+    "treeBoundary": "Predecessor maps require an explicit connected rooted subset and invariant checks before tree interpretation"
+  },
+  "requirements": {
+    "coordinates": "Zero-based row,column; safe fixed dimensions, exact dense row-major storage, valid zero-area shapes; practical size/storage limits require module API design",
+    "identity": "Cells are model/address locations; moving entities have separate IDs; scene namespaces distinguish models, views, cells, graph and tree",
+    "lookup": "scene.get only sees declared objects; aggregate cell lookup is via endpoint grid data and coordinates",
+    "ownership": "Copied/frozen module-owned arrays and metadata; application T immutable/cloneable by caller; retained storage must not mutate or transfer-detach; no shared-memory exception",
+    "validation": "Future module validates shape, bounds, references and updates atomically; generic Scene does not",
+    "animation": "Generic core preserves endpoints/progress; renderer chooses discrete/numeric/crossfade policies, not implicit interpolation of T",
+    "performance": "One scene object does not imply constant draw/copy cost; Player cannot interrupt one expensive source/render callback",
+    "moduleBoundary": "Headless model; optional renderer and exact entry/import/graph/tree adapter boundaries remain undecided"
+  },
+  "runtimeProbe": {
+    "scope": "Current core with handwritten application grid states/scenes and existing examples; no new module implementation",
+    "counts": {
+      "passed": 32,
+      "failed": 0
+    },
+    "checks": [
+      {
+        "name": "A dense grid is one generic Scene object",
+        "passed": true
+      },
+      {
+        "name": "Aggregate transition retains both complete immutable endpoints",
+        "passed": true
+      },
+      {
+        "name": "Values retain undefined, zero, false and empty-string payloads",
+        "passed": true
+      },
+      {
+        "name": "Matrix update leaves earlier snapshot unchanged",
+        "passed": true
+      },
+      {
+        "name": "Generic core preserves grid event, index and progress",
+        "passed": true
+      },
+      {
+        "name": "Per-cell projection retains coordinate identities when contents swap",
+        "passed": true
+      },
+      {
+        "name": "Row-column coordinates distinguish cells independently of equal values",
+        "passed": true
+      },
+      {
+        "name": "Structured IDs separate cells, namespaces and projection modes",
+        "passed": true
+      },
+      {
+        "name": "Aggregate scene.get does not invent virtual cell objects",
+        "passed": true
+      },
+      {
+        "name": "Per-cell scene.get resolves the declared cell transition",
+        "passed": true
+      },
+      {
+        "name": "Moving entity identity is independent of its cell",
+        "passed": true
+      },
+      {
+        "name": "Cell overlays can share progress with moving entities",
+        "passed": true
+      },
+      {
+        "name": "Immutable view filtering uses existing exit and presence",
+        "passed": true
+      },
+      {
+        "name": "Exiting cell data remains available for an overlay",
+        "passed": true
+      },
+      {
+        "name": "Restoring a filtered view uses existing enter transitions",
+        "passed": true
+      },
+      {
+        "name": "Zero-area shapes remain distinct data without fake cells",
+        "passed": true
+      },
+      {
+        "name": "Grid, graph and tree kinds compose in the current registry",
+        "passed": true
+      },
+      {
+        "name": "Pure grid projection reuses endpoints without requiring an event",
+        "passed": true
+      },
+      {
+        "name": "Aggregate handler receives values from both endpoints and raw progress",
+        "passed": true
+      },
+      {
+        "name": "Grid state uses the current emitter without new fields",
+        "passed": true
+      },
+      {
+        "name": "Terminal seek and hold preserve ordered result paths",
+        "passed": true
+      },
+      {
+        "name": "Reverse frames preserve old and new grid data",
+        "passed": true
+      },
+      {
+        "name": "Grid terminal closes once without extra reads",
+        "passed": true
+      },
+      {
+        "name": "Fresh source restores cell contents and clears result",
+        "passed": true
+      },
+      {
+        "name": "Buffered rewind restores prior grid without recomputation",
+        "passed": true
+      },
+      {
+        "name": "State-only completion retains result with undefined event",
+        "passed": true
+      },
+      {
+        "name": "Grid shape validation belongs to its module, not generic Scene",
+        "passed": true
+      },
+      {
+        "name": "Changing projection kind under retained ID is still rejected",
+        "passed": true
+      },
+      {
+        "name": "Existing maze uses an aggregate object with persistent path data",
+        "passed": true
+      },
+      {
+        "name": "No-path remains algorithm state rather than a Player phase",
+        "passed": true
+      },
+      {
+        "name": "Existing sand combines one field with stable grain identities",
+        "passed": true
+      },
+      {
+        "name": "Plain grid state is structured-cloneable",
+        "passed": true
+      }
+    ]
+  },
+  "typeProbe": {
+    "scope": "Application-only matrix/grid types against existing core/widget; no package declarations added",
+    "negativeCases": 10,
+    "results": [
+      {
+        "typescript": "6.0.3",
+        "mode": "NodeNext",
+        "surface": "core",
+        "libraries": "ES2022 only",
+        "passed": true
+      },
+      {
+        "typescript": "6.0.3",
+        "mode": "NodeNext",
+        "surface": "player",
+        "libraries": "ES2022 + DOM",
+        "passed": true
+      },
+      {
+        "typescript": "6.0.3",
+        "mode": "Bundler",
+        "surface": "core",
+        "libraries": "ES2022 only",
+        "passed": true
+      },
+      {
+        "typescript": "6.0.3",
+        "mode": "Bundler",
+        "surface": "player",
+        "libraries": "ES2022 + DOM",
+        "passed": true
+      }
+    ]
+  },
+  "existingRegressionChecks": {
+    "command": "node --test --test-reporter=tap test/maze-example.test.mjs test/sand-example.test.mjs",
+    "passed": 15,
+    "failed": 0,
+    "stdoutFile": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/grid-existing-tests.tap",
+    "native": false,
+    "stdoutSha256": "79457c2ff88f1cfb8ddd5ecece9bee4ebc51240a8bb932581cb01c18d5fbc515"
+  },
+  "verificationLimits": [
+    "Handwritten application fixtures, not a matrix/grid module, validator, converter, trace, renderer or package declaration implementation",
+    "Core data availability and generic API typing only; no future model validation correctness certification",
+    "No native rendering, grid hit-testing, interpolation quality or performance measurement",
+    "Isolated TypeScript 6.0.3, not a complete future-module compiler matrix",
+    "No dynamic resize, sparse/infinite/hexagonal/3D contract selected"
+  ],
+  "protectedFiles": {
+    "count": 298,
+    "unchanged": true,
+    "baselineFile": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/grid-contract-before.json",
+    "baselineSha256": "c6bc8be3dc24810964c6750d51cb59d63f48855934b04e1993ff8bb27365739b"
+  },
+  "installedCandidatePayload": {
+    "packageRoot": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\node_modules\\@grundyjs\\algiviz",
+    "comparedFiles": 75,
+    "matchCurrentDistAndPackage": true
+  },
+  "existingGraphAndTreeSketchesUnchanged": true,
+  "documentationHashes": {
+    "docs/grid-contract.md": "5a5f154f97bf82d141004cc2d0cef1e2e80538b6616e0ddd2d28f9f05f6aa4b0",
+    "docs/ru/grid-contract.md": "6a485e9eac36828a69f2346c920f0ddfc465426101eaf0e233b083028c9df3a7",
+    "docs/current-api.md": "518de859032c4334a71f997bdc02ae2591e058059423f8e1e5d09aa6c0297c04",
+    "docs/ru/current-api.md": "91edda13fd9eb2c18f5ff2df844f619ef169465bd5f384aa3277b7fec90d2928",
+    "docs/scene.md": "cde2c95f2a76ab68e2bee9ae08d50507a48494cf966ca862717259049fae0c47",
+    "docs/ru/scene.md": "ec3279bf5039c6c03474d0a92824a66b8cbd7e77644ea66a54fdc0227057c506"
+  },
+  "externalProbeFiles": [
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\grid-core-fit.mjs",
+      "sha256": "83481cc62c7f0bdce4c361aff413ea95b6ff8ffe3f52fb1d46edd1dd66d5c989"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\grid-core-types.mts",
+      "sha256": "e777f432586a8d9dfd50f370d3f6b46d05edacb05ab0af1cad8cf312889a29db"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\grid-player-types.mts",
+      "sha256": "0db5e73ba9d0eda92be1ecd15a2388ae1ba957d51f49d47c885ad0e2e80d49ef"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.grid-NodeNext-core.json",
+      "sha256": "1d9ffa5f87090173c7bd902d4a4a75ed2db43c575158bc77d309a86dfe1ec478"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.grid-NodeNext-player.json",
+      "sha256": "20f6302f9f785e9f58500ce26a41ea6f4fd50e44a1ba569aaf0dbeed12c44391"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.grid-Bundler-core.json",
+      "sha256": "9b2a912411f73ba2851d176290a46800ec37904886c2135e71fb992412cd0777"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.grid-Bundler-player.json",
+      "sha256": "fb579e50e7a3afdb4d9815ecde6326425e17b207fcfb8965eb332df84b361f10"
+    }
+  ]
+}

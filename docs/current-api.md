@@ -1,24 +1,26 @@
 # Current API and verification status
 
-[Русский](ru/current-api.md) · [Compatibility policy](api-compatibility.md) · [Support boundary](support-matrix.md#current-support-boundary) · [Final readiness review](api-readiness-1.0.md)
+[Русский](ru/current-api.md) · [Compatibility policy](api-compatibility.md) · [Support boundary](support-matrix.md#current-support-boundary) · [Core readiness review](core-readiness-1.0.md)
 
 **Documentation reconciled under U4, 2026-11-14.** This is the common status index
 for all eight entries. API references describe the working-tree contract and
 mark local changes explicitly. They do not make those changes available in npm.
 
-**Post-F2 readiness recheck, 2026-11-14:** all eight entries are ready locally
-within the reviewed boundary; no known technical blocker or unresolved API
-clarification remains from F1/F2 and U1–U5. [Current review](api-readiness-1.0.md)
-and [fresh evidence](checks/api-readiness-1.0-after-f2-2026-11-14.json) replace the pre-F2 open status. Next are G1
-candidate definition, G2 exact-SHA CI and G3 native candidate verification, then
-separately authorized publication/registry checks. This is not a release approval.
+**Core recheck, 2026-11-16:** the [consolidated review](core-readiness-1.0.md)
+finds no core API blocker after graph/tree/grid/list checks: 125 successful
+application assertions and 16 type configurations, without new implementations.
+F1/F2 and U1–U5 remain resolved. G1/G2 are complete for a9b93f8; native G3 is
+partly complete. The final documentation/SHA, G3 remainder and separately
+authorized publication remain. [Machine record](checks/api-readiness-1.0-core-extensibility-2026-11-16.json).
 
 **Candidate update, 2026-11-16:** package/lock metadata is now **1.0.0**, locally
 prepared and unpublished. [Candidate status](candidate-1.0.md) records preparation
 checks and remaining exact-SHA CI/native gates; [migration](migration-1.0.md)
 explains U1/U2, explicit-step source narrowing and optional array-result changes.
-The refreshed candidate replaces 5e2fd18; its own commit, origin push and all
-11 exact-SHA CI jobs are authorized in the current preparation task.
+The refreshed candidate replaces 5e2fd18. Its commit/origin SHA is a9b93f8;
+all [11 exact-SHA CI jobs](https://github.com/urffin/algiviz/actions/runs/43860619331)
+passed. The same artifact passed 26 native stepSource/result/control checks;
+Worker/viewport and other G3 remainder are not certified by that subset.
 The [new preparation report](checks/candidate-1.0.0-explicit-steps-2026-11-16.json)
 records the checks; earlier CI/native results retain their original scope.
 The 2026-11-14 audit/F2 evidence below retains its
@@ -38,6 +40,10 @@ stage-specific hashes and package metadata.
 | F2 | **Implemented locally, unreleased:** reject shared buffers/views and nested input/state graphs without the SharedArrayBuffer constructor. Captured intrinsic branding needs no WebAssembly fallback or shared allocation. [Fix](checks/worker-shared-buffer-fix-2026-11-14.json), [native evidence](checks/worker-shared-buffer-fix-browser-2026-11-14.json) |
 | Player explicit steps | **Implemented locally, unpublished:** [stepSource/isTerminal](player-step-source.md), Event frames and terminal/rewind/work/cleanup. Candidate 5e2fd18 and its CI do not cover these changes |
 | Array result markers | **Implemented locally, unpublished:** [done({ result })](array-result.md), ArrayDoneOptions, resultItemIds and colors.result. The quickstart uses one renderer and fixed nonempty input |
+| Future graph module | **Design/core-fit review only:** [graph sketch](graph-contract.md). No /graph export or runtime/declaration change; the proposed model fits the current Step/Frame/Scene contracts |
+| Future tree module | **Design/core-fit review only:** [tree sketch](tree-contract.md), including its relationship with /graph and changing hierarchies. No /tree export or runtime/declaration change; no core API blocker found for the proposed scope |
+| Future matrix/grid | **Design/core-fit review only:** [matrix/grid sketch](grid-contract.md), aggregate/per-cell scenes and graph/tree boundaries. Entry name undecided; no runtime/declaration/export change or core API blocker found for the proposed scope |
+| Future linked list | **Design/core-fit review only:** [linked-list sketch](linked-list-contract.md), insertion/deletion/slot retargeting, null transitions and separate working-state views. Entry name undecided; no runtime/declaration/export change or core API blocker found for the proposed scope |
 
 The pre-implementation quickstart stage passed 520 tests (11 example checks).
 New implementation results are in the local report linked below.
@@ -100,8 +106,9 @@ use matched package versions; their wire format is private.
 Current contract/status links take precedence over stage-specific planning
 language when assessing the working tree. Historical numbers and raw results
 are retained rather than rewritten. U5 is selected and permanently covered
-locally. F2 is now corrected and permanently covered; G1–G3 candidate
-definition/CI/native verification remain before 1.0. This review starts no release.
+locally. F2 is corrected and permanently covered. The [current gate table](core-readiness-1.0.md#remaining-release-steps)
+records completed G1/G2 on a9b93f8 and the final-documentation/G3 remainder.
+This review starts no release.
 
 stepSource implementation checks: [local report](checks/player-step-source-implementation-2026-11-16.json). Earlier reports above retain their stage-specific scope.
 

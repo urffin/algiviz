@@ -1,0 +1,105 @@
+{
+  "checkedAt": "2026-11-16T19:37:48.0872213Z",
+  "source": "Read-only GitHub REST and npm registry requests",
+  "ci": {
+    "id": 43860619331,
+    "head_sha": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331",
+    "run_attempt": 1
+  },
+  "jobs": [
+    {
+      "id": 133276145070,
+      "name": "Node 26 / ubuntu-latest",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145070"
+    },
+    {
+      "id": 133276145179,
+      "name": "Node 26 / windows-latest",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145179"
+    },
+    {
+      "id": 133276145310,
+      "name": "TypeScript 6.0.3 consumer",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145310"
+    },
+    {
+      "id": 133276145368,
+      "name": "Node 22 / windows-latest",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145368"
+    },
+    {
+      "id": 133276145381,
+      "name": "TypeScript 5.0.4 consumer",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145381"
+    },
+    {
+      "id": 133276145390,
+      "name": "Node 22 / ubuntu-latest",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145390"
+    },
+    {
+      "id": 133276145440,
+      "name": "TypeScript 5.9.3 consumer",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145440"
+    },
+    {
+      "id": 133276145501,
+      "name": "Node 24 / windows-latest",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145501"
+    },
+    {
+      "id": 133276145513,
+      "name": "Node 24 / ubuntu-latest",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145513"
+    },
+    {
+      "id": 133276145530,
+      "name": "Optional modules bundle isolation",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145530"
+    },
+    {
+      "id": 133276145571,
+      "name": "TypeScript 5.4.5 consumer",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145571"
+    }
+  ],
+  "originMaster": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+  "tag": {
+    "status": 404,
+    "exists": false
+  },
+  "release": {
+    "status": 404,
+    "exists": false
+  },
+  "npm": {
+    "exactStatus": 404,
+    "latest": "0.16.0",
+    "versionExists": false
+  }
+}

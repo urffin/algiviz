@@ -1,12 +1,12 @@
-# Eight-entry readiness review after F2
+# Historical eight-entry readiness review after F2
 
 [Русский](ru/api-readiness-1.0.md) · [Current API](current-api.md) · [Compatibility policy](api-compatibility.md) · [Support boundary](support-matrix.md#current-support-boundary)
 
-**Candidate follow-up, 2026-11-16:** [1.0.0 preparation](candidate-1.0.md) is now
-authorized locally, including version/lock, notes, checks and commit. Metadata
-is 1.0.0; [migration](migration-1.0.md) covers U1/U2. No publication is authorized.
-The review below is the historical 0.16.0-metadata assessment; candidate status
-supersedes its not-yet-prepared G1 wording. Raw evidence is unchanged.
+**Current assessment, 2026-11-16:** the [four-model core review](core-readiness-1.0.md)
+records the a9b93f8 candidate, completed G1/G2, partial native G3 and remaining
+release steps. The text below retains the historical 2026-11-14 assessment with
+0.16.0 metadata and its original 68/56 type counts. Its prospective G1–G3 wording
+does not override that newer status. Raw evidence is unchanged.
 
 **Rechecked 2026-11-14: ready to prepare a 1.0 candidate within the reviewed
 boundary.** All eight entries are ready locally; no known technical blocker or
@@ -19,7 +19,9 @@ there is no immutable 1.0 candidate yet. This review changes documentation and
 adds its report without changing API, implementation, tests, workflows,
 dependencies or version. It does not commit, push, start CI or publish.
 
-## Current eight-entry result
+<a id="current-eight-entry-result"></a>
+
+## Historical eight-entry result
 
 “Ready locally” means no further mandatory API/implementation change was found
 within the declared contract and environment boundary. It is not exact-candidate
@@ -77,7 +79,9 @@ The [new machine report](checks/api-readiness-1.0-after-f2-2026-11-14.json) reco
 current dispositions. No exact-candidate CI, fresh registry verification or
 candidate-wide native certification is claimed.
 
-## Remaining release steps
+<a id="remaining-release-steps"></a>
+
+## Historical release plan (2026-11-14)
 
 These are release gates, not new API defects or feature prerequisites.
 

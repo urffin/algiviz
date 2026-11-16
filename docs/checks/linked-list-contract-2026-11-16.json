@@ -1,0 +1,289 @@
+{
+  "date": "2026-11-16",
+  "scope": "Future linked-list contract sketch; insertion, deletion and retargeting on existing core with graph/tree boundaries; no implementation or publication",
+  "candidateSourceCommit": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+  "implementationChanged": false,
+  "publicDeclarationsChanged": false,
+  "exportMapChanged": false,
+  "newEntryPresent": false,
+  "entryNameSelected": false,
+  "examplesOrTestsChanged": false,
+  "dependenciesOrVersionChanged": false,
+  "commitCreated": false,
+  "publication": false,
+  "conclusion": {
+    "coreApiChangeRequired": false,
+    "onePointZeroBlockerFound": false,
+    "boundedTo": "Finite acyclic singly linked lists with immutable valid complete snapshots, stable node/next-slot IDs, null targets and atomic insertion/deletion/reordering",
+    "stagingBoundary": "Detached allocated nodes and partial pointer operations are separate application-owned working State, not valid list/tree snapshots or a promised new staging API",
+    "graphBoundary": "Per-snapshot graph mapping does not widen graph fixed-topology traces",
+    "treeBoundary": "Only complete valid chains map to a rooted single-child tree; raw working arenas may not"
+  },
+  "requirements": {
+    "model": "Unique IDs; headId plus nextId fields are authoritative; reach every node once from head to null; empty/singleton valid; no cycles/dangling/shared-successor/unreachable members",
+    "identity": "Stable node IDs independent of equal values/order; next pointer identity is owner+next slot, independent of target; namespaced scene IDs",
+    "null": "A nullable pointer target is application data, not a fake node or a Scene phase; a projected null slot can remain an update across target changes",
+    "transitions": "Resolve both old/current pointer endpoint generations through Scene.get, including removed nodes and zero-presence transitions; guard null",
+    "validation": "Future list module validates atomically before commit; generic Scene deliberately has no list invariant checks",
+    "projection": "Immutable pure endpoint projection; layout/routing/null markers and viewport transformations are renderer/application concerns",
+    "results": "Persistent chain/marks/results in State; rewind restores retained snapshots, not reverse pointer assignments",
+    "ownership": "Copied/frozen module-owned records; app payload immutable and cloneable by caller; dispose follows existing iterator/session ownership, not manual memory deallocation",
+    "moduleBoundary": "Headless DOM-free model; exact entry/types/trace/errors/staging/rendering/graph-tree adapters require a separate API contract"
+  },
+  "runtimeProbe": {
+    "scope": "Current core API with handwritten application list/staging snapshots and scenes; no list implementation or model validation",
+    "counts": {
+      "passed": 37,
+      "failed": 0
+    },
+    "checks": [
+      {
+        "name": "Empty list uses an empty scene without a fake null node",
+        "passed": true
+      },
+      {
+        "name": "Singleton null pointer is data, not a dangling Scene reference",
+        "passed": true
+      },
+      {
+        "name": "Insertion keeps old node identities and enters one new node",
+        "passed": true
+      },
+      {
+        "name": "Equal values do not merge distinct list nodes",
+        "passed": true
+      },
+      {
+        "name": "Storage order does not determine visible list identity",
+        "passed": true
+      },
+      {
+        "name": "Insertion redirects the retained predecessor pointer",
+        "passed": true
+      },
+      {
+        "name": "New node pointer resolves its existing successor",
+        "passed": true
+      },
+      {
+        "name": "Reflow preserves both positions for retained nodes",
+        "passed": true
+      },
+      {
+        "name": "Removal exits the node and its owned next pointer together",
+        "passed": true
+      },
+      {
+        "name": "Bypass retains pointer identity while changing its target",
+        "passed": true
+      },
+      {
+        "name": "Redirected pointer can resolve both removed and retained targets",
+        "passed": true
+      },
+      {
+        "name": "Exiting pointer still resolves its removed owner",
+        "passed": true
+      },
+      {
+        "name": "Retargeting data remains available at all progress endpoints",
+        "passed": true
+      },
+      {
+        "name": "Head insertion is new state metadata with entering objects",
+        "passed": true
+      },
+      {
+        "name": "Head removal preserves the surviving successor identity",
+        "passed": true
+      },
+      {
+        "name": "Tail deletion keeps a target-to-null pointer update",
+        "passed": true
+      },
+      {
+        "name": "Append keeps a null-to-target pointer update",
+        "passed": true
+      },
+      {
+        "name": "Deleting the last node exits both node and null pointer",
+        "passed": true
+      },
+      {
+        "name": "Complete reversal retains all node and pointer identities",
+        "passed": true
+      },
+      {
+        "name": "Existing dispatcher resolves old/new/null links before node drawing",
+        "passed": true
+      },
+      {
+        "name": "Replacing a removed node with equal value needs a fresh identity",
+        "passed": true
+      },
+      {
+        "name": "List, pointer, graph and tree namespaces do not collide",
+        "passed": true
+      },
+      {
+        "name": "List/graph/tree objects compose in one generic registry",
+        "passed": true
+      },
+      {
+        "name": "Detached insertion staging needs no new Scene phase",
+        "passed": true
+      },
+      {
+        "name": "Scene intentionally does not validate list reachability or cycles",
+        "passed": true
+      },
+      {
+        "name": "Pure projection caches endpoint scenes without event/progress dependence",
+        "passed": true
+      },
+      {
+        "name": "Empty list is a valid generic initial step",
+        "passed": true
+      },
+      {
+        "name": "Seek and final hold retain result order and old list snapshots",
+        "passed": true
+      },
+      {
+        "name": "Reverse frame restores removed nodes from saved endpoints",
+        "passed": true
+      },
+      {
+        "name": "Seeking past an insertion does not require intermediate lifecycle callbacks",
+        "passed": true
+      },
+      {
+        "name": "Terminal completion closes once without EOF probe",
+        "passed": true
+      },
+      {
+        "name": "Fresh source restores initial links and clears result",
+        "passed": true
+      },
+      {
+        "name": "Previous/Next restore links without rerunning pointer assignments",
+        "passed": true
+      },
+      {
+        "name": "Bounded history uses positions rather than node or source indices",
+        "passed": true
+      },
+      {
+        "name": "State-only source retains list result without an event",
+        "passed": true
+      },
+      {
+        "name": "Existing same-ID type validation stays intact",
+        "passed": true
+      },
+      {
+        "name": "Plain list state remains structured-cloneable",
+        "passed": true
+      }
+    ]
+  },
+  "typeProbe": {
+    "scope": "Application-only linked-list types against existing core/widget; no package declarations added",
+    "negativeCases": 10,
+    "results": [
+      {
+        "typescript": "6.0.3",
+        "mode": "NodeNext",
+        "surface": "core",
+        "libraries": "ES2022 only",
+        "passed": true
+      },
+      {
+        "typescript": "6.0.3",
+        "mode": "NodeNext",
+        "surface": "player",
+        "libraries": "ES2022 + DOM",
+        "passed": true
+      },
+      {
+        "typescript": "6.0.3",
+        "mode": "Bundler",
+        "surface": "core",
+        "libraries": "ES2022 only",
+        "passed": true
+      },
+      {
+        "typescript": "6.0.3",
+        "mode": "Bundler",
+        "surface": "player",
+        "libraries": "ES2022 + DOM",
+        "passed": true
+      }
+    ]
+  },
+  "existingRegressionChecks": {
+    "command": "node --test --test-reporter=tap test/scene.test.mjs test/scene-cache.test.mjs test/scene-projector.test.mjs test/object-lifecycle.test.mjs",
+    "passed": 18,
+    "failed": 0,
+    "stdoutFile": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/list-existing-tests.tap",
+    "native": false,
+    "stdoutSha256": "5bb3230237e3370752c7d8e81d61f76b08699e2fbf3f4205b3180c03f4c990cb"
+  },
+  "verificationLimits": [
+    "Handwritten application fixtures, not a list builder, validator, mutation algorithm, staging builder, adapter, renderer or package declarations",
+    "Core data availability and existing generic API typing; future list validation correctness not certified",
+    "No native pointer/arrow geometry, null-marker animation, collision-free routing or performance checks",
+    "Isolated TypeScript 6.0.3, not a complete future-module compiler matrix",
+    "Circular/doubly linked lists and shared-node list arenas outside the first model scope"
+  ],
+  "protectedFiles": {
+    "count": 298,
+    "unchanged": true,
+    "baselineFile": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/list-contract-before.json",
+    "baselineSha256": "c6bc8be3dc24810964c6750d51cb59d63f48855934b04e1993ff8bb27365739b"
+  },
+  "installedCandidatePayload": {
+    "packageRoot": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\node_modules\\@grundyjs\\algiviz",
+    "comparedFiles": 75,
+    "matchCurrentDistAndPackage": true
+  },
+  "existingGraphTreeGridSketchesUnchanged": true,
+  "documentationHashes": {
+    "docs/linked-list-contract.md": "1da67f74a9b680d906db582c8e8ed78756230b3913e86e828d3b8d9a12b41eb7",
+    "docs/ru/linked-list-contract.md": "a49787b1aa02cf743bc78dc043d846ccf7a9976b3c8cc0a2ba1f6c30220e84e1",
+    "docs/current-api.md": "fdf9c057e11a868b1f219cdb79d92ed6e7ae7d7b232f0d7a1410887855c43db6",
+    "docs/ru/current-api.md": "11a89048d65c242f6df8699555a306b1c991baf4802d3d32dcfb9282be5c26c1",
+    "docs/scene.md": "bf1eac608ce102ca07d2e9c89ef65972cfd4cd7615b5d992f131b28a19e10aa2",
+    "docs/ru/scene.md": "d9b855624e701d3845cea5cdd6e918522b6581fe4d71e826df6298842cf9d087"
+  },
+  "externalProbeFiles": [
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\list-core-fit.mjs",
+      "sha256": "8533800aa788896f1ee33a96da61d68157db38b98e32cd2e7d4d8d10d5e659d2"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\list-core-types.mts",
+      "sha256": "12b4e84962abe1ec7e6566b958d6b9ddae7b84025a0787fefecbc2eef8457682"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\list-player-types.mts",
+      "sha256": "87e13f50cc8f26889d7b008595f5482f60a7f513ce4277fe7ab0c7563933fd94"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.list-NodeNext-core.json",
+      "sha256": "ddcec476288d6ba4b0b34dbb219f2920f2aa778b6175407a7c256f14fe7d42dc"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.list-NodeNext-player.json",
+      "sha256": "9c7cc8da104a2a68168fa263f64201287677c78a573917e863af6a78781f902f"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.list-Bundler-core.json",
+      "sha256": "73d18bbee43eb5cdd767bbe8ccac6dfe3bcfcaaaa4c21cc7084af1311c5aadd3"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.list-Bundler-player.json",
+      "sha256": "0fad6910405d480b0d3299067b12716ae044e6cefab412e60cc874fe4cbefb29"
+    }
+  ]
+}

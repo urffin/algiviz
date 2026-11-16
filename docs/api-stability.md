@@ -1,9 +1,10 @@
 # API stabilization before 1.0
 
-**Candidate preparation, 2026-11-16:** [1.0.0 candidate](candidate-1.0.md) has
-version/lock, [migration](migration-1.0.md), release notes and local preparation
-checks. Publication is not authorized; exact-SHA CI/native gates remain. Earlier
-review/status sections below retain their stage scope.
+**Core review, 2026-11-16:** [all four future model sketches fit](core-readiness-1.0.md)
+without core changes. The [1.0.0 candidate](candidate-1.0.md) a9b93f8 is in origin
+with all 11 CI jobs successful; 26 native stepSource/result/control checks pass.
+Final documentation/SHA and the remaining native G3 scope precede a separately
+authorized publication. Earlier review/status sections retain their stage scope.
 
 **Post-F2 readiness recheck, 2026-11-14:** all eight entries are ready locally,
 with no known technical blocker or unresolved API clarification in the reviewed
@@ -358,31 +359,31 @@ The current release's successful CI does not certify a later 1.0 candidate.
 
 ## What remains before 1.0, in order
 
-The [post-F2 eight-entry review](api-readiness-1.0.md) leaves no known technical
-blocker in the reviewed boundary. The [support scope](support-matrix.md#current-support-boundary)
-is retained; broadening it is optional work.
+The [current core review](core-readiness-1.0.md) leaves no known API/implementation
+blocker after all four model sketches. The [support scope](support-matrix.md#current-support-boundary)
+is retained; broadening it and implementing new structures remain optional work.
 
-1. **G1: define an authorized candidate.** Apply U3; choose the version and align
-   package/lock/changelog/migration notes, including F1/F2, U1 and U2 changes.
-   Commit intended code/tests/docs and freeze the SHA/archive/hashes. There is
-   no automatic promotion or required intermediate 0.x release/new feature.
-2. **G2: verify the exact candidate.** Repository, installed-package and bundle
-   checks plus all 11 configured CI jobs must pass on its SHA. Older 0.16.0 CI
-   and pre-candidate local results cannot certify it.
-3. **G3: record native candidate checks.** Verify focused playback/scene/Canvas/
-   viewport and affected Worker/Player data, controls and cleanup within the
-   built-in Windows browser boundary; record candidate/build/host provenance.
-   Recheck affected results after changes.
+1. **G1/G2 on a9b93f8 are complete.** Version/lock, notes and code are committed;
+   origin matches and all 11 exact-SHA jobs pass. Review and separately commit/
+   push the accumulated documentation if included in the release. This review
+   does not create that commit or change version/API/implementation.
+2. **Verify the final release SHA.** If documentation changes the SHA, require
+   all 11 jobs on the final commit. Reuse unchanged local/payload checks with
+   explicit hashes, without claiming another SHA's CI as its own.
+3. **Finish native G3.** Retain the passed 26-case stepSource/result/control
+   report. Complete generic scene lifecycle, Canvas/viewport sizing/DPR/disposal
+   and affected async/Worker data/transfer/F1/F2/waiting/control/cleanup on the
+   final candidate/artifact in the existing Windows browser boundary. Preserve
+   actual run/SHA/build/host provenance; recheck affected results after changes.
 4. **Publish only under a separate instruction after G1–G3.** Match tag/version
    and the checked SHA; use GitHub Release → npm and verify workflow success,
    exact version/latest, fresh registry consumers and signature/provenance.
    The publishing workflow does not enforce all 11 CI jobs itself. Website
    work remains separately authorized.
 
-F1, U1 and U2 are resolved in the local working tree; U3 is selected as a policy.
-Publication remains deferred. Permanent U5 coverage and final baseline review are
-complete locally; F2 is corrected and verified, leaving G1–G3 candidate
-gates in the [final review](api-readiness-1.0.md). The historical four-module audits identified
+F1/F2 and U1–U5 are resolved in the unpublished candidate. Publication remains
+deferred; the [current gate table](core-readiness-1.0.md#remaining-release-steps)
+records completed G1/G2 and the final-documentation/G3 remainder. The historical four-module audits identified
 no remaining required code change within their historical scope. A
 separate [optional-player proposal](optional-player-proposal.md) evaluates useful
 0.x development and optimization work; it is not a new prerequisite for 1.0 or

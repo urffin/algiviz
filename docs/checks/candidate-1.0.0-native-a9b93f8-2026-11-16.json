@@ -1,0 +1,271 @@
+{
+  "date": "2026-11-16",
+  "candidateVersion": "1.0.0",
+  "candidateCommit": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+  "status": "requested-native-scope-passed",
+  "scope": [
+    "stepSource",
+    "done result green bar",
+    "bounded rewind",
+    "Restart",
+    "dispose",
+    "real Play/Pause/Next and final hold"
+  ],
+  "method": "Automated checks executed in a user-opened visible native browser page. Real DOM button.click events and public Player calls, real Canvas getImageData pixels and real requestAnimationFrame; not a fake DOM or Node rendering. This is not a hardware keyboard/mouse or accessibility audit.",
+  "browser": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "platform": "Win32",
+    "devicePixelRatio": 1,
+    "visibility": "visible",
+    "canvasConstructor": "CanvasRenderingContext2D",
+    "realRaf": true
+  },
+  "results": {
+    "passed": 26,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "Real browser Canvas 2D",
+        "passed": true,
+        "detail": {
+          "context": "CanvasRenderingContext2D",
+          "visibility": "visible"
+        }
+      },
+      {
+        "name": "Construction is idle and lazy",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Native Start control reads exactly one explicit step",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Direct state endpoints and no initial green",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Done finishes with no EOF click",
+        "passed": true,
+        "detail": {
+          "advances": 10
+        }
+      },
+      {
+        "name": "Only result bar is green in real Canvas pixels",
+        "passed": true,
+        "detail": {
+          "pixels": [
+            [
+              71,
+              85,
+              105,
+              255
+            ],
+            [
+              71,
+              85,
+              105,
+              255
+            ],
+            [
+              71,
+              85,
+              105,
+              255
+            ],
+            [
+              4,
+              120,
+              87,
+              255
+            ],
+            [
+              71,
+              85,
+              105,
+              255
+            ]
+          ]
+        }
+      },
+      {
+        "name": "Explicit answer, counters and immutable result IDs",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "One terminal close; no source read beyond done",
+        "passed": true,
+        "detail": {
+          "factories": 1,
+          "reads": 11,
+          "predicates": 11,
+          "returns": 1,
+          "finally": 1,
+          "afterTerminal": 0,
+          "renders": 11,
+          "notifications": 12
+        }
+      },
+      {
+        "name": "Previous removes result and restores active color",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Buffered terminal replay restores green without read/classify/close",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Extra Next at completion does not probe EOF",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Widget closed waits for dispose, not terminal",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Native Restart creates fresh source/window and clears green",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Dispose restores viewport, removes UI and closes once",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Native Play/Pause uses real RAF and preserves partial transition",
+        "passed": true,
+        "detail": {
+          "reads": 2,
+          "progress": 0.8333333333333334,
+          "renders": 3
+        }
+      },
+      {
+        "name": "Next completes a partial transition without source read",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Terminal discovery retains ownership before endpoint",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Previous interrupts terminal transition without closing source",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Terminal endpoint closes once before positive hold",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Real RAF completes final hold without more reads",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Dispose during playback cancels RAF and all later rendering/notifications",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Dark theme result is green in real pixels",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Retained window is bounded by capacity",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Oldest retained position disables Previous",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "Dispose before Start does not acquire source",
+        "passed": true,
+        "detail": {}
+      },
+      {
+        "name": "No owned test widgets, pending RAF or browser errors remain",
+        "passed": true,
+        "detail": {
+          "widgets": 0,
+          "pendingRaf": 0,
+          "errors": []
+        }
+      }
+    ],
+    "uncaughtErrors": [],
+    "ownedTestWidgetsRemaining": 0,
+    "pendingWidgetRafRemaining": 0
+  },
+  "visualInspection": {
+    "reviewed": true,
+    "frames": [
+      "finalLight",
+      "rewindLight",
+      "restartLight"
+    ],
+    "notes": "Only minimum 2 at index 3 is green on done; rewind restores amber highlight; Restart restores all ordinary bars. Native Canvas exports, not full-window screenshots."
+  },
+  "images": {
+    "finalLight": {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\native-a9b93f8-zBhxbr\\finalLight.png",
+      "sha256": "d0dc7fc24f4e7140d037bbd03e57d52ae7b3046907026613bba46c9247797be7"
+    },
+    "rewindLight": {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\native-a9b93f8-zBhxbr\\rewindLight.png",
+      "sha256": "3dab15fef192c3cae5fde8a8f59c32c1deccc7761b03c2c59914ca3dd4268f78"
+    },
+    "restartLight": {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\native-a9b93f8-zBhxbr\\restartLight.png",
+      "sha256": "c340340de4640320aba86627741674ea2f8ee6c4a7c15bacf8f28928d9849832"
+    },
+    "finalDark": {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\native-a9b93f8-zBhxbr\\finalDark.png",
+      "sha256": "d5639ee0acc6eb5706cb39bf1db227b28e64bee2e651b15c083c2de98385b7a2"
+    }
+  },
+  "artifact": {
+    "archive": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\grundyjs-algiviz-1.0.0.tgz",
+    "integrity": "sha512-0IqVwGx0Ks0U4IldFknsCQ9YfiOUPxXDipvbcBwEbTSVeB2UAJRVHVjCWjVH770RGiNFATfvLe0ryeeYGRanlw==",
+    "installedPayloadFilesMatchedBeforeAndAfter": 75
+  },
+  "fixture": {
+    "directory": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/native-a9b93f8-zBhxbr",
+    "scriptSha256": "8989ec1a89988584b7e2b33064350786fab5b54dda687c5f72f603459d65a166",
+    "serverSha256": "e8daca0799e619b0cff214d58782a5a7803c327bce42425a98fbdf57ac9db5f3",
+    "rawBrowserReport": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/native-a9b93f8-zBhxbr/browser-report.json",
+    "requestJournal": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/native-a9b93f8-zBhxbr/requests.json"
+  },
+  "automationAvailability": {
+    "cua": "service_info timeout",
+    "windowsComputerUse": "initialization timed out; no Windows input issued",
+    "browserOpening": "user confirmed visible local page, browser GET/POST recorded",
+    "externalBrowserDebuggingUsed": false
+  },
+  "repository": {
+    "head": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+    "clean": true,
+    "sourceChanged": false,
+    "commitCreated": false,
+    "tagCreated": false,
+    "publicationPerformed": false
+  },
+  "releaseScope": "This closes the user-requested native stepSource/array-result/control scope on a9b93f8. Worker/viewport and other native release scopes are not newly certified by this report; no tag or publication is authorized."
+}

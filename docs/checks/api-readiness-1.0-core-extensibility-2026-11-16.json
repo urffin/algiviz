@@ -1,0 +1,507 @@
+{
+  "date": "2026-11-16",
+  "scope": "Documentation-only consolidated core readiness and release-gate update after graph/tree/grid/list model checks",
+  "candidateCommit": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+  "candidateVersion": "1.0.0",
+  "conclusion": {
+    "coreReadyForOnePointZeroWithinReviewedBoundary": true,
+    "requiresCoreApiChange": false,
+    "requiresCoreImplementationChange": false,
+    "knownCoreTechnicalBlockers": 0,
+    "allEightEntriesReadyWithinReviewedContracts": true,
+    "releaseGatesComplete": false,
+    "reason": "Final documentation/SHA decision and remaining native G3 scope; publication is separately authorized"
+  },
+  "implementationChanged": false,
+  "publicApiChanged": false,
+  "exportMapChanged": false,
+  "versionChanged": false,
+  "testsOrWorkflowsChanged": false,
+  "commitCreated": false,
+  "pushed": false,
+  "ciStarted": false,
+  "nativeRunStarted": false,
+  "tagCreated": false,
+  "publication": false,
+  "domainReviews": {
+    "records": [
+      {
+        "name": "graph",
+        "file": "docs/checks/graph-contract-2026-11-16.json",
+        "sha256": "281295e22b0ed00a9287b549aece713df236533899f51b6c3446cb72813b9268",
+        "runtime": 25,
+        "typeConfigurations": 4,
+        "negativeCases": 7,
+        "allPassed": true,
+        "coreChangesNeeded": false
+      },
+      {
+        "name": "tree",
+        "file": "docs/checks/tree-contract-2026-11-16.json",
+        "sha256": "237cf4b79fae794d36c3443f70177e7b7dd0fe63ae21a7f5e8901679200d7682",
+        "runtime": 31,
+        "typeConfigurations": 4,
+        "negativeCases": 9,
+        "allPassed": true,
+        "coreChangesNeeded": false
+      },
+      {
+        "name": "grid",
+        "file": "docs/checks/grid-contract-2026-11-16.json",
+        "sha256": "e89a9944ec164a55a29d1949db74103cad25a5267bb319fce005301d32858caa",
+        "runtime": 32,
+        "typeConfigurations": 4,
+        "negativeCases": 10,
+        "allPassed": true,
+        "coreChangesNeeded": false
+      },
+      {
+        "name": "linked-list",
+        "file": "docs/checks/linked-list-contract-2026-11-16.json",
+        "sha256": "9b7037ccffaf0bfae7d941fcf1394bef9cde06cc67aeb5f67d7cb5b1ea9714be",
+        "runtime": 37,
+        "typeConfigurations": 4,
+        "negativeCases": 10,
+        "allPassed": true,
+        "coreChangesNeeded": false
+      }
+    ],
+    "runtimeAssertions": 125,
+    "typeConfigurations": 16,
+    "negativeTypeCases": 36,
+    "typescript": "6.0.3",
+    "resolutions": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "libraries": [
+      "ES2022 only",
+      "Player/DOM"
+    ],
+    "rerunNow": false,
+    "limits": "Overlapping application assertions; not new module implementations, full compiler matrices, visual acceptance or extra repository test totals"
+  },
+  "commonFindings": [
+    "Generic immutable State/Event fit existing Step/Frame",
+    "Stable scene IDs, old/current endpoint transitions and scene.get cover relationships and null/enter/exit",
+    "Domain validation remains in future models; generic Scene has no graph/tree/grid/list schema",
+    "Persistent marks/results in State support rewind/seek and state-only async sources",
+    "Pure projection separates model/layout/view policy from draw-time viewport/backend",
+    "Existing source ownership/control/cancellation/cleanup remains unchanged"
+  ],
+  "boundaries": [
+    "Graph initial trace remains fixed-topology; dynamic tree/list states use generic playback directly",
+    "Grid adjacency and tree conversion of predecessor subsets are explicit",
+    "List pointer identity follows owner+next slot; working arenas are separate from complete valid lists/trees",
+    "scene.get only sees actual projected objects, including aggregate-grid limits",
+    "Future exact entry/type/trace/error/layout/storage/rendering/staging APIs remain feature work under U3, not required 1.0 core changes"
+  ],
+  "inventory": {
+    "entries": [
+      {
+        "entry": "./scene",
+        "runtime": [
+          "createSceneFrame",
+          "createSceneProjector",
+          "createSceneRenderer"
+        ],
+        "types": [
+          "ObjectTransition",
+          "Scene",
+          "SceneFrame",
+          "SceneObject",
+          "SceneVisualizations"
+        ]
+      },
+      {
+        "entry": "./array",
+        "runtime": [
+          "createArrayPlayer",
+          "createArrayTimeline",
+          "createArrayTrace",
+          "defineArrayAlgorithm"
+        ],
+        "types": [
+          "ArrayAlgorithm",
+          "ArrayDoneOptions",
+          "ArrayEvent",
+          "ArrayFrame",
+          "ArrayPlayer",
+          "ArraySnapshot",
+          "ArrayStep",
+          "ArrayTimeline",
+          "ArrayTrace",
+          "Item",
+          "SortedRegions"
+        ]
+      },
+      {
+        "entry": "./playback",
+        "runtime": [
+          "createAsyncSource",
+          "createPlayer",
+          "createRewindBuffer",
+          "createStatePlayer",
+          "createStepEmitter",
+          "createTimeline"
+        ],
+        "types": [
+          "AsyncSource",
+          "AsyncSourceCloseResult",
+          "AsyncSourceFactory",
+          "AsyncSourceReadResult",
+          "AsyncSourceSignal",
+          "Frame",
+          "Player",
+          "RewindBuffer",
+          "Step",
+          "Timeline"
+        ]
+      },
+      {
+        "entry": "./player",
+        "runtime": [
+          "Player"
+        ],
+        "types": [
+          "PlayerCloseResult",
+          "PlayerLabels",
+          "PlayerOptions",
+          "PlayerStatus"
+        ]
+      },
+      {
+        "entry": "./canvas/viewport",
+        "runtime": [
+          "createCanvasViewport"
+        ],
+        "types": [
+          "CanvasViewport",
+          "CanvasViewportOptions",
+          "CanvasViewportSize"
+        ]
+      },
+      {
+        "entry": "./canvas",
+        "runtime": [
+          "arrayScene",
+          "createArrayRenderer",
+          "createSortRenderer"
+        ],
+        "types": [
+          "ArrayObjects",
+          "ArrayPalette",
+          "ArrayPaletteOverrides",
+          "ArrayRendererOptions"
+        ]
+      },
+      {
+        "entry": "./worker",
+        "runtime": [
+          "WorkerSourceError",
+          "createWorkerSourceFactory"
+        ],
+        "types": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceErrorCode",
+          "WorkerSourceErrorOptions",
+          "WorkerSourceFactory",
+          "WorkerSourceIssue",
+          "WorkerSourceIterator",
+          "WorkerSourceOptions",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceSession",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind"
+        ]
+      },
+      {
+        "entry": "./worker/runtime",
+        "runtime": [
+          "exposeWorkerSource"
+        ],
+        "types": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceEndpointOptions",
+          "WorkerSourceErrorCode",
+          "WorkerSourceIssue",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind",
+          "WorkerStateFactory",
+          "WorkerTransferSelector"
+        ]
+      }
+    ],
+    "runtimeExports": 21,
+    "typeOnlyExports": 69,
+    "distinctTypeOnlyNames": 57,
+    "freshEnumeration": true,
+    "method": "TypeScript declaration module symbols compared with exact candidate inventory; not strict consumer recompilation"
+  },
+  "reusedCandidateVerification": {
+    "report": "docs/checks/candidate-1.0.0-explicit-steps-2026-11-16.json",
+    "sha256": "69b0e8dfe7df7ee6e36c2600b6def918f9715a5eb7988cc85ec4cab65f2de3ef",
+    "repositoryTests": {
+      "tests": 551,
+      "passed": 551,
+      "stepSourceTests": 20,
+      "arrayResultTests": 11,
+      "quickstartTests": 11
+    },
+    "installed": {
+      "compilers": [
+        "5.0.4",
+        "5.4.5",
+        "5.9.3",
+        "6.0.3"
+      ],
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "libraries": [
+        "ES2022",
+        "DOM",
+        "WebWorker separately"
+      ],
+      "passed": true
+    },
+    "bundleIsolation": true,
+    "migration": {
+      "results": [
+        {
+          "file": "docs/migration-1.0.md",
+          "javascriptExamples": 6,
+          "passed": true
+        },
+        {
+          "file": "docs/ru/migration-1.0.md",
+          "javascriptExamples": 6,
+          "passed": true
+        }
+      ],
+      "typescript": "6.0.3",
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "typedNarrowing": true,
+      "installedCandidate": true
+    },
+    "quickstart": {
+      "vite": "8.3.8",
+      "languages": [
+        "en",
+        "ru"
+      ],
+      "archiveInstalled": true,
+      "buildsPassed": true,
+      "jsLines": {
+        "player": 31,
+        "manual": 31
+      }
+    },
+    "suitesRerunNow": false
+  },
+  "remoteRecheck": {
+    "file": "docs/checks/candidate-1.0.0-ci-a9b93f8-2026-11-16.json",
+    "sha256": "5823c106e530882428aed04eb28cc2e7e40b6a51a619242c8fdca9b0dee0ad29",
+    "checkedAt": "2026-11-16T19:37:48.0872213Z",
+    "source": "Read-only GitHub REST and npm registry requests",
+    "ci": {
+      "id": 43860619331,
+      "head_sha": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331",
+      "run_attempt": 1
+    },
+    "jobs": [
+      {
+        "id": 133276145070,
+        "name": "Node 26 / ubuntu-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145070"
+      },
+      {
+        "id": 133276145179,
+        "name": "Node 26 / windows-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145179"
+      },
+      {
+        "id": 133276145310,
+        "name": "TypeScript 6.0.3 consumer",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145310"
+      },
+      {
+        "id": 133276145368,
+        "name": "Node 22 / windows-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145368"
+      },
+      {
+        "id": 133276145381,
+        "name": "TypeScript 5.0.4 consumer",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145381"
+      },
+      {
+        "id": 133276145390,
+        "name": "Node 22 / ubuntu-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145390"
+      },
+      {
+        "id": 133276145440,
+        "name": "TypeScript 5.9.3 consumer",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145440"
+      },
+      {
+        "id": 133276145501,
+        "name": "Node 24 / windows-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145501"
+      },
+      {
+        "id": 133276145513,
+        "name": "Node 24 / ubuntu-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145513"
+      },
+      {
+        "id": 133276145530,
+        "name": "Optional modules bundle isolation",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145530"
+      },
+      {
+        "id": 133276145571,
+        "name": "TypeScript 5.4.5 consumer",
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/urffin/algiviz/actions/runs/43860619331/job/133276145571"
+      }
+    ],
+    "originMaster": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+    "tag": {
+      "status": 404,
+      "exists": false
+    },
+    "release": {
+      "status": 404,
+      "exists": false
+    },
+    "npm": {
+      "exactStatus": 404,
+      "latest": "0.16.0",
+      "versionExists": false
+    }
+  },
+  "nativeSubset": {
+    "file": "docs/checks/candidate-1.0.0-native-a9b93f8-2026-11-16.json",
+    "sha256": "9b296aab5a98516a964b6aef37c7dceba00894bfa75e7e01ced7196ea74a5cf7",
+    "candidateCommit": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+    "passed": 26,
+    "scope": [
+      "stepSource",
+      "done result green bar",
+      "bounded rewind",
+      "Restart",
+      "dispose",
+      "real Play/Pause/Next and final hold"
+    ],
+    "browser": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "platform": "Win32",
+      "devicePixelRatio": 1,
+      "visibility": "visible",
+      "canvasConstructor": "CanvasRenderingContext2D",
+      "realRaf": true
+    },
+    "method": "Automated checks executed in a user-opened visible native browser page. Real DOM button.click events and public Player calls, real Canvas getImageData pixels and real requestAnimationFrame; not a fake DOM or Node rendering. This is not a hardware keyboard/mouse or accessibility audit.",
+    "originalReportImportedUnchanged": true,
+    "fixtureAndImageHashesMatch": true,
+    "rerunNow": false,
+    "remainingScope": "Generic scene lifecycle, Canvas/viewport sizing/DPR/disposal and affected async/Worker data/copy/transfer/F1/F2/waiting/control/cleanup on the final candidate/artifact"
+  },
+  "releaseGates": {
+    "G1_a9b93f8": "complete",
+    "G2_a9b93f8": "complete: 11 of 11 successful jobs",
+    "documentationAndFinalSha": "pending separate review/commit/push instruction",
+    "G2_finalSha": "required on final SHA if documentation changes it; previous SHA CI is not relabeled",
+    "G3": "partially complete: 26 scoped native checks retained, remainder pending",
+    "publication": "not authorized/performed; Release -> npm after final gates, then registry/consumer/provenance verification"
+  },
+  "protectedFiles": {
+    "count": 298,
+    "unchanged": true,
+    "baseline": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/core-readiness-baseline.json",
+    "baselineSha256": "fd67641611d1c5904dfb0a19cb7e6b8ded7331752c1a0224cdc0c64e501952a1"
+  },
+  "archive": {
+    "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\grundyjs-algiviz-1.0.0.tgz",
+    "sha256": "24ca57a98246dd33971cdae353e6bd83a97922333ace87d4edb9915642126972",
+    "integrity": "sha512-0IqVwGx0Ks0U4IldFknsCQ9YfiOUPxXDipvbcBwEbTSVeB2UAJRVHVjCWjVH770RGiNFATfvLe0ryeeYGRanlw==",
+    "payloadFiles": 75,
+    "currentInstalledPayloadMatches": true,
+    "rebuildRule": "Match source and normalized payload manifest; do not require cross-platform tarball byte identity"
+  },
+  "documentationHashes": {
+    "docs/core-readiness-1.0.md": "3faf8a604e4298d5c99eb82de02e3d74ba1c24a0fd2cf2fa153d7fc4a676620c",
+    "docs/ru/core-readiness-1.0.md": "dc74cec5f9c40ad40a426bb7e307efe72882e94f726ee35e0ded19618a544e38",
+    "docs/current-api.md": "0eeeba2a10bc1c643db4a18efddad0ee59503e66cc989388dd71731892663a57",
+    "docs/ru/current-api.md": "06ebb73bc8503fff327426a2693f64c61eede9395c2ecf59aeb38707fe3345b3",
+    "docs/candidate-1.0.md": "b02b4dc3c49f52e14072a66ec910f5b2d5b54c4be302c1cc772f9a3a06383d41",
+    "docs/ru/candidate-1.0.md": "2b671096bd9284a4ea735da7aa2d487d5f1ea2d678062d7681db9c1774d766e8",
+    "docs/api-readiness-1.0.md": "a38331e6ff9a4c3b4bb4a53654d7d8db1b7dc093e330c8ae6b9a70c9d4f5fe96",
+    "docs/ru/api-readiness-1.0.md": "7889e7611dc00b2aef0c90887f2d4960fedd39fbc0d2d2d6213d7bad979c412d",
+    "docs/api-stability.md": "2a4f1d350b147bf6f014dc39453c7b03330a07aebd3f0e4b18fb82dd82909582",
+    "docs/scene.md": "bf1eac608ce102ca07d2e9c89ef65972cfd4cd7615b5d992f131b28a19e10aa2",
+    "docs/ru/scene.md": "d9b855624e701d3845cea5cdd6e918522b6581fe4d71e826df6298842cf9d087",
+    "docs/graph-contract.md": "eb83155ffcce879874807bf6986f4d7e5f84f7ffe721bc96343d4d663647d6fa",
+    "docs/ru/graph-contract.md": "1c557abc02354ca35f3e5a1b79d81c309907e3b7cc12d9ae7bf4e0a7e8ec9ae8",
+    "docs/tree-contract.md": "83314bdfcfc32ed8bda406436f6ab5f5bb95f4feb4ee7a828d405484298fb360",
+    "docs/ru/tree-contract.md": "b03a19851f18f6e233b789cc12fdca3e7e7cad85a9d57d0efb66bea858a710d3",
+    "docs/grid-contract.md": "5a5f154f97bf82d141004cc2d0cef1e2e80538b6616e0ddd2d28f9f05f6aa4b0",
+    "docs/ru/grid-contract.md": "6a485e9eac36828a69f2346c920f0ddfc465426101eaf0e233b083028c9df3a7",
+    "docs/linked-list-contract.md": "1da67f74a9b680d906db582c8e8ed78756230b3913e86e828d3b8d9a12b41eb7",
+    "docs/ru/linked-list-contract.md": "a49787b1aa02cf743bc78dc043d846ccf7a9976b3c8cc0a2ba1f6c30220e84e1"
+  },
+  "validation": {
+    "relativeLinks": {
+      "checked": 344,
+      "broken": 0
+    },
+    "markdownFragments": {
+      "checked": 30,
+      "broken": 0
+    },
+    "diffCheck": "passed"
+  }
+}

@@ -128,3 +128,27 @@ The returned frame is frozen; user states and projected scenes are not cloned
 or deep-frozen. Scene validation still happens in the scene renderer.
 The merge example uses this adapter to avoid rebuilding two cell scenes on every
 animation frame. The algorithm, object types and visual behavior remain external.
+
+## Future graph capability
+
+The [graph contract sketch](graph-contract.md) checks node/edge identity, links,
+parallel edges, loops and immutable annotations against these existing APIs.
+It adds no scene kind, relation field, registry requirement or package export.
+Graph model validation and geometric routing belong to that future domain
+capability; current generic scene contracts remain unchanged.
+
+The [tree contract sketch](tree-contract.md) separately checks ordered rooted
+hierarchies, rotations, reparenting, removal and composition with graph scenes.
+Both old and new link references are available through existing transitions;
+tree validity and the link animation policy belong to the future module. This
+does not widen the fixed-topology scope of the graph sketch or add scene kinds.
+
+The [matrix/grid sketch](grid-contract.md) checks aggregate surfaces, per-cell
+objects and composition with graph/tree views. scene.get only resolves declared
+objects; an aggregate surface provides coordinate-addressed cell data instead of
+virtual cell transitions. No new scene phase, kind or lookup API is introduced.
+
+The [linked-list sketch](linked-list-contract.md) checks stable next-slot identity,
+insertion/deletion, null targets and old/new references through scene.get. Complete
+list validation is separate from application-owned instructional working arenas.
+No graph/tree contract or generic scene API is widened.

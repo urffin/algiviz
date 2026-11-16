@@ -1,0 +1,236 @@
+{
+  "date": "2026-11-16",
+  "scope": "Authorized documentation-only freeze, commit/push and exact-resulting-SHA CI; no tag/publication",
+  "baseCodeCommit": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+  "candidateVersion": "1.0.0",
+  "documentationCommit": null,
+  "commitIdentityRule": "The commit first adding this record defines the documentation candidate. Its SHA, origin and CI receipt are recorded after commit without a self-referential commit ID.",
+  "publicApiChanged": false,
+  "implementationChanged": false,
+  "versionChanged": false,
+  "packagePayloadChanged": false,
+  "testsOrWorkflowsChanged": false,
+  "tagCreated": false,
+  "publication": false,
+  "verification": {
+    "protectedFilesUnchanged": 298,
+    "installedPayloadFilesMatched": 75,
+    "archiveSha256": "24ca57a98246dd33971cdae353e6bd83a97922333ace87d4edb9915642126972",
+    "inventory": {
+      "entries": 8,
+      "runtimeExports": 21,
+      "typeOnlyExports": 69,
+      "distinctTypeOnlyNames": 57
+    },
+    "domainRecords": [
+      {
+        "name": "graph",
+        "file": "docs/checks/graph-contract-2026-11-16.json",
+        "sha256": "281295e22b0ed00a9287b549aece713df236533899f51b6c3446cb72813b9268",
+        "runtime": 25,
+        "typeConfigurations": 4,
+        "negativeCases": 7,
+        "allPassed": true,
+        "coreChangesNeeded": false
+      },
+      {
+        "name": "tree",
+        "file": "docs/checks/tree-contract-2026-11-16.json",
+        "sha256": "237cf4b79fae794d36c3443f70177e7b7dd0fe63ae21a7f5e8901679200d7682",
+        "runtime": 31,
+        "typeConfigurations": 4,
+        "negativeCases": 9,
+        "allPassed": true,
+        "coreChangesNeeded": false
+      },
+      {
+        "name": "grid",
+        "file": "docs/checks/grid-contract-2026-11-16.json",
+        "sha256": "e89a9944ec164a55a29d1949db74103cad25a5267bb319fce005301d32858caa",
+        "runtime": 32,
+        "typeConfigurations": 4,
+        "negativeCases": 10,
+        "allPassed": true,
+        "coreChangesNeeded": false
+      },
+      {
+        "name": "linked-list",
+        "file": "docs/checks/linked-list-contract-2026-11-16.json",
+        "sha256": "9b7037ccffaf0bfae7d941fcf1394bef9cde06cc67aeb5f67d7cb5b1ea9714be",
+        "runtime": 37,
+        "typeConfigurations": 4,
+        "negativeCases": 10,
+        "allPassed": true,
+        "coreChangesNeeded": false
+      }
+    ],
+    "runtimeAssertions": 125,
+    "typeConfigurations": 16,
+    "negativeTypeCases": 36,
+    "nativeSubset": {
+      "candidate": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+      "passed": 26,
+      "fixtureAndImageHashesMatch": true,
+      "newRun": false,
+      "remainingG3": true
+    },
+    "reusedUnchangedChecks": {
+      "repositoryTests": 551,
+      "installedCompilers": [
+        "5.0.4",
+        "5.4.5",
+        "5.9.3",
+        "6.0.3"
+      ],
+      "bundleIsolation": true,
+      "why": "Code/build/metadata and installed payload match the previously verified candidate; only docs are changed. Full test/package checks are also required by the resulting-SHA CI."
+    }
+  },
+  "currentFollowup": "Commit/push is authorized. All 11 expected CI jobs on the resulting SHA must finish successfully. The a9b93f8 CI report remains historical baseline evidence, not certification of the new commit.",
+  "reportHashScope": "Dated report hashes describe files at their recorded stage, not a rolling manifest. This freeze supplies the current file manifest. sha256 describes local bytes; lfSha256 normalizes CRLF and is compared with staged Git blobs. The report itself is excluded to avoid a checksum cycle.",
+  "files": {
+    "docs/api-readiness-1.0.md": {
+      "sha256": "a38331e6ff9a4c3b4bb4a53654d7d8db1b7dc093e330c8ae6b9a70c9d4f5fe96",
+      "lfSha256": "a38331e6ff9a4c3b4bb4a53654d7d8db1b7dc093e330c8ae6b9a70c9d4f5fe96",
+      "bytes": 9907
+    },
+    "docs/api-stability.md": {
+      "sha256": "2a4f1d350b147bf6f014dc39453c7b03330a07aebd3f0e4b18fb82dd82909582",
+      "lfSha256": "2a4f1d350b147bf6f014dc39453c7b03330a07aebd3f0e4b18fb82dd82909582",
+      "bytes": 29287
+    },
+    "docs/candidate-1.0.md": {
+      "sha256": "f1aebebba7ca9da45ab89976e329753d6ace5d11b98783d0eb089ddfaf39e0f0",
+      "lfSha256": "f1aebebba7ca9da45ab89976e329753d6ace5d11b98783d0eb089ddfaf39e0f0",
+      "bytes": 5082
+    },
+    "docs/checks/api-readiness-1.0-core-extensibility-2026-11-16.json": {
+      "sha256": "193f5cfa9d24efd2e5285c410c470fb648dc05581877e97d8bfa333bafcf47c8",
+      "lfSha256": "193f5cfa9d24efd2e5285c410c470fb648dc05581877e97d8bfa333bafcf47c8",
+      "bytes": 17727
+    },
+    "docs/checks/candidate-1.0.0-ci-a9b93f8-2026-11-16.json": {
+      "sha256": "5823c106e530882428aed04eb28cc2e7e40b6a51a619242c8fdca9b0dee0ad29",
+      "lfSha256": "257ab23a5c8b888d6bd16fdc2c479c5f1153daf1e955e14b1319ce77b0b63471",
+      "bytes": 3371
+    },
+    "docs/checks/candidate-1.0.0-native-a9b93f8-2026-11-16.json": {
+      "sha256": "9b296aab5a98516a964b6aef37c7dceba00894bfa75e7e01ced7196ea74a5cf7",
+      "lfSha256": "9b296aab5a98516a964b6aef37c7dceba00894bfa75e7e01ced7196ea74a5cf7",
+      "bytes": 8574
+    },
+    "docs/checks/graph-contract-2026-11-16.json": {
+      "sha256": "281295e22b0ed00a9287b549aece713df236533899f51b6c3446cb72813b9268",
+      "lfSha256": "281295e22b0ed00a9287b549aece713df236533899f51b6c3446cb72813b9268",
+      "bytes": 37898
+    },
+    "docs/checks/grid-contract-2026-11-16.json": {
+      "sha256": "e89a9944ec164a55a29d1949db74103cad25a5267bb319fce005301d32858caa",
+      "lfSha256": "e89a9944ec164a55a29d1949db74103cad25a5267bb319fce005301d32858caa",
+      "bytes": 11015
+    },
+    "docs/checks/linked-list-contract-2026-11-16.json": {
+      "sha256": "9b7037ccffaf0bfae7d941fcf1394bef9cde06cc67aeb5f67d7cb5b1ea9714be",
+      "lfSha256": "9b7037ccffaf0bfae7d941fcf1394bef9cde06cc67aeb5f67d7cb5b1ea9714be",
+      "bytes": 12116
+    },
+    "docs/checks/tree-contract-2026-11-16.json": {
+      "sha256": "237cf4b79fae794d36c3443f70177e7b7dd0fe63ae21a7f5e8901679200d7682",
+      "lfSha256": "237cf4b79fae794d36c3443f70177e7b7dd0fe63ae21a7f5e8901679200d7682",
+      "bytes": 10120
+    },
+    "docs/core-readiness-1.0.md": {
+      "sha256": "8f0d3e057d6738acee67357ffa4cde7b136fe6c4de2eef3d3f470601fe805248",
+      "lfSha256": "8f0d3e057d6738acee67357ffa4cde7b136fe6c4de2eef3d3f470601fe805248",
+      "bytes": 9861
+    },
+    "docs/current-api.md": {
+      "sha256": "0eeeba2a10bc1c643db4a18efddad0ee59503e66cc989388dd71731892663a57",
+      "lfSha256": "0eeeba2a10bc1c643db4a18efddad0ee59503e66cc989388dd71731892663a57",
+      "bytes": 11438
+    },
+    "docs/graph-contract.md": {
+      "sha256": "eb83155ffcce879874807bf6986f4d7e5f84f7ffe721bc96343d4d663647d6fa",
+      "lfSha256": "eb83155ffcce879874807bf6986f4d7e5f84f7ffe721bc96343d4d663647d6fa",
+      "bytes": 11861
+    },
+    "docs/grid-contract.md": {
+      "sha256": "5a5f154f97bf82d141004cc2d0cef1e2e80538b6616e0ddd2d28f9f05f6aa4b0",
+      "lfSha256": "5a5f154f97bf82d141004cc2d0cef1e2e80538b6616e0ddd2d28f9f05f6aa4b0",
+      "bytes": 13215
+    },
+    "docs/linked-list-contract.md": {
+      "sha256": "1da67f74a9b680d906db582c8e8ed78756230b3913e86e828d3b8d9a12b41eb7",
+      "lfSha256": "1da67f74a9b680d906db582c8e8ed78756230b3913e86e828d3b8d9a12b41eb7",
+      "bytes": 13029
+    },
+    "docs/ru/api-readiness-1.0.md": {
+      "sha256": "7889e7611dc00b2aef0c90887f2d4960fedd39fbc0d2d2d6213d7bad979c412d",
+      "lfSha256": "7889e7611dc00b2aef0c90887f2d4960fedd39fbc0d2d2d6213d7bad979c412d",
+      "bytes": 14633
+    },
+    "docs/ru/candidate-1.0.md": {
+      "sha256": "a0e0aa93a90e9d6c4778099d3d1a217dc322d2b237bec304eb4c9a3e9a5155dc",
+      "lfSha256": "a0e0aa93a90e9d6c4778099d3d1a217dc322d2b237bec304eb4c9a3e9a5155dc",
+      "bytes": 7279
+    },
+    "docs/ru/core-readiness-1.0.md": {
+      "sha256": "25c1001b519cf39c5c0135bd9cee81637a56b718af749fbd9cb38efd7e556d1c",
+      "lfSha256": "25c1001b519cf39c5c0135bd9cee81637a56b718af749fbd9cb38efd7e556d1c",
+      "bytes": 15010
+    },
+    "docs/ru/current-api.md": {
+      "sha256": "06ebb73bc8503fff327426a2693f64c61eede9395c2ecf59aeb38707fe3345b3",
+      "lfSha256": "06ebb73bc8503fff327426a2693f64c61eede9395c2ecf59aeb38707fe3345b3",
+      "bytes": 17004
+    },
+    "docs/ru/graph-contract.md": {
+      "sha256": "1c557abc02354ca35f3e5a1b79d81c309907e3b7cc12d9ae7bf4e0a7e8ec9ae8",
+      "lfSha256": "1c557abc02354ca35f3e5a1b79d81c309907e3b7cc12d9ae7bf4e0a7e8ec9ae8",
+      "bytes": 17992
+    },
+    "docs/ru/grid-contract.md": {
+      "sha256": "6a485e9eac36828a69f2346c920f0ddfc465426101eaf0e233b083028c9df3a7",
+      "lfSha256": "6a485e9eac36828a69f2346c920f0ddfc465426101eaf0e233b083028c9df3a7",
+      "bytes": 21534
+    },
+    "docs/ru/linked-list-contract.md": {
+      "sha256": "a49787b1aa02cf743bc78dc043d846ccf7a9976b3c8cc0a2ba1f6c30220e84e1",
+      "lfSha256": "a49787b1aa02cf743bc78dc043d846ccf7a9976b3c8cc0a2ba1f6c30220e84e1",
+      "bytes": 20789
+    },
+    "docs/ru/scene.md": {
+      "sha256": "d9b855624e701d3845cea5cdd6e918522b6581fe4d71e826df6298842cf9d087",
+      "lfSha256": "d9b855624e701d3845cea5cdd6e918522b6581fe4d71e826df6298842cf9d087",
+      "bytes": 14028
+    },
+    "docs/ru/tree-contract.md": {
+      "sha256": "b03a19851f18f6e233b789cc12fdca3e7e7cad85a9d57d0efb66bea858a710d3",
+      "lfSha256": "b03a19851f18f6e233b789cc12fdca3e7e7cad85a9d57d0efb66bea858a710d3",
+      "bytes": 19552
+    },
+    "docs/scene.md": {
+      "sha256": "bf1eac608ce102ca07d2e9c89ef65972cfd4cd7615b5d992f131b28a19e10aa2",
+      "lfSha256": "bf1eac608ce102ca07d2e9c89ef65972cfd4cd7615b5d992f131b28a19e10aa2",
+      "bytes": 8480
+    },
+    "docs/tree-contract.md": {
+      "sha256": "83314bdfcfc32ed8bda406436f6ab5f5bb95f4feb4ee7a828d405484298fb360",
+      "lfSha256": "83314bdfcfc32ed8bda406436f6ab5f5bb95f4feb4ee7a828d405484298fb360",
+      "bytes": 12008
+    }
+  },
+  "remainingAfterSuccessfulCI": [
+    "Finish native G3 remainder on the final candidate/artifact with explicit source/payload provenance",
+    "Separate authorization for tag/Release/npm publication, followed by registry consumers and provenance checks"
+  ],
+  "validation": {
+    "status": "passed",
+    "markdownFiles": 96,
+    "relativeLinks": 1062,
+    "markdownFragments": 54,
+    "broken": 0,
+    "jsonReportsParsed": 33,
+    "diffCheck": "passed"
+  }
+}

@@ -1,0 +1,258 @@
+{
+  "date": "2026-11-16",
+  "scope": "Future /tree contract sketch and current-core fit, with /graph boundary; no implementation or publication",
+  "candidateSourceCommit": "a9b93f8db8db92ac1ba08ca4f127be82aad53f95",
+  "implementationChanged": false,
+  "publicDeclarationsChanged": false,
+  "exportMapChanged": false,
+  "newTreeEntryPresent": false,
+  "newGraphEntryPresent": false,
+  "examplesOrTestsChanged": false,
+  "dependenciesOrVersionChanged": false,
+  "commitCreated": false,
+  "publication": false,
+  "conclusion": {
+    "coreApiChangeRequired": false,
+    "onePointZeroBlockerFound": false,
+    "boundedTo": "Rooted ordered trees with immutable valid endpoint snapshots, explicit link identities, atomic topology changes and scene composition; no automatic layout or algorithm implementation",
+    "graphBoundary": "The initial graph trace remains fixed-topology; changing tree states use generic playback/scene, not a widened graph contract"
+  },
+  "requirements": {
+    "model": "One root (or empty), ordered children, one parent per nonroot, connected and acyclic, stable node/link IDs",
+    "identity": "Namespaced scene IDs; retain entity identity across hierarchy/layout changes; trace allocation rules require later API design",
+    "validity": "Tree module validates atomic updates before commit; generic Scene intentionally has no tree validator",
+    "transitions": "Use both previous/current link references and scene.get for changed or exiting endpoints",
+    "projection": "Pure immutable endpoint projection; layout and viewport policies stay separate from playback",
+    "persistentResult": "Store marks and result in State, not accumulated events/render history",
+    "moduleBoundary": "Headless DOM-free model; optional rendering and graph interop still require separate API design"
+  },
+  "runtimeProbe": {
+    "scope": "Existing core with handwritten application snapshots; no future /tree or /graph implementation",
+    "counts": {
+      "passed": 31,
+      "failed": 0
+    },
+    "checks": [
+      {
+        "name": "Empty tree needs no core sentinel scene object",
+        "passed": true
+      },
+      {
+        "name": "Equal labels do not merge node identities",
+        "passed": true
+      },
+      {
+        "name": "Tree, graph and link namespaces compose without collision",
+        "passed": true
+      },
+      {
+        "name": "Rotation matches retained nodes by ID, not root/depth/order",
+        "passed": true
+      },
+      {
+        "name": "Changing root is application state, not a Scene field",
+        "passed": true
+      },
+      {
+        "name": "Ordered siblings remain opaque snapshot data",
+        "passed": true
+      },
+      {
+        "name": "Retargeted link preserves both old and new endpoint references",
+        "passed": true
+      },
+      {
+        "name": "Both endpoint generations resolve through scene.get",
+        "passed": true
+      },
+      {
+        "name": "Shared progress interpolates moved root and child",
+        "passed": true
+      },
+      {
+        "name": "Tree event and non-positional source index survive Scene matching",
+        "passed": true
+      },
+      {
+        "name": "Subtree removal exposes old node and incident links together",
+        "passed": true
+      },
+      {
+        "name": "Disappearing link can resolve a deleted endpoint",
+        "passed": true
+      },
+      {
+        "name": "Insertion exposes new nodes and links at the same progress",
+        "passed": true
+      },
+      {
+        "name": "New identity with the same label produces enter and exit",
+        "passed": true
+      },
+      {
+        "name": "Graph and tree handlers coexist in one generic registry",
+        "passed": true
+      },
+      {
+        "name": "Existing layer ordering puts tree links before tree nodes",
+        "passed": true
+      },
+      {
+        "name": "Pure projector caches immutable endpoints, not event or progress",
+        "passed": true
+      },
+      {
+        "name": "Reverse frame keeps hierarchy and geometry from both snapshots",
+        "passed": true
+      },
+      {
+        "name": "Empty tree can be a valid initial playback state",
+        "passed": true
+      },
+      {
+        "name": "Seek and terminal hold preserve selected result state",
+        "passed": true
+      },
+      {
+        "name": "Seeking may skip topology changes without losing current scene",
+        "passed": true
+      },
+      {
+        "name": "Terminal predicate closes tree source once without EOF lookahead",
+        "passed": true
+      },
+      {
+        "name": "Fresh source restores original root and clears result",
+        "passed": true
+      },
+      {
+        "name": "Buffered Previous/Next restore topology without reexecuting source",
+        "passed": true
+      },
+      {
+        "name": "Bounded history evicts old tree snapshots by sequence position",
+        "passed": true
+      },
+      {
+        "name": "State-only sources need no tree event to retain result",
+        "passed": true
+      },
+      {
+        "name": "Generic Scene deliberately does not validate tree acyclicity",
+        "passed": true
+      },
+      {
+        "name": "Existing same-ID type validation still applies",
+        "passed": true
+      },
+      {
+        "name": "Current tree example retains application pointer routing",
+        "passed": true
+      },
+      {
+        "name": "Existing heap already projects synchronized tree/array identities",
+        "passed": true
+      },
+      {
+        "name": "Plain tree state is structured-cloneable",
+        "passed": true
+      }
+    ]
+  },
+  "typeProbe": {
+    "scope": "Application-only tree types against existing core/widget, no package declarations added",
+    "negativeCases": 9,
+    "results": [
+      {
+        "typescript": "6.0.3",
+        "mode": "NodeNext",
+        "surface": "core",
+        "libraries": "ES2022 only",
+        "passed": true
+      },
+      {
+        "typescript": "6.0.3",
+        "mode": "NodeNext",
+        "surface": "player",
+        "libraries": "ES2022 + DOM",
+        "passed": true
+      },
+      {
+        "typescript": "6.0.3",
+        "mode": "Bundler",
+        "surface": "core",
+        "libraries": "ES2022 only",
+        "passed": true
+      },
+      {
+        "typescript": "6.0.3",
+        "mode": "Bundler",
+        "surface": "player",
+        "libraries": "ES2022 + DOM",
+        "passed": true
+      }
+    ]
+  },
+  "existingRegressionChecks": {
+    "command": "node --test test/tree-pointer.test.mjs test/tree-svg.test.mjs test/heap-example.test.mjs",
+    "passed": 4,
+    "failed": 0,
+    "notes": "Existing SVG test uses a test DOM; not native browser evidence. Heap corpus reports 1403 inputs."
+  },
+  "verificationLimits": [
+    "No /tree or /graph builder, validator, trace methods, layout or renderer implemented",
+    "Application type/runtime fixtures establish current core data availability only",
+    "No native rendering, path geometry, performance or complete future-module compiler matrix check",
+    "No new package declarations or module stubs"
+  ],
+  "protectedFiles": {
+    "count": 298,
+    "unchanged": true,
+    "baselineFile": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f/tree-contract-before.json",
+    "baselineSha256": "c6bc8be3dc24810964c6750d51cb59d63f48855934b04e1993ff8bb27365739b"
+  },
+  "installedCandidatePayload": {
+    "packageRoot": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\node_modules\\@grundyjs\\algiviz",
+    "comparedFiles": 75,
+    "matchCurrentDistAndPackage": true
+  },
+  "existingGraphSketchUnchanged": true,
+  "documentationHashes": {
+    "docs/tree-contract.md": "83314bdfcfc32ed8bda406436f6ab5f5bb95f4feb4ee7a828d405484298fb360",
+    "docs/ru/tree-contract.md": "b03a19851f18f6e233b789cc12fdca3e7e7cad85a9d57d0efb66bea858a710d3",
+    "docs/current-api.md": "3e444cf58302ac5b0947ff0716cd9d1cb19a03cca6616ff09c3d1bb7800799e1",
+    "docs/ru/current-api.md": "34d21d4dddc93c7d71fdfb6f0325ce6c63d585293e9f6feb4f535e14e27d3a02",
+    "docs/scene.md": "cc06eada9208af30c064712a2e57d58f54ba9376950a688fe6be50e7ebc91633",
+    "docs/ru/scene.md": "5b5292079163c9b05d762b152aa6ad816a123a476548fd6f9d01ede9b3e244d9"
+  },
+  "externalProbeFiles": [
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tree-core-fit.mjs",
+      "sha256": "a8b24949b5f8230f543d77282d087f288b43700c519065b9003d664c54d7eead"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tree-core-types.mts",
+      "sha256": "3aa5ccd039fed8f9ec5832ecb8e9bfcc653887503efc03854e1acefba8206566"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tree-player-types.mts",
+      "sha256": "10938dda0b5e69d21d12cc85b7c4ba5c83252ea07f3b2f3ac783ed45c7ecbd22"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.tree-NodeNext-core.json",
+      "sha256": "c3b449d8924d46a812c17ade7e5b5d67cbc4513d870396ebb05d6912d113f551"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.tree-NodeNext-player.json",
+      "sha256": "1f4b6570a0dcee000ffa5f332f6335a769c7ba42408abb5fc5763b276a529c40"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.tree-Bundler-core.json",
+      "sha256": "0fa7384ca4736232df04b5a90826bb4edd61cfa8b0af3fb4aa33be46ecf57dfd"
+    },
+    {
+      "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-next-1.0.0-5dSQ7U\\app\\tsconfig.tree-Bundler-player.json",
+      "sha256": "771f8dd491635564086c832fa69a0c2a65090ba25bc9a207e379c60f1e58c875"
+    }
+  ]
+}
