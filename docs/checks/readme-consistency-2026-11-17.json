@@ -1,0 +1,128 @@
+{
+  "date": "2026-11-17",
+  "checkedAt": "2026-11-17T13:06:39.778Z",
+  "scope": "README EN/RU consistency, linked quickstart/learning pages and contributing CI instructions",
+  "findingsResolved": [
+    "Removed obsolete 0.x compatibility claim; linked current 1.x policy",
+    "Listed all ten current module exports separately, distinguishing eight released 1.0.0 entries from two unpublished intended 1.1.0 graph entries",
+    "Corrected main quickstart metric to 28 nonblank JavaScript lines; comparison retains 31 including blank lines",
+    "Replaced obsolete local archive instructions and unpublished stepSource/done-result claims with exact released npm 1.0.0 installation",
+    "Aligned current source/playback capabilities and graph caption example descriptions between languages",
+    "Updated contributing CI matrix to Node 22/24/26 plus four TypeScript consumer jobs and one bundle job (11 total)"
+  ],
+  "verification": {
+    "moduleExportRows": [
+      {
+        "name": "/playback",
+        "status": "1.0.0"
+      },
+      {
+        "name": "/scene",
+        "status": "1.0.0"
+      },
+      {
+        "name": "/array",
+        "status": "1.0.0"
+      },
+      {
+        "name": "/canvas",
+        "status": "1.0.0"
+      },
+      {
+        "name": "/canvas/viewport",
+        "status": "1.0.0"
+      },
+      {
+        "name": "/player",
+        "status": "1.0.0"
+      },
+      {
+        "name": "/worker",
+        "status": "1.0.0"
+      },
+      {
+        "name": "/worker/runtime",
+        "status": "1.0.0"
+      },
+      {
+        "name": "/graph",
+        "status": "Working copy, intended 1.1.0"
+      },
+      {
+        "name": "/canvas/graph",
+        "status": "Working copy, intended 1.1.0"
+      }
+    ],
+    "normalizedReadmeLinkTargetParity": 43,
+    "repositoryLinkTargetsChecked": 150,
+    "englishRussianQuickstartCodeBlocksIdentical": true,
+    "exampleCodeBlocksUnchanged": true,
+    "mainQuickstartNonblankJavaScriptLines": 28,
+    "repositoryMinimumExampleTests": {
+      "passed": 11,
+      "failed": 0
+    },
+    "installedPublishedPackage": {
+      "name": "@grundyjs/algiviz",
+      "version": "1.0.0",
+      "entries": 8,
+      "installation": "npm offline cache; no fresh registry metadata lookup",
+      "minimumExampleTests": {
+        "passed": 11,
+        "failed": 0
+      }
+    },
+    "vite": {
+      "version": "8.3.8",
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      },
+      "node": "v22.17.0",
+      "productionBuild": "passed"
+    },
+    "protectedFilesUnchanged": 75,
+    "externalLinkHTTPAvailability": "not rechecked; repository blob targets resolved against working tree",
+    "nativeBrowserRerun": false,
+    "fullRepositorySuiteRerun": false,
+    "gitDiffCheck": "passed"
+  },
+  "documentationHashesBefore": {
+    "README.md": "e6f19e569e190a2da9d848fed2eb7a63ab844b11ec245f8115198486e7be6261",
+    "ru/README.md": "8fd9df081cfa234fb94a8657f9b27e90854ee401f2ca884bea0b179b9b4ec254",
+    "docs/getting-started.md": "5329db7ee4692288dbbba23f50eca79c23fdbfccb50f2b9baf444c9d3e42a7b8",
+    "docs/ru/getting-started.md": "6c7591be557cc34046093748ff7b54add26032c2d5a4da3d96ba78e5be80dd1c",
+    "CONTRIBUTING.md": "6078b988a9d1febd9c56fa8292377fee17ed73a7206692943ca284362122aa80",
+    "ru/CONTRIBUTING.md": "b4de3bc0226bdd6b257fea37d5b92e6d189fd11f7354dee7ff3659e5d96c158a",
+    "docs/quickstart-comparison.md": "bb8e2913767eee7206b5647a56b550969168f5a87e3ba3f8af3ad86a3d322d02",
+    "docs/ru/quickstart-comparison.md": "a1cb5b1c0d4304e1c4e4d76bb94860186800ad8d9a3b8516d87d86cee78d1cf7",
+    "docs/learning-path.md": "99eb9d65022c4a8e562ee542a71c04bf3ec0fb502bb7cf5f97ff114a709a3496",
+    "docs/ru/learning-path.md": "f55c1446d15ba4ede48baabfb12ad1d350551640dde98ae981db4ca75a1c7b5f"
+  },
+  "documentationHashesAfter": {
+    "README.md": "193aeee0c33082dce87dc95a9cce08f940916616f1f2dbaefbe8518b683e0bf2",
+    "ru/README.md": "1ee2112701d2dc97472e1615d635fae95ef91cab3c4a47c3ee84bb844666fa45",
+    "docs/getting-started.md": "a290bda131035754862eb4b5e4e09642b6eb12ae15d6d40571d9510ff74253f3",
+    "docs/ru/getting-started.md": "f075e0827a6d577c90ec9e1f634272597c167abc3c2c29ea8d643169f71ec53b",
+    "CONTRIBUTING.md": "d13591e098be5c9c53bd1023e75a480c800786a378aca6a09988f508dc47c314",
+    "ru/CONTRIBUTING.md": "fb19265b09972fef7a8490a55758d0c465225d58bdec7da1fbb3a3d32de0d10d",
+    "docs/quickstart-comparison.md": "6f3dc71e7ddbc709a8bf21b4d7f6eebcf2eb4d5dbb2e1d3ae376dcd69fdf527e",
+    "docs/ru/quickstart-comparison.md": "a0f46f1295790df3564e98f98a555fef3f5148732be490946b18ebfe1e7f6cf2",
+    "docs/learning-path.md": "1df27ab831f473ddd49b287e8918332a434802a6e4b5e0e5036eaeeec34a69ee",
+    "docs/ru/learning-path.md": "99c96bb098ddb0ac2b5c966b6824e58cb1ca929aafa866f29b186f83b2c243ef"
+  },
+  "implementationChanged": false,
+  "publicAPIChanged": false,
+  "versionChanged": false,
+  "commitCreated": false,
+  "pushed": false,
+  "publication": false,
+  "artifacts": {
+    "directory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\readme-consistency-FpwRxQ",
+    "publishedPackageTestLog": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\readme-consistency-FpwRxQ/app/readme-release-tests.log",
+    "viteBuildLog": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\readme-consistency-FpwRxQ/app/vite-build.log"
+  },
+  "limits": [
+    "Graph documentation is for the unpublished working copy; upstream blob links become available after a separate commit/push",
+    "Earlier dated readiness and native reports retain their historical documentation hashes"
+  ]
+}

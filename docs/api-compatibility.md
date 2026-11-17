@@ -1,40 +1,38 @@
-# Compatibility policy for the eight public entries
+# Public API compatibility policy
 
 [Русский](ru/api-compatibility.md) · [Stabilization](api-stability.md) · [API review](api-readiness-0.16.0.md) · [Support evidence](support-matrix.md)
 
-**U3 selected 2026-11-14; policy only, no implementation or publication.** This is
-the common compatibility policy for subsequent 0.x work and the intended 1.x
-contract. All eight entries receive the same protection in 1.x. Optional loading,
-a newer introduction date or separate browser requirements do not make an entry
-experimental. None of the current eight entries is designated experimental.
+**Current scope, 2026-11-17.** U3 was selected before 1.0 and protects public API
+through 1.x. Release baseline 1.0.0 has eight entries. The local /graph and
+/canvas/graph receive the same type/error/environment/behavior protection at
+their first 1.1.0 release. No entry is designated experimental.
 
-The published baseline remains 0.16.0. F1, U1 and U2 are implemented locally and
-unreleased; their evidence is separate. Selecting this policy neither rewrites
-old release guarantees nor certifies the working tree as a 1.0 candidate. U4
-documentation reconciliation is now complete; [current status](current-api.md)
-records that later step. [U5 now selects original host postMessage throws](worker-post-errors.md)
-with report context and explicit primary/cleanup precedence, without code changes.
-No 1.0 date, release, ongoing release automation or implementation task starts here.
+Dated [0.16 reviews](api-readiness-0.16.0.md) and [1.0 preparation](candidate-1.0.md)
+remain historical; F1/F2/U1/U2/U5 are already in 1.0.0. [Current status](current-api.md)
+and [1.1 review](graph-readiness-1.1.md) distinguish released and local features.
+This policy does not retroactively rewrite releases or authorize publication.
 
 ## Public surface
 
-Only the package export map defines importable entry paths. The current baseline
-has **21 runtime export names and 68 type-only exports (56 distinct type-only
-names)**. The [eight-entry inventory](api-readiness-0.16.0.md#все-восемь-точек-входа)
-and its [symbol report](checks/api-readiness-0.16.0.json) enumerate the type names.
-The 12 common Worker types are intentionally exported from both Worker entries.
-Classes also provide instance types and are counted as runtime names here.
+Only the package export map defines importable paths. Baseline 1.0.0 has **8
+entries, 21 runtime names, 69 type-only exports, 57 distinct types**. Local
+/graph adds 2 runtime/22 types and /canvas/graph adds 1 runtime/4 types: **10
+entries, 24 runtime names, 95 type-only exports, 83 distinct types**. Shared Worker
+types count at both paths; classes count as runtime names. [Current inventory](current-api.md)
+and the [review record](checks/graph-readiness-1.1-2026-11-17.json) enumerate names.
 
 | Entry suffix | Runtime names | Type-only names |
 | --- | --- | --- |
 | `/playback` | `createPlayer`, `createStatePlayer`, `createTimeline`, `createStepEmitter`, `createRewindBuffer`, `createAsyncSource` | 10 |
 | `/scene` | `createSceneFrame`, `createSceneRenderer`, `createSceneProjector` | 5 |
-| `/array` | `createArrayTrace`, `defineArrayAlgorithm`, `createArrayPlayer`, `createArrayTimeline` | 10 |
+| `/array` | `createArrayTrace`, `defineArrayAlgorithm`, `createArrayPlayer`, `createArrayTimeline` | 11 |
 | `/canvas` | `arrayScene`, `createArrayRenderer`, `createSortRenderer` | 4 |
 | `/canvas/viewport` | `createCanvasViewport` | 3 |
 | `/player` | `Player` | 4 |
 | `/worker` | `createWorkerSourceFactory`, `WorkerSourceError` | 17 |
 | `/worker/runtime` | `exposeWorkerSource` | 15 |
+| `/graph` | `createGraphTrace`, `graphScene` | 22 |
+| `/canvas/graph` | `createGraphRenderer` | 4 |
 
 The protected contract includes exported names, signatures, generics/inference,
 overload selection for existing calls, readonly/optional fields and reachable
@@ -70,6 +68,12 @@ algorithms, examples, website/video tooling and private test helpers are outside
 the package compatibility surface.
 
 ## Types and extensibility
+
+For new graph entries after publication, GraphEvent.type, GraphObjects keys and
+nodeCaptions auto/hidden modes are closed; roles remain open strings. Required
+structural members and closed-case expansion follow the same breaking-change
+review rules.
+
 
 Treat current public discriminants and literal unions as **closed**, unless a
 specific future API explicitly declares an open extension boundary beforehand.

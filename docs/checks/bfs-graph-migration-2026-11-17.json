@@ -1,0 +1,245 @@
+{
+  "date": "2026-11-17",
+  "checkedAt": "2026-11-17T08:37:50.982Z",
+  "scope": "BFS example migration to existing working-tree /graph, /canvas/graph and Player; local and unpublished",
+  "baselineCommit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+  "packageVersion": "1.0.0",
+  "libraryImplementationOrAPIChangedThisStage": false,
+  "versionOrDependenciesChangedThisStage": false,
+  "priorGraphAndCanvasSourceHashesVerified": true,
+  "trackedExistingSourceAndLockfileDiff": [],
+  "commitCreated": false,
+  "pushed": false,
+  "tagCreated": false,
+  "publication": false,
+  "implementation": {
+    "trace": "createGraphTrace owns graph copies, marks and exact nodeIds/edgeIds result; createStepEmitter owns unchanged BFS events",
+    "renderer": "createGraphRenderer with normalized preset layout; custom tree/path role colors; HTML queue, distances, counters and result",
+    "player": "Stock Player; recorded immutable history or lazy stepSource; terminal finished event; rewindCapacity 32; maxStepsPerFrame 16; shared timing and input limits",
+    "ownership": "Validate before replacing session; stream probes and closes one initial source, then creates a fresh lazy source; Restart uses applied inputs; preserve speed on Apply/mode changes; pagehide disposes Player/viewport and persisted pageshow remounts",
+    "sharedPresets": "DFS imports pure graph-presets instead of BFS and has no new /graph dependency",
+    "legacy": "Custom graph-scene retained for learning and historical probes, removed from active BFS and current profile workload",
+    "inputBoundary": "Example remains undirected/unweighted; directed or weighted edges now explicitly rejected; invalid input uses /graph errors"
+  },
+  "comparison": {
+    "metric": "Nonblank JS lines in directly used BFS-owned modules; library code, HTML/CSS and shared controller excluded",
+    "before": {
+      "graph-algorithm.mjs": 106,
+      "graph-scene.mjs": 165,
+      "graph-demo.mjs": 83
+    },
+    "after": {
+      "graph-algorithm.mjs": 97,
+      "graph-presets.mjs": 21,
+      "graph-layout.mjs": 11,
+      "graph-session.mjs": 19,
+      "graph-demo.mjs": 82
+    },
+    "beforeTotal": 354,
+    "afterTotal": 230,
+    "oldSharedController": 79,
+    "reductionPercent": 35.02824858757062,
+    "linesRemoved": 124,
+    "tradeoffs": [
+      "Canvas queue animation, per-node distances, start/target rings, processed checks and examination dot replaced by stock graph roles plus HTML panels",
+      "Generator now has bounded Previous; history Restart resets a captured recording",
+      "Stock speed choices end at 16x instead of the old custom 32x"
+    ],
+    "limits": [
+      "Nonblank JS lines only; not total repository size, npm bundle size, speed or allocation measurements",
+      "Library/HTML/CSS and old shared 79-line demo controller excluded; legacy renderer still exists",
+      "BFS traversal remains O(V+E); visual marks/snapshots additionally scan nodes/edges per event; topology/layout shared; history retains all states, stream 32 source positions plus playback/cache references"
+    ]
+  },
+  "baseline": {
+    "sourceHashes": {
+      "graph-algorithm.mjs": "643374f8519bbe9ad78fd536c888843640f77c5bc3987dc1d1238ed0279191be",
+      "graph-scene.mjs": "f693370aad3665d0093fb39a68ed2b54c974b79ba4940bd9aeba1de704932613",
+      "graph-demo.mjs": "61dfe3efeee548204f680e18b4037ce264faea2ae264a4f89c0caff36df7c583",
+      "graph.html": "87ee5e39c96a1442edd2ac8786d02210209c1bd66602feb8a9af98e5755bc4c0",
+      "demo-player.mjs": "17ac02cb35deb8a678abb67083249915c6428ca5002bd67ffc44718c61e8e25b",
+      "player-settings.mjs": "b38cd03d9bf5ec9ce0382bece0354e912c99b651d64407c3d1a4b0d90394ab07"
+    },
+    "fixture": "test/fixtures/bfs-before-graph.json",
+    "runs": 179,
+    "semanticSteps": 6756,
+    "equal": true,
+    "coverage": "All preset starts and optional targets plus hostile-ID loop/parallel-edge multigraph",
+    "canonicalization": "Compare original semantic graph/state/events/order/queue/parents/tree/distances/path/counters; normalize default labels; exclude added visual and state.event fields"
+  },
+  "verification": {
+    "command": "npm test",
+    "tests": 585,
+    "passed": 585,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "newTopLevelRegressions": 6,
+    "existingIndependentBFSOracle": {
+      "simpleGraphs": 1099,
+      "startOptionalTargetCombinations": 32110,
+      "oracle": "Floyd-Warshall"
+    },
+    "covered": [
+      "Baseline parity",
+      "Result and progressive path roles; green stock node/edge draw commands",
+      "No target, unreachable and start=target",
+      "Player history and bounded stream rewind, Next, Restart and terminal hold",
+      "Lazy reads, fresh factories, return on Restart/dispose",
+      "Invalid inputs and shared demo limits",
+      "Transitive browser import maps including DFS and profiling pages"
+    ],
+    "testPackageRerun": false,
+    "testPackageReason": "No library implementation, declarations, dependency or packaging changes in this example stage",
+    "ciRun": false,
+    "performanceBenchmarkRun": false
+  },
+  "native": {
+    "date": "2026-11-17",
+    "checkedAt": "2026-11-17T08:36:27.634Z",
+    "browser": "Built-in browser; no external debugger",
+    "before": "http://127.0.0.1:52409/before/graph.html",
+    "after": "http://127.0.0.1:52409/examples/graph.html",
+    "checks": [
+      {
+        "name": "Before/after final path and all counters match",
+        "passed": true,
+        "result": "Shortest path: A → B → D → G. Length: 3 edges.",
+        "counters": "Discovered: 7 / 8 · Processed: 7 · Neighbor entries inspected: 18 · Largest queue: 3"
+      },
+      {
+        "name": "History Previous leaves terminal hold and restores previous step",
+        "passed": true
+      },
+      {
+        "name": "History Next restores the same final path",
+        "passed": true
+      },
+      {
+        "name": "History Restart returns to step zero and clears result",
+        "passed": true
+      },
+      {
+        "name": "Native timed Play completes the same BFS path at 16x",
+        "passed": true
+      },
+      {
+        "name": "Stock Play/Pause controls pause the traversal",
+        "passed": true
+      },
+      {
+        "name": "Restart ignores unapplied target edits",
+        "passed": true
+      },
+      {
+        "name": "Mode change retains applied inputs and selected speed",
+        "passed": true
+      },
+      {
+        "name": "Generator completes with the same green path",
+        "passed": true
+      },
+      {
+        "name": "Native stream Previous stops at retained source position 25 (window 25–56)",
+        "passed": true,
+        "clicks": 31
+      },
+      {
+        "name": "Native Next replays the next buffered step",
+        "passed": true
+      },
+      {
+        "name": "Native stream Restart clears result and rewind window",
+        "passed": true
+      },
+      {
+        "name": "Applied unreachable target H reports no path after full traversal",
+        "passed": true
+      },
+      {
+        "name": "Start=target yields a zero-edge path after the full traversal",
+        "passed": true
+      },
+      {
+        "name": "No target produces a full traversal with no selected path",
+        "passed": true
+      },
+      {
+        "name": "Native preset chain path and stock rendering",
+        "passed": true,
+        "result": "Shortest path: A → B → C → D → E. Length: 4 edges."
+      },
+      {
+        "name": "Native preset diamond path and stock rendering",
+        "passed": true,
+        "result": "Shortest path: A → B → D. Length: 2 edges."
+      },
+      {
+        "name": "Native preset circle path and stock rendering",
+        "passed": true,
+        "result": "Shortest path: A → B → D → E. Length: 3 edges."
+      },
+      {
+        "name": "Final BFS module graph reloads and reproduces the default answer",
+        "passed": true
+      },
+      {
+        "name": "DFS still loads its shared presets and starts at A after extraction",
+        "passed": true
+      }
+    ],
+    "passed": 20,
+    "failed": 0,
+    "visibleFinalPath": "Shortest path: A → B → D → G. Length: 3 edges.",
+    "visibleFinalCounters": "Discovered: 7 / 8 · Processed: 7 · Neighbor entries inspected: 18 · Largest queue: 3",
+    "proof": [
+      "docs/assets/bfs-graph-before.jpg",
+      "docs/assets/bfs-graph-after.jpg"
+    ],
+    "limits": [
+      "UI text/controls plus visual inspection of the green default path; not a new pixel-by-pixel renderer audit",
+      "No browser viewport/zoom overrides or new environment support claim"
+    ]
+  },
+  "protectedSourceHashes": {
+    "src/graph/index.ts": "d30d6ca2f87b21c0c226a41f5551355e1a83488f62473e28323e130b681845dd",
+    "src/graph/types.ts": "134ecf425d561f2a04bcb437f29231764dacda1d2f8a3eb220138b207289e240",
+    "src/graph/validation.ts": "755a21cd57241f0bc463c766d968afc4686432d7d688e2ab0abda954840894fa",
+    "src/graph/trace.ts": "3526b76cff7ea8670474e7255c5173681a4958b108d2417127f7363331314398",
+    "src/graph/scene.ts": "256138e7276ef9b34e87f295b06b529c08ee7b6d1b7c71d1f5e45476038d5525",
+    "src/canvas/graph.ts": "3821014d4a45a14477ef23857d4135c6f34f17eb2f680b7c68317f11d4fa0b99",
+    "src/canvas/graph-geometry.ts": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa",
+    "package.json": "8071f5caf64b90f05fb14efab34af3a22c197f2324ad5c56d971f45a7f5b2fdf"
+  },
+  "hashFormat": "SHA-256, text normalized to LF; image hashes use original bytes",
+  "sourceHashes": {
+    "examples/graph-algorithm.mjs": "0609e07a7e934ae5a02c6f8377376cfc1fe6123efef10974d8d4e68b9157df2a",
+    "examples/graph-presets.mjs": "c53014b48c91f14743e717061031575172da6532c08be4f96dde174afffadb9e",
+    "examples/graph-layout.mjs": "f31ab2e3cb8b73cefee851a8a7b479ce89ed6c9a727f081ab9bf015745c8461b",
+    "examples/graph-session.mjs": "84ce178420730637bced5cf7a91559e8938fe70ae54d87f4f33172cc15df611b",
+    "examples/graph-demo.mjs": "a7eb08e8a507a6b66e61bc211d71412ae15bb9a030245ea26454e0de24d432d0",
+    "examples/graph-scene.mjs": "de193b6567c2d5386eb19a511a74b346a967bdfc76c506c4ce4b90ca2868586f",
+    "examples/graph.html": "b7be14b2a1d6a36880c9fc86cc388cfe240d5b23d1f82319994b767419fde4f3",
+    "examples/dfs-algorithm.mjs": "347deb51c6b69db4b2a1b57bd89957a774833e9c0625466390a95c4421f491b7",
+    "test/profile-workloads.mjs": "b23485dee9aa63d0c49422c1015254cae2d277ee566903570ef63282564da6e7",
+    "test/profile-browser.html": "217d75917d0efd99b7d917e12203fdbfd57d497ba125864bd82af0cec589549e",
+    "test/array-dispatch-browser.html": "ec415b24c62a9619d9fca4e53d422e2404dbb1adc33de25e05f059bf80693522",
+    "test/bfs-graph-migration.test.mjs": "633249a36f01e42e911e8c17d9d01ea14c8e760f9928c000b90720b498dcc4de",
+    "test/fixtures/bfs-before-graph.json": "75d7c1b64705968addd8496be058ab0ff38ce924e748fa9e56e1b30a5ff99c5d",
+    "docs/bfs-graph-comparison.md": "2533ffdfa40bb760eba568fa88ff57d523a01b4bf32818075d17597da757c382",
+    "docs/ru/bfs-graph-comparison.md": "938ace20444ac07a258717b78212d401e64bee99002d63aa103fdcdb02ffc709",
+    "docs/custom-graph-example.md": "8242e0e50b2d12fad49966d785cc27c6226d61592977b4529702583f4721c1fb",
+    "docs/examples.md": "1a1476108df0699735e2cdeff9febdf41f3a53236755d9eb9017e8d97099a23e",
+    "docs/ru/examples.md": "a4c419eb4b04540f34630476f99a06d4eee50bca6097020b30fdac960b4fec0c",
+    "CHANGELOG.md": "f034183f1fdf512a5b6d2bd72a669564d58fcd0b8c005b6caed5bc1aab1fcab9"
+  },
+  "imageHashes": {
+    "docs/assets/bfs-graph-before.jpg": "96270da187057f0c2e4cd4e5f281745708b3d767d1fc1ea8836db30f10fcb55a",
+    "docs/assets/bfs-graph-after.jpg": "9c2c6ad0dcb0cd376d5dd364e2ac56ce6ad53d3effea2baaffd9e53196ed1b12"
+  },
+  "limits": [
+    "Native UI/control and visible green-path checks do not replace the preceding renderer pixel/DPR/context audit",
+    "No new browser support claim or external debugger used",
+    "Working-tree graph entry points are not present in published npm 1.0.0"
+  ]
+}

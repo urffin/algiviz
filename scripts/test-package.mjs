@@ -49,6 +49,8 @@ try {
     await copyFile(join(root, "test/package-exports.mjs"), join(workspace, "exports.mjs"));
     execFileSync(process.execPath, [join(workspace, "exports.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/package-headless.ts"), join(workspace, "headless.ts"));
+    await copyFile(join(root, "test/package-graph.ts"), join(workspace, "graph.ts"));
+    await copyFile(join(root, "test/package-graph-canvas.ts"), join(workspace, "graph-canvas.ts"));
     const installed = JSON.parse(await readFile(join(workspace, "node_modules/@grundyjs/algiviz/package.json"), "utf8"));
     if (installed.version !== pkg.version) throw new Error("Installed version differs from packed version");
     await copyFile(join(root, "test/package-consumer.ts"), join(workspace, "consumer.ts"));
@@ -66,17 +68,19 @@ try {
         const headlessConfig = join(workspace, `tsconfig.headless.${resolution}.json`);
         await writeFile(headlessConfig, JSON.stringify({
             compilerOptions: { ...compilerOptions, lib: ["ES2022"], noEmit: true },
-            files: ["headless.ts"]
+            files: ["headless.ts", "graph.ts"]
         }));
         execFileSync(process.execPath, [compiler, "-p", headlessConfig], { stdio: "inherit" });
         const outDir = `output-${resolution}`;
         const domConfig = join(workspace, `tsconfig.dom.${resolution}.json`);
         await writeFile(domConfig, JSON.stringify({
             compilerOptions: { ...compilerOptions, lib: ["ES2022", "DOM"], noEmitOnError: true, outDir },
-            files: ["consumer.ts", "custom-objects.ts", "player.ts", "viewport.ts", "worker.ts"]
+            files: ["consumer.ts", "custom-objects.ts", "player.ts", "viewport.ts", "worker.ts", "graph.ts", "graph-canvas.ts"]
         }));
         execFileSync(process.execPath, [compiler, "-p", domConfig], { stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "consumer.js")], { cwd: workspace, stdio: "inherit" });
+        execFileSync(process.execPath, [join(workspace, outDir, "graph.js")], { cwd: workspace, stdio: "inherit" });
+        execFileSync(process.execPath, [join(workspace, outDir, "graph-canvas.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "player.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "viewport.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "worker.js")], { cwd: workspace, stdio: "inherit" });
@@ -99,6 +103,11 @@ try {
     await copyFile(join(root, "test/async-source.test.mjs"), join(workspace, "async-source.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "async-source.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-test-dom.mjs"), join(workspace, "player-test-dom.mjs"));
+    await copyFile(join(root, "test/graph.test.mjs"), join(workspace, "graph.test.mjs"));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "graph.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    for (const name of ["graph-captions.test.mjs", "graph-canvas.test.mjs", "graph-canvas-context.mjs", "graph-canvas-fixtures.mjs"])
+        await copyFile(join(root, "test", name), join(workspace, name));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "graph-canvas.test.mjs"), join(workspace, "graph-captions.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/array-result.test.mjs"), join(workspace, "array-result.test.mjs"));
     execFileSync(process.execPath, ["--test", join(workspace, "array-result.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-async.test.mjs"), join(workspace, "player-async.test.mjs"));

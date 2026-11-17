@@ -1,10 +1,18 @@
-# Support matrix before 1.0
+# Support matrix
 
-**Candidate update, 2026-11-16:** [1.0.0 local preparation](candidate-1.0.md)
+**Current review, 2026-11-17:** 1.0.0 is the released eight-entry baseline.
+The local /graph and /canvas/graph are intended for 1.1.0: headless graph uses
+ES2022 declarations; graph Canvas requires DOM types/Canvas 2D. Imports access no
+DOM globals. Four compiler consumers and current built-in-browser graph checks
+are recorded in [the 1.1 review](graph-readiness-1.1.md). No new browser/version
+promise follows. Dated statuses below are historical, superseded for current
+availability by [the status index](current-api.md).
+
+**Historical candidate update, 2026-11-16:** [1.0.0 local preparation](candidate-1.0.md)
 retains this environment boundary. Exact-SHA CI/native verification remains;
 the older local and release checks below keep their original version scope.
 
-**Current status, 2026-11-14:** [all eight entries](current-api.md) are published
+**Historical status, 2026-11-14:** [all eight entries](current-api.md) are published
 in 0.16.0; F1/F2/U1/U2 are local and unreleased, and U5 has permanent coverage.
 The [post-F2 readiness review](api-readiness-1.0.md) finds no remaining known
 technical blocker within the same boundary. Latest completed local evidence is
@@ -97,7 +105,7 @@ the earlier local-build browser check into a registry-tarball browser run.
 | --- | --- |
 | Node runtime | CI tracks Node 22.x, 24.x and 26.x on Windows and Linux. Use the patch versions selected by the current CI; every historical minor/patch is not separately certified. |
 | TypeScript consumers | Verified compiler configurations: 5.0.4, 5.4.5, 5.9.3 and 6.0.3, with NodeNext/Bundler and ES2022, with or without DOM as appropriate below. These selected versions do not establish every intermediate or future compiler version. |
-| Headless imports | `/playback`, `/scene` and `/array` work without DOM types or a browser in the checked configurations. `/canvas` requires a Canvas 2D host and DOM types. |
+| Headless imports | `/playback`, `/scene`, `/array` and local `/graph` work without DOM types or a browser in the checked configurations. `/canvas` and local `/canvas/graph` require a Canvas 2D host and DOM types. |
 | UI and viewport | `/player` and `/canvas/viewport` require DOM declaration libraries and their explicit browser hosts. Runtime import is safe without DOM globals; this does not enable mounting/sizing in Node. |
 | Worker entries | `/worker` host uses DOM declarations (browser-Worker host use is also documented); `/worker/runtime` uses separately checked WebWorker declarations. Both import without browser globals; active dedicated module Worker APIs are required. |
 | Browser verification | Windows embedded Chromium, reported UA Chrome/157.0.0.0, for the recorded smoke and interactive scenarios. No general minimum Chromium version or desktop Chrome/Edge product promise is inferred from the host's UA. |

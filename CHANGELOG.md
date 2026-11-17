@@ -1,16 +1,47 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 — candidate, unpublished
 
-## 1.0.0 — candidate updated 2026-11-16, not published
+This compatible minor candidate adds two independent ESM entries. The eight
+1.0.0 entry implementations, export names, dependencies and environment boundary
+are unchanged; existing imports require no migration. Graph imports require
+1.1.0 and are not available in published 1.0.0. No tag or npm release is created
+by candidate preparation.
 
-Promote the eight existing ESM entries to the common 1.x compatibility policy:
-/playback, /scene, /array, /canvas, /canvas/viewport, /player, /worker and
-/worker/runtime. The entry paths, runtime export names and runtime dependencies
-are unchanged. Public types/options now include explicit Player steps and array
-result annotations. This replaces the earlier 5e2fd18 candidate; its successful
-CI does not certify this source. The new candidate requires its own exact-SHA CI
-and focused native verification before a separately authorized release.
+- Add headless `/graph`: `createGraphTrace`, `graphScene` and typed immutable
+  snapshots. Support fixed topology, stable explicit node/edge IDs, directed and
+  undirected edges, loops, parallel edges and finite signed weights. Algorithms,
+  adjacency indexing and layout computation remain application-owned.
+- Add persistent open-string marks, explicit independent result selections,
+  complete layout updates and atomic validation. Existing steps, scenes and
+  Player support completion, bounded rewind, Restart and cleanup without a new
+  control API.
+- Add optional `/canvas/graph`: `createGraphRenderer` draws arrows, deterministic
+  parallel/antiparallel lanes and loops, persistent green results and endpoint
+  interpolation. Validate before drawing and restore context state after host
+  failures. Applications own logical size, CSS and bitmap sizing.
+- Add snapshot-owned vertex captions: initial text, atomic mark patches and
+  clearing. Canvas auto/hidden placement uses real text bounds and avoids
+  nodes, edges and labels; captions are omitted when no safe position exists.
+  Old graph snapshots without caption fields remain accepted.
+- Keep two BFS examples: detailed custom scene with animated queue, distances
+  and path markers, and a separate stock graph renderer page. Both use shared
+  BFS states and standard Player, preserve green results, bounded stream rewind,
+  applied-input Restart and cleanup. BFS remains an example, not a package export.
+- Reconcile EN/RU README, quickstart, learning path, API/environment references
+  and CI instructions. The minimum-search quickstart uses published npm 1.0.0;
+  graph examples use this candidate's local build.
+
+See [candidate notes](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.1.md) for acceptance scope and release gates.
+
+## 1.0.0
+
+Released from 3977c78. Promote the eight existing ESM entries to the common 1.x
+compatibility policy: /playback, /scene, /array, /canvas, /canvas/viewport,
+/player, /worker and /worker/runtime. Runtime export names/dependencies are
+unchanged; public types/options include explicit Player steps and array results.
+The earlier candidate/CI reports for 5e2fd18, a9b93f8 and 76f76ed describe their
+own preparation stages; they are not the release status of current 1.0.0.
 
 ### Explicit steps and array results
 

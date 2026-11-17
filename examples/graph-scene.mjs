@@ -1,3 +1,4 @@
+// Application-owned detailed BFS scene/renderer; also used by historical probes.
 import { createSceneProjector, createSceneRenderer } from '@grundyjs/algiviz/scene';
 
 /** @typedef {{vertex: {id:string,index:number,count:number,label:string,distance:number|null,status:string,start:boolean,target:boolean,path:boolean,complete:boolean},
@@ -10,7 +11,7 @@ export function graphScene(state) {
     const visited = new Set(state.visited), tree = new Set(state.treeEdges), path = new Set(state.path);
     const distances = new Map(state.distances.map(item => [item.id, item.distance]));
     const parents = new Map(state.parents.map(item => [item.id, item]));
-    const labels = new Map(state.graph.nodes.map(node => [node.id, node.label]));
+    const labels = new Map(state.graph.nodes.map(node => [node.id, node.label ?? node.id]));
     const pathEdges = new Set();
     for (let i = 1; i < state.path.length; i++) {
         const a = parents.get(state.path[i - 1]), b = parents.get(state.path[i]);
@@ -33,7 +34,7 @@ export function graphScene(state) {
         })),
         ...state.graph.nodes.map((node, index) => ({
             id: vertexId(node.id), type: 'vertex', zIndex: 1,
-            data: { id: node.id, index, count: state.graph.nodes.length, label: node.label,
+            data: { id: node.id, index, count: state.graph.nodes.length, label: node.label ?? node.id,
                 distance: distances.get(node.id), start: node.id === state.start, target: node.id === state.target,
                 path: path.has(node.id), complete: state.phase !== 'traversal',
                 status: node.id === state.current ? 'active' : visited.has(node.id) ? 'visited'

@@ -55,8 +55,8 @@ window.addEventListener('pagehide', () => player.dispose(), { once: true });
 [Главный quickstart](getting-started.md) использует stepSource и isTerminal.
 Player получает шаги ArrayTrace и передаёт ArrayFrame прямо рендереру. done завершает
 воспроизведение в том же Next; адаптер и дополнительный EOF-клик не нужны.
-Start читает лениво, Restart создаёт новый генератор. Эта возможность пока есть
-только в локальной неопубликованной версии; установка описана в quickstart.
+Start читает лениво, Restart создаёт новый генератор. Эти API доступны
+в 1.0.0; установка из npm описана в quickstart.
 
 ## 4. Собственные объекты и интерполяция
 

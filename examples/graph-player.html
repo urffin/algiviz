@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · BFS with the stock graph renderer</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}
+main{max-width:1080px;margin:auto;padding:24px}a{color:#c4b5fd}p{color:#cbd5e1}
+canvas{display:block;width:100%;min-width:182px;border:1px solid #475569;border-radius:12px}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:18px 0}
+label{display:flex;flex-direction:column;gap:6px;min-width:0}button,select,input{font:inherit}
+button,select{min-width:0;min-height:44px;padding:8px 12px;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px}
+button{cursor:pointer}button:disabled,input:disabled{opacity:.45;cursor:not-allowed}
+input[type=range]{width:100%;min-height:44px}:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}
+.inputs{display:grid;grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(0,1fr)) auto;gap:12px;align-items:end;margin:18px 0}
+#error{color:#fca5a5}#status,#distances,#counters{font-variant-numeric:tabular-nums}
+#status,#queue,#distances,#result{overflow-wrap:anywhere}#status{min-height:3em}
+@media(max-width:640px){main{padding:16px}.inputs{grid-template-columns:repeat(2,minmax(0,1fr))}.preset,#apply{grid-column:1/-1}
+.playback{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.playback label{grid-column:1/-1}}
+</style></head><body><main>
+<a href="./index.html">All examples</a><h1>Graph · BFS with the stock renderer</h1>
+<p>Explore an undirected graph layer by layer with a first-in, first-out queue.
+Complete the reachable component, then restore one shortest path by following parents.
+Try the isolated H as a target, or choose the start itself for a zero-edge path.</p>
+<p><a href="./graph.html">Detailed BFS: animated queue, distances and custom drawing</a></p>
+<form id="input-form" class="inputs">
+<label class="preset">Graph<select id="graph"></select></label>
+<label>Start vertex<select id="start"></select></label>
+<label>Target vertex<select id="target"></select></label>
+<button id="apply" type="submit">Apply</button></form>
+<div class="controls"><label>Playback mode<select id="mode"></select></label></div>
+<div id="player"><canvas width="960" height="400" role="img" aria-label="BFS graph with distance captions; queue, operations, distances and path are also described below"></canvas></div>
+<p>Purple: queued. Yellow: current vertex or inspected edge. Grey: processed. Purple edges: discovery tree.
+Green: restored path; the final result stays green. Distances appear beside vertices when space permits. Queue, full distances and counters are shown below.</p>
+<p id="mode-note"></p>
+<p id="error" role="alert"></p><p id="status" role="status" aria-live="polite"></p>
+<p id="counters"></p><p id="queue"></p><p id="distances" aria-label="Distances from start"></p><p id="result"></p>
+<p>Apply loads the selected graph, start and target. Restart and mode changes replay the applied inputs.
+Vertices are marked on enqueue, so cycles and repeated edges do not enqueue them twice.
+An undirected edge is inspected from both ends; a self-loop has one adjacency entry.
+Neighbor order can change the chosen shortest path, but not its length. Dash means not discovered yet;
+after traversal ∞ means unreachable. Restoring the path does not change traversal counters.</p>
+<p>The default example has 8 vertices, 9 edges and an isolated H. From A, the queue reaches a maximum
+size of 3; the traversal processes 7 vertices and inspects 18 neighbor entries. To G, it restores A → B → D → G.</p>
+<p>BFS and its queue, parents and counters belong to this example. The working-tree /graph module
+owns immutable graph snapshots and marks; /canvas/graph draws the graph, and Player provides controls.
+Full history stores all states; the generator retains a bounded rewind window. Snapshot creation still costs work.
+The published 1.0.0 does not contain /graph or /canvas/graph. No built-in BFS is added to the package.</p>
+<p><a href="../docs/ru/bfs-graph-comparison.md">Compare both examples</a> ·
+<a href="../docs/graph-api.md">Graph API</a></p>
+</main><script type="importmap">{"imports":{"@grundyjs/algiviz/graph":"../dist/graph/index.js","@grundyjs/algiviz/canvas/graph":"../dist/canvas/graph.js","@grundyjs/algiviz/player":"../dist/player/index.js","@grundyjs/algiviz/canvas/viewport":"../dist/canvas/viewport.js","@grundyjs/algiviz/playback":"../dist/playback/index.js"}}</script>
+<script type="module" src="./graph-player-demo.mjs"></script></body></html>

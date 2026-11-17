@@ -1,10 +1,11 @@
 {
   "name": "@grundyjs/algiviz",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "TypeScript toolkit for custom algorithm visualizations with step-by-step playback and extensible rendering",
   "type": "module",
   "files": [
     "dist/array",
+    "dist/graph",
     "dist/playback",
     "dist/scene",
     "dist/canvas",
@@ -16,6 +17,16 @@
     "CHANGELOG.md"
   ],
   "exports": {
+    "./canvas/graph": {
+      "types": "./dist/canvas/graph.d.ts",
+      "import": "./dist/canvas/graph.js",
+      "default": "./dist/canvas/graph.js"
+    },
+    "./graph": {
+      "types": "./dist/graph/index.d.ts",
+      "import": "./dist/graph/index.js",
+      "default": "./dist/graph/index.js"
+    },
     "./scene": {
       "types": "./dist/scene/index.d.ts",
       "import": "./dist/scene/index.js",

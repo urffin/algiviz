@@ -1,0 +1,178 @@
+{
+  "date": "2026-11-17",
+  "checkedAt": "2026-11-16T22:59:06.174Z",
+  "scope": "Headless /graph implementation; local and unpublished",
+  "baselineCommit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+  "baselineVersion": "1.0.0",
+  "packageVersion": "1.0.0",
+  "implementationChanged": true,
+  "publicDeclarationsChanged": true,
+  "exportMapChanged": true,
+  "existingEightEntriesChanged": false,
+  "canvasGraphImplemented": false,
+  "canvasGraphExported": false,
+  "dependenciesOrVersionChanged": false,
+  "commitCreated": false,
+  "pushed": false,
+  "publication": false,
+  "api": {
+    "runtime": [
+      "createGraphTrace",
+      "graphScene"
+    ],
+    "typeOnly": [
+      "GraphAnnotation",
+      "GraphDoneOptions",
+      "GraphEdge",
+      "GraphEdgeView",
+      "GraphEvent",
+      "GraphFrame",
+      "GraphInput",
+      "GraphMark",
+      "GraphMarkUpdate",
+      "GraphNode",
+      "GraphNodeView",
+      "GraphObjects",
+      "GraphPosition",
+      "GraphResult",
+      "GraphResultInput",
+      "GraphSceneOptions",
+      "GraphSnapshot",
+      "GraphStep",
+      "GraphTrace",
+      "GraphTraceOptions"
+    ],
+    "entryCount": 9,
+    "topology": "Fixed; explicit independent node/edge IDs; loops/parallel/antiparallel/mixed directions; finite signed weights",
+    "commands": [
+      "start",
+      "mark",
+      "setLayout",
+      "done"
+    ],
+    "ownership": "Frozen structural copies; opaque data retained by reference",
+    "result": "Persistent independent selections; null versus explicit empty; first-occurrence deduplication",
+    "validation": "Plain records and dense own data arrays; no accessors/coercion/payload traversal; atomic state/index/lifecycle; original Proxy throws; busy guard",
+    "projection": "Namespaced injective IDs, two kinds, endpoint scene refs, retained immutable records and stable routing metadata"
+  },
+  "verification": {
+    "status": "passed",
+    "node": "v22.17.0",
+    "repositoryTests": 568,
+    "newGraphTopLevelTests": 17,
+    "typeScriptVersions": [
+      "5.0.4",
+      "5.4.5",
+      "5.9.3",
+      "6.0.3"
+    ],
+    "resolutions": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "declarationLibs": [
+      "ES2022 only headless",
+      "ES2022 + DOM",
+      "ES2022 + WebWorker (existing endpoint)"
+    ],
+    "strictInstalledConsumers": true,
+    "installedGraphRuntimeTests": true,
+    "graphNegativeTypeCases": 16,
+    "graphPlayerNegativeTypeCases": 1,
+    "ENRUCodeBlocksIdentical": true,
+    "documentedFunctionSignaturesMutuallyAssignable": true,
+    "headlessDocExampleChecked": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "localLinksChecked": 136,
+    "existingDistFilesUnchanged": 70,
+    "existingDistComparison": "Normalized LF hashes against the verified npm 1.0.0 release payload",
+    "bundle": {
+      "status": "passed",
+      "variants": 22,
+      "graphMinified": {
+        "initial": {
+          "bytes": 6947,
+          "gzipBytes": 2539,
+          "files": [
+            "output/graph/minified/entry.mjs"
+          ]
+        },
+        "total": {
+          "bytes": 6947,
+          "gzipBytes": 2539,
+          "files": [
+            "output/graph/minified/entry.mjs"
+          ]
+        }
+      },
+      "graphDynamicMinified": {
+        "initial": {
+          "bytes": 16149,
+          "gzipBytes": 5914,
+          "files": [
+            "output/graphDynamic/minified/entry.mjs"
+          ]
+        },
+        "total": {
+          "bytes": 23096,
+          "gzipBytes": 8453,
+          "files": [
+            "output/graphDynamic/minified/entry.mjs",
+            "output/graphDynamic/minified/graph-F7QDBGP7.mjs"
+          ]
+        }
+      },
+      "noGraphInExistingInitialBundles": true,
+      "noBackendsInGraphBundle": true,
+      "oldBundlesUnchanged": true
+    },
+    "coverage": [
+      "Constructor capture/default/manual layout and immutable history",
+      "Stable IDs, hostile strings, payload ownership and independent ID domains",
+      "Patch persistence/clearing/no-op steps and result lifetime/deduplication",
+      "Malformed record/array/scalar inputs and disguised arrays",
+      "Atomic failed updates, retry/index and error precedence",
+      "Original/falsy Proxy throws, busy guard and readable committed state",
+      "External/Worker-cloned snapshots, namespace/layer/refs/routing",
+      "Generic scene movement and zero-presence exiting refs, no Event requirement",
+      "Headless timeline/terminal steps and bounded rewind without rerunning source",
+      "Widget Next/Previous/replay, Pause/partial Next, fresh Restart and closure/dispose",
+      "Async state-only projection/cleanup"
+    ],
+    "limits": [
+      "Widget integration uses the existing test DOM/scheduler, not a new native browser run",
+      "No stock Canvas renderer, visual routing, DPR/resize or green pixel acceptance",
+      "No graph algorithms, topology mutation, performance guarantees or new host support",
+      "No CI push, tag, npm publication or registry claims for this working tree"
+    ],
+    "logs": {
+      "directory": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f",
+      "prefix": "graph-implementation-"
+    }
+  },
+  "sourceHashes": {
+    "src/graph/index.ts": "d30d6ca2f87b21c0c226a41f5551355e1a83488f62473e28323e130b681845dd",
+    "src/graph/types.ts": "134ecf425d561f2a04bcb437f29231764dacda1d2f8a3eb220138b207289e240",
+    "src/graph/validation.ts": "755a21cd57241f0bc463c766d968afc4686432d7d688e2ab0abda954840894fa",
+    "src/graph/trace.ts": "3526b76cff7ea8670474e7255c5173681a4958b108d2417127f7363331314398",
+    "src/graph/scene.ts": "256138e7276ef9b34e87f295b06b529c08ee7b6d1b7c71d1f5e45476038d5525",
+    "test/graph.test.mjs": "1485d3b9ab21362b41a4a413809a9a75c422b9886452d3f9e84fc19fe6edf5ba",
+    "test/package-graph.ts": "94c162372cd5b1817561ad6c14a0625a8db849311fe7d0cf52ca1ca6544cfe93",
+    "test/package-player.ts": "e7962380c5eb5884a0c7108e481699a235377d4fcb6a89ca38de16e894d1e1ce",
+    "test/package-exports.mjs": "38119888a2f6bb15fc6d2d549c97cf4e9358a7e0cdde1b1b5b01884eb46c20e5",
+    "test/tsconfig.json": "9d33907e59246bcf1b8a9eca81a2ac8abea6ab33c66f4cd25853665ed6160120",
+    "scripts/test-package.mjs": "6b326ef54c79a1cd925f21936707ca7aa8eef147f8ccd2845bb6e1fbc116dfc2",
+    "scripts/test-bundle.mjs": "60a5804f14946efaf31964045a453bb541e36b049802b175c6db405f5c2d1728",
+    "package.json": "ca49044d9a1e4bfb6e5256c4053b61480f8f1433a17d8afe815cb723dc314fdd",
+    "README.md": "014e9eebe353eba3de6dd1e6ba69f37f271835c50a274561be11ed1d2b8c2b7e",
+    "ru/README.md": "df2b8ab84ed58a1f1c7ea048777540152c39815ab718a48736d69590543f5668",
+    "docs/graph-api.md": "776f01d4aa3843d30ba496410a8f07c828ba200e7625ba58a23a066187d82dcb",
+    "docs/ru/graph-api.md": "c62645b3ecc255805bba566d889005c9ce49e7c8bea8a94917c81f8ee3607e69",
+    "docs/current-api.md": "5eb3ddb2ce9152c988b4842ae75a51b340c4c03951288862c439d8b03b4c52e8",
+    "docs/ru/current-api.md": "d486c1c42450f1eaadd4bdb846531769e557479dcbc1da3f493e9923cbbc733a",
+    "docs/graph-contract.md": "fbde10ccc145f4bc6c3d4585986ba644a29268e5a4bff66d50a1e6903d94806d",
+    "docs/ru/graph-contract.md": "4e7ff32dfe279aeabe5fc9b278ca3cc2421170924d33b87b7b46acd824b52971"
+  }
+}

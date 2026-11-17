@@ -27,7 +27,8 @@ included in the npm archive.
 | [Quick sort partitions](https://github.com/urffin/algiviz/blob/master/examples/quick.html) | Lomuto and three-way partitioning with custom state and scene |
 | [Heap sort](https://github.com/urffin/algiviz/blob/master/examples/heap.html) | Max-heap construction and extraction with synchronized tree and array identities |
 | [Binary search](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | First occurrence in sorted input, closed search intervals and lazy playback |
-| [Graph BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Queue, layers, shortest paths, unreachable targets and history/generator playback |
+| [Detailed graph BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Custom scene with animated queue, vertex distances and path markers; standard Player |
+| [BFS with the stock graph renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | The same algorithm with createGraphTrace, /canvas/graph and Player |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
@@ -158,26 +159,30 @@ No tree-specific algorithm or renderer is added to the package.
 
 ## Graph breadth-first search
 
-Open [examples/graph.html](https://github.com/urffin/algiviz/blob/master/examples/graph.html), choose a graph, start and optional
-target, then Apply. BFS marks on enqueue, completes the reachable component and
-restores one shortest path by following parents. Try the isolated H, a zero-edge
-path to the start, a chain or a diamond with equal-length paths. The original
-disconnected graph shown in the README GIF remains a separate preset.
+Two complementary pages share one application-owned BFS generator and the same
+standard Player controls:
 
-The scene shows a fixed graph, an animated queue, distances, parent/path edges and
-explicit discovery/processing/neighbor-inspection counters. On narrow screens the
-queue wraps below the graph. Canvas rendering uses logical coordinates and DPR.
-Self-loops and parallel edges remain supported; neighbor order can change which
-shortest path is chosen, but not its length.
+- [Detailed BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html)
+  keeps the original custom /scene drawing: animated FIFO queue, distances beside
+  vertices, start/target markers, processed checks and a moving examination dot.
+- [Stock renderer BFS](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html)
+  demonstrates createGraphTrace and /canvas/graph; distance captions appear beside
+  vertices when space permits, with full queue/distances retained in HTML.
 
-Both playback modes use the same immutable generator. Restart and mode changes
-replay the applied graph/start/target, not draft controls. Generator mode consumes
-lazily without collecting history. Full history enables backward seeks and has an
-O(V(V + E)) snapshot-space upper bound, separately from graph and algorithm data.
+Choose a graph/start/optional target, then Apply. Both pages mark on enqueue,
+complete the reachable component and restore one shortest path through parents.
+The final path stays green. History supports seeking; generator mode offers
+Previous within 32 retained source positions. Restart/mode changes retain applied
+inputs, and speed survives Apply/mode changes. Shared timing is 650 ms per step,
+1000 ms final hold, stock speeds 0.25–16× and a 16-request frame budget in streams.
+Loops/parallel edges and edge-order tie-breaking are supported; directed/weighted
+inputs are rejected by this undirected, unweighted example.
 
-See [Building a custom graph example](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md) for the
-algorithm, projection and renderer boundaries. This example uses the existing
-public APIs and adds no graph-specific package exports.
+The GIF above depicts the detailed drawing with the earlier controls. Both current
+pages use Player; no graph-specific drawing is added to Player. The working-tree
+graph entries are absent from published 1.0.0. [Comparison](bfs-graph-comparison.md)
+explains the two pages and distinguishes the historical migration measurements.
+[Walkthrough](custom-graph-example.md) describes their shared state/control layer.
 
 ## Graph depth-first search
 

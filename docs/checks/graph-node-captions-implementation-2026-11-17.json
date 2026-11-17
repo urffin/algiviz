@@ -1,0 +1,409 @@
+{
+  "date": "2026-11-17",
+  "checkedAt": "2026-11-17T11:54:54.300Z",
+  "scope": "Vertex captions implemented in local /graph and /canvas/graph; BFS distance integration; unpublished",
+  "baselineCommit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+  "packageVersion": "1.0.0",
+  "implementationChanged": true,
+  "publicDeclarationsChanged": true,
+  "exportMapOrRuntimeNamesChangedThisStage": false,
+  "existingEightImplementationChanged": false,
+  "baseGraphGeometryUnchanged": true,
+  "versionOrDependenciesChanged": false,
+  "commitCreated": false,
+  "pushed": false,
+  "tagCreated": false,
+  "publication": false,
+  "implementation": {
+    "headless": "Captured frozen initial captions; atomic role/caption patches; exact node IDs; null clears and empty text persists; full canonical snapshots; done/layout preserve; legacy missing/undefined field accepted",
+    "projection": "Optional graphNode.data.caption, no new scene objects/IDs or event discriminants; no DOM/core/Player changes",
+    "renderer": "Actual TextMetrics and conservative text/ink cells; existing fit unchanged; 8 candidates in graph order; 4px viewport/node gaps and 2px obstacle safety; full text <=120px or omitted; auto/hidden; current/enter/exit presence semantics",
+    "curves": "Recursive de Casteljau convex-hull exclusion, depth <=12 and <=0.25px unresolved hulls reject conservatively; no unchecked interval gaps",
+    "ownership": "Bounded existing endpoint caches; no retained Canvas host, scheduler, placement winner or DOM listeners",
+    "errors": "All snapshot/base validation before Canvas; text measurement host phase before pixel writes; original measureText throw wins over restore; guard and context recovery preserved",
+    "BFS": "Distance text from current queue/Map/phase added to existing nonterminal mark. At traversal-done null becomes infinity, done preserves. No new BFS steps or changed algorithm event/counters/path semantics"
+  },
+  "surface": {
+    "inventory": {
+      "entries": 10,
+      "runtime": 24,
+      "typeOnly": 95,
+      "distinctTypeOnly": 83
+    },
+    "entries": {
+      "./canvas/graph": {
+        "runtime": [
+          "createGraphRenderer"
+        ],
+        "typeOnly": [
+          "GraphPalette",
+          "GraphRenderSize",
+          "GraphRenderer",
+          "GraphRendererOptions"
+        ]
+      },
+      "./graph": {
+        "runtime": [
+          "createGraphTrace",
+          "graphScene"
+        ],
+        "typeOnly": [
+          "GraphAnnotation",
+          "GraphDoneOptions",
+          "GraphEdge",
+          "GraphEdgeView",
+          "GraphEvent",
+          "GraphFrame",
+          "GraphInput",
+          "GraphMark",
+          "GraphMarkUpdate",
+          "GraphNode",
+          "GraphNodeCaption",
+          "GraphNodeCaptionPatch",
+          "GraphNodeView",
+          "GraphObjects",
+          "GraphPosition",
+          "GraphResult",
+          "GraphResultInput",
+          "GraphSceneOptions",
+          "GraphSnapshot",
+          "GraphStep",
+          "GraphTrace",
+          "GraphTraceOptions"
+        ]
+      },
+      "./scene": {
+        "runtime": [
+          "createSceneFrame",
+          "createSceneProjector",
+          "createSceneRenderer"
+        ],
+        "typeOnly": [
+          "ObjectTransition",
+          "Scene",
+          "SceneFrame",
+          "SceneObject",
+          "SceneVisualizations"
+        ]
+      },
+      "./array": {
+        "runtime": [
+          "createArrayPlayer",
+          "createArrayTimeline",
+          "createArrayTrace",
+          "defineArrayAlgorithm"
+        ],
+        "typeOnly": [
+          "ArrayAlgorithm",
+          "ArrayDoneOptions",
+          "ArrayEvent",
+          "ArrayFrame",
+          "ArrayPlayer",
+          "ArraySnapshot",
+          "ArrayStep",
+          "ArrayTimeline",
+          "ArrayTrace",
+          "Item",
+          "SortedRegions"
+        ]
+      },
+      "./playback": {
+        "runtime": [
+          "createAsyncSource",
+          "createPlayer",
+          "createRewindBuffer",
+          "createStatePlayer",
+          "createStepEmitter",
+          "createTimeline"
+        ],
+        "typeOnly": [
+          "AsyncSource",
+          "AsyncSourceCloseResult",
+          "AsyncSourceFactory",
+          "AsyncSourceReadResult",
+          "AsyncSourceSignal",
+          "Frame",
+          "Player",
+          "RewindBuffer",
+          "Step",
+          "Timeline"
+        ]
+      },
+      "./player": {
+        "runtime": [
+          "Player"
+        ],
+        "typeOnly": [
+          "PlayerCloseResult",
+          "PlayerLabels",
+          "PlayerOptions",
+          "PlayerStatus"
+        ]
+      },
+      "./canvas/viewport": {
+        "runtime": [
+          "createCanvasViewport"
+        ],
+        "typeOnly": [
+          "CanvasViewport",
+          "CanvasViewportOptions",
+          "CanvasViewportSize"
+        ]
+      },
+      "./canvas": {
+        "runtime": [
+          "arrayScene",
+          "createArrayRenderer",
+          "createSortRenderer"
+        ],
+        "typeOnly": [
+          "ArrayObjects",
+          "ArrayPalette",
+          "ArrayPaletteOverrides",
+          "ArrayRendererOptions"
+        ]
+      },
+      "./worker": {
+        "runtime": [
+          "WorkerSourceError",
+          "createWorkerSourceFactory"
+        ],
+        "typeOnly": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceErrorCode",
+          "WorkerSourceErrorOptions",
+          "WorkerSourceFactory",
+          "WorkerSourceIssue",
+          "WorkerSourceIterator",
+          "WorkerSourceOptions",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceSession",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind"
+        ]
+      },
+      "./worker/runtime": {
+        "runtime": [
+          "exposeWorkerSource"
+        ],
+        "typeOnly": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceEndpointOptions",
+          "WorkerSourceErrorCode",
+          "WorkerSourceIssue",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind",
+          "WorkerStateFactory",
+          "WorkerTransferSelector"
+        ]
+      }
+    },
+    "addedTypeOnly": [
+      "GraphNodeCaption",
+      "GraphNodeCaptionPatch"
+    ]
+  },
+  "verification": {
+    "repository": {
+      "command": "npm test",
+      "tests": 595,
+      "passed": 595,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "newTopLevelRegressions": 8,
+      "logHash": "5afdbe165f8a5f122912f9916197904fee23a73ba15deada947891ef26fe363a"
+    },
+    "baselineBFS": {
+      "runs": 179,
+      "semanticSteps": 6756,
+      "equal": true,
+      "fixture": "test/fixtures/bfs-before-graph.json",
+      "canonicalization": "Original semantic graph/state/events/counters; added visual data excluded as in baseline parity test"
+    },
+    "consumers": [
+      {
+        "compiler": "5.0.4",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "environments": [
+          "ES2022 headless",
+          "DOM",
+          "WebWorker"
+        ],
+        "runtimeConsumer": true,
+        "installedRuntimeRegressions": true,
+        "status": "passed",
+        "logHash": "03894823f7aa26bd5293a85cf77282e6a20040a295c097503aed044c82fc7875"
+      },
+      {
+        "compiler": "5.4.5",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "environments": [
+          "ES2022 headless",
+          "DOM",
+          "WebWorker"
+        ],
+        "runtimeConsumer": true,
+        "installedRuntimeRegressions": true,
+        "status": "passed",
+        "logHash": "76cd15d6438d542fea02f4386e53b1bdd7e51b3da679d77a7d7e45642b91fa0f"
+      },
+      {
+        "compiler": "5.9.3",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "environments": [
+          "ES2022 headless",
+          "DOM",
+          "WebWorker"
+        ],
+        "runtimeConsumer": true,
+        "installedRuntimeRegressions": true,
+        "status": "passed",
+        "logHash": "9e3d47f6e6a04359f702c33ff7ad45cccca8b55305847545ae46d119c87282f3"
+      },
+      {
+        "compiler": "6.0.3",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "environments": [
+          "ES2022 headless",
+          "DOM",
+          "WebWorker"
+        ],
+        "runtimeConsumer": true,
+        "installedRuntimeRegressions": true,
+        "status": "passed",
+        "logHash": "99cc2d3f012c908b6e75bb99ec6330136c622bfe083f2afb59b9d61a4ebfcc81"
+      }
+    ],
+    "bundle": {
+      "command": "npm run test:bundle -- --report <artifact>/graph-captions-bundle.json",
+      "variants": 26,
+      "status": "passed",
+      "existingAndUIBundlesUnchanged": true,
+      "optionalGraphCanvasIsolation": true,
+      "reportHash": "06187b362bfeed45791afd3afd64c88f96310b7f2b84771956fe7c02ce80a475",
+      "performanceClaim": false
+    },
+    "native": {
+      "report": "docs/checks/graph-node-captions-native-2026-11-17.json",
+      "automaticCanvas": 31,
+      "manualBFSUI": 7,
+      "failed": 0,
+      "realTextMetrics": true,
+      "independentPixelObstacleOracle": true,
+      "bitmapRatios": [
+        1,
+        1.25,
+        2
+      ],
+      "themes": [
+        "dark",
+        "light"
+      ],
+      "sizes": [
+        "960x480",
+        "390x280",
+        "640x400",
+        "160x100",
+        "8x8"
+      ],
+      "browserZoomChanges": false,
+      "scope": "Real Canvas TextMetrics, independent hidden-bitmap obstacle oracle, actual Player and snapshot source control; bitmap ratios are backing-store sizes, not three browser zoom settings"
+    },
+    "documentedENRUCodeParity": true,
+    "ciRun": false,
+    "verificationNote": "The initial native test harness passed BFS wrapper state instead of state.visual; harness corrected before the final 31/31 checks. Library checks reported here use final production source."
+  },
+  "sourceChanges": [
+    "src/canvas/graph-captions.ts",
+    "src/canvas/graph.ts",
+    "src/graph/index.ts",
+    "src/graph/scene.ts",
+    "src/graph/trace.ts",
+    "src/graph/types.ts",
+    "src/graph/validation.ts",
+    "examples/graph-algorithm.mjs",
+    "examples/graph-player.html",
+    "test/bfs-graph-migration.test.mjs",
+    "test/graph-canvas-context.mjs",
+    "test/graph-captions-browser.html",
+    "test/graph-captions-browser.mjs",
+    "test/graph-captions.test.mjs",
+    "test/graph.test.mjs",
+    "test/package-exports.mjs",
+    "test/package-graph-canvas.ts",
+    "test/package-graph.ts",
+    "scripts/test-package.mjs"
+  ],
+  "sourceHashes": {
+    "src/canvas/graph-captions.ts": "7ad9ffc3248ba08b0fdc48bddffdf356bf0919ebb0c98c71a59305ac80a0fe91",
+    "src/canvas/graph.ts": "dd46c600e45e577687b9a4cdfe27d9bc89cfbb177d26fadd19e6848452376611",
+    "src/graph/index.ts": "09c5153a1c91741dcf00098bc35c3b4c1f51689f0cdde79b161c5120c444ffb8",
+    "src/graph/scene.ts": "c06d8a36b6d61622c811e88be40bc5f6812d870311bc5a7d6ccb6c6d070d0f3e",
+    "src/graph/trace.ts": "4f5a46481fa3dcfe2501a83984e3479cb5d927b28e1d145f20c879409b0e08c7",
+    "src/graph/types.ts": "968069c40eaf877c3b43b2fae6d88e93209701c953c5e3b7791436a879813f06",
+    "src/graph/validation.ts": "2419ff65c27803922a2f2bd1744bf8525c1b343d72c12189201090b38aee7edf",
+    "examples/graph-algorithm.mjs": "214b9635dcfc49c62774dff23a3e9318315e24545025b75d440bbfa863cf3c4a",
+    "examples/graph-player.html": "c00e1fe74524f497195c19c375bdbd51b150fabcd5d2d53e847ce198753820bc",
+    "test/bfs-graph-migration.test.mjs": "73fc641464e53f67163fb0bc511a52c9b27f26b214c55059c7cb229ea6fb3e6f",
+    "test/graph-canvas-context.mjs": "fb8b03b9fa6f09d76a30bea6a77aa4c0048c08b41f54862d859ecfb19658cf6c",
+    "test/graph-captions-browser.html": "7aa56ab0c2fc6fd7bc479598765966f1fc81ba436af28bd39d366d7ac40f7fdd",
+    "test/graph-captions-browser.mjs": "4d4f7bdcd34da21b95182fed42a8acdc5d95a98e4ae96a19073127b724cf9d81",
+    "test/graph-captions.test.mjs": "f3df074a9963ad27d1a8c72a70be5a7308b9f43556fd05b1537c7b2ac115f3fe",
+    "test/graph.test.mjs": "e55357d82ddd700eb4bb1c0147a096a2b644f0fbf7e2a5dcbd6b97414a2ef9bd",
+    "test/package-exports.mjs": "76effcbc0c9536619b169fd4fc7cc384baf49d12d70a7222297995b8812221e8",
+    "test/package-graph-canvas.ts": "4b31ff439589c6062e4f9449104bdd7644cdc78a07084370a73577f13a951865",
+    "test/package-graph.ts": "4825d9b01da4e52189dac32ced20aaaa4eb98eb2b6cc157d9cf8a3252b99eb13",
+    "scripts/test-package.mjs": "6e3e241833e76af72d56b58e168c72a07c117e996294184695f980c8a5f94f90"
+  },
+  "documentationHashes": {
+    "docs/graph-node-captions.md": "195132906cc6808cecfb184c45571c548dd9a1d235200545a7cd4972e2fc49a1",
+    "docs/ru/graph-node-captions.md": "73364e017e9f3a7d30af833d9f32957b14c4fcb9ab90e8a7bdda280ce6c2145c",
+    "docs/graph-api.md": "3b72f694a5ba8693faeb246dca9ab20f6b015fafb35e7290a63cbb1552b76e10",
+    "docs/ru/graph-api.md": "29494236230c05ef25b8488b63ca20d62cc5cbe0f730f6039ffb86c8a9dec38e",
+    "docs/current-api.md": "cd1c29105aaf9f8dd6a1136aa1bd6b259e3605e49a81bbcf0ba4c67f70706dda",
+    "docs/ru/current-api.md": "d42da6d43467a37f7d87c05e2a58beb82f667c8cfb57fbcf8b94963263b055fe",
+    "docs/custom-graph-example.md": "3e12f0a743c9d3dd335dc8164b3a32fca70bf6921cc7e261ba4416e2bf28fa88",
+    "docs/bfs-graph-comparison.md": "ecdc1cf471e68b6d2cbf29813545a443184695bf6916ea785eaa07ef14ad9659",
+    "docs/ru/bfs-graph-comparison.md": "59f3f85f1f0a3f977e52ed48bdbb67f0969dd4e8e430d7266bc5db1335d3ab7e",
+    "docs/examples.md": "abe786963a446f3ad9cab5d87fd9143548b5cceb13dd8e63476f8cf8ae4bace3",
+    "docs/ru/examples.md": "744c487c5995dadc2c8aa9785735a026037f376e8b4378a7a9f55ee6f847acbf",
+    "CHANGELOG.md": "013f8c4f6cc5b1e32726f33c97d67e224eb1c846a90c41cf6d3da9553016f9f8"
+  },
+  "proof": {
+    "path": "docs/assets/bfs-node-captions-final.jpg",
+    "sha256": "e6b572ebf78e3f1ba81fc8c4383362451885f93b16870accb9267d36fec89a11"
+  },
+  "limits": [
+    "Captions may be omitted when all candidates collide, text bounds are unavailable, full text is too wide or viewport is too small; complete data remains in State/HTML",
+    "No planar-graph guarantee or repair of existing graph/primary-label intersections; placement can change discretely with size/fonts/progress",
+    "Native tests cover supplied fixtures in the built-in browser, not every browser/font/device; bitmap ratios are not three page zoom settings",
+    "No speed/allocation/FPS improvement claimed; caption measurement and obstacle checks cost work",
+    "No release/CI/registry certification; published npm 1.0.0 still has no graph entries"
+  ]
+}

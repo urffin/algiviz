@@ -2,9 +2,27 @@ import { createArrayTrace, type ArraySnapshot, type ArrayEvent } from '@grundyjs
 import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
 import { Player, type PlayerOptions, type PlayerStatus, type PlayerLabels, type PlayerCloseResult } from '@grundyjs/algiviz/player';
 import type { Frame } from '@grundyjs/algiviz/playback';
+import { createGraphTrace, graphScene, type GraphSnapshot, type GraphEvent } from '@grundyjs/algiviz/graph';
 
 if (typeof Player !== 'function') throw new Error('Player entry must import without DOM globals');
 export type PublicPlayerTypes = [PlayerOptions<{ x: number }>, Player<{ x: number }>, PlayerStatus, PlayerLabels, PlayerCloseResult];
+
+export function checkGraphPlayerTypes(host: HTMLElement) {
+    function* steps() {
+        const trace = createGraphTrace({ nodes: [{ id: 'A', data: 1 }], edges: [] });
+        yield trace.start(); yield trace.done({ result: { nodeIds: ['A'] } });
+    }
+    const player = new Player(host, { stepSource: steps, isTerminal: step => step.event.type === 'done',
+        rewindCapacity: 8, render(frame) {
+            const state: GraphSnapshot<number> = frame.current;
+            const event: GraphEvent = frame.event;
+            graphScene(state, { namespace: 'player' }); void event;
+            // @ts-expect-error Graph payload inference is retained by Player.
+            const bad: string = state.graph.nodes[0]!.data!; void bad;
+        } });
+    const frame: Frame<GraphSnapshot<number>,GraphEvent> | null = player.frame; void frame;
+    player.previous(); player.restart(); player.dispose();
+}
 
 // Compiled against the installed package, without executing any DOM operations in Node.
 export function checkPlayerTypes(host: HTMLElement, viewport: HTMLCanvasElement) {

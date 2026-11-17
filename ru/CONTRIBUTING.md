@@ -17,7 +17,8 @@ npm run test:package
 Затем временное приложение удаляется.
 
 GitHub Actions запускает обе проверки при push в `master` и в pull request,
-используя Node.js 22 и 24 на Linux и Windows. Проверки CI не публикуют пакеты.
+используя Node.js 22, 24 и 26 на Linux и Windows. Четыре TypeScript consumer jobs
+и одна проверка optional bundle дополняют матрицу до 11 jobs. CI не публикует пакеты.
 
 `npm pack` автоматически пересобирает пакет. Архив включает dist, README, LICENSE,
 CHANGELOG и метаданные пакета. Исходный код и задачи:

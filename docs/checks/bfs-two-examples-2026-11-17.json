@@ -1,0 +1,252 @@
+{
+  "date": "2026-11-17",
+  "checkedAt": "2026-11-17T09:33:12.408Z",
+  "scope": "Keep detailed BFS and add separate stock-renderer BFS; both use the existing Player; local and unpublished",
+  "baselineCommit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+  "packageVersion": "1.0.0",
+  "libraryImplementationOrAPIChangedThisStage": false,
+  "versionOrDependenciesChangedThisStage": false,
+  "graphAlgorithmSessionAndProfileUnchangedThisStage": true,
+  "commitCreated": false,
+  "pushed": false,
+  "tagCreated": false,
+  "publication": false,
+  "pages": {
+    "detailed": {
+      "page": "examples/graph.html",
+      "entry": "examples/graph-demo.mjs",
+      "drawingWrapper": "examples/graph-view.mjs",
+      "renderer": "examples/graph-scene.mjs",
+      "features": [
+        "Animated FIFO queue",
+        "Per-vertex distances",
+        "Start/target labels and rings",
+        "Processed check marks",
+        "Moving examination dot",
+        "Green reconstructed path"
+      ]
+    },
+    "stock": {
+      "page": "examples/graph-player.html",
+      "entry": "examples/graph-player-demo.mjs",
+      "drawingWrapper": "examples/graph-player-view.mjs",
+      "renderer": "@grundyjs/algiviz/canvas/graph",
+      "features": [
+        "Stock nodes/edges and graph role colors",
+        "Explicit persistent green trace result",
+        "Queue/distances in HTML"
+      ]
+    }
+  },
+  "shared": {
+    "pageController": "examples/graph-page.mjs",
+    "session": "examples/graph-session.mjs",
+    "algorithm": "examples/graph-algorithm.mjs",
+    "player": "@grundyjs/algiviz/player",
+    "controls": "History seeking; lazy stream with 32 retained source positions and 16 requests per frame; applied-input Restart; speed preservation; cleanup",
+    "historyEvent": "Detailed drawing restores immutable state.event into its scene Frame, so state-only history keeps examination animation",
+    "boundary": "Drawing wrappers are private application code. Player gains no graph/queue rendering API. Existing graph/public renderer unchanged."
+  },
+  "verification": {
+    "command": "npm test",
+    "tests": 587,
+    "passed": 587,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "newTopLevelRegressions": 2,
+    "targetedCommand": "node --test test/bfs-two-examples.test.mjs test/bfs-graph-migration.test.mjs",
+    "targetedPassed": 8,
+    "baselineParity": {
+      "runs": 179,
+      "semanticSteps": 6756
+    },
+    "existingIndependentOracle": {
+      "simpleGraphs": 1099,
+      "startOptionalTargetCombinations": 32110,
+      "oracle": "Floyd-Warshall"
+    },
+    "coverage": [
+      "Actual detailed/stock drawing wrappers through Player history and stream",
+      "Restored queue cells, distance and marker labels; history examination dot",
+      "Green result, Previous/Next, bounded rewind, Restart and idempotent disposal",
+      "Import-map dependency closure for both pages and unchanged DFS/profile pages"
+    ],
+    "testPackageRerun": false,
+    "testPackageReason": "This stage changes examples/docs/tests only; public implementation/types/packaging unchanged",
+    "ciRun": false,
+    "performanceBenchmarkRun": false
+  },
+  "native": {
+    "date": "2026-11-17",
+    "checkedAt": "2026-11-17T09:31:29.276Z",
+    "browser": "Built-in browser, no external debugger",
+    "urls": [
+      "http://127.0.0.1:55233/examples/graph.html",
+      "http://127.0.0.1:55233/examples/graph-player.html"
+    ],
+    "passed": 20,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "Detailed history completes default BFS",
+        "passed": true,
+        "result": "Shortest path: A → B → D → G. Length: 3 edges.",
+        "counters": "Discovered: 7 / 8 · Processed: 7 · Neighbor entries inspected: 18 · Largest queue: 3"
+      },
+      {
+        "name": "Stock history has the same final path and counters",
+        "passed": true,
+        "result": "Shortest path: A → B → D → G. Length: 3 edges.",
+        "counters": "Discovered: 7 / 8 · Processed: 7 · Neighbor entries inspected: 18 · Largest queue: 3"
+      },
+      {
+        "name": "Detailed history Previous restores step 55 after terminal hold",
+        "passed": true
+      },
+      {
+        "name": "Detailed history Next restores result",
+        "passed": true
+      },
+      {
+        "name": "Detailed history Restart clears result and restores queued A",
+        "passed": true
+      },
+      {
+        "name": "Stock history Previous restores step 55 after terminal hold",
+        "passed": true
+      },
+      {
+        "name": "Stock history Next and Restart restore result and then clear it",
+        "passed": true
+      },
+      {
+        "name": "Detailed Play/Pause controls pause timed playback",
+        "passed": true
+      },
+      {
+        "name": "Detailed Restart uses applied target G despite draft H",
+        "passed": true
+      },
+      {
+        "name": "Detailed mode change preserves applied input and speed",
+        "passed": true
+      },
+      {
+        "name": "Detailed stream completes the same green path with window 25–56",
+        "passed": true
+      },
+      {
+        "name": "Detailed stream Previous stops at position 25 and disables at window boundary",
+        "passed": true
+      },
+      {
+        "name": "Detailed stream Next replays position 26 and Restart resets to position 0",
+        "passed": true
+      },
+      {
+        "name": "Stock stream completes same path and holds green result",
+        "passed": true
+      },
+      {
+        "name": "Stock stream Previous reaches bounded position 25",
+        "passed": true
+      },
+      {
+        "name": "Stock stream Next/Restart restore initial state",
+        "passed": true
+      },
+      {
+        "name": "Detailed queue C,D,E, vertex distances and start/target markers visually verified",
+        "passed": true
+      },
+      {
+        "name": "Navigation away/back remounts one detailed Player at state 0",
+        "passed": true
+      },
+      {
+        "name": "Both final module graphs load after the documentation/link changes",
+        "passed": true
+      },
+      {
+        "name": "Both browser tabs report no captured console errors",
+        "passed": true
+      }
+    ],
+    "proof": [
+      "docs/assets/bfs-detailed-player-final.jpg",
+      "docs/assets/bfs-stock-player-final.jpg",
+      "docs/assets/bfs-detailed-player-queue.jpg"
+    ],
+    "limits": [
+      "Native UI text/control observations plus visual graph/queue inspection, not a new pixel/DPR renderer audit",
+      "No viewport or zoom override; navigation/back smoke does not distinguish bfcache from a fresh load",
+      "Read-only snapshots and keyboard/accessibility controls used; locator clicks/End did not activate controls in this session, so native keyboard and accessible slider values verified those actions instead"
+    ]
+  },
+  "historicalComparison": {
+    "report": "docs/checks/bfs-graph-migration-2026-11-17.json",
+    "nonblankJS": {
+      "original": 354,
+      "firstSingleStockVersion": 230
+    },
+    "scope": "Earlier single-page migration only; not the size of both current examples, bundle or runtime performance"
+  },
+  "protectedSourceHashes": {
+    "src/graph/index.ts": "d30d6ca2f87b21c0c226a41f5551355e1a83488f62473e28323e130b681845dd",
+    "src/graph/types.ts": "134ecf425d561f2a04bcb437f29231764dacda1d2f8a3eb220138b207289e240",
+    "src/graph/validation.ts": "755a21cd57241f0bc463c766d968afc4686432d7d688e2ab0abda954840894fa",
+    "src/graph/trace.ts": "3526b76cff7ea8670474e7255c5173681a4958b108d2417127f7363331314398",
+    "src/graph/scene.ts": "256138e7276ef9b34e87f295b06b529c08ee7b6d1b7c71d1f5e45476038d5525",
+    "src/canvas/graph.ts": "3821014d4a45a14477ef23857d4135c6f34f17eb2f680b7c68317f11d4fa0b99",
+    "src/canvas/graph-geometry.ts": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa",
+    "package.json": "8071f5caf64b90f05fb14efab34af3a22c197f2324ad5c56d971f45a7f5b2fdf"
+  },
+  "beforeStageHashes": {
+    "examples/graph-demo.mjs": "a7eb08e8a507a6b66e61bc211d71412ae15bb9a030245ea26454e0de24d432d0",
+    "examples/graph.html": "b7be14b2a1d6a36880c9fc86cc388cfe240d5b23d1f82319994b767419fde4f3",
+    "examples/graph-scene.mjs": "de193b6567c2d5386eb19a511a74b346a967bdfc76c506c4ce4b90ca2868586f",
+    "examples/index.html": "819385e6d81a37b388374b90a598c1f5ccab727df6ca4ce568c95bb338ce7b39",
+    "docs/custom-graph-example.md": "8242e0e50b2d12fad49966d785cc27c6226d61592977b4529702583f4721c1fb",
+    "docs/bfs-graph-comparison.md": "2533ffdfa40bb760eba568fa88ff57d523a01b4bf32818075d17597da757c382",
+    "docs/ru/bfs-graph-comparison.md": "938ace20444ac07a258717b78212d401e64bee99002d63aa103fdcdb02ffc709",
+    "docs/examples.md": "1a1476108df0699735e2cdeff9febdf41f3a53236755d9eb9017e8d97099a23e",
+    "docs/ru/examples.md": "a4c419eb4b04540f34630476f99a06d4eee50bca6097020b30fdac960b4fec0c",
+    "README.md": "7cca79a01ea81f17abf9c3b730ca272360db898b0a27d102aae231a972bf4986",
+    "ru/README.md": "a5e89f51bda7e50caa263c22b2c7a36450ddccbce357889fa24f98ba3b98fd17",
+    "CHANGELOG.md": "f034183f1fdf512a5b6d2bd72a669564d58fcd0b8c005b6caed5bc1aab1fcab9",
+    "test/bfs-graph-migration.test.mjs": "633249a36f01e42e911e8c17d9d01ea14c8e760f9928c000b90720b498dcc4de"
+  },
+  "hashFormat": "SHA-256, text normalized to LF; image bytes unchanged",
+  "sourceHashes": {
+    "examples/graph.html": "39d6689e3620444fca7f2c2147b0580993fad76cb38eaeaef20e0583095ce010",
+    "examples/graph-player.html": "732ce3c2711884d378bdf79b768d5fcb4acb6d941b10c59458b4e8d30c2ddb74",
+    "examples/graph-demo.mjs": "8b8ced4f894e3f6c1f874e4863f2b6489fd79071f2de9ca5f18402d965168f33",
+    "examples/graph-player-demo.mjs": "7c7c0ad6deef35eaaec646f8f31fe899bb299bba2f529dfd739a8f1dfa965a5c",
+    "examples/graph-page.mjs": "79909dbed7e77bfffcb63ac14d523196676ce11dd088cf375038f5f443e03fd4",
+    "examples/graph-view.mjs": "39260979683d8be5448682763d1729ece848a7ad2489edbcb1ccbc51d2eed1f5",
+    "examples/graph-player-view.mjs": "02c8d9c1d828489e3c2feb22cbd00a69331612576e8bb7f36afaa42a802fa54a",
+    "examples/graph-scene.mjs": "847ad1fd51bcac7481664c69a98fbbbeff62ae9d6f21817c4d6ef09bd968e588",
+    "examples/index.html": "51b7b05196ba98c799c11237c000fe98b4d5a6a4772ab0c62fdf97d62925ee49",
+    "README.md": "5d1c3007d4ef26a912346034c15fec62659306cd81a7c9ad552d7b4b49d45519",
+    "ru/README.md": "9ab26569c96c2d067d3092f927ebaf587f3f564597fefc26308bf7c700cf67d1",
+    "docs/examples.md": "5d7b6fd713137883972d8af45182cf67525ba91f8d357f91d9f06ab456a98136",
+    "docs/ru/examples.md": "8ba179821f51b93a4a7175c01fa8f8ea89e7cca9268169e420cda1f801b19cdb",
+    "docs/custom-graph-example.md": "c603e7d913097b07e730d623600059fdfcc23b95cec613c9b48ba075bc4051e2",
+    "docs/bfs-graph-comparison.md": "ba1ecbfe33da6935b5e5067f0955f0879fbd3e48cc25557830d6cf3ae0bb4a9a",
+    "docs/ru/bfs-graph-comparison.md": "323487fed18843f0317f71af7708c100d4832bf38196ff3bd45cc2df7232840a",
+    "CHANGELOG.md": "1a979a1c7e8753fbe60efa1b949b74f0835cbeb30878675b6fcbcd9bc8c5e665",
+    "test/bfs-graph-migration.test.mjs": "438b7739a87e92692b8f953763dff019aa3de985c2e2f8d1773f4a4185df2ba6",
+    "test/bfs-two-examples.test.mjs": "568c11e38841e0ed0e7e69e4fb9b1a8f24f071d9981bdfc60cd7191997b95d36"
+  },
+  "imageHashes": {
+    "docs/assets/bfs-detailed-player-final.jpg": "eac8a695dcecc82386174fbe4ac138f7deaacf8e186d0fe5e1cd99430fc31c76",
+    "docs/assets/bfs-stock-player-final.jpg": "04ab0e5654676041a105f6ffd070359c8b13c6f396cc53fb1bb48e96b4e0671a",
+    "docs/assets/bfs-detailed-player-queue.jpg": "096e6c12a7bee2bf875152a3c84c33d7819c475ffe0e645b60c4b4b1cfa1a6ff"
+  },
+  "limits": [
+    "Published npm 1.0.0 does not contain the graph entry points used by the working copy",
+    "No new node-label or graph-decoration API introduced; these remain separate future design work",
+    "Native checks do not replace the previous graph renderer pixel/DPR/context audit"
+  ]
+}

@@ -1,0 +1,1703 @@
+{
+  "scope": "Semantic BFS traces before /graph migration; graph labels normalized; no visual state",
+  "baselineCommit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+  "sourceHashes": {
+    "graph-algorithm.mjs": "643374f8519bbe9ad78fd536c888843640f77c5bc3987dc1d1238ed0279191be",
+    "graph-scene.mjs": "f693370aad3665d0093fb39a68ed2b54c974b79ba4940bd9aeba1de704932613",
+    "graph-demo.mjs": "61dfe3efeee548204f680e18b4037ce264faea2ae264a4f89c0caff36df7c583",
+    "graph.html": "87ee5e39c96a1442edd2ac8786d02210209c1bd66602feb8a9af98e5755bc4c0",
+    "demo-player.mjs": "17ac02cb35deb8a678abb67083249915c6428ca5002bd67ffc44718c61e8e25b",
+    "player-settings.mjs": "b38cd03d9bf5ec9ce0382bece0354e912c99b651d64407c3d1a4b0d90394ab07"
+  },
+  "graphs": {
+    "layers": {
+      "nodes": [
+        {
+          "id": "A"
+        },
+        {
+          "id": "B"
+        },
+        {
+          "id": "C"
+        },
+        {
+          "id": "D"
+        },
+        {
+          "id": "E"
+        },
+        {
+          "id": "F"
+        },
+        {
+          "id": "G"
+        },
+        {
+          "id": "H"
+        }
+      ],
+      "edges": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        },
+        {
+          "id": "BE",
+          "from": "B",
+          "to": "E"
+        },
+        {
+          "id": "CE",
+          "from": "C",
+          "to": "E"
+        },
+        {
+          "id": "CF",
+          "from": "C",
+          "to": "F"
+        },
+        {
+          "id": "DG",
+          "from": "D",
+          "to": "G"
+        },
+        {
+          "id": "EG",
+          "from": "E",
+          "to": "G"
+        },
+        {
+          "id": "FG",
+          "from": "F",
+          "to": "G"
+        }
+      ]
+    },
+    "chain": {
+      "nodes": [
+        {
+          "id": "A"
+        },
+        {
+          "id": "B"
+        },
+        {
+          "id": "C"
+        },
+        {
+          "id": "D"
+        },
+        {
+          "id": "E"
+        }
+      ],
+      "edges": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        }
+      ]
+    },
+    "diamond": {
+      "nodes": [
+        {
+          "id": "A"
+        },
+        {
+          "id": "B"
+        },
+        {
+          "id": "C"
+        },
+        {
+          "id": "D"
+        }
+      ],
+      "edges": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        }
+      ]
+    },
+    "circle": {
+      "nodes": [
+        {
+          "id": "A"
+        },
+        {
+          "id": "B"
+        },
+        {
+          "id": "C"
+        },
+        {
+          "id": "D"
+        },
+        {
+          "id": "E"
+        },
+        {
+          "id": "F"
+        },
+        {
+          "id": "G"
+        }
+      ],
+      "edges": [
+        {
+          "id": "AB",
+          "from": "A",
+          "to": "B"
+        },
+        {
+          "id": "AC",
+          "from": "A",
+          "to": "C"
+        },
+        {
+          "id": "BD",
+          "from": "B",
+          "to": "D"
+        },
+        {
+          "id": "CD",
+          "from": "C",
+          "to": "D"
+        },
+        {
+          "id": "DE",
+          "from": "D",
+          "to": "E"
+        },
+        {
+          "id": "BC",
+          "from": "B",
+          "to": "C"
+        },
+        {
+          "id": "FG",
+          "from": "F",
+          "to": "G"
+        }
+      ]
+    },
+    "multigraph": {
+      "nodes": [
+        {
+          "id": "__proto__"
+        },
+        {
+          "id": "constructor"
+        },
+        {
+          "id": "toString"
+        },
+        {
+          "id": "isolated"
+        }
+      ],
+      "edges": [
+        {
+          "id": "loop",
+          "from": "__proto__",
+          "to": "__proto__"
+        },
+        {
+          "id": "first",
+          "from": "__proto__",
+          "to": "constructor"
+        },
+        {
+          "id": "parallel",
+          "from": "constructor",
+          "to": "__proto__"
+        },
+        {
+          "id": "tail",
+          "from": "constructor",
+          "to": "toString"
+        }
+      ]
+    }
+  },
+  "cases": [
+    {
+      "name": "layers:A:null",
+      "graphId": "layers",
+      "start": "A",
+      "target": null,
+      "stepCount": 53,
+      "digest": "67fe4b66a60aafd723f0e4002dac928403fb5322573d7815aefa504724f436c3"
+    },
+    {
+      "name": "layers:A:A",
+      "graphId": "layers",
+      "start": "A",
+      "target": "A",
+      "stepCount": 54,
+      "digest": "a6fc95564693fc92c9a0a0d206cf3ffae3caeb3611c0b7fdec8427579bdf7b9c"
+    },
+    {
+      "name": "layers:A:B",
+      "graphId": "layers",
+      "start": "A",
+      "target": "B",
+      "stepCount": 55,
+      "digest": "ee797ca454f794b32afae14f5c6282b888337f7223318639267932600efdc3b4"
+    },
+    {
+      "name": "layers:A:C",
+      "graphId": "layers",
+      "start": "A",
+      "target": "C",
+      "stepCount": 55,
+      "digest": "3573e8279a9b1f4c6dfff40383edffcde3c6b4e30962f6f8f5f98a159fce6f23"
+    },
+    {
+      "name": "layers:A:D",
+      "graphId": "layers",
+      "start": "A",
+      "target": "D",
+      "stepCount": 56,
+      "digest": "767396d086cf69292494b91b24e2f9c96af97ebdb955518805025989094a8ff3"
+    },
+    {
+      "name": "layers:A:E",
+      "graphId": "layers",
+      "start": "A",
+      "target": "E",
+      "stepCount": 56,
+      "digest": "6b6d15b159491358005fc4db59e7c1f141cc8cb1ab8a51aba921ff96e2490e4d"
+    },
+    {
+      "name": "layers:A:F",
+      "graphId": "layers",
+      "start": "A",
+      "target": "F",
+      "stepCount": 56,
+      "digest": "cb58d7b31c63b9affcfb90682fb665b45e9d27f4a1afca600b58fd1fb696256f"
+    },
+    {
+      "name": "layers:A:G",
+      "graphId": "layers",
+      "start": "A",
+      "target": "G",
+      "stepCount": 57,
+      "digest": "dd919a0f53d2a21e9d5c89dc346942446aa406da98a66abba082bad8e27dba3f"
+    },
+    {
+      "name": "layers:A:H",
+      "graphId": "layers",
+      "start": "A",
+      "target": "H",
+      "stepCount": 53,
+      "digest": "6e277b3427f890a61b3600d542829a7957b4f6a146b4399f35530f03bc31415b"
+    },
+    {
+      "name": "layers:B:null",
+      "graphId": "layers",
+      "start": "B",
+      "target": null,
+      "stepCount": 53,
+      "digest": "9f7f686bbe276ab18dfad701dab0a4851c0eb2a550cfad36ef90a0807d231212"
+    },
+    {
+      "name": "layers:B:A",
+      "graphId": "layers",
+      "start": "B",
+      "target": "A",
+      "stepCount": 55,
+      "digest": "4326c038bc9dfa12eb3962bfabbd179a0be9df8f071033b3f14cfec7780c18ec"
+    },
+    {
+      "name": "layers:B:B",
+      "graphId": "layers",
+      "start": "B",
+      "target": "B",
+      "stepCount": 54,
+      "digest": "b0e0f856c5e5c04fbff57952e97ac79d2cb337cb10f09b26eaf8d9b2606c8a59"
+    },
+    {
+      "name": "layers:B:C",
+      "graphId": "layers",
+      "start": "B",
+      "target": "C",
+      "stepCount": 56,
+      "digest": "f655c4bcd29749ce4c41e306330a5727000d0462546e8854c3822aca21ca661b"
+    },
+    {
+      "name": "layers:B:D",
+      "graphId": "layers",
+      "start": "B",
+      "target": "D",
+      "stepCount": 55,
+      "digest": "37ef258a84b74a7b2294cf058ad2fc811ab29f437ac727ad7f51a6c40ecad48f"
+    },
+    {
+      "name": "layers:B:E",
+      "graphId": "layers",
+      "start": "B",
+      "target": "E",
+      "stepCount": 55,
+      "digest": "980efb662c2544eb16563b7c5292b1d6e65b3fa4c1574e1fd9e7d48b7090d8e4"
+    },
+    {
+      "name": "layers:B:F",
+      "graphId": "layers",
+      "start": "B",
+      "target": "F",
+      "stepCount": 57,
+      "digest": "db32741c687ab98be15cb2ad1148fcf8ac2be97972ca8ef0b25d4d832167f687"
+    },
+    {
+      "name": "layers:B:G",
+      "graphId": "layers",
+      "start": "B",
+      "target": "G",
+      "stepCount": 56,
+      "digest": "ea22438b20603a8ac37c03f13ec473b1b0192cf20145ce98ff6611c60f089836"
+    },
+    {
+      "name": "layers:B:H",
+      "graphId": "layers",
+      "start": "B",
+      "target": "H",
+      "stepCount": 53,
+      "digest": "aa192b358cdf6b94ce2e9a207febc00e480976010a3352918a707e6e98051960"
+    },
+    {
+      "name": "layers:C:null",
+      "graphId": "layers",
+      "start": "C",
+      "target": null,
+      "stepCount": 53,
+      "digest": "d521d005b434e7b0963b37acb2ef2ef9d3853692d2a2721a9b3df29cebc1ee66"
+    },
+    {
+      "name": "layers:C:A",
+      "graphId": "layers",
+      "start": "C",
+      "target": "A",
+      "stepCount": 55,
+      "digest": "8e8d7e7e41a7e687bef0b75b0ea6cf68498b407f068d4537c1ff2ec60899cb23"
+    },
+    {
+      "name": "layers:C:B",
+      "graphId": "layers",
+      "start": "C",
+      "target": "B",
+      "stepCount": 56,
+      "digest": "ba22db49a73ba3e856ef4b9d9407ed507605078c97fe8c8f72398bad86c7d74e"
+    },
+    {
+      "name": "layers:C:C",
+      "graphId": "layers",
+      "start": "C",
+      "target": "C",
+      "stepCount": 54,
+      "digest": "804353a59eca00dd88ab964cd85979672d51f0e87235383e290d47401cd9ef83"
+    },
+    {
+      "name": "layers:C:D",
+      "graphId": "layers",
+      "start": "C",
+      "target": "D",
+      "stepCount": 57,
+      "digest": "975b19a9530576e8474798a3492f009128bd175b1f50fad1ba31e39729b2eaf2"
+    },
+    {
+      "name": "layers:C:E",
+      "graphId": "layers",
+      "start": "C",
+      "target": "E",
+      "stepCount": 55,
+      "digest": "cf4eea33d6a9b1e8a2a0cb69743f79bcded13fc316bdb1969162e59e1ab7af39"
+    },
+    {
+      "name": "layers:C:F",
+      "graphId": "layers",
+      "start": "C",
+      "target": "F",
+      "stepCount": 55,
+      "digest": "365bf0e690e866d5c53a32d899852f7bfab6001f1db94239009e362e3a4f11bb"
+    },
+    {
+      "name": "layers:C:G",
+      "graphId": "layers",
+      "start": "C",
+      "target": "G",
+      "stepCount": 56,
+      "digest": "032dd86e112d2cfcc1adbda5f9a9115a2be95dd10b26751c6e972dba145f247d"
+    },
+    {
+      "name": "layers:C:H",
+      "graphId": "layers",
+      "start": "C",
+      "target": "H",
+      "stepCount": 53,
+      "digest": "3335fe579510f516d915bcdcd3b6e87cd60a7c7eac896d818b29867ebe15ad2f"
+    },
+    {
+      "name": "layers:D:null",
+      "graphId": "layers",
+      "start": "D",
+      "target": null,
+      "stepCount": 53,
+      "digest": "8ab566fd027c0e807b66e9dd0d31cd23b0666cd83395e2623be274b73ddb1ceb"
+    },
+    {
+      "name": "layers:D:A",
+      "graphId": "layers",
+      "start": "D",
+      "target": "A",
+      "stepCount": 56,
+      "digest": "cb35d0271127ff89f5adf4f1cf88c7ec6fd49bf58904690c0c7b36c88b7b5457"
+    },
+    {
+      "name": "layers:D:B",
+      "graphId": "layers",
+      "start": "D",
+      "target": "B",
+      "stepCount": 55,
+      "digest": "5f03ef9a5b87dfd94642a777449cb3a4c9f24be504158b9d4381a90ee2cc17ed"
+    },
+    {
+      "name": "layers:D:C",
+      "graphId": "layers",
+      "start": "D",
+      "target": "C",
+      "stepCount": 57,
+      "digest": "84131c1409f00931da82c2d5bda0e90f637e0f9f0131e4153e00b2fcfba71baf"
+    },
+    {
+      "name": "layers:D:D",
+      "graphId": "layers",
+      "start": "D",
+      "target": "D",
+      "stepCount": 54,
+      "digest": "da2d21b66079474c52c2018dd1a92e2eb4a7aab6daefbe6c851d064f19c74c71"
+    },
+    {
+      "name": "layers:D:E",
+      "graphId": "layers",
+      "start": "D",
+      "target": "E",
+      "stepCount": 56,
+      "digest": "da7fde502107bfafe122933cb354e2e70a2ed400855e5f8958c963a0431b024b"
+    },
+    {
+      "name": "layers:D:F",
+      "graphId": "layers",
+      "start": "D",
+      "target": "F",
+      "stepCount": 56,
+      "digest": "e9a7ad39d5d992042dcca5e388afda81e5585aa88ca1f1236c3c146de0c710f5"
+    },
+    {
+      "name": "layers:D:G",
+      "graphId": "layers",
+      "start": "D",
+      "target": "G",
+      "stepCount": 55,
+      "digest": "9a95dd196a0219d448dae61a63c38dfbc53bcf2c1ef4f6b24b2c83aca7ffa06b"
+    },
+    {
+      "name": "layers:D:H",
+      "graphId": "layers",
+      "start": "D",
+      "target": "H",
+      "stepCount": 53,
+      "digest": "442aa2399810d26cecf185f4cf5f33eec31fc3711f0cc6571a65b5600d338281"
+    },
+    {
+      "name": "layers:E:null",
+      "graphId": "layers",
+      "start": "E",
+      "target": null,
+      "stepCount": 53,
+      "digest": "197d9e672ff3128b14cac81002380848382f288b29ff39fd92da64917e89803f"
+    },
+    {
+      "name": "layers:E:A",
+      "graphId": "layers",
+      "start": "E",
+      "target": "A",
+      "stepCount": 56,
+      "digest": "1e3b8e7fc351ea2101a16968d323198cf0ba1d616bf0bca726354de5cb61de87"
+    },
+    {
+      "name": "layers:E:B",
+      "graphId": "layers",
+      "start": "E",
+      "target": "B",
+      "stepCount": 55,
+      "digest": "4c7714ed5e1e4b13993e8e8757ae9c777dcaa1f6efb00b63aa6e9cd2e80ed830"
+    },
+    {
+      "name": "layers:E:C",
+      "graphId": "layers",
+      "start": "E",
+      "target": "C",
+      "stepCount": 55,
+      "digest": "32910eb8d4ffcc442f394f114ed9c77a21c95f8b440a6c52ec081d197c9d978e"
+    },
+    {
+      "name": "layers:E:D",
+      "graphId": "layers",
+      "start": "E",
+      "target": "D",
+      "stepCount": 56,
+      "digest": "f48b8a4889715684730386af6140788477dd1e90f825daef8e2ce45f47deda60"
+    },
+    {
+      "name": "layers:E:E",
+      "graphId": "layers",
+      "start": "E",
+      "target": "E",
+      "stepCount": 54,
+      "digest": "3e0bb28e08ba629723fb77f2fd8f7cf7faa5cc387283698314808a9644e8bc64"
+    },
+    {
+      "name": "layers:E:F",
+      "graphId": "layers",
+      "start": "E",
+      "target": "F",
+      "stepCount": 56,
+      "digest": "c0159e9e57f6786666cae69f4b411d9d69c9e91b3dffb5ef76cb3f4d2d21da45"
+    },
+    {
+      "name": "layers:E:G",
+      "graphId": "layers",
+      "start": "E",
+      "target": "G",
+      "stepCount": 55,
+      "digest": "cbafd73d45fc71230426c303cc236f0bff4def7477aee6435ab85f9f02f93007"
+    },
+    {
+      "name": "layers:E:H",
+      "graphId": "layers",
+      "start": "E",
+      "target": "H",
+      "stepCount": 53,
+      "digest": "c3469ec2e400fdce2932f33f5fef37fc837317d75cc650cddc1892a6d764eaec"
+    },
+    {
+      "name": "layers:F:null",
+      "graphId": "layers",
+      "start": "F",
+      "target": null,
+      "stepCount": 53,
+      "digest": "c883581f403c9dd070cff6a1b310d738a52d585508d574e98a7ea63d308cb3c3"
+    },
+    {
+      "name": "layers:F:A",
+      "graphId": "layers",
+      "start": "F",
+      "target": "A",
+      "stepCount": 56,
+      "digest": "c7f442cddfd20155d528c39a3793ae2ba78d2cf553ce0982b9f9a277e70732c3"
+    },
+    {
+      "name": "layers:F:B",
+      "graphId": "layers",
+      "start": "F",
+      "target": "B",
+      "stepCount": 57,
+      "digest": "880f3ac7b10962e16f70e9ae2fac52733f2da6599def802a73543fb29c321b47"
+    },
+    {
+      "name": "layers:F:C",
+      "graphId": "layers",
+      "start": "F",
+      "target": "C",
+      "stepCount": 55,
+      "digest": "6d6c52d44c7a1f662da8b9de012dfba35f1371b90184fa1bc36496a98f267fe6"
+    },
+    {
+      "name": "layers:F:D",
+      "graphId": "layers",
+      "start": "F",
+      "target": "D",
+      "stepCount": 56,
+      "digest": "7747ce5a1af95a760efc5207920d995cfe19271c5ef8799524b31dc2946d7324"
+    },
+    {
+      "name": "layers:F:E",
+      "graphId": "layers",
+      "start": "F",
+      "target": "E",
+      "stepCount": 56,
+      "digest": "369405c3177a565b1a9446f03551077ccccc913a15dbd42bb4273b21a47f600f"
+    },
+    {
+      "name": "layers:F:F",
+      "graphId": "layers",
+      "start": "F",
+      "target": "F",
+      "stepCount": 54,
+      "digest": "fbed0b63eab47e9d9d4d2bc96c476f2575f977bef13049f082bc78163fe2f4c0"
+    },
+    {
+      "name": "layers:F:G",
+      "graphId": "layers",
+      "start": "F",
+      "target": "G",
+      "stepCount": 55,
+      "digest": "891f5cccbae21a44f69729a344e7662c6ac36a8e457afc8f821db6ec645f2d9b"
+    },
+    {
+      "name": "layers:F:H",
+      "graphId": "layers",
+      "start": "F",
+      "target": "H",
+      "stepCount": 53,
+      "digest": "b242a2e38b3de49a668077dae6b5c5012319a9afc5879dc708d0469f02370fce"
+    },
+    {
+      "name": "layers:G:null",
+      "graphId": "layers",
+      "start": "G",
+      "target": null,
+      "stepCount": 53,
+      "digest": "2c99058fdc27a259175cb587bedee19c70f51fd0d05df9ea4ebf916c08221600"
+    },
+    {
+      "name": "layers:G:A",
+      "graphId": "layers",
+      "start": "G",
+      "target": "A",
+      "stepCount": 57,
+      "digest": "a897678dbeff7a2b87141b8ac38d57a5b2b3735cdb2d3b377dc8d83fe6be4059"
+    },
+    {
+      "name": "layers:G:B",
+      "graphId": "layers",
+      "start": "G",
+      "target": "B",
+      "stepCount": 56,
+      "digest": "0850f07461dafc3291a18164c619ae981fd73a07e4c235247b489ccd0550d1ad"
+    },
+    {
+      "name": "layers:G:C",
+      "graphId": "layers",
+      "start": "G",
+      "target": "C",
+      "stepCount": 56,
+      "digest": "0c9ddabc00322df4ca14a65b99e6f6785958f21f90581c5a04488e768725d826"
+    },
+    {
+      "name": "layers:G:D",
+      "graphId": "layers",
+      "start": "G",
+      "target": "D",
+      "stepCount": 55,
+      "digest": "ef65a58189575779f1a2d2620bc046ef5067fc2897c71e65d6794fe61df7ed43"
+    },
+    {
+      "name": "layers:G:E",
+      "graphId": "layers",
+      "start": "G",
+      "target": "E",
+      "stepCount": 55,
+      "digest": "4bd6f88c9af83d09f2e5b34b83e5403eaffad255b67e2eb8a63fd6b51eb44f9a"
+    },
+    {
+      "name": "layers:G:F",
+      "graphId": "layers",
+      "start": "G",
+      "target": "F",
+      "stepCount": 55,
+      "digest": "8847e9f53588d63914547f92a677fbc25db46172cd6c90958e69be8b74f00799"
+    },
+    {
+      "name": "layers:G:G",
+      "graphId": "layers",
+      "start": "G",
+      "target": "G",
+      "stepCount": 54,
+      "digest": "a788fe931a6d882e3ca8c21ec80eb06656bf2fc6a149342cf79eae84e22535f5"
+    },
+    {
+      "name": "layers:G:H",
+      "graphId": "layers",
+      "start": "G",
+      "target": "H",
+      "stepCount": 53,
+      "digest": "82cdb230d712a08b97e9bd4ec32e78ab3f8dc83c6957dba923f20de9ba4810b4"
+    },
+    {
+      "name": "layers:H:null",
+      "graphId": "layers",
+      "start": "H",
+      "target": null,
+      "stepCount": 5,
+      "digest": "abf2ad5010125c611b9a6ba0b6dc8ea0ab51602373483c108f44a15b82a3c8a8"
+    },
+    {
+      "name": "layers:H:A",
+      "graphId": "layers",
+      "start": "H",
+      "target": "A",
+      "stepCount": 5,
+      "digest": "d259f144591ed8b469656df666c20b92e54cd272b6156cfa1778acece8f062df"
+    },
+    {
+      "name": "layers:H:B",
+      "graphId": "layers",
+      "start": "H",
+      "target": "B",
+      "stepCount": 5,
+      "digest": "3af13dc132450b8d4e0b1260d0bcd68bb2967093696b2cd832485c7b7fd641e4"
+    },
+    {
+      "name": "layers:H:C",
+      "graphId": "layers",
+      "start": "H",
+      "target": "C",
+      "stepCount": 5,
+      "digest": "08631f31fab62aeb397ea1da15d3b01f659607c560e087c99d0eae9c61710ec7"
+    },
+    {
+      "name": "layers:H:D",
+      "graphId": "layers",
+      "start": "H",
+      "target": "D",
+      "stepCount": 5,
+      "digest": "d0149b74db368d9dbe90f6d23e6ac0247dcea962e75fa9d0017153ae67e1278c"
+    },
+    {
+      "name": "layers:H:E",
+      "graphId": "layers",
+      "start": "H",
+      "target": "E",
+      "stepCount": 5,
+      "digest": "62266d6475847896048198dd980c953b5a0168fe5789e6e7718fb06d88a40cb4"
+    },
+    {
+      "name": "layers:H:F",
+      "graphId": "layers",
+      "start": "H",
+      "target": "F",
+      "stepCount": 5,
+      "digest": "12d846b97c76322f9821f1c560098ac785293ad920f3ab2e20287433641bdb55"
+    },
+    {
+      "name": "layers:H:G",
+      "graphId": "layers",
+      "start": "H",
+      "target": "G",
+      "stepCount": 5,
+      "digest": "59138a0776d60f852d24195bf128abd20c5a757864ebb06e9965f44895fa2cd7"
+    },
+    {
+      "name": "layers:H:H",
+      "graphId": "layers",
+      "start": "H",
+      "target": "H",
+      "stepCount": 6,
+      "digest": "9ee38d786ea3af6287aac72a4b171eb354b8fd29182050ce87ce1815eea32008"
+    },
+    {
+      "name": "chain:A:null",
+      "graphId": "chain",
+      "start": "A",
+      "target": null,
+      "stepCount": 29,
+      "digest": "357051beae8bf33615f99d2255edd8c8111e4cf71273fc7710507f96c46a7b31"
+    },
+    {
+      "name": "chain:A:A",
+      "graphId": "chain",
+      "start": "A",
+      "target": "A",
+      "stepCount": 30,
+      "digest": "54fcce615cac3074b33d7e8329eb01448a20cb36f22eba70a481a178f243ce52"
+    },
+    {
+      "name": "chain:A:B",
+      "graphId": "chain",
+      "start": "A",
+      "target": "B",
+      "stepCount": 31,
+      "digest": "a1c9b20ab21f980ca94b391171c147946c6eb7c0335bcab1aa7820bcf0eb45d5"
+    },
+    {
+      "name": "chain:A:C",
+      "graphId": "chain",
+      "start": "A",
+      "target": "C",
+      "stepCount": 32,
+      "digest": "8a4ace93b0740cb8a2b5deefb120012ecfa7c6ddb0638a36aa0e7ae88a2bf6bb"
+    },
+    {
+      "name": "chain:A:D",
+      "graphId": "chain",
+      "start": "A",
+      "target": "D",
+      "stepCount": 33,
+      "digest": "6cdfaff640a288e5f785943353c2973ca76bd2a9c3be10278cbb256eee014fc1"
+    },
+    {
+      "name": "chain:A:E",
+      "graphId": "chain",
+      "start": "A",
+      "target": "E",
+      "stepCount": 34,
+      "digest": "fcac753d8a10135b7d5f38de5e4380f5b28bd3bed9d1d104ff06a214fa3a8677"
+    },
+    {
+      "name": "chain:B:null",
+      "graphId": "chain",
+      "start": "B",
+      "target": null,
+      "stepCount": 29,
+      "digest": "b0206a84c8e0f549098dff80528d3c003de9e1a43d230381cd7a35724f03c6f0"
+    },
+    {
+      "name": "chain:B:A",
+      "graphId": "chain",
+      "start": "B",
+      "target": "A",
+      "stepCount": 31,
+      "digest": "02203fa66a10ac20f8fc6cd9522408d4801a4069438360e4ec8a1a30567e3a50"
+    },
+    {
+      "name": "chain:B:B",
+      "graphId": "chain",
+      "start": "B",
+      "target": "B",
+      "stepCount": 30,
+      "digest": "cf5c095c19d3d68ed215dfa36e4062a322ec359b80199df05ffad4bca06d7063"
+    },
+    {
+      "name": "chain:B:C",
+      "graphId": "chain",
+      "start": "B",
+      "target": "C",
+      "stepCount": 31,
+      "digest": "5c2fa3d619430c3f77d58c129b9537f42fb4cc52eb83842091c5cb6eee47a0cb"
+    },
+    {
+      "name": "chain:B:D",
+      "graphId": "chain",
+      "start": "B",
+      "target": "D",
+      "stepCount": 32,
+      "digest": "bea1b0607416af7bc8f6eeead0dc391468322ae34602d0dd0fd67bc2656aceae"
+    },
+    {
+      "name": "chain:B:E",
+      "graphId": "chain",
+      "start": "B",
+      "target": "E",
+      "stepCount": 33,
+      "digest": "94c91bc14aa29863543ce8e6e1e6f139d6acef8969b69da2927ce78c64ea1846"
+    },
+    {
+      "name": "chain:C:null",
+      "graphId": "chain",
+      "start": "C",
+      "target": null,
+      "stepCount": 29,
+      "digest": "3ef1c06eebf90a5e96cd4dd62eac20a5720cae7ccef345ac1039df840bb9466e"
+    },
+    {
+      "name": "chain:C:A",
+      "graphId": "chain",
+      "start": "C",
+      "target": "A",
+      "stepCount": 32,
+      "digest": "8071c690ee3165eeffca94f77ab6e909fc427a6eaa9bf0ae58d2c3a4c0bf63ce"
+    },
+    {
+      "name": "chain:C:B",
+      "graphId": "chain",
+      "start": "C",
+      "target": "B",
+      "stepCount": 31,
+      "digest": "e569dbfd374695a0d36746ba676e3e902a77524b0d6ead4cfca759dafb871a6b"
+    },
+    {
+      "name": "chain:C:C",
+      "graphId": "chain",
+      "start": "C",
+      "target": "C",
+      "stepCount": 30,
+      "digest": "e708b8c370d93867e72386b00c9e17e74efea392ca1d95c3987a34706b0b0a96"
+    },
+    {
+      "name": "chain:C:D",
+      "graphId": "chain",
+      "start": "C",
+      "target": "D",
+      "stepCount": 31,
+      "digest": "668311243dd148180eaa50d00929f2a2b23cb584facc5adff2d2cbe396f50d95"
+    },
+    {
+      "name": "chain:C:E",
+      "graphId": "chain",
+      "start": "C",
+      "target": "E",
+      "stepCount": 32,
+      "digest": "8516c5ef6293300e887bc3bc23b7dcb87446fd3d95a5179d4eff8df3fd381336"
+    },
+    {
+      "name": "chain:D:null",
+      "graphId": "chain",
+      "start": "D",
+      "target": null,
+      "stepCount": 29,
+      "digest": "e61f04ef8eacb6664fa4e04c01cf701903150ecbaa8d11342393a75efef4ab1f"
+    },
+    {
+      "name": "chain:D:A",
+      "graphId": "chain",
+      "start": "D",
+      "target": "A",
+      "stepCount": 33,
+      "digest": "0fa86fd93ea9c9c334229bab74d7758fd924ba8bc8ec7db00afd6b1759945f5c"
+    },
+    {
+      "name": "chain:D:B",
+      "graphId": "chain",
+      "start": "D",
+      "target": "B",
+      "stepCount": 32,
+      "digest": "d24710397308b729575d511987f1146e5dc1bb488510dcbf8998bf021f7475fd"
+    },
+    {
+      "name": "chain:D:C",
+      "graphId": "chain",
+      "start": "D",
+      "target": "C",
+      "stepCount": 31,
+      "digest": "282f29102cf1b99cd0f8827f3c51e920a79abcbd3fa78800c4ba1493f610e9ef"
+    },
+    {
+      "name": "chain:D:D",
+      "graphId": "chain",
+      "start": "D",
+      "target": "D",
+      "stepCount": 30,
+      "digest": "c61593e428bb84d42dd765ebf841a26b5eaa8b7794762edc370ac945ce820862"
+    },
+    {
+      "name": "chain:D:E",
+      "graphId": "chain",
+      "start": "D",
+      "target": "E",
+      "stepCount": 31,
+      "digest": "78d42a30746d1a6eca87c4972bc21b14a79680bdf7088ccd8870c4765d888d6f"
+    },
+    {
+      "name": "chain:E:null",
+      "graphId": "chain",
+      "start": "E",
+      "target": null,
+      "stepCount": 29,
+      "digest": "a29a749448ee593ce4907b6dc975944a62779489f1258265a49419727cf105af"
+    },
+    {
+      "name": "chain:E:A",
+      "graphId": "chain",
+      "start": "E",
+      "target": "A",
+      "stepCount": 34,
+      "digest": "82a6d306ee79dd16b8b9a01936ef16560048af28e6e14e33a4f7081383de2195"
+    },
+    {
+      "name": "chain:E:B",
+      "graphId": "chain",
+      "start": "E",
+      "target": "B",
+      "stepCount": 33,
+      "digest": "d6bba33c9a59b250139c16362fe2ed1ba06509d938f563fe73e44f4ca4adbe6a"
+    },
+    {
+      "name": "chain:E:C",
+      "graphId": "chain",
+      "start": "E",
+      "target": "C",
+      "stepCount": 32,
+      "digest": "bcda67152f8db09633ace64f32e038980f2a5181037d86ca10fedd9e5dc804ff"
+    },
+    {
+      "name": "chain:E:D",
+      "graphId": "chain",
+      "start": "E",
+      "target": "D",
+      "stepCount": 31,
+      "digest": "0ae986d65b36a30e5b7e7d3ff82c2f31d77a6504b958f7faa8060ade96a578c9"
+    },
+    {
+      "name": "chain:E:E",
+      "graphId": "chain",
+      "start": "E",
+      "target": "E",
+      "stepCount": 30,
+      "digest": "5402239db690f0c689837a31a4020560aa2ed932adcabe01bb3aaa828416267f"
+    },
+    {
+      "name": "diamond:A:null",
+      "graphId": "diamond",
+      "start": "A",
+      "target": null,
+      "stepCount": 27,
+      "digest": "47b2f22db6ac9e80a8868d6df30480c12538287cccc9e51eb08d9c8409d74ddc"
+    },
+    {
+      "name": "diamond:A:A",
+      "graphId": "diamond",
+      "start": "A",
+      "target": "A",
+      "stepCount": 28,
+      "digest": "78cfce117e6c70a2e8f51e87e68d7c56bc3251fc350b111c6038fbb432df47aa"
+    },
+    {
+      "name": "diamond:A:B",
+      "graphId": "diamond",
+      "start": "A",
+      "target": "B",
+      "stepCount": 29,
+      "digest": "02f743822e82498290637267076138c7c98f03b05c545089bb82b52a30339a2c"
+    },
+    {
+      "name": "diamond:A:C",
+      "graphId": "diamond",
+      "start": "A",
+      "target": "C",
+      "stepCount": 29,
+      "digest": "7e1174a0f73044dc44c5957514a22b91912a133eb0957182d8c133901ad3ffa4"
+    },
+    {
+      "name": "diamond:A:D",
+      "graphId": "diamond",
+      "start": "A",
+      "target": "D",
+      "stepCount": 30,
+      "digest": "5744d20d982c17985e345e3c2feb24dfd4176eafad6559ba5eaf848fbdc8f129"
+    },
+    {
+      "name": "diamond:B:null",
+      "graphId": "diamond",
+      "start": "B",
+      "target": null,
+      "stepCount": 27,
+      "digest": "c7271843c8531cfd088196f810345351e2209dfa644cdd2ea77aa927ea37727a"
+    },
+    {
+      "name": "diamond:B:A",
+      "graphId": "diamond",
+      "start": "B",
+      "target": "A",
+      "stepCount": 29,
+      "digest": "72cbe4a1bfe45cf4b0d8e3abbec7e6f8f1a98b99154d1fe27528570186a99e8e"
+    },
+    {
+      "name": "diamond:B:B",
+      "graphId": "diamond",
+      "start": "B",
+      "target": "B",
+      "stepCount": 28,
+      "digest": "90ca9afd550583204d3b57cbc8b2d8a7c95623bafdc7d4514bafdbabe51d38aa"
+    },
+    {
+      "name": "diamond:B:C",
+      "graphId": "diamond",
+      "start": "B",
+      "target": "C",
+      "stepCount": 30,
+      "digest": "52b48b628664254b827b167475136ae5b46e28ee890f9b38da5d2566372c8ca2"
+    },
+    {
+      "name": "diamond:B:D",
+      "graphId": "diamond",
+      "start": "B",
+      "target": "D",
+      "stepCount": 29,
+      "digest": "1d953a48a614cbe787e9192463629d988411889794db6cf74b8c4a342730abeb"
+    },
+    {
+      "name": "diamond:C:null",
+      "graphId": "diamond",
+      "start": "C",
+      "target": null,
+      "stepCount": 27,
+      "digest": "0e068641914b50730ad80b660d23c894c7203ad05cadce390b8b7ab9f29bc8d7"
+    },
+    {
+      "name": "diamond:C:A",
+      "graphId": "diamond",
+      "start": "C",
+      "target": "A",
+      "stepCount": 29,
+      "digest": "0e8ad38f49a6dca8335b1bfe4a231b640be5107a36eb60d488721590011b6fef"
+    },
+    {
+      "name": "diamond:C:B",
+      "graphId": "diamond",
+      "start": "C",
+      "target": "B",
+      "stepCount": 30,
+      "digest": "d18814c4e545ffcfca01370b1e7504e3c079fe884b53f46f861215af23e6d870"
+    },
+    {
+      "name": "diamond:C:C",
+      "graphId": "diamond",
+      "start": "C",
+      "target": "C",
+      "stepCount": 28,
+      "digest": "f8a0717a7eb459df323839f2970f9121295621e5d6087f57573e8aba952ca749"
+    },
+    {
+      "name": "diamond:C:D",
+      "graphId": "diamond",
+      "start": "C",
+      "target": "D",
+      "stepCount": 29,
+      "digest": "a44d294e41ed6a85b54dd4e97dd741fcb5533f9ec5f0aa3497313a8da5769904"
+    },
+    {
+      "name": "diamond:D:null",
+      "graphId": "diamond",
+      "start": "D",
+      "target": null,
+      "stepCount": 27,
+      "digest": "b5e8de9f24d25a9cf163c4bec8cf0a393502427f1e6abb8805b94d54227ba1cc"
+    },
+    {
+      "name": "diamond:D:A",
+      "graphId": "diamond",
+      "start": "D",
+      "target": "A",
+      "stepCount": 30,
+      "digest": "0d44e7b574df87eed5c362eb7670628712e6916a806e2809b43910dffe441b89"
+    },
+    {
+      "name": "diamond:D:B",
+      "graphId": "diamond",
+      "start": "D",
+      "target": "B",
+      "stepCount": 29,
+      "digest": "14b5def8cfb864e8fcd4e1f0a4d2b861701b4e391ad87b97cd90807deb15ee36"
+    },
+    {
+      "name": "diamond:D:C",
+      "graphId": "diamond",
+      "start": "D",
+      "target": "C",
+      "stepCount": 29,
+      "digest": "d745b3342add6ce4851d67489dcb392248a701664bbb83b7592de61d50c413e9"
+    },
+    {
+      "name": "diamond:D:D",
+      "graphId": "diamond",
+      "start": "D",
+      "target": "D",
+      "stepCount": 28,
+      "digest": "d1f40b7b2a9f3a14d165f68f7bae536dfe51594747102a5076f9d5c8c4272700"
+    },
+    {
+      "name": "circle:A:null",
+      "graphId": "circle",
+      "start": "A",
+      "target": null,
+      "stepCount": 37,
+      "digest": "137643dd01587738278dccd609bdaa79ec6893a5fcca5b805edfddbbcad0e1d4"
+    },
+    {
+      "name": "circle:A:A",
+      "graphId": "circle",
+      "start": "A",
+      "target": "A",
+      "stepCount": 38,
+      "digest": "286347c94ebba1322af1110a0e4e5379ad696a28bd922ef43a99bbff17f35831"
+    },
+    {
+      "name": "circle:A:B",
+      "graphId": "circle",
+      "start": "A",
+      "target": "B",
+      "stepCount": 39,
+      "digest": "f322f3cfc620eed764024105a52a37d524b273eaeeb0bbd073a727567adcfa9a"
+    },
+    {
+      "name": "circle:A:C",
+      "graphId": "circle",
+      "start": "A",
+      "target": "C",
+      "stepCount": 39,
+      "digest": "b7033763f630e2742f5d617a8ce59f539a055ec13915c8d3a8b0911b68add24d"
+    },
+    {
+      "name": "circle:A:D",
+      "graphId": "circle",
+      "start": "A",
+      "target": "D",
+      "stepCount": 40,
+      "digest": "79bcad06e30aec8f4e34d308cd7493b83546c4d10a2ea683a67ac3379b932bfa"
+    },
+    {
+      "name": "circle:A:E",
+      "graphId": "circle",
+      "start": "A",
+      "target": "E",
+      "stepCount": 41,
+      "digest": "77e953e5f540fe98242c1b415b70a91d1ac967eb0c13dbd45a4d37d19cd925f3"
+    },
+    {
+      "name": "circle:A:F",
+      "graphId": "circle",
+      "start": "A",
+      "target": "F",
+      "stepCount": 37,
+      "digest": "579edc93784f313a9435c62a266107df65e156ba2a5d4e7e08131a9cc46ced8c"
+    },
+    {
+      "name": "circle:A:G",
+      "graphId": "circle",
+      "start": "A",
+      "target": "G",
+      "stepCount": 37,
+      "digest": "c1f53215473e34e65dd12424f0e132498efbf72e4f57d245766a74b71a141be2"
+    },
+    {
+      "name": "circle:B:null",
+      "graphId": "circle",
+      "start": "B",
+      "target": null,
+      "stepCount": 37,
+      "digest": "d7423060ae86421ca1b33bf472c8e6ba6e971715ccb2f3fe46fd66f18d7116f3"
+    },
+    {
+      "name": "circle:B:A",
+      "graphId": "circle",
+      "start": "B",
+      "target": "A",
+      "stepCount": 39,
+      "digest": "283ccedd5310673d7b0d68805445ac5c76348bb53f11ef199deb32bf6f3a6ba1"
+    },
+    {
+      "name": "circle:B:B",
+      "graphId": "circle",
+      "start": "B",
+      "target": "B",
+      "stepCount": 38,
+      "digest": "0aae2efd5febc618ef4225b7ffd3dedbf947dbf3cb80a3bc01fafb8a056c8eb6"
+    },
+    {
+      "name": "circle:B:C",
+      "graphId": "circle",
+      "start": "B",
+      "target": "C",
+      "stepCount": 39,
+      "digest": "d6989720c9a9d025fc187c1a1abe18b6265dc6f3d03644eda2f380c708f91431"
+    },
+    {
+      "name": "circle:B:D",
+      "graphId": "circle",
+      "start": "B",
+      "target": "D",
+      "stepCount": 39,
+      "digest": "5fe1f1a8dde780ab4c14e14e72eda4e9ab8128d5944a2d548d850d531286d3af"
+    },
+    {
+      "name": "circle:B:E",
+      "graphId": "circle",
+      "start": "B",
+      "target": "E",
+      "stepCount": 40,
+      "digest": "15f59000ad6ba9409ba414db37dca36e85df390945c9b5c06e843393bcd8f675"
+    },
+    {
+      "name": "circle:B:F",
+      "graphId": "circle",
+      "start": "B",
+      "target": "F",
+      "stepCount": 37,
+      "digest": "f431aa942cc6ced8febe27f88b0e80f7a991fcc8f6ec06cac1f2baa928ba5df7"
+    },
+    {
+      "name": "circle:B:G",
+      "graphId": "circle",
+      "start": "B",
+      "target": "G",
+      "stepCount": 37,
+      "digest": "5ac049945099a24ac6e417de333221d714d7390606277ac49b16fe2c57046e0c"
+    },
+    {
+      "name": "circle:C:null",
+      "graphId": "circle",
+      "start": "C",
+      "target": null,
+      "stepCount": 37,
+      "digest": "0ab0e1166bdf42131e6901a71892a230c92696f5b6491189e08c321be9fe12c9"
+    },
+    {
+      "name": "circle:C:A",
+      "graphId": "circle",
+      "start": "C",
+      "target": "A",
+      "stepCount": 39,
+      "digest": "8aed59410e6bb99d4890cd30cbf7e595385b2a17a16cf33f44d1759bed52fdf9"
+    },
+    {
+      "name": "circle:C:B",
+      "graphId": "circle",
+      "start": "C",
+      "target": "B",
+      "stepCount": 39,
+      "digest": "0913b6e15516583474dac44b2404feac9f13cd27f58c9f7d38668df3b33217be"
+    },
+    {
+      "name": "circle:C:C",
+      "graphId": "circle",
+      "start": "C",
+      "target": "C",
+      "stepCount": 38,
+      "digest": "7bdd92795bca19bff08fd57d78eeff1bd801b66d2448ad33d7d3b99660cbc6c5"
+    },
+    {
+      "name": "circle:C:D",
+      "graphId": "circle",
+      "start": "C",
+      "target": "D",
+      "stepCount": 39,
+      "digest": "e11373134c882ec9e3d45fa43e66b963eb5bbcd9eda4c9f9025368f191197917"
+    },
+    {
+      "name": "circle:C:E",
+      "graphId": "circle",
+      "start": "C",
+      "target": "E",
+      "stepCount": 40,
+      "digest": "2dafd96af9c4ee3d2af007024b8cdd9d9cfe29b34d9c5e4be137911aaaa546cd"
+    },
+    {
+      "name": "circle:C:F",
+      "graphId": "circle",
+      "start": "C",
+      "target": "F",
+      "stepCount": 37,
+      "digest": "fe06667137a3dbe8a49db1d3a85881d2f7d69138aa11e012922808ae976ac176"
+    },
+    {
+      "name": "circle:C:G",
+      "graphId": "circle",
+      "start": "C",
+      "target": "G",
+      "stepCount": 37,
+      "digest": "c7899088ec0b9a377a23a2c3e2874c2e748761ec55057bd66edb6750afdd9524"
+    },
+    {
+      "name": "circle:D:null",
+      "graphId": "circle",
+      "start": "D",
+      "target": null,
+      "stepCount": 37,
+      "digest": "270db16bc07a0a684b26bffca508729db92d1ad802cc25f84700adb1e33dcb8d"
+    },
+    {
+      "name": "circle:D:A",
+      "graphId": "circle",
+      "start": "D",
+      "target": "A",
+      "stepCount": 40,
+      "digest": "3d2e7275573f2022580701e19b61f8758210102e744ab09ecf00534adc1d5d2c"
+    },
+    {
+      "name": "circle:D:B",
+      "graphId": "circle",
+      "start": "D",
+      "target": "B",
+      "stepCount": 39,
+      "digest": "618c926e12546d879b04d9d347546719582853a16b070305f0ed248440a96928"
+    },
+    {
+      "name": "circle:D:C",
+      "graphId": "circle",
+      "start": "D",
+      "target": "C",
+      "stepCount": 39,
+      "digest": "8d8db282a3d2cacf5b3278404f401744893f2391adb2b6e6571c717508d3e10c"
+    },
+    {
+      "name": "circle:D:D",
+      "graphId": "circle",
+      "start": "D",
+      "target": "D",
+      "stepCount": 38,
+      "digest": "4f15cc65bc2b7c968a4ae2043f8bc059db0f48bd06a152af6e78576d2aef20c9"
+    },
+    {
+      "name": "circle:D:E",
+      "graphId": "circle",
+      "start": "D",
+      "target": "E",
+      "stepCount": 39,
+      "digest": "b2ab9305906f31753d0f6f3d1bd86109e99f11fc04e4292d491c402e49ed3ec5"
+    },
+    {
+      "name": "circle:D:F",
+      "graphId": "circle",
+      "start": "D",
+      "target": "F",
+      "stepCount": 37,
+      "digest": "741562931c89f58ddde02e5ae28c2132db2d3c640406cc365692e611c1587835"
+    },
+    {
+      "name": "circle:D:G",
+      "graphId": "circle",
+      "start": "D",
+      "target": "G",
+      "stepCount": 37,
+      "digest": "be0e1ef4a6b4f331b6d4c726425f6128c62c847a1e164c900da81072408e39a0"
+    },
+    {
+      "name": "circle:E:null",
+      "graphId": "circle",
+      "start": "E",
+      "target": null,
+      "stepCount": 37,
+      "digest": "b9d60d70b889327395983a12b53e2dbbf8f3047a58d250624b19d2df2c095643"
+    },
+    {
+      "name": "circle:E:A",
+      "graphId": "circle",
+      "start": "E",
+      "target": "A",
+      "stepCount": 41,
+      "digest": "aef56f2918048eec0441f1a6f811c45c0f4e40c3692d1e42302e60ef28d9b88e"
+    },
+    {
+      "name": "circle:E:B",
+      "graphId": "circle",
+      "start": "E",
+      "target": "B",
+      "stepCount": 40,
+      "digest": "9eebe4fb1cf6d2efc7437b8f8f9b24f52e38e1272d5533af61227e157d525334"
+    },
+    {
+      "name": "circle:E:C",
+      "graphId": "circle",
+      "start": "E",
+      "target": "C",
+      "stepCount": 40,
+      "digest": "8553d6513805a4f7cd54921531b913d71a5a499f4af5ae61836a14dd8d28183f"
+    },
+    {
+      "name": "circle:E:D",
+      "graphId": "circle",
+      "start": "E",
+      "target": "D",
+      "stepCount": 39,
+      "digest": "1000e77b3f2507d8edc64e74a5e6498aaad9d800c9706ae7ac21b798eb3c4bb2"
+    },
+    {
+      "name": "circle:E:E",
+      "graphId": "circle",
+      "start": "E",
+      "target": "E",
+      "stepCount": 38,
+      "digest": "8986213df1e6056aaff00cb063c3760134c322aed4116a4f9da90d23330fa939"
+    },
+    {
+      "name": "circle:E:F",
+      "graphId": "circle",
+      "start": "E",
+      "target": "F",
+      "stepCount": 37,
+      "digest": "1a6d60c3a5a28abf1365122894a2e83fb04595e2d54688bcfe197d8648b97cb5"
+    },
+    {
+      "name": "circle:E:G",
+      "graphId": "circle",
+      "start": "E",
+      "target": "G",
+      "stepCount": 37,
+      "digest": "2979a717b76fc9cf2f70c4d2f1315782ae5f18b76c7fd7d6730edb19025a85d1"
+    },
+    {
+      "name": "circle:F:null",
+      "graphId": "circle",
+      "start": "F",
+      "target": null,
+      "stepCount": 11,
+      "digest": "8b8462f6d730abb5896843da69c491284b849f667532cbfa156a0fe08186fae6"
+    },
+    {
+      "name": "circle:F:A",
+      "graphId": "circle",
+      "start": "F",
+      "target": "A",
+      "stepCount": 11,
+      "digest": "39cca3a7e10556474f7c4c51442ba6be9aa99a7ea367e08436d4c52a519fe254"
+    },
+    {
+      "name": "circle:F:B",
+      "graphId": "circle",
+      "start": "F",
+      "target": "B",
+      "stepCount": 11,
+      "digest": "cecbb7a880519951a519fb36c5603eddb0e7e13bb9bcdf32fac170b36e9c48e3"
+    },
+    {
+      "name": "circle:F:C",
+      "graphId": "circle",
+      "start": "F",
+      "target": "C",
+      "stepCount": 11,
+      "digest": "353fcaf75e52e568ffee335c1dccccaf5148284e89fbab3e1b84425dd507dc61"
+    },
+    {
+      "name": "circle:F:D",
+      "graphId": "circle",
+      "start": "F",
+      "target": "D",
+      "stepCount": 11,
+      "digest": "f71d94cbb581b84561f36071cdf562988181f6e1c631f7f66b66b06d1f7045ab"
+    },
+    {
+      "name": "circle:F:E",
+      "graphId": "circle",
+      "start": "F",
+      "target": "E",
+      "stepCount": 11,
+      "digest": "4228fdb85d352378076dbbb26397bc063cef999dd0f03fcfa93de3e7108ff52e"
+    },
+    {
+      "name": "circle:F:F",
+      "graphId": "circle",
+      "start": "F",
+      "target": "F",
+      "stepCount": 12,
+      "digest": "1a86f7f6d7e410b9951968c3277f37d6e7318488ac9eb658aa9d616ccc8b19c6"
+    },
+    {
+      "name": "circle:F:G",
+      "graphId": "circle",
+      "start": "F",
+      "target": "G",
+      "stepCount": 13,
+      "digest": "b497cfefb72eca4d98fee3047a0afd57845fae47c64629fb8599d296def21d4a"
+    },
+    {
+      "name": "circle:G:null",
+      "graphId": "circle",
+      "start": "G",
+      "target": null,
+      "stepCount": 11,
+      "digest": "4ad183700ad673cd05dfe51f2266d1dc2f388f1bc5500f17b201a3881928a39c"
+    },
+    {
+      "name": "circle:G:A",
+      "graphId": "circle",
+      "start": "G",
+      "target": "A",
+      "stepCount": 11,
+      "digest": "1c3fa81e7e9fe3847461253fa956346b8e5ea26e93d50cccd725b12f5a9fb994"
+    },
+    {
+      "name": "circle:G:B",
+      "graphId": "circle",
+      "start": "G",
+      "target": "B",
+      "stepCount": 11,
+      "digest": "fa4d108dc23673b11ed33f4fe1c1b82bc2da14e478e08fc59c21b9727ce16558"
+    },
+    {
+      "name": "circle:G:C",
+      "graphId": "circle",
+      "start": "G",
+      "target": "C",
+      "stepCount": 11,
+      "digest": "950b7461d5377695d9899f535fd790d58e1ea7cec74df4b00f7e829e8447f6d0"
+    },
+    {
+      "name": "circle:G:D",
+      "graphId": "circle",
+      "start": "G",
+      "target": "D",
+      "stepCount": 11,
+      "digest": "b91a228f2408a32af5e85fb9b7fd68a715b42f792971d0c28bc68eb67cfcb682"
+    },
+    {
+      "name": "circle:G:E",
+      "graphId": "circle",
+      "start": "G",
+      "target": "E",
+      "stepCount": 11,
+      "digest": "f813ad3a5cb583aa431052bf9a9341db440e86f395b0cb68e88c24b6a8aab55c"
+    },
+    {
+      "name": "circle:G:F",
+      "graphId": "circle",
+      "start": "G",
+      "target": "F",
+      "stepCount": 13,
+      "digest": "3cf0e0c0960b4550c4d0cf72fdb7ca2ea4c64394ed27958c87113877b595e421"
+    },
+    {
+      "name": "circle:G:G",
+      "graphId": "circle",
+      "start": "G",
+      "target": "G",
+      "stepCount": 12,
+      "digest": "690c605fc6a187d5feaf83f6fcf0326a1f25032bcd1a796674b5ab04d9042839"
+    },
+    {
+      "name": "loops-parallel-hostile-ids",
+      "graphId": "multigraph",
+      "start": "__proto__",
+      "target": "toString",
+      "stepCount": 26,
+      "digest": "b78ec3eca12921c2d612f8cce8362cd1c40a5d03802660da0f143406d973af8e"
+    }
+  ],
+  "totalSteps": 6756
+}

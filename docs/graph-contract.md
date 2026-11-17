@@ -2,6 +2,13 @@
 
 [Русский](ru/graph-contract.md) · [Scene](scene.md) · [Playback](playback.md) · [Compatibility policy](api-compatibility.md)
 
+**Follow-up, 2026-11-17:** the [public API contract](graph-api.md) now selects
+trace/model types, marks/results, validation and the separate `/canvas/graph`
+boundary against released 1.0.0. The headless `/graph` is now implemented locally,
+unpublished; `/canvas/graph` is also implemented locally. This
+2026-11-16 sketch and its evidence retain their historical scope; deferred
+API decisions below are resolved by the follow-up where explicitly specified.
+
 **Design review, 2026-11-16; no implementation or publication.** The current
 candidate is a9b93f8. There is no /graph entry, graph trace, graph event type or
 stock graph renderer exported by the package. Names and data outlines below

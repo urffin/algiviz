@@ -4,7 +4,9 @@ import { insertion } from '../examples/algorithms.mjs';
 import { mergeSort } from '../examples/merge-algorithm.mjs';
 import { mergeScene, createMergeRenderer } from '../examples/merge-scene.mjs';
 import { graphSteps, graphExamples } from '../examples/graph-algorithm.mjs';
-import { graphScene, createGraphRenderer } from '../examples/graph-scene.mjs';
+import { graphScene } from '@grundyjs/algiviz/graph';
+import { createGraphRenderer } from '@grundyjs/algiviz/canvas/graph';
+import { graphPositions } from '../examples/graph-layout.mjs';
 import { boidsSteps } from '../examples/boids-algorithm.mjs';
 import { boidsScene, createBoidsRenderer } from '../examples/boids-scene.mjs';
 import { sandSteps } from '../examples/sand-algorithm.mjs';
@@ -24,8 +26,11 @@ export const profileWorkloads = [
     ...[24, 2000].map(n => sorting('insertion', n, insertion, arrayScene, () => createArrayRenderer({ theme: 'dark' }))),
     ...[24, 2000].map(n => sorting('merge', n, mergeSort, mergeScene, first => createMergeRenderer(true, first.main))),
     { name: 'BFS-layers', input: { preset: 'layers', vertices: 8, edges: 9 }, scanSteps: 128,
-        source: () => graphSteps(graphExamples[0].graph, 'A', 'G'), project: graphScene,
-        renderer: () => createGraphRenderer({ layout: 'layers' }) },
+        source: () => graphSteps(graphExamples[0].graph, 'A', 'G', { layout: graphPositions(graphExamples[0].graph, 'layers') }),
+        project: state => graphScene(state.visual, { namespace: 'bfs-profile' }),
+        renderer() { const renderer = createGraphRenderer({ theme: 'dark', roleColors: { tree: '#a78bfa', path: '#34d399' } });
+            return { render(ctx, frame) { renderer.render(ctx, { ...frame, previous: frame.previous.visual, current: frame.current.visual },
+                { width: ctx.canvas.width, height: ctx.canvas.height }); } }; } },
     ...[64, 192].map(count => ({ name: 'boids-' + count, input: { count, seed: 93717, obstacle: 'circle' }, scanSteps: 48,
         source: () => boidsSteps({ count, seed: 93717, ticks: 60, obstacle: 'circle' }, 'generator'), project: boidsScene,
         renderer: () => createBoidsRenderer() })),

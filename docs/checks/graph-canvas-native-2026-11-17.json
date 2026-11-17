@@ -1,0 +1,99 @@
+{
+  "date": "2026-11-17",
+  "host": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "devicePixelRatio": 1.100000023841858
+  },
+  "checks": [
+    {
+      "name": "Настоящий Canvas: зелёные пиксели результата и стрелок",
+      "passed": true
+    },
+    {
+      "name": "Контекст восстановлен: transform/styles/dash/text spacing",
+      "passed": true
+    },
+    {
+      "name": "Тот же кадр: чистый и загрязнённый контекст дают одинаковые пиксели",
+      "passed": true
+    },
+    {
+      "name": "Исходная ошибка stroke сохранена; контекст восстановлен и повторный render работает",
+      "passed": true
+    },
+    {
+      "name": "Неверный кадр отвергнут до save и изменения bitmap",
+      "passed": true
+    },
+    {
+      "name": "Настоящий bitmap DPR 1: размер, геометрия, зелёный результат",
+      "passed": true
+    },
+    {
+      "name": "Настоящий bitmap DPR 1.25: размер, геометрия, зелёный результат",
+      "passed": true
+    },
+    {
+      "name": "Настоящий bitmap DPR 2: размер, геометрия, зелёный результат",
+      "passed": true
+    },
+    {
+      "name": "Интерполяция p=0/0.25/0.5/1 на Canvas: raw progress и связанные рёбра",
+      "passed": true
+    },
+    {
+      "name": "Три отдельные полосы, две петли и три стрелки",
+      "passed": true
+    },
+    {
+      "name": "Тёмная тема: зелёный результат #34d399",
+      "passed": true
+    },
+    {
+      "name": "Пустой граф",
+      "passed": true
+    },
+    {
+      "name": "Одиночная вершина с петлёй",
+      "passed": true
+    },
+    {
+      "name": "CanvasViewport: реальные CSS/DPR, resize без продвижения источника и dispose",
+      "passed": true
+    },
+    {
+      "name": "Player: result → Previous → Next → Restart → dispose",
+      "passed": true
+    }
+  ],
+  "passed": 15,
+  "failed": 0,
+  "scope": "Final working-tree Canvas graph; built-in browser only",
+  "baselineCommit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+  "buildIdentity": {
+    "checkedAt": "2026-11-17T07:23:21.999Z",
+    "build": "Final working tree; npm test 579 passed",
+    "sourceFiles": {
+      "dist/canvas/graph.js": "add051fb5faaaa0d898b6837099dcd080c4c4448cd65b1be29092f53553dee50",
+      "dist/canvas/graph-geometry.js": "e4c036521fee679c1b410265036df8f771d8d5b1c8877a0821707c334a8875f6",
+      "dist/graph/index.js": "87c9ca7e9378b1ddc8e59734751edfbe6d0a7b08c9c5bfc7ca11d8d3d489f362",
+      "dist/graph/scene.js": "3303fe398ba03e20d103c8596c773b1e1a2cda89139a9616b97fccb9c713ee58",
+      "dist/graph/validation.js": "aa8d58d83d8a0bf85da06db9c4ed269943b6c1dd30c3dc67997bba5e96365d1f",
+      "test/graph-canvas-browser.mjs": "9439bd589df7d8f8bc18536fc97870ef510910088b3965ba8bcfc5659c1f3904",
+      "test/graph-canvas-fixtures.mjs": "43f1db5e997cca3ed4c43b4806fbb563a87d6b7a3137d7f4b3feedc2d66af39c"
+    }
+  },
+  "controlledBitmapRatios": [
+    1,
+    1.25,
+    2
+  ],
+  "actualHostDPR": 1.100000023841858,
+  "browserZoomChangedByAgent": false,
+  "limits": [
+    "One native Windows in-app Chromium host, not a new browser support matrix",
+    "Bitmap ratios 1/1.25/2 are explicit backing stores; actual host DPR is recorded separately",
+    "Caller must provide an unclipped Canvas context and a working restore method"
+  ],
+  "screenshot": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\graph-canvas-proof.jpg"
+}

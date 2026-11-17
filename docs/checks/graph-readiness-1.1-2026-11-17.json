@@ -1,0 +1,724 @@
+{
+  "date": "2026-11-17",
+  "checkedAt": "2026-11-17T12:21:48.072Z",
+  "scope": "Final local /graph and /canvas/graph readiness review before intended 1.1.0; source/API implementation unchanged",
+  "baseline": {
+    "version": "1.0.0",
+    "commit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+    "localTagCommit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+    "inventory": {
+      "entries": 8,
+      "runtime": 21,
+      "typeOnly": 69,
+      "distinctTypeOnly": 57
+    },
+    "originalSourceFiles": 35,
+    "originalSourcesUnchanged": true,
+    "originalExportRecordsUnchanged": true,
+    "existingPaths": [
+      "./scene",
+      "./array",
+      "./playback",
+      "./player",
+      "./canvas/viewport",
+      "./canvas",
+      "./worker",
+      "./worker/runtime"
+    ]
+  },
+  "origin": "https://github.com/urffin/algiviz.git",
+  "metadata": {
+    "package": "@grundyjs/algiviz",
+    "version": "1.0.0",
+    "lockVersion": "1.0.0",
+    "lockRootVersion": "1.0.0",
+    "intendedVersion": "1.1.0",
+    "candidateVersionPrepared": false,
+    "dependenciesUnchanged": true
+  },
+  "verdict": {
+    "status": "ready_for_candidate_preparation",
+    "knownOpenAPIOrImplementationBlockers": [],
+    "documentationFindingsClosed": [
+      "D1",
+      "D2"
+    ],
+    "releaseGatesRemain": true,
+    "releaseAuthorized": false,
+    "reason": "Two additive independent entries; all eight released implementations/export mappings unchanged; bounded graph and caption contracts selected and checked"
+  },
+  "compatibility": {
+    "classification": "minor feature over 1.0.0",
+    "newEntries": [
+      "./graph",
+      "./canvas/graph"
+    ],
+    "addedRuntime": [
+      "createGraphTrace",
+      "graphScene",
+      "createGraphRenderer"
+    ],
+    "addedTypeOnly": 26,
+    "existingClosedDomainsChanged": false,
+    "newClosedDomains": [
+      "GraphEvent.type",
+      "GraphObjects keys",
+      "nodeCaptions auto/hidden"
+    ],
+    "openRoles": true,
+    "oldConsumerMigrationRequired": false,
+    "noExperimentalExemption": true
+  },
+  "inventory": {
+    "entries": 10,
+    "runtime": 24,
+    "typeOnly": 95,
+    "distinctTypeOnly": 83
+  },
+  "surface": {
+    "./canvas/graph": {
+      "runtime": [
+        "createGraphRenderer"
+      ],
+      "typeOnly": [
+        "GraphPalette",
+        "GraphRenderSize",
+        "GraphRenderer",
+        "GraphRendererOptions"
+      ]
+    },
+    "./graph": {
+      "runtime": [
+        "createGraphTrace",
+        "graphScene"
+      ],
+      "typeOnly": [
+        "GraphAnnotation",
+        "GraphDoneOptions",
+        "GraphEdge",
+        "GraphEdgeView",
+        "GraphEvent",
+        "GraphFrame",
+        "GraphInput",
+        "GraphMark",
+        "GraphMarkUpdate",
+        "GraphNode",
+        "GraphNodeCaption",
+        "GraphNodeCaptionPatch",
+        "GraphNodeView",
+        "GraphObjects",
+        "GraphPosition",
+        "GraphResult",
+        "GraphResultInput",
+        "GraphSceneOptions",
+        "GraphSnapshot",
+        "GraphStep",
+        "GraphTrace",
+        "GraphTraceOptions"
+      ]
+    },
+    "./scene": {
+      "runtime": [
+        "createSceneFrame",
+        "createSceneProjector",
+        "createSceneRenderer"
+      ],
+      "typeOnly": [
+        "ObjectTransition",
+        "Scene",
+        "SceneFrame",
+        "SceneObject",
+        "SceneVisualizations"
+      ]
+    },
+    "./array": {
+      "runtime": [
+        "createArrayPlayer",
+        "createArrayTimeline",
+        "createArrayTrace",
+        "defineArrayAlgorithm"
+      ],
+      "typeOnly": [
+        "ArrayAlgorithm",
+        "ArrayDoneOptions",
+        "ArrayEvent",
+        "ArrayFrame",
+        "ArrayPlayer",
+        "ArraySnapshot",
+        "ArrayStep",
+        "ArrayTimeline",
+        "ArrayTrace",
+        "Item",
+        "SortedRegions"
+      ]
+    },
+    "./playback": {
+      "runtime": [
+        "createAsyncSource",
+        "createPlayer",
+        "createRewindBuffer",
+        "createStatePlayer",
+        "createStepEmitter",
+        "createTimeline"
+      ],
+      "typeOnly": [
+        "AsyncSource",
+        "AsyncSourceCloseResult",
+        "AsyncSourceFactory",
+        "AsyncSourceReadResult",
+        "AsyncSourceSignal",
+        "Frame",
+        "Player",
+        "RewindBuffer",
+        "Step",
+        "Timeline"
+      ]
+    },
+    "./player": {
+      "runtime": [
+        "Player"
+      ],
+      "typeOnly": [
+        "PlayerCloseResult",
+        "PlayerLabels",
+        "PlayerOptions",
+        "PlayerStatus"
+      ]
+    },
+    "./canvas/viewport": {
+      "runtime": [
+        "createCanvasViewport"
+      ],
+      "typeOnly": [
+        "CanvasViewport",
+        "CanvasViewportOptions",
+        "CanvasViewportSize"
+      ]
+    },
+    "./canvas": {
+      "runtime": [
+        "arrayScene",
+        "createArrayRenderer",
+        "createSortRenderer"
+      ],
+      "typeOnly": [
+        "ArrayObjects",
+        "ArrayPalette",
+        "ArrayPaletteOverrides",
+        "ArrayRendererOptions"
+      ]
+    },
+    "./worker": {
+      "runtime": [
+        "WorkerSourceError",
+        "createWorkerSourceFactory"
+      ],
+      "typeOnly": [
+        "WorkerSourceCancellation",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceCloseResult",
+        "WorkerSourceErrorCode",
+        "WorkerSourceErrorOptions",
+        "WorkerSourceFactory",
+        "WorkerSourceIssue",
+        "WorkerSourceIterator",
+        "WorkerSourceOptions",
+        "WorkerSourcePhase",
+        "WorkerSourceRemoteError",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceSession",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceSignal",
+        "WorkerSourceTermination",
+        "WorkerSourceThrownKind"
+      ]
+    },
+    "./worker/runtime": {
+      "runtime": [
+        "exposeWorkerSource"
+      ],
+      "typeOnly": [
+        "WorkerSourceCancellation",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceCloseResult",
+        "WorkerSourceEndpointOptions",
+        "WorkerSourceErrorCode",
+        "WorkerSourceIssue",
+        "WorkerSourcePhase",
+        "WorkerSourceRemoteError",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceSignal",
+        "WorkerSourceTermination",
+        "WorkerSourceThrownKind",
+        "WorkerStateFactory",
+        "WorkerTransferSelector"
+      ]
+    }
+  },
+  "readiness": [
+    {
+      "area": "API/types",
+      "status": "ready"
+    },
+    {
+      "area": "trace/model/validation",
+      "status": "ready"
+    },
+    {
+      "area": "scene/projection",
+      "status": "ready"
+    },
+    {
+      "area": "Canvas geometry/errors",
+      "status": "ready"
+    },
+    {
+      "area": "captions/placement",
+      "status": "ready_with_documented_limits"
+    },
+    {
+      "area": "Player integration",
+      "status": "ready"
+    },
+    {
+      "area": "BFS examples",
+      "status": "ready"
+    },
+    {
+      "area": "package/optional loading",
+      "status": "ready_for_freeze"
+    },
+    {
+      "area": "documentation",
+      "status": "reconciled"
+    },
+    {
+      "area": "versioned candidate and exact SHA CI",
+      "status": "pending_release_gates"
+    }
+  ],
+  "findings": [
+    {
+      "id": "D1",
+      "kind": "documentation",
+      "status": "resolved",
+      "issue": "Current docs mixed released 1.0 functionality with 0.16 baseline/unpublished-candidate status and eight-entry policy only",
+      "resolution": "Reconciled EN/RU current index/policy, support header, README retained-window wording and changelog; historical records preserved"
+    },
+    {
+      "id": "D2",
+      "kind": "documentation",
+      "status": "resolved",
+      "issue": "Reference omitted caption validation groups and did not distinguish unavailable metric bounds from invalid numeric geometry",
+      "resolution": "Aligned actual validation order; nonnumeric/missing metric bounds omit text without coercion, invalid numeric values/geometry raise RangeError; host throws preserved; no production/API change"
+    }
+  ],
+  "verification": {
+    "sourceEvidenceFilesMatched": 36,
+    "sourceEvidenceFiles": [
+      "src/graph/index.ts",
+      "src/graph/types.ts",
+      "src/graph/validation.ts",
+      "src/graph/trace.ts",
+      "src/graph/scene.ts",
+      "test/graph.test.mjs",
+      "test/package-graph.ts",
+      "test/package-player.ts",
+      "test/package-exports.mjs",
+      "test/tsconfig.json",
+      "scripts/test-package.mjs",
+      "scripts/test-bundle.mjs",
+      "src/canvas/graph.ts",
+      "src/canvas/graph-geometry.ts",
+      "test/graph-canvas.test.mjs",
+      "test/graph-canvas-context.mjs",
+      "test/graph-canvas-fixtures.mjs",
+      "test/graph-canvas-browser.html",
+      "test/graph-canvas-browser.mjs",
+      "test/package-graph-canvas.ts",
+      "examples/graph.html",
+      "examples/graph-player.html",
+      "examples/graph-demo.mjs",
+      "examples/graph-player-demo.mjs",
+      "examples/graph-page.mjs",
+      "examples/graph-view.mjs",
+      "examples/graph-player-view.mjs",
+      "examples/graph-scene.mjs",
+      "examples/index.html",
+      "test/bfs-graph-migration.test.mjs",
+      "test/bfs-two-examples.test.mjs",
+      "src/canvas/graph-captions.ts",
+      "examples/graph-algorithm.mjs",
+      "test/graph-captions-browser.html",
+      "test/graph-captions-browser.mjs",
+      "test/graph-captions.test.mjs"
+    ],
+    "protectedFilesUnchanged": true,
+    "reused": {
+      "repositoryTests": 595,
+      "compilerConsumers": [
+        "5.0.4",
+        "5.4.5",
+        "5.9.3",
+        "6.0.3"
+      ],
+      "moduleResolution": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "bundleVariants": 26,
+      "automaticNativeCanvas": 31,
+      "manualBFSUI": 7,
+      "evidence": "docs/checks/graph-node-captions-implementation-2026-11-17.json",
+      "native": "docs/checks/graph-node-captions-native-2026-11-17.json",
+      "basis": "Current source/example/test/script hashes match the latest applicable implementation evidence; earlier pre-caption native evidence is not counted as fresh coverage"
+    },
+    "newIsolatedAuditChecks": {
+      "checks": 11,
+      "passed": 11,
+      "failed": 0,
+      "observations": [
+        {
+          "name": "Public runtime graph exports remain 2 + 1, no private helpers",
+          "passed": true
+        },
+        {
+          "name": "Atomic role/caption failure retains state and index",
+          "passed": true
+        },
+        {
+          "name": "Falsy proxy throws preserve identity and release busy guard",
+          "passed": true
+        },
+        {
+          "name": "Done preserves complete immutable captions and exact result IDs",
+          "passed": true
+        },
+        {
+          "name": "Structured-cloned and legacy snapshots project with no new scene kinds",
+          "passed": true
+        },
+        {
+          "name": "Renderer uses no Event/stepIndex property during caption drawing",
+          "passed": true
+        },
+        {
+          "name": "Hidden text mode still rejects malformed caption data before Canvas calls",
+          "passed": true
+        },
+        {
+          "name": "Missing/nonnumeric TextMetrics means unavailable bounds, graph still renders",
+          "passed": true
+        },
+        {
+          "name": "Invalid numeric TextMetrics fails before pixels and restores host context",
+          "passed": true
+        },
+        {
+          "name": "Original measureText throw wins over restore, and renderer remains reusable",
+          "passed": true
+        },
+        {
+          "name": "Fresh trace resets captions/result while prior final snapshot stays unchanged",
+          "passed": true
+        }
+      ],
+      "metricsUnavailableExamples": [
+        null,
+        {
+          "width": "30"
+        },
+        {
+          "width": 30
+        },
+        {
+          "width": 30,
+          "actualBoundingBoxLeft": "x",
+          "actualBoundingBoxRight": 3,
+          "actualBoundingBoxAscent": 3,
+          "actualBoundingBoxDescent": 3
+        }
+      ]
+    },
+    "packDryRun": {
+      "command": "npm pack --dry-run --ignore-scripts --json",
+      "version": "1.0.0",
+      "fileCount": 91,
+      "files": [
+        "CHANGELOG.md",
+        "LICENSE",
+        "README.md",
+        "dist/array/index.d.ts",
+        "dist/array/index.js",
+        "dist/array/player.d.ts",
+        "dist/array/player.js",
+        "dist/array/snapshot-builder.d.ts",
+        "dist/array/snapshot-builder.js",
+        "dist/array/timeline.d.ts",
+        "dist/array/timeline.js",
+        "dist/array/trace.d.ts",
+        "dist/array/trace.js",
+        "dist/array/types.d.ts",
+        "dist/array/types.js",
+        "dist/canvas/graph-captions.d.ts",
+        "dist/canvas/graph-captions.js",
+        "dist/canvas/graph-geometry.d.ts",
+        "dist/canvas/graph-geometry.js",
+        "dist/canvas/graph.d.ts",
+        "dist/canvas/graph.js",
+        "dist/canvas/index.d.ts",
+        "dist/canvas/index.js",
+        "dist/canvas/viewport.d.ts",
+        "dist/canvas/viewport.js",
+        "dist/graph/index.d.ts",
+        "dist/graph/index.js",
+        "dist/graph/scene.d.ts",
+        "dist/graph/scene.js",
+        "dist/graph/trace.d.ts",
+        "dist/graph/trace.js",
+        "dist/graph/types.d.ts",
+        "dist/graph/types.js",
+        "dist/graph/validation.d.ts",
+        "dist/graph/validation.js",
+        "dist/playback/async-source.d.ts",
+        "dist/playback/async-source.js",
+        "dist/playback/index.d.ts",
+        "dist/playback/index.js",
+        "dist/playback/player.d.ts",
+        "dist/playback/player.js",
+        "dist/playback/rewind-buffer.d.ts",
+        "dist/playback/rewind-buffer.js",
+        "dist/playback/state-player.d.ts",
+        "dist/playback/state-player.js",
+        "dist/playback/state-steps.d.ts",
+        "dist/playback/state-steps.js",
+        "dist/playback/step-emitter.d.ts",
+        "dist/playback/step-emitter.js",
+        "dist/playback/timeline.d.ts",
+        "dist/playback/timeline.js",
+        "dist/playback/types.d.ts",
+        "dist/playback/types.js",
+        "dist/player/async-controller.d.ts",
+        "dist/player/async-controller.js",
+        "dist/player/async-session.d.ts",
+        "dist/player/async-session.js",
+        "dist/player/close-report.d.ts",
+        "dist/player/close-report.js",
+        "dist/player/controller.d.ts",
+        "dist/player/controller.js",
+        "dist/player/index.d.ts",
+        "dist/player/index.js",
+        "dist/player/mount.d.ts",
+        "dist/player/mount.js",
+        "dist/player/player.d.ts",
+        "dist/player/player.js",
+        "dist/player/rewind-session.d.ts",
+        "dist/player/rewind-session.js",
+        "dist/player/step-session.d.ts",
+        "dist/player/step-session.js",
+        "dist/player/stream-playback.d.ts",
+        "dist/player/stream-playback.js",
+        "dist/player/types.d.ts",
+        "dist/player/types.js",
+        "dist/scene/index.d.ts",
+        "dist/scene/index.js",
+        "dist/worker/data.d.ts",
+        "dist/worker/data.js",
+        "dist/worker/error.d.ts",
+        "dist/worker/error.js",
+        "dist/worker/index.d.ts",
+        "dist/worker/index.js",
+        "dist/worker/protocol.d.ts",
+        "dist/worker/protocol.js",
+        "dist/worker/runtime.d.ts",
+        "dist/worker/runtime.js",
+        "dist/worker/types.d.ts",
+        "dist/worker/types.js",
+        "package.json",
+        "ru/README.md"
+      ],
+      "sourceTestExamplesExcluded": true,
+      "graphRuntimeAndDeclarationsPresent": true,
+      "archiveProduced": false,
+      "published": false,
+      "reportHash": "0fe40fb2604330a88f3574abe6d1f7778f04fb2efab8940a50fd00e5c8f8514b"
+    },
+    "localSkillStatusCheck": "node D:/CodexData/skills/algiviz-release/scripts/release-status.mjs E:/Source/Repos/algiviz --local",
+    "ENRUCodeParity": true,
+    "localLinks": true,
+    "gitWhitespace": true,
+    "fullSuiteRerun": false,
+    "compilerBundleRerun": false,
+    "nativeRerun": false,
+    "ciRun": false,
+    "registryLookup": false,
+    "benchmarkRun": false
+  },
+  "releaseGates": [
+    {
+      "id": "R1",
+      "status": "pending",
+      "action": "Prepare package and both lockfile versions 1.1.0; final release notes/changelog and release-facing EN/RU status; no mandatory migration for old eight paths"
+    },
+    {
+      "id": "R2",
+      "status": "pending",
+      "action": "Freeze reviewed files including untracked; build/install exact 1.1.0 archive; repeat affected checks and bind reusable source/native evidence by hashes"
+    },
+    {
+      "id": "R3",
+      "status": "pending",
+      "action": "Commit/push when authorized and await all 11 CI jobs on final candidate SHA",
+      "jobs": {
+        "node": {
+          "versions": [
+            22,
+            24,
+            26
+          ],
+          "os": [
+            "ubuntu-latest",
+            "windows-latest"
+          ],
+          "count": 6
+        },
+        "typescript": {
+          "versions": [
+            "5.0.4",
+            "5.4.5",
+            "5.9.3",
+            "6.0.3"
+          ],
+          "count": 4
+        },
+        "bundle": 1
+      }
+    },
+    {
+      "id": "R4",
+      "status": "pending_separate_authorization",
+      "action": "Tag v1.1.0 and stable GitHub Release on verified SHA; await OIDC/provenance workflow and check exact npm version/latest/provenance/source SHA; never move a conflicting tag or substitute local npm publish"
+    }
+  ],
+  "publishingWorkflow": {
+    "file": ".github/workflows/npm-publish.yml",
+    "stableGitHubReleaseTriggered": true,
+    "OIDCProvenance": true,
+    "tagPackageLockCheck": true,
+    "packageAndUnitChecks": true,
+    "checksAll11EarlierCIJobsItself": false,
+    "manualExactSHAGateRequiredBeforeRelease": true
+  },
+  "implementationOrPublicDeclarationsChanged": false,
+  "versionChanged": false,
+  "commitCreated": false,
+  "pushed": false,
+  "tagCreated": false,
+  "publication": false,
+  "limits": [
+    "Review is bounded to selected fixed-topology graph/caption scope and supplied evidence, not every graph/font/browser or future topology editor",
+    "Captions may be suppressed or move discretely; owned structural data frozen, opaque payload immutability stays caller-owned",
+    "Source read budget is not render-time/FPS guarantee; no speed or allocation claim",
+    "Dry-run metadata is still 1.0.0; final versioned candidate/archive and exact-SHA CI remain unverified release gates",
+    "No fresh latest/provenance claim or publication authorization"
+  ],
+  "protectedFileHashes": {
+    "src/graph/index.ts": "09c5153a1c91741dcf00098bc35c3b4c1f51689f0cdde79b161c5120c444ffb8",
+    "src/graph/types.ts": "968069c40eaf877c3b43b2fae6d88e93209701c953c5e3b7791436a879813f06",
+    "src/graph/validation.ts": "2419ff65c27803922a2f2bd1744bf8525c1b343d72c12189201090b38aee7edf",
+    "src/graph/trace.ts": "4f5a46481fa3dcfe2501a83984e3479cb5d927b28e1d145f20c879409b0e08c7",
+    "src/graph/scene.ts": "c06d8a36b6d61622c811e88be40bc5f6812d870311bc5a7d6ccb6c6d070d0f3e",
+    "test/graph.test.mjs": "e55357d82ddd700eb4bb1c0147a096a2b644f0fbf7e2a5dcbd6b97414a2ef9bd",
+    "test/package-graph.ts": "4825d9b01da4e52189dac32ced20aaaa4eb98eb2b6cc157d9cf8a3252b99eb13",
+    "test/package-player.ts": "9f4cfb54aafea622b64528c90331da2085f8a2ba1884bd3f626be5071107c16a",
+    "test/package-exports.mjs": "76effcbc0c9536619b169fd4fc7cc384baf49d12d70a7222297995b8812221e8",
+    "test/tsconfig.json": "eb4d50903b0d07e16f8794ad778a58d7b234aaddcd6d523f06942e7a9c0a16c9",
+    "scripts/test-package.mjs": "6e3e241833e76af72d56b58e168c72a07c117e996294184695f980c8a5f94f90",
+    "scripts/test-bundle.mjs": "e077e20859aa1eae1f6900aa7bd8d1efbb2c6ee5d7b1aa64f4c50ad4b87e444d",
+    "src/canvas/graph.ts": "dd46c600e45e577687b9a4cdfe27d9bc89cfbb177d26fadd19e6848452376611",
+    "src/canvas/graph-geometry.ts": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa",
+    "test/graph-canvas.test.mjs": "8f01ad1309607098194b0254446c4f68858f9dc552f17b4921fdff28df60209d",
+    "test/graph-canvas-context.mjs": "fb8b03b9fa6f09d76a30bea6a77aa4c0048c08b41f54862d859ecfb19658cf6c",
+    "test/graph-canvas-fixtures.mjs": "43f1db5e997cca3ed4c43b4806fbb563a87d6b7a3137d7f4b3feedc2d66af39c",
+    "test/graph-canvas-browser.html": "c9c05e982c8fca19f9189b6ac21f3cbca4326fab6ab7e9bdfc05da9d96ff1a73",
+    "test/graph-canvas-browser.mjs": "9439bd589df7d8f8bc18536fc97870ef510910088b3965ba8bcfc5659c1f3904",
+    "test/package-graph-canvas.ts": "4b31ff439589c6062e4f9449104bdd7644cdc78a07084370a73577f13a951865",
+    "examples/graph.html": "39d6689e3620444fca7f2c2147b0580993fad76cb38eaeaef20e0583095ce010",
+    "examples/graph-player.html": "c00e1fe74524f497195c19c375bdbd51b150fabcd5d2d53e847ce198753820bc",
+    "examples/graph-demo.mjs": "8b8ced4f894e3f6c1f874e4863f2b6489fd79071f2de9ca5f18402d965168f33",
+    "examples/graph-player-demo.mjs": "7c7c0ad6deef35eaaec646f8f31fe899bb299bba2f529dfd739a8f1dfa965a5c",
+    "examples/graph-page.mjs": "79909dbed7e77bfffcb63ac14d523196676ce11dd088cf375038f5f443e03fd4",
+    "examples/graph-view.mjs": "39260979683d8be5448682763d1729ece848a7ad2489edbcb1ccbc51d2eed1f5",
+    "examples/graph-player-view.mjs": "02c8d9c1d828489e3c2feb22cbd00a69331612576e8bb7f36afaa42a802fa54a",
+    "examples/graph-scene.mjs": "847ad1fd51bcac7481664c69a98fbbbeff62ae9d6f21817c4d6ef09bd968e588",
+    "examples/index.html": "51b7b05196ba98c799c11237c000fe98b4d5a6a4772ab0c62fdf97d62925ee49",
+    "test/bfs-graph-migration.test.mjs": "73fc641464e53f67163fb0bc511a52c9b27f26b214c55059c7cb229ea6fb3e6f",
+    "test/bfs-two-examples.test.mjs": "568c11e38841e0ed0e7e69e4fb9b1a8f24f071d9981bdfc60cd7191997b95d36",
+    "src/canvas/graph-captions.ts": "7ad9ffc3248ba08b0fdc48bddffdf356bf0919ebb0c98c71a59305ac80a0fe91",
+    "examples/graph-algorithm.mjs": "214b9635dcfc49c62774dff23a3e9318315e24545025b75d440bbfa863cf3c4a",
+    "test/graph-captions-browser.html": "7aa56ab0c2fc6fd7bc479598765966f1fc81ba436af28bd39d366d7ac40f7fdd",
+    "test/graph-captions-browser.mjs": "4d4f7bdcd34da21b95182fed42a8acdc5d95a98e4ae96a19073127b724cf9d81",
+    "test/graph-captions.test.mjs": "f3df074a9963ad27d1a8c72a70be5a7308b9f43556fd05b1537c7b2ac115f3fe",
+    "src/array/index.ts": "d0922f5c0ea917db55a5528aef6a476ba93144c00c70f1da4c97153070f8442d",
+    "src/array/player.ts": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f",
+    "src/array/snapshot-builder.ts": "b8032b7a26b9106f606c9cc0ec1657063a599e72356397b8383b9fc9def75b66",
+    "src/array/timeline.ts": "3849e56b429c14965f0191bab4236fed19ea762cf7ddabb206d0670d69064cf3",
+    "src/array/trace.ts": "fc003f97e0c08f80fd6ad2c770ff935e31325b69a92ac2852fd846c43ddd206b",
+    "src/array/types.ts": "707b4984f81df9c5db1d9eb253800ac9e5968cb3e3f63cca32e9e7d89a897a14",
+    "src/canvas/index.ts": "b901e35d3cc6ca78c5ef05bbf9b10efef8830f1aa3058a086ce009d8df73a965",
+    "src/canvas/viewport.ts": "a26ab096e666ffcb84e01b11ee302be2776e5d2a4ec1a48e1aa0185ef6149411",
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "src/playback/index.ts": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0",
+    "src/playback/player.ts": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787",
+    "src/playback/rewind-buffer.ts": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70",
+    "src/playback/state-player.ts": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b",
+    "src/playback/state-steps.ts": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff",
+    "src/playback/step-emitter.ts": "a42c006b86a441ab47bf720427164b10ca626ffd6bd7cab6a735dcc63ce41770",
+    "src/playback/timeline.ts": "8095ff07cd9bf7afad108dd13e7e7ebb63e7cfb3d2fce5d2d45d620150074088",
+    "src/playback/types.ts": "053f6e9b76c2d9c9847ec71219b2a90ec9f4a2ad7ec6629f992e974a73ec4261",
+    "src/player/async-controller.ts": "80fab81a5572ddb57837390410d8de856ebd5ddc65134bba336ad62d539d1803",
+    "src/player/async-session.ts": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f",
+    "src/player/close-report.ts": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8",
+    "src/player/controller.ts": "029b880fbc85272181bd2da1df825fc086c23b05053e66fa5a1bc1396ef51026",
+    "src/player/index.ts": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d",
+    "src/player/mount.ts": "c6d82fdfe8cd37425878bc29643b8d1c9967c4808176e614dbc57eeb6691763d",
+    "src/player/player.ts": "97bad8b05e115b5e5c38b26fddd59b00db1212b8d00463022b4902de33928bed",
+    "src/player/rewind-session.ts": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0",
+    "src/player/step-session.ts": "5ff0ab5fd20bd6c63297806b2a0ebda9e3f55ece31727cac5c86929ebda839ff",
+    "src/player/stream-playback.ts": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30",
+    "src/player/types.ts": "c841f1fd2296c3535340e9f7dde29ed9e1a20b41bd6719d68146463f70055c2a",
+    "src/scene/index.ts": "858bbb12d580c53b9f158ae50ab9976704f61bb1615120bab5ec046ec699db4b",
+    "src/worker/data.ts": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064",
+    "src/worker/error.ts": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72",
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/protocol.ts": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc",
+    "src/worker/runtime.ts": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef",
+    "src/worker/types.ts": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9",
+    "package.json": "8071f5caf64b90f05fb14efab34af3a22c197f2324ad5c56d971f45a7f5b2fdf",
+    "package-lock.json": "e811417423443c38738aaca396ba966fad2d983b3f46fc45658d3b09f1bbe3f6",
+    ".github/workflows/ci.yml": "36c731d7d9fa5c060ec3ef740ecad2b393e7c70c5b4a06716ff23f201ac7f04f",
+    ".github/workflows/npm-publish.yml": "bd603e2fea20d5be252df2a18b22531ff2fad1eeb979859bb01985b0cf4f888d"
+  },
+  "documentationHashes": {
+    "docs/graph-readiness-1.1.md": "5439394f6ded23846881c4bf8d09605dd5a473e39bf5b171565c8b77a976dccf",
+    "docs/ru/graph-readiness-1.1.md": "44bb712d2a0b5748c58bf9a0c31b12d892c33f8e9094c942375a43b81c981b00",
+    "docs/current-api.md": "be8fc1a65b8ec339229cb3e8740c74546275a2b74a5f43fec9e53e5ba0cd3624",
+    "docs/ru/current-api.md": "589c8ee9c09c7224edc3e37d2761f5e88e324e0744ec110ade89cf3ef5a8c334",
+    "docs/api-compatibility.md": "a22c435f09f7f916d9f576e9eb6400168ac4489c96c3ad3f0412bd86d86dff0d",
+    "docs/ru/api-compatibility.md": "71770eaa5a26e4850a1822e435a79faa794b626e27feede306f3ea76d56d6f06",
+    "docs/graph-api.md": "9787c7644d8caacb79f787e9599744eccb8199c83c76e68ee6bcc7d52bd46f64",
+    "docs/ru/graph-api.md": "8ce1adcf6f5b95a0d5cebc9ca16bb15d9b2fa4d78e9e674313fc0fb2b64c4aba",
+    "docs/graph-node-captions.md": "77a1fe106fd45101bd6793e8cf5ada2d858162abf8b4cd6daf4a79f2b71aafef",
+    "docs/ru/graph-node-captions.md": "0308a98dde1d1a850a9f23fa784ca77e926f6d3b90dcb571b30e7eac8306bea0",
+    "docs/support-matrix.md": "b310bce12a6e2bea0d1c389a6d1ab67257502066255072919a166ad58280ffa2",
+    "README.md": "e6f19e569e190a2da9d848fed2eb7a63ab844b11ec245f8115198486e7be6261",
+    "ru/README.md": "8fd9df081cfa234fb94a8657f9b27e90854ee401f2ca884bea0b179b9b4ec254",
+    "CHANGELOG.md": "4472ad017b6d19fe1ee9ab942808044e8a21cb85b3e7f421d12ce343e8d4d612"
+  },
+  "auditArtifacts": {
+    "directory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\graph-readiness-1.1-sx00bc",
+    "probeHash": "9aa12f45266390e034b7db7719839209f9aced7c92da297716481f4e1e220497",
+    "resultHash": "791bedae4aa5e8d471f025742dd6523aa292d0eb7a8bf677944dc5a5d87a9c1d"
+  }
+}

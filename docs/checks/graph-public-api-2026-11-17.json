@@ -1,0 +1,119 @@
+{
+  "date": "2026-11-17",
+  "scope": "Proposed /graph and /canvas/graph public API; documentation only",
+  "baselineVersion": "1.0.0",
+  "baselineCommit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+  "implementationChanged": false,
+  "publicDeclarationsChanged": false,
+  "exportMapChanged": false,
+  "examplesOrTestsChanged": false,
+  "dependenciesOrVersionChanged": false,
+  "commitCreated": false,
+  "publication": false,
+  "decisions": {
+    "topology": "Fixed finite graph; explicit independent node/edge string IDs; loops, parallel/mixed-direction edges and finite signed weights",
+    "trace": [
+      "start",
+      "mark",
+      "setLayout",
+      "done"
+    ],
+    "result": "Persistent independent selections, null versus explicit empty; duplicates first-occurrence order; Canvas result color wins",
+    "validation": "Plain records/dense arrays, capture before atomic commit; standard TypeError/RangeError/Error; documented precedence and guarded mutation",
+    "rendering": "DOM-free /graph; optional separate /canvas/graph; caller-owned CSS/bitmap/resize; logical size explicitly supplied",
+    "coreChangesRequired": false
+  },
+  "proposedExports": {
+    "graph": {
+      "runtime": [
+        "createGraphTrace",
+        "graphScene"
+      ],
+      "types": [
+        "GraphNode",
+        "GraphEdge",
+        "GraphInput",
+        "GraphPosition",
+        "GraphAnnotation",
+        "GraphMark",
+        "GraphMarkUpdate",
+        "GraphResultInput",
+        "GraphResult",
+        "GraphDoneOptions",
+        "GraphTraceOptions",
+        "GraphSnapshot",
+        "GraphEvent",
+        "GraphStep",
+        "GraphFrame",
+        "GraphTrace",
+        "GraphSceneOptions",
+        "GraphNodeView",
+        "GraphEdgeView",
+        "GraphObjects"
+      ]
+    },
+    "canvasGraph": {
+      "runtime": [
+        "createGraphRenderer"
+      ],
+      "types": [
+        "GraphPalette",
+        "GraphRendererOptions",
+        "GraphRenderSize",
+        "GraphRenderer"
+      ]
+    }
+  },
+  "verification": {
+    "status": "passed",
+    "checkedAt": "2026-11-16T21:20:34.961Z",
+    "artifactDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\graph-api-2026-11-17-08thgG",
+    "baseline": "Fresh npm-installed @grundyjs/algiviz@1.0.0 retained from release verification",
+    "baselineEntryCount": 8,
+    "compilerVersion": "6.0.3",
+    "probes": [
+      {
+        "resolution": "NodeNext",
+        "environment": "headless",
+        "status": "passed"
+      },
+      {
+        "resolution": "NodeNext",
+        "environment": "DOM",
+        "status": "passed"
+      },
+      {
+        "resolution": "Bundler",
+        "environment": "headless",
+        "status": "passed"
+      },
+      {
+        "resolution": "Bundler",
+        "environment": "DOM",
+        "status": "passed"
+      }
+    ],
+    "negativeTypeCases": {
+      "headless": 18,
+      "DOM": 7
+    },
+    "documentedCodeBlocksIdentical": true,
+    "localLinksChecked": 126,
+    "documentHashes": {
+      "docs/graph-api.md": "3d2915bfa73175358e5b7f1d292f481cd84f0812bf730a403b5698b7f048ec20",
+      "docs/ru/graph-api.md": "b2299b50c52ba502eb677830fe90cb99d7d46d9ea36e2294bab890a3585c70bf",
+      "docs/graph-contract.md": "aa6f5bf641024b0f9f076c0dd52c858dc59d9d31f7249fdef4f2a9a9d41a9291",
+      "docs/ru/graph-contract.md": "f372052ed5ea78d6acfe8598449fba38f95bfdfbb6c974a06cba8b4aef32803e",
+      "docs/current-api.md": "d307ecad137a057f2edc3628ef1aa2cf82ef6ccfc20bfaf42a5ac3081a0d3acc",
+      "docs/ru/current-api.md": "6326a1fb797b79a090f834decb073786839c94e12c76c71be88cf6cce3af59bc"
+    },
+    "noRuntimeImplementationOrTests": true,
+    "limits": [
+      "Only no-emit declarations and usage compatibility, not runtime guarantees",
+      "No future package module is actually exported or installed",
+      "No validator/trace/projector/Canvas implementation or native checks in this stage",
+      "Not a full future module TypeScript version/bundle/host matrix"
+    ]
+  },
+  "implementationAcceptance": "docs/graph-api.md#acceptance-for-the-later-implementation"
+}

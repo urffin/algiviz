@@ -56,8 +56,8 @@ the player; reloading this standalone page starts a fresh search.
 The [main quickstart](getting-started.md) uses stepSource and isTerminal.
 Player receives ArrayTrace steps and passes ArrayFrame directly to the renderer. done
 finishes playback in the same Next command, with no frame bridge or EOF click.
-Start is lazy; Restart creates a new generator. This capability is currently
-local and unpublished; follow the archive installation in the quickstart.
+Start is lazy; Restart creates a new generator. These APIs are available in
+1.0.0; follow the npm installation in the quickstart.
 
 ## 4. Your own visual objects and interpolation
 

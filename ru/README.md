@@ -17,7 +17,7 @@ AlgiViz управляет воспроизведением и сопостав�
 - **Ваш алгоритм:** вы управляете циклами, условиями и порядком операций.
 - **Ваши объекты:** определяйте собственные типы и обработчики для Canvas, SVG или другой среды отрисовки.
 - **Два режима воспроизведения:** сохраняйте историю для перемотки или читайте генератор,
-  оставляя в плеере только соседние снимки состояния.
+  оставляя соседние снимки или ограниченное окно при включённой перемотке.
 - **Без зависимостей во время выполнения:** ESM и декларации TypeScript;
   воспроизведение работает без DOM, React и Next.js.
 
@@ -25,12 +25,15 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Статус репозитория, 2026-11-16: **1.0.0 — обновлённый, неопубликованный кандидат**;
-опубликованная база остаётся 0.16.0. Он включает stepSource/isTerminal, результаты
-массива, F1/F2, U1/U2, U5-регрессии и общую политику совместимости восьми entry.
-[Кандидат и оставшиеся условия](https://github.com/urffin/algiviz/blob/master/docs/ru/candidate-1.0.md) ·
+Статус репозитория, 2026-11-17: **1.0.0 выпущена** с `3977c78`.
+Рабочее дерево дополнительно реализует ещё не опубликованные `/graph` и
+`/canvas/graph`, включая штатный Canvas-рендерер графа. Версия пакета и lockfile
+подготовлена как **кандидат 1.1.0**, без тега и публикации.
+[Описание кандидата](https://github.com/urffin/algiviz/blob/master/docs/ru/candidate-1.1.md). [API графа](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) ·
+[Релиз 1.0.0](https://github.com/urffin/algiviz/releases/tag/v1.0.0) ·
 [Миграция с 0.16.0](https://github.com/urffin/algiviz/blob/master/docs/ru/migration-1.0.md).
-До релиза остаются CI точного кандидата и его native-проверки.
+
+[Итоговая ревизия графовых API перед 1.1.0](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-readiness-1.1.md) фиксирует готовое и оставшиеся релизные шаги; подписи расстояний BFS включены.
 
 ## Установка
 
@@ -42,20 +45,22 @@ npm install @grundyjs/algiviz
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker` и `/worker/runtime`.
 
-Алгоритмы находятся в коде приложения и примерах. В версии 0.x минорные релизы могут нарушать обратную совместимость;
+Рабочее дерево также экспортирует `/graph` и `/canvas/graph`; в npm 1.0.0 их нет.
+Алгоритмы находятся в коде приложения и примерах. Совместимые возможности выходят
+в minor по [политике 1.x](https://github.com/urffin/algiviz/blob/master/docs/ru/api-compatibility.md);
 при обновлении сверяйтесь с [CHANGELOG.md](../CHANGELOG.md).
 
 ## Quickstart: поиск минимума на Canvas
 
-Главный quickstart использует ещё не опубликованные `stepSource`/`isTerminal` и `done({ result })`.
-Команды установки собирают эту рабочую копию; опубликованная 0.16.0 и прежний
-кандидат 5e2fd18 такого API не содержат.
+Главный quickstart использует `stepSource`/`isTerminal` и `done({ result })`, доступные
+в 1.0.0. Инструкция устанавливает точную npm-версию 1.0.0 в отдельное приложение;
+клонировать репозиторий для quickstart не требуется.
 
 [Скопируйте один полный HTML и точные команды запуска](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md).
 Однопроходный поиск минимума сравнивает [7,3,5,2,6]. Операции массива создают снимки,
 штатный рендерер рисует Canvas, Player даёт Start/Next/Restart. Ответ остаётся
 видимым: “Minimum: 2”, столбец минимума — зелёным. Пример для фиксированного
-непустого массива занимает 31 строку JS; сам алгоритм принадлежит приложению.
+непустого массива занимает 28 непустых строк JS; сам алгоритм принадлежит приложению.
 
 [Сравнение Player и одной кнопки](https://github.com/urffin/algiviz/blob/master/docs/ru/quickstart-comparison.md)
 и [пошаговая инструкция](https://github.com/urffin/algiviz/blob/master/docs/ru/learning-path.md):
@@ -63,43 +68,43 @@ npm install @grundyjs/algiviz
 
 ## Модули и документация
 
-| Модуль | Назначение |
-| --- | --- |
-| [`/player`](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md) | Необязательный виджет `new Player(...)`, медиапанель, запись/поток и загрузка UI по запросу; добавлен в 0.12.0 |
-| [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/ru/playback.md) | Шаги, плеер, история, завершение и жизненный цикл |
-| [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/ru/scene.md) | Собственные типы, сопоставление объектов и проекция |
-| [`/canvas/viewport`](https://github.com/urffin/algiviz/blob/master/docs/ru/canvas-viewport.md) | Необязательные CSS-размеры Canvas, DPR и очистка; добавлен в 0.13.0 |
-| [`/array` и `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md) | Операции массива, готовый рендерер и палитра |
-| [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Фабрика источника в выделенном браузерном Worker и ошибки транспорта; добавлена в 0.16.0 |
-| [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Обработчик внутри Worker; отдельные типы WebWorker |
+| Модуль | Назначение | Доступность |
+| --- | --- | --- |
+| [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/playback.md) | Шаги, плееры, история, завершение и жизненный цикл | 1.0.0 |
+| [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Собственные типы, сопоставление объектов и проекция | 1.0.0 |
+| [`/array`](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md) | Неизменяемые операции массива, отметки и результат | 1.0.0 |
+| [`/canvas`](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md) | Готовый Canvas-рендерер массива и палитры | 1.0.0 |
+| [`/canvas/viewport`](https://github.com/urffin/algiviz/blob/master/docs/ru/canvas-viewport.md) | CSS-размеры Canvas, DPR и очистка | 1.0.0 |
+| [`/player`](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md) | Необязательный виджет Player, медиапанель, запись/поток, загрузка по запросу | 1.0.0 |
+| [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Фабрика выделенного браузерного Worker и ошибки транспорта | 1.0.0 |
+| [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Endpoint внутри Worker; отдельные типы WebWorker | 1.0.0 |
+| [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Trace фиксированного графа, отметки/подписи/результат и сцена | Кандидат 1.1.0, не опубликован |
+| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Canvas графа: стрелки, петли, параллельные рёбра и размещение подписей | Кандидат 1.1.0, не опубликован |
+
+Headless-модули не требуют DOM. Canvas/Player/viewport и Worker-host требуют своих
+host и DOM-типов; endpoint Worker — WebWorker-типов. Безопасный импорт не заменяет
+host для вызова. [Граница окружений](https://github.com/urffin/algiviz/blob/master/docs/support-matrix.md#current-support-boundary).
 
 [Полный пример TypeScript](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·
 [Начало работы](https://github.com/urffin/algiviz/blob/master/docs/ru/getting-started.md) ·
 [Разбор собственных объектов графа](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md)
 
-**Добавлено в 0.16.0:** [Worker-адаптер](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md)
-добавляет `/worker` и `/worker/runtime`: `createAsyncSource`,
-явная передача ArrayBuffer и наблюдаемая остановка. В выпущенной 0.15.0 этих
-точек входа нет. [Подключение к Player](https://github.com/urffin/algiviz/blob/master/docs/ru/player-worker.md)
-использует прежний asyncSource; ожидание, управление и очистка проверены.
-[Проверка релиза](https://github.com/urffin/algiviz/blob/master/docs/releases/0.16.0.json).
+## Источники и воспроизведение
 
-Добавлено в 0.15.0: [асинхронные источники](https://github.com/urffin/algiviz/blob/master/docs/ru/player-async-api.md)
-через `asyncSource` в `/player` и отдельный
-[адаптер `createAsyncSource`](https://github.com/urffin/algiviz/blob/master/docs/ru/async-source-api.md)
-в `/playback`. Один запрос состояния, Pause без потери ожидаемого результата
-и наблюдаемая кооперативная отмена/очистка через `closed`.
-Async-итерация не переносит CPU-вычисления в другой поток.
+Player принимает обычные состояния через source, явные шаги через stepSource,
+полную запись через history и асинхронные состояния через asyncSource.
+[Выбор источника](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md).
 
-Добавлено в 0.14.0: [ограниченная перемотка назад](https://github.com/urffin/algiviz/blob/master/docs/ru/rewind-buffer.md)
-по значениям синхронного Iterable через `createRewindBuffer` из `/playback`.
-Опция
-[`rewindCapacity`](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md)
-в `/player` включает кнопку возврата для потока.
+Для потока опция [rewindCapacity](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md)
+включает возврат в ограниченном окне. [maxStepsPerFrame](https://github.com/urffin/algiviz/blob/master/docs/ru/player-work-budget.md)
+ограничивает запросы следующих состояний за кадр, сохраняя остаток времени;
+это не ограничение стоимости одного шага или render.
 
-В 0.14.0 опция
-[`maxStepsPerFrame`](https://github.com/urffin/algiviz/blob/master/docs/ru/player-work-budget.md)
-распределяет продвижение потока между кадрами, сохраняя остаток времени воспроизведения.
+[createAsyncSource](https://github.com/urffin/algiviz/blob/master/docs/ru/async-source-api.md)
+управляет ожиданием, отменой и очисткой. Само async-вычисление не переносит CPU-работу
+в другой поток. [Worker-адаптер](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md)
+использует тот же [asyncSource в Player](https://github.com/urffin/algiviz/blob/master/docs/ru/player-worker.md),
+поддерживает явный ArrayBuffer transfer и наблюдаемое завершение через closed.
 
 ## Примеры
 
@@ -112,7 +117,8 @@ Async-итерация не переносит CPU-вычисления в др�
 | [Разбиения быстрой сортировки](https://github.com/urffin/algiviz/blob/master/examples/quick.html) | Разбиения Ломуто и трёхстороннее с собственными состоянием и сценой |
 | [Пирамидальная сортировка](https://github.com/urffin/algiviz/blob/master/examples/heap.html) | Построение max-heap и извлечение с согласованными идентификаторами элементов дерева и массива |
 | [Бинарный поиск](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | Первое вхождение в отсортированном массиве, замкнутый интервал поиска и ленивое воспроизведение |
-| [BFS графа](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Очередь, слои, кратчайшие пути, недостижимая цель и история/генератор |
+| [Подробный BFS графа](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Своя сцена: анимированная очередь, расстояния у вершин и отметки пути; штатный Player |
+| [BFS со штатным графическим renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | Тот же алгоритм с createGraphTrace, расстояниями у вершин, /canvas/graph и Player |
 | [DFS графа](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Стек вызовов, возвраты, глубина и путь дерева; история/генератор |
 | [Лабиринт](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Генерация рандомизированным DFS, волна BFS, поиск DFS, циклы и недостижимый выход; история/генератор |
 | [Обход дерева](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Собственные узлы, рёбра и указатель с Canvas и SVG с сохранением элементов |
@@ -128,4 +134,4 @@ Async-итерация не переносит CPU-вычисления в др�
 [История изменений](https://github.com/urffin/algiviz/blob/master/CHANGELOG.md) ·
 [Сообщить об ошибке](https://github.com/urffin/algiviz/issues)
 
-Лицензия [MIT](https://github.com/urffin/algiviz/blob/master/LICENSE). В версии 0.x минорные релизы могут менять API.
+Лицензия [MIT](https://github.com/urffin/algiviz/blob/master/LICENSE).

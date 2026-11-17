@@ -1,0 +1,1490 @@
+{
+  "date": "2026-11-17",
+  "checkedAt": "2026-11-17T11:07:24.248Z",
+  "scope": "Selected vertex-caption contract for /graph and /canvas/graph; documentation and isolated application/type probes only",
+  "baselineCommit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+  "packageVersion": "1.0.0",
+  "implementationChanged": false,
+  "publicDeclarationsChanged": false,
+  "exportMapChanged": false,
+  "examplesOrTestsChanged": false,
+  "dependenciesOrVersionChanged": false,
+  "commitCreated": false,
+  "pushed": false,
+  "tagCreated": false,
+  "publication": false,
+  "decisions": {
+    "data": "One optional secondary string per node, separate from stable ID/primary label/role/result; full immutable caption table belongs to snapshot",
+    "api": "GraphTraceOptions.nodeCaptions initial table; GraphMarkUpdate.nodeCaptions patches; GraphSnapshot.nodeCaptions optional; GraphNodeView.caption optional; existing mark event gains optional caption patches; GraphRendererOptions.nodeCaptions auto/hidden",
+    "typeOnlyExportsProposed": [
+      "GraphNodeCaption",
+      "GraphNodeCaptionPatch"
+    ],
+    "runtimeExportsOrTraceMethodsAdded": [],
+    "eventDiscriminantsAdded": [],
+    "paletteMembersAdded": [],
+    "validation": "Atomic with node/edge roles; own-data/dense-array capture; node membership and unique patch IDs; copied/frozen canonical snapshot; null clears, empty string stored, undefined text invalid",
+    "completion": "done and setLayout preserve captions; Restart returns initial recording/trace captions",
+    "rewind": "Read previous/current immutable state, never event or live algorithm Map; no caption-patch replay",
+    "placement": "Existing graph fit unchanged; 8 bounded candidates, graph order tie-break; collision-free reservation boxes inside viewport with node/edge/arrow/label/caption safety gaps; suppress when no valid position or full text does not fit",
+    "guaranteeLimit": "Does not make existing graph planar or guarantee all captions visible; real font/curve/raster checks remain implementation acceptance",
+    "compatibility": "Optional shapes and unchanged closed event cases; existing local extra-property uses of newly recognized names need review; graph entries not published; no Player/core extension"
+  },
+  "verification": {
+    "status": "passed",
+    "artifactDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\graph-node-captions-contract-ivghyJ",
+    "nodeVersion": "v22.17.0",
+    "compilerVersion": "6.0.3",
+    "applicationChecks": 198,
+    "bfsRuns": 179,
+    "bfsSteps": 6756,
+    "runtimeCommand": "node D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\graph-node-captions-contract-ivghyJ\\probe.mjs",
+    "runtimeScope": [
+      "No caption trace/validator/scene/Canvas implementation",
+      "Geometry witness checks current default straight edges only with synthetic bounds, not real Canvas text metrics",
+      "Generic Player tests use handwritten proposed snapshots and the existing simulated DOM, not native browser behavior"
+    ],
+    "typeChecks": [
+      {
+        "name": "NodeNext-headless",
+        "command": "node node_modules/typescript/bin/tsc --project D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\graph-node-captions-contract-ivghyJ\\NodeNext-headless.json",
+        "status": "passed",
+        "strict": true,
+        "exactOptionalPropertyTypes": true,
+        "noUncheckedIndexedAccess": true,
+        "noEmit": true,
+        "lib": [
+          "ES2022"
+        ]
+      },
+      {
+        "name": "NodeNext-DOM",
+        "command": "node node_modules/typescript/bin/tsc --project D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\graph-node-captions-contract-ivghyJ\\NodeNext-DOM.json",
+        "status": "passed",
+        "strict": true,
+        "exactOptionalPropertyTypes": true,
+        "noUncheckedIndexedAccess": true,
+        "noEmit": true,
+        "lib": [
+          "ES2022",
+          "DOM"
+        ]
+      },
+      {
+        "name": "Bundler-headless",
+        "command": "node node_modules/typescript/bin/tsc --project D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\graph-node-captions-contract-ivghyJ\\Bundler-headless.json",
+        "status": "passed",
+        "strict": true,
+        "exactOptionalPropertyTypes": true,
+        "noUncheckedIndexedAccess": true,
+        "noEmit": true,
+        "lib": [
+          "ES2022"
+        ]
+      },
+      {
+        "name": "Bundler-DOM",
+        "command": "node node_modules/typescript/bin/tsc --project D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\graph-node-captions-contract-ivghyJ\\Bundler-DOM.json",
+        "status": "passed",
+        "strict": true,
+        "exactOptionalPropertyTypes": true,
+        "noUncheckedIndexedAccess": true,
+        "noEmit": true,
+        "lib": [
+          "ES2022",
+          "DOM"
+        ]
+      }
+    ],
+    "negativeTypeCases": {
+      "shared": 11,
+      "headlessOnly": 1,
+      "DOMOnly": 5
+    },
+    "legacyFixturesAssignable": true,
+    "closedEventExhaustiveSwitch": true,
+    "genericPayloadInference": true,
+    "headlessDOMFree": true,
+    "documentedCodeBlocksIdentical": true,
+    "checkedDeclarationExcerptsMatchDocs": true,
+    "protectedFileCount": 232,
+    "protectedFilesUnchanged": true,
+    "repositorySuiteRerun": false,
+    "repositorySuiteReason": "Documentation only; all source/example/test/script/package files byte-identical to the start of this task",
+    "previousRepositorySuite": "docs/checks/bfs-two-examples-2026-11-17.json",
+    "nativeChecksRun": false,
+    "packageBundleChecksRun": false,
+    "ciRun": false
+  },
+  "bfsTable": [
+    {
+      "index": 0,
+      "event": {
+        "kind": "start",
+        "target": "A",
+        "source": null
+      },
+      "captions": [
+        {
+          "id": "A",
+          "text": "d = 0"
+        },
+        {
+          "id": "B",
+          "text": "d = —"
+        },
+        {
+          "id": "C",
+          "text": "d = —"
+        },
+        {
+          "id": "D",
+          "text": "d = —"
+        },
+        {
+          "id": "E",
+          "text": "d = —"
+        },
+        {
+          "id": "F",
+          "text": "d = —"
+        },
+        {
+          "id": "G",
+          "text": "d = —"
+        },
+        {
+          "id": "H",
+          "text": "d = —"
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "event": {
+        "kind": "discover",
+        "target": "E",
+        "source": "B"
+      },
+      "captions": [
+        {
+          "id": "A",
+          "text": "d = 0"
+        },
+        {
+          "id": "B",
+          "text": "d = 1"
+        },
+        {
+          "id": "C",
+          "text": "d = 1"
+        },
+        {
+          "id": "D",
+          "text": "d = 2"
+        },
+        {
+          "id": "E",
+          "text": "d = 2"
+        },
+        {
+          "id": "F",
+          "text": "d = —"
+        },
+        {
+          "id": "G",
+          "text": "d = —"
+        },
+        {
+          "id": "H",
+          "text": "d = —"
+        }
+      ]
+    },
+    {
+      "index": 51,
+      "event": {
+        "kind": "traversal-done",
+        "target": null,
+        "source": null
+      },
+      "captions": [
+        {
+          "id": "A",
+          "text": "d = 0"
+        },
+        {
+          "id": "B",
+          "text": "d = 1"
+        },
+        {
+          "id": "C",
+          "text": "d = 1"
+        },
+        {
+          "id": "D",
+          "text": "d = 2"
+        },
+        {
+          "id": "E",
+          "text": "d = 2"
+        },
+        {
+          "id": "F",
+          "text": "d = 2"
+        },
+        {
+          "id": "G",
+          "text": "d = 3"
+        },
+        {
+          "id": "H",
+          "text": "d = ∞"
+        }
+      ]
+    },
+    {
+      "index": 56,
+      "event": {
+        "kind": "finished",
+        "target": null,
+        "source": null
+      },
+      "captions": [
+        {
+          "id": "A",
+          "text": "d = 0"
+        },
+        {
+          "id": "B",
+          "text": "d = 1"
+        },
+        {
+          "id": "C",
+          "text": "d = 1"
+        },
+        {
+          "id": "D",
+          "text": "d = 2"
+        },
+        {
+          "id": "E",
+          "text": "d = 2"
+        },
+        {
+          "id": "F",
+          "text": "d = 2"
+        },
+        {
+          "id": "G",
+          "text": "d = 3"
+        },
+        {
+          "id": "H",
+          "text": "d = ∞"
+        }
+      ]
+    }
+  ],
+  "placementWitness": {
+    "kind": "fixed witness, not a placer/renderer implementation",
+    "size": {
+      "width": 960,
+      "height": 480
+    },
+    "syntheticGlyphCell": {
+      "width": 30,
+      "height": 16
+    },
+    "reservationBox": {
+      "width": 38,
+      "height": 20
+    },
+    "safetyPx": 2,
+    "maxEdgeStroke": 3,
+    "nodes": [
+      {
+        "id": "A",
+        "x": 471.68,
+        "y": 32,
+        "r": 16
+      },
+      {
+        "id": "B",
+        "x": 346.88,
+        "y": 173.44,
+        "r": 16
+      },
+      {
+        "id": "C",
+        "x": 596.48,
+        "y": 173.44,
+        "r": 16
+      },
+      {
+        "id": "D",
+        "x": 272,
+        "y": 314.88,
+        "r": 16
+      },
+      {
+        "id": "E",
+        "x": 471.68,
+        "y": 314.88,
+        "r": 16
+      },
+      {
+        "id": "F",
+        "x": 688,
+        "y": 314.88,
+        "r": 16
+      },
+      {
+        "id": "G",
+        "x": 471.68,
+        "y": 448,
+        "r": 16
+      },
+      {
+        "id": "H",
+        "x": 688,
+        "y": 32,
+        "r": 16
+      }
+    ],
+    "boxes": [
+      {
+        "id": "A",
+        "anchor": "right",
+        "left": 491.68,
+        "right": 529.6800000000001,
+        "top": 22,
+        "bottom": 42
+      },
+      {
+        "id": "B",
+        "anchor": "left",
+        "left": 288.88,
+        "right": 326.88,
+        "top": 163.44,
+        "bottom": 183.44
+      },
+      {
+        "id": "C",
+        "anchor": "right",
+        "left": 616.48,
+        "right": 654.48,
+        "top": 163.44,
+        "bottom": 183.44
+      },
+      {
+        "id": "D",
+        "anchor": "left",
+        "left": 214,
+        "right": 252,
+        "top": 304.88,
+        "bottom": 324.88
+      },
+      {
+        "id": "E",
+        "anchor": "right",
+        "left": 491.68,
+        "right": 529.6800000000001,
+        "top": 304.88,
+        "bottom": 324.88
+      },
+      {
+        "id": "F",
+        "anchor": "right",
+        "left": 708,
+        "right": 746,
+        "top": 304.88,
+        "bottom": 324.88
+      },
+      {
+        "id": "G",
+        "anchor": "lower-right",
+        "left": 491.68,
+        "right": 529.6800000000001,
+        "top": 454,
+        "bottom": 474
+      },
+      {
+        "id": "H",
+        "anchor": "below",
+        "left": 669,
+        "right": 707,
+        "top": 52,
+        "bottom": 72
+      }
+    ],
+    "limits": [
+      "Manually chosen fixed witness positions, not an implemented placement solver",
+      "Current default 960x480 graph geometry and nine straight edges only",
+      "Synthetic 30x16 text/ink cells with 38x20 padded boxes; real font metrics not measured",
+      "Node primary labels assumed within their node circles for this witness; no arrows/edge labels on this BFS fixture",
+      "Curved-edge endpoint-only collision counterexample checked separately; no full curve collision engine claimed"
+    ]
+  },
+  "applicationObservations": [
+    {
+      "name": "BFS caption-data availability: layers:A:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:A:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:A:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:A:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:A:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:A:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:A:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:A:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:A:H",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:B:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:B:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:B:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:B:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:B:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:B:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:B:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:B:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:B:H",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:C:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:C:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:C:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:C:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:C:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:C:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:C:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:C:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:C:H",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:D:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:D:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:D:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:D:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:D:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:D:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:D:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:D:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:D:H",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:E:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:E:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:E:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:E:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:E:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:E:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:E:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:E:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:E:H",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:F:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:F:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:F:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:F:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:F:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:F:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:F:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:F:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:F:H",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:G:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:G:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:G:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:G:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:G:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:G:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:G:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:G:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:G:H",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:H:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:H:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:H:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:H:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:H:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:H:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:H:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:H:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: layers:H:H",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:A:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:A:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:A:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:A:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:A:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:A:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:B:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:B:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:B:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:B:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:B:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:B:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:C:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:C:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:C:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:C:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:C:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:C:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:D:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:D:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:D:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:D:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:D:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:D:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:E:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:E:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:E:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:E:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:E:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: chain:E:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:A:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:A:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:A:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:A:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:A:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:B:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:B:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:B:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:B:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:B:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:C:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:C:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:C:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:C:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:C:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:D:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:D:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:D:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:D:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: diamond:D:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:A:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:A:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:A:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:A:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:A:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:A:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:A:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:A:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:B:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:B:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:B:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:B:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:B:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:B:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:B:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:B:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:C:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:C:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:C:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:C:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:C:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:C:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:C:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:C:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:D:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:D:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:D:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:D:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:D:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:D:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:D:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:D:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:E:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:E:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:E:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:E:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:E:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:E:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:E:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:E:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:F:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:F:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:F:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:F:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:F:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:F:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:F:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:F:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:G:null",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:G:A",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:G:B",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:G:C",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:G:D",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:G:E",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:G:F",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: circle:G:G",
+      "passed": true
+    },
+    {
+      "name": "BFS caption-data availability: loops-parallel-hostile-ids",
+      "passed": true
+    },
+    {
+      "name": "Documented BFS state 0/13/51/56 caption table",
+      "passed": true
+    },
+    {
+      "name": "Generic recording samples restore snapshot captions in arbitrary seek order",
+      "passed": true
+    },
+    {
+      "name": "history: Player starts with dashes and matching immutable text",
+      "passed": true
+    },
+    {
+      "name": "history: Player end keeps captions and green selection data",
+      "passed": true
+    },
+    {
+      "name": "history: backward to pre-completion restores dash, Next restores infinity",
+      "passed": true
+    },
+    {
+      "name": "history: Pause and repeated reads preserve caption data",
+      "passed": true
+    },
+    {
+      "name": "history: Restart restores initial dashes with no result",
+      "passed": true
+    },
+    {
+      "name": "history: disposal releases scheduler and closes stream sources",
+      "passed": true
+    },
+    {
+      "name": "generator: Player starts with dashes and matching immutable text",
+      "passed": true
+    },
+    {
+      "name": "generator: Player end keeps captions and green selection data",
+      "passed": true
+    },
+    {
+      "name": "generator: backward to pre-completion restores dash, Next restores infinity",
+      "passed": true
+    },
+    {
+      "name": "generator: Pause and repeated reads preserve caption data",
+      "passed": true
+    },
+    {
+      "name": "Stream rewind stops at retained source index 25",
+      "passed": true
+    },
+    {
+      "name": "generator: Restart restores initial dashes with no result",
+      "passed": true
+    },
+    {
+      "name": "generator: disposal releases scheduler and closes stream sources",
+      "passed": true
+    },
+    {
+      "name": "Fixed default BFS placement witness clears viewport, all circles, caption boxes and every straight edge",
+      "passed": true
+    },
+    {
+      "name": "Bottom G needs an alternative to the below anchor at current fit",
+      "passed": true
+    },
+    {
+      "name": "Tiny viewport and long full text cannot satisfy the caption reservation rules",
+      "passed": true
+    },
+    {
+      "name": "Curved-edge counterexample: endpoints-only collision check misses a caption",
+      "passed": true
+    }
+  ],
+  "requiredImplementationAcceptance": [
+    "Capture/validation errors, order, atomic rollback, getters/proxy/reentrancy, immutable arrays, init/clear/empty/no-op semantics",
+    "Legacy missing/undefined optional fields; unchanged closed GraphEvent types and scene object identities; installed consumer/compiler/export/bundle checks",
+    "done/result priorities, layout changes, history/stream rewind, terminal hold, Restart/source closure, Async/Worker state-only transport",
+    "Native real font metrics and default BFS all-eight-caption readability; small/dense/coincident/long/blank/control-text suppression",
+    "True curve/loop/parallel/arrow/edge-label exclusions, interpolation and entering/exiting presence at several progress values",
+    "Light/dark colors, DPR/resize, hidden mode, no-caption baseline, zero size, context/measureText/restore failures and guard/cache recovery",
+    "All BFS presets and edge cases preserve semantic traces; no extra visible BFS steps for caption updates"
+  ],
+  "limits": [
+    "No future caption operation, validator, scene projection or renderer implemented",
+    "No new native rendering, browser-support, performance, CI or release claim",
+    "Proposed declaration excerpts are isolated probes and not installed package declarations"
+  ],
+  "protectedFileHashes": {
+    "src/array/index.ts": "d0922f5c0ea917db55a5528aef6a476ba93144c00c70f1da4c97153070f8442d",
+    "src/array/player.ts": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f",
+    "src/array/snapshot-builder.ts": "b8032b7a26b9106f606c9cc0ec1657063a599e72356397b8383b9fc9def75b66",
+    "src/array/timeline.ts": "3849e56b429c14965f0191bab4236fed19ea762cf7ddabb206d0670d69064cf3",
+    "src/array/trace.ts": "fc003f97e0c08f80fd6ad2c770ff935e31325b69a92ac2852fd846c43ddd206b",
+    "src/array/types.ts": "707b4984f81df9c5db1d9eb253800ac9e5968cb3e3f63cca32e9e7d89a897a14",
+    "src/canvas/graph-geometry.ts": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa",
+    "src/canvas/graph.ts": "3821014d4a45a14477ef23857d4135c6f34f17eb2f680b7c68317f11d4fa0b99",
+    "src/canvas/index.ts": "b901e35d3cc6ca78c5ef05bbf9b10efef8830f1aa3058a086ce009d8df73a965",
+    "src/canvas/viewport.ts": "a26ab096e666ffcb84e01b11ee302be2776e5d2a4ec1a48e1aa0185ef6149411",
+    "src/graph/index.ts": "d30d6ca2f87b21c0c226a41f5551355e1a83488f62473e28323e130b681845dd",
+    "src/graph/scene.ts": "256138e7276ef9b34e87f295b06b529c08ee7b6d1b7c71d1f5e45476038d5525",
+    "src/graph/trace.ts": "3526b76cff7ea8670474e7255c5173681a4958b108d2417127f7363331314398",
+    "src/graph/types.ts": "134ecf425d561f2a04bcb437f29231764dacda1d2f8a3eb220138b207289e240",
+    "src/graph/validation.ts": "755a21cd57241f0bc463c766d968afc4686432d7d688e2ab0abda954840894fa",
+    "src/playback/async-source.ts": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d",
+    "src/playback/index.ts": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0",
+    "src/playback/player.ts": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787",
+    "src/playback/rewind-buffer.ts": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70",
+    "src/playback/state-player.ts": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b",
+    "src/playback/state-steps.ts": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff",
+    "src/playback/step-emitter.ts": "a42c006b86a441ab47bf720427164b10ca626ffd6bd7cab6a735dcc63ce41770",
+    "src/playback/timeline.ts": "8095ff07cd9bf7afad108dd13e7e7ebb63e7cfb3d2fce5d2d45d620150074088",
+    "src/playback/types.ts": "053f6e9b76c2d9c9847ec71219b2a90ec9f4a2ad7ec6629f992e974a73ec4261",
+    "src/player/async-controller.ts": "80fab81a5572ddb57837390410d8de856ebd5ddc65134bba336ad62d539d1803",
+    "src/player/async-session.ts": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f",
+    "src/player/close-report.ts": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8",
+    "src/player/controller.ts": "029b880fbc85272181bd2da1df825fc086c23b05053e66fa5a1bc1396ef51026",
+    "src/player/index.ts": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d",
+    "src/player/mount.ts": "c6d82fdfe8cd37425878bc29643b8d1c9967c4808176e614dbc57eeb6691763d",
+    "src/player/player.ts": "97bad8b05e115b5e5c38b26fddd59b00db1212b8d00463022b4902de33928bed",
+    "src/player/rewind-session.ts": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0",
+    "src/player/step-session.ts": "5ff0ab5fd20bd6c63297806b2a0ebda9e3f55ece31727cac5c86929ebda839ff",
+    "src/player/stream-playback.ts": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30",
+    "src/player/types.ts": "c841f1fd2296c3535340e9f7dde29ed9e1a20b41bd6719d68146463f70055c2a",
+    "src/scene/index.ts": "858bbb12d580c53b9f158ae50ab9976704f61bb1615120bab5ec046ec699db4b",
+    "src/worker/data.ts": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064",
+    "src/worker/error.ts": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72",
+    "src/worker/index.ts": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13",
+    "src/worker/protocol.ts": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc",
+    "src/worker/runtime.ts": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef",
+    "src/worker/types.ts": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9",
+    "examples/algorithms.mjs": "eaa5b1a8b0d4b5970b4b25f51d531dd22e687956e008428560752bfefaabee54",
+    "examples/binary-search-algorithm.mjs": "fb4526d32b232552d622086754f0a0cdbe25d48f9cedb8536a0860f45cbfea09",
+    "examples/binary-search-demo.mjs": "042c44e88ff6dd1f4b69c5b4bb4a3caf29c64ee459b1e7bc3c8f44c7ba30ad7c",
+    "examples/binary-search-scene.mjs": "e55db327596cef4104b70d3a08d46893fa858bbdec787a75760d2317244e7ff0",
+    "examples/binary-search.html": "858580d8630d022415bfc045b93580fb8348896ca84165500d2eb2bb33d8de34",
+    "examples/boids-algorithm.mjs": "ac95e06e89560e54b9a71ef639af2092dea677116b335af811474252442f31d6",
+    "examples/boids-demo.mjs": "6f5b36f2e30dcce62b20a3ad89a1c25d99c8470c73c1c3fc1c1d69342d9d3406",
+    "examples/boids-scene.mjs": "068dbdb4617a184477d22d959f0353f766f6d51e52f20fe7a8020702173efb0b",
+    "examples/boids.html": "694c1733496553030473f8f51f185c694bc39a5e2a0b67195291d5292a9e2a19",
+    "examples/custom-objects.html": "d25a8a9098dc8fb0b66fff206e1f469069f6b2f75db2a274532da862b7a546b2",
+    "examples/custom-objects.ts": "1b3d8a21cf431994eda77fd8c32c97021bc8bb7342c2d6e14579ffd5cb898637",
+    "examples/demo-player.mjs": "17ac02cb35deb8a678abb67083249915c6428ca5002bd67ffc44718c61e8e25b",
+    "examples/demo.mjs": "bfc0496e3ae644b3c1c7b01fb40e9100eab9e03a7c81cc5c4df87960dcdc256c",
+    "examples/dfs-algorithm.mjs": "347deb51c6b69db4b2a1b57bd89957a774833e9c0625466390a95c4421f491b7",
+    "examples/dfs-demo.mjs": "dd54922db25e0e25885789a6f79991e77fa599e86eee5d657394c435004ad765",
+    "examples/dfs-scene.mjs": "076dc4886633b4664dc37189c396cb163db26d800088e3584718e9c7d7996473",
+    "examples/dfs.html": "d1e97b65d407b5ba1800166968b20cd39b2ca7c5b51802db2709f49c21a0b8a2",
+    "examples/getting-started.html": "b198ac4e20c9ed4b77cde49f3a4025c98610fc18131e541d6a52f0178a782c04",
+    "examples/getting-started.mjs": "e7154ecdb44a04c630c3b4948b05e430937de673470feb0390d821627e65d10b",
+    "examples/graph-algorithm.mjs": "0609e07a7e934ae5a02c6f8377376cfc1fe6123efef10974d8d4e68b9157df2a",
+    "examples/graph-demo.mjs": "8b8ced4f894e3f6c1f874e4863f2b6489fd79071f2de9ca5f18402d965168f33",
+    "examples/graph-layout.mjs": "f31ab2e3cb8b73cefee851a8a7b479ce89ed6c9a727f081ab9bf015745c8461b",
+    "examples/graph-page.mjs": "79909dbed7e77bfffcb63ac14d523196676ce11dd088cf375038f5f443e03fd4",
+    "examples/graph-player-demo.mjs": "7c7c0ad6deef35eaaec646f8f31fe899bb299bba2f529dfd739a8f1dfa965a5c",
+    "examples/graph-player-view.mjs": "02c8d9c1d828489e3c2feb22cbd00a69331612576e8bb7f36afaa42a802fa54a",
+    "examples/graph-player.html": "732ce3c2711884d378bdf79b768d5fcb4acb6d941b10c59458b4e8d30c2ddb74",
+    "examples/graph-presets.mjs": "c53014b48c91f14743e717061031575172da6532c08be4f96dde174afffadb9e",
+    "examples/graph-scene.mjs": "847ad1fd51bcac7481664c69a98fbbbeff62ae9d6f21817c4d6ef09bd968e588",
+    "examples/graph-session.mjs": "84ce178420730637bced5cf7a91559e8938fe70ae54d87f4f33172cc15df611b",
+    "examples/graph-view.mjs": "39260979683d8be5448682763d1729ece848a7ad2489edbcb1ccbc51d2eed1f5",
+    "examples/graph.html": "39d6689e3620444fca7f2c2147b0580993fad76cb38eaeaef20e0583095ce010",
+    "examples/heap-algorithm.mjs": "9485469f44211db7f842182c01091e4552db9e8f2c50c17896861d896cc75b59",
+    "examples/heap-demo.mjs": "b82c3265c770679116e95a466b60ecee47b1e7ee5255c29b1a05dcb4beeb5bc1",
+    "examples/heap-scene.mjs": "96be5d341ec719d730156f5146c1c7d5352f9afc45d960e414a7c15af94c62a6",
+    "examples/heap.html": "64c15b2cfdf7ac8d23588bf156193fe61b4b6f68fc50e7cf984e5ac2feac6a7f",
+    "examples/index.html": "51b7b05196ba98c799c11237c000fe98b4d5a6a4772ab0c62fdf97d62925ee49",
+    "examples/maze-algorithm.mjs": "abb493331933215090883f75fc7f4dddffb5e6862341963f0754c5f3a6b542bc",
+    "examples/maze-demo.mjs": "b24d8c5799feb46cc7f30100ef1244116dcdb0bac0d521101053fccf006f6d17",
+    "examples/maze-scene.mjs": "46905680f24b408a131baa241ad1099387011e2989a40c6b2f19ec22d8c05347",
+    "examples/maze.html": "4519aa16ab075b82b0a2b20e37ce2e00fdd5da9f7c40b7bbb83fc721f2ea3383",
+    "examples/merge-algorithm.mjs": "374e5c920efb67ae0764c5552f033402093cc17d15d53843f79bd76ba569772a",
+    "examples/merge-demo.mjs": "05de1723afcccd32afa81dc5dccba6bcfd198551ab3574acc521ade18ab8a813",
+    "examples/merge-scene.mjs": "e7158d0378d97def3162146d2590e791f4699fe2e6b07a86431549032895b6a8",
+    "examples/merge.html": "f82ed27f7b90f7402a705644882c6a0c1703a4a2b6c1c3efd11c56bc1269bd8b",
+    "examples/minimal.html": "165200e9747cc4947b61193c6e11c63a1c601b0cb10a430a5578d2e31cde4e59",
+    "examples/minimal.mjs": "3d506d6ded888218894e1ed9fe91b32256757d45ec39097ddcfa02c165f4d478",
+    "examples/minimum-manual.html": "c628b18268700af6b6e5e563178aa5837318043c24adb3f76c11ce5431a6a6b3",
+    "examples/minimum-player.html": "892a466546cd640ce0f041a93214302278dae4f6e5d3334c368fb9df4850183b",
+    "examples/object-lifecycle.html": "5716d5bfeaf5adcf499f99cef7df4b290026507d1a8195c446ab9f8a823e1069",
+    "examples/object-lifecycle.mjs": "cbb7556a83504ae234e3235a253a13fc08f4c10056c9299f9b434d98b88fffc2",
+    "examples/optional-player-demo.mjs": "b8ff65d3daf006b43e9976c9069cbcd359d45dbdb19151bccdc06bb7051b6e19",
+    "examples/optional-player.html": "0b6f42d05f016ae5e51ded28a764f56be4dec6cfa7644551d56f4f4fba51e9e3",
+    "examples/player-settings.mjs": "b38cd03d9bf5ec9ce0382bece0354e912c99b651d64407c3d1a4b0d90394ab07",
+    "examples/pre-states.html": "a9cc0200e22e4ea275928d3268eb326d3b51c39bc977ee00b022f189239477c6",
+    "examples/pre-states.mjs": "9315f6d98e499aecba7152650cf8f0d78a05918353c129069a93ce2e7c1fb7e6",
+    "examples/quick-algorithm.mjs": "8633c9f55a26384b71a5dbdcdc6c84513039e22303c6310a7baa0b53630cb3bc",
+    "examples/quick-demo.mjs": "77f83e314dae191f535da047950b5b531ec0c804e507fb26728b8f7b85e6c9c3",
+    "examples/quick-scene.mjs": "c4ca97a18e93c5e1e13282d24f2316439be8672a9d0d28a60639982e244b1113",
+    "examples/quick-three-way.mjs": "3273bdd4e3e1fcc39998fb8fe46a0777687993a348c70d1799666d9da9fb3bd7",
+    "examples/quick.html": "070660b4d0a92a3d3f7585c27cbd6b7caa06bdc2efa67ba1fc75fbcfd5428d13",
+    "examples/sand-algorithm.mjs": "6d19b28d6374ce5070b74e6c41e470a49e13ecec9a4f8dd7a8dcde4fb7a38bd4",
+    "examples/sand-demo.mjs": "3873b7f14d43b6558a37cc8b7b4ea7c8bc993dc7f7187f0ebb47e82976677d38",
+    "examples/sand-scene.mjs": "001619bd445d657ba93817131b3316be3370fa382443a94573c0cf7660a2834b",
+    "examples/sand.html": "6c9594219b16811e4c70974de47a45222e2e63e6126b4148672f9ef18761c6f0",
+    "examples/tree-demo.mjs": "8c1ebc550e70ee41c0a7235261da08f19982f34739d7fe37f9c0e5c495f84d70",
+    "examples/tree-pointer.mjs": "f68dffb3cddb537a749fcdfb2901f21aac8182ebb8b4932bf22a163eea9472b7",
+    "examples/tree-scene.mjs": "35b6aa8594293ca535d2180a5d3b35759c120c2f7b30024256a66ca97cd21bcf",
+    "examples/tree-svg.mjs": "afa6af97042a0b2d92065ad7b79e69ee74428c19e1f29e232f60f9bca3008ff9",
+    "examples/tree.html": "c4240edc5712176dfd37413d0c21d14c2fe1d945c797d1affb933b6f7cd1ecd5",
+    "examples/tsconfig.json": "dc741af263112c0c341a3314c611d4e25746716c2604c5b01d01b8934830cd8b",
+    "examples/visualization-pipeline-demo.mjs": "2ada640af9f6de569dbe23dae766a8954bf544f1539f382ebb6a32fee10845f1",
+    "examples/visualization-pipeline-source.mjs": "a4ab57a6ca674a8d71e57fc17c8421c7a94a94ebf2064dd6b75cee7a82adca30",
+    "examples/visualization-pipeline-walkthrough.html": "80869c5ccacb58326a728d66871f2a8a7321b5e0ba9df6c0127da43cac4041e9",
+    "examples/visualization-pipeline.html": "89ed813bf7e124ccf51a580a8b7cbf4e7e2470997cc2411990abec7c5b60d381",
+    "examples/visualization-pipeline.mjs": "39c279b8eff978634130b8427f9864fd189605badc79571129300488e5f11d24",
+    "test/api-review-worker-browser.html": "1c120ba4a077fb5bf7646c3e61d650320fe8780019861a6256da359c20822dde",
+    "test/array-dispatch-browser.html": "ec415b24c62a9619d9fca4e53d422e2404dbb1adc33de25e05f059bf80693522",
+    "test/array-dispatch-browser.mjs": "35fdd7ee05023cec85d9f0e98aedc3e945f33d800e2adaf5de624c414aa38b84",
+    "test/array-dispatch-workloads.mjs": "6a9e88fcd4a64adae0249dc9ef36b48cf010085d4d18d5802155e990b548a06c",
+    "test/array-dispatch.test.mjs": "04b42707e2cb0252322e6dac6c60f47dce15e5f30eba7655a34400ac6474c1cb",
+    "test/array-result.test.mjs": "0bb4e70f1dd3569715d9c2f390c2fa4f3b5617a78fbcbbd1c076bbfa9aebea56",
+    "test/array-validation.test.mjs": "2a6930957fc4aa05ad8fa35f298651501a02e9230f674c800ef396d38fd050c2",
+    "test/async-source.test.mjs": "52f47f3ae34f7e355e230af17be89e686ec0c53def66ef32e4ba7463031d5989",
+    "test/bfs-graph-migration.test.mjs": "438b7739a87e92692b8f953763dff019aa3de985c2e2f8d1773f4a4185df2ba6",
+    "test/bfs-path-example.test.mjs": "786761508096b328e2b4d6e0dedbac6fda6ad10a67967eff817a474d57661731",
+    "test/bfs-two-examples.test.mjs": "568c11e38841e0ed0e7e69e4fb9b1a8f24f071d9981bdfc60cd7191997b95d36",
+    "test/binary-search-example.test.mjs": "c7d848358eb94492a91d0f31e9f54384cee6c671ccf07f3b3b7efc5d468c6f12",
+    "test/boids-example.test.mjs": "f3bde93a5866c944ca0e3cb946396d0d89e5b7b36ca4770623437a2dd4205172",
+    "test/browser-smoke.html": "a59e9cba0bcd45455a512c47f16c668c60bb01b13efd51314774a112589d5c89",
+    "test/browser-smoke.mjs": "6a003328f3d81baccddb94a381c4cbeb293f2bfe56169bd42c67da79f30a711b",
+    "test/bubble-sort.test.mjs": "004199071eb3b0883e4c99c905068027270c80c318a6c21266c1ebd7c1a825b9",
+    "test/canvas-contract.test.mjs": "b9e69724553e47d3ba8086e59f1f43e099a56c19455be12b13ba38f00ec2048a",
+    "test/canvas-palette.test.mjs": "f445cd55f23983eeec54c45096f452adf09f8f17bd5eb5b82218e1bf1ad39c17",
+    "test/canvas-viewport-browser.html": "2da71816e4c9dbd3233d3baca62e0ac6c0b062edba5c619d70217646c7e35e04",
+    "test/canvas-viewport-browser.mjs": "ce3c74611f3c98083b389b58cc57709fb20fa105dd41fdefec0562257c53e72b",
+    "test/canvas-viewport.test.mjs": "b777e9e53f3dde48effad374d0bba7824847871b5558ee24c2e6975b3a3dc52d",
+    "test/demo-player.test.mjs": "370a82cf6c621dee815dd9bd8475542d827a5e3c599c7be611b7b6ca6b599036",
+    "test/dfs-example.test.mjs": "8e1a586621149f0ea9501f4ab6437d4809bb99f9e646c5146e816fdac8259a28",
+    "test/fixtures/array-dispatch-before.ts": "eb1d378693183baa32491e8ea9e8c16435d1abf722f84dee2c61e1e90b49cadf",
+    "test/fixtures/bfs-before-graph.json": "75d7c1b64705968addd8496be058ab0ff38ce924e748fa9e56e1b30a5ff99c5d",
+    "test/graph-canvas-browser.html": "c9c05e982c8fca19f9189b6ac21f3cbca4326fab6ab7e9bdfc05da9d96ff1a73",
+    "test/graph-canvas-browser.mjs": "9439bd589df7d8f8bc18536fc97870ef510910088b3965ba8bcfc5659c1f3904",
+    "test/graph-canvas-context.mjs": "3ad5477b89d8d1b6ad668778b8a6b1d372249b0f1347ef6a4119c3e8722e9f61",
+    "test/graph-canvas-fixtures.mjs": "43f1db5e997cca3ed4c43b4806fbb563a87d6b7a3137d7f4b3feedc2d66af39c",
+    "test/graph-canvas.test.mjs": "8f01ad1309607098194b0254446c4f68858f9dc552f17b4921fdff28df60209d",
+    "test/graph-example.test.mjs": "c0bc4d2b6b90987561cbc125e9de393f805ad289df0358359d9dd20e56038409",
+    "test/graph.test.mjs": "1485d3b9ab21362b41a4a413809a9a75c422b9886452d3f9e84fc19fe6edf5ba",
+    "test/heap-example.test.mjs": "9f1fa62df67ca60e5e75c6fa19676ce1004830be872244c6b6b9782d1a9aed97",
+    "test/insertion-sort.test.mjs": "bc8cc8047e9b62f70e1f4e939616264444443f19bf8e313bf26df9f38f3ca7d2",
+    "test/maze-example.test.mjs": "fe6d51c68cbc82f2835abf09861400cdadc67469b334d264e7cf484f7e88bbc5",
+    "test/merge-example.test.mjs": "160c1033c906284d12ca8edf5ada54f71979b1ba60390047dbaf623471cc3d65",
+    "test/minimal-example.test.mjs": "117339ca2576706fcf5c2d9f3e9d10fd22eaea9960d5205304c759b21da3c0be",
+    "test/minimal-state-page.test.mjs": "3a04decb1fb21885dc4699319bac22be0e05e51bd2cd617f5224f9949a983c17",
+    "test/minimum-example.test.mjs": "11fa38319ef2bf5b429b67213dfb8671d2414de38a916d209169f99ab1f1df97",
+    "test/next-step-experiment.test.mjs": "937960a68872a79862986b59880adecaddc3371441e23213592914a4e5587d6f",
+    "test/object-lifecycle.test.mjs": "ec51f1771baebfbfbed85a25047fa75588bcd0a881d83132e65a0abf114c6bee",
+    "test/optional-player.test.mjs": "dfbe0dec84fdefd4150c7eb4da6cb840081291e22dc6853872cbd7a293ea8450",
+    "test/package-consumer.ts": "93af6f9984fe509ce2d42770c49179e7ee2c0a2d7afc8114fcf7455fc3c71466",
+    "test/package-exports.mjs": "979b2619417ed366baa2facd960d29cf74baccfd2f9f6f176f32490a785e1927",
+    "test/package-graph-canvas.ts": "80b14835d554f72379aa92d6d9e41f60e9a6b4fad69170ed87edd60909431ece",
+    "test/package-graph.ts": "94c162372cd5b1817561ad6c14a0625a8db849311fe7d0cf52ca1ca6544cfe93",
+    "test/package-headless.ts": "a552d1ffa603cfbc3d03b4ecbab39859b5ce7b2bc285b790330142864fe9b987",
+    "test/package-player.ts": "9f4cfb54aafea622b64528c90331da2085f8a2ba1884bd3f626be5071107c16a",
+    "test/package-viewport.ts": "0e176902b12d3a701ada370d14eedbf333f70107b7509eb3bba088e646b3fbd3",
+    "test/package-worker-runtime.ts": "e9ee1ffe03d274483fd7d51ee6b4117581147e015a2becd9af6e10f3f9d58c48",
+    "test/package-worker.ts": "16e835ae730152d76dc1c55bde859c8b2bb7118a5adea3e50b2092ab92c55963",
+    "test/playback-completion-matrix.test.mjs": "7c3604e6339ed942362a1b663603ea835c7b4995d680c6a7f1c9ea6a9efc4620",
+    "test/playback-contract.test.mjs": "c7a63fc26208bf37ac0c4b9f981183c17c459fe3b8bb5c2cb4d39e482f015f38",
+    "test/playback-reentrancy.test.mjs": "773d18f6a649e9e2eea9ceeb7d74a9cb5284cfc883a8525bb34c1c90f6f12a3f",
+    "test/player-async-browser.html": "467e7e103cf2854797f5abb0bc551bee9a63735f9a94a0915db655b632248fd0",
+    "test/player-async-browser.mjs": "e4e208588ecb745936a4ac6f791b71bd78762e351c2f79199ef29f3b7c564cb2",
+    "test/player-async.test.mjs": "4d54b2c06f0c58211a5005fe386ea93d73fef47a912e6948fcd25a4c13d6561a",
+    "test/player-speed.test.mjs": "47cb7173ae43d1625316351ddc8026c10c75dfd2e3c7c424e221e836f5009056",
+    "test/player-steps.test.mjs": "765acd231a2b1918505e86af33381e3d319faba392d93c7d23a94001186293af",
+    "test/player-test-dom.mjs": "646a8d45082462ac93ecf9d7bea406293d2c489eb4e7c035183594317bfc02a2",
+    "test/player-work-budget-browser.html": "8e08d8a562a02eb798baa3e619fdcd219d4344f69686d4569a38d547af97eecd",
+    "test/player-work-budget-browser.mjs": "f79f04f45b36e43bc8eeeb13d470053752528cf8e27326e10f90b78330c3810b",
+    "test/player-worker-browser.html": "75bcacc23230a0fb176882adbf9ab51954aa61a704997aadc23bd89f81db65ff",
+    "test/player-worker-browser.mjs": "671fba066f2fdcf7b75a24ddf457beaf2f8558ff9d828742ce4c78494f763999",
+    "test/player-worker-native.mjs": "8bc45a9ba6dd7d5c58e049ec39b4991c9ab9e153c96624c99ff5cc0547b0dab2",
+    "test/player-worker.test.mjs": "d61c7727cdfdac0ff49dd4b6fbc17bf37d5a902ca187420220a429645b786e65",
+    "test/player.test.mjs": "eae6b2933d877b9fce2d066852ff9be463f3fd0e0d0bd9fe33e393ce9b1e77d1",
+    "test/profile-browser.html": "4e14cee78df258ff0409c647db5e782e98dc96e3e2e1f41128a183204e76199d",
+    "test/profile-browser.mjs": "86ac34499c431e63720a87bbca2b4effd2a10370cff883560ceaebc263274232",
+    "test/profile-workloads.mjs": "b23485dee9aa63d0c49422c1015254cae2d277ee566903570ef63282564da6e7",
+    "test/public-api.test.mjs": "bb5ff7d2a1c373c56608acac0b1a32e67edcdf9fc58959294aca02eaed65ce19",
+    "test/quick-example.test.mjs": "65c36e0540ae9521b03d6888628264178b6abd913401471cf1aa853064abb7c4",
+    "test/rewind-buffer.test.mjs": "5e5e8b222a5f7e9fc4e4bf31b92548de28449f6d2c53a9001981c858a8a6ca7f",
+    "test/sand-example.test.mjs": "0a0a72b93dae12146ad50b030e324928e1aa4fa4d4ef12dbb691c60915e4ec39",
+    "test/scene-cache.test.mjs": "badc6a491ca2030b25f5e89fe849036f084b379bac20c2fe72cc95f78f45ca8c",
+    "test/scene-projector.test.mjs": "2c83468c5aca4e1716d7bd1ee53cb3e28df5a6978bc09315f0ec03cc5d4c7191",
+    "test/scene-types.ts": "00f1d89129c24671f199c50ac7e32944bb2d2d73cd60aaf524662c9eb2ec5d96",
+    "test/scene.test.mjs": "3fc5763f52b166e5ecac4db507731e40ce545731355c5fc0a418a56e6f0904db",
+    "test/state-source-experiment.test.mjs": "69b2aeb120053fb1c9aba11939e0dcbf63659dfa72eed6ca9e87a86ff606501d",
+    "test/step-emitter.test.mjs": "c4a67db77fd35776a742dfdf2f063e9b478e7b5ba164b4494bb15bfa0b52f065",
+    "test/timeline.test.mjs": "0031d0fc7ecf991df7648f111ca35bee2f582b0a340cd24fd886903b15eff33d",
+    "test/tree-pointer.test.mjs": "428822fb716918ec5d0def4b5cd772d15ae566716e71a5a435085d76ec56a2bb",
+    "test/tree-svg.test.mjs": "bcfcf084c09b047bafc8196e6f3aaa85cc8e88544fe8b7c7c4f62c7f9ceb564b",
+    "test/tsconfig.json": "eb4d50903b0d07e16f8794ad778a58d7b234aaddcd6d523f06942e7a9c0a16c9",
+    "test/visualization-pipeline.test.mjs": "1c6d1191e06a7f518f21f7aa740a2953ab97f383a65c83e56e88145c97cb605a",
+    "test/worker-browser.html": "0955ea1da2878068828af20c6229e75086d3cb76be314431875760eb656b2e1f",
+    "test/worker-browser.mjs": "e1a8fad660a0ca30efb0d365bc6f3dc19313153d1b9c703b8d7969db9910ec27",
+    "test/worker-data.test.mjs": "c11b75eeb07c19641fef41d606ce65600623d30ac58e9a85d4a66b7cd5613778",
+    "test/worker-native-fixture.mjs": "3deeff5e315fb6fa8663fe1a57d13a0d58b2da9f9b82d8c56f68cc6a5cfc007f",
+    "test/worker-post-errors.test.mjs": "0f8471b2a40182153beaceac0c15b4ea4012f4d20afc823ce287536d80558466",
+    "test/worker-protocol.test.mjs": "742e472bcd64a364355bfe611966c59bc147e94840cbd9ee80de631cf64fc76b",
+    "test/worker-shared-buffer-browser.html": "ec5c7ffb05a2b7dc208a12bfdf7eabe700a9c1cf63beb8baed479cb0eacd863d",
+    "test/worker-shared-buffer.test.mjs": "a627530ac4a48c0c6b512756809f484f327b0aa8bc08becbf1dda79555b21541",
+    "test/worker-silent-fixture.mjs": "ea09afbade78c89e111065f522b3dd38581535caea66aa9f8cd40916db3b9bf5",
+    "test/worker-source.test.mjs": "febfeabdafba26e04cb9874a75941720ff695f8fdb30eebc1b1543db90bec86b",
+    "test/worker-test-transport.mjs": "c595352bb174fb8a77b16bc43cc8e8de9fa35dd781aa2ece8da13d2c9d68fe72",
+    "scripts/array-dispatch-baseline.mjs": "328fa42f39dc06712e09ca18b4368acfa74229ee3962cbda41ab22c5c9a40e2f",
+    "scripts/benchmark-array-dispatch.mjs": "7d293281873fe16ce3faafd4983da640ea4f5db454a4e2939ccc72fa4a73e308",
+    "scripts/benchmark-scene-cache.mjs": "1ef340f74363c9920f1e52371613d120d0a48e44c96706cbe9f1968ec84ce0ba",
+    "scripts/benchmark.mjs": "7b3582ef622792f111c3975f160cb66c67f271003ac381cdd9e45f87ea38714e",
+    "scripts/check-player-rewind-memory.mjs": "0ae4a0af912679d6f5220ba2981372bad988b6bff2f0cbf15eb05ac56c9544ef",
+    "scripts/check-rewind-memory.mjs": "cddf1cfd843265f5bebbe8935e82b47acf423d9c5fcd21aaf85fc4434a5c1a4f",
+    "scripts/export-minimal-gif-node.mjs": "ce3aa519de4b87a0d092753ff374ceb03d85b36147f6831f3abbb37f0c079aae",
+    "scripts/profile.mjs": "96a8a874f3e97216d76035f58bfff77cb06923046835e9b2fe76e1df3c4942bb",
+    "scripts/review-api-0.16.0.mjs": "07ddaf0e191ae9a2d86e4cde72def22203026e86681b5771bb917fff9b29679b",
+    "scripts/serve-api-review.mjs": "fc8f26c4d0512fcc3337b7d2ea1a3fe5de120195f2193395dd3a924c09610715",
+    "scripts/serve-minimal-gif.mjs": "a9abcf477dba2f1c03789cf3f8a5b252e1c488c7601d46af5694e526e4ae6f56",
+    "scripts/serve-player-async.mjs": "158f6ee5e4b50af349cf7fb3d44591bfae6aca8def79b6c4590f1385118a9838",
+    "scripts/serve-player-work-budget.mjs": "ae7918d822959eebecb3ba09af949d88dd0bf4d52b091ea183b2077d81fdc2f7",
+    "scripts/serve-worker-shared-buffer.mjs": "15e55bc78f78af4e3bc13daa5d2a33b26807fd2d35aed436f555b253a224c856",
+    "scripts/serve-worker.mjs": "d80b93df49141e1e2acdfabbb4f1e2e5d3d9076fa90c426c18ea2a8829d4d8ad",
+    "scripts/test-bundle.mjs": "e077e20859aa1eae1f6900aa7bd8d1efbb2c6ee5d7b1aa64f4c50ad4b87e444d",
+    "scripts/test-package.mjs": "28166f71badaf624a220857df6d1a0f8ae849f3ff413cfe318b028faa556653f",
+    "package.json": "8071f5caf64b90f05fb14efab34af3a22c197f2324ad5c56d971f45a7f5b2fdf",
+    "package-lock.json": "e811417423443c38738aaca396ba966fad2d983b3f46fc45658d3b09f1bbe3f6"
+  },
+  "documentationHashes": {
+    "docs/graph-node-captions.md": "7c1d7761f2ea320b521f96473335666cec109202d55fccefcc11916f82cb26d7",
+    "docs/ru/graph-node-captions.md": "c83d6cf34fbb6b7b7d2e0f47e6c606da409e4bda66fe807d8d2f8f5cd92710c5",
+    "docs/graph-api.md": "67f9c333b95e7ed6bd0dad6add78ab88a3724f528274adc5fc37247837a0c825",
+    "docs/ru/graph-api.md": "38547e863e81184ec9c991e03fdc40c1918df5c26b793a8cf4efbe95f71f606c",
+    "docs/current-api.md": "644f26bfe4c56e957cb9e34c0094f072852a416f5eab61859ad53a553fc2c206",
+    "docs/ru/current-api.md": "434d2d607d5b5a52c7fb0361cee0ea11d2143b65c10297a57148d8975b3a2ef5"
+  },
+  "probeHashes": {
+    "probe.mjs": "9dd73a6f0a422fb0c587387456c0494e0c211ddfd38834df364b2e75345b7d3e",
+    "graph-proposed.ts": "c821f24a73b0f1d4e464a583c5d8289cc2d5301c158ff4b7a4a7f0dbc7091d94",
+    "headless.ts": "ad00bc71e16dd09a4dbd1da04f217fd7c6a183f5261369d8d26c5e04a1199276",
+    "dom.ts": "bbe45a478397177cd88028c66548081250f68cf5c276dc76ad1c4270e6133752",
+    "NodeNext-headless.json": "bccf5936e4b58c3f831c18c3190ebe865525add983c87fd89e1d5fd5265dd907",
+    "NodeNext-DOM.json": "20ee4e5a18fa1b93ce88684d6c26d3eee683c356ecb05801c7870f616c46360b",
+    "Bundler-headless.json": "0c54a5b4cfa6770b2bbd6797406232834eebce80432c1f1e451dad9298a84f4d",
+    "Bundler-DOM.json": "ee236a39adad9ab9b8e91dcc9221c805cfde506414a0b41f2db94128941080a3",
+    "runtime-result.json": "95be28b089611fb7bf913c2915740a82c3cd2a376d2bcebe082b3d201cf35f0d"
+  }
+}

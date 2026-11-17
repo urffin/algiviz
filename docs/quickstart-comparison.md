@@ -42,11 +42,11 @@ connected directly through stepSource. isTerminal explicitly recognizes done.
 createArrayPlayer remains a learning stage with one app-owned button; pre
 introduces arbitrary output.
 
-The [implemented contract](player-step-source.md) is local and unpublished.
-Published 0.16.0 lacks this API; the quickstart installs a local archive.
+The [implemented contract](player-step-source.md) is available in 1.0.0.
+The quickstart installs that exact published npm version into a separate app.
 The historical pre-stepSource comparison measured 54/47 lines and required a
 frame bridge and EOF click in Player; those limitations are now removed.
 
-**Implemented locally:** [done({ result })](array-result.md) replaces the previous
+**Available in 1.0.0:** [done({ result })](array-result.md) replaces the previous
 43/45-line final-highlight workaround. Using the fixed nonempty input reduces
-both variants to 31 lines. This capability is still unpublished.
+both variants to 31 lines including blanks (28 nonblank lines in the main quickstart).

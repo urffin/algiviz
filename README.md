@@ -17,7 +17,7 @@ renderer help you get started.
 - **Your algorithm:** control the loops, conditions and order of operations.
 - **Your objects:** define custom types and handlers for Canvas, SVG or another target.
 - **Two playback modes:** retain history for seeking, or consume a generator with
-  only adjacent snapshots retained by the player.
+  adjacent snapshots by default, or a bounded window when rewind is enabled.
 - **No runtime dependencies:** ESM and TypeScript declarations; playback works
   without DOM, React or Next.js.
 
@@ -25,12 +25,15 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Repository status, 2026-11-16: **1.0.0 is an updated, unpublished candidate**;
-published baseline remains 0.16.0. It includes stepSource/isTerminal, array result
-markers, F1/F2 and U1/U2 fixes, U5 regressions and the common compatibility policy.
-[Candidate and remaining gates](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.0.md) ·
+Repository status, 2026-11-17: **1.0.0 is released** from `3977c78`.
+The working copy additionally contains unpublished `/graph` and `/canvas/graph`
+entries, including a stock graph Canvas renderer. Package and lockfile metadata
+are prepared as **candidate 1.1.0**, without a tag or publication.
+[Candidate notes](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.1.md). [Graph API](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) ·
+[1.0.0 release](https://github.com/urffin/algiviz/releases/tag/v1.0.0) ·
 [Migration from 0.16.0](https://github.com/urffin/algiviz/blob/master/docs/migration-1.0.md).
-Exact-candidate CI and native verification remain before release.
+
+[Final graph review before 1.1.0](https://github.com/urffin/algiviz/blob/master/docs/graph-readiness-1.1.md) records readiness and remaining release gates, including BFS distance captions.
 
 ## Install
 
@@ -42,21 +45,22 @@ There is no root entry point or CommonJS build. Import the modules you need:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker` and `/worker/runtime`.
 
-Algorithms live in application code and examples.
-Version 0.x may introduce breaking changes
-in minor releases; consult [CHANGELOG.md](CHANGELOG.md) when updating.
+The working copy also exports `/graph` and `/canvas/graph`; npm 1.0.0 contains neither.
+Algorithms live in application code and examples. Compatible features use minor
+releases under the [1.x compatibility policy](https://github.com/urffin/algiviz/blob/master/docs/api-compatibility.md);
+consult [CHANGELOG.md](CHANGELOG.md) when updating.
 
 ## Quickstart: find a minimum on Canvas
 
-The main quickstart uses unpublished `stepSource`/`isTerminal` and `done({ result })`.
-Its installation commands build this working copy; published 0.16.0 and the
-earlier candidate 5e2fd18 do not contain that API.
+The main quickstart uses `stepSource`/`isTerminal` and `done({ result })`, available
+in 1.0.0. The guide installs exact npm version 1.0.0 into a separate app;
+no repository checkout is required for this quickstart.
 
 [Copy one complete HTML file and the exact run commands](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md).
 A one-pass minimum search compares [7,3,5,2,6]. Array operations capture snapshots,
 the standard renderer draws Canvas, and Player supplies Start/Next/Restart. The
 minimum stays green and the answer remains visible as “Minimum: 2”. The fixed
-nonempty example uses 31 JS lines; your algorithm stays application-owned.
+nonempty example uses 28 nonblank JS lines; your algorithm stays application-owned.
 
 [Compare Player and one-button examples](https://github.com/urffin/algiviz/blob/master/docs/quickstart-comparison.md),
 or follow the [progressive tutorial](https://github.com/urffin/algiviz/blob/master/docs/learning-path.md):
@@ -64,42 +68,43 @@ plain states/pre → createArrayPlayer → standard Player → scenes/interpolat
 
 ## Modules and documentation
 
-| Module | Purpose |
-| --- | --- |
-| [`/player`](https://github.com/urffin/algiviz/blob/master/docs/player.md) | Optional `new Player(...)` widget, media controls, recording/stream modes and on-demand UI loading; added in 0.12.0 |
-| [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/playback.md) | Steps, players, timelines, termination and lifecycle |
-| [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Custom types, object matching and projection |
-| [`/canvas/viewport`](https://github.com/urffin/algiviz/blob/master/docs/canvas-viewport.md) | Optional CSS Canvas sizing, DPR and cleanup; added in 0.13.0 |
-| [`/array` and `/canvas`](https://github.com/urffin/algiviz/blob/master/docs/array.md) | Array operations, ready-made rendering and palettes |
-| [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Dedicated browser Worker source factory and transport errors; added in 0.16.0 |
-| [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Worker-side endpoint; separate WebWorker types |
+| Module | Purpose | Availability |
+| --- | --- | --- |
+| [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/playback.md) | Steps, players, timelines, termination and lifecycle | 1.0.0 |
+| [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Custom types, object matching and projection | 1.0.0 |
+| [`/array`](https://github.com/urffin/algiviz/blob/master/docs/array.md) | Immutable array operations, marks and results | 1.0.0 |
+| [`/canvas`](https://github.com/urffin/algiviz/blob/master/docs/array.md) | Ready-made array Canvas rendering and palettes | 1.0.0 |
+| [`/canvas/viewport`](https://github.com/urffin/algiviz/blob/master/docs/canvas-viewport.md) | CSS Canvas sizing, DPR and cleanup | 1.0.0 |
+| [`/player`](https://github.com/urffin/algiviz/blob/master/docs/player.md) | Optional Player widget, media controls, recording/streams and on-demand loading | 1.0.0 |
+| [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Dedicated browser Worker factory and transport errors | 1.0.0 |
+| [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Worker-side endpoint; separate WebWorker types | 1.0.0 |
+| [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Fixed graph traces, marks/captions/results and scene projection | Candidate 1.1.0, unpublished |
+| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Graph Canvas: arrows, loops, parallel edges and caption placement | Candidate 1.1.0, unpublished |
+
+Headless entries need no DOM. Canvas/Player/viewport and the Worker host need
+their actual hosts and DOM types; the Worker endpoint uses WebWorker types.
+Import safety does not provide a drawing/mounting host. [Environment boundary](https://github.com/urffin/algiviz/blob/master/docs/support-matrix.md#current-support-boundary).
 
 [Complete TypeScript example](https://github.com/urffin/algiviz/blob/master/examples/custom-objects.ts) ·
 [Getting started](https://github.com/urffin/algiviz/blob/master/docs/getting-started.md) ·
 [Custom graph walkthrough](https://github.com/urffin/algiviz/blob/master/docs/custom-graph-example.md)
 
-**Added in 0.16.0:** the [Worker adapter](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md)
-adds optional `/worker` and `/worker/runtime` entries. It
-uses `createAsyncSource`, explicit ArrayBuffer transfer and observable shutdown;
-0.15.0 has neither Worker entry. [Player integration](https://github.com/urffin/algiviz/blob/master/docs/player-worker.md)
-uses the existing asyncSource option, with checked waiting, controls and cleanup.
-[Release verification](https://github.com/urffin/algiviz/blob/master/docs/releases/0.16.0.json).
+## Sources and playback
 
-Added in 0.15.0: [asynchronous sources](https://github.com/urffin/algiviz/blob/master/docs/player-async-api.md)
-with `asyncSource` in `/player` and the standalone
-[`createAsyncSource` adapter](https://github.com/urffin/algiviz/blob/master/docs/async-source-api.md)
-in `/playback`. Read one state at a time, pause without losing a pending result,
-and observe cooperative cancellation/cleanup through `closed`.
-Async iteration does not move CPU work to another thread.
+Player accepts plain states through source, explicit steps through stepSource,
+a complete recording through history and asynchronous states through asyncSource.
+[Choose a source](https://github.com/urffin/algiviz/blob/master/docs/player.md).
 
-Added in 0.14.0: [bounded backward navigation](https://github.com/urffin/algiviz/blob/master/docs/rewind-buffer.md)
-over synchronous iterable values with `createRewindBuffer` in `/playback`.
-Enable streaming Previous controls with
-[`rewindCapacity`](https://github.com/urffin/algiviz/blob/master/docs/player.md) in `/player`.
+For streams, [rewindCapacity](https://github.com/urffin/algiviz/blob/master/docs/player.md)
+enables backward navigation within a bounded window. [maxStepsPerFrame](https://github.com/urffin/algiviz/blob/master/docs/player-work-budget.md)
+caps next-state requests per frame while carrying remaining playback time;
+it does not bound the cost of an individual step or render.
 
-Streams in 0.14.0 can also opt into
-[`maxStepsPerFrame`](https://github.com/urffin/algiviz/blob/master/docs/player-work-budget.md)
-to spread source advancement across animation frames while retaining playback time.
+[createAsyncSource](https://github.com/urffin/algiviz/blob/master/docs/async-source-api.md)
+handles waiting, cancellation and cleanup. Async iteration alone does not move
+CPU work to another thread. The [Worker adapter](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md)
+uses the same [Player asyncSource option](https://github.com/urffin/algiviz/blob/master/docs/player-worker.md),
+with explicit ArrayBuffer transfer and observable completion through closed.
 
 ## Examples
 
@@ -112,7 +117,8 @@ to spread source advancement across animation frames while retaining playback ti
 | [Quick sort partitions](https://github.com/urffin/algiviz/blob/master/examples/quick.html) | Lomuto and three-way partitioning with custom state and scene |
 | [Heap sort](https://github.com/urffin/algiviz/blob/master/examples/heap.html) | Max-heap construction and extraction with synchronized tree and array identities |
 | [Binary search](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | First occurrence in sorted input, closed search intervals and lazy playback |
-| [Graph BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Queue, layers, shortest paths, unreachable targets and history/generator playback |
+| [Detailed graph BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Custom scene with animated queue, vertex distances and path markers; standard Player |
+| [BFS with the stock graph renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | The same algorithm with createGraphTrace, vertex distance captions, /canvas/graph and Player |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
@@ -128,4 +134,4 @@ Examples live in the repository and are not included in the npm package.
 [Changelog](https://github.com/urffin/algiviz/blob/master/CHANGELOG.md) ·
 [Report an issue](https://github.com/urffin/algiviz/issues)
 
-Licensed under [MIT](https://github.com/urffin/algiviz/blob/master/LICENSE). Minor releases in 0.x may change the API.
+Licensed under [MIT](https://github.com/urffin/algiviz/blob/master/LICENSE).

@@ -1,27 +1,16 @@
 /** Application-owned undirected graph BFS; no drawing knowledge. */
 import { createStepEmitter } from '@grundyjs/algiviz/playback';
+import { createGraphTrace } from '@grundyjs/algiviz/graph';
 
-export function* graphSteps(input, start, target = null) {
-    if (!input || !Array.isArray(input.nodes) || !Array.isArray(input.edges))
-        throw new TypeError('Expected node and edge arrays');
-    const nodes = Array.from(input.nodes, node => {
-        if (!node || typeof node.id !== 'string' || !node.id ||
-            (node.label !== undefined && typeof node.label !== 'string'))
-            throw new TypeError('Expected non-empty node IDs and string labels');
-        return Object.freeze({ id: node.id, label: node.label ?? node.id });
-    });
+export function* graphSteps(input, start, target = null, options) {
+    const trace = createGraphTrace(input, options);
+    const graph = trace.state.graph, { nodes, edges } = graph;
     const ids = new Set(nodes.map(node => node.id));
-    if (ids.size !== nodes.length) throw new TypeError('Expected unique node IDs');
     if (!ids.has(start)) throw new RangeError('Start node must belong to the graph');
     if (target !== null && !ids.has(target)) throw new RangeError('Target node must belong to the graph');
-    const edgeIds = new Set();
-    const edges = Array.from(input.edges, edge => {
-        if (!edge || typeof edge.id !== 'string' || !edge.id || edgeIds.has(edge.id) ||
-            !ids.has(edge.from) || !ids.has(edge.to)) throw new TypeError('Invalid edge ID or endpoint');
-        edgeIds.add(edge.id);
-        return Object.freeze({ id: edge.id, from: edge.from, to: edge.to });
-    });
-    const graph = Object.freeze({ nodes: Object.freeze(nodes), edges: Object.freeze(edges) });
+    if (edges.some(edge => edge.directed || edge.weight !== undefined))
+        throw new RangeError('This BFS example expects an undirected, unweighted graph');
+    trace.start();
     const adjacency = new Map(nodes.map(node => [node.id, []]));
     for (const edge of edges) {
         adjacency.get(edge.from).push({ target: edge.to, edge: edge.id });
@@ -31,6 +20,7 @@ export function* graphSteps(input, start, target = null) {
     const distance = new Map([[start, 0]]), parent = new Map([[start, null]]), parentEdge = new Map();
     let head = 0, current = null, activeEdge = null, phase = 'traversal';
     let path = [], edgeChecks = 0, maxQueueSize = 1;
+    let event;
     const capture = createStepEmitter(() => Object.freeze({
         graph, start, target, current, activeEdge, phase,
         queue: Object.freeze(queue.slice(head)), visited: Object.freeze([...visited]),
@@ -42,8 +32,29 @@ export function* graphSteps(input, start, target = null) {
         parents: Object.freeze(nodes.map(node => Object.freeze({
             id: node.id, parent: parent.get(node.id) ?? null, edge: parentEdge.get(node.id) ?? null
         }))),
+        visual: trace.state, event,
     }));
-    const emit = (kind, vertex = null, source = current) => capture(Object.freeze({ kind, target: vertex, source }));
+    function emit(kind, vertex = null, source = current) {
+        event = Object.freeze({ kind, target: vertex, source });
+        const pathNodes = new Set(path), pathEdges = new Set();
+        for (let i = 1; i < path.length; i++) {
+            const a = path[i - 1], b = path[i];
+            pathEdges.add(parent.get(a) === b ? parentEdge.get(a) : parentEdge.get(b));
+        }
+        if (kind === 'finished') {
+            trace.done(target === null ? undefined : { result: { nodeIds: path, edgeIds: [...pathEdges] } });
+        } else {
+            const processed = new Set(visited), tree = new Set(treeEdges);
+            trace.mark({
+                nodeCaptions: nodes.map(({ id }) => ({ id, text: 'd = ' + (distance.get(id) ?? (phase === 'traversal' ? '—' : '∞')) })),
+                nodes: nodes.map(({ id }) => ({ id, role: pathNodes.has(id) ? 'path' : id === current ? 'active'
+                    : processed.has(id) ? 'visited' : discovered.has(id) ? 'queued' : null })),
+                edges: edges.map(({ id }) => ({ id, role: pathEdges.has(id) ? 'path' : id === activeEdge ? 'active'
+                    : tree.has(id) ? 'tree' : null }))
+            });
+        }
+        return capture(event);
+    }
     yield emit('start', start);
     while (head < queue.length) {
         current = queue[head++];
@@ -86,23 +97,4 @@ export function* graphSteps(input, start, target = null) {
     yield emit('finished');
 }
 
-function fixedGraph(labels, pairs) {
-    return Object.freeze({
-        nodes: Object.freeze([...labels].map(id => Object.freeze({ id }))),
-        edges: Object.freeze(pairs.map(([id, from, to]) => Object.freeze({ id, from, to }))),
-    });
-}
-// Kept for the original walkthrough, tests and README GIF.
-export const sampleGraph = fixedGraph('ABCDEFG', [
-    ['AB', 'A', 'B'], ['AC', 'A', 'C'], ['BD', 'B', 'D'],
-    ['CD', 'C', 'D'], ['DE', 'D', 'E'], ['BC', 'B', 'C'], ['FG', 'F', 'G'],
-]);
-export const graphExamples = Object.freeze([
-    Object.freeze({ id: 'layers', label: 'Layers and a cycle', start: 'A', target: 'G',
-        graph: fixedGraph('ABCDEFGH', ['AB', 'AC', 'BD', 'BE', 'CE', 'CF', 'DG', 'EG', 'FG'].map(pair => [pair, ...pair])) }),
-    Object.freeze({ id: 'chain', label: 'Chain', start: 'A', target: 'E',
-        graph: fixedGraph('ABCDE', ['AB', 'BC', 'CD', 'DE'].map(pair => [pair, ...pair])) }),
-    Object.freeze({ id: 'diamond', label: 'Two shortest paths', start: 'A', target: 'D',
-        graph: fixedGraph('ABCD', ['AB', 'AC', 'BD', 'CD'].map(pair => [pair, ...pair])) }),
-    Object.freeze({ id: 'circle', label: 'Original disconnected graph', start: 'A', target: 'E', graph: sampleGraph }),
-]);
+export { sampleGraph, graphExamples } from './graph-presets.mjs';

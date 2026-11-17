@@ -1,5 +1,5 @@
 // Application-owned simple undirected graph DFS. Mirrors the website walkthrough.
-import { graphExamples } from "./graph-algorithm.mjs";
+import { graphExamples } from "./graph-presets.mjs";
 const edgeId = (a, b) => JSON.stringify(a < b ? [a, b] : [b, a]);
 const nonemptyString = (value) => typeof value === "string" && !!value.trim();
 /** Clone a simple undirected graph. Neighbor order follows edge input order, without sorting. */

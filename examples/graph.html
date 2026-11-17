@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AlgiViz · Graph breadth-first search</title>
+<title>AlgiViz · Detailed graph breadth-first search</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}
 main{max-width:1080px;margin:auto;padding:24px}a{color:#c4b5fd}p{color:#cbd5e1}
@@ -16,24 +16,22 @@ input[type=range]{width:100%;min-height:44px}:focus-visible{outline:2px solid #c
 @media(max-width:640px){main{padding:16px}.inputs{grid-template-columns:repeat(2,minmax(0,1fr))}.preset,#apply{grid-column:1/-1}
 .playback{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.playback label{grid-column:1/-1}}
 </style></head><body><main>
-<a href="./index.html">All examples</a><h1>Graph · breadth-first search</h1>
+<a href="./index.html">All examples</a><h1>Graph · detailed breadth-first search</h1>
 <p>Explore an undirected graph layer by layer with a first-in, first-out queue.
 Complete the reachable component, then restore one shortest path by following parents.
 Try the isolated H as a target, or choose the start itself for a zero-edge path.</p>
+<p><a href="./graph-player.html">The same BFS with /graph, the stock Canvas renderer and Player</a></p>
 <form id="input-form" class="inputs">
 <label class="preset">Graph<select id="graph"></select></label>
 <label>Start vertex<select id="start"></select></label>
 <label>Target vertex<select id="target"></select></label>
 <button id="apply" type="submit">Apply</button></form>
 <div class="controls"><label>Playback mode<select id="mode"></select></label></div>
-<canvas width="960" height="344" role="img" aria-label="BFS graph and queue; operations, distances and the path are described below"></canvas>
-<p>Outline: undiscovered. Purple: queued. Yellow and a ring: current. A check mark: processed.
-Purple edges: discovery tree. Green: restored path. S / T marks a vertex that is both start and target. A dot follows the examined edge.
-The graph stays fixed; the queue moves briefly when entries change.</p>
-<div class="controls playback"><button id="play">Play</button><button id="restart">Restart</button>
-<button id="previous">Previous step</button><button id="next">Next step</button>
-<label>Speed<select id="speed"></select></label></div>
-<p id="mode-note"></p><label>Playback position<input id="seek" type="range" min="0" value="0" step="1"></label>
+<div id="player"><canvas width="960" height="400" role="img" aria-label="BFS graph and animated queue; distances, start, target and shortest path"></canvas></div>
+<p>Purple: queued. Yellow: current vertex or inspected edge. Grey: processed. Purple edges: discovery tree.
+Green: restored path. Start/target markers, distances and processed checks stay on the graph.
+The animated queue shows its front and back; text panels repeat its data below.</p>
+<p id="mode-note"></p>
 <p id="error" role="alert"></p><p id="status" role="status" aria-live="polite"></p>
 <p id="counters"></p><p id="queue"></p><p id="distances" aria-label="Distances from start"></p><p id="result"></p>
 <p>Apply loads the selected graph, start and target. Restart and mode changes replay the applied inputs.
@@ -43,9 +41,11 @@ Neighbor order can change the chosen shortest path, but not its length. Dash mea
 after traversal ∞ means unreachable. Restoring the path does not change traversal counters.</p>
 <p>The default example has 8 vertices, 9 edges and an isolated H. From A, the queue reaches a maximum
 size of 3; the traversal processes 7 vertices and inspects 18 neighbor entries. To G, it restores A → B → D → G.</p>
-<p>The algorithm, graph state and vertex/connection/queueEntry visualizations belong to this example.
-AlgiViz supplies playback, cached projection and scene dispatch. The generator retains adjacent snapshots;
-full history keeps every snapshot. Building snapshots still costs work and memory in either mode.
-No graph API or built-in BFS algorithm is added to the package.</p>
-</main><script type="importmap">{"imports":{"@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/playback":"../dist/playback/index.js","@grundyjs/algiviz/canvas/viewport":"../dist/canvas/viewport.js"}}</script>
+<p>BFS and its queue, parents and counters belong to this example. Both BFS pages share working-tree /graph snapshots and the same Player controls.
+This detailed page uses application-owned /scene objects and Canvas handlers; the other page uses /canvas/graph.
+Full history stores all states; the generator retains a bounded rewind window. Snapshot creation still costs work.
+The published 1.0.0 does not contain /graph or /canvas/graph. No built-in BFS is added to the package.</p>
+<p><a href="../docs/ru/bfs-graph-comparison.md">Compare both examples</a> ·
+<a href="../docs/graph-api.md">Graph API</a></p>
+</main><script type="importmap">{"imports":{"@grundyjs/algiviz/graph":"../dist/graph/index.js","@grundyjs/algiviz/scene":"../dist/scene/index.js","@grundyjs/algiviz/player":"../dist/player/index.js","@grundyjs/algiviz/canvas/viewport":"../dist/canvas/viewport.js","@grundyjs/algiviz/playback":"../dist/playback/index.js"}}</script>
 <script type="module" src="./graph-demo.mjs"></script></body></html>

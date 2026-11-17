@@ -1,0 +1,581 @@
+{
+  "date": "2026-11-17",
+  "checkedAt": "2026-11-17T11:42:58.600Z",
+  "host": {
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "devicePixelRatio": 1.100000023841858
+  },
+  "passed": 31,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "BFS: восемь расстояний, без пересечений · dark · bitmap 1",
+      "passed": true,
+      "captions": 8,
+      "boxes": [
+        {
+          "x": 491.68,
+          "y": 22,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 366.88,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 616.48,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 254.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 304.88,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 670.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 454,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 669.5478515625,
+          "y": 52,
+          "w": 36.904296875,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "name": "BFS: восемь расстояний, без пересечений · dark · bitmap 1.25",
+      "passed": true,
+      "captions": 8,
+      "boxes": [
+        {
+          "x": 491.68,
+          "y": 22,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 366.88,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 616.48,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 254.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 304.88,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 670.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 454,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 669.5478515625,
+          "y": 52,
+          "w": 36.904296875,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "name": "BFS: восемь расстояний, без пересечений · dark · bitmap 2",
+      "passed": true,
+      "captions": 8,
+      "boxes": [
+        {
+          "x": 491.68,
+          "y": 22,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 366.88,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 616.48,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 254.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 304.88,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 670.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 454,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 669.5478515625,
+          "y": 52,
+          "w": 36.904296875,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "name": "BFS: восемь расстояний, без пересечений · light · bitmap 1",
+      "passed": true,
+      "captions": 8,
+      "boxes": [
+        {
+          "x": 491.68,
+          "y": 22,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 366.88,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 616.48,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 254.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 304.88,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 670.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 454,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 669.5478515625,
+          "y": 52,
+          "w": 36.904296875,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "name": "BFS: восемь расстояний, без пересечений · light · bitmap 1.25",
+      "passed": true,
+      "captions": 8,
+      "boxes": [
+        {
+          "x": 491.68,
+          "y": 22,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 366.88,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 616.48,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 254.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 304.88,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 670.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 454,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 669.5478515625,
+          "y": 52,
+          "w": 36.904296875,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "name": "BFS: восемь расстояний, без пересечений · light · bitmap 2",
+      "passed": true,
+      "captions": 8,
+      "boxes": [
+        {
+          "x": 491.68,
+          "y": 22,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 366.88,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 616.48,
+          "y": 163.44,
+          "w": 35.0234375,
+          "h": 20
+        },
+        {
+          "x": 254.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 304.88,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 670.3251953125,
+          "y": 334.88,
+          "w": 35.349609375,
+          "h": 20
+        },
+        {
+          "x": 491.68,
+          "y": 454,
+          "w": 35.34960937500006,
+          "h": 20
+        },
+        {
+          "x": 669.5478515625,
+          "y": 52,
+          "w": 36.904296875,
+          "h": 20
+        }
+      ]
+    },
+    {
+      "name": "Пресет layers · цель G · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Пресет layers · цель null · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Пресет layers · цель A · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ]
+    },
+    {
+      "name": "Пресет chain · цель E · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "name": "Пресет chain · цель null · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "name": "Пресет chain · цель A · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "name": "Пресет diamond · цель D · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "name": "Пресет diamond · цель null · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "name": "Пресет diamond · цель A · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        4,
+        4,
+        4,
+        4,
+        4,
+        4
+      ]
+    },
+    {
+      "name": "Пресет circle · цель E · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "name": "Пресет circle · цель null · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "name": "Пресет circle · цель A · 390×280 и 960×480",
+      "passed": true,
+      "visibleCounts": [
+        7,
+        7,
+        7,
+        7,
+        7,
+        7
+      ]
+    },
+    {
+      "name": "Кривые/петли/стрелки/веса и движение p=0",
+      "passed": true,
+      "captions": 3
+    },
+    {
+      "name": "Кривые/петли/стрелки/веса и движение p=0.25",
+      "passed": true,
+      "captions": 3
+    },
+    {
+      "name": "Кривые/петли/стрелки/веса и движение p=0.5",
+      "passed": true,
+      "captions": 2
+    },
+    {
+      "name": "Кривые/петли/стрелки/веса и движение p=0.75",
+      "passed": true,
+      "captions": 3
+    },
+    {
+      "name": "Кривые/петли/стрелки/веса и движение p=1",
+      "passed": true,
+      "captions": 3
+    },
+    {
+      "name": "Длинные/пустые подписи и маленький Canvas пропускаются без потери State",
+      "passed": true
+    },
+    {
+      "name": "Hidden и старый снимок без nodeCaptions дают одинаковые пиксели и не измеряют текст",
+      "passed": true
+    },
+    {
+      "name": "Seek/replay и сериализация дают те же пиксели, текст и позиции",
+      "passed": true
+    },
+    {
+      "name": "measureText throw/NaN: исходная ошибка, без рисования, восстановление и повторный render",
+      "passed": true
+    },
+    {
+      "name": "Настоящий Player/Canvas: history · ∞/— при перемотке, Pause, Restart и dispose",
+      "passed": true
+    },
+    {
+      "name": "Настоящий Player/Canvas: generator · ∞/— при перемотке, Pause, Restart и dispose",
+      "passed": true
+    },
+    {
+      "name": "Недостижимая цель H: пустой result, все восемь расстояний и H infinity",
+      "passed": true
+    },
+    {
+      "name": "Текущий текст при p=0, удаление без previous fallback, enter/exit captions",
+      "passed": true
+    }
+  ],
+  "scope": "Real Canvas TextMetrics, independent hidden-bitmap obstacle oracle, actual Player and snapshot source control; bitmap ratios are backing-store sizes, not three browser zoom settings",
+  "manualUI": {
+    "passed": 7,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "BFS page history finishes with green path and H infinity",
+        "passed": true
+      },
+      {
+        "name": "History Previous restores H dash before traversal completion",
+        "passed": true
+      },
+      {
+        "name": "History Next restores H infinity",
+        "passed": true
+      },
+      {
+        "name": "History Restart restores initial dashes and no path",
+        "passed": true
+      },
+      {
+        "name": "BFS stream finishes with distance captions and green result",
+        "passed": true
+      },
+      {
+        "name": "BFS stream Previous/Next restores dash/infinity across traversal-done",
+        "passed": true
+      },
+      {
+        "name": "BFS stream Restart clears final distances and rewind window",
+        "passed": true
+      }
+    ]
+  },
+  "proof": "docs/assets/bfs-node-captions-final.jpg",
+  "browser": "Built-in browser; no external debugger; no viewport/zoom override",
+  "rasterOracle": "Measured caption reservations plus a 1 CSS px raster rim contain only background in independently rendered hidden-caption graph; production geometry reserves 2 CSS px safety gaps"
+}

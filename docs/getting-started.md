@@ -4,7 +4,8 @@
 
 Run a real one-pass algorithm on [7,3,5,2,6]. AlgiViz records array operations,
 draws the bars and supplies the standard Player panel. Your code owns the loop,
-comparison condition and text result. Use the working copy with the unreleased stepSource/result API below.
+comparison condition and text result. The stepSource and done({ result }) APIs
+below are available in released 1.0.0.
 
 The example uses a fixed nonempty array. It has no user input or empty-array
 branch.
@@ -12,26 +13,21 @@ branch.
 ## 1. Install
 
 Use Node.js **22.12 or newer** and npm for the pinned [Vite dev tool](https://vite.dev/guide/#manual-installation).
-This is not a new AlgiViz runtime requirement. In PowerShell or a POSIX shell:
-
-Run the first commands from the root of this AlgiViz working copy with stepSource and done({ result }).
+This is a demo-tool requirement, not a new AlgiViz runtime requirement.
+Start in a parent directory for a new app; no AlgiViz checkout is required.
+In PowerShell or a POSIX shell:
 
 ```sh
-npm ci
-npm pack --pack-destination ..
-cd ..
 mkdir algiviz-quickstart
 cd algiviz-quickstart
 npm init -y
-npm install --save-exact ../grundyjs-algiviz-1.0.0.tgz
+npm install --save-exact @grundyjs/algiviz@1.0.0
 npm install --save-dev --save-exact vite@8.3.8
 ```
 
-This example requires the **unpublished local 1.0.0 API**. Run the first commands
-from the AlgiViz working copy containing stepSource and done({ result }); the archive is built from
-that copy. Published 0.16.0 and the earlier candidate do not support this combination.
-Vite belongs to the example app. After release, installing the published version
-will replace the local archive step.
+The AlgiViz version is pinned for reproducibility. Vite belongs only to the demo
+app. This quickstart does not use unpublished /graph or /canvas/graph; graph
+examples in the working copy need their separate local build.
 
 ## 2. Copy one file
 

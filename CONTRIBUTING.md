@@ -16,7 +16,8 @@ consumer, compiles against the installed declarations and exercises public APIs,
 including rejection of the removed `/core` export. The temporary consumer is removed afterward.
 
 GitHub Actions runs both checks on pushes to `master` and pull requests, using
-Node.js 22 and 24 on Linux and Windows. CI checks do not publish packages.
+Node.js 22, 24 and 26 on Linux and Windows. Four TypeScript consumer jobs and
+one optional-module bundle job complete the 11-job matrix. CI checks do not publish packages.
 
 `npm pack` rebuilds automatically. The archive includes dist, README, LICENSE,
 CHANGELOG and package metadata. Source and issues:

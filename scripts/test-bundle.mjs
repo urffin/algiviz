@@ -20,6 +20,10 @@ const existing = ['playback', 'scene', 'array', 'canvas']
     .map(name => `export * from '@grundyjs/algiviz/${name}';`).join('\n');
 const sources = {
     existing,
+    graphCanvas: "export { createGraphRenderer } from '@grundyjs/algiviz/canvas/graph';",
+    graphCanvasDynamic: `${existing}\nexport async function loadGraphCanvas() { return import('@grundyjs/algiviz/canvas/graph'); }`,
+    graph: "export { createGraphTrace, graphScene } from '@grundyjs/algiviz/graph';",
+    graphDynamic: `${existing}\nexport async function loadGraph() { return import('@grundyjs/algiviz/graph'); }`,
     viewport: "export { createCanvasViewport } from '@grundyjs/algiviz/canvas/viewport';",
     viewportDynamic: `${existing}\nexport async function loadCanvasViewport() { return import('@grundyjs/algiviz/canvas/viewport'); }`,
     static: `${existing}\nexport { Player } from '@grundyjs/algiviz/player';`,
@@ -98,6 +102,26 @@ try {
         for (const [name, code] of Object.entries(sources)) {
             const result = await bundle(current, name, minify, code);
             const initialModules = [...result.initial].flatMap(key => Object.keys(result.outputs[key].inputs));
+            if (!['graph', 'graphCanvas'].includes(name)) assert.equal(initialModules.some(path => path.includes('/dist/graph/')), false, `${name}: graph code in initial bundle`);
+            const allModules = Object.values(result.outputs).flatMap(output => Object.keys(output.inputs));
+            if (!['graphCanvas', 'graphCanvasDynamic'].includes(name)) assert.equal(allModules.some(path => /\/canvas\/graph(?:-geometry)?\.js$/.test(path)), false, 'Unexpected Canvas graph dependency');
+            if (name === 'graphCanvas') {
+                assert.ok(allModules.some(path => path.endsWith('/canvas/graph.js')));
+                assert.equal(allModules.some(path => path.endsWith('/canvas/index.js') || path.endsWith('/graph/trace.js')), false, 'Graph drawing pulled array renderer/trace builder');
+            }
+            if (name === 'graphCanvasDynamic') {
+                assert.ok(result.files.size > result.initial.size, 'Canvas graph not deferred');
+                assert.equal(initialModules.some(path => /\/canvas\/graph(?:-geometry)?\.js$/.test(path)), false);
+                assert.ok(allModules.some(path => path.endsWith('/canvas/graph.js')));
+            }
+            if (name === 'graph') {
+                const modules = Object.values(result.outputs).flatMap(output => Object.keys(output.inputs)).filter(path => path.includes('/dist/'));
+                assert.ok(modules.length > 0 && modules.every(path => path.includes('/dist/graph/')), 'Headless graph imported a backend or unrelated module');
+            }
+            if (name === 'graphDynamic') {
+                assert.ok(result.files.size > result.initial.size, 'Graph import did not produce deferred outputs');
+                assert.ok(Object.values(result.outputs).some(output => Object.keys(output.inputs).some(path => path.includes('/dist/graph/'))));
+            }
             if (!['worker', 'workerRuntime'].includes(name)) assert.equal(initialModules.some(path => path.includes('/dist/worker/')), false, `${name}: worker code in initial graph`);
             const workerModules = Object.values(result.outputs).flatMap(output => Object.keys(output.inputs));
             if (name === 'worker') assert.equal(workerModules.some(path => path.endsWith('/worker/runtime.js')), false);
@@ -144,6 +168,16 @@ try {
                 const entryUrl = pathToFileURL(join(current, result.entry)).href;
                 const check = `const m = await import(${JSON.stringify(entryUrl)});
                     if (typeof document !== 'undefined') throw Error('Unexpected DOM');
+                    if (${JSON.stringify(name)} === 'graphCanvas' || ${JSON.stringify(name)} === 'graphCanvasDynamic') {
+                        const drawing = ${JSON.stringify(name)} === 'graphCanvas' ? m : await m.loadGraphCanvas();
+                        if (typeof drawing.createGraphRenderer({ theme: 'light' }).render !== 'function') throw Error('Graph Canvas lazy/import failed');
+                    }
+                    if (${JSON.stringify(name)} === 'graph' || ${JSON.stringify(name)} === 'graphDynamic') {
+                        const graph = ${JSON.stringify(name)} === 'graph' ? m : await m.loadGraph();
+                        const trace = graph.createGraphTrace({ nodes: [{ id: 'A' }], edges: [] });
+                        trace.start(); const state = trace.done({ result: { nodeIds: ['A'] } }).state;
+                        if (!graph.graphScene(state, { namespace: 'bundle' }).objects[0].data.result) throw Error('Bundled graph result missing');
+                    }
                     if (${JSON.stringify(name)} === 'dynamic') {
                         if ('Player' in m) throw Error('UI was re-exported eagerly');
                         if (typeof (await m.loadPlayer()).Player !== 'function') throw Error('Lazy export missing');

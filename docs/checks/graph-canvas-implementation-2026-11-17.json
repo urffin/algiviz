@@ -1,0 +1,344 @@
+{
+  "date": "2026-11-17",
+  "checkedAt": "2026-11-17T07:26:55.516Z",
+  "scope": "Local /canvas/graph implementation; unpublished",
+  "baselineCommit": "3977c78a1b18e13f36a6c73c1d3a90a2420c99fb",
+  "packageVersion": "1.0.0",
+  "versionOrDependenciesChanged": false,
+  "commitCreated": false,
+  "pushed": false,
+  "publication": false,
+  "existingEightSourceAndAPIUnchanged": true,
+  "headlessGraphSourceUnchanged": true,
+  "implementation": {
+    "entry": "/canvas/graph",
+    "runtime": "createGraphRenderer",
+    "types": [
+      "GraphPalette",
+      "GraphRenderSize",
+      "GraphRenderer",
+      "GraphRendererOptions"
+    ],
+    "geometry": "Joint previous/current fit, raw endpoint/control interpolation, stable canonical lanes and nested cubic loops, arrows toward to",
+    "result": "Current-state result color wins over role overrides/stock roles/base; green in both themes",
+    "ownership": "Caller-owned CSS/bitmap/viewport/redraw; explicit logical size, bounded snapshot caches, no retained drawing host/scheduler",
+    "validation": "Options capture own data records; size/progress/previous/current/derived geometry before Canvas; atomic cache replacement and guarded render",
+    "failures": "Original primary draw throw survives restore failure; restore in cleanup; busy guard released; host pixels are not rolled back"
+  },
+  "surface": {
+    "inventory": {
+      "entries": 10,
+      "runtime": 24,
+      "typeOnly": 93,
+      "distinctTypeOnly": 81
+    },
+    "surface": {
+      "./canvas/graph": {
+        "runtime": [
+          "createGraphRenderer"
+        ],
+        "typeOnly": [
+          "GraphPalette",
+          "GraphRenderSize",
+          "GraphRenderer",
+          "GraphRendererOptions"
+        ]
+      },
+      "./graph": {
+        "runtime": [
+          "createGraphTrace",
+          "graphScene"
+        ],
+        "typeOnly": [
+          "GraphAnnotation",
+          "GraphDoneOptions",
+          "GraphEdge",
+          "GraphEdgeView",
+          "GraphEvent",
+          "GraphFrame",
+          "GraphInput",
+          "GraphMark",
+          "GraphMarkUpdate",
+          "GraphNode",
+          "GraphNodeView",
+          "GraphObjects",
+          "GraphPosition",
+          "GraphResult",
+          "GraphResultInput",
+          "GraphSceneOptions",
+          "GraphSnapshot",
+          "GraphStep",
+          "GraphTrace",
+          "GraphTraceOptions"
+        ]
+      },
+      "./scene": {
+        "runtime": [
+          "createSceneFrame",
+          "createSceneProjector",
+          "createSceneRenderer"
+        ],
+        "typeOnly": [
+          "ObjectTransition",
+          "Scene",
+          "SceneFrame",
+          "SceneObject",
+          "SceneVisualizations"
+        ]
+      },
+      "./array": {
+        "runtime": [
+          "createArrayPlayer",
+          "createArrayTimeline",
+          "createArrayTrace",
+          "defineArrayAlgorithm"
+        ],
+        "typeOnly": [
+          "ArrayAlgorithm",
+          "ArrayDoneOptions",
+          "ArrayEvent",
+          "ArrayFrame",
+          "ArrayPlayer",
+          "ArraySnapshot",
+          "ArrayStep",
+          "ArrayTimeline",
+          "ArrayTrace",
+          "Item",
+          "SortedRegions"
+        ]
+      },
+      "./playback": {
+        "runtime": [
+          "createAsyncSource",
+          "createPlayer",
+          "createRewindBuffer",
+          "createStatePlayer",
+          "createStepEmitter",
+          "createTimeline"
+        ],
+        "typeOnly": [
+          "AsyncSource",
+          "AsyncSourceCloseResult",
+          "AsyncSourceFactory",
+          "AsyncSourceReadResult",
+          "AsyncSourceSignal",
+          "Frame",
+          "Player",
+          "RewindBuffer",
+          "Step",
+          "Timeline"
+        ]
+      },
+      "./player": {
+        "runtime": [
+          "Player"
+        ],
+        "typeOnly": [
+          "PlayerCloseResult",
+          "PlayerLabels",
+          "PlayerOptions",
+          "PlayerStatus"
+        ]
+      },
+      "./canvas/viewport": {
+        "runtime": [
+          "createCanvasViewport"
+        ],
+        "typeOnly": [
+          "CanvasViewport",
+          "CanvasViewportOptions",
+          "CanvasViewportSize"
+        ]
+      },
+      "./canvas": {
+        "runtime": [
+          "arrayScene",
+          "createArrayRenderer",
+          "createSortRenderer"
+        ],
+        "typeOnly": [
+          "ArrayObjects",
+          "ArrayPalette",
+          "ArrayPaletteOverrides",
+          "ArrayRendererOptions"
+        ]
+      },
+      "./worker": {
+        "runtime": [
+          "WorkerSourceError",
+          "createWorkerSourceFactory"
+        ],
+        "typeOnly": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceErrorCode",
+          "WorkerSourceErrorOptions",
+          "WorkerSourceFactory",
+          "WorkerSourceIssue",
+          "WorkerSourceIterator",
+          "WorkerSourceOptions",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceSession",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind"
+        ]
+      },
+      "./worker/runtime": {
+        "runtime": [
+          "exposeWorkerSource"
+        ],
+        "typeOnly": [
+          "WorkerSourceCancellation",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceCloseResult",
+          "WorkerSourceEndpointOptions",
+          "WorkerSourceErrorCode",
+          "WorkerSourceIssue",
+          "WorkerSourcePhase",
+          "WorkerSourceRemoteError",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceSignal",
+          "WorkerSourceTermination",
+          "WorkerSourceThrownKind",
+          "WorkerStateFactory",
+          "WorkerTransferSelector"
+        ]
+      }
+    }
+  },
+  "verification": {
+    "status": "passed",
+    "node": "v22.17.0",
+    "repositoryTests": 579,
+    "newCanvasTopLevelTests": 11,
+    "typeScriptVersions": [
+      "5.0.4",
+      "5.4.5",
+      "5.9.3",
+      "6.0.3"
+    ],
+    "resolutions": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "installedPackageRuntimeAndExports": true,
+    "strictInstalledConsumers": true,
+    "negativeCanvasTypeCases": 7,
+    "existingPublishedDistFilesMatched": 70,
+    "comparison": "Normalized LF hashes against verified npm 1.0.0 payload; all original runtime/declarations unchanged",
+    "bundle": {
+      "variants": 26,
+      "graphCanvas": {
+        "initial": {
+          "bytes": 12385,
+          "gzipBytes": 4793,
+          "files": [
+            "output/graphCanvas/minified/entry.mjs"
+          ]
+        },
+        "total": {
+          "bytes": 12385,
+          "gzipBytes": 4793,
+          "files": [
+            "output/graphCanvas/minified/entry.mjs"
+          ]
+        }
+      },
+      "graphCanvasDynamic": {
+        "initial": {
+          "bytes": 16238,
+          "gzipBytes": 6208,
+          "files": [
+            "output/graphCanvasDynamic/minified/entry.mjs",
+            "output/graphCanvasDynamic/minified/chunk-WIDQ7TXV.mjs"
+          ]
+        },
+        "total": {
+          "bytes": 27514,
+          "gzipBytes": 10679,
+          "files": [
+            "output/graphCanvasDynamic/minified/entry.mjs",
+            "output/graphCanvasDynamic/minified/graph-ITCUWYFU.mjs",
+            "output/graphCanvasDynamic/minified/chunk-WIDQ7TXV.mjs"
+          ]
+        }
+      },
+      "oldBundlesUnchanged": true,
+      "headlessGraphHasNoCanvas": true,
+      "graphRendererHasNoArrayRendererOrTraceBuilder": true,
+      "lazyLoadingChecked": true
+    },
+    "native": {
+      "passed": 15,
+      "failed": 0,
+      "report": "docs/checks/graph-canvas-native-2026-11-17.json",
+      "builtInBrowser": true,
+      "controlledBitmapRatios": [
+        1,
+        1.25,
+        2
+      ],
+      "actualHostDPR": 1.100000023841858
+    },
+    "docs": {
+      "work": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\graph-canvas-doc-ImozZD",
+      "codeBlocksIdentical": true,
+      "signaturesMutuallyAssignable": true,
+      "usageChecked": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "compiler": "6.0.3",
+      "localLinksChecked": 156
+    },
+    "coverage": [
+      "Arrow direction and edge-before-node paint order",
+      "Parallel/antiparallel routing and independent loop radii",
+      "Raw progress, joint bounds and consistent node/edge interpolation",
+      "Persistent green result priority, role overrides and open role names",
+      "Finite/tiny/coincident/empty input, zero dimensions, invalid-before-draw",
+      "DPR-independent logical geometry and rounded bitmap transforms",
+      "Native identical clean/dirty pixels; transform/styles/dash/text restore after throw",
+      "Falsy original failures, secondary restore failure, reentrancy and cache recovery",
+      "Native viewport resize/disposal and result/Previous/Next/Restart/source cleanup"
+    ],
+    "limits": [
+      "No new host/browser support guarantee or performance benchmark",
+      "No topology editor, solver or built-in graph algorithm",
+      "Contexts must be unclipped; Canvas paths are caller-owned and not restored by save/restore",
+      "No commit, CI push, tag or publication"
+    ],
+    "logsDirectory": "D:/CodexData/visualizations/2026/11/13/01a1d3e9-b342-7d43-a642-5da32ac1f39f",
+    "logsPrefix": "graph-canvas-"
+  },
+  "sourceHashes": {
+    "src/canvas/graph.ts": "3821014d4a45a14477ef23857d4135c6f34f17eb2f680b7c68317f11d4fa0b99",
+    "src/canvas/graph-geometry.ts": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa",
+    "test/graph-canvas.test.mjs": "8f01ad1309607098194b0254446c4f68858f9dc552f17b4921fdff28df60209d",
+    "test/graph-canvas-context.mjs": "3ad5477b89d8d1b6ad668778b8a6b1d372249b0f1347ef6a4119c3e8722e9f61",
+    "test/graph-canvas-fixtures.mjs": "43f1db5e997cca3ed4c43b4806fbb563a87d6b7a3137d7f4b3feedc2d66af39c",
+    "test/graph-canvas-browser.html": "c9c05e982c8fca19f9189b6ac21f3cbca4326fab6ab7e9bdfc05da9d96ff1a73",
+    "test/graph-canvas-browser.mjs": "9439bd589df7d8f8bc18536fc97870ef510910088b3965ba8bcfc5659c1f3904",
+    "test/package-graph-canvas.ts": "80b14835d554f72379aa92d6d9e41f60e9a6b4fad69170ed87edd60909431ece",
+    "test/package-exports.mjs": "979b2619417ed366baa2facd960d29cf74baccfd2f9f6f176f32490a785e1927",
+    "scripts/test-package.mjs": "28166f71badaf624a220857df6d1a0f8ae849f3ff413cfe318b028faa556653f",
+    "scripts/test-bundle.mjs": "e077e20859aa1eae1f6900aa7bd8d1efbb2c6ee5d7b1aa64f4c50ad4b87e444d",
+    "test/tsconfig.json": "eb4d50903b0d07e16f8794ad778a58d7b234aaddcd6d523f06942e7a9c0a16c9",
+    "README.md": "7cca79a01ea81f17abf9c3b730ca272360db898b0a27d102aae231a972bf4986",
+    "ru/README.md": "a5e89f51bda7e50caa263c22b2c7a36450ddccbce357889fa24f98ba3b98fd17",
+    "docs/graph-api.md": "1ccc18d9907cac7d37eb77f60a6411a7f07eb35881812a39c956adc5fdbb97a5",
+    "docs/ru/graph-api.md": "424d94e73c06e5affdd08de8fb9d1f3024a82e7b7449d4a9b93261683896e5e1",
+    "docs/current-api.md": "85da08583ccdafead601f2089f4252797d6bc002583d5506c5d3269a475ccc59",
+    "docs/ru/current-api.md": "54c8624da5181053be3573845e1b6f541c0c18498f588d3ca9e49ecb3a53127d",
+    "docs/graph-contract.md": "03fd06725e5853f0ead0be701abd9361d7fd1c0e32df510a73dd542bc2502e22",
+    "docs/ru/graph-contract.md": "973b99d19c8a775de1016ee217db9753747a69a574f27a96ade9130e11c42f71",
+    "package.json": "8071f5caf64b90f05fb14efab34af3a22c197f2324ad5c56d971f45a7f5b2fdf",
+    "CHANGELOG.md": "69c7b98736d6a8b69c5a4a8601f2e6306404012ae8fcc8a0467c997c9e3d044f"
+  }
+}
