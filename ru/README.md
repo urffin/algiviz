@@ -25,23 +25,17 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Статус репозитория, 2026-11-17: **1.1.0 выпущена** с `629defe`.
-Опубликованы `/graph` и `/canvas/graph`, включая подписи вершин и штатный Canvas-
-рендерер графа. Миграция восьми прежних импортов не нужна.
-[Выпуск и проверки](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.1.md) ·
-[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.1.0) ·
-[API графа](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) ·
-[Миграция с 0.16.0](https://github.com/urffin/algiviz/blob/master/docs/ru/migration-1.0.md).
-
-Рабочая копия дополнительно реализует **неопубликованные `/tree` и `/canvas/tree`**:
-ordered/binary trace, атомарный edit, явную раскладку и штатный Canvas-рендерер.
-Нужна локальная сборка/архив; npm 1.1.0 их не экспортирует.
+Линейка пакета: **1.2.x**. **1.2.1 обновляет только документацию**; публичный API
+и реализации не меняются относительно 1.2.0 (`8e1f50b`).
+Опубликованы 12 entry, включая `/tree` и `/canvas/tree`: ordered/binary деревья,
+атомарный edit, раскладка, пустые слоты, подписи и зелёный результат.
+Десяти прежним импортам миграция не нужна.
+[Документационный патч](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.2.1.md) ·
+[Проверки 1.2.0](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.2.md) ·
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.2.1) ·
 [Tree API](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-api.md) ·
-[Tree Canvas](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md).
-[Ревизия к 1.2.0](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-readiness-1.2.md)
-закрывает T1: границы слотов учитывают обводку. Неопубликованный
-[кандидат 1.2.0](https://github.com/urffin/algiviz/blob/master/docs/ru/candidate-1.2.md)
-фиксирует проверку версионного архива; CI точного SHA и выпуск ещё впереди.
+[Tree Canvas](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md) ·
+[Текущий API](https://github.com/urffin/algiviz/blob/master/docs/ru/current-api.md).
 
 ## Установка
 
@@ -88,8 +82,8 @@ npm install @grundyjs/algiviz
 | [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Endpoint внутри Worker; отдельные типы WebWorker | 1.0.0 |
 | [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Trace фиксированного графа, отметки/подписи/результат и сцена | 1.1.0 |
 | [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Canvas графа: стрелки, петли, параллельные рёбра и размещение подписей | 1.1.0 |
-| [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-api.md) | Ordered/binary trace, атомарный edit топологии и проекция сцены | Неопубликованная рабочая копия |
-| [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md) | Явная раскладка дерева, пустые слоты, интерполяция связей, подписи и результат | Неопубликованная рабочая копия |
+| [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-api.md) | Ordered/binary trace, атомарный edit топологии и проекция сцены | 1.2.0 |
+| [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md) | Явная раскладка дерева, пустые слоты, интерполяция связей, подписи и результат | 1.2.0 |
 
 Headless-модули не требуют DOM. Canvas/Player/viewport и Worker-host требуют своих
 host и DOM-типов; endpoint Worker — WebWorker-типов. Безопасный импорт не заменяет

@@ -1,21 +1,19 @@
 # Support matrix
 
-**Released boundary, 2026-11-17:** 1.1.0 publishes ten entries, including /graph
-and /canvas/graph. Headless graph uses ES2022 declarations; graph Canvas requires
-DOM types/Canvas 2D. Imports access no DOM globals. Exact-SHA CI and registry
-signature/provenance acceptance are recorded in [the release receipt](releases/1.1.0.json).
-Earlier native checks retain their source/host limits; no browser/version support
-expansion follows. Local /tree and /canvas/tree are implemented but unpublished:
-/tree uses ES2022-only declarations; /canvas/tree requires DOM types/Canvas 2D.
-[Tree Canvas checks](checks/tree-canvas-implementation-2026-11-19.json) cover the embedded
-Chromium host, both themes, bitmap ratios 1/1.25/2, captions/slots and Player cleanup.
-They add no claim for other browser products or forced GPU context loss. Dated sections below
-are historical; [the current index](current-api.md) gives availability.
-The [1.2.0 tree review](tree-readiness-1.2.md) closes slot-stroke safety defect T1.
-[Refreshed native acceptance](checks/tree-t1-native-2026-11-19.json) passes 32 renderer
-and 17 example UI checks; no browser support expansion follows. The unpublished
-[1.2.0 candidate](candidate-1.2.md) retains this boundary and reuses native
-evidence only after checking source and compiled-file identity.
+**Released boundary, 2026-11-19:** 1.2.0 publishes twelve entries, including
+/tree and /canvas/tree. Headless array/graph/tree use ES2022 declarations;
+Canvas/Player/viewport/Worker host require DOM types, endpoint uses WebWorker.
+Imports do not access DOM globals; calls require their actual host. Exact-SHA
+CI and registry signature/provenance are in [the release receipt](releases/1.2.0.json).
+No browser/version support expansion follows from this documentation update.
+[T1 native acceptance](checks/tree-t1-native-2026-11-19.json) records 32 renderer
+and 17 example checks on the released candidate's embedded Chromium host,
+explicit bitmap ratios and actual host DPR. It does not certify other browser
+products or forced GPU context loss. Dated sections below remain historical.
+
+Future [grid API](grid-api.md) is a headless ES2022-only design; /canvas/grid
+will be a separate optional DOM-typed backend. Neither entry is implemented or
+exported, and declaration-only checks do not certify runtime/browser support.
 
 **Historical candidate update, 2026-11-16:** [1.0.0 local preparation](candidate-1.0.md)
 retains this environment boundary. Exact-SHA CI/native verification remains;

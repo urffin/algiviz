@@ -1,4 +1,8 @@
-# Future /tree: contract sketch and core fit
+#**Release follow-up, 2026-11-19:** /tree and /canvas/tree shipped in 1.2.0.
+[Current API](tree-api.md) · [Release receipt](release-1.2.md). Earlier statuses
+below refer to their dated stages, not npm 1.2.0 availability.
+
+ Future /tree: contract sketch and core fit
 
 [Русский](ru/tree-contract.md) · [Graph sketch](graph-contract.md) · [Scenes](scene.md) · [Compatibility](api-compatibility.md)
 

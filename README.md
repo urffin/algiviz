@@ -25,23 +25,17 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Repository status, 2026-11-17: **1.1.0 is released** from `629defe`.
-It publishes `/graph` and `/canvas/graph`, including vertex captions and a stock
-graph Canvas renderer. Existing eight imports need no migration.
-[Release and verification](https://github.com/urffin/algiviz/blob/master/docs/release-1.1.md) ·
-[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.1.0) ·
-[Graph API](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) ·
-[Migration from 0.16.0](https://github.com/urffin/algiviz/blob/master/docs/migration-1.0.md).
-
-The working copy additionally implements **unpublished `/tree` and `/canvas/tree`**:
-ordered/binary traces, atomic edits, explicit layout and stock Canvas rendering.
-They require a local build/archive; npm 1.1.0 does not export them.
+Package line: **1.2.x**. **1.2.1 updates documentation only**; the public API
+and implementations are unchanged from 1.2.0 (`8e1f50b`).
+Twelve entries are published, including `/tree` and `/canvas/tree`: ordered/binary
+trees, atomic edits, layout, empty slots, captions and green results.
+The ten previous imports need no migration.
+[Documentation patch](https://github.com/urffin/algiviz/blob/master/docs/release-1.2.1.md) ·
+[1.2.0 verification](https://github.com/urffin/algiviz/blob/master/docs/release-1.2.md) ·
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.2.1) ·
 [Tree API](https://github.com/urffin/algiviz/blob/master/docs/tree-api.md) ·
-[Tree Canvas](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md).
-The [1.2 readiness review](https://github.com/urffin/algiviz/blob/master/docs/tree-readiness-1.2.md)
-closes T1 with stroke-aware slot bounds. The unpublished
-[1.2.0 candidate](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.2.md)
-records versioned archive verification; exact-SHA CI and release gates remain.
+[Tree Canvas](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md) ·
+[Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md).
 
 ## Install
 
@@ -88,8 +82,8 @@ plain states/pre → createArrayPlayer → standard Player → scenes/interpolat
 | [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Worker-side endpoint; separate WebWorker types | 1.0.0 |
 | [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Fixed graph traces, marks/captions/results and scene projection | 1.1.0 |
 | [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Graph Canvas: arrows, loops, parallel edges and caption placement | 1.1.0 |
-| [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-api.md) | Ordered/binary traces, atomic topology edits and scene projection | Unpublished working copy |
-| [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md) | Explicit tree layout, empty binary slots, relation interpolation, captions and result | Unpublished working copy |
+| [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-api.md) | Ordered/binary traces, atomic topology edits and scene projection | 1.2.0 |
+| [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md) | Explicit tree layout, empty binary slots, relation interpolation, captions and result | 1.2.0 |
 
 Headless entries need no DOM. Canvas/Player/viewport and the Worker host need
 their actual hosts and DOM types; the Worker endpoint uses WebWorker types.

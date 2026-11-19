@@ -2,6 +2,11 @@
 
 [Русский](ru/candidate-1.2.md) · [Changelog](../CHANGELOG.md) · [Current API](current-api.md) · [Tree readiness](tree-readiness-1.2.md)
 
+**Release follow-up, 2026-11-19:** 1.2.0 was released from 8e1f50b after all
+11 CI jobs. Exact npm/latest, a fresh install and signature/provenance passed.
+[Completed release](release-1.2.md). Preparation and pending gates below remain
+historical; all 1.2.0 release gates are complete.
+
 **Prepared 2026-11-19; unpublished.** package.json and both root lockfile versions
 are 1.2.0. The commit introducing this document identifies the candidate revision.
 This stage includes commit/push and waiting for all 11 CI jobs on that exact

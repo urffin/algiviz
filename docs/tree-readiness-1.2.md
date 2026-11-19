@@ -2,6 +2,11 @@
 
 [Русский](ru/tree-readiness-1.2.md) · [Current API](current-api.md) · [Tree API](tree-api.md) · [Tree Canvas](tree-canvas-api.md) · [Initial machine review](checks/tree-readiness-1.2-2026-11-19.json) · [T1 correction](checks/tree-t1-fix-2026-11-19.json)
 
+**Release follow-up, 2026-11-19:** 1.2.0 was released from 8e1f50b after all
+11 CI jobs. Exact npm/latest, a fresh install and signature/provenance passed.
+[Completed release](release-1.2.md). Preparation and pending gates below remain
+historical; all 1.2.0 release gates are complete.
+
 **Candidate follow-up, 2026-11-19:** package.json and both root lockfile versions
 are now 1.2.0. [Candidate notes](candidate-1.2.md) and the
 [preparation record](checks/candidate-1.2.0-2026-11-19.json) supersede the version

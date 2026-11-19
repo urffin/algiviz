@@ -1,0 +1,502 @@
+{
+  "date": "2026-11-19",
+  "checkedAt": "2026-11-19T20:54:01.655Z",
+  "scope": "Completed 1.2.0 release documentation and future /grid public API contract only",
+  "baseline": {
+    "version": "1.2.0",
+    "sha": "8e1f50b3fb0a565e1634066ebd9e3e32dd0ced1f",
+    "entries": 12,
+    "runtimeNames": 27,
+    "typeOnlyNames": 128,
+    "distinctTypeOnlyNames": 116
+  },
+  "releaseClosure": {
+    "receipt": "docs/releases/1.2.0.json",
+    "source": "Completed publication verification task; no fresh registry lookup in this task",
+    "exactVersion": "1.2.0",
+    "latestVerified": "1.2.0",
+    "CIJobs": 11,
+    "signatureVerified": true,
+    "provenanceVerified": true,
+    "publishedArchiveCandidateWordingAcknowledged": true,
+    "repositoryStatusCorrected": true
+  },
+  "proposedSurface": {
+    "entry": "./grid",
+    "runtimeNames": [
+      "createGridTrace",
+      "gridScene"
+    ],
+    "typeOnlyNames": [
+      "GridCoordinate",
+      "GridInput",
+      "GridWrite",
+      "GridAnnotation",
+      "GridMark",
+      "GridCellCaption",
+      "GridCellCaptionPatch",
+      "GridMarkUpdate",
+      "GridResultInput",
+      "GridResult",
+      "GridDoneOptions",
+      "GridTraceOptions",
+      "GridEdit",
+      "GridSnapshot",
+      "GridEvent",
+      "GridStep",
+      "GridFrame",
+      "GridTrace",
+      "GridSceneOptions",
+      "GridCellView",
+      "GridPathView",
+      "GridObjects"
+    ],
+    "implemented": false,
+    "exported": false,
+    "shape": "Fixed, dense, flat row-major generic values",
+    "dimensionsCeiling": 1000000,
+    "cellCountCeiling": 1000000,
+    "pathEntryCeiling": 1000000,
+    "identity": "Namespace and zero-based row/column, independent of value",
+    "atomicOperations": [
+      "start",
+      "edit(values OR writes, optional marks)",
+      "mark",
+      "done"
+    ],
+    "result": "Unique selected cells plus ordered path preserving repetitions",
+    "sceneKinds": [
+      "gridCell",
+      "gridPath"
+    ],
+    "canvas": "Separate optional /canvas/grid; complete renderer signatures/options deferred",
+    "targetVersionReserved": false
+  },
+  "verification": {
+    "declarationChecks": [
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "NodeNext",
+        "lib": [
+          "ES2022"
+        ],
+        "exitCode": 0,
+        "log": "types-NodeNext.headless.log",
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "NodeNext",
+        "lib": [
+          "ES2022",
+          "DOM"
+        ],
+        "exitCode": 0,
+        "log": "types-NodeNext.DOM.log",
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "Bundler",
+        "lib": [
+          "ES2022"
+        ],
+        "exitCode": 0,
+        "log": "types-Bundler.headless.log",
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "Bundler",
+        "lib": [
+          "ES2022",
+          "DOM"
+        ],
+        "exitCode": 0,
+        "log": "types-Bundler.DOM.log",
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "releasedTypesBaseline": "Fresh npm 1.2.0 installation from the completed release task; current grid declarations exist only as isolated design artifacts",
+    "negativeTypeCases": 21,
+    "EN_RUCodeParity": true,
+    "documentationFiles": 26,
+    "repositoryLinkTargetsChecked": 498,
+    "missingLinkTargets": [],
+    "protectedImplementationAndMetadataFilesUnchanged": 191,
+    "historicalJSONUnchanged": 60,
+    "otherExampleFilesUnchanged": 79,
+    "exampleHTMLChangedOnlyReleaseWording": true,
+    "repositoryTestsRerun": false,
+    "runtimeGridTestsRun": false,
+    "nativeCanvasRun": false,
+    "reason": "Documentation and isolated declarations only; no implementation changed or created"
+  },
+  "futureImplementationAcceptance": [
+    "0x0/0xN/Nx0 and limit-before-allocation",
+    "Dense present undefined versus holes, opaque falsy/NaN values",
+    "Atomic replacement/writes plus roles/captions and duplicate rejection",
+    "Result null versus empty selection, repeated/nonadjacent path",
+    "Capture descriptors and mixed-invalid error ordering",
+    "Reentrancy, unchanged state/index/lifecycle on failure",
+    "Pure cloned snapshot projection and stable cell/path IDs",
+    "Event-free frames, terminal, bounded rewind and fresh Restart",
+    "Independent installed export/types/bundle checks and later native Canvas"
+  ],
+  "noImplementationOrPublication": true,
+  "sourceFiles": [
+    {
+      "path": "src/array/index.ts",
+      "sha256": "d0922f5c0ea917db55a5528aef6a476ba93144c00c70f1da4c97153070f8442d"
+    },
+    {
+      "path": "src/array/player.ts",
+      "sha256": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f"
+    },
+    {
+      "path": "src/array/snapshot-builder.ts",
+      "sha256": "b8032b7a26b9106f606c9cc0ec1657063a599e72356397b8383b9fc9def75b66"
+    },
+    {
+      "path": "src/array/timeline.ts",
+      "sha256": "3849e56b429c14965f0191bab4236fed19ea762cf7ddabb206d0670d69064cf3"
+    },
+    {
+      "path": "src/array/trace.ts",
+      "sha256": "fc003f97e0c08f80fd6ad2c770ff935e31325b69a92ac2852fd846c43ddd206b"
+    },
+    {
+      "path": "src/array/types.ts",
+      "sha256": "707b4984f81df9c5db1d9eb253800ac9e5968cb3e3f63cca32e9e7d89a897a14"
+    },
+    {
+      "path": "src/canvas/graph-captions.ts",
+      "sha256": "7ad9ffc3248ba08b0fdc48bddffdf356bf0919ebb0c98c71a59305ac80a0fe91"
+    },
+    {
+      "path": "src/canvas/graph-geometry.ts",
+      "sha256": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa"
+    },
+    {
+      "path": "src/canvas/graph.ts",
+      "sha256": "dd46c600e45e577687b9a4cdfe27d9bc89cfbb177d26fadd19e6848452376611"
+    },
+    {
+      "path": "src/canvas/index.ts",
+      "sha256": "b901e35d3cc6ca78c5ef05bbf9b10efef8830f1aa3058a086ce009d8df73a965"
+    },
+    {
+      "path": "src/canvas/tree-geometry.ts",
+      "sha256": "19532278ae68562995ee9865e2dd7b34bb914eb449d7b4e7ca2eec9ed1f3b3ba"
+    },
+    {
+      "path": "src/canvas/tree-labels.ts",
+      "sha256": "b8c29b4126630348cc8cc57cfab29109687af1295abfb11c1fb84443f732df3b"
+    },
+    {
+      "path": "src/canvas/tree-layout.ts",
+      "sha256": "0f68f22653eac44bac8b8a1c2f2cff43e213cb30ca5fc43e6cb934bdc9475a1a"
+    },
+    {
+      "path": "src/canvas/tree.ts",
+      "sha256": "3d3af3e54ff5d69ff82b1af6d63652bac3156c3828bea6dd6f4c9094658be270"
+    },
+    {
+      "path": "src/canvas/viewport.ts",
+      "sha256": "a26ab096e666ffcb84e01b11ee302be2776e5d2a4ec1a48e1aa0185ef6149411"
+    },
+    {
+      "path": "src/graph/index.ts",
+      "sha256": "09c5153a1c91741dcf00098bc35c3b4c1f51689f0cdde79b161c5120c444ffb8"
+    },
+    {
+      "path": "src/graph/scene.ts",
+      "sha256": "c06d8a36b6d61622c811e88be40bc5f6812d870311bc5a7d6ccb6c6d070d0f3e"
+    },
+    {
+      "path": "src/graph/trace.ts",
+      "sha256": "4f5a46481fa3dcfe2501a83984e3479cb5d927b28e1d145f20c879409b0e08c7"
+    },
+    {
+      "path": "src/graph/types.ts",
+      "sha256": "968069c40eaf877c3b43b2fae6d88e93209701c953c5e3b7791436a879813f06"
+    },
+    {
+      "path": "src/graph/validation.ts",
+      "sha256": "2419ff65c27803922a2f2bd1744bf8525c1b343d72c12189201090b38aee7edf"
+    },
+    {
+      "path": "src/playback/async-source.ts",
+      "sha256": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d"
+    },
+    {
+      "path": "src/playback/index.ts",
+      "sha256": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0"
+    },
+    {
+      "path": "src/playback/player.ts",
+      "sha256": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787"
+    },
+    {
+      "path": "src/playback/rewind-buffer.ts",
+      "sha256": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70"
+    },
+    {
+      "path": "src/playback/state-player.ts",
+      "sha256": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b"
+    },
+    {
+      "path": "src/playback/state-steps.ts",
+      "sha256": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff"
+    },
+    {
+      "path": "src/playback/step-emitter.ts",
+      "sha256": "a42c006b86a441ab47bf720427164b10ca626ffd6bd7cab6a735dcc63ce41770"
+    },
+    {
+      "path": "src/playback/timeline.ts",
+      "sha256": "8095ff07cd9bf7afad108dd13e7e7ebb63e7cfb3d2fce5d2d45d620150074088"
+    },
+    {
+      "path": "src/playback/types.ts",
+      "sha256": "053f6e9b76c2d9c9847ec71219b2a90ec9f4a2ad7ec6629f992e974a73ec4261"
+    },
+    {
+      "path": "src/player/async-controller.ts",
+      "sha256": "80fab81a5572ddb57837390410d8de856ebd5ddc65134bba336ad62d539d1803"
+    },
+    {
+      "path": "src/player/async-session.ts",
+      "sha256": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f"
+    },
+    {
+      "path": "src/player/close-report.ts",
+      "sha256": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8"
+    },
+    {
+      "path": "src/player/controller.ts",
+      "sha256": "029b880fbc85272181bd2da1df825fc086c23b05053e66fa5a1bc1396ef51026"
+    },
+    {
+      "path": "src/player/index.ts",
+      "sha256": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d"
+    },
+    {
+      "path": "src/player/mount.ts",
+      "sha256": "c6d82fdfe8cd37425878bc29643b8d1c9967c4808176e614dbc57eeb6691763d"
+    },
+    {
+      "path": "src/player/player.ts",
+      "sha256": "97bad8b05e115b5e5c38b26fddd59b00db1212b8d00463022b4902de33928bed"
+    },
+    {
+      "path": "src/player/rewind-session.ts",
+      "sha256": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0"
+    },
+    {
+      "path": "src/player/step-session.ts",
+      "sha256": "5ff0ab5fd20bd6c63297806b2a0ebda9e3f55ece31727cac5c86929ebda839ff"
+    },
+    {
+      "path": "src/player/stream-playback.ts",
+      "sha256": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30"
+    },
+    {
+      "path": "src/player/types.ts",
+      "sha256": "c841f1fd2296c3535340e9f7dde29ed9e1a20b41bd6719d68146463f70055c2a"
+    },
+    {
+      "path": "src/scene/index.ts",
+      "sha256": "858bbb12d580c53b9f158ae50ab9976704f61bb1615120bab5ec046ec699db4b"
+    },
+    {
+      "path": "src/tree/attributes.ts",
+      "sha256": "f4ab2b4d17ecef4314d31586055e7dbccc698854d4ede94af51476bf65b88219"
+    },
+    {
+      "path": "src/tree/index.ts",
+      "sha256": "1884184ae99bd0b035c00b689201aa87deccb00d5a1dabe61636d5430875c915"
+    },
+    {
+      "path": "src/tree/scene.ts",
+      "sha256": "6e070842527417ac9a0c4ecaca1e4e336830412e4c13b0e389dffdbbd5dd8805"
+    },
+    {
+      "path": "src/tree/trace.ts",
+      "sha256": "172e84020d2d0ab4e1f0a488355e9f5e880d835e6bffb035bf21db045687dcf9"
+    },
+    {
+      "path": "src/tree/types.ts",
+      "sha256": "b13991b3a3373286c2477a00679cd6e54223aa0e1590ec478dd26214a66e22ea"
+    },
+    {
+      "path": "src/tree/validation.ts",
+      "sha256": "9e78a39525f02913cf71c8ebe93e392b258fb019150b54aa7ac3319b6c50314e"
+    },
+    {
+      "path": "src/worker/data.ts",
+      "sha256": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064"
+    },
+    {
+      "path": "src/worker/error.ts",
+      "sha256": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72"
+    },
+    {
+      "path": "src/worker/index.ts",
+      "sha256": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13"
+    },
+    {
+      "path": "src/worker/protocol.ts",
+      "sha256": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc"
+    },
+    {
+      "path": "src/worker/runtime.ts",
+      "sha256": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef"
+    },
+    {
+      "path": "src/worker/types.ts",
+      "sha256": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "docs/grid-api.md",
+      "sha256": "b25e81cb3712741506d32287e1c6361407b9b9ebf669bce39ac2d1c2b374ee10"
+    },
+    {
+      "path": "docs/release-1.2.md",
+      "sha256": "6c2684ca4aa094a0a5415fb146da9e1713ec01e4b563c522c4a2bded04ea6289"
+    },
+    {
+      "path": "docs/ru/grid-api.md",
+      "sha256": "b7f529b8757e755ecd18ce4f54eda30bc82f04ad964307f18451c43736ec4a89"
+    },
+    {
+      "path": "docs/ru/release-1.2.md",
+      "sha256": "18235b4c13eb288c339b0f3262a723ac7562380122f9207a8daa45bdb3b1a327"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "ac9d249b8302e50e679aaf0b460b70b0e775db5b940757e68bb7f828070d1d74"
+    },
+    {
+      "path": "README.md",
+      "sha256": "0f85f12e38923c7939d9281938aa613146e89342bdcfd133f5862f7cd7e49024"
+    },
+    {
+      "path": "docs/api-compatibility.md",
+      "sha256": "28b0da930348a73dc02a946e472ac20b3ecde51cb29702c48ae02f31d79c0031"
+    },
+    {
+      "path": "docs/candidate-1.2.md",
+      "sha256": "a9b3a548b6b8b24c097a72e855bc83004274a4cbb66bbebf0f4a413491f79483"
+    },
+    {
+      "path": "docs/current-api.md",
+      "sha256": "88f916bf9b40669161f1aa7f999b3ec3cde711b1e23a383602c152fc7c123f04"
+    },
+    {
+      "path": "docs/examples.md",
+      "sha256": "4038723f0d98559d2ac38300aed6e0d716c401d9d57f55a250abf039eb6f4089"
+    },
+    {
+      "path": "docs/grid-contract.md",
+      "sha256": "2e2982776786f497a4efcec5eac7039fbcc84efda7acaa685065512361cc750a"
+    },
+    {
+      "path": "docs/ru/api-compatibility.md",
+      "sha256": "01b1b6ea53c05491dc323fdac70f6acf1540add42b09c9e00df8b14b073118bd"
+    },
+    {
+      "path": "docs/ru/candidate-1.2.md",
+      "sha256": "f7f446b20593cb56f8a294af53e5621e2d2d5e525ae496999dd6ac59d5d6ff49"
+    },
+    {
+      "path": "docs/ru/current-api.md",
+      "sha256": "45921ee32ffe9675d915e6fb64ebba598a4eb515749a57ab52148bf2a28bc255"
+    },
+    {
+      "path": "docs/ru/examples.md",
+      "sha256": "7b8d0d82bead2836f9fc1e46e4bce3955b69256b3d1d26a19779d953072501da"
+    },
+    {
+      "path": "docs/ru/grid-contract.md",
+      "sha256": "6735c4e11c09999f7758a4a28cb4ccfa452c9d8c8d1ddcd137b55429a11e36b5"
+    },
+    {
+      "path": "docs/ru/tree-api.md",
+      "sha256": "270c0d14724c68de851f0318c28b63ddbb270a54f55d14223ce33fbc9d3332a5"
+    },
+    {
+      "path": "docs/ru/tree-canvas-api.md",
+      "sha256": "e3ab58f95a6f04ba7c75f77fae4a35d97aa0124a7f32f12c854f4631bc5e0e56"
+    },
+    {
+      "path": "docs/ru/tree-contract.md",
+      "sha256": "308119c17a208f588098640b8882d8203a9c2467714f8104e2102ad90523b58a"
+    },
+    {
+      "path": "docs/ru/tree-readiness-1.2.md",
+      "sha256": "0b0961ae58bad85bcab0e1c327a41ca1b53eb9fcaa9ed2ed9ddf39e26aaaee29"
+    },
+    {
+      "path": "docs/support-matrix.md",
+      "sha256": "613e893a896da2b41c8d6a6ec84a24c3d554fa7154dcd7403fcc386636912e46"
+    },
+    {
+      "path": "docs/tree-api.md",
+      "sha256": "cfda122709a6fefce4fb91e64eb805cfb41b365ea82ad7c597c7fe06bc649313"
+    },
+    {
+      "path": "docs/tree-canvas-api.md",
+      "sha256": "b93ed3513d14c7393506009e0334ca7c1b8c529414d7f0b173a896c12d20ada5"
+    },
+    {
+      "path": "docs/tree-contract.md",
+      "sha256": "f0d2f785188ef3d6fb17291bfd32faac9e37931c667997d1aed9c8f8e715eab6"
+    },
+    {
+      "path": "docs/tree-readiness-1.2.md",
+      "sha256": "1ceb4e874846ccb58fcdc4450cd90d14971432df2430cb01f2135c70d6b261f2"
+    },
+    {
+      "path": "ru/README.md",
+      "sha256": "cc358a9912177aa726f0789075e43918ed11c0fb5bcfaa8a2be71f14b88def63"
+    }
+  ],
+  "fixtureFiles": [
+    {
+      "path": "headless.ts",
+      "sha256": "7bf0397b3f73fa85931bf128094c639666924a40e596f7ffa898945c758b85a9"
+    },
+    {
+      "path": "dom.ts",
+      "sha256": "9f936ec42fa8af90fdcdac8f011e7b5f8c3a96d5764b1a9687f1f996ee398956"
+    },
+    {
+      "path": "example.ts",
+      "sha256": "34c697db9c80a2b99eb8af358b38b94718a9084520499b6e462ed2037c70a793"
+    },
+    {
+      "path": "grid-api.d.ts",
+      "sha256": "f6c22bf5eff6d350b8661548acabb30091aeac0ea0f446dd4220fd7388e37a12"
+    }
+  ],
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\grid-public-api-c8189425"
+}

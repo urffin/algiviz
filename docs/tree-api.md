@@ -2,16 +2,12 @@
 
 [Русский](ru/tree-api.md) · [Architecture sketch](tree-contract.md) · [Released graph API](graph-api.md) · [Compatibility](api-compatibility.md) · [Contract check](checks/tree-public-api-2026-11-17.json)
 
-**Implemented locally, 2026-11-18; unpublished.** The baseline is released
-1.1.0 / 629defe. This working copy adds independent headless ESM /tree with
-createTreeTrace, treeScene and the 29 types below. It is absent from npm 1.1.0.
-Use a local build/archive of the unpublished [1.2.0 candidate](candidate-1.2.md). This headless entry has no Canvas dependency; drawing is provided by
-the separate local /canvas/tree entry. [Implementation checks](checks/tree-implementation-2026-11-18.json).
-The [contract-only check](checks/tree-public-api-2026-11-17.json) and architecture
-review keep their historical type/core-fit scope.
-[The 1.2.0 readiness review](tree-readiness-1.2.md) accepts this headless API;
-the renderer safety finding T1 is corrected. Candidate notes track exact-SHA CI
-and the separately authorized release.
+**Released in 1.2.0, 2026-11-19**, commit 8e1f50b. Independent headless ESM
+/tree exports createTreeTrace, treeScene and the 29 types below. Imports require
+1.2.0; npm 1.1.0 contains neither tree entry. Drawing belongs to /canvas/tree.
+[Release and verification](release-1.2.md) · [Initial implementation](checks/tree-implementation-2026-11-18.json).
+Dated contract/implementation/native reports retain their original scope; T1
+was closed before release with complete painted-square safety bounds.
 
 ## Scope and selected boundary
 
@@ -274,7 +270,7 @@ not to past events. edit/layout events carry no redundant replay log.
 
 ## Example: sparse binary tree and one atomic rotation
 
-This runs against the local build/archive, not the published npm 1.1.0. It retains both node
+This requires npm 1.2.0 or the corresponding local build/archive. It retains both node
 IDs and the explicitly chosen link ID; the missing left slot is never mistaken
 for the right child. The application chooses the new hierarchy and positions.
 
@@ -388,7 +384,7 @@ finally for cleanup, not work after yielding done.
 
 /tree stays DOM-free with ES2022 declarations and no rendering dependency.
 The [separate /canvas/tree entry](tree-canvas-api.md) implements createTreeRenderer
-locally, unpublished, with explicit layout/render methods. Its layout output
+since 1.2.0, with explicit layout/render methods. Its layout output
 feeds existing constructor/edit options, without changing this headless API; /canvas/graph is
 not declared to accept tree snapshots. Static tree-to-graph conversion requires
 explicit directed edges and preserving tree metadata separately; it does not
@@ -403,7 +399,7 @@ bundle isolation. The earlier [contract-only report](checks/tree-public-api-2026
 retains its declaration-probe scope; it is not rewritten as runtime evidence.
 The regression areas below are covered in this headless stage. The later
 [Canvas implementation report](checks/tree-canvas-implementation-2026-11-19.json)
-covers layout/render/native verification separately. Candidate CI/publication remain pending.
+covers layout/render/native verification separately. Candidate CI/publication completed; see the [release receipt](release-1.2.md).
 
 | Area | Required regression cases |
 | --- | --- |
@@ -416,6 +412,6 @@ covers layout/render/native verification separately. Candidate CI/publication re
 | Package | Real installed exports, strict supported compilers, ES2022-only headless types, lazy independent loading, all existing ten entries unchanged |
 
 The [readiness review](tree-readiness-1.2.md) selects 1.2.0 as the compatible minor
-target; package and lockfile now identify the unpublished 1.2.0 candidate. Slot/kind/event closed
+target, published as 1.2.0; 1.2.1 updates documentation without API changes. Slot/kind/event closed
 sets and all selected error/ownership behavior need the same compatibility review
 at first publication.

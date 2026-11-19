@@ -2,6 +2,11 @@
 
 [Русский](ru/grid-contract.md) · [Graph](graph-contract.md) · [Tree](tree-contract.md) · [Scenes](scene.md) · [Compatibility](api-compatibility.md)
 
+**API follow-up, 2026-11-19:** the [public /grid contract](grid-api.md) is selected
+against released 1.2.0; no implementation/export is added. It resolves the earlier
+coordinate, operation, result, limit and projection questions. The sketch and
+its checks below retain their historical scope.
+
 **Architecture review, 2026-11-16; no implementation or publication.** Candidate
 a9b93f8 is the checked baseline. Matrix/grid below denotes one future capability;
 the entry name (/grid, /matrix or a different boundary) is not selected. Neither

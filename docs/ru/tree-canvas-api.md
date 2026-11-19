@@ -2,20 +2,12 @@
 
 [English](../tree-canvas-api.md) · [Tree API](tree-api.md) · [Graph Canvas](graph-api.md) · [Viewport](canvas-viewport.md) · [Проверка контракта](../checks/tree-canvas-contract-2026-11-18.json)
 
-**Реализовано локально, 2026-11-19; не опубликовано.** Рабочая копия добавляет
-независимый /canvas/tree: createTreeRenderer и четыре типа. Нужна локальная
-сборка/архив; npm 1.1.0 не экспортирует ни /tree, ни /canvas/tree. Версия и lockfile
-соответствуют неопубликованному [кандидату 1.2.0](candidate-1.2.md). Headless API /tree и прежние entry сохраняются.
-[Проверки реализации](../checks/tree-canvas-implementation-2026-11-19.json) включают
-runtime/package-регрессии и настоящий Canvas. Прежний
-[отчёт проекта](../checks/tree-canvas-contract-2026-11-18.json) сохраняет исходный
-объём изолированных деклараций и core-witness.
-
-**T1 исправлен:** [painted bounds квадрата включают половину stroke width](../checks/tree-t1-fix-2026-11-19.json).
-Viewport/collision reservations соблюдают выбранный контракт 4 px / 2 px.
-Приёмка обновлена: пять новых постоянных регрессий, 32 native renderer-проверки
-и 17 UI-проверок примера. API, записанный layout и форма узлов/связей/квадратов
-прежние; меняются только решения безопасного размещения.
+**Выпущено в 1.2.0, 2026-11-19**, коммит 8e1f50b. Независимый /canvas/tree
+экспортирует createTreeRenderer и четыре типа. Нужны DOM-типы и Canvas 2D host;
+headless /tree остаётся отдельным. В npm 1.1.0 обоих entry нет.
+[Выпуск и проверки](release-1.2.md) · [Исходная реализация](../checks/tree-canvas-implementation-2026-11-19.json) ·
+[Исправление T1](../checks/tree-t1-fix-2026-11-19.json) · [Native-приёмка](../checks/tree-t1-native-2026-11-19.json).
+Ранние отчёты сохраняют свой исторический объём.
 
 ## API и владение
 
@@ -145,7 +137,7 @@ Binary in-order сохраняет left/right и пустые слоты, но �
 
 ## Атомарная запись раскладки
 
-Пример использует локальную сборку/архив; /canvas/tree отсутствует в npm 1.1.0. Нельзя
+Пример требует npm 1.2.0 или соответствующей локальной сборки. Нельзя
 передавать candidate.kind в edit: headless trace запрещает это поле.
 
 ```ts
@@ -408,5 +400,5 @@ node scripts/test-tree-canvas-browser.mjs --report ./tree-canvas-native.json
 
 [Пример вставки/поворота](../../examples/tree-player.html) использует эти API и Player;
 подробный собственный обход сохранён отдельно. [Ревизия](tree-readiness-1.2.md)
-завершена; T1 закрыт, приёмка обновлена. [Кандидат 1.2.0](candidate-1.2.md) фиксирует
-локальную подготовку; CI точного SHA и отдельно разрешаемый выпуск ещё впереди.
+завершена; T1 закрыт, приёмка обновлена. [Выпуск 1.2.0](release-1.2.md) завершён;
+[документ кандидата](candidate-1.2.md) сохраняет историческую подготовку.

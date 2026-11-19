@@ -2,20 +2,12 @@
 
 [Русский](ru/tree-canvas-api.md) · [Tree API](tree-api.md) · [Graph Canvas](graph-api.md) · [Viewport](canvas-viewport.md) · [Contract check](checks/tree-canvas-contract-2026-11-18.json)
 
-**Implemented locally, 2026-11-19; unpublished.** The working copy adds the
-independent /canvas/tree entry: createTreeRenderer and four types. It requires a
-local build/archive; npm 1.1.0 exports neither /tree nor /canvas/tree. Version and
-lockfile identify the unpublished [1.2.0 candidate](candidate-1.2.md). The headless /tree API and all previous entries stay intact.
-[Implementation checks](checks/tree-canvas-implementation-2026-11-19.json) include
-runtime/package regressions and real Canvas. The earlier
-[design report](checks/tree-canvas-contract-2026-11-18.json) retains its original
-isolated declaration/core-witness scope.
-
-**T1 corrected:** [painted square bounds include half the stroke width](checks/tree-t1-fix-2026-11-19.json).
-Viewport/collision reservations now honor the selected 4 px / 2 px contract.
-Five new permanent regressions, 32 native renderer checks and 17 example UI checks
-refresh acceptance. Public API, recorded layout and node/link/square shapes stay
-the same; only safe-placement decisions change.
+**Released in 1.2.0, 2026-11-19**, commit 8e1f50b. Independent /canvas/tree
+exports createTreeRenderer and four types. Calls require DOM types and a Canvas
+2D host; headless /tree remains separate. npm 1.1.0 contains neither entry.
+[Release and verification](release-1.2.md) · [Initial implementation](checks/tree-canvas-implementation-2026-11-19.json) ·
+[T1 correction](checks/tree-t1-fix-2026-11-19.json) · [Native acceptance](checks/tree-t1-native-2026-11-19.json).
+Earlier reports retain their historical scope.
 
 ## API and ownership
 
@@ -145,7 +137,7 @@ when the application explicitly calls layout and records the returned values.
 
 ## Recording layout atomically
 
-This example uses the local build/archive; /canvas/tree is absent from npm 1.1.0.
+This example requires npm 1.2.0 or the corresponding local build/archive.
 Do not spread candidate.kind into edit: the headless trace rejects a defined value.
 
 ```ts
@@ -405,5 +397,5 @@ priority, omission safety or error classes without compatibility review.
 
 The [insertion/rotation example](../examples/tree-player.html) uses these APIs with Player;
 the detailed custom traversal remains separate. The [review](tree-readiness-1.2.md)
-is complete and T1 is closed with refreshed acceptance. The [1.2.0 candidate](candidate-1.2.md)
-records local preparation; exact-SHA CI and a separately authorized release remain.
+is complete and T1 is closed with refreshed acceptance. [Release 1.2.0](release-1.2.md)
+is complete; [candidate notes](candidate-1.2.md) retain historical preparation.

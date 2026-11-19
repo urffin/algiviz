@@ -1,0 +1,192 @@
+{
+  "date": "2026-11-20",
+  "checkedAt": "2026-11-19T21:14:48.811Z",
+  "scope": "Pre-commit documentation-only patch 1.2.1; exact-SHA CI and npm verification follow commit",
+  "baseline": {
+    "version": "1.2.0",
+    "sha": "8e1f50b3fb0a565e1634066ebd9e3e32dd0ced1f"
+  },
+  "version": "1.2.1",
+  "commitIdentity": "Commit introducing docs/release-1.2.1.md",
+  "implementationUnchanged": true,
+  "exportsUnchanged": true,
+  "gridImplemented": false,
+  "verification": {
+    "checkedAt": "2026-11-19T21:14:48.599Z",
+    "version": "1.2.1",
+    "baseline": "8e1f50b3fb0a565e1634066ebd9e3e32dd0ced1f",
+    "publishedSourcesUnchanged": 53,
+    "protectedImplementationAndCheckFilesUnchanged": 189,
+    "historicalJSONUnchanged": 62,
+    "packageChangedOnlyVersion": true,
+    "lockChangedOnlyVersions": true,
+    "currentEntries": 12,
+    "runtimeNames": 27,
+    "typeOnlyNames": 128,
+    "distinctTypes": 116,
+    "newGridExports": false,
+    "EN_RUCodeParity": true,
+    "documentationFiles": 28,
+    "repositoryLinkTargetsChecked": 515,
+    "repository": {
+      "passed": 648,
+      "failed": 0,
+      "logSha256": "f758f37e4325c9b9df09b6e3a101970aef79dba9b204889d57cc32578742a0af"
+    },
+    "installed": {
+      "version": "1.2.1",
+      "compiler": "6.0.3",
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "runtimeTests": 403,
+      "logSha256": "b1743a346df6070743d89cba9f9c9e6d22b259cdb78e06c2145720d4cfc379bb"
+    },
+    "archive": {
+      "files": 111,
+      "distFiles": 106,
+      "distMatchesPublished1_2_0AfterNewlineNormalization": true,
+      "packagedDocumentation": [
+        "README.md",
+        "ru/README.md",
+        "CHANGELOG.md"
+      ],
+      "packagedReadmesCorrected": true,
+      "shasum": "fe3b3d2012d30ad218966c00f93253dd5b63726a",
+      "integrity": "sha512-HyYex/JyZNKEjjzZg51hrCDi69QtjkJuOqtuZVP+Ow1Pxdd9LfQzmMYLEqQW6imdqn7x05xmg42wnZonQz+CUA==",
+      "tarballSha256": "53aaca349e55127650fb651be65ed8da1fd7cb2c39ed0224b91e55539a3f5256"
+    },
+    "gitDiffCheck": "passed"
+  },
+  "gates": {
+    "commitPush": "authorized by npm documentation update request",
+    "exactSHA_CI": "all eleven jobs required before release",
+    "publication": "authorized: documentation patch, GitHub Release to OIDC npm only"
+  },
+  "documentationFiles": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "a27bf52046fca7c1e608ed52887a4cb85f4395ad3f89e3bd20faaa9788262e83"
+    },
+    {
+      "path": "README.md",
+      "sha256": "dd8091f79d3f7995882001d641666c81e3b77f1c5373e8eab1820a0ef31bf066"
+    },
+    {
+      "path": "docs/api-compatibility.md",
+      "sha256": "28b0da930348a73dc02a946e472ac20b3ecde51cb29702c48ae02f31d79c0031"
+    },
+    {
+      "path": "docs/candidate-1.2.md",
+      "sha256": "a9b3a548b6b8b24c097a72e855bc83004274a4cbb66bbebf0f4a413491f79483"
+    },
+    {
+      "path": "docs/current-api.md",
+      "sha256": "6badc0ee28f41147fedec69aad4055edfad9b73e7ab76b1d4ed28851ff291ea0"
+    },
+    {
+      "path": "docs/examples.md",
+      "sha256": "4038723f0d98559d2ac38300aed6e0d716c401d9d57f55a250abf039eb6f4089"
+    },
+    {
+      "path": "docs/grid-contract.md",
+      "sha256": "2e2982776786f497a4efcec5eac7039fbcc84efda7acaa685065512361cc750a"
+    },
+    {
+      "path": "docs/ru/api-compatibility.md",
+      "sha256": "01b1b6ea53c05491dc323fdac70f6acf1540add42b09c9e00df8b14b073118bd"
+    },
+    {
+      "path": "docs/ru/candidate-1.2.md",
+      "sha256": "f7f446b20593cb56f8a294af53e5621e2d2d5e525ae496999dd6ac59d5d6ff49"
+    },
+    {
+      "path": "docs/ru/current-api.md",
+      "sha256": "3e077bdfd6a6c3c514abefb4ccb7334b3897f4a9c1302001f3705626cb03a7f4"
+    },
+    {
+      "path": "docs/ru/examples.md",
+      "sha256": "7b8d0d82bead2836f9fc1e46e4bce3955b69256b3d1d26a19779d953072501da"
+    },
+    {
+      "path": "docs/ru/grid-contract.md",
+      "sha256": "6735c4e11c09999f7758a4a28cb4ccfa452c9d8c8d1ddcd137b55429a11e36b5"
+    },
+    {
+      "path": "docs/ru/tree-api.md",
+      "sha256": "a432e1908e4d92db7eea7a30734604caa7f1d05b4e3d90e998bb17a24c346309"
+    },
+    {
+      "path": "docs/ru/tree-canvas-api.md",
+      "sha256": "e3ab58f95a6f04ba7c75f77fae4a35d97aa0124a7f32f12c854f4631bc5e0e56"
+    },
+    {
+      "path": "docs/ru/tree-contract.md",
+      "sha256": "308119c17a208f588098640b8882d8203a9c2467714f8104e2102ad90523b58a"
+    },
+    {
+      "path": "docs/ru/tree-readiness-1.2.md",
+      "sha256": "0b0961ae58bad85bcab0e1c327a41ca1b53eb9fcaa9ed2ed9ddf39e26aaaee29"
+    },
+    {
+      "path": "docs/support-matrix.md",
+      "sha256": "613e893a896da2b41c8d6a6ec84a24c3d554fa7154dcd7403fcc386636912e46"
+    },
+    {
+      "path": "docs/tree-api.md",
+      "sha256": "0129eac0beb812921c7aec243ac4b82f3089c31264ea7e57d8b651791541fa80"
+    },
+    {
+      "path": "docs/tree-canvas-api.md",
+      "sha256": "b93ed3513d14c7393506009e0334ca7c1b8c529414d7f0b173a896c12d20ada5"
+    },
+    {
+      "path": "docs/tree-contract.md",
+      "sha256": "f0d2f785188ef3d6fb17291bfd32faac9e37931c667997d1aed9c8f8e715eab6"
+    },
+    {
+      "path": "docs/tree-readiness-1.2.md",
+      "sha256": "1ceb4e874846ccb58fcdc4450cd90d14971432df2430cb01f2135c70d6b261f2"
+    },
+    {
+      "path": "ru/README.md",
+      "sha256": "0369d6394ae11a6c6ac4180f3c1eabee2530ec5417c4501bc4c2ff59953ecef4"
+    },
+    {
+      "path": "docs/grid-api.md",
+      "sha256": "b25e81cb3712741506d32287e1c6361407b9b9ebf669bce39ac2d1c2b374ee10"
+    },
+    {
+      "path": "docs/release-1.2.1.md",
+      "sha256": "09fbd26d19376ffa27f36e5e396784b2d04daf9401373524e275052591f9b594"
+    },
+    {
+      "path": "docs/release-1.2.md",
+      "sha256": "b765f7c221314e6338c8a216f32b0f48a6fc380e9ca9b1585fe98cbaeb5e7dce"
+    },
+    {
+      "path": "docs/ru/grid-api.md",
+      "sha256": "b7f529b8757e755ecd18ce4f54eda30bc82f04ad964307f18451c43736ec4a89"
+    },
+    {
+      "path": "docs/ru/release-1.2.1.md",
+      "sha256": "29d61abf6da9528452da8ea5b78b2bb49f2024723a224a05dda0fb616de3e022"
+    },
+    {
+      "path": "docs/ru/release-1.2.md",
+      "sha256": "5d4fe3b5ed468c26f557c208c4e05bd53ba1ce2ee875c27da98a164df69edef8"
+    }
+  ],
+  "metadataFiles": [
+    {
+      "path": "package.json",
+      "sha256": "8b3023a7c318fd0e71a221f9f172a8e18f5f1be14b2e451e3ca97126006efa34"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "69cc7e46a804ca6e48e98a7ee021f17515553501906efc062985dc682b1655eb"
+    }
+  ],
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\release-1.2.1-93d0e521"
+}

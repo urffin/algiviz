@@ -2,14 +2,29 @@
 
 ## Unreleased
 
-## 1.2.0 — Candidate, 2026-11-19
+## 1.2.1 — 2026-11-20
 
-Prepared for review; unpublished. This compatible minor candidate adds two
-independent ESM entries. The ten released 1.1.0 entries, runtime dependencies
-and compiler versions are unchanged; existing imports need no migration.
-Tree imports require 1.2.0 after publication; use a local archive beforehand.
-See [candidate notes](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.2.md)
-for migration, verification and remaining release gates.
+Documentation-only patch. Runtime implementations, declarations, twelve export
+paths and dependencies are unchanged from 1.2.0; no migration is required.
+
+- Correct EN/RU README and packaged changelog: /tree and /canvas/tree are released
+  since 1.2.0, with stable IDs, atomic edits, layout, captions and green results.
+- Reconcile current API, compatibility, environment and example references;
+  record completed 1.2.0 publication and preserve dated evidence.
+- Document the future /grid public API and optional Canvas boundary in the
+  repository. No grid implementation, package entry or renderer is included.
+
+[Patch notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.2.1.md).
+
+## 1.2.0 — 2026-11-19
+
+Released from 8e1f50b after all 11 CI jobs. Exact npm 1.2.0, latest, a fresh
+installation, registry signature and source-bound provenance were verified.
+This compatible minor release adds two independent ESM entries. The ten released
+1.1.0 entry implementations, dependencies and Player API are unchanged; existing
+imports need no migration. Tree imports require 1.2.0.
+[Release verification](https://github.com/urffin/algiviz/blob/master/docs/release-1.2.md) ·
+[Historical preparation/migration](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.2.md).
 
 - Add headless `/tree`: `createTreeTrace`, `treeScene` and 29 types for
   rooted ordered/binary trees. Support stable explicit node/link IDs, sparse

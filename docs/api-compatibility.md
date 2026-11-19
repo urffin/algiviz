@@ -1,22 +1,18 @@
 # Public API compatibility policy
 
-[Русский](ru/api-compatibility.md) · [Stabilization](api-stability.md) · [API review](api-readiness-0.16.0.md) · [Support evidence](support-matrix.md)
+[Русский](ru/api-compatibility.md) · [Stabilization](api-stability.md) · [Current API](current-api.md) · [Support evidence](support-matrix.md)
 
-**Current scope, 2026-11-17.** Released 1.1.0 publishes ten entries. U3 protects
-public types, errors, environments and behavior equally for the original eight
-and /graph + /canvas/graph. No entry is experimental. Existing eight imports
-require no migration from 1.0.0. [Release receipt](releases/1.1.0.json).
-
-Dated reviews/candidates retain their original scope. [Current status](current-api.md)
-distinguishes released features from unpublished local /tree and /canvas/tree.
-Their first publication will receive the same protection; neither exists in npm 1.1.0.
-[The 1.2.0 review](tree-readiness-1.2.md) selects a compatible minor addition;
-T1 is corrected without weakening the safety contract; candidate gates remain.
+**Current scope, 2026-11-19.** Released 1.2.0 publishes twelve entries. U3
+protects public types, errors, environments and behavior equally for every entry,
+including /tree and /canvas/tree. No entry is experimental. Existing ten imports
+need no migration. [Release receipt](releases/1.2.0.json).
+Dated reviews/candidates retain their original scope. Future [grid API](grid-api.md)
+is not implemented/exported; first publication will receive the same protection.
 
 ## Public surface
 
-Only the export map defines importable paths. Released 1.1.0 has **10 entries,
-24 runtime names, 95 type-only exports, 83 distinct types**. The 1.0.0 baseline
+Only the export map defines importable paths. Released 1.2.0 has **12 entries,
+27 runtime names, 128 type-only exports, 116 distinct types**. The 1.0.0 baseline
 had 8 / 21 / 69 / 57. Shared Worker types count at both paths; classes count as
 runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.md).
 
@@ -32,6 +28,8 @@ runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.
 | `/worker/runtime` | `exposeWorkerSource` | 15 |
 | `/graph` | `createGraphTrace`, `graphScene` | 22 |
 | `/canvas/graph` | `createGraphRenderer` | 4 |
+| `/tree` | `createTreeTrace`, `treeScene` | 29 |
+| `/canvas/tree` | `createTreeRenderer` | 4 |
 
 The protected contract includes exported names, signatures, generics/inference,
 overload selection for existing calls, readonly/optional fields and reachable

@@ -62,7 +62,7 @@ The fixed example inserts 1 into the left subtree of 3, then performs one right
 rotation. The final root is 2, with children 1 and 3; in-order stays 1 → 2 → 3.
 This demonstrates one left-left balancing case, not a full AVL insertion algorithm.
 The [algorithm](../examples/tree-player-algorithm.mjs) belongs to the application.
-The unpublished /tree and /canvas/tree entries provide immutable steps, explicit
+The /tree and /canvas/tree entries, published in 1.2.0, provide immutable steps, explicit
 layout and stock drawing; the example does not add a library export.
 
 The stock Player uses shared 650 ms step / 1,000 ms final-hold timing and its own
