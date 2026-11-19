@@ -2,10 +2,10 @@
 
 [Detailed example](../examples/graph.html) · [Stock renderer example](../examples/graph-player.html) · [Comparison](bfs-graph-comparison.md) · [Graph API](graph-api.md)
 
-**Working-tree update, 2026-11-17; unpublished.** Both pages share /graph snapshots,
+**Updated for released 1.1.0, 2026-11-17.** Both pages share /graph snapshots,
 BFS state and the standard /player. The detailed page preserves its custom /scene
 renderer; the other uses /canvas/graph. Published npm 1.0.0 does not contain the
-two graph entries. BFS itself remains application code.
+two graph entries; they are published in 1.1.0. BFS itself remains application code.
 
 ## 1. Keep the algorithm in the application
 

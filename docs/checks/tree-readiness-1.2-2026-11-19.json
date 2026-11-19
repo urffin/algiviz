@@ -1,0 +1,762 @@
+{
+  "date": "2026-11-19",
+  "verifiedAt": "2026-11-19T19:38:35.782Z",
+  "scope": "Final /tree and /canvas/tree API/documentation/example readiness review for target 1.2.0. Documentation only; no implementation/API, version/lockfile, commit, push, tag, Release, publication, CI or registry lookup.",
+  "baseline": {
+    "releasedVersion": "1.1.0",
+    "sha": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+    "origin": "https://github.com/urffin/algiviz.git",
+    "originalSourcesUnchanged": 43,
+    "originalExportRecordsUnchanged": 10
+  },
+  "decision": {
+    "target": "1.2.0",
+    "versionKind": "compatible minor",
+    "currentMetadata": "1.1.0",
+    "readyForCandidateFreeze": false,
+    "openImplementationBlockers": [
+      "T1"
+    ],
+    "openAPIClarifications": [],
+    "existingTenImportsNeedMigration": false,
+    "newImportsRequireTargetAfterPublication": true
+  },
+  "surface": {
+    "published": {
+      "entries": 10,
+      "runtime": 24,
+      "types": 95,
+      "distinctTypes": 83
+    },
+    "current": {
+      "entries": 12,
+      "runtime": 27,
+      "types": 128,
+      "distinctTypes": 116
+    },
+    "addedRuntime": {
+      "/tree": [
+        "createTreeTrace",
+        "treeScene"
+      ],
+      "/canvas/tree": [
+        "createTreeRenderer"
+      ]
+    },
+    "addedTypes": {
+      "/tree": 29,
+      "/canvas/tree": 4
+    },
+    "closedSets": {
+      "TreeKind": [
+        "ordered",
+        "binary"
+      ],
+      "TreeBinarySlot": [
+        "left",
+        "right"
+      ],
+      "TreeEvent": [
+        "start",
+        "edit",
+        "mark",
+        "layout",
+        "done"
+      ],
+      "TreeObjects": [
+        "treeNode",
+        "treeLink"
+      ],
+      "nodeCaptions": [
+        "auto",
+        "hidden"
+      ],
+      "emptySlots": [
+        "hidden",
+        "visible"
+      ]
+    },
+    "roles": "Open nonempty strings; role named result does not select a result.",
+    "inventory": [
+      {
+        "entry": "./tree",
+        "runtime": [
+          "createTreeTrace",
+          "treeScene"
+        ],
+        "types": [
+          "TreeKind",
+          "TreeBinarySlot",
+          "TreeNode",
+          "TreeOrderedLink",
+          "TreeBinaryLink",
+          "TreeLink",
+          "TreeOrderedInput",
+          "TreeBinaryInput",
+          "TreeInput",
+          "TreePosition",
+          "TreeAnnotation",
+          "TreeMark",
+          "TreeNodeCaption",
+          "TreeNodeCaptionPatch",
+          "TreeMarkUpdate",
+          "TreeResultInput",
+          "TreeResult",
+          "TreeDoneOptions",
+          "TreeTraceOptions",
+          "TreeEdit",
+          "TreeSnapshot",
+          "TreeEvent",
+          "TreeStep",
+          "TreeFrame",
+          "TreeTrace",
+          "TreeSceneOptions",
+          "TreeNodeView",
+          "TreeLinkView",
+          "TreeObjects"
+        ]
+      },
+      {
+        "entry": "./canvas/graph",
+        "runtime": [
+          "createGraphRenderer"
+        ],
+        "types": [
+          "GraphPalette",
+          "GraphRendererOptions",
+          "GraphRenderSize",
+          "GraphRenderer"
+        ]
+      },
+      {
+        "entry": "./graph",
+        "runtime": [
+          "createGraphTrace",
+          "graphScene"
+        ],
+        "types": [
+          "GraphNode",
+          "GraphEdge",
+          "GraphInput",
+          "GraphPosition",
+          "GraphAnnotation",
+          "GraphNodeCaption",
+          "GraphNodeCaptionPatch",
+          "GraphMark",
+          "GraphMarkUpdate",
+          "GraphResultInput",
+          "GraphResult",
+          "GraphDoneOptions",
+          "GraphTraceOptions",
+          "GraphSnapshot",
+          "GraphEvent",
+          "GraphStep",
+          "GraphFrame",
+          "GraphTrace",
+          "GraphSceneOptions",
+          "GraphNodeView",
+          "GraphEdgeView",
+          "GraphObjects"
+        ]
+      },
+      {
+        "entry": "./scene",
+        "runtime": [
+          "createSceneFrame",
+          "createSceneRenderer",
+          "createSceneProjector"
+        ],
+        "types": [
+          "SceneObject",
+          "Scene",
+          "ObjectTransition",
+          "SceneFrame",
+          "SceneVisualizations"
+        ]
+      },
+      {
+        "entry": "./array",
+        "runtime": [
+          "createArrayTrace",
+          "defineArrayAlgorithm",
+          "createArrayPlayer",
+          "createArrayTimeline"
+        ],
+        "types": [
+          "ArrayTrace",
+          "ArrayAlgorithm",
+          "SortedRegions",
+          "ArrayDoneOptions",
+          "Item",
+          "ArrayEvent",
+          "ArraySnapshot",
+          "ArrayStep",
+          "ArrayPlayer",
+          "ArrayFrame",
+          "ArrayTimeline"
+        ]
+      },
+      {
+        "entry": "./playback",
+        "runtime": [
+          "createPlayer",
+          "createStatePlayer",
+          "createTimeline",
+          "createStepEmitter",
+          "createRewindBuffer",
+          "createAsyncSource"
+        ],
+        "types": [
+          "Player",
+          "Step",
+          "Frame",
+          "Timeline",
+          "RewindBuffer",
+          "AsyncSource",
+          "AsyncSourceSignal",
+          "AsyncSourceFactory",
+          "AsyncSourceReadResult",
+          "AsyncSourceCloseResult"
+        ]
+      },
+      {
+        "entry": "./player",
+        "runtime": [
+          "Player"
+        ],
+        "types": [
+          "PlayerOptions",
+          "PlayerStatus",
+          "PlayerLabels",
+          "PlayerCloseResult"
+        ]
+      },
+      {
+        "entry": "./canvas/viewport",
+        "runtime": [
+          "createCanvasViewport"
+        ],
+        "types": [
+          "CanvasViewportOptions",
+          "CanvasViewportSize",
+          "CanvasViewport"
+        ]
+      },
+      {
+        "entry": "./canvas",
+        "runtime": [
+          "arrayScene",
+          "createArrayRenderer",
+          "createSortRenderer"
+        ],
+        "types": [
+          "ArrayObjects",
+          "ArrayPalette",
+          "ArrayPaletteOverrides",
+          "ArrayRendererOptions"
+        ]
+      },
+      {
+        "entry": "./worker",
+        "runtime": [
+          "createWorkerSourceFactory",
+          "WorkerSourceError"
+        ],
+        "types": [
+          "WorkerSourceErrorOptions",
+          "WorkerSourceIterator",
+          "WorkerSourceSession",
+          "WorkerSourceFactory",
+          "WorkerSourceOptions",
+          "WorkerSourcePhase",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceErrorCode",
+          "WorkerSourceThrownKind",
+          "WorkerSourceRemoteError",
+          "WorkerSourceIssue",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceTermination",
+          "WorkerSourceCloseResult",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceCancellation",
+          "WorkerSourceSignal"
+        ]
+      },
+      {
+        "entry": "./worker/runtime",
+        "runtime": [
+          "exposeWorkerSource"
+        ],
+        "types": [
+          "WorkerStateFactory",
+          "WorkerTransferSelector",
+          "WorkerSourceEndpointOptions",
+          "WorkerSourcePhase",
+          "WorkerSourceRemotePhase",
+          "WorkerSourceErrorCode",
+          "WorkerSourceThrownKind",
+          "WorkerSourceRemoteError",
+          "WorkerSourceIssue",
+          "WorkerSourceCleanupSummary",
+          "WorkerSourceTermination",
+          "WorkerSourceCloseResult",
+          "WorkerSourceShutdownOptions",
+          "WorkerSourceCancellation",
+          "WorkerSourceSignal"
+        ]
+      },
+      {
+        "entry": "./canvas/tree",
+        "runtime": [
+          "createTreeRenderer"
+        ],
+        "types": [
+          "TreePalette",
+          "TreeRendererOptions",
+          "TreeRenderSize",
+          "TreeRenderer"
+        ]
+      }
+    ]
+  },
+  "readiness": [
+    {
+      "area": "API/types",
+      "status": "ready"
+    },
+    {
+      "area": "headless topology/atomic edit/retirement",
+      "status": "ready"
+    },
+    {
+      "area": "scenes and canonical snapshot view",
+      "status": "ready"
+    },
+    {
+      "area": "explicit ordered/binary layout",
+      "status": "ready"
+    },
+    {
+      "area": "attached relation interpolation and result",
+      "status": "ready"
+    },
+    {
+      "area": "secondary placement/slot bounds",
+      "status": "requires change",
+      "finding": "T1"
+    },
+    {
+      "area": "host/error behavior",
+      "status": "ready within recorded contract"
+    },
+    {
+      "area": "separate example and preserved custom Canvas/SVG",
+      "status": "ready"
+    },
+    {
+      "area": "package/loading",
+      "status": "ready for later versioned freeze"
+    },
+    {
+      "area": "documentation",
+      "status": "reconciled with T1 explicitly open"
+    },
+    {
+      "area": "exact 1.2 candidate/CI/publication",
+      "status": "pending gates"
+    }
+  ],
+  "findings": [
+    {
+      "id": "T1",
+      "severity": "release blocker",
+      "status": "confirmed open",
+      "scope": "Empty-slot square stroke is excluded from safety bounds",
+      "size": {
+        "width": 160,
+        "height": 21
+      },
+      "options": {
+        "theme": "light",
+        "horizontalGap": 4,
+        "emptySlots": "visible"
+      },
+      "markers": [
+        {
+          "rect": [
+            63,
+            11,
+            6,
+            6
+          ],
+          "lineWidth": 1.5,
+          "nominalBottom": 17,
+          "paintedBottom": 17.75,
+          "requiredBottom": 17,
+          "actualBottomMargin": 3.25
+        },
+        {
+          "rect": [
+            91,
+            11,
+            6,
+            6
+          ],
+          "lineWidth": 1.5,
+          "nominalBottom": 17,
+          "paintedBottom": 17.75,
+          "requiredBottom": 17,
+          "actualBottomMargin": 3.25
+        }
+      ],
+      "expectedMinimumViewportMargin": 4,
+      "observedMinimumViewportMargin": 3.25,
+      "APIChangeRequired": false,
+      "priority": "P2",
+      "source": {
+        "planner": {
+          "file": "src/canvas/tree-labels.ts",
+          "nominalSquareLine": 110,
+          "viewportTestLine": 113
+        },
+        "drawing": {
+          "file": "src/canvas/tree.ts",
+          "strokeWidthLine": 131,
+          "strokeRectLine": 134
+        }
+      },
+      "reproduction": {
+        "tree": {
+          "kind": "binary",
+          "rootId": "r",
+          "nodes": [
+            {
+              "id": "r",
+              "label": ""
+            }
+          ],
+          "links": []
+        },
+        "layout": [
+          {
+            "nodeId": "r",
+            "x": 0,
+            "y": 0
+          }
+        ],
+        "progress": 1,
+        "logicalAndBitmapSize": {
+          "width": 160,
+          "height": 21
+        },
+        "options": {
+          "theme": "light",
+          "horizontalGap": 4,
+          "emptySlots": "visible"
+        }
+      },
+      "requiredCorrection": [
+        "Include half the square stroke width in the viewport and collision reservations; preserve the selected 4 px / 2 px safety contract.",
+        "Add permanent boundary/neighbor-reservation regressions, including DPR, hidden/visible and enter/exit behavior.",
+        "Refresh affected Canvas/example acceptance and source/native hashes before rechecking readiness."
+      ],
+      "nativeReproductionClaimed": false
+    }
+  ],
+  "checks": {
+    "fresh": {
+      "build": {
+        "passed": true,
+        "logSha256": "4d29e7aabbce3f04bc0f47d7cf79f630cbd163de461bacba2a1ea53f8575a7d6"
+      },
+      "isolatedRuntime": {
+        "passed": 10,
+        "checks": [
+          {
+            "name": "Public runtime namespace is exactly two headless factories and one Canvas factory",
+            "passed": true
+          },
+          {
+            "name": "Atomic topology failure preserves identity/index and does not reserve new IDs",
+            "passed": true
+          },
+          {
+            "name": "Defined edit.kind rejected; undefined fields keep values and payloads stay opaque",
+            "passed": true
+          },
+          {
+            "name": "Ordered deep chain is iterative and storage order is independent of hierarchy",
+            "passed": true
+          },
+          {
+            "name": "Scene namespace domains and canonical cloned snapshots exclude ghost objects",
+            "passed": true
+          },
+          {
+            "name": "History result/rewind is snapshot-owned, ignores Frame.event/stepIndex and does not rerun layout",
+            "passed": true
+          },
+          {
+            "name": "One stable-ID rotation paints two half-opacity attached branches plus the unchanged link",
+            "passed": true
+          },
+          {
+            "name": "Validation precedes host use, including zero-size kind mismatch and bad descriptors",
+            "passed": true
+          },
+          {
+            "name": "All supplied numeric TextMetrics are checked before missing-field fallback and before pixels",
+            "passed": true
+          },
+          {
+            "name": "Falsy primary host errors survive restore failure; reentrancy guard recovers",
+            "passed": true
+          }
+        ],
+        "confirmedContractFailures": 1,
+        "T1IsNotPassingSafetyRegression": true,
+        "probeSha256": "9e5a862b59860d65e06994256f93d6621bc6efe20a9ca699a21ef480e0303606",
+        "resultSha256": "bb8d971bfbd6ed163cbe1a2ce86dff5796a876ccd31f1e32158eb42649137f74"
+      },
+      "runtimePublicPrivateExports": {
+        "command": "node test/package-exports.mjs",
+        "passed": true
+      },
+      "declarations": {
+        "EN_RUCodeParity": true,
+        "emittedPublicDeclarationsMatch": true
+      },
+      "archive": {
+        "command": "npm.cmd pack --dry-run --ignore-scripts --json",
+        "version": "1.1.0",
+        "files": 111,
+        "distFiles": 106,
+        "treeDistFiles": 12,
+        "treeCanvasDistFiles": 8,
+        "noExamplesTestsOrScriptsShipped": true,
+        "reportSha256": "9c15447781079f11643f70f0e5d143a84310d7c192e6041431e74c675cc70556"
+      }
+    },
+    "reused": {
+      "hashBoundRecords": 29,
+      "nativeSourceCompiledRecords": 8,
+      "suiteInputsUnchanged": 181,
+      "repository": {
+        "passed": 643,
+        "source": "tree-player-example-2026-11-19.json",
+        "rerun": false
+      },
+      "installedConsumers": {
+        "testsPerCompiler": 398,
+        "compilers": [
+          "5.0.4",
+          "5.4.5",
+          "5.9.3",
+          "6.0.3"
+        ],
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "source": "tree-canvas-implementation-2026-11-19.json",
+        "rerun": false
+      },
+      "bundle": {
+        "variants": 34,
+        "source": "tree-canvas-implementation-2026-11-19.json",
+        "rerun": false
+      },
+      "native": {
+        "rendererChecks": 30,
+        "exampleUIChecks": 17,
+        "sources": [
+          "tree-canvas-browser-2026-11-19.json",
+          "tree-player-example-2026-11-19.json"
+        ],
+        "host": {
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+          "devicePixelRatio": 1.100000023841858
+        },
+        "rerun": false,
+        "T1BoundaryNotCoveredByPriorFixtures": true
+      },
+      "verifiedLogHashes": [
+        {
+          "kind": "repository-643",
+          "sha256": "906cb81a7652ba0a1a75ce06436ca53fa7163c3018828375606b1fe6ac123958"
+        },
+        {
+          "kind": "bundle-34",
+          "sha256": "7b5102fc9752f46ee8cc21da10b8fa6b9867b5a92bbcc157d2de09f3a251b71e"
+        },
+        {
+          "kind": "consumer-5.0.4",
+          "sha256": "29e4e746a7927aff21319de3ecd0975e28919d7054f2f60c1ec9e0c894e0b503"
+        },
+        {
+          "kind": "consumer-5.4.5",
+          "sha256": "6874403196c45343a880b8f08d04c7217fb9786da1f0d7f29d6a438634d2b1e1"
+        },
+        {
+          "kind": "consumer-5.9.3",
+          "sha256": "25a91357d3d6b27b9036e6aebbc1de124633b9f3109faef29f57bbb81d9a41a8"
+        },
+        {
+          "kind": "consumer-6.0.3",
+          "sha256": "6a908bed69d1288b536a715a833dd262ccc1a54f2c1c60b4e14454e64eeada04"
+        }
+      ]
+    },
+    "preservation": {
+      "currentSourcesUnchanged": 53,
+      "allNonMarkdownFilesUnchanged": true,
+      "packageAndLockUnchanged": true,
+      "historicalJSONReportsUnchanged": 71,
+      "legacyFilesUnchanged": [
+        {
+          "path": "examples/tree.html",
+          "sha256": "c4240edc5712176dfd37413d0c21d14c2fe1d945c797d1affb933b6f7cd1ecd5"
+        },
+        {
+          "path": "examples/tree-demo.mjs",
+          "sha256": "8c1ebc550e70ee41c0a7235261da08f19982f34739d7fe37f9c0e5c495f84d70"
+        },
+        {
+          "path": "examples/tree-scene.mjs",
+          "sha256": "35b6aa8594293ca535d2180a5d3b35759c120c2f7b30024256a66ca97cd21bcf"
+        },
+        {
+          "path": "examples/tree-svg.mjs",
+          "sha256": "afa6af97042a0b2d92065ad7b79e69ee74428c19e1f29e232f60f9bca3008ff9"
+        },
+        {
+          "path": "examples/tree-pointer.mjs",
+          "sha256": "f68dffb3cddb537a749fcdfb2901f21aac8182ebb8b4932bf22a163eea9472b7"
+        }
+      ]
+    },
+    "documentation": {
+      "closedIssues": [
+        "Current availability and target 1.2.0 distinguished from published 1.1.0.",
+        "T1 notice added without weakening the selected placement margins.",
+        "Headless caller-owned layout versus optional Canvas layout helper clarified.",
+        "Current renderer cache and context ownership wording reconciled; no cache is retained.",
+        "Readiness/release gates linked from EN/RU current references."
+      ],
+      "files": [
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "40c0600f48a026091c654e36e24ee1b81ba9111c0b7c941ce1551d584715cc3a"
+        },
+        {
+          "path": "ru/README.md",
+          "sha256": "5690873d14be7c548e68d19e29f9b202dfba7dcea049d4e5651dc67e0a7376d7"
+        },
+        {
+          "path": "README.md",
+          "sha256": "b4a162b95204c4fcf3a033c3cf386b023fe898cf6c6e53cf96f0424575dcf26b"
+        },
+        {
+          "path": "docs/tree-canvas-api.md",
+          "sha256": "36ac9f47b1c7a30d0f3f6cbc65e3f5937409c4df8f80c6b9979a5df44a2fcad6"
+        },
+        {
+          "path": "docs/tree-api.md",
+          "sha256": "83e76d917b85bafbc1fef645f4708fb59934e7b49553e1621ea01a95210e9902"
+        },
+        {
+          "path": "docs/support-matrix.md",
+          "sha256": "ae7c42830aef04dc64d7e0ce8ace01e361a007ca428b1dfa2cf9c3c68586d942"
+        },
+        {
+          "path": "docs/current-api.md",
+          "sha256": "e810d42915575dfac4265a43270d444b217d8eb13cf1b53b878b2bad3a9f7899"
+        },
+        {
+          "path": "docs/api-compatibility.md",
+          "sha256": "c34824293ef4a5ee50a7a913160fdfc29740aa49f2c5683748cd586eb780bc75"
+        },
+        {
+          "path": "docs/ru/tree-canvas-api.md",
+          "sha256": "fb4fe152c9566e971a6f2277a687fdc087f07d42451d385f06496a6c2b761471"
+        },
+        {
+          "path": "docs/ru/tree-api.md",
+          "sha256": "4ccc7723a7df853a7bf968548d2c4795e29acb856a2f8129b0ae47ce1314e2ac"
+        },
+        {
+          "path": "docs/ru/current-api.md",
+          "sha256": "9b4af36287fe8faa618a877502bc1e206bd6dd73c8a527d6a047dc572753e01f"
+        },
+        {
+          "path": "docs/ru/api-compatibility.md",
+          "sha256": "585fe228f4c7b5a1ed1982b7624c5f2c0f54cbc1e473ea0cea870fbea161c23f"
+        },
+        {
+          "path": "docs/tree-readiness-1.2.md",
+          "sha256": "6459fd72d33e9f3cc3bf8f78b8834424fd5969e7ad5ebf58b92e4af4362ff235"
+        },
+        {
+          "path": "docs/ru/tree-readiness-1.2.md",
+          "sha256": "18769db5efde603eca71210d47a190514469790c560a5a95813b2d5ca854a8e1"
+        }
+      ]
+    }
+  },
+  "releaseGates": [
+    {
+      "id": "R0",
+      "status": "open blocker",
+      "action": "Close T1 with permanent regressions and refreshed affected source/native acceptance."
+    },
+    {
+      "id": "R1",
+      "status": "pending R0",
+      "action": "Prepare 1.2.0 package and both lock roots, changelog/release notes and EN/RU availability/migration statement."
+    },
+    {
+      "id": "R2",
+      "status": "pending R0/R1",
+      "action": "Freeze all reviewed/untracked tree and prior release-doc files; build/install/verify the exact 1.2.0 archive and acceptance hashes."
+    },
+    {
+      "id": "R3",
+      "status": "pending authorization and final SHA",
+      "action": "Commit/push and pass all 11 exact-SHA jobs: six Node/OS, four compiler consumers, one bundle."
+    },
+    {
+      "id": "R4",
+      "status": "not authorized by review",
+      "action": "Separate tag v1.2.0 and stable GitHub Release, await OIDC npm publication, verify exact/latest/fresh install/provenance/SHA."
+    }
+  ],
+  "workflowReview": {
+    "CIJobs": 11,
+    "Node": [
+      22,
+      24,
+      26
+    ],
+    "OS": [
+      "ubuntu-latest",
+      "windows-latest"
+    ],
+    "compilerVersions": [
+      "5.0.4",
+      "5.4.5",
+      "5.9.3",
+      "6.0.3"
+    ],
+    "releaseWorkflowEnforcesPrior11Jobs": false,
+    "verifyR3BeforeRelease": true,
+    "workflowChanges": false
+  },
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\tree-readiness-1.2-f93284a3",
+  "limits": [
+    "No new full-suite/compiler/bundle/native run or registry/latest/provenance query is claimed.",
+    "T1 was reproduced with actual renderer commands and stroke width, not a new native raster run.",
+    "Reuse only certifies recorded fixture/source identities, not all viewport/geometry cases.",
+    "Retired IDs grow independently of rewind capacity; individual layout/render work is not preempted by a frame-read budget.",
+    "Secondary text/slots can be omitted; custom intermediate geometry can overlap; payload/context ownership remains explicit."
+  ]
+}

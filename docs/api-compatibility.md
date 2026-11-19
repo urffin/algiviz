@@ -2,24 +2,23 @@
 
 [Русский](ru/api-compatibility.md) · [Stabilization](api-stability.md) · [API review](api-readiness-0.16.0.md) · [Support evidence](support-matrix.md)
 
-**Current scope, 2026-11-17.** U3 was selected before 1.0 and protects public API
-through 1.x. Release baseline 1.0.0 has eight entries. The local /graph and
-/canvas/graph receive the same type/error/environment/behavior protection at
-their first 1.1.0 release. No entry is designated experimental.
+**Current scope, 2026-11-17.** Released 1.1.0 publishes ten entries. U3 protects
+public types, errors, environments and behavior equally for the original eight
+and /graph + /canvas/graph. No entry is experimental. Existing eight imports
+require no migration from 1.0.0. [Release receipt](releases/1.1.0.json).
 
-Dated [0.16 reviews](api-readiness-0.16.0.md) and [1.0 preparation](candidate-1.0.md)
-remain historical; F1/F2/U1/U2/U5 are already in 1.0.0. [Current status](current-api.md)
-and [1.1 review](graph-readiness-1.1.md) distinguish released and local features.
-This policy does not retroactively rewrite releases or authorize publication.
+Dated reviews/candidates retain their original scope. [Current status](current-api.md)
+distinguishes released features from unpublished local /tree and /canvas/tree.
+Their first publication will receive the same protection; neither exists in npm 1.1.0.
+[The 1.2.0 review](tree-readiness-1.2.md) selects a compatible minor addition;
+T1 is corrected without weakening the safety contract; candidate gates remain.
 
 ## Public surface
 
-Only the package export map defines importable paths. Baseline 1.0.0 has **8
-entries, 21 runtime names, 69 type-only exports, 57 distinct types**. Local
-/graph adds 2 runtime/22 types and /canvas/graph adds 1 runtime/4 types: **10
-entries, 24 runtime names, 95 type-only exports, 83 distinct types**. Shared Worker
-types count at both paths; classes count as runtime names. [Current inventory](current-api.md)
-and the [review record](checks/graph-readiness-1.1-2026-11-17.json) enumerate names.
+Only the export map defines importable paths. Released 1.1.0 has **10 entries,
+24 runtime names, 95 type-only exports, 83 distinct types**. The 1.0.0 baseline
+had 8 / 21 / 69 / 57. Shared Worker types count at both paths; classes count as
+runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.md).
 
 | Entry suffix | Runtime names | Type-only names |
 | --- | --- | --- |
@@ -132,20 +131,22 @@ The later **U5 decision selects identity preservation** for host postMessage thr
 as unknown, with host/post report context. Cancel failures are original cleanup
 issues inside the existing cleanup summary; [the U5 contract](worker-post-errors.md)
 defines the boundary and priority. The [75 permanent public/installed regressions](checks/u5-post-errors-regressions-2026-11-14.json)
-now pass locally; candidate review/verification remain before 1.0 readiness.
+passed before 1.0 and are part of the released baseline. The 1.1 release
+receipt records the later exact-candidate acceptance.
 The U3 policy itself introduced no runtime change.
 
 ## Environments and loading
 
 Import safety, declaration libraries, runtime capabilities and concrete version
-verification are separate guarantees. All eight runtime modules must remain
+verification are separate guarantees. All ten released runtime entries must remain
 importable without DOM/Worker globals or import-time allocation of external resources; that
 does not make their active browser operations available in Node.
 
 | Entries | Declaration libraries | Active runtime boundary |
 | --- | --- | --- |
-| `/playback`, `/scene`, `/array` | ES2022, no DOM or ambient Node types required | Headless JS/iterables; async adapter uses its cooperative DOM-free signal |
+| `/playback`, `/scene`, `/array`, `/graph` | ES2022, no DOM or ambient Node types required | Headless JS/iterables; async adapter uses its cooperative DOM-free signal |
 | `/canvas` | ES2022 + DOM | Canvas 2D host; bitmap coordinates; no implicit viewport ownership |
+| `/canvas/graph` | ES2022 + DOM | Canvas 2D host; explicit logical size and caller-owned bitmap/CSS sizing |
 | `/canvas/viewport`, `/player` | ES2022 + DOM | Browser DOM/window and the documented measurement/scheduling APIs; creation/mounting is explicit |
 | `/worker` | ES2022 + DOM; browser-Worker host use with WebWorker types also documented | Dedicated module Worker host, native clone/transfer facilities; lazy exclusive Worker ownership |
 | `/worker/runtime` | ES2022 + WebWorker, checked separately from DOM | Explicit dedicated Worker endpoint installation and compatible source factory |
@@ -219,9 +220,8 @@ Use the selected Node/TS CI matrix and focused native browser/Worker checks for
 the actual candidate and affected browser behavior. Prior local/mock/native
 results retain their original scope; green checks do not expand support targets.
 
-U4 has reconciled the eight references with this policy. Before a 1.0 release
-decision, review the resulting permanently covered U5 contract and full
-baseline and pass exact-candidate verification.
-The policy is selected; candidate readiness and publication remain separate
+U4 reconciled the original eight references; 1.1 adds the two graph references
+under the same policy. Releases 1.0 and 1.1 are complete; see the [1.1 receipt](releases/1.1.0.json).
+For future changes, candidate acceptance and publication remain separate
 owner-authorized actions. [U3 verification](checks/u3-compatibility-policy-2026-11-14.json)
 records inventory and unchanged implementation checks for this documentation step.

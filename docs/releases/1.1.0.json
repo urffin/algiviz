@@ -1,0 +1,225 @@
+{
+  "date": "2026-11-17",
+  "verifiedAt": "2026-11-17T20:14:39.074Z",
+  "scope": "Receipt of completed 1.1.0 publication; recorded from the verified release task, no publication or fresh registry lookup in this documentation update",
+  "package": "@grundyjs/algiviz",
+  "version": "1.1.0",
+  "sha": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+  "tag": "v1.1.0",
+  "localTagMatches": true,
+  "remoteTagMatches": true,
+  "release": {
+    "id": 449135319,
+    "url": "https://github.com/urffin/algiviz/releases/tag/v1.1.0",
+    "tag": "v1.1.0",
+    "draft": false,
+    "prerelease": false,
+    "publishedAt": "2026-11-17T20:04:54Z"
+  },
+  "ci": {
+    "url": "https://github.com/urffin/algiviz/actions/runs/44164521486",
+    "sha": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+    "status": "completed",
+    "conclusion": "success",
+    "passed": 11,
+    "jobs": [
+      {
+        "name": "Optional modules bundle isolation",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326913497"
+      },
+      {
+        "name": "TypeScript 5.0.4 consumer",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326913807"
+      },
+      {
+        "name": "Node 26 / ubuntu-latest",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326913896"
+      },
+      {
+        "name": "Node 22 / windows-latest",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326914057"
+      },
+      {
+        "name": "Node 22 / ubuntu-latest",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326914061"
+      },
+      {
+        "name": "TypeScript 6.0.3 consumer",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326914115"
+      },
+      {
+        "name": "TypeScript 5.9.3 consumer",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326914208"
+      },
+      {
+        "name": "TypeScript 5.4.5 consumer",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326914295"
+      },
+      {
+        "name": "Node 26 / windows-latest",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326914355"
+      },
+      {
+        "name": "Node 24 / windows-latest",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326914424"
+      },
+      {
+        "name": "Node 24 / ubuntu-latest",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44164521486/job/134326914932"
+      }
+    ]
+  },
+  "publishingWorkflow": {
+    "id": 44165469767,
+    "sha": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/urffin/algiviz/actions/runs/44165469767",
+    "jobs": [
+      {
+        "name": "publish",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44165469767/job/134330220366",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/checkout@v6",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run actions/setup-node@v6",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify release version",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Install npm with trusted publishing support",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Run npm ci",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Verify packed consumer",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Publish to npm",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/setup-node@v6",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Post Run actions/checkout@v6",
+            "status": "completed",
+            "conclusion": "success"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success"
+          }
+        ]
+      }
+    ]
+  },
+  "registry": {
+    "version": "1.1.0",
+    "latest": "1.1.0",
+    "gitHead": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+    "tarball": "https://registry.npmjs.org/@grundyjs/algiviz/-/algiviz-1.1.0.tgz",
+    "integrity": "sha512-aWLNZwc+b60BqtyZQcKbp7FpqJ+u0XWSrZrOtA6VX8nBxQgJuJh49ROV4dizmSI0SNtTVVXdDpOdAecL95YmgA==",
+    "shasum": "e2ed2b9409397ab219fd51cb66dfcb3f61799c56",
+    "fileCount": 91,
+    "attestationURL": "https://registry.npmjs.org/-/npm/v1/attestations/@grundyjs%2falgiviz@1.1.0"
+  },
+  "verification": {
+    "freshInstall": true,
+    "consumer": {
+      "version": "1.1.0",
+      "entries": 10,
+      "runtimeExportNames": 24,
+      "exportsSmoke": "passed",
+      "privatePathsRejected": true,
+      "distFilesMatchCandidate": 86,
+      "lockResolved": "https://registry.npmjs.org/@grundyjs/algiviz/-/algiviz-1.1.0.tgz",
+      "integrity": "sha512-aWLNZwc+b60BqtyZQcKbp7FpqJ+u0XWSrZrOtA6VX8nBxQgJuJh49ROV4dizmSI0SNtTVVXdDpOdAecL95YmgA=="
+    },
+    "payload": {
+      "checkedAt": "2026-11-17T20:11:27.651Z",
+      "files": 91,
+      "entries": 10,
+      "distFiles": 86,
+      "payloadFilesMatchAfterNewlineNormalization": 90,
+      "sha1": "e2ed2b9409397ab219fd51cb66dfcb3f61799c56",
+      "sha512": "6962cd67073e6fad01aadc9941c29ba7b169a89faed17592ad9aceb40e955fc9c1c50809b89878f51395e1d8b399223448db535555dd0e939d01e70bf7962680",
+      "attestationSubjectsMatch": true,
+      "sourceSHA": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+      "workflowPath": ".github/workflows/npm-publish.yml",
+      "workflowRef": "refs/tags/v1.1.0",
+      "cryptographicVerification": "pending npm audit signatures"
+    },
+    "registrySignatures": {
+      "verified": 1,
+      "invalid": 0,
+      "missing": 0
+    },
+    "provenance": {
+      "verified": 1,
+      "sourceSHA": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+      "workflow": ".github/workflows/npm-publish.yml",
+      "ref": "refs/tags/v1.1.0",
+      "runURL": "https://github.com/urffin/algiviz/actions/runs/44165469767",
+      "artifactDigestMatches": true,
+      "transparencyPayloadMatches": true,
+      "logIndex": 3952700530,
+      "url": "https://search.sigstore.dev/?logIndex=3952700530",
+      "cryptographicVerificationCommand": "npm audit signatures",
+      "result": "passed"
+    }
+  },
+  "processing": {
+    "workflowAcceptedAt": "2026-11-17T20:05:49Z",
+    "note": "npm reported processing delay; publication was verified after exact-version/latest metadata became available; no duplicate publish"
+  },
+  "artifactHashes": {
+    "publish-job.log": "a94a2f6d9b85caa962a1c29d480d459af34ef6561455821630036225538a7655",
+    "npm-exact.json": "03ce380c5d732abc9e1f97b84e35cb09972bc4233c9398986ccd3839e3cdd6b3",
+    "attestations.json": "7ef35dbe996926fa0884121d51ee4e1231629f4fdbe5d4c32c8c3d19ae409931",
+    "transparency.json": "359273f0b80a70673b6b100f7bc5b1aa7d87c7baa944e0353a300331010233cd",
+    "provenance-statement.json": "60c5305a446c77421ea27f8bf3ccd5990a2029ff9897f8031b7b9cabe6149df6",
+    "registry-algiviz-1.1.0.tgz": "4a0cef200e39b6556e1edb678c7bb176649165bc3387f5ae0eb39970e270fa04",
+    "registry-consumer-check.json": "25d7e908fe6f845849f729b93b2de658f828d001a7c69eaf637c669286c90cd9",
+    "npm-audit-signatures.json": "539ea4684b22e24869bace50b48bda695776477f892861b08d51d219f0d08faf",
+    "npm-audit-signatures.log": "321f46e1bbc4ae6ddc9dbc26479723bb7bef6692b653c872cfd65fb5290c13a0"
+  }
+}

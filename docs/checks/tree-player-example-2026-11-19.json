@@ -1,0 +1,295 @@
+{
+  "date": "2026-11-19",
+  "verifiedAt": "2026-11-19T19:17:33.330Z",
+  "scope": "Add a separate fixed BST insertion/right-rotation example on existing /tree, /canvas/tree and Player. No library implementation/API, package metadata, version, commit, tag or publication changes.",
+  "example": "examples/tree-player.html",
+  "algorithm": {
+    "input": "Root 3 with left child 2; insert 1 by comparisons, then one right rotation at 3.",
+    "steps": 8,
+    "comparisons": 2,
+    "topologyEdits": 2,
+    "rotations": 1,
+    "final": {
+      "root": 2,
+      "left": 1,
+      "right": 3,
+      "inorder": [
+        1,
+        2,
+        3
+      ]
+    },
+    "result": "All three nodes and both real links remain green.",
+    "boundaries": "Fixed left-left balancing case; not a general AVL insertion implementation.",
+    "identity": "Node IDs survive moves. The upper relation ID survives endpoint/slot reversal. The inserted link keeps its ID and endpoints."
+  },
+  "playback": {
+    "timingModule": "examples/player-settings.mjs",
+    "stepDurationMs": 650,
+    "finalHoldMs": 1000,
+    "controls": "Stock Player, native speeds 0.25–16x.",
+    "generator": {
+      "lazy": true,
+      "rewindCapacity": 8,
+      "isTerminal": "step.event.type === done",
+      "noLayoutDuringReplay": true
+    },
+    "history": {
+      "seekable": true,
+      "freshTraceOnRestart": true
+    },
+    "snapshotMetadata": "Phase/message are recorded with the immutable visual snapshot, so Frame.event is not needed for history text.",
+    "cleanup": "Player/viewport disposal on pagehide; fresh viewport/trace on persisted pageshow."
+  },
+  "checks": {
+    "repository": {
+      "command": "npm.cmd test",
+      "passed": 643,
+      "failed": 0,
+      "newRegressions": 6,
+      "logSha256": "906cb81a7652ba0a1a75ce06436ca53fa7163c3018828375606b1fe6ac123958"
+    },
+    "native": {
+      "passed": 17,
+      "failed": 0,
+      "host": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+        "devicePixelRatio": 1.100000023841858
+      },
+      "widths": [
+        960,
+        390
+      ],
+      "page": "test/tree-player-browser.html",
+      "checks": [
+        {
+          "name": "960px · generator: initial state, Play/Pause and native viewport/DPR",
+          "passed": true
+        },
+        {
+          "name": "960px · generator: insert leaf, rotate once, final green tree",
+          "passed": true
+        },
+        {
+          "name": "960px · generator: Previous/Next replay, return before insertion and Restart",
+          "passed": true
+        },
+        {
+          "name": "960px · history: initial state, Play/Pause and native viewport/DPR",
+          "passed": true
+        },
+        {
+          "name": "960px · history: insert leaf, rotate once, final green tree",
+          "passed": true
+        },
+        {
+          "name": "960px · history: Previous/Next replay, return before insertion and Restart",
+          "passed": true
+        },
+        {
+          "name": "960px · history: seek into rotation, attached crossfade and jump back",
+          "passed": true
+        },
+        {
+          "name": "960px · pagehide cleanup and BFcache restoration create a fresh tree",
+          "passed": true
+        },
+        {
+          "name": "390px · generator: initial state, Play/Pause and native viewport/DPR",
+          "passed": true
+        },
+        {
+          "name": "390px · generator: insert leaf, rotate once, final green tree",
+          "passed": true
+        },
+        {
+          "name": "390px · generator: Previous/Next replay, return before insertion and Restart",
+          "passed": true
+        },
+        {
+          "name": "390px · history: initial state, Play/Pause and native viewport/DPR",
+          "passed": true
+        },
+        {
+          "name": "390px · history: insert leaf, rotate once, final green tree",
+          "passed": true
+        },
+        {
+          "name": "390px · history: Previous/Next replay, return before insertion and Restart",
+          "passed": true
+        },
+        {
+          "name": "390px · history: seek into rotation, attached crossfade and jump back",
+          "passed": true
+        },
+        {
+          "name": "390px · pagehide cleanup and BFcache restoration create a fresh tree",
+          "passed": true
+        },
+        {
+          "name": "Preserved detailed tree: Canvas stepping and retained SVG still work",
+          "passed": true
+        }
+      ],
+      "details": [
+        {
+          "width": 960,
+          "mode": "generator",
+          "bitmapWidth": 986,
+          "bitmapHeight": 484,
+          "DPR": 1.100000023841858,
+          "greenPixels": 3698,
+          "resultNodes": 3
+        },
+        {
+          "width": 960,
+          "mode": "history",
+          "bitmapWidth": 986,
+          "bitmapHeight": 484,
+          "DPR": 1.100000023841858,
+          "greenPixels": 3698,
+          "resultNodes": 3
+        },
+        {
+          "width": 390,
+          "mode": "generator",
+          "bitmapWidth": 377,
+          "bitmapHeight": 308,
+          "DPR": 1.100000023841858,
+          "greenPixels": 3076,
+          "resultNodes": 3
+        },
+        {
+          "width": 390,
+          "mode": "history",
+          "bitmapWidth": 377,
+          "bitmapHeight": 308,
+          "DPR": 1.100000023841858,
+          "greenPixels": 3076,
+          "resultNodes": 3
+        }
+      ],
+      "coverage": [
+        "Actual example UI: mode switch, Play/Pause, insertion and one rotation",
+        "Three green node fills and final green raster; root caption",
+        "Previous/Next replay; rewind removes inserted leaf; Restart returns to initial tree",
+        "History seeking through the rotation with two half-opacity attached route branches",
+        "Viewport/actual host DPR and no horizontal overflow",
+        "pagehide cleanup, no disposed viewport redraw and BFcache restoration",
+        "Unchanged detailed example: Canvas stepping and retained SVG backend"
+      ]
+    },
+    "packageCheck": "Not rerun: public exports/types/packaging did not change in this example task.",
+    "preservation": {
+      "sourceFilesUnchanged": 53,
+      "packageAndScriptsUnchanged": [
+        {
+          "path": "package.json",
+          "sha256": "163d5abe1ae29d62ff381953ddb6bac62f763ab5c15e51ac4bbc9b0250199dc1"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "5918e9b628ce975600e90a8c2dff80a6092ec741888bb3be1107f4d59b476ff3"
+        },
+        {
+          "path": "scripts/test-package.mjs",
+          "sha256": "f36a145bbbffe6b9d7cb93d55ba30862c94295bb946fbace5db6eeb72478707b"
+        },
+        {
+          "path": "scripts/test-bundle.mjs",
+          "sha256": "616d5221ca2a19f7d18e14488227f52bd0e6f9ef7ef335d23678d6fadf5e9c86"
+        }
+      ],
+      "legacyFilesUnchanged": [
+        {
+          "path": "examples/tree.html",
+          "sha256": "c4240edc5712176dfd37413d0c21d14c2fe1d945c797d1affb933b6f7cd1ecd5"
+        },
+        {
+          "path": "examples/tree-demo.mjs",
+          "sha256": "8c1ebc550e70ee41c0a7235261da08f19982f34739d7fe37f9c0e5c495f84d70"
+        },
+        {
+          "path": "examples/tree-scene.mjs",
+          "sha256": "35b6aa8594293ca535d2180a5d3b35759c120c2f7b30024256a66ca97cd21bcf"
+        },
+        {
+          "path": "examples/tree-svg.mjs",
+          "sha256": "afa6af97042a0b2d92065ad7b79e69ee74428c19e1f29e232f60f9bca3008ff9"
+        },
+        {
+          "path": "examples/tree-pointer.mjs",
+          "sha256": "f68dffb3cddb537a749fcdfb2901f21aac8182ebb8b4932bf22a163eea9472b7"
+        }
+      ],
+      "historicalJSONUnchanged": 70
+    },
+    "documentation": {
+      "EN_RUCatalogUpdated": true,
+      "currentIndexUpdated": true,
+      "bothExamplesLinked": true,
+      "verificationReportLinked": true
+    }
+  },
+  "files": [
+    {
+      "path": "examples/tree-player.html",
+      "sha256": "c4d391f8d13cd6d2eb7fa87891ab3d70de714e67a230d9113184ab89385f3bb3"
+    },
+    {
+      "path": "examples/tree-player-algorithm.mjs",
+      "sha256": "b80d2138ebe248ff178eeb138b6313a6f7be3c29ec54b0dccd88ef2650fe53e4"
+    },
+    {
+      "path": "examples/tree-player-session.mjs",
+      "sha256": "1b13694a083c98c127217ad6195722697a6c522d0d709b2595b9a3be277e6a30"
+    },
+    {
+      "path": "examples/tree-player-page.mjs",
+      "sha256": "9ab1844cd3a67d41c7e2a49711717e975f8707eb4d1774abc1d31637f975196a"
+    },
+    {
+      "path": "examples/tree-player-demo.mjs",
+      "sha256": "e37adfc064f8d4b6685717440b427f681cf74e1752fec674c1759011404aba84"
+    },
+    {
+      "path": "test/tree-player-example.test.mjs",
+      "sha256": "eae8f5c0a1619425170c75138b30f11686e20589e17f2de0e18c9d9721bf0c16"
+    },
+    {
+      "path": "test/tree-player-browser.html",
+      "sha256": "322c95be3d172511c2f1cb6f7ddd604e848af6b7d9bde97f0e833da6f73ebec4"
+    },
+    {
+      "path": "test/tree-player-browser.mjs",
+      "sha256": "9c92779a5ce6423b22bc889f213c3e3972642933364b294ee55406ad49547e38"
+    }
+  ],
+  "modifiedExistingFiles": [
+    "ru/README.md",
+    "README.md",
+    "docs/current-api.md",
+    "examples/index.html",
+    "docs/examples.md",
+    "docs/tree-canvas-api.md",
+    "docs/ru/tree-canvas-api.md",
+    "docs/ru/examples.md",
+    "docs/ru/current-api.md",
+    "CHANGELOG.md"
+  ],
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\tree-player-example-0f99b4b7",
+  "screenshot": {
+    "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\tree-player-example-0f99b4b7\\final-tree.jpg",
+    "sha256": "21e25158e0283dafa75a950d6a133944e2a6f6be84b0c7b006d5e1631532658e",
+    "readableAsJPEG": true
+  },
+  "remainingReleaseSteps": [
+    "Review accumulated API/docs/changes before a candidate.",
+    "Prepare version/lockfile/changelog, commit/push and exact-SHA CI only when separately authorized.",
+    "Tag/publication is outside this task."
+  ],
+  "limits": [
+    "Native evidence is limited to the recorded built-in Chromium host.",
+    "The example is repository application code and needs the unpublished local /tree and /canvas/tree build."
+  ]
+}

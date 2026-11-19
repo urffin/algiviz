@@ -1,12 +1,21 @@
 # Support matrix
 
-**Current review, 2026-11-17:** 1.0.0 is the released eight-entry baseline.
-The local /graph and /canvas/graph are intended for 1.1.0: headless graph uses
-ES2022 declarations; graph Canvas requires DOM types/Canvas 2D. Imports access no
-DOM globals. Four compiler consumers and current built-in-browser graph checks
-are recorded in [the 1.1 review](graph-readiness-1.1.md). No new browser/version
-promise follows. Dated statuses below are historical, superseded for current
-availability by [the status index](current-api.md).
+**Released boundary, 2026-11-17:** 1.1.0 publishes ten entries, including /graph
+and /canvas/graph. Headless graph uses ES2022 declarations; graph Canvas requires
+DOM types/Canvas 2D. Imports access no DOM globals. Exact-SHA CI and registry
+signature/provenance acceptance are recorded in [the release receipt](releases/1.1.0.json).
+Earlier native checks retain their source/host limits; no browser/version support
+expansion follows. Local /tree and /canvas/tree are implemented but unpublished:
+/tree uses ES2022-only declarations; /canvas/tree requires DOM types/Canvas 2D.
+[Tree Canvas checks](checks/tree-canvas-implementation-2026-11-19.json) cover the embedded
+Chromium host, both themes, bitmap ratios 1/1.25/2, captions/slots and Player cleanup.
+They add no claim for other browser products or forced GPU context loss. Dated sections below
+are historical; [the current index](current-api.md) gives availability.
+The [1.2.0 tree review](tree-readiness-1.2.md) closes slot-stroke safety defect T1.
+[Refreshed native acceptance](checks/tree-t1-native-2026-11-19.json) passes 32 renderer
+and 17 example UI checks; no browser support expansion follows. The unpublished
+[1.2.0 candidate](candidate-1.2.md) retains this boundary and reuses native
+evidence only after checking source and compiled-file identity.
 
 **Historical candidate update, 2026-11-16:** [1.0.0 local preparation](candidate-1.0.md)
 retains this environment boundary. Exact-SHA CI/native verification remains;
@@ -105,16 +114,16 @@ the earlier local-build browser check into a registry-tarball browser run.
 | --- | --- |
 | Node runtime | CI tracks Node 22.x, 24.x and 26.x on Windows and Linux. Use the patch versions selected by the current CI; every historical minor/patch is not separately certified. |
 | TypeScript consumers | Verified compiler configurations: 5.0.4, 5.4.5, 5.9.3 and 6.0.3, with NodeNext/Bundler and ES2022, with or without DOM as appropriate below. These selected versions do not establish every intermediate or future compiler version. |
-| Headless imports | `/playback`, `/scene`, `/array` and local `/graph` work without DOM types or a browser in the checked configurations. `/canvas` and local `/canvas/graph` require a Canvas 2D host and DOM types. |
+| Headless imports | `/playback`, `/scene`, `/array`, `/graph` and local `/tree` work without DOM types or a browser in the checked configurations. `/canvas`, `/canvas/graph` and local `/canvas/tree` require a Canvas 2D host and DOM types. |
 | UI and viewport | `/player` and `/canvas/viewport` require DOM declaration libraries and their explicit browser hosts. Runtime import is safe without DOM globals; this does not enable mounting/sizing in Node. |
 | Worker entries | `/worker` host uses DOM declarations (browser-Worker host use is also documented); `/worker/runtime` uses separately checked WebWorker declarations. Both import without browser globals; active dedicated module Worker APIs are required. |
 | Browser verification | Windows embedded Chromium, reported UA Chrome/157.0.0.0, for the recorded smoke and interactive scenarios. No general minimum Chromium version or desktop Chrome/Edge product promise is inferred from the host's UA. |
 | Other browser products | Desktop Chrome/Edge, Firefox, Safari/macOS/iOS, their historical versions and other WebViews are unverified and outside the current support claim. This does not mean they are known to be incompatible. |
 | Standalone demos | Native import maps and the host features used by each page are required. Their UI/controller code is outside the npm runtime; bundled applications may have different host requirements. |
 
-This is the boundary to use in current compatibility statements. An eventual
-1.0 candidate must be checked again within the chosen boundary; these results do
-not automatically certify future code. Expanding the browser list is optional.
+This is the boundary for current compatibility statements. The 1.1 release
+was checked on its exact SHA; future candidates need their own affected checks.
+These results do not automatically certify future code. Expanding the browser list is optional.
 
 ## Node.js
 

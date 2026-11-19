@@ -2,6 +2,10 @@
 
 [Русский](ru/graph-readiness-1.1.md) · [Current API](current-api.md) · [Compatibility](api-compatibility.md) · [Graph API](graph-api.md) · [Machine review](checks/graph-readiness-1.1-2026-11-17.json)
 
+**Release closure, 2026-11-17:** R1–R4 are complete for released 1.1.0 / 629defe.
+[Release and receipt](release-1.1.md) record CI/publication/registry/provenance.
+The pre-release review and its pending-gate table below are historical.
+
 **Candidate preparation follow-up, 2026-11-17:** package/lockfile are now 1.1.0.
 [Candidate notes](candidate-1.1.md) track the new freeze/commit/CI stage. The
 review and pending-gate table below retain their pre-preparation scope.

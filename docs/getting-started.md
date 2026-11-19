@@ -26,8 +26,8 @@ npm install --save-dev --save-exact vite@8.3.8
 ```
 
 The AlgiViz version is pinned for reproducibility. Vite belongs only to the demo
-app. This quickstart does not use unpublished /graph or /canvas/graph; graph
-examples in the working copy need their separate local build.
+app. This quickstart also works with 1.1.0; it needs neither graph entry.
+Graph entries are published in 1.1.0; repository example pages use a local build.
 
 ## 2. Copy one file
 

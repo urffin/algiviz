@@ -2,6 +2,12 @@
 
 [Русский](ru/tree-contract.md) · [Graph sketch](graph-contract.md) · [Scenes](scene.md) · [Compatibility](api-compatibility.md)
 
+**Public API follow-up, 2026-11-17:** [the selected /tree contract](tree-api.md)
+now defines types, atomic edit, ID retirement, binary slots and validation on
+released 1.1.0. /graph is published; /tree is now implemented locally, unpublished.
+[Runtime/package checks](checks/tree-implementation-2026-11-18.json) record the new stage. The sketch/checks below
+retain their 2026-11-16 scope; the new contract supersedes deferred API decisions.
+
 **Design review, 2026-11-16; no implementation or publication.** The reviewed
 candidate is a9b93f8. Neither /tree nor /graph exists in the package export map.
 Names and shapes below describe a possible future module, not current exports

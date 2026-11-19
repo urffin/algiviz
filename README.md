@@ -25,15 +25,23 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Repository status, 2026-11-17: **1.0.0 is released** from `3977c78`.
-The working copy additionally contains unpublished `/graph` and `/canvas/graph`
-entries, including a stock graph Canvas renderer. Package and lockfile metadata
-are prepared as **candidate 1.1.0**, without a tag or publication.
-[Candidate notes](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.1.md). [Graph API](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) ·
-[1.0.0 release](https://github.com/urffin/algiviz/releases/tag/v1.0.0) ·
+Repository status, 2026-11-17: **1.1.0 is released** from `629defe`.
+It publishes `/graph` and `/canvas/graph`, including vertex captions and a stock
+graph Canvas renderer. Existing eight imports need no migration.
+[Release and verification](https://github.com/urffin/algiviz/blob/master/docs/release-1.1.md) ·
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.1.0) ·
+[Graph API](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) ·
 [Migration from 0.16.0](https://github.com/urffin/algiviz/blob/master/docs/migration-1.0.md).
 
-[Final graph review before 1.1.0](https://github.com/urffin/algiviz/blob/master/docs/graph-readiness-1.1.md) records readiness and remaining release gates, including BFS distance captions.
+The working copy additionally implements **unpublished `/tree` and `/canvas/tree`**:
+ordered/binary traces, atomic edits, explicit layout and stock Canvas rendering.
+They require a local build/archive; npm 1.1.0 does not export them.
+[Tree API](https://github.com/urffin/algiviz/blob/master/docs/tree-api.md) ·
+[Tree Canvas](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md).
+The [1.2 readiness review](https://github.com/urffin/algiviz/blob/master/docs/tree-readiness-1.2.md)
+closes T1 with stroke-aware slot bounds. The unpublished
+[1.2.0 candidate](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.2.md)
+records versioned archive verification; exact-SHA CI and release gates remain.
 
 ## Install
 
@@ -43,9 +51,9 @@ npm install @grundyjs/algiviz
 
 There is no root entry point or CommonJS build. Import the modules you need:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
-`/worker` and `/worker/runtime`.
+`/worker`, `/worker/runtime`, `/graph` and `/canvas/graph`.
 
-The working copy also exports `/graph` and `/canvas/graph`; npm 1.0.0 contains neither.
+Graph entries require 1.1.0 or newer; npm 1.0.0 contains neither.
 Algorithms live in application code and examples. Compatible features use minor
 releases under the [1.x compatibility policy](https://github.com/urffin/algiviz/blob/master/docs/api-compatibility.md);
 consult [CHANGELOG.md](CHANGELOG.md) when updating.
@@ -68,7 +76,7 @@ plain states/pre → createArrayPlayer → standard Player → scenes/interpolat
 
 ## Modules and documentation
 
-| Module | Purpose | Availability |
+| Module | Purpose | First 1.x release |
 | --- | --- | --- |
 | [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/playback.md) | Steps, players, timelines, termination and lifecycle | 1.0.0 |
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Custom types, object matching and projection | 1.0.0 |
@@ -78,8 +86,10 @@ plain states/pre → createArrayPlayer → standard Player → scenes/interpolat
 | [`/player`](https://github.com/urffin/algiviz/blob/master/docs/player.md) | Optional Player widget, media controls, recording/streams and on-demand loading | 1.0.0 |
 | [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Dedicated browser Worker factory and transport errors | 1.0.0 |
 | [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Worker-side endpoint; separate WebWorker types | 1.0.0 |
-| [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Fixed graph traces, marks/captions/results and scene projection | Candidate 1.1.0, unpublished |
-| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Graph Canvas: arrows, loops, parallel edges and caption placement | Candidate 1.1.0, unpublished |
+| [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Fixed graph traces, marks/captions/results and scene projection | 1.1.0 |
+| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Graph Canvas: arrows, loops, parallel edges and caption placement | 1.1.0 |
+| [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-api.md) | Ordered/binary traces, atomic topology edits and scene projection | Unpublished working copy |
+| [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md) | Explicit tree layout, empty binary slots, relation interpolation, captions and result | Unpublished working copy |
 
 Headless entries need no DOM. Canvas/Player/viewport and the Worker host need
 their actual hosts and DOM types; the Worker endpoint uses WebWorker types.
@@ -122,6 +132,7 @@ with explicit ArrayBuffer transfer and observable completion through closed.
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
+| [Tree insertion and rotation](https://github.com/urffin/algiviz/blob/master/examples/tree-player.html) | Fixed BST insertion, one right rotation, stock tree layout/Canvas and Player; green result and rewind |
 | [Boids flock](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Seeded simulation, five obstacle layouts and one-bird inspection with neighbors and steering vectors |
 | [Falling sand](https://github.com/urffin/algiviz/blob/master/examples/sand.html) | Seeded cell simulation, paintable obstacles, a hopper gate and exact one-grain inspection with conflict resolution |
 

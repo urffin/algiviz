@@ -2,12 +2,11 @@
 
 [Русский](ru/graph-node-captions.md) · [Current graph API](graph-api.md) · [BFS comparison](bfs-graph-comparison.md)
 
-**Implemented locally, 2026-11-17; unpublished.** The contract is supported by
-/graph and /canvas/graph: immutable captions, atomic mark and placement using
-Canvas metrics. BFS supplies distances. [Implementation and native checks](checks/graph-node-captions-implementation-2026-11-17.json)
+**Released in 1.1.0, 2026-11-17.** /graph and /canvas/graph include immutable
+captions, atomic mark and Canvas-metric placement. BFS supplies distances.
+[Release receipt](releases/1.1.0.json) records completed publication; [implementation/native checks](checks/graph-node-captions-implementation-2026-11-17.json)
 supplement the historical [contract review](checks/graph-node-captions-contract-2026-11-17.json).
-Published npm 1.0.0 has neither graph entry. Metadata is prepared as
-[candidate 1.1.0](candidate-1.1.md); dependencies are unchanged.
+Npm 1.0.0 has neither graph entry; dependencies are unchanged.
 
 ## 1. Scope and API delta
 
@@ -264,12 +263,11 @@ edges with conservative synthetic text boxes, not an automatic placement solver
 or native font/rendering test. The report names tested and still-required cases.
 
 Adding optional fields/types with the same closed GraphEvent cases avoids new
-required structural members. It is an additive extension to the local
-unreleased graph API; implementation acceptance, consumer and package checks are
+required structural members. It was an additive extension to the graph API before its first 1.1.0 release; implementation acceptance, consumer and package checks are
 recorded in the implementation report. The newly recognized nodeCaptions/caption names cannot also serve as
 unrelated application metadata: review any such local fixtures before adoption.
-Optional types alone do not prove runtime compatibility; graph entries are still
-unreleased. Existing eight published entries/core/Player need no extension. The
+Optional types alone do not prove runtime compatibility; graph entries and
+captions were released together in 1.1.0. Existing eight published entries/core/Player need no extension. The
 contract-stage inventory was 24 runtime / 93 type-only names. The implementation
 adds two types: now 24 runtime / 95 type-only names, 83 distinct types. Historical evidence retains
 its own source hashes. No release/CI/native approval follows from this review.

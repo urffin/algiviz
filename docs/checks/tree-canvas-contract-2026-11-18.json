@@ -1,0 +1,284 @@
+{
+  "date": "2026-11-18",
+  "checkedAt": "2026-11-18T00:27:13.495Z",
+  "scope": "Documentation-only /canvas/tree renderer/layout contract; no implementation",
+  "baseline": {
+    "sha": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+    "packageVersion": "1.1.0",
+    "publishedEntries": 10,
+    "localEntries": 11,
+    "localTreeImplemented": true
+  },
+  "proposedSurface": {
+    "entry": "./canvas/tree",
+    "runtimeNames": [
+      "createTreeRenderer"
+    ],
+    "typeOnlyNames": [
+      "TreePalette",
+      "TreeRendererOptions",
+      "TreeRenderSize",
+      "TreeRenderer"
+    ],
+    "installed": false,
+    "methods": [
+      "layout",
+      "render"
+    ]
+  },
+  "decisions": {
+    "layout": "Explicit renderer.layout(TreeInput) returns positions recorded by existing trace; render never recomputes topology layout",
+    "defaults": {
+      "horizontalGap": 1,
+      "levelGap": 2,
+      "emptySlots": "hidden",
+      "nodeCaptions": "auto"
+    },
+    "orderedLayout": "Depth-first leaf ranks; internal midpoint of first/last child; root translated to zero",
+    "binaryLayout": "Extended in-order ordinals, one terminal virtual leaf per missing real-child slot, root translated to zero; no exponential expansion",
+    "outputOrder": "tree.nodes order, copied/frozen positions",
+    "slotIdentity": "Owner ID + left/right; no model/scene objects or result IDs",
+    "slotAnchors": "Parent recorded position +/- horizontalGap, +levelGap; reserve hidden slots for fitting",
+    "relationAnimation": "Attached route for stable endpoints; two attached old/new branches crossfade for endpoint/slot change",
+    "text": "Current retained/entering and previous exiting; measured safe omission with bounded candidates",
+    "result": "Independent state selections; stock green wins over roles, slots remain muted",
+    "bitmap": "Full clear after successful planning, then background and drawing; transparent backgrounds do not accumulate old pixels",
+    "kindsMustMatchWithinFrame": true,
+    "host": "Explicit HTML Canvas 2D/context logical size; caller owns DPR/bitmap/CSS/clip/path",
+    "canvasTypeBoundary": "DOM declarations required even though layout/import do not access DOM at runtime",
+    "compatibility": "No widening of existing entries; no target version reserved"
+  },
+  "verification": {
+    "typescript": "6.0.3",
+    "positiveStrictConfigurations": 4,
+    "expectedDOMExclusions": 2,
+    "checks": [
+      {
+        "resolution": "NodeNext",
+        "environment": "DOM",
+        "exitCode": 0,
+        "passed": true,
+        "expectedDOMExclusion": false
+      },
+      {
+        "resolution": "NodeNext",
+        "environment": "headless",
+        "exitCode": 0,
+        "passed": true,
+        "expectedDOMExclusion": false
+      },
+      {
+        "resolution": "NodeNext",
+        "environment": "excluded",
+        "exitCode": 2,
+        "passed": true,
+        "expectedDOMExclusion": true
+      },
+      {
+        "resolution": "Bundler",
+        "environment": "DOM",
+        "exitCode": 0,
+        "passed": true,
+        "expectedDOMExclusion": false
+      },
+      {
+        "resolution": "Bundler",
+        "environment": "headless",
+        "exitCode": 0,
+        "passed": true,
+        "expectedDOMExclusion": false
+      },
+      {
+        "resolution": "Bundler",
+        "environment": "excluded",
+        "exitCode": 2,
+        "passed": true,
+        "expectedDOMExclusion": true
+      }
+    ],
+    "negativeCanvasTypeCases": 23,
+    "manualLayoutFixtures": 10,
+    "rewiringProgressWitnesses": [
+      0,
+      0.5,
+      1
+    ],
+    "witnesses": {
+      "layoutFixtures": [
+        {
+          "name": "empty ordered",
+          "validInCurrentTreeCore": true,
+          "manualFormulaCheck": true,
+          "realNodes": 0,
+          "expectedMissingSlots": 0
+        },
+        {
+          "name": "empty binary",
+          "validInCurrentTreeCore": true,
+          "manualFormulaCheck": true,
+          "realNodes": 0,
+          "expectedMissingSlots": 0
+        },
+        {
+          "name": "single ordered",
+          "validInCurrentTreeCore": true,
+          "manualFormulaCheck": true,
+          "realNodes": 1,
+          "expectedMissingSlots": 0
+        },
+        {
+          "name": "single binary",
+          "validInCurrentTreeCore": true,
+          "manualFormulaCheck": true,
+          "realNodes": 1,
+          "expectedMissingSlots": 2
+        },
+        {
+          "name": "ordered descendants",
+          "validInCurrentTreeCore": true,
+          "manualFormulaCheck": true,
+          "realNodes": 4,
+          "expectedMissingSlots": 0
+        },
+        {
+          "name": "binary right only",
+          "validInCurrentTreeCore": true,
+          "manualFormulaCheck": true,
+          "realNodes": 2,
+          "expectedMissingSlots": 3
+        },
+        {
+          "name": "binary left only",
+          "validInCurrentTreeCore": true,
+          "manualFormulaCheck": true,
+          "realNodes": 2,
+          "expectedMissingSlots": 3
+        },
+        {
+          "name": "binary both, unrelated storage/link order",
+          "validInCurrentTreeCore": true,
+          "manualFormulaCheck": true,
+          "realNodes": 3,
+          "expectedMissingSlots": 4
+        },
+        {
+          "name": "ordered sibling reorder",
+          "validInCurrentTreeCore": true,
+          "manualFormulaCheck": true,
+          "realNodes": 4,
+          "expectedMissingSlots": 0
+        },
+        {
+          "name": "binary custom gaps",
+          "validInCurrentTreeCore": true,
+          "manualFormulaCheck": true,
+          "realNodes": 2,
+          "expectedMissingSlots": 3
+        }
+      ],
+      "rewiringFrames": [
+        {
+          "progress": 0,
+          "previousParent": "R",
+          "currentParent": "B",
+          "previousParentX": 0,
+          "currentParentX": 2,
+          "contractBranchAlpha": [
+            1,
+            0
+          ],
+          "oneStableLinkID": true
+        },
+        {
+          "progress": 0.5,
+          "previousParent": "R",
+          "currentParent": "B",
+          "previousParentX": -1,
+          "currentParentX": 1,
+          "contractBranchAlpha": [
+            0.5,
+            0.5
+          ],
+          "oneStableLinkID": true
+        },
+        {
+          "progress": 1,
+          "previousParent": "R",
+          "currentParent": "B",
+          "previousParentX": -2,
+          "currentParentX": 0,
+          "contractBranchAlpha": [
+            0,
+            1
+          ],
+          "oneStableLinkID": true
+        }
+      ],
+      "slotOwnerMatching": true,
+      "midpointSlotOverlapWitness": true,
+      "captionClearingAndCurrentText": true,
+      "resultFlagsAndRewind": true,
+      "freshTraceResultReset": true,
+      "extraPublicSceneKinds": false,
+      "scope": "Handwritten data/formula and current core witnesses, not a renderer/layout algorithm or native Canvas test",
+      "rendererImplemented": false,
+      "layoutSolverImplemented": false,
+      "pixelsPainted": false
+    },
+    "englishRussianDeclarationAndExampleParity": true,
+    "normalizedContractLinkParity": true,
+    "markdownFilesChecked": 7,
+    "repositoryLinkTargetsChecked": 120,
+    "gitDiffCheck": "passed",
+    "existingSourceFilesUnchanged": 49,
+    "existingNonMarkdownFilesUnchanged": 328,
+    "packageAndLockUnchanged": true,
+    "noCanvasSourceOrDistStub": true,
+    "privateExportGuard": {
+      "entry": "@grundyjs/algiviz/canvas/tree",
+      "result": "ERR_PACKAGE_PATH_NOT_EXPORTED as expected"
+    },
+    "existingTreeAcceptanceReused": {
+      "report": "docs/checks/tree-implementation-2026-11-18.json",
+      "repositoryTests": 620,
+      "rerun": false
+    }
+  },
+  "limits": {
+    "futureRendererExecuted": false,
+    "futureLayoutSolverImplemented": false,
+    "collisionPlannerTested": false,
+    "fontMetricsTested": false,
+    "nativeCanvasRun": false,
+    "pixelsPainted": false,
+    "fullRepositoryTestsRerun": false,
+    "scope": "Handwritten witnesses validate formulas/data/core references, not the unimplemented layout/paint algorithm"
+  },
+  "implementation": false,
+  "actualPublicAPIChanged": false,
+  "versionChanged": false,
+  "commitCreated": false,
+  "pushed": false,
+  "tagCreated": false,
+  "publication": false,
+  "documentationHashes": {
+    "docs/ru/tree-api.md": "cd19ff95907c08d502825ae33e53ed915c737e08b662682aabbbf9279aac365d",
+    "docs/tree-api.md": "0a9a68cf3e25420923c1d9341783699a77b0034379cd4f0b17f588ed5447eab0",
+    "CHANGELOG.md": "fd190ba6bad2917dfc3314d831bd84c388fcbd07d2b364802a0f14d002e1d66e",
+    "docs/current-api.md": "ec4f975ff2aae6521222e02c349bf4c3a14b3775a5b1ea87eb9aa55fb20fd513",
+    "docs/ru/current-api.md": "29fa6812069de89dabebee130c32a6d21eb2464fb0fce21c410152e7a9ed8b77",
+    "docs/ru/tree-canvas-api.md": "103dc41b49075d90af6404a2b75acc6364b0004320acb86386a3e90eb20c8cde",
+    "docs/tree-canvas-api.md": "886894dad6bc188e9034c0fe8205c4f64204f2e2e6d66f3300c819e427bfbb61"
+  },
+  "artifactHashes": {
+    "canvas-tree-api.d.ts": "ecae6b3247ff191f78808f555a8ec3c8043289b3629fc0a2465c539a44f9e24b",
+    "canvas-probe.ts": "ff1ce2eebe17a06c8d78f202472ac08be9959262a839d606c495c750f0eefd51",
+    "canvas-no-dom.ts": "71bbd0ab9d3db2759e8f54c5cde65c144d05015f478ae41fe0328e669794e524",
+    "headless-core.ts": "c01c701815eac95b3bda9dec4328e56c5995bd1118f26e93f3edad783c07f3a7",
+    "example.ts": "e533b6265904baf83d30d01ce0530c1553ac2c2c66b360e64f00dd8532e54865",
+    "core-witness.mjs": "ea29d9047a7f9b07ec1556a4f61036ed7e6a60ff5e7ba1fa0fc11a3602fb0fd3",
+    "core-witness.json": "efbb83d9e775174b005791d12cf3397f894da22ca0fa7fdfd7a58767e0f13cc7",
+    "type-results.json": "e3761dc0b6cdbe7deb01814d36ca9fa15f031dc2423553785556978842f4bafe"
+  },
+  "artifactDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\tree-canvas-contract-AtqxXp"
+}

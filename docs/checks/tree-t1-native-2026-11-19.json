@@ -1,0 +1,684 @@
+{
+  "date": "2026-11-19",
+  "verifiedAt": "2026-11-19T20:03:25.200Z",
+  "scope": "Fresh built-in-browser verification after T1 correction, not reuse of the old native planner acceptance.",
+  "renderer": {
+    "date": "2026-11-19T19:52:12.427Z",
+    "host": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "devicePixelRatio": 1.100000023841858
+    },
+    "checks": [
+      {
+        "name": "ordered · light · 960×480 · bitmap 1",
+        "passed": true
+      },
+      {
+        "name": "ordered · light · 960×480 · bitmap 1.25",
+        "passed": true
+      },
+      {
+        "name": "ordered · light · 960×480 · bitmap 2",
+        "passed": true
+      },
+      {
+        "name": "ordered · light · 390×280 · bitmap 1",
+        "passed": true
+      },
+      {
+        "name": "ordered · light · 390×280 · bitmap 1.25",
+        "passed": true
+      },
+      {
+        "name": "ordered · light · 390×280 · bitmap 2",
+        "passed": true
+      },
+      {
+        "name": "ordered · dark · 960×480 · bitmap 1",
+        "passed": true
+      },
+      {
+        "name": "ordered · dark · 960×480 · bitmap 1.25",
+        "passed": true
+      },
+      {
+        "name": "ordered · dark · 960×480 · bitmap 2",
+        "passed": true
+      },
+      {
+        "name": "ordered · dark · 390×280 · bitmap 1",
+        "passed": true
+      },
+      {
+        "name": "ordered · dark · 390×280 · bitmap 1.25",
+        "passed": true
+      },
+      {
+        "name": "ordered · dark · 390×280 · bitmap 2",
+        "passed": true
+      },
+      {
+        "name": "binary · light · 960×480 · bitmap 1",
+        "passed": true
+      },
+      {
+        "name": "binary · light · 960×480 · bitmap 1.25",
+        "passed": true
+      },
+      {
+        "name": "binary · light · 960×480 · bitmap 2",
+        "passed": true
+      },
+      {
+        "name": "binary · light · 390×280 · bitmap 1",
+        "passed": true
+      },
+      {
+        "name": "binary · light · 390×280 · bitmap 1.25",
+        "passed": true
+      },
+      {
+        "name": "binary · light · 390×280 · bitmap 2",
+        "passed": true
+      },
+      {
+        "name": "binary · dark · 960×480 · bitmap 1",
+        "passed": true
+      },
+      {
+        "name": "binary · dark · 960×480 · bitmap 1.25",
+        "passed": true
+      },
+      {
+        "name": "binary · dark · 960×480 · bitmap 2",
+        "passed": true
+      },
+      {
+        "name": "binary · dark · 390×280 · bitmap 1",
+        "passed": true
+      },
+      {
+        "name": "binary · dark · 390×280 · bitmap 1.25",
+        "passed": true
+      },
+      {
+        "name": "binary · dark · 390×280 · bitmap 2",
+        "passed": true
+      },
+      {
+        "name": "Rotation p=0/0.5/1: attached old/new parents, raw interpolation and branch alphas",
+        "passed": true
+      },
+      {
+        "name": "Tiny/overlapping layouts safely omit optional captions and slots",
+        "passed": true
+      },
+      {
+        "name": "Native host failures restore context, preserve falsy primary errors, and allow redraw",
+        "passed": true
+      },
+      {
+        "name": "Custom gaps: omit a stub that would turn inward through its parent",
+        "passed": true
+      },
+      {
+        "name": "Transparent background clears old result and matches a clean native canvas",
+        "passed": true
+      },
+      {
+        "name": "Player stream/history: Pause, Next, rewind, Restart, resize/DPR and dispose cleanup",
+        "passed": true
+      },
+      {
+        "name": "T1: painted 4px viewport margin, omission and positive marker control at bitmap 1/1.25/2",
+        "passed": true
+      },
+      {
+        "name": "T1: full painted squares keep 2px from nodes, captions and other slots at bitmap 1/1.25/2",
+        "passed": true
+      }
+    ],
+    "details": [
+      {
+        "kind": "ordered",
+        "theme": "light",
+        "width": 960,
+        "height": 480,
+        "ratio": 1,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 1049
+      },
+      {
+        "kind": "ordered",
+        "theme": "light",
+        "width": 960,
+        "height": 480,
+        "ratio": 1.25,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 1790
+      },
+      {
+        "kind": "ordered",
+        "theme": "light",
+        "width": 960,
+        "height": 480,
+        "ratio": 2,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 4985
+      },
+      {
+        "kind": "ordered",
+        "theme": "light",
+        "width": 390,
+        "height": 280,
+        "ratio": 1,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 856
+      },
+      {
+        "kind": "ordered",
+        "theme": "light",
+        "width": 390,
+        "height": 280,
+        "ratio": 1.25,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 1434
+      },
+      {
+        "kind": "ordered",
+        "theme": "light",
+        "width": 390,
+        "height": 280,
+        "ratio": 2,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 3833
+      },
+      {
+        "kind": "ordered",
+        "theme": "dark",
+        "width": 960,
+        "height": 480,
+        "ratio": 1,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 1039
+      },
+      {
+        "kind": "ordered",
+        "theme": "dark",
+        "width": 960,
+        "height": 480,
+        "ratio": 1.25,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 1778
+      },
+      {
+        "kind": "ordered",
+        "theme": "dark",
+        "width": 960,
+        "height": 480,
+        "ratio": 2,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 4961
+      },
+      {
+        "kind": "ordered",
+        "theme": "dark",
+        "width": 390,
+        "height": 280,
+        "ratio": 1,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 851
+      },
+      {
+        "kind": "ordered",
+        "theme": "dark",
+        "width": 390,
+        "height": 280,
+        "ratio": 1.25,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 1422
+      },
+      {
+        "kind": "ordered",
+        "theme": "dark",
+        "width": 390,
+        "height": 280,
+        "ratio": 2,
+        "boxes": 4,
+        "slots": 0,
+        "greenPixels": 3820
+      },
+      {
+        "kind": "binary",
+        "theme": "light",
+        "width": 960,
+        "height": 480,
+        "ratio": 1,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 1086
+      },
+      {
+        "kind": "binary",
+        "theme": "light",
+        "width": 960,
+        "height": 480,
+        "ratio": 1.25,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 1837
+      },
+      {
+        "kind": "binary",
+        "theme": "light",
+        "width": 960,
+        "height": 480,
+        "ratio": 2,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 5024
+      },
+      {
+        "kind": "binary",
+        "theme": "light",
+        "width": 390,
+        "height": 280,
+        "ratio": 1,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 866
+      },
+      {
+        "kind": "binary",
+        "theme": "light",
+        "width": 390,
+        "height": 280,
+        "ratio": 1.25,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 1410
+      },
+      {
+        "kind": "binary",
+        "theme": "light",
+        "width": 390,
+        "height": 280,
+        "ratio": 2,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 3771
+      },
+      {
+        "kind": "binary",
+        "theme": "dark",
+        "width": 960,
+        "height": 480,
+        "ratio": 1,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 1079
+      },
+      {
+        "kind": "binary",
+        "theme": "dark",
+        "width": 960,
+        "height": 480,
+        "ratio": 1.25,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 1833
+      },
+      {
+        "kind": "binary",
+        "theme": "dark",
+        "width": 960,
+        "height": 480,
+        "ratio": 2,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 5000
+      },
+      {
+        "kind": "binary",
+        "theme": "dark",
+        "width": 390,
+        "height": 280,
+        "ratio": 1,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 865
+      },
+      {
+        "kind": "binary",
+        "theme": "dark",
+        "width": 390,
+        "height": 280,
+        "ratio": 1.25,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 1408
+      },
+      {
+        "kind": "binary",
+        "theme": "dark",
+        "width": 390,
+        "height": 280,
+        "ratio": 2,
+        "boxes": 4,
+        "slots": 8,
+        "greenPixels": 3771
+      }
+    ],
+    "slotBounds": [
+      {
+        "name": "viewport",
+        "ratio": 1,
+        "squares": 0,
+        "markerPixels": 0
+      },
+      {
+        "name": "viewport-safe",
+        "ratio": 1,
+        "squares": 2,
+        "markerPixels": 4
+      },
+      {
+        "name": "viewport",
+        "ratio": 1.25,
+        "squares": 0,
+        "markerPixels": 0
+      },
+      {
+        "name": "viewport-safe",
+        "ratio": 1.25,
+        "squares": 2,
+        "markerPixels": 70
+      },
+      {
+        "name": "viewport",
+        "ratio": 2,
+        "squares": 0,
+        "markerPixels": 0
+      },
+      {
+        "name": "viewport-safe",
+        "ratio": 2,
+        "squares": 2,
+        "markerPixels": 270
+      },
+      {
+        "name": "node",
+        "ratio": 1,
+        "squares": 3,
+        "captionBoxes": 0
+      },
+      {
+        "name": "caption",
+        "ratio": 1,
+        "squares": 3,
+        "captionBoxes": 1
+      },
+      {
+        "name": "slot",
+        "ratio": 1,
+        "squares": 2,
+        "captionBoxes": 1
+      },
+      {
+        "name": "node",
+        "ratio": 1.25,
+        "squares": 3,
+        "captionBoxes": 0
+      },
+      {
+        "name": "caption",
+        "ratio": 1.25,
+        "squares": 3,
+        "captionBoxes": 1
+      },
+      {
+        "name": "slot",
+        "ratio": 1.25,
+        "squares": 2,
+        "captionBoxes": 1
+      },
+      {
+        "name": "node",
+        "ratio": 2,
+        "squares": 3,
+        "captionBoxes": 0
+      },
+      {
+        "name": "caption",
+        "ratio": 2,
+        "squares": 3,
+        "captionBoxes": 1
+      },
+      {
+        "name": "slot",
+        "ratio": 2,
+        "squares": 2,
+        "captionBoxes": 1
+      }
+    ],
+    "passed": 32,
+    "failed": 0
+  },
+  "example": {
+    "date": "2026-11-19T19:53:46.843Z",
+    "host": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "devicePixelRatio": 1.100000023841858
+    },
+    "checks": [
+      {
+        "name": "960px · generator: initial state, Play/Pause and native viewport/DPR",
+        "passed": true
+      },
+      {
+        "name": "960px · generator: insert leaf, rotate once, final green tree",
+        "passed": true
+      },
+      {
+        "name": "960px · generator: Previous/Next replay, return before insertion and Restart",
+        "passed": true
+      },
+      {
+        "name": "960px · history: initial state, Play/Pause and native viewport/DPR",
+        "passed": true
+      },
+      {
+        "name": "960px · history: insert leaf, rotate once, final green tree",
+        "passed": true
+      },
+      {
+        "name": "960px · history: Previous/Next replay, return before insertion and Restart",
+        "passed": true
+      },
+      {
+        "name": "960px · history: seek into rotation, attached crossfade and jump back",
+        "passed": true
+      },
+      {
+        "name": "960px · pagehide cleanup and BFcache restoration create a fresh tree",
+        "passed": true
+      },
+      {
+        "name": "390px · generator: initial state, Play/Pause and native viewport/DPR",
+        "passed": true
+      },
+      {
+        "name": "390px · generator: insert leaf, rotate once, final green tree",
+        "passed": true
+      },
+      {
+        "name": "390px · generator: Previous/Next replay, return before insertion and Restart",
+        "passed": true
+      },
+      {
+        "name": "390px · history: initial state, Play/Pause and native viewport/DPR",
+        "passed": true
+      },
+      {
+        "name": "390px · history: insert leaf, rotate once, final green tree",
+        "passed": true
+      },
+      {
+        "name": "390px · history: Previous/Next replay, return before insertion and Restart",
+        "passed": true
+      },
+      {
+        "name": "390px · history: seek into rotation, attached crossfade and jump back",
+        "passed": true
+      },
+      {
+        "name": "390px · pagehide cleanup and BFcache restoration create a fresh tree",
+        "passed": true
+      },
+      {
+        "name": "Preserved detailed tree: Canvas stepping and retained SVG still work",
+        "passed": true
+      }
+    ],
+    "details": [
+      {
+        "width": 960,
+        "mode": "generator",
+        "bitmapWidth": 986,
+        "bitmapHeight": 484,
+        "DPR": 1.100000023841858,
+        "greenPixels": 3698,
+        "resultNodes": 3
+      },
+      {
+        "width": 960,
+        "mode": "history",
+        "bitmapWidth": 986,
+        "bitmapHeight": 484,
+        "DPR": 1.100000023841858,
+        "greenPixels": 3698,
+        "resultNodes": 3
+      },
+      {
+        "width": 390,
+        "mode": "generator",
+        "bitmapWidth": 377,
+        "bitmapHeight": 308,
+        "DPR": 1.100000023841858,
+        "greenPixels": 3076,
+        "resultNodes": 3
+      },
+      {
+        "width": 390,
+        "mode": "history",
+        "bitmapWidth": 377,
+        "bitmapHeight": 308,
+        "DPR": 1.100000023841858,
+        "greenPixels": 3076,
+        "resultNodes": 3
+      }
+    ],
+    "passed": 17,
+    "failed": 0
+  },
+  "sourceFiles": [
+    {
+      "path": "src/canvas/tree.ts",
+      "sha256": "3d3af3e54ff5d69ff82b1af6d63652bac3156c3828bea6dd6f4c9094658be270"
+    },
+    {
+      "path": "src/canvas/tree-layout.ts",
+      "sha256": "0f68f22653eac44bac8b8a1c2f2cff43e213cb30ca5fc43e6cb934bdc9475a1a"
+    },
+    {
+      "path": "src/canvas/tree-geometry.ts",
+      "sha256": "19532278ae68562995ee9865e2dd7b34bb914eb449d7b4e7ca2eec9ed1f3b3ba"
+    },
+    {
+      "path": "src/canvas/tree-labels.ts",
+      "sha256": "b8c29b4126630348cc8cc57cfab29109687af1295abfb11c1fb84443f732df3b"
+    },
+    {
+      "path": "test/tree-canvas-browser.html",
+      "sha256": "b471bfa97554ada6359675493b7e40b5acda3260a46c1f905c7feb2f0c0dff36"
+    },
+    {
+      "path": "test/tree-canvas-browser.mjs",
+      "sha256": "fd77b18e7bb2667029c05d8a50d287a05e72eca05c15e605bc7b97ec9257cf4f"
+    },
+    {
+      "path": "test/tree-canvas-fixtures.mjs",
+      "sha256": "0a2acfd0abdc6ee41ef52358aed0fc4031701d32e898974de9aa96b0021b23ac"
+    },
+    {
+      "path": "test/tree-slot-fixtures.mjs",
+      "sha256": "3fa2a46b392e4da6bedebab94827f5b16a2e962623e99e796eb2d2f7668432c7"
+    },
+    {
+      "path": "test/tree-slot-oracle.mjs",
+      "sha256": "f48b8291db341cae888273bdd7b9ce717d340f96aa393fb26155ad655ce2b7f3"
+    },
+    {
+      "path": "test/tree-player-browser.html",
+      "sha256": "322c95be3d172511c2f1cb6f7ddd604e848af6b7d9bde97f0e833da6f73ebec4"
+    },
+    {
+      "path": "test/tree-player-browser.mjs",
+      "sha256": "9c92779a5ce6423b22bc889f213c3e3972642933364b294ee55406ad49547e38"
+    },
+    {
+      "path": "examples/tree-player.html",
+      "sha256": "c4d391f8d13cd6d2eb7fa87891ab3d70de714e67a230d9113184ab89385f3bb3"
+    },
+    {
+      "path": "examples/tree-player-algorithm.mjs",
+      "sha256": "b80d2138ebe248ff178eeb138b6313a6f7be3c29ec54b0dccd88ef2650fe53e4"
+    },
+    {
+      "path": "examples/tree-player-session.mjs",
+      "sha256": "1b13694a083c98c127217ad6195722697a6c522d0d709b2595b9a3be277e6a30"
+    },
+    {
+      "path": "examples/tree-player-page.mjs",
+      "sha256": "9ab1844cd3a67d41c7e2a49711717e975f8707eb4d1774abc1d31637f975196a"
+    },
+    {
+      "path": "examples/tree-player-demo.mjs",
+      "sha256": "e37adfc064f8d4b6685717440b427f681cf74e1752fec674c1759011404aba84"
+    }
+  ],
+  "compiledFiles": [
+    {
+      "path": "dist/canvas/tree.js",
+      "sha256": "bd771dc90c753f1fa2937fe58475bb7d2c640d84c1e6bc6705b6ab5fb709de94"
+    },
+    {
+      "path": "dist/canvas/tree-layout.js",
+      "sha256": "5954438d13f44c5c080af425d8f8d6ed3da3fc4fa675222be0a94b1c6199ad5e"
+    },
+    {
+      "path": "dist/canvas/tree-geometry.js",
+      "sha256": "b5f1fc9993ff22a1a4efa2107a42828095e690925a2c264ec6b47104f8f026c9"
+    },
+    {
+      "path": "dist/canvas/tree-labels.js",
+      "sha256": "fe7f71fd4b62dbc0346a407b5d133057d63c33d00f99a0c806040840d30c362b"
+    }
+  ],
+  "limits": [
+    "Explicit bitmap ratios 1/1.25/2 are backing-store tests, not browser zoom settings.",
+    "The example/viewport checks additionally use the recorded actual host DPR.",
+    "Native host evidence does not expand cross-browser support or simulate forced GPU context loss."
+  ]
+}

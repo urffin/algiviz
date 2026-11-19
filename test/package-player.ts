@@ -1,3 +1,4 @@
+import { createTreeTrace, treeScene, type TreeSnapshot, type TreeEvent } from '@grundyjs/algiviz/tree';
 import { createArrayTrace, type ArraySnapshot, type ArrayEvent } from '@grundyjs/algiviz/array';
 import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
 import { Player, type PlayerOptions, type PlayerStatus, type PlayerLabels, type PlayerCloseResult } from '@grundyjs/algiviz/player';
@@ -181,4 +182,9 @@ export function checkDirectArrayRenderer(host: HTMLElement, ctx: CanvasRendering
  const widget = new Player(host, { stepSource: function* () { const a = createArrayTrace([3,1]); yield a.start(); yield a.done(); },
  isTerminal: step => step.event.type === 'done', render: frame => renderer.render(ctx, frame) });
  const frame: Frame<ArraySnapshot, ArrayEvent> | null = widget.frame; void frame;
+}
+
+export function checkTreePlayer(host: HTMLElement) {
+ const widget = new Player(host, { stepSource: function* () { const t = createTreeTrace({kind:"binary",rootId:"A",nodes:[{id:"A",data:2}],links:[]},{layout:[{nodeId:"A",x:0,y:0}]}); yield t.start(); yield t.done({result:{nodeIds:["A"]}}); }, isTerminal: s => s.event.type === "done", render(frame) { const n:number|undefined=frame.current.tree.nodes[0]?.data; treeScene(frame.current,{namespace:"player"}); void n; } });
+ const frame: Frame<TreeSnapshot<number,unknown,"binary">,TreeEvent>|null=widget.frame; void frame;
 }

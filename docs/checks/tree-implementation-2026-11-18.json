@@ -1,0 +1,514 @@
+{
+  "date": "2026-11-18",
+  "checkedAt": "2026-11-17T21:07:52.234Z",
+  "scope": "Local headless /tree implementation; no Canvas renderer, release/version change or publication",
+  "baseline": {
+    "version": "1.1.0",
+    "sha": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+    "publishedEntries": 10
+  },
+  "packageVersion": "1.1.0",
+  "inventory": {
+    "entries": 11,
+    "runtime": 26,
+    "typeOnly": 124,
+    "distinctTypeOnly": 112
+  },
+  "surface": {
+    "./tree": {
+      "runtime": [
+        "createTreeTrace",
+        "treeScene"
+      ],
+      "typeOnly": [
+        "TreeAnnotation",
+        "TreeBinaryInput",
+        "TreeBinaryLink",
+        "TreeBinarySlot",
+        "TreeDoneOptions",
+        "TreeEdit",
+        "TreeEvent",
+        "TreeFrame",
+        "TreeInput",
+        "TreeKind",
+        "TreeLink",
+        "TreeLinkView",
+        "TreeMark",
+        "TreeMarkUpdate",
+        "TreeNode",
+        "TreeNodeCaption",
+        "TreeNodeCaptionPatch",
+        "TreeNodeView",
+        "TreeObjects",
+        "TreeOrderedInput",
+        "TreeOrderedLink",
+        "TreePosition",
+        "TreeResult",
+        "TreeResultInput",
+        "TreeSceneOptions",
+        "TreeSnapshot",
+        "TreeStep",
+        "TreeTrace",
+        "TreeTraceOptions"
+      ]
+    },
+    "./canvas/graph": {
+      "runtime": [
+        "createGraphRenderer"
+      ],
+      "typeOnly": [
+        "GraphPalette",
+        "GraphRenderSize",
+        "GraphRenderer",
+        "GraphRendererOptions"
+      ]
+    },
+    "./graph": {
+      "runtime": [
+        "createGraphTrace",
+        "graphScene"
+      ],
+      "typeOnly": [
+        "GraphAnnotation",
+        "GraphDoneOptions",
+        "GraphEdge",
+        "GraphEdgeView",
+        "GraphEvent",
+        "GraphFrame",
+        "GraphInput",
+        "GraphMark",
+        "GraphMarkUpdate",
+        "GraphNode",
+        "GraphNodeCaption",
+        "GraphNodeCaptionPatch",
+        "GraphNodeView",
+        "GraphObjects",
+        "GraphPosition",
+        "GraphResult",
+        "GraphResultInput",
+        "GraphSceneOptions",
+        "GraphSnapshot",
+        "GraphStep",
+        "GraphTrace",
+        "GraphTraceOptions"
+      ]
+    },
+    "./scene": {
+      "runtime": [
+        "createSceneFrame",
+        "createSceneProjector",
+        "createSceneRenderer"
+      ],
+      "typeOnly": [
+        "ObjectTransition",
+        "Scene",
+        "SceneFrame",
+        "SceneObject",
+        "SceneVisualizations"
+      ]
+    },
+    "./array": {
+      "runtime": [
+        "createArrayPlayer",
+        "createArrayTimeline",
+        "createArrayTrace",
+        "defineArrayAlgorithm"
+      ],
+      "typeOnly": [
+        "ArrayAlgorithm",
+        "ArrayDoneOptions",
+        "ArrayEvent",
+        "ArrayFrame",
+        "ArrayPlayer",
+        "ArraySnapshot",
+        "ArrayStep",
+        "ArrayTimeline",
+        "ArrayTrace",
+        "Item",
+        "SortedRegions"
+      ]
+    },
+    "./playback": {
+      "runtime": [
+        "createAsyncSource",
+        "createPlayer",
+        "createRewindBuffer",
+        "createStatePlayer",
+        "createStepEmitter",
+        "createTimeline"
+      ],
+      "typeOnly": [
+        "AsyncSource",
+        "AsyncSourceCloseResult",
+        "AsyncSourceFactory",
+        "AsyncSourceReadResult",
+        "AsyncSourceSignal",
+        "Frame",
+        "Player",
+        "RewindBuffer",
+        "Step",
+        "Timeline"
+      ]
+    },
+    "./player": {
+      "runtime": [
+        "Player"
+      ],
+      "typeOnly": [
+        "PlayerCloseResult",
+        "PlayerLabels",
+        "PlayerOptions",
+        "PlayerStatus"
+      ]
+    },
+    "./canvas/viewport": {
+      "runtime": [
+        "createCanvasViewport"
+      ],
+      "typeOnly": [
+        "CanvasViewport",
+        "CanvasViewportOptions",
+        "CanvasViewportSize"
+      ]
+    },
+    "./canvas": {
+      "runtime": [
+        "arrayScene",
+        "createArrayRenderer",
+        "createSortRenderer"
+      ],
+      "typeOnly": [
+        "ArrayObjects",
+        "ArrayPalette",
+        "ArrayPaletteOverrides",
+        "ArrayRendererOptions"
+      ]
+    },
+    "./worker": {
+      "runtime": [
+        "WorkerSourceError",
+        "createWorkerSourceFactory"
+      ],
+      "typeOnly": [
+        "WorkerSourceCancellation",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceCloseResult",
+        "WorkerSourceErrorCode",
+        "WorkerSourceErrorOptions",
+        "WorkerSourceFactory",
+        "WorkerSourceIssue",
+        "WorkerSourceIterator",
+        "WorkerSourceOptions",
+        "WorkerSourcePhase",
+        "WorkerSourceRemoteError",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceSession",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceSignal",
+        "WorkerSourceTermination",
+        "WorkerSourceThrownKind"
+      ]
+    },
+    "./worker/runtime": {
+      "runtime": [
+        "exposeWorkerSource"
+      ],
+      "typeOnly": [
+        "WorkerSourceCancellation",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceCloseResult",
+        "WorkerSourceEndpointOptions",
+        "WorkerSourceErrorCode",
+        "WorkerSourceIssue",
+        "WorkerSourcePhase",
+        "WorkerSourceRemoteError",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceSignal",
+        "WorkerSourceTermination",
+        "WorkerSourceThrownKind",
+        "WorkerStateFactory",
+        "WorkerTransferSelector"
+      ]
+    }
+  },
+  "implementation": {
+    "runtimeNames": [
+      "createTreeTrace",
+      "treeScene"
+    ],
+    "typeOnlyNames": 29,
+    "independentEntry": "./tree",
+    "orderedAndBinary": true,
+    "atomicWholeCollectionEdit": true,
+    "explicitLayout": true,
+    "IDRetirement": "Independent per-domain sets; commit only after all validation/allocation succeeds",
+    "sceneKinds": [
+      "treeNode",
+      "treeLink"
+    ],
+    "layoutAndMarksCanonical": true,
+    "originalProxyThrowIdentity": true,
+    "iterationInsteadOfRecursiveValidation": true,
+    "noCanvasRenderer": true,
+    "unchangedPreviousSources": 43,
+    "unchangedPreviousExportRecords": 10
+  },
+  "verification": {
+    "repository": {
+      "command": "npm test",
+      "passed": 620,
+      "failed": 0,
+      "logSha256": "a6dc3d182e47f18fd4033a5f603b5bfc80424cdc948a2e5adfb989d35752665b"
+    },
+    "newPermanentRuntimeRegressions": 25,
+    "deepTreeNodes": 12000,
+    "compilerConsumers": [
+      {
+        "compiler": "5.0.4",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "treeDeclarationLibraries": [
+          "ES2022",
+          "ES2022 + DOM"
+        ],
+        "existingWebWorkerFixtureChecked": true,
+        "passed": true,
+        "tests": 379,
+        "groups": [
+          1,
+          12,
+          61,
+          19,
+          23,
+          17,
+          18,
+          11,
+          21,
+          3,
+          32,
+          75,
+          11,
+          20,
+          55
+        ],
+        "logSha256": "4643797c4814655974fcc4e949ef4de8f76a7079fb904f81354c05ddf61363e6"
+      },
+      {
+        "compiler": "5.4.5",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "treeDeclarationLibraries": [
+          "ES2022",
+          "ES2022 + DOM"
+        ],
+        "existingWebWorkerFixtureChecked": true,
+        "passed": true,
+        "tests": 379,
+        "groups": [
+          1,
+          12,
+          61,
+          19,
+          23,
+          17,
+          18,
+          11,
+          21,
+          3,
+          32,
+          75,
+          11,
+          20,
+          55
+        ],
+        "logSha256": "243af00b783aa32febe551f56aed91ecc2394274b8444286e39ba66a90180d3f"
+      },
+      {
+        "compiler": "5.9.3",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "treeDeclarationLibraries": [
+          "ES2022",
+          "ES2022 + DOM"
+        ],
+        "existingWebWorkerFixtureChecked": true,
+        "passed": true,
+        "tests": 379,
+        "groups": [
+          1,
+          12,
+          61,
+          19,
+          23,
+          17,
+          18,
+          11,
+          21,
+          3,
+          32,
+          75,
+          11,
+          20,
+          55
+        ],
+        "logSha256": "779f83e7d5bc8b06805d01655e571e70ae51c7f777b6b60f6e2368c7b213e644"
+      },
+      {
+        "compiler": "6.0.3",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "treeDeclarationLibraries": [
+          "ES2022",
+          "ES2022 + DOM"
+        ],
+        "existingWebWorkerFixtureChecked": true,
+        "passed": true,
+        "tests": 381,
+        "groups": [
+          1,
+          12,
+          61,
+          19,
+          25,
+          17,
+          18,
+          11,
+          21,
+          3,
+          32,
+          75,
+          11,
+          20,
+          55
+        ],
+        "logSha256": "0e3f0989a53a9b87ca365b8b0c4ad916ffde01082037803b3bd9324ca9592ecf"
+      }
+    ],
+    "finalInstalledConsumer": {
+      "compiler": "6.0.3",
+      "command": "npm run test:package -- --resolution all",
+      "passed": true,
+      "tests": 381,
+      "groups": [
+        1,
+        12,
+        61,
+        19,
+        25,
+        17,
+        18,
+        11,
+        21,
+        3,
+        32,
+        75,
+        11,
+        20,
+        55
+      ],
+      "logSha256": "9cdbfb8a46fefd245c8b964cd2c978119d000a5e663d0cc24f08dcbe1925265f",
+      "note": "Final archive rerun includes two regression additions after the four-compiler matrix; implementation/public declarations are unchanged apart from index export line wrapping"
+    },
+    "bundle": {
+      "variants": 30,
+      "status": "passed",
+      "treeIndependent": true,
+      "treeDynamicDeferred": true,
+      "previousBundlesUnchanged": true,
+      "reportSha256": "a57d794bce6472ebf8edc5597914126786f70ade3c0609c80aadeb2e80687df1",
+      "logSha256": "12d30cdc4df6e6b328b4ccc9840a7e74ba2683e478457864600336d16d911cf0"
+    },
+    "archive": {
+      "dryRun": true,
+      "files": 103,
+      "treeDistFiles": 12,
+      "version": "1.1.0",
+      "localUnpublishedPayload": true
+    },
+    "documentedDeclarationShapeMatchesEmitted": true,
+    "englishRussianCodeParity": true,
+    "documentedRotationExample": "passed",
+    "READMEParity": true,
+    "repositoryLinkTargetsChecked": 426,
+    "gitDiffCheck": "passed",
+    "existingWorkerFixtures": true,
+    "nativeBrowserRun": false,
+    "benchmarkRun": false,
+    "CI": false
+  },
+  "sourceHashes": {
+    "src/tree/attributes.ts": "f4ab2b4d17ecef4314d31586055e7dbccc698854d4ede94af51476bf65b88219",
+    "src/tree/index.ts": "1884184ae99bd0b035c00b689201aa87deccb00d5a1dabe61636d5430875c915",
+    "src/tree/scene.ts": "6e070842527417ac9a0c4ecaca1e4e336830412e4c13b0e389dffdbbd5dd8805",
+    "src/tree/trace.ts": "172e84020d2d0ab4e1f0a488355e9f5e880d835e6bffb035bf21db045687dcf9",
+    "src/tree/types.ts": "b13991b3a3373286c2477a00679cd6e54223aa0e1590ec478dd26214a66e22ea",
+    "src/tree/validation.ts": "9e78a39525f02913cf71c8ebe93e392b258fb019150b54aa7ac3319b6c50314e",
+    "test/tree.test.mjs": "e5373b873d6a5cb585f937281f75bc9f112f080a28f9cc1a46b2956523c68cca",
+    "test/tree-playback.test.mjs": "b0ee9cfe161e72141a14b2b1e82b99c2c8b8b9cc5105951df6cf7f4f16e1a704",
+    "test/tree-test-fixtures.mjs": "cf448d02a48979041e2510285f3d992e082abe9c7ccdb32d83be74c1cce4cd81",
+    "test/package-tree.ts": "c01c701815eac95b3bda9dec4328e56c5995bd1118f26e93f3edad783c07f3a7",
+    "test/package-player.ts": "b98bc77afe7c906a44827ff56f37be7813591619ddb16e12b5f0cb5ee5dcd617",
+    "test/package-exports.mjs": "9ce5d5476654145728ad0e10c22efeb54378e0f299fb288f3c80140e47057a07",
+    "test/tsconfig.json": "c1c2a02de260de0d65945c65841ea4c6d41bb1fe0825f210719f242259480522",
+    "scripts/test-package.mjs": "33a47e091e71df8c53be13ebe5c29f50a75ba8a1fa256ab014acd751f16eb907",
+    "scripts/test-bundle.mjs": "ff391ce29b0509e6235c2c7754c2a2cc5920063136ee447ca60e59a4cc1989d8",
+    "package.json": "0fdeaeea84a897cb554bc44e06d956026f7ed8dd8ac5025faf6c98feb29d0f4f"
+  },
+  "documentationHashes": {
+    "CHANGELOG.md": "e35a94fd6dcbf7d35c6887f2d0725b22b257a86ac578aa05867b9b39479ea244",
+    "README.md": "368e4a647330e6cc41dbad68d15cbb905e16192cb79880b38b65b3b9c4e821cb",
+    "docs/api-compatibility.md": "4567c9442cf314b6520ddc0c1faa96789d66e17c75ef1d96ed3430303e31dfd4",
+    "docs/bfs-graph-comparison.md": "63db7e79ac447e902a06836684ed52443ced1322326569fff9f91b33b47c91bf",
+    "docs/candidate-1.1.md": "e5b4c44a82d2d0519238c5e597ba1403225b6418a3cbb969dadb25feb8ac1226",
+    "docs/current-api.md": "6084e6b707a6d1820437daf55fb7c1ea017bc3bd601071b1761cd5d694d92e3a",
+    "docs/custom-graph-example.md": "991184759a23e36bd48b9510a1b57e74ff88b490271b4e7201bd651082d479b2",
+    "docs/getting-started.md": "b60747682eba014dd9487696d91e4aefab748ef5c3ccdd7a423a976e21cb077e",
+    "docs/graph-api.md": "99792a76c87cbf64106136efa64e5b88fc430a6f18b232c9724abdc24c7e0875",
+    "docs/graph-contract.md": "76f4df65d37450d712f44c548594e2b0951064e87b6bf8f901cc4aabcdacb276",
+    "docs/graph-node-captions.md": "8796bbc56a3d05d4cd13896ef0f4a8035b74261c259ec511fe25971cd89ea2fe",
+    "docs/graph-readiness-1.1.md": "193ca031d1b43aa20e517ae662d31f4624f1788257e4a281014d1bd0b59963c0",
+    "docs/ru/api-compatibility.md": "db87e4628207be3a6cbc87d4dfdf29d86f8f7f75a41a33bccd9f5dcc654dda7c",
+    "docs/ru/bfs-graph-comparison.md": "479cc4903327d81bcc8417313a31685c5511ebcc9a15125957d5956ac5ddeaa8",
+    "docs/ru/candidate-1.1.md": "630ba28d3da38abe9c0c432fef13d3ed6935f0562352247bfc5d04f1d5e3fcbd",
+    "docs/ru/current-api.md": "7e1b2103c1f9a6a54e1962ead80f77f9fffc95a8081ab8d0e12e3a273a8be84d",
+    "docs/ru/getting-started.md": "84c209ba746efbe77d307b7f404123b55a5aa2781a8ac221091d2766ca39da8f",
+    "docs/ru/graph-api.md": "ec007cb7dcfd314f92c2f70001c4671d9738327e975d47ab5ea9d330aaa425e9",
+    "docs/ru/graph-contract.md": "7f89eb51a0d069af779972a0dc4e9d4d5745da7366a3b6c081b1d1941d7ba1cf",
+    "docs/ru/graph-node-captions.md": "96e9009ee8fe26a82f558d1dd5de5caff8af0ece5aa850be048680f69f6be48d",
+    "docs/ru/graph-readiness-1.1.md": "d8929eb74f694ad02eb74f32a8fbb44b13d6d3f68d01d51aa929e2001c004bab",
+    "docs/ru/tree-contract.md": "548d08fa50da46970e9a5af5d9894e60147f6b6e190a5e93a6b83dfa8194bfd4",
+    "docs/support-matrix.md": "0dc595e009dd2c7a18b72987be64aafa33897afe35b229d921dbb697b6341e7a",
+    "docs/tree-contract.md": "4dd26d993d6fa28a7f097c2d62b2604fb355823e5ad9ac0dc0fd1e700a6b4bab",
+    "ru/README.md": "89d127af56b41abb1e4b35754c7c4420ea516330c7c81ecae3abdd3e51bc0648",
+    "docs/release-1.1.md": "4f6a20cb4bde892080254eb470b1c2b62d9ea6bdf3ac7ec101bb744d9a9281ce",
+    "docs/ru/release-1.1.md": "767bd106b94f4a4b5ff141e3fec245408cd626712feba5914592ad7b39bd07ed",
+    "docs/ru/tree-api.md": "fab0f838db1faf74d0295ef42d272ce445889c9cd180b4b7c368c42e7daedc4a",
+    "docs/tree-api.md": "1c9637857810c1a7e9c68bf2e461367e96dfa0fd01795f5536d93c9c273ccb65"
+  },
+  "protectedHistoricalJSONReportsUnchanged": true,
+  "previousDocumentationWorkPreserved": true,
+  "lockAndDependenciesUnchanged": true,
+  "versionChanged": false,
+  "commitCreated": false,
+  "pushed": false,
+  "tagCreated": false,
+  "publication": false,
+  "limits": [
+    "Model validity is not automatic BST/balance/heap correctness",
+    "Tree layout is explicit; no tree Canvas or collision guarantee",
+    "Retired identity storage grows with IDs seen; bounded rewind does not bound trace memory",
+    "maxStepsPerFrame bounds source requests, not one edit/projection cost",
+    "Opaque payload immutability and Worker clone/transfer restrictions remain application/existing-transport responsibilities",
+    "No browser/native Worker run or exact-SHA CI for uncommitted changes is claimed"
+  ],
+  "artifactDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\tree-implementation-TA7ngG"
+}

@@ -1,0 +1,405 @@
+{
+  "date": "2026-11-19",
+  "checkedAt": "2026-11-19T20:18:31.973Z",
+  "scope": "Pre-commit candidate 1.2.0 local preparation and freeze; exact-SHA CI follows commit/push",
+  "baseline": {
+    "version": "1.1.0",
+    "sha": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+    "origin": "https://github.com/urffin/algiviz.git"
+  },
+  "candidate": {
+    "version": "1.2.0",
+    "lockVersion": "1.2.0",
+    "lockRootVersion": "1.2.0",
+    "entries": 12,
+    "runtime": 27,
+    "types": 128,
+    "distinctTypes": 116,
+    "commitIdentity": "Commit first introducing docs/candidate-1.2.md"
+  },
+  "migration": {
+    "originalTenImportsRequireMigration": false,
+    "newTreeImportsRequire": "1.2.0 after publication",
+    "runtimeDependenciesUnchanged": true,
+    "buildDependenciesUnchanged": true,
+    "existingPlayerAPIUnchanged": true
+  },
+  "verification": {
+    "originalSourcesUnchanged": 43,
+    "originalExportRecordsUnchanged": 10,
+    "implementationAndVerificationInputsUnchanged": 267,
+    "historicalJSONUnchanged": 59,
+    "publicEntryDeclarationsByteIdentical": true,
+    "repository": {
+      "command": "npm.cmd test",
+      "passed": 648,
+      "failed": 0,
+      "logSha256": "9c7d7bfade6af43457436976f0ff0e5a381e7edcf71e58242b0d0f97eba42798"
+    },
+    "installedArchive": {
+      "command": "npm.cmd run test:package -- --resolution=all",
+      "version": "1.2.0",
+      "compiler": "6.0.3",
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "environments": [
+        "ES2022 headless",
+        "DOM",
+        "WebWorker"
+      ],
+      "tests": 403,
+      "groups": [
+        1,
+        12,
+        61,
+        19,
+        25,
+        17,
+        18,
+        22,
+        11,
+        21,
+        3,
+        32,
+        75,
+        11,
+        20,
+        55
+      ],
+      "failed": 0,
+      "logSha256": "f5c3a2d7a212268eb343d350bd6807238b1874f167cd03ee6bf086e1ef5d4d30"
+    },
+    "bundle": {
+      "command": "npm.cmd run test:bundle -- --report=<artifact>/bundle-report.json",
+      "variants": 34,
+      "passed": true,
+      "logSha256": "19d19d3aff612e3bad0b56bb367802d9044cf0216c36d270b9f9372bbe4eecb5",
+      "reportSha256": "e883fe00dac40fd7cdb81ae55703beeb3e7f85583aec9ca9914475e2d64a6f36"
+    },
+    "archive": {
+      "files": 111,
+      "distFiles": 106,
+      "shasum": "2dc09b28210436b0ff446ca6ab2156809279c298",
+      "integrity": "sha512-JdH5uK3USvcFYRuKSkq6Oug73m8juZHxPHTj+57veb8LtBdpay12yBPBVkMGIXF8wZAAQBA8aIRF32jGcYBgWw==",
+      "tarballSha256": "543b09e101582dd54fbba6cf0643de8c94b438deee04c0253f6c6d95d824986f",
+      "examplesTestsScriptsShipped": false
+    },
+    "documentation": {
+      "files": 37,
+      "repositoryLinkTargetsChecked": 641,
+      "missingLinks": [],
+      "englishRussianCodeParity": true,
+      "gitDiffCheck": "passed"
+    },
+    "native": {
+      "freshRun": false,
+      "rendererChecks": 32,
+      "exampleUIChecks": 17,
+      "sourceFiles": 16,
+      "compiledFiles": 4,
+      "report": "tree-t1-native-2026-11-19.json",
+      "sourceAndCompiledHashesMatch": true,
+      "limits": [
+        "Embedded Chromium host only; no new browser support claim",
+        "Explicit backing ratios are not zoom certification",
+        "Context host errors and bitmap reset covered; no forced GPU context loss"
+      ]
+    },
+    "benchmark": {
+      "run": false,
+      "reason": "No performance change or performance claim in candidate preparation"
+    }
+  },
+  "gates": {
+    "R0": "complete: T1 closed",
+    "R1": "complete: metadata and EN/RU notes",
+    "R2": "complete: local archive and evidence freeze",
+    "R3": "commit/push authorized; all 11 exact-SHA jobs must be checked after commit",
+    "R4": "not authorized: no tag, GitHub Release or npm publication"
+  },
+  "sourceFiles": [
+    {
+      "path": "src/worker/types.ts",
+      "sha256": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9"
+    },
+    {
+      "path": "src/worker/runtime.ts",
+      "sha256": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef"
+    },
+    {
+      "path": "src/worker/protocol.ts",
+      "sha256": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc"
+    },
+    {
+      "path": "src/worker/index.ts",
+      "sha256": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13"
+    },
+    {
+      "path": "src/worker/error.ts",
+      "sha256": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72"
+    },
+    {
+      "path": "src/worker/data.ts",
+      "sha256": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064"
+    },
+    {
+      "path": "src/tree/validation.ts",
+      "sha256": "9e78a39525f02913cf71c8ebe93e392b258fb019150b54aa7ac3319b6c50314e"
+    },
+    {
+      "path": "src/tree/types.ts",
+      "sha256": "b13991b3a3373286c2477a00679cd6e54223aa0e1590ec478dd26214a66e22ea"
+    },
+    {
+      "path": "src/tree/trace.ts",
+      "sha256": "172e84020d2d0ab4e1f0a488355e9f5e880d835e6bffb035bf21db045687dcf9"
+    },
+    {
+      "path": "src/tree/scene.ts",
+      "sha256": "6e070842527417ac9a0c4ecaca1e4e336830412e4c13b0e389dffdbbd5dd8805"
+    },
+    {
+      "path": "src/tree/index.ts",
+      "sha256": "1884184ae99bd0b035c00b689201aa87deccb00d5a1dabe61636d5430875c915"
+    },
+    {
+      "path": "src/tree/attributes.ts",
+      "sha256": "f4ab2b4d17ecef4314d31586055e7dbccc698854d4ede94af51476bf65b88219"
+    },
+    {
+      "path": "src/scene/index.ts",
+      "sha256": "858bbb12d580c53b9f158ae50ab9976704f61bb1615120bab5ec046ec699db4b"
+    },
+    {
+      "path": "src/graph/validation.ts",
+      "sha256": "2419ff65c27803922a2f2bd1744bf8525c1b343d72c12189201090b38aee7edf"
+    },
+    {
+      "path": "src/graph/types.ts",
+      "sha256": "968069c40eaf877c3b43b2fae6d88e93209701c953c5e3b7791436a879813f06"
+    },
+    {
+      "path": "src/graph/trace.ts",
+      "sha256": "4f5a46481fa3dcfe2501a83984e3479cb5d927b28e1d145f20c879409b0e08c7"
+    },
+    {
+      "path": "src/graph/scene.ts",
+      "sha256": "c06d8a36b6d61622c811e88be40bc5f6812d870311bc5a7d6ccb6c6d070d0f3e"
+    },
+    {
+      "path": "src/graph/index.ts",
+      "sha256": "09c5153a1c91741dcf00098bc35c3b4c1f51689f0cdde79b161c5120c444ffb8"
+    },
+    {
+      "path": "src/canvas/viewport.ts",
+      "sha256": "a26ab096e666ffcb84e01b11ee302be2776e5d2a4ec1a48e1aa0185ef6149411"
+    },
+    {
+      "path": "src/canvas/tree.ts",
+      "sha256": "3d3af3e54ff5d69ff82b1af6d63652bac3156c3828bea6dd6f4c9094658be270"
+    },
+    {
+      "path": "src/canvas/tree-layout.ts",
+      "sha256": "0f68f22653eac44bac8b8a1c2f2cff43e213cb30ca5fc43e6cb934bdc9475a1a"
+    },
+    {
+      "path": "src/canvas/tree-labels.ts",
+      "sha256": "b8c29b4126630348cc8cc57cfab29109687af1295abfb11c1fb84443f732df3b"
+    },
+    {
+      "path": "src/canvas/tree-geometry.ts",
+      "sha256": "19532278ae68562995ee9865e2dd7b34bb914eb449d7b4e7ca2eec9ed1f3b3ba"
+    },
+    {
+      "path": "src/canvas/index.ts",
+      "sha256": "b901e35d3cc6ca78c5ef05bbf9b10efef8830f1aa3058a086ce009d8df73a965"
+    },
+    {
+      "path": "src/canvas/graph.ts",
+      "sha256": "dd46c600e45e577687b9a4cdfe27d9bc89cfbb177d26fadd19e6848452376611"
+    },
+    {
+      "path": "src/canvas/graph-geometry.ts",
+      "sha256": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa"
+    },
+    {
+      "path": "src/canvas/graph-captions.ts",
+      "sha256": "7ad9ffc3248ba08b0fdc48bddffdf356bf0919ebb0c98c71a59305ac80a0fe91"
+    },
+    {
+      "path": "src/array/player.ts",
+      "sha256": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f"
+    },
+    {
+      "path": "src/array/index.ts",
+      "sha256": "d0922f5c0ea917db55a5528aef6a476ba93144c00c70f1da4c97153070f8442d"
+    },
+    {
+      "path": "src/array/snapshot-builder.ts",
+      "sha256": "b8032b7a26b9106f606c9cc0ec1657063a599e72356397b8383b9fc9def75b66"
+    },
+    {
+      "path": "src/array/timeline.ts",
+      "sha256": "3849e56b429c14965f0191bab4236fed19ea762cf7ddabb206d0670d69064cf3"
+    },
+    {
+      "path": "src/array/trace.ts",
+      "sha256": "fc003f97e0c08f80fd6ad2c770ff935e31325b69a92ac2852fd846c43ddd206b"
+    },
+    {
+      "path": "src/array/types.ts",
+      "sha256": "707b4984f81df9c5db1d9eb253800ac9e5968cb3e3f63cca32e9e7d89a897a14"
+    },
+    {
+      "path": "src/player/types.ts",
+      "sha256": "c841f1fd2296c3535340e9f7dde29ed9e1a20b41bd6719d68146463f70055c2a"
+    },
+    {
+      "path": "src/player/stream-playback.ts",
+      "sha256": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30"
+    },
+    {
+      "path": "src/player/step-session.ts",
+      "sha256": "5ff0ab5fd20bd6c63297806b2a0ebda9e3f55ece31727cac5c86929ebda839ff"
+    },
+    {
+      "path": "src/player/rewind-session.ts",
+      "sha256": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0"
+    },
+    {
+      "path": "src/player/player.ts",
+      "sha256": "97bad8b05e115b5e5c38b26fddd59b00db1212b8d00463022b4902de33928bed"
+    },
+    {
+      "path": "src/player/mount.ts",
+      "sha256": "c6d82fdfe8cd37425878bc29643b8d1c9967c4808176e614dbc57eeb6691763d"
+    },
+    {
+      "path": "src/player/index.ts",
+      "sha256": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d"
+    },
+    {
+      "path": "src/player/controller.ts",
+      "sha256": "029b880fbc85272181bd2da1df825fc086c23b05053e66fa5a1bc1396ef51026"
+    },
+    {
+      "path": "src/player/close-report.ts",
+      "sha256": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8"
+    },
+    {
+      "path": "src/player/async-session.ts",
+      "sha256": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f"
+    },
+    {
+      "path": "src/player/async-controller.ts",
+      "sha256": "80fab81a5572ddb57837390410d8de856ebd5ddc65134bba336ad62d539d1803"
+    },
+    {
+      "path": "src/playback/types.ts",
+      "sha256": "053f6e9b76c2d9c9847ec71219b2a90ec9f4a2ad7ec6629f992e974a73ec4261"
+    },
+    {
+      "path": "src/playback/timeline.ts",
+      "sha256": "8095ff07cd9bf7afad108dd13e7e7ebb63e7cfb3d2fce5d2d45d620150074088"
+    },
+    {
+      "path": "src/playback/step-emitter.ts",
+      "sha256": "a42c006b86a441ab47bf720427164b10ca626ffd6bd7cab6a735dcc63ce41770"
+    },
+    {
+      "path": "src/playback/state-steps.ts",
+      "sha256": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff"
+    },
+    {
+      "path": "src/playback/state-player.ts",
+      "sha256": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b"
+    },
+    {
+      "path": "src/playback/rewind-buffer.ts",
+      "sha256": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70"
+    },
+    {
+      "path": "src/playback/player.ts",
+      "sha256": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787"
+    },
+    {
+      "path": "src/playback/index.ts",
+      "sha256": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0"
+    },
+    {
+      "path": "src/playback/async-source.ts",
+      "sha256": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "db2ed1b5dfff92f900d4c83cbaeb6ee8e9efeb183afc1ccbf657c1a9893f75d7"
+    },
+    {
+      "path": "README.md",
+      "sha256": "1bcec0b6af4f167367bc664aef26e87f7cea95e86359e7e6d2b796f1e5923e5d"
+    },
+    {
+      "path": "ru/README.md",
+      "sha256": "a28accf1f177081f7f0eb7db55303b3eb0e77cbf97255341aec31fa7dee836fd"
+    },
+    {
+      "path": "docs/candidate-1.2.md",
+      "sha256": "f04c42b7b16220ef6d04c6edeb52eb9dfc2cebe165879cad3e2fcd7c021595e0"
+    },
+    {
+      "path": "docs/ru/candidate-1.2.md",
+      "sha256": "b3cdc70b1bba6ced7fe057a09f47c13ad49eae608cda8a115f9e851f758fa074"
+    },
+    {
+      "path": "docs/current-api.md",
+      "sha256": "236b07e9efb2517a79d7fe4aeccd3bb21e7e3c10e433714d2588bc92cf1f9385"
+    },
+    {
+      "path": "docs/ru/current-api.md",
+      "sha256": "72bb96d46a6d6f953aee2485116bdbaf2637a8bcf4412cb08422acaa4312ee7b"
+    },
+    {
+      "path": "docs/tree-api.md",
+      "sha256": "0a2043b38e1af2813e8ed8b138b39fff07ff696348f9bcc3bdaab4d505f8b9b3"
+    },
+    {
+      "path": "docs/ru/tree-api.md",
+      "sha256": "52f782b4f1f2b74b579255b0213a4fe74e85399730f94dbd2c6c69a7fd41f7cb"
+    },
+    {
+      "path": "docs/tree-canvas-api.md",
+      "sha256": "8165adf04df42cc5ffc8ab1d69e261cef2e6ae93993b6dc0ffbffeb49cfe9ded"
+    },
+    {
+      "path": "docs/ru/tree-canvas-api.md",
+      "sha256": "54bcffb293a2f043c6f096c19ee19b56254e6d920a73caaf28b3a11ef8f86bd1"
+    },
+    {
+      "path": "docs/tree-readiness-1.2.md",
+      "sha256": "6c78050c46c2e49c51f0273025727ee1c06497ee65f2698f916ea9afd729d331"
+    },
+    {
+      "path": "docs/ru/tree-readiness-1.2.md",
+      "sha256": "bc0e937ad8ca7f0e75272c9f451c1f11058ac9f3a09c77c013f183b92252af2e"
+    },
+    {
+      "path": "docs/support-matrix.md",
+      "sha256": "86267110fafcf0643ebe7ccb92ee418b3012a3584b2620838d11b938cb7ea3ef"
+    }
+  ],
+  "metadataFiles": [
+    {
+      "path": "package.json",
+      "sha256": "d3689eef3e07a8e55047f014769369c055c56e7ae9b31790a5f8b936cdb99c21"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "e03f76badec564500ef25c90b9df0789eb1d8153753aa31785833b78822bcd39"
+    }
+  ],
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-1.2-76cbd238"
+}

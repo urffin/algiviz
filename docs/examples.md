@@ -32,6 +32,7 @@ included in the npm archive.
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
+| [Tree insertion and rotation](https://github.com/urffin/algiviz/blob/master/examples/tree-player.html) | Insert 1 into 3 ← 2, rotate right once, preserve in-order, replay the green tree with stock Canvas and Player |
 | [Boids flock](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Seeded simulation, five obstacle layouts and one-bird inspection with neighbors and steering vectors |
 | [Falling sand](https://github.com/urffin/algiviz/blob/master/examples/sand.html) | Synchronous cellular updates, a gated funnel, editable obstacles and exact one-grain inspection |
 
@@ -53,6 +54,26 @@ Reverse order. These are demo limits, not library restrictions. Switching a larg
 array to history requires first loading an array within the history limit.
 Dense charts hide labels; custom sorting examples preview the first 24 cells in
 their text status.
+
+## Binary tree insertion and one rotation
+
+Open [examples/tree-player.html](../examples/tree-player.html) after a local build.
+The fixed example inserts 1 into the left subtree of 3, then performs one right
+rotation. The final root is 2, with children 1 and 3; in-order stays 1 → 2 → 3.
+This demonstrates one left-left balancing case, not a full AVL insertion algorithm.
+The [algorithm](../examples/tree-player-algorithm.mjs) belongs to the application.
+The unpublished /tree and /canvas/tree entries provide immutable steps, explicit
+layout and stock drawing; the example does not add a library export.
+
+The stock Player uses shared 650 ms step / 1,000 ms final-hold timing and its own
+speed controls (0.25×–16×). Generator mode retains eight steps, including the current
+one; Previous replays snapshots without rerunning insertion/layout. Full history
+also supports seeking into the rotation. Restart constructs a fresh trace, and
+the complete final tree stays green. Empty child slots are dashed squares.
+The earlier [detailed traversal](../examples/tree.html) keeps custom nodes, links,
+a pointer and Canvas/SVG drawing. It remains a separate example.
+[Verification report](checks/tree-player-example-2026-11-19.json) ·
+[Repeatable native UI checks](../test/tree-player-browser.html) (serve the repository root).
 
 ## Boids: three rules of a flock
 

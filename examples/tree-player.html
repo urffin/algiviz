@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Binary tree insertion and one rotation</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}
+main{max-width:1000px;margin:auto;padding:24px}a{color:#c4b5fd}p{color:#cbd5e1}
+canvas{display:block;width:100%;border-radius:12px}label{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:18px 0}
+select{font:inherit;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px;padding:8px;min-height:44px}
+:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}#status{min-height:4.5em;overflow-wrap:anywhere}#error{color:#fca5a5}
+@media(max-width:640px){main{padding:16px}}
+</style></head><body><main>
+<a href="./index.html">All examples</a><h1>Binary tree · insert 1 and rotate right</h1>
+<p>Start with root 3 and its left child 2. Insert 1 by following the search order,
+then make one right rotation at 3. The final root is 2, with 1 on the left and 3 on the right.</p>
+<p><a href="./tree.html">Detailed tree traversal: custom objects, pointer, Canvas and SVG</a></p>
+<label>Playback mode<select id="mode"></select></label>
+<div id="player"><canvas width="960" height="440" role="img" aria-label="Binary search tree insertion and right rotation; each step and the final shape are described below"></canvas></div>
+<p>Yellow: current comparison or rotation. Grey: inserted leaf during the rotation.
+Dashed squares: empty child slots. Green: the complete resulting tree.</p>
+<p id="status" role="status" aria-live="polite"></p><p id="mode-note"></p><p id="error" role="alert"></p>
+<p>Use Next and Previous to inspect the insertion, the rotation and the green result.
+Full history also lets you seek through the transition. Restart returns to the two-node tree.</p>
+<p>This fixed left-left case illustrates one balancing operation, not a full AVL insertion algorithm.
+The in-order sequence remains 1 → 2 → 3 across the rotation. A different insertion may need another rotation or none.</p>
+<p>This example needs the local build: npm 1.1.0 does not export /tree or /canvas/tree yet.
+The algorithm belongs to the example; the library supplies immutable tree steps, layout, drawing and Player controls.</p>
+<p><a href="../docs/tree-api.md">Tree API</a> · <a href="../docs/tree-canvas-api.md">Tree Canvas</a></p>
+</main><script type="importmap">{"imports":{"@grundyjs/algiviz/tree":"../dist/tree/index.js","@grundyjs/algiviz/canvas/tree":"../dist/canvas/tree.js","@grundyjs/algiviz/player":"../dist/player/index.js","@grundyjs/algiviz/canvas/viewport":"../dist/canvas/viewport.js"}}</script>
+<script type="module" src="./tree-player-demo.mjs"></script></body></html>

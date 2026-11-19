@@ -1,0 +1,239 @@
+{
+  "date": "2026-11-17",
+  "checkedAt": "2026-11-17T20:38:13.855Z",
+  "scope": "Release 1.1 documentation closure and future /tree public API contract only",
+  "baseline": {
+    "version": "1.1.0",
+    "sha": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+    "entries": 10,
+    "runtimeNames": 24,
+    "typeOnlyNames": 95,
+    "distinctTypeOnlyNames": 83
+  },
+  "releaseClosure": {
+    "receipt": "docs/releases/1.1.0.json",
+    "source": "Prior completed publication verification; no fresh registry lookup in this task",
+    "publishedVersion": "1.1.0",
+    "latestVerified": "1.1.0",
+    "CIJobs": 11,
+    "signatureVerified": true,
+    "provenanceVerified": true,
+    "historicalJSONReportsUnchanged": true
+  },
+  "proposedSurface": {
+    "entry": "./tree",
+    "runtimeNames": [
+      "createTreeTrace",
+      "treeScene"
+    ],
+    "typeOnlyNames": [
+      "TreeKind",
+      "TreeBinarySlot",
+      "TreeNode",
+      "TreeOrderedLink",
+      "TreeBinaryLink",
+      "TreeLink",
+      "TreeOrderedInput",
+      "TreeBinaryInput",
+      "TreeInput",
+      "TreePosition",
+      "TreeAnnotation",
+      "TreeMark",
+      "TreeNodeCaption",
+      "TreeNodeCaptionPatch",
+      "TreeMarkUpdate",
+      "TreeResultInput",
+      "TreeResult",
+      "TreeDoneOptions",
+      "TreeTraceOptions",
+      "TreeEdit",
+      "TreeSnapshot",
+      "TreeEvent",
+      "TreeStep",
+      "TreeFrame",
+      "TreeTrace",
+      "TreeSceneOptions",
+      "TreeNodeView",
+      "TreeLinkView",
+      "TreeObjects"
+    ],
+    "typeOnlyCount": 29,
+    "installed": false
+  },
+  "decisions": {
+    "kinds": [
+      "ordered",
+      "binary"
+    ],
+    "modeImmutable": true,
+    "binarySlots": [
+      "left",
+      "right"
+    ],
+    "nullSlotRepresentation": "No link, no placeholder node",
+    "IDs": "Explicit independent node/link domains; retired IDs cannot be reintroduced in one trace",
+    "identityMemory": "Grows with distinct IDs ever committed; rewindCapacity does not bound it",
+    "traceMethods": [
+      "start",
+      "edit",
+      "mark",
+      "setLayout",
+      "done"
+    ],
+    "edit": "Whole optional collection replacements; atomic candidate validation, no structural cascade",
+    "layout": "Complete and explicit at construction; new nodes need complete layout in the same edit",
+    "results": "Independent node/link selections; no implicit endpoints/path",
+    "sceneKinds": [
+      "treeNode",
+      "treeLink"
+    ],
+    "errors": [
+      "TypeError",
+      "RangeError",
+      "Error",
+      "original opaque Proxy throw"
+    ],
+    "canvas": "Deferred separate contract",
+    "targetVersionReserved": false
+  },
+  "verification": {
+    "declarationChecks": [
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "NodeNext",
+        "environments": [
+          "ES2022"
+        ],
+        "command": "node node_modules/typescript/bin/tsc -p <artifact>/tsconfig.NodeNext.headless.json",
+        "exitCode": 0,
+        "noEmit": true,
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true
+      },
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "NodeNext",
+        "environments": [
+          "ES2022",
+          "DOM"
+        ],
+        "command": "node node_modules/typescript/bin/tsc -p <artifact>/tsconfig.NodeNext.DOM.json",
+        "exitCode": 0,
+        "noEmit": true,
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true
+      },
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "Bundler",
+        "environments": [
+          "ES2022"
+        ],
+        "command": "node node_modules/typescript/bin/tsc -p <artifact>/tsconfig.Bundler.headless.json",
+        "exitCode": 0,
+        "noEmit": true,
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true
+      },
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "Bundler",
+        "environments": [
+          "ES2022",
+          "DOM"
+        ],
+        "command": "node node_modules/typescript/bin/tsc -p <artifact>/tsconfig.Bundler.DOM.json",
+        "exitCode": 0,
+        "noEmit": true,
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true
+      }
+    ],
+    "negativeTypeCases": 19,
+    "inference": [
+      "ordered/binary kind",
+      "node/link payload",
+      "treeScene view data",
+      "union input",
+      "existing headless Player/timeline",
+      "DOM Player",
+      "event-free Frame"
+    ],
+    "codeBlocksIdenticalENRU": true,
+    "documentedDeclarationsEqualCheckedFile": true,
+    "readmeModuleAndLinkParity": true,
+    "markdownFilesChecked": 29,
+    "repositoryLinkTargetsChecked": 414,
+    "gitDiffCheck": "passed",
+    "protectedNonMarkdownFilesUnchanged": 315,
+    "packageAndLockUnchanged": true,
+    "originalCheckReportsUnchanged": true,
+    "missingExportTest": {
+      "entry": "@grundyjs/algiviz/tree",
+      "result": "ERR_PACKAGE_PATH_NOT_EXPORTED as expected",
+      "implementationAbsent": true
+    }
+  },
+  "acceptanceLimits": {
+    "futureTreeRuntimeExecuted": false,
+    "futureValidatorTested": false,
+    "futureRendererTested": false,
+    "nativeBrowserRun": false,
+    "fullRepositoryTestsRerun": false,
+    "existingSourceImplementationChanged": false,
+    "treeImplementationOrPackageStubAdded": false
+  },
+  "implementation": false,
+  "publicPackageAPIChanged": false,
+  "versionChanged": false,
+  "commitCreated": false,
+  "pushed": false,
+  "tagCreated": false,
+  "publication": false,
+  "documentationHashes": {
+    "CHANGELOG.md": "83c5da44027679b6f589c22b79fc0d5280df5f3b4bcab46af6b3aaf09599ceb7",
+    "README.md": "f75465f0c3ab33676c9f906939e9f20b08c64de8b427fc861bc95a76fad969cb",
+    "docs/api-compatibility.md": "1e0763935fad31b957ef1820f63efbeaad984edd5f7f7a64279e275ddf0519c3",
+    "docs/bfs-graph-comparison.md": "63db7e79ac447e902a06836684ed52443ced1322326569fff9f91b33b47c91bf",
+    "docs/candidate-1.1.md": "e5b4c44a82d2d0519238c5e597ba1403225b6418a3cbb969dadb25feb8ac1226",
+    "docs/current-api.md": "4ff76659f8b967aab67b1149db208272defa911bce6bb70210c6f6a1a69d0f36",
+    "docs/custom-graph-example.md": "991184759a23e36bd48b9510a1b57e74ff88b490271b4e7201bd651082d479b2",
+    "docs/getting-started.md": "b60747682eba014dd9487696d91e4aefab748ef5c3ccdd7a423a976e21cb077e",
+    "docs/graph-api.md": "99792a76c87cbf64106136efa64e5b88fc430a6f18b232c9724abdc24c7e0875",
+    "docs/graph-contract.md": "76f4df65d37450d712f44c548594e2b0951064e87b6bf8f901cc4aabcdacb276",
+    "docs/graph-node-captions.md": "8796bbc56a3d05d4cd13896ef0f4a8035b74261c259ec511fe25971cd89ea2fe",
+    "docs/graph-readiness-1.1.md": "193ca031d1b43aa20e517ae662d31f4624f1788257e4a281014d1bd0b59963c0",
+    "docs/ru/api-compatibility.md": "f15084f3e21cc63fc615001e6763dd998b2331c2162491bf8ea5c315e57e225d",
+    "docs/ru/bfs-graph-comparison.md": "479cc4903327d81bcc8417313a31685c5511ebcc9a15125957d5956ac5ddeaa8",
+    "docs/ru/candidate-1.1.md": "630ba28d3da38abe9c0c432fef13d3ed6935f0562352247bfc5d04f1d5e3fcbd",
+    "docs/ru/current-api.md": "87d97e5ae12d436b5d6e3b72aa91b1034b5afcb0a8195923a4ef6bcb1f48843d",
+    "docs/ru/getting-started.md": "84c209ba746efbe77d307b7f404123b55a5aa2781a8ac221091d2766ca39da8f",
+    "docs/ru/graph-api.md": "ec007cb7dcfd314f92c2f70001c4671d9738327e975d47ab5ea9d330aaa425e9",
+    "docs/ru/graph-contract.md": "7f89eb51a0d069af779972a0dc4e9d4d5745da7366a3b6c081b1d1941d7ba1cf",
+    "docs/ru/graph-node-captions.md": "96e9009ee8fe26a82f558d1dd5de5caff8af0ece5aa850be048680f69f6be48d",
+    "docs/ru/graph-readiness-1.1.md": "d8929eb74f694ad02eb74f32a8fbb44b13d6d3f68d01d51aa929e2001c004bab",
+    "docs/ru/tree-contract.md": "838299eb9f5ef0465519259360f14657c6c0c4ab46a2b5e5a8c64ac4f0cd97a3",
+    "docs/support-matrix.md": "073cc5f8526dc022eca76ec4a6189b179d2079def03afb3ca9ef947078dd1fba",
+    "docs/tree-contract.md": "307d062fc858938912bb478c9a337f62025f0a60335d1df2c8eea59ca455aa91",
+    "ru/README.md": "38358a465e9b8cb80b205caeae9b36c903cfe2465631448b951f44895f9b2f2d",
+    "docs/release-1.1.md": "4f6a20cb4bde892080254eb470b1c2b62d9ea6bdf3ac7ec101bb744d9a9281ce",
+    "docs/ru/release-1.1.md": "767bd106b94f4a4b5ff141e3fec245408cd626712feba5914592ad7b39bd07ed",
+    "docs/ru/tree-api.md": "a39a224756e87aeb087a436125758d6cc10a650bf2e83cf5dbedb3d768d6628a",
+    "docs/tree-api.md": "1b93568a76001835d9f43b9a983d606e9ba175804fb93584a03b28a618bff3fc"
+  },
+  "artifactDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\tree-api-release-docs-qeXz50",
+  "probeHashes": {
+    "tree-api.d.ts": "a3e6e219b7a8075bd68633338824fb56247b7ce7f4de6016760c0768de39da8a",
+    "headless.ts": "00cc2f5da10298a59249870d6a83299895f5c955cb9f2d5794eba90fd760264e",
+    "dom.ts": "0368a08ff80de0ccf788027054381db6f3d2c42a757b9ee312ea80a3ce85373f",
+    "rotation-example.ts": "c7ca583bd69395e75611dd35b675a42c984b15e362ca045c7fed1a2ca8871c2a",
+    "tsconfig.NodeNext.headless.json": "8fd341e730b073120ede43138f0d5c9481d188ba16c723fdcdfbc399d00cf78b",
+    "tsconfig.NodeNext.DOM.json": "a79dc066b40c1a1de61ad47ae67aa2046d6e47d0947a2f22dc68f4240d8df1c9",
+    "tsconfig.Bundler.headless.json": "3fdda84b736ed7dd35939b0367ae8b39744afa01f57f8f108c7fec11cbac3cf4",
+    "tsconfig.Bundler.DOM.json": "d2b32a64c0ee0966751599b7b53abe99476866e6d875df4ff07ba3390ec66100"
+  }
+}

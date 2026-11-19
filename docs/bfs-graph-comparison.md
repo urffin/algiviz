@@ -2,6 +2,10 @@
 
 [Русский](ru/bfs-graph-comparison.md) · [Detailed BFS](../examples/graph.html) · [Stock BFS](../examples/graph-player.html) · [Walkthrough](custom-graph-example.md)
 
+**Release follow-up, 2026-11-17:** the graph entries used below are published in
+1.1.0. [Release receipt](releases/1.1.0.json). The comparison below records the
+earlier example stage; example pages remain repository code.
+
 **2026-11-17; local changes, unpublished.** The detailed example is available again
 at graph.html. The stock-renderer version is a separate graph-player.html page.
 Both now use the same standard Player. No library implementation, public API,

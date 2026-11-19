@@ -1,0 +1,480 @@
+{
+  "date": "2026-11-19",
+  "verifiedAt": "2026-11-19T20:03:25.386Z",
+  "scope": "Close T1 by reserving the whole painted empty-slot square. Public API, version/lockfile and drawing shapes unchanged; no publication, commit, push, tag or CI.",
+  "finding": {
+    "id": "T1",
+    "status": "closed",
+    "initialReview": "tree-readiness-1.2-2026-11-19.json",
+    "cause": "The nominal 6x6 square excluded half of the 1.5px stroke.",
+    "correction": "Outset the square reservation by 0.75 CSS px before all viewport/collision/reservation checks, including later captions. Existing stub checks and render paths are unchanged.",
+    "APIChange": false,
+    "geometryChange": "Recorded node positions, node/link paths and square centerline/size unchanged. Safe omission/caption candidates may change.",
+    "originalWitness": {
+      "size": {
+        "width": 160,
+        "height": 21
+      },
+      "horizontalGap": 4,
+      "previousMargin": 3.25,
+      "requiredMargin": 4,
+      "currentSquareCount": 0
+    },
+    "positiveControl": {
+      "size": {
+        "width": 160,
+        "height": 24
+      },
+      "currentSquareCount": 2,
+      "paintedBottomMargin": 4.25
+    }
+  },
+  "checks": {
+    "redBeforeGreenAfter": {
+      "regressionGroups": 5,
+      "before": {
+        "passed": 0,
+        "failed": 5,
+        "logSha256": "f3c249e6eb02cb54aa29ba50af3dcb4d7f3d17bc1bbef017f4ffc29d07b342ee"
+      },
+      "after": {
+        "passed": 5,
+        "failed": 0,
+        "coveredBy": "repository and installed suite"
+      },
+      "cases": [
+        "4px viewport margin at bitmap 1/1.25/2",
+        "2px separation from a neighboring node",
+        "2px separation from a caption reservation",
+        "2px separation from a neighboring slot",
+        "hidden/visible fit parity, entering/exiting owners, raw alpha"
+      ]
+    },
+    "affected": {
+      "passed": 28,
+      "failed": 0,
+      "logSha256": "7a14072a487af314e384b7094e498ea3c174c04e56fbfe3792a87eb1b1de1570"
+    },
+    "repository": {
+      "command": "npm.cmd test",
+      "passed": 648,
+      "failed": 0,
+      "logSha256": "37dc0478d4c1edebfeadc0ac2b47cd387473dfd0df827b0ba0e9e114b93ebb87"
+    },
+    "installed": {
+      "command": "npm.cmd run test:package -- --resolution=all",
+      "compiler": "6.0.3",
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "runtimeTests": 403,
+      "newRegressionGroupsIncluded": 5,
+      "publicPrivatePathsPassed": true,
+      "logSha256": "94f060a1d90b41e62f6815ed33d47e97cacf3b0c8e1370dfca60968f047b1fe6"
+    },
+    "bundles": {
+      "variants": 34,
+      "oldExistingAndUIOutputsUnchanged": true,
+      "independentAndLazyTreeCanvas": true,
+      "minifiedImportLayoutChecksPassed": true,
+      "reportSha256": "b593920b6e7e68028d78863a6fbfe1840cbc4649386b43ca9d0598a7baf99174"
+    },
+    "native": {
+      "report": "tree-t1-native-2026-11-19.json",
+      "rendererChecks": 32,
+      "exampleUIChecks": 17,
+      "normalMatrixCases": 24,
+      "T1MatrixCases": 15,
+      "bitmapRatios": [
+        1,
+        1.25,
+        2
+      ],
+      "exampleWidths": [
+        960,
+        390
+      ],
+      "host": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+        "devicePixelRatio": 1.100000023841858
+      },
+      "rasterOmissionAndPositiveControl": true,
+      "independentPaintedBoundsOracle": true
+    },
+    "API": {
+      "surface": {
+        "entries": 12,
+        "runtime": 27,
+        "types": 128,
+        "distinctTypes": 116
+      },
+      "publicEntryDeclarationsByteIdentical": true,
+      "packageAndLockUnchanged": true,
+      "version": "1.1.0",
+      "priorFourCompilerTypeAcceptance": "Reused for byte-identical entry declarations and unchanged type fixtures; changed planner runtime acceptance is fresh.",
+      "priorTypeCompilers": [
+        "5.0.4",
+        "5.4.5",
+        "5.9.3",
+        "6.0.3"
+      ]
+    },
+    "package": {
+      "version": "1.1.0",
+      "dryRunFiles": 111,
+      "distFiles": 106,
+      "treeFiles": 12,
+      "treeCanvasFiles": 8,
+      "noExamplesOrTestsShipped": true,
+      "reportSha256": "60fb4e60226d9ccdc5681c67430338f0dc56d169e0eb7d4fb26a825b7362f61f"
+    },
+    "preservation": {
+      "unchangedOtherImplementationFiles": 52,
+      "unchangedPublishedImplementationFiles": 43,
+      "unchangedPublishedExportRecords": 10,
+      "historicalJSONUnchanged": 72,
+      "examplesUnchanged": true
+    },
+    "documentation": {
+      "EN_RUStatusUpdated": true,
+      "R0": "complete",
+      "remaining": [
+        "R1 prepare 1.2.0 candidate metadata/changelog",
+        "R2 freeze/build/install exact candidate archive",
+        "R3 commit/push and all 11 exact-SHA CI jobs",
+        "R4 separately authorized tag/Release/npm/provenance"
+      ],
+      "files": [
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "bb6fbeeb08cb736c1c17e9a3bcf3da1cdfa6e1236da725242f1d5a8f8684c71b"
+        },
+        {
+          "path": "ru/README.md",
+          "sha256": "ab13d5e8ba19e61b841d8d9d18faca0bbd7a248f3fb46bfa0f1e060712448ac3"
+        },
+        {
+          "path": "README.md",
+          "sha256": "dffdfe00306b6f7982eb5ecff0dae6c2f067a037d236ac8f8f03f83bdd030d99"
+        },
+        {
+          "path": "docs/api-compatibility.md",
+          "sha256": "a1fbe696fee7ad28c1637c79cdcf453439d43ee6c74fbbe7c28b9dde68d1fdd6"
+        },
+        {
+          "path": "docs/current-api.md",
+          "sha256": "63e36460e0b318fc06c7de696ade8919fe0ba52cfb5a214749e0e2439655cac5"
+        },
+        {
+          "path": "docs/tree-readiness-1.2.md",
+          "sha256": "78402d525178c0cf29a19efaa9b9cf623f4407aeb1b0d3f474f7d4653623438e"
+        },
+        {
+          "path": "docs/tree-canvas-api.md",
+          "sha256": "71b611e51ddaae3f556945b6137efddcaddda2f359486ead693d3d4f0d4e5918"
+        },
+        {
+          "path": "docs/tree-api.md",
+          "sha256": "e30fa488b3b6627f4a1c9da7c6ce94c62b7bcccfaa5f920cb06c9ac4784ca39f"
+        },
+        {
+          "path": "docs/support-matrix.md",
+          "sha256": "d8313ec65381e004aed5b884e6638a62761c2e1c7238cea9ec6f424f70b97314"
+        },
+        {
+          "path": "docs/ru/api-compatibility.md",
+          "sha256": "b9237cc3d03f218f52da91e1c05f92e39b3cea7507626537a852e3e632bcc6d4"
+        },
+        {
+          "path": "docs/ru/current-api.md",
+          "sha256": "3b3cf7b277e7a9e103712941edfcc823d6bf7ac6725a09f601d09dbe35baa6b4"
+        },
+        {
+          "path": "docs/ru/tree-readiness-1.2.md",
+          "sha256": "d3ea3d973dfb9c1f8c0215eaf9a78f86cbba3909d0aaa2e4ce7cda0aa69d632c"
+        },
+        {
+          "path": "docs/ru/tree-canvas-api.md",
+          "sha256": "1a56c7d4718bf4c361353616ba362a895d8aa2fe9c6c14e1e2dc0287bdd1edbb"
+        },
+        {
+          "path": "docs/ru/tree-api.md",
+          "sha256": "adfd8bcc5969ad3a214d3347a3c4afb3cdf469ed19fdfea037a9d74b52482a21"
+        }
+      ]
+    }
+  },
+  "readiness": {
+    "target": "1.2.0",
+    "readyForCandidatePreparation": true,
+    "knownImplementationBlockers": [],
+    "exactCandidateVerified": false,
+    "publicationAuthorized": false
+  },
+  "sourceFiles": [
+    {
+      "path": "src/worker/types.ts",
+      "sha256": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9"
+    },
+    {
+      "path": "src/worker/runtime.ts",
+      "sha256": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef"
+    },
+    {
+      "path": "src/worker/protocol.ts",
+      "sha256": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc"
+    },
+    {
+      "path": "src/worker/index.ts",
+      "sha256": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13"
+    },
+    {
+      "path": "src/worker/error.ts",
+      "sha256": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72"
+    },
+    {
+      "path": "src/worker/data.ts",
+      "sha256": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064"
+    },
+    {
+      "path": "src/tree/validation.ts",
+      "sha256": "9e78a39525f02913cf71c8ebe93e392b258fb019150b54aa7ac3319b6c50314e"
+    },
+    {
+      "path": "src/tree/types.ts",
+      "sha256": "b13991b3a3373286c2477a00679cd6e54223aa0e1590ec478dd26214a66e22ea"
+    },
+    {
+      "path": "src/tree/trace.ts",
+      "sha256": "172e84020d2d0ab4e1f0a488355e9f5e880d835e6bffb035bf21db045687dcf9"
+    },
+    {
+      "path": "src/tree/scene.ts",
+      "sha256": "6e070842527417ac9a0c4ecaca1e4e336830412e4c13b0e389dffdbbd5dd8805"
+    },
+    {
+      "path": "src/tree/index.ts",
+      "sha256": "1884184ae99bd0b035c00b689201aa87deccb00d5a1dabe61636d5430875c915"
+    },
+    {
+      "path": "src/tree/attributes.ts",
+      "sha256": "f4ab2b4d17ecef4314d31586055e7dbccc698854d4ede94af51476bf65b88219"
+    },
+    {
+      "path": "src/scene/index.ts",
+      "sha256": "858bbb12d580c53b9f158ae50ab9976704f61bb1615120bab5ec046ec699db4b"
+    },
+    {
+      "path": "src/graph/validation.ts",
+      "sha256": "2419ff65c27803922a2f2bd1744bf8525c1b343d72c12189201090b38aee7edf"
+    },
+    {
+      "path": "src/graph/types.ts",
+      "sha256": "968069c40eaf877c3b43b2fae6d88e93209701c953c5e3b7791436a879813f06"
+    },
+    {
+      "path": "src/graph/trace.ts",
+      "sha256": "4f5a46481fa3dcfe2501a83984e3479cb5d927b28e1d145f20c879409b0e08c7"
+    },
+    {
+      "path": "src/graph/scene.ts",
+      "sha256": "c06d8a36b6d61622c811e88be40bc5f6812d870311bc5a7d6ccb6c6d070d0f3e"
+    },
+    {
+      "path": "src/graph/index.ts",
+      "sha256": "09c5153a1c91741dcf00098bc35c3b4c1f51689f0cdde79b161c5120c444ffb8"
+    },
+    {
+      "path": "src/canvas/viewport.ts",
+      "sha256": "a26ab096e666ffcb84e01b11ee302be2776e5d2a4ec1a48e1aa0185ef6149411"
+    },
+    {
+      "path": "src/canvas/tree.ts",
+      "sha256": "3d3af3e54ff5d69ff82b1af6d63652bac3156c3828bea6dd6f4c9094658be270"
+    },
+    {
+      "path": "src/canvas/tree-layout.ts",
+      "sha256": "0f68f22653eac44bac8b8a1c2f2cff43e213cb30ca5fc43e6cb934bdc9475a1a"
+    },
+    {
+      "path": "src/canvas/tree-labels.ts",
+      "sha256": "b8c29b4126630348cc8cc57cfab29109687af1295abfb11c1fb84443f732df3b"
+    },
+    {
+      "path": "src/canvas/tree-geometry.ts",
+      "sha256": "19532278ae68562995ee9865e2dd7b34bb914eb449d7b4e7ca2eec9ed1f3b3ba"
+    },
+    {
+      "path": "src/canvas/index.ts",
+      "sha256": "b901e35d3cc6ca78c5ef05bbf9b10efef8830f1aa3058a086ce009d8df73a965"
+    },
+    {
+      "path": "src/canvas/graph.ts",
+      "sha256": "dd46c600e45e577687b9a4cdfe27d9bc89cfbb177d26fadd19e6848452376611"
+    },
+    {
+      "path": "src/canvas/graph-geometry.ts",
+      "sha256": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa"
+    },
+    {
+      "path": "src/canvas/graph-captions.ts",
+      "sha256": "7ad9ffc3248ba08b0fdc48bddffdf356bf0919ebb0c98c71a59305ac80a0fe91"
+    },
+    {
+      "path": "src/array/player.ts",
+      "sha256": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f"
+    },
+    {
+      "path": "src/array/index.ts",
+      "sha256": "d0922f5c0ea917db55a5528aef6a476ba93144c00c70f1da4c97153070f8442d"
+    },
+    {
+      "path": "src/array/snapshot-builder.ts",
+      "sha256": "b8032b7a26b9106f606c9cc0ec1657063a599e72356397b8383b9fc9def75b66"
+    },
+    {
+      "path": "src/array/timeline.ts",
+      "sha256": "3849e56b429c14965f0191bab4236fed19ea762cf7ddabb206d0670d69064cf3"
+    },
+    {
+      "path": "src/array/trace.ts",
+      "sha256": "fc003f97e0c08f80fd6ad2c770ff935e31325b69a92ac2852fd846c43ddd206b"
+    },
+    {
+      "path": "src/array/types.ts",
+      "sha256": "707b4984f81df9c5db1d9eb253800ac9e5968cb3e3f63cca32e9e7d89a897a14"
+    },
+    {
+      "path": "src/player/types.ts",
+      "sha256": "c841f1fd2296c3535340e9f7dde29ed9e1a20b41bd6719d68146463f70055c2a"
+    },
+    {
+      "path": "src/player/stream-playback.ts",
+      "sha256": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30"
+    },
+    {
+      "path": "src/player/step-session.ts",
+      "sha256": "5ff0ab5fd20bd6c63297806b2a0ebda9e3f55ece31727cac5c86929ebda839ff"
+    },
+    {
+      "path": "src/player/rewind-session.ts",
+      "sha256": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0"
+    },
+    {
+      "path": "src/player/player.ts",
+      "sha256": "97bad8b05e115b5e5c38b26fddd59b00db1212b8d00463022b4902de33928bed"
+    },
+    {
+      "path": "src/player/mount.ts",
+      "sha256": "c6d82fdfe8cd37425878bc29643b8d1c9967c4808176e614dbc57eeb6691763d"
+    },
+    {
+      "path": "src/player/index.ts",
+      "sha256": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d"
+    },
+    {
+      "path": "src/player/controller.ts",
+      "sha256": "029b880fbc85272181bd2da1df825fc086c23b05053e66fa5a1bc1396ef51026"
+    },
+    {
+      "path": "src/player/close-report.ts",
+      "sha256": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8"
+    },
+    {
+      "path": "src/player/async-session.ts",
+      "sha256": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f"
+    },
+    {
+      "path": "src/player/async-controller.ts",
+      "sha256": "80fab81a5572ddb57837390410d8de856ebd5ddc65134bba336ad62d539d1803"
+    },
+    {
+      "path": "src/playback/types.ts",
+      "sha256": "053f6e9b76c2d9c9847ec71219b2a90ec9f4a2ad7ec6629f992e974a73ec4261"
+    },
+    {
+      "path": "src/playback/timeline.ts",
+      "sha256": "8095ff07cd9bf7afad108dd13e7e7ebb63e7cfb3d2fce5d2d45d620150074088"
+    },
+    {
+      "path": "src/playback/step-emitter.ts",
+      "sha256": "a42c006b86a441ab47bf720427164b10ca626ffd6bd7cab6a735dcc63ce41770"
+    },
+    {
+      "path": "src/playback/state-steps.ts",
+      "sha256": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff"
+    },
+    {
+      "path": "src/playback/state-player.ts",
+      "sha256": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b"
+    },
+    {
+      "path": "src/playback/rewind-buffer.ts",
+      "sha256": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70"
+    },
+    {
+      "path": "src/playback/player.ts",
+      "sha256": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787"
+    },
+    {
+      "path": "src/playback/index.ts",
+      "sha256": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0"
+    },
+    {
+      "path": "src/playback/async-source.ts",
+      "sha256": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d"
+    }
+  ],
+  "verificationFiles": [
+    {
+      "path": "test/tree-slot-bounds.test.mjs",
+      "sha256": "5d3e1ea8ba784f97bfdee21b9e4e13dccc960e2c6a46ec086ce6ab364d2653fb"
+    },
+    {
+      "path": "test/tree-slot-fixtures.mjs",
+      "sha256": "3fa2a46b392e4da6bedebab94827f5b16a2e962623e99e796eb2d2f7668432c7"
+    },
+    {
+      "path": "test/tree-slot-oracle.mjs",
+      "sha256": "f48b8291db341cae888273bdd7b9ce717d340f96aa393fb26155ad655ce2b7f3"
+    },
+    {
+      "path": "scripts/test-package.mjs",
+      "sha256": "171ece2a5887793d5341b5837308497a1740f86394a562ce350ed35295b71975"
+    },
+    {
+      "path": "test/tree-canvas-browser.mjs",
+      "sha256": "fd77b18e7bb2667029c05d8a50d287a05e72eca05c15e605bc7b97ec9257cf4f"
+    }
+  ],
+  "existingFilesChanged": [
+    "CHANGELOG.md",
+    "ru/README.md",
+    "README.md",
+    "src/canvas/tree-labels.ts",
+    "scripts/test-package.mjs",
+    "docs/api-compatibility.md",
+    "test/tree-canvas-browser.mjs",
+    "docs/current-api.md",
+    "docs/tree-readiness-1.2.md",
+    "docs/tree-canvas-api.md",
+    "docs/tree-api.md",
+    "docs/support-matrix.md",
+    "docs/ru/api-compatibility.md",
+    "docs/ru/current-api.md",
+    "docs/ru/tree-readiness-1.2.md",
+    "docs/ru/tree-canvas-api.md",
+    "docs/ru/tree-api.md"
+  ],
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\tree-t1-fix-ff97cf85",
+  "screenshot": {
+    "path": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\tree-t1-fix-ff97cf85\\native-checks.jpg",
+    "sha256": "9dbe63e104dd8e89a73c6f04f8f458d72976da1ee997f49e0bc9f0f52ac1075f"
+  },
+  "limits": [
+    "Safety omission is permitted for crowded/custom layouts; this is not universal readability or pixel-identity certification.",
+    "Only the recorded embedded Chromium host was checked natively; no support expansion is claimed.",
+    "Metadata is still 1.1.0; this local archive is not a published 1.2.0 candidate."
+  ]
+}

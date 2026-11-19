@@ -2,25 +2,17 @@
 
 [Русский](ru/graph-api.md) · [Architecture sketch](graph-contract.md) · [Scene](scene.md) · [Compatibility](api-compatibility.md)
 
-**Headless implementation, 2026-11-17; local and unpublished.** `/graph` now
-exports createGraphTrace, graphScene and the 22 documented types from this working
-copy. `/canvas/graph` is now implemented locally too, with createGraphRenderer and four public types. Published
-1.0.0 (`3977c78a1b18e13f36a6c73c1d3a90a2420c99fb`) has neither entry; package
-metadata is prepared as candidate 1.1.0, without a tag or publication.
-See [candidate notes](candidate-1.1.md). The earlier
-[contract-only record](checks/graph-public-api-2026-11-17.json) and model sketches
-retain their original scope. [Implementation checks](checks/graph-implementation-2026-11-17.json)
-cover the headless stage. The [Canvas implementation report](checks/graph-canvas-implementation-2026-11-17.json)
-and [15 native checks](checks/graph-canvas-native-2026-11-17.json) cover the later renderer stage.
-The working copy has ten entries; published 1.0.0 retains eight.
+**Released in 1.1.0, 2026-11-17.** /graph exports createGraphTrace, graphScene
+and 22 types; /canvas/graph exports createGraphRenderer and four types. Published
+1.0.0 has neither entry. [Release and verification](release-1.1.md) record the
+exact SHA, all 11 CI jobs, registry installation/latest and signed provenance.
+Vertex captions, atomic patches and auto/hidden placement are included.
 
-**Vertex captions, 2026-11-17; implemented locally, unpublished:**
-[the caption contract](graph-node-captions.md) now has snapshot-owned text,
-atomic mark patches, scene caption data and auto/hidden Canvas placement.
-[Implementation and native checks](checks/graph-node-captions-implementation-2026-11-17.json)
-cover BFS distances, rewind, Restart, real font metrics and pixel obstacles.
-The graph entry now has 22 type-only exports; runtime names/entry paths and Player
-remain unchanged. Earlier reports retain their pre-caption source scope.
+The [contract-only record](checks/graph-public-api-2026-11-17.json), [headless](checks/graph-implementation-2026-11-17.json)
+and [Canvas](checks/graph-canvas-implementation-2026-11-17.json) implementation
+reports retain their stages. [Caption implementation/native evidence](checks/graph-node-captions-implementation-2026-11-17.json)
+covers 31 Canvas and seven BFS-page checks. The earlier 15 native cases retain
+their pre-caption scope and are not added to that count.
 
 ## Scope and entry boundary
 
@@ -528,7 +520,7 @@ the built-in browser: actual pixels, context restore/throw, raw interpolation,
 loops/lanes/arrows, resize and Player Previous/Next/Restart/dispose. Bitmap ratios
 1/1.25/2 are controlled backing-store sizes; they are not three browser zoom settings.
 The eight previously published entries and their closed unions are unchanged.
-A compatible release may target 1.1.0; a breaking change to current contracts
-still requires separate review and the major-release policy. No release occurs here.
+The compatible addition is released in 1.1.0. Future breaking changes require
+separate review and the major-release policy. This reference update publishes nothing.
 
 [Contract verification record](checks/graph-public-api-2026-11-17.json).

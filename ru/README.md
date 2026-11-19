@@ -25,15 +25,23 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Статус репозитория, 2026-11-17: **1.0.0 выпущена** с `3977c78`.
-Рабочее дерево дополнительно реализует ещё не опубликованные `/graph` и
-`/canvas/graph`, включая штатный Canvas-рендерер графа. Версия пакета и lockfile
-подготовлена как **кандидат 1.1.0**, без тега и публикации.
-[Описание кандидата](https://github.com/urffin/algiviz/blob/master/docs/ru/candidate-1.1.md). [API графа](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) ·
-[Релиз 1.0.0](https://github.com/urffin/algiviz/releases/tag/v1.0.0) ·
+Статус репозитория, 2026-11-17: **1.1.0 выпущена** с `629defe`.
+Опубликованы `/graph` и `/canvas/graph`, включая подписи вершин и штатный Canvas-
+рендерер графа. Миграция восьми прежних импортов не нужна.
+[Выпуск и проверки](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.1.md) ·
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.1.0) ·
+[API графа](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) ·
 [Миграция с 0.16.0](https://github.com/urffin/algiviz/blob/master/docs/ru/migration-1.0.md).
 
-[Итоговая ревизия графовых API перед 1.1.0](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-readiness-1.1.md) фиксирует готовое и оставшиеся релизные шаги; подписи расстояний BFS включены.
+Рабочая копия дополнительно реализует **неопубликованные `/tree` и `/canvas/tree`**:
+ordered/binary trace, атомарный edit, явную раскладку и штатный Canvas-рендерер.
+Нужна локальная сборка/архив; npm 1.1.0 их не экспортирует.
+[Tree API](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-api.md) ·
+[Tree Canvas](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md).
+[Ревизия к 1.2.0](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-readiness-1.2.md)
+закрывает T1: границы слотов учитывают обводку. Неопубликованный
+[кандидат 1.2.0](https://github.com/urffin/algiviz/blob/master/docs/ru/candidate-1.2.md)
+фиксирует проверку версионного архива; CI точного SHA и выпуск ещё впереди.
 
 ## Установка
 
@@ -43,9 +51,9 @@ npm install @grundyjs/algiviz
 
 У пакета нет корневой точки входа и сборки CommonJS. Импортируйте нужные модули:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
-`/worker` и `/worker/runtime`.
+`/worker`, `/worker/runtime`, `/graph` и `/canvas/graph`.
 
-Рабочее дерево также экспортирует `/graph` и `/canvas/graph`; в npm 1.0.0 их нет.
+Графовые entry требуют 1.1.0 или новее; в npm 1.0.0 их нет.
 Алгоритмы находятся в коде приложения и примерах. Совместимые возможности выходят
 в minor по [политике 1.x](https://github.com/urffin/algiviz/blob/master/docs/ru/api-compatibility.md);
 при обновлении сверяйтесь с [CHANGELOG.md](../CHANGELOG.md).
@@ -68,7 +76,7 @@ npm install @grundyjs/algiviz
 
 ## Модули и документация
 
-| Модуль | Назначение | Доступность |
+| Модуль | Назначение | Первый выпуск 1.x |
 | --- | --- | --- |
 | [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/playback.md) | Шаги, плееры, история, завершение и жизненный цикл | 1.0.0 |
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Собственные типы, сопоставление объектов и проекция | 1.0.0 |
@@ -78,8 +86,10 @@ npm install @grundyjs/algiviz
 | [`/player`](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md) | Необязательный виджет Player, медиапанель, запись/поток, загрузка по запросу | 1.0.0 |
 | [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Фабрика выделенного браузерного Worker и ошибки транспорта | 1.0.0 |
 | [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Endpoint внутри Worker; отдельные типы WebWorker | 1.0.0 |
-| [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Trace фиксированного графа, отметки/подписи/результат и сцена | Кандидат 1.1.0, не опубликован |
-| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Canvas графа: стрелки, петли, параллельные рёбра и размещение подписей | Кандидат 1.1.0, не опубликован |
+| [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Trace фиксированного графа, отметки/подписи/результат и сцена | 1.1.0 |
+| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Canvas графа: стрелки, петли, параллельные рёбра и размещение подписей | 1.1.0 |
+| [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-api.md) | Ordered/binary trace, атомарный edit топологии и проекция сцены | Неопубликованная рабочая копия |
+| [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md) | Явная раскладка дерева, пустые слоты, интерполяция связей, подписи и результат | Неопубликованная рабочая копия |
 
 Headless-модули не требуют DOM. Canvas/Player/viewport и Worker-host требуют своих
 host и DOM-типов; endpoint Worker — WebWorker-типов. Безопасный импорт не заменяет
@@ -122,6 +132,7 @@ Player принимает обычные состояния через source, �
 | [DFS графа](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Стек вызовов, возвраты, глубина и путь дерева; история/генератор |
 | [Лабиринт](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Генерация рандомизированным DFS, волна BFS, поиск DFS, циклы и недостижимый выход; история/генератор |
 | [Обход дерева](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Собственные узлы, рёбра и указатель с Canvas и SVG с сохранением элементов |
+| [Вставка и поворот дерева](https://github.com/urffin/algiviz/blob/master/examples/tree-player.html) | Фиксированная BST-вставка, один правый поворот, штатные layout/Canvas и Player; зелёный итог и перемотка |
 | [Стая Boids](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Воспроизводимая симуляция, пять окружений и разбор одной птицы с соседями и управляющими векторами |
 | [Падающий песок](https://github.com/urffin/algiviz/blob/master/examples/sand.html) | Воспроизводимая клеточная модель, редактор препятствий, затвор и разбор одной песчинки с разрешением конфликтов |
 

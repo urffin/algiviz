@@ -1,64 +1,71 @@
 # Current API and verification status
 
-[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.1 readiness](graph-readiness-1.1.md)
+[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.1 release](release-1.1.md)
 
-**Reviewed 2026-11-17.** The release baseline is 1.0.0 from commit 3977c78, with
-eight entries. The working tree adds /graph and /canvas/graph in **candidate
-1.1.0**; package.json and both root lockfile versions are 1.1.0. The candidate
-is not published. [Candidate notes](candidate-1.1.md) describe local acceptance
-and the exact-SHA CI gate. No fresh npm latest lookup is claimed here.
+**Released 2026-11-17.** The release baseline is **1.1.0** from
+629defe2eb570034ea368d736c1e5fdf74ea3502. All ten entries, including /graph and
+/canvas/graph, are published. The release metadata at that stage was 1.1.0.
+The [release receipt](releases/1.1.0.json) records successful exact-SHA CI and
+publication, fresh exact-version/latest lookup, installation and provenance.
+This documentation closure reuses the completed release task's observations.
+The working copy additionally implements unpublished /tree and /canvas/tree:
+**12 local entries, 27 runtime names, 128 type-only exports (116 distinct)**,
+in the unpublished [1.2.0 candidate](candidate-1.2.md). Package and both lockfile
+root versions are now 1.2.0.
 
-F1/F2, U1/U2/U5, stepSource/isTerminal and done({ result }) are in 1.0.0.
-They are no longer local unpublished differences. See [1.0 migration](migration-1.0.md)
-for upgrades from 0.16.0. All eight original source entries and export-map records
-are unchanged since 3977c78; graph features use two new independent paths.
+F1/F2, U1/U2/U5, stepSource/isTerminal and done({ result }) have been released
+since 1.0.0. The original eight implementations/export records are unchanged in
+1.1.0; existing imports need no migration. Graph imports require 1.1.0.
 
-## Published versus local
+## Published surface and future design
 
 | Scope | Current status |
 | --- | --- |
-| Release baseline | 1.0.0: 8 entries, 21 runtime names, 69 type-only exports, 57 distinct types |
-| Working tree | 10 entries, 24 runtime names, 95 type-only exports, 83 distinct types |
-| /graph | Implemented locally, unpublished: createGraphTrace, graphScene and 22 types; fixed topology, IDs, marks, captions, results and atomic validation |
-| /canvas/graph | Implemented locally, unpublished: createGraphRenderer and 4 types; arrows/loops/parallel lanes, interpolation, green results, captions and explicit logical size |
-| BFS | Two application examples with shared algorithm/Player: [detailed](../examples/graph.html) and [stock renderer](../examples/graph-player.html); no library algorithm export |
-| Tree/grid/list | [Contract](tree-contract.md) and [core-fit](grid-contract.md) [reviews](linked-list-contract.md) only; no new entries or implementations |
+| Release baseline | 1.1.0: 10 entries, 24 runtime names, 95 type-only exports, 83 distinct types |
+| /graph | Published: createGraphTrace, graphScene and 22 types; fixed topology, IDs, marks, captions, results and atomic validation |
+| /canvas/graph | Published: createGraphRenderer and 4 types; arrows, loops, parallel lanes, interpolation, results and captions |
+| BFS | Two repository examples, [detailed](../examples/graph.html) and [stock](../examples/graph-player.html); no algorithm package export |
+| /tree | [Implemented locally, unpublished](tree-api.md): createTreeTrace, treeScene and 29 types; atomic topology edit, explicit layout, ordered/binary slots and retirement |
+| /canvas/tree | [Implemented locally, unpublished](tree-canvas-api.md): createTreeRenderer and four types; ordered/binary layout, empty slots, attached relation crossfades, captions and green result. [T1 is closed](tree-readiness-1.2.md) with full painted-square safety bounds |
+| Tree examples | [Stock insertion/rotation and Player](../examples/tree-player.html), plus the preserved [custom traversal](../examples/tree.html) |
+| Grid/list | [Grid](grid-contract.md) and [list](linked-list-contract.md) architecture sketches only; no entries |
 
-## Entry reference map: eight released and two local
+## Entry reference map: ten published paths
 
 | Entry | Reference | Status |
 | --- | --- | --- |
-| /playback | [Playback](playback.md), [rewind](rewind-buffer.md), [async](async-source-api.md) | 1.0.0; unchanged |
-| /scene | [Scene](scene.md) | 1.0.0; unchanged |
-| /array | [Array](array.md), [result](array-result.md) | 1.0.0; unchanged |
-| /canvas | [Array Canvas](array.md#canvas-rendering) | 1.0.0; unchanged |
-| /canvas/viewport | [Viewport](canvas-viewport.md) | 1.0.0; unchanged |
-| /player | [Player](player.md), [explicit steps](player-step-source.md), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0; unchanged |
-| /worker | [Worker source](worker-source-api.md) | 1.0.0; unchanged |
-| /worker/runtime | [Worker endpoint](worker-source-api.md#worker-declarations-workerruntime) | 1.0.0; unchanged |
-| /graph | [Graph API](graph-api.md), [captions](graph-node-captions.md) | Local, intended 1.1.0 |
-| /canvas/graph | [Renderer](graph-api.md), [placement](graph-node-captions.md) | Local, intended 1.1.0 |
+| /playback | [Playback](playback.md), [rewind](rewind-buffer.md), [async](async-source-api.md) | 1.0.0; unchanged in 1.1.0 |
+| /scene | [Scene](scene.md) | 1.0.0; unchanged in 1.1.0 |
+| /array | [Array](array.md), [result](array-result.md) | 1.0.0; unchanged in 1.1.0 |
+| /canvas | [Array Canvas](array.md#canvas-rendering) | 1.0.0; unchanged in 1.1.0 |
+| /canvas/viewport | [Viewport](canvas-viewport.md) | 1.0.0; unchanged in 1.1.0 |
+| /player | [Player](player.md), [explicit steps](player-step-source.md), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0; unchanged in 1.1.0 |
+| /worker | [Worker source](worker-source-api.md) | 1.0.0; unchanged in 1.1.0 |
+| /worker/runtime | [Worker endpoint](worker-source-api.md#worker-declarations-workerruntime) | 1.0.0; unchanged in 1.1.0 |
+| /graph | [Graph API](graph-api.md), [captions](graph-node-captions.md) | 1.1.0; released |
+| /canvas/graph | [Renderer](graph-api.md), [placement](graph-node-captions.md) | 1.1.0; released |
 
-## Verified state and next steps
+## Verification and next work
 
-Retained implementation evidence: 595 repository tests, installed consumers with
-TypeScript 5.0.4/5.4.5/5.9.3/6.0.3 (NodeNext/Bundler, ES2022/DOM/WebWorker), 26
-bundle variants, 31 automatic Canvas cases and 7 BFS-page control checks.
-[Caption evidence](checks/graph-node-captions-implementation-2026-11-17.json) records
-these sources; [the final review](graph-readiness-1.1.md) verifies source identity
-and evidence limits. This is not exact-SHA CI for a future 1.1.0 commit or a new
-promise for every browser/font.
+All [11 CI jobs](https://github.com/urffin/algiviz/actions/runs/44164521486) passed
+on the released SHA. The [publish workflow](https://github.com/urffin/algiviz/actions/runs/44165469767)
+succeeded; npm exact 1.1.0/latest, a fresh install, all 86 dist files and
+cryptographic registry signature/provenance were verified. The [receipt](releases/1.1.0.json)
+records counts and limits; implementation/native evidence remains historical.
 
-Version/lockfile/changelog/release-facing documentation are prepared for 1.1.0.
-The candidate must be committed/pushed and all 11 CI jobs must pass on its exact
-SHA. Tag/GitHub Release, publishing workflow and npm version/latest/provenance
-checks remain a separately authorized next stage.
-See [1.1 readiness](graph-readiness-1.1.md) for gates and check-reuse conditions.
+The 1.1 release gates are complete. Local [tree](tree-api.md) and [tree Canvas](tree-canvas-api.md)
+are checked separately, including native Canvas. The [stock insertion/rotation example](../examples/tree-player.html)
+is added alongside custom traversal. The [1.2.0 review](tree-readiness-1.2.md) is complete:
+[T1 is corrected](checks/tree-t1-fix-2026-11-19.json), and affected Canvas/example
+acceptance is refreshed. The [1.2.0 candidate](candidate-1.2.md) records local
+preparation and archive verification. All 11 jobs must pass on its final commit
+before a separately authorized release; 1.2.0 is unpublished.
+The candidate/readiness documents retain their preceding preparation scope.
 
 ## Reading historical evidence
 
 Dated documents/JSON retain their original scope. Old local/candidate/0.16.0
-status refers to that verification stage, not current 1.0.0 availability. Use
+status refers to that verification stage, not current 1.1.0 availability. Use
 this index for release-baseline status.
 
 - [1.0 candidate](candidate-1.0.md), [core readiness](core-readiness-1.0.md), [migration](migration-1.0.md).

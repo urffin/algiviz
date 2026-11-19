@@ -2,6 +2,10 @@
 
 [Русский](ru/candidate-1.1.md) · [Changelog](../CHANGELOG.md) · [Current API](current-api.md) · [Readiness review](graph-readiness-1.1.md)
 
+**Release follow-up, 2026-11-17:** 1.1.0 was released from 629defe after all
+11 CI jobs; exact npm/latest and provenance passed. [Completed release](release-1.1.md).
+The candidate preparation below is historical; no gate below remains pending for 1.1.0.
+
 **Prepared 2026-11-17; unpublished.** package.json and both root lockfile versions
 are 1.1.0. This preparation authorizes commit/push and waiting for all 11 CI jobs
 on the resulting commit. It does not create a tag, GitHub Release or npm release.

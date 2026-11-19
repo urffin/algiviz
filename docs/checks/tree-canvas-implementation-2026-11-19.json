@@ -1,0 +1,256 @@
+{
+  "date": "2026-11-19",
+  "verifiedAt": "2026-11-19T19:03:01.427Z",
+  "scope": "Implement agreed /canvas/tree API locally; no publication, commit, push, tag or release/version bump.",
+  "baseline": {
+    "version": "1.1.0",
+    "head": "629defe2eb570034ea368d736c1e5fdf74ea3502",
+    "existingUncommittedTreePreserved": true
+  },
+  "API": {
+    "entry": "/canvas/tree",
+    "runtime": [
+      "createTreeRenderer"
+    ],
+    "types": [
+      "TreePalette",
+      "TreeRendererOptions",
+      "TreeRenderSize",
+      "TreeRenderer"
+    ],
+    "methods": [
+      "layout",
+      "render"
+    ],
+    "defaults": {
+      "horizontalGap": 1,
+      "levelGap": 2,
+      "emptySlots": "hidden",
+      "nodeCaptions": "auto"
+    },
+    "localSurface": {
+      "entries": 12,
+      "runtime": 27,
+      "types": 128,
+      "distinctTypes": 116
+    },
+    "version": "1.1.0"
+  },
+  "implementation": {
+    "layout": "Iterative DFS leaf ranks for ordered; finite extended binary in-order with one terminal placeholder per missing child. Frozen positions in original node storage order.",
+    "render": "Recorded positions only; joint endpoint/ghost fit, linear node movement, two attached routes on relation endpoint/slot changes.",
+    "emptySlots": "Owner/slot decorations only; no model/scene IDs; linear alpha without squaring; omit unsafe decorations including stubs bending into their owner.",
+    "text": "Plan measurements and reservations before pixel mutation, conservative convex-hull subdivision, labels then ghosts then captions, explicit clearRect for transparent repaint.",
+    "results": "Current snapshot selection overrides roles; no final color memory. Exit objects retain previous style/text.",
+    "ownership": "No DOM reads, resources, source/context ownership, scheduler/dispose or retained endpoint/history cache.",
+    "errors": "Descriptors and topology validated before Canvas, save/restore balanced; preserve primary opaque/falsy host throws and release reentrancy guard in finally."
+  },
+  "checks": {
+    "repository": {
+      "command": "npm test",
+      "passed": 637,
+      "failed": 0,
+      "newRegressions": 17,
+      "logSha256": "31721112225d5c48c1932832ee7ab19ea35de247160f92b7b4d238a51688412a"
+    },
+    "installedPackage": {
+      "matrix": [
+        {
+          "version": "5.0.4",
+          "resolutions": [
+            "NodeNext",
+            "Bundler"
+          ],
+          "strict": true,
+          "headlessES2022": true,
+          "DOMConsumer": true,
+          "CanvasEntryWithoutDOMRejected": true,
+          "runtimeRegressions": 398,
+          "logSha256": "29e4e746a7927aff21319de3ecd0975e28919d7054f2f60c1ec9e0c894e0b503"
+        },
+        {
+          "version": "5.4.5",
+          "resolutions": [
+            "NodeNext",
+            "Bundler"
+          ],
+          "strict": true,
+          "headlessES2022": true,
+          "DOMConsumer": true,
+          "CanvasEntryWithoutDOMRejected": true,
+          "runtimeRegressions": 398,
+          "logSha256": "6874403196c45343a880b8f08d04c7217fb9786da1f0d7f29d6a438634d2b1e1"
+        },
+        {
+          "version": "5.9.3",
+          "resolutions": [
+            "NodeNext",
+            "Bundler"
+          ],
+          "strict": true,
+          "headlessES2022": true,
+          "DOMConsumer": true,
+          "CanvasEntryWithoutDOMRejected": true,
+          "runtimeRegressions": 398,
+          "logSha256": "25a91357d3d6b27b9036e6aebbc1de124633b9f3109faef29f57bbb81d9a41a8"
+        },
+        {
+          "version": "6.0.3",
+          "resolutions": [
+            "NodeNext",
+            "Bundler"
+          ],
+          "strict": true,
+          "headlessES2022": true,
+          "DOMConsumer": true,
+          "CanvasEntryWithoutDOMRejected": true,
+          "runtimeRegressions": 398,
+          "logSha256": "6a908bed69d1288b536a715a833dd262ccc1a54f2c1c60b4e14454e64eeada04"
+        }
+      ],
+      "runtimeRegressionsPerCompiler": 398,
+      "privatePathsGuarded": true,
+      "publicExportsExact": true
+    },
+    "bundle": {
+      "variants": 34,
+      "staticAndDynamic": true,
+      "minifiedExecutionWithoutDOM": true,
+      "priorExistingAndUIOutputsUnchanged": true,
+      "noOtherBackendOrTraceBuilder": true,
+      "reportSha256": "7b5102fc9752f46ee8cc21da10b8fa6b9867b5a92bbcc157d2de09f3a251b71e"
+    },
+    "native": {
+      "report": "tree-canvas-browser-2026-11-19.json",
+      "passed": 30,
+      "failed": 0,
+      "matrixCases": 24,
+      "bitmapRatios": [
+        1,
+        1.25,
+        2
+      ],
+      "sizes": [
+        {
+          "width": 960,
+          "height": 480
+        },
+        {
+          "width": 390,
+          "height": 280
+        }
+      ],
+      "themes": [
+        "light",
+        "dark"
+      ],
+      "paintedCaptionsPerFixture": 3,
+      "paintedLinkLabelsPerFixture": 1,
+      "paintedBinaryGhostsPerFixture": 8,
+      "independentRasterOracle": true,
+      "Player": [
+        "stream",
+        "history",
+        "Pause",
+        "Next",
+        "Previous",
+        "Restart",
+        "viewport resize",
+        "dispose"
+      ],
+      "recovery": [
+        "host exception preserving null",
+        "context state restoration",
+        "bitmap/context reset",
+        "subsequent valid redraw"
+      ],
+      "forcedGPUContextLoss": false
+    },
+    "package": {
+      "dryRunFiles": 111,
+      "treeCanvasDistFiles": [
+        "dist/canvas/tree-geometry.d.ts",
+        "dist/canvas/tree-geometry.js",
+        "dist/canvas/tree-labels.d.ts",
+        "dist/canvas/tree-labels.js",
+        "dist/canvas/tree-layout.d.ts",
+        "dist/canvas/tree-layout.js",
+        "dist/canvas/tree.d.ts",
+        "dist/canvas/tree.js"
+      ],
+      "noTestsExamplesOrScriptsShipped": true,
+      "versionAndDependenciesUnchanged": true,
+      "lockfileUnchanged": true
+    },
+    "compatibility": {
+      "previousImplementationFilesUnchanged": 49,
+      "previousExportRecordsUnchanged": 10,
+      "historicalJSONUnchanged": 68
+    },
+    "documentation": {
+      "EN_RUCodeParity": true,
+      "publicDeclarationMatches": true,
+      "currentStatusUpdated": true
+    }
+  },
+  "files": [
+    {
+      "path": "src/canvas/tree.ts",
+      "sha256": "3d3af3e54ff5d69ff82b1af6d63652bac3156c3828bea6dd6f4c9094658be270"
+    },
+    {
+      "path": "src/canvas/tree-layout.ts",
+      "sha256": "0f68f22653eac44bac8b8a1c2f2cff43e213cb30ca5fc43e6cb934bdc9475a1a"
+    },
+    {
+      "path": "src/canvas/tree-geometry.ts",
+      "sha256": "19532278ae68562995ee9865e2dd7b34bb914eb449d7b4e7ca2eec9ed1f3b3ba"
+    },
+    {
+      "path": "src/canvas/tree-labels.ts",
+      "sha256": "54c56ddd8545e97c87785c24f837aeed1ea20c39732b5d4692a15abceb71a9ad"
+    },
+    {
+      "path": "test/tree-canvas.test.mjs",
+      "sha256": "0d22d574facd4d70c0999e3bd4072b183413989c218affa1cba0b0edd707011a"
+    },
+    {
+      "path": "test/tree-canvas-playback.test.mjs",
+      "sha256": "e89ff0865fdf66e1e91c553e5fd1b34dc0753b0029c262bafef89fb5c119596b"
+    },
+    {
+      "path": "test/tree-canvas-context.mjs",
+      "sha256": "682830f0f05ec6a5c2ef136ac7f63ab20a91e5612149491e873418d5bfd95919"
+    },
+    {
+      "path": "test/tree-canvas-fixtures.mjs",
+      "sha256": "0a2acfd0abdc6ee41ef52358aed0fc4031701d32e898974de9aa96b0021b23ac"
+    },
+    {
+      "path": "test/package-tree-canvas.ts",
+      "sha256": "95c6fadbaf0cd37bb90c77b4ee5a4a9f71ec27f7d2b708e902cd69b5de063681"
+    },
+    {
+      "path": "test/tree-canvas-browser.html",
+      "sha256": "b471bfa97554ada6359675493b7e40b5acda3260a46c1f905c7feb2f0c0dff36"
+    },
+    {
+      "path": "test/tree-canvas-browser.mjs",
+      "sha256": "5fa6d953f320f55cc1a44e8a075383a167f276311ff4f8f38873aa645b9cbc38"
+    },
+    {
+      "path": "scripts/test-tree-canvas-browser.mjs",
+      "sha256": "d9ad4aaa43c9377192a5027de655a62aac85d88f96c6b66ee1fbc5f868b777ab"
+    }
+  ],
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\tree-canvas-implementation-efa01b0d",
+  "nextSteps": [
+    "Add a stock /tree + /canvas/tree + Player example without replacing detailed custom examples.",
+    "Review API/docs and accumulated working copy; prepare candidate and exact-SHA CI only in a separately authorized release task."
+  ],
+  "limits": [
+    "Native evidence covers the recorded embedded Chromium host, not an expanded cross-browser matrix.",
+    "Bitmap ratios 1/1.25/2 are explicit backing-store checks; viewport tests use the actual host DPR.",
+    "Forced GPU context loss is not claimed; secondary labels/slots may be safely omitted on crowded custom layouts."
+  ]
+}

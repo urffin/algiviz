@@ -19,7 +19,11 @@ const runNpm = (args, cwd) => execFileSync(process.execPath, [npm, ...args], {
 const existing = ['playback', 'scene', 'array', 'canvas']
     .map(name => `export * from '@grundyjs/algiviz/${name}';`).join('\n');
 const sources = {
+    treeCanvas: "export { createTreeRenderer } from '@grundyjs/algiviz/canvas/tree';",
+    treeCanvasDynamic: existing + "\nexport async function loadTreeCanvas() { return import('@grundyjs/algiviz/canvas/tree'); }",
     existing,
+    tree: "export { createTreeTrace, treeScene } from '@grundyjs/algiviz/tree';",
+    treeDynamic: `${existing}\nexport async function loadTree() { return import('@grundyjs/algiviz/tree'); }`,
     graphCanvas: "export { createGraphRenderer } from '@grundyjs/algiviz/canvas/graph';",
     graphCanvasDynamic: `${existing}\nexport async function loadGraphCanvas() { return import('@grundyjs/algiviz/canvas/graph'); }`,
     graph: "export { createGraphTrace, graphScene } from '@grundyjs/algiviz/graph';",
@@ -104,6 +108,27 @@ try {
             const initialModules = [...result.initial].flatMap(key => Object.keys(result.outputs[key].inputs));
             if (!['graph', 'graphCanvas'].includes(name)) assert.equal(initialModules.some(path => path.includes('/dist/graph/')), false, `${name}: graph code in initial bundle`);
             const allModules = Object.values(result.outputs).flatMap(output => Object.keys(output.inputs));
+            if (!['tree', 'treeCanvas'].includes(name)) assert.equal(initialModules.some(path => path.includes('/dist/tree/')), false, 'Unexpected initial tree dependency');
+            if (!['tree', 'treeDynamic', 'treeCanvas', 'treeCanvasDynamic'].includes(name)) assert.equal(allModules.some(path => path.includes('/dist/tree/')), false, 'Unrelated entry loaded tree code');
+            const canvasTree = path => /\/canvas\/tree(?:-layout|-geometry|-labels)?\.js$/.test(path);
+            if (!['treeCanvas', 'treeCanvasDynamic'].includes(name)) assert.equal(allModules.some(canvasTree), false, 'Unrelated entry loaded Canvas tree');
+            if (name === 'treeCanvas' || name === 'treeCanvasDynamic') {
+                assert.ok(allModules.some(path => path.endsWith('/canvas/tree.js')));
+                assert.equal(allModules.some(path => /\/(tree\/trace|tree\/index|canvas\/graph|graph\/trace)\.js$/.test(path)), false, 'Tree Canvas loaded another backend/trace builder');
+                if (name === 'treeCanvas') assert.equal(allModules.some(path => path.endsWith('/canvas/index.js')), false, 'Tree Canvas loaded array renderer');
+                if (name === 'treeCanvasDynamic') {
+                    assert.ok(result.files.size > result.initial.size, 'Tree Canvas not deferred');
+                    assert.equal(initialModules.some(canvasTree), false);
+                }
+            }
+            if (name === 'tree') {
+                const modules = allModules.filter(path => path.includes('/dist/'));
+                assert.ok(modules.length > 0 && modules.every(path => path.includes('/dist/tree/')), 'Tree imported a backend or unrelated entry');
+            }
+            if (name === 'treeDynamic') {
+                assert.ok(result.files.size > result.initial.size, 'Tree import was not deferred');
+                assert.ok(allModules.some(path => path.includes('/dist/tree/')));
+            }
             if (!['graphCanvas', 'graphCanvasDynamic'].includes(name)) assert.equal(allModules.some(path => /\/canvas\/graph(?:-geometry)?\.js$/.test(path)), false, 'Unexpected Canvas graph dependency');
             if (name === 'graphCanvas') {
                 assert.ok(allModules.some(path => path.endsWith('/canvas/graph.js')));
@@ -168,6 +193,18 @@ try {
                 const entryUrl = pathToFileURL(join(current, result.entry)).href;
                 const check = `const m = await import(${JSON.stringify(entryUrl)});
                     if (typeof document !== 'undefined') throw Error('Unexpected DOM');
+                    if (${JSON.stringify(name)} === 'treeCanvas' || ${JSON.stringify(name)} === 'treeCanvasDynamic') {
+                        const drawing = ${JSON.stringify(name)} === 'treeCanvas' ? m : await m.loadTreeCanvas();
+                        const renderer = drawing.createTreeRenderer({theme:'light',emptySlots:'visible'});
+                        const positions = renderer.layout({kind:'binary',rootId:'A',nodes:[{id:'A'},{id:'B'}],links:[{id:'l',parentId:'A',childId:'B',slot:'right'}]});
+                        if (positions[1].x !== 2 || positions[1].y !== 2 || typeof renderer.render !== 'function') throw Error('Bundled tree Canvas failed');
+                    }
+                    if (${JSON.stringify(name)} === 'tree' || ${JSON.stringify(name)} === 'treeDynamic') {
+                        const tree = ${JSON.stringify(name)} === 'tree' ? m : await m.loadTree();
+                        const trace = tree.createTreeTrace({kind:'binary',rootId:'A',nodes:[{id:'A'}],links:[]},{layout:[{nodeId:'A',x:0,y:0}]});
+                        trace.start(); trace.edit({}); const state = trace.done({result:{nodeIds:['A']}}).state;
+                        if (!tree.treeScene(state,{namespace:'bundle'}).objects[0].data.result) throw Error('Bundled tree result missing');
+                    }
                     if (${JSON.stringify(name)} === 'graphCanvas' || ${JSON.stringify(name)} === 'graphCanvasDynamic') {
                         const drawing = ${JSON.stringify(name)} === 'graphCanvas' ? m : await m.loadGraphCanvas();
                         if (typeof drawing.createGraphRenderer({ theme: 'light' }).render !== 'function') throw Error('Graph Canvas lazy/import failed');

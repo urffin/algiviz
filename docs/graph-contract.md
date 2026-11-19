@@ -2,6 +2,10 @@
 
 [Русский](ru/graph-contract.md) · [Scene](scene.md) · [Playback](playback.md) · [Compatibility policy](api-compatibility.md)
 
+**Released follow-up, 2026-11-17:** /graph and /canvas/graph are published in
+1.1.0. [API](graph-api.md) and [release receipt](releases/1.1.0.json) supersede
+availability statements in the historical sketch/stage notes below.
+
 **Follow-up, 2026-11-17:** the [public API contract](graph-api.md) now selects
 trace/model types, marks/results, validation and the separate `/canvas/graph`
 boundary against released 1.0.0. The headless `/graph` is now implemented locally,

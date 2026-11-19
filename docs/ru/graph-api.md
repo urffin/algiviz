@@ -2,24 +2,17 @@
 
 [English](../graph-api.md) · [Архитектурный эскиз](graph-contract.md) · [Сцены](scene.md) · [Совместимость](api-compatibility.md)
 
-**Headless-реализация, 2026-11-17; локально, без публикации.** `/graph` теперь
-экспортирует createGraphTrace, graphScene и 22 описанных типа из рабочего дерева.
-`/canvas/graph` теперь тоже реализован локально: createGraphRenderer и четыре публичных типа. В опубликованной
-1.0.0 (`3977c78a1b18e13f36a6c73c1d3a90a2420c99fb`) обоих entry нет; версия пакета
-подготовлена как кандидат 1.1.0, без тега и публикации.
-См. [описание кандидата](candidate-1.1.md). Прежний [отчёт контракта](../checks/graph-public-api-2026-11-17.json)
-и эскизы сохраняют свой объём. [Проверки реализации](../checks/graph-implementation-2026-11-17.json)
-относятся к этапу headless-entry. [Отчёт Canvas-реализации](../checks/graph-canvas-implementation-2026-11-17.json)
-и [15 native-проверок](../checks/graph-canvas-native-2026-11-17.json) относятся к следующему этапу рендерера.
-В рабочем дереве десять entry; опубликованная 1.0.0 сохраняет восемь.
+**Выпущено в 1.1.0, 2026-11-17.** /graph экспортирует createGraphTrace, graphScene
+и 22 типа; /canvas/graph — createGraphRenderer и четыре типа. В 1.0.0 этих entry нет.
+[Выпуск и проверки](release-1.1.md) фиксируют точный SHA, все 11 CI jobs, registry-
+установку/latest и подписанный provenance. Подписи вершин, атомарные патчи и
+размещение auto/hidden включены.
 
-**Подписи вершин, 2026-11-17; реализованы локально, без публикации:**
-[контракт подписей](graph-node-captions.md) теперь поддержан текстом в снимке,
-атомарными mark-патчами, caption в сцене и размещением Canvas auto/hidden.
-[Проверки реализации и native](../checks/graph-node-captions-implementation-2026-11-17.json)
-охватывают расстояния BFS, перемотку, Restart, реальные метрики шрифта и пиксельные
-препятствия. У /graph теперь 22 type-only экспорта; runtime/entry/Player прежние.
-Прежние отчёты сохраняют объём исходников до подписей.
+[Отчёт контракта](../checks/graph-public-api-2026-11-17.json), отчёты [headless](../checks/graph-implementation-2026-11-17.json)
+и [Canvas](../checks/graph-canvas-implementation-2026-11-17.json) сохраняют этапы.
+[Реализация/native подписей](../checks/graph-node-captions-implementation-2026-11-17.json)
+охватывают 31 Canvas-проверку и семь проверок страницы BFS. Прежние 15 native-
+проверок сохраняют объём до подписей и не прибавляются к этому счётчику.
 
 ## Объём и границы entry
 
@@ -525,7 +518,7 @@ command/geometry/DPR/context tests, installed consumers и optional bundle isola
 полосы/стрелки, resize и Player Previous/Next/Restart/dispose. Bitmap ratios
 1/1.25/2 задавались размером backing store; это не три значения browser zoom.
 Восемь ранее опубликованных entry и их закрытые unions прежние. Совместимый
-релиз может войти в 1.1.0; несовместимое изменение нынешних контрактов требует
-отдельной ревизии и правил major-релиза. Публикации на этом этапе нет.
+релиз 1.1.0 уже выпущен; будущие несовместимые изменения требуют отдельной
+ревизии и правил major-релиза. Это обновление справочника ничего не публикует.
 
 [Отчёт проверки контракта](../checks/graph-public-api-2026-11-17.json).

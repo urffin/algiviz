@@ -1,12 +1,47 @@
 # Changelog
 
-## 1.1.0 — candidate, unpublished
+## Unreleased
 
-This compatible minor candidate adds two independent ESM entries. The eight
+## 1.2.0 — Candidate, 2026-11-19
+
+Prepared for review; unpublished. This compatible minor candidate adds two
+independent ESM entries. The ten released 1.1.0 entries, runtime dependencies
+and compiler versions are unchanged; existing imports need no migration.
+Tree imports require 1.2.0 after publication; use a local archive beforehand.
+See [candidate notes](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.2.md)
+for migration, verification and remaining release gates.
+
+- Add headless `/tree`: `createTreeTrace`, `treeScene` and 29 types for
+  rooted ordered/binary trees. Support stable explicit node/link IDs, sparse
+  binary slots, atomic topology edits, marks, snapshot-owned captions, results
+  and complete caller-owned layout. Removed IDs cannot be reused within a trace;
+  retirement history grows with distinct committed IDs, independently of rewind.
+- Project stable namespaced tree nodes/links through existing steps, frames and
+  scenes. Existing Player supports completion, bounded rewind, history seeking,
+  Restart and cleanup without new controls or changes to its public API.
+- Add optional `/canvas/tree`: `createTreeRenderer` and four types for
+  ordered/binary layout, optional empty slots, endpoint-attached relation
+  crossfades, measured secondary labels/captions and persistent green results.
+  Render recorded layout with caller-owned sizing/DPR and preserve context state
+  and original host errors. Omit secondary decorations when no safe placement exists.
+- Include the full empty-slot stroke in viewport/collision/caption reservations
+  (T1), preserving 4 px viewport and 2 px neighbor safety. Add five permanent
+  regression groups and refresh native Canvas and example acceptance.
+- Add a separate binary-tree insertion/right-rotation example using the stock
+  renderer and Player, including green results, rewind and fresh Restart traces.
+  Preserve the detailed custom traversal. Algorithms remain application-owned;
+  examples are not package exports or shipped in the npm archive.
+- Reconcile EN/RU API, compatibility, environment and example documentation,
+  preserving dated reports and the completed 1.1.0 release receipt.
+
+## 1.1.0 — 2026-11-17
+
+Released from 629defe with [verified publication](https://github.com/urffin/algiviz/blob/master/docs/release-1.1.md).
+This compatible minor release adds two independent ESM entries. The eight
 1.0.0 entry implementations, export names, dependencies and environment boundary
 are unchanged; existing imports require no migration. Graph imports require
-1.1.0 and are not available in published 1.0.0. No tag or npm release is created
-by candidate preparation.
+1.1.0 and are not available in 1.0.0. Exact npm 1.1.0, latest and provenance
+were verified after successful CI and the publishing workflow.
 
 - Add headless `/graph`: `createGraphTrace`, `graphScene` and typed immutable
   snapshots. Support fixed topology, stable explicit node/edge IDs, directed and
@@ -30,9 +65,9 @@ by candidate preparation.
   applied-input Restart and cleanup. BFS remains an example, not a package export.
 - Reconcile EN/RU README, quickstart, learning path, API/environment references
   and CI instructions. The minimum-search quickstart uses published npm 1.0.0;
-  graph examples use this candidate's local build.
+  graph example pages use the repository build.
 
-See [candidate notes](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.1.md) for acceptance scope and release gates.
+See [candidate notes](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.1.md) for historical preparation scope; see the release verification above for completed gates.
 
 ## 1.0.0
 
