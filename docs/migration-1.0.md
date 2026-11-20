@@ -1,13 +1,13 @@
 # Migrating from 0.16.0 to 1.0.0
 
-[Русский](ru/migration-1.0.md) · [Compatibility policy](api-compatibility.md) · [Candidate status](candidate-1.0.md)
+[Русский](ru/migration-1.0.md) · [Compatibility policy](api-compatibility.md) · [Current API](current-api.md) · [Historical preparation](candidate-1.0.md)
 
-**1.0.0 is an unpublished candidate, updated with explicit steps and array results.**
-These notes describe changes from published 0.16.0 and the earlier candidate
-5e2fd18. That candidate's CI does not cover the new code. Existing applications
-need not opt in to the new capabilities, but exhaustive PlayerOptions narrowing
-must account for its new branch. The eight ESM paths, runtime export names and
-lack of runtime dependencies are retained. Native verification remains before release.
+**1.0.0 is released; these notes describe migration from 0.16.0.**
+Explicit steps and array results are available since 1.0.0. Existing applications
+need not opt in, but exhaustive PlayerOptions narrowing must account for the
+stepSource branch. The original eight ESM paths, their runtime names and the
+absence of runtime dependencies are preserved; later minors add independent
+entries. [Current API](current-api.md) describes all fourteen paths in 1.3.1.
 
 ## Player: explicit steps without a frame bridge
 

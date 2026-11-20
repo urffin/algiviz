@@ -2,9 +2,10 @@
 
 [Русский](ru/player-step-source.md) · [Current Player](player.md) · [Quickstart comparison](quickstart-comparison.md) · [Compatibility policy](api-compatibility.md)
 
-**Selected 2026-11-16; implemented locally, unpublished.**
-stepSource and isTerminal are available in this working copy. Published 0.16.0
-and candidate 5e2fd18 do not contain them. The design record below is historical.
+**Available since 1.0.0; unchanged in 1.3.1.**
+stepSource and isTerminal are part of the published Player.
+[Current API](current-api.md) defines release status; dated evidence below retains
+its original verification scope.
 
 ## Source and frame model
 
@@ -29,7 +30,7 @@ the current step's Event and supplied index. They never expose nested ArrayStep
 states in this mode. The intended quickstart connection is:
 
 ```ts
-// Local unreleased API; install the working-copy archive.
+// @grundyjs/algiviz >= 1.0.0
 const player = new Player(container, {
   viewport: canvas,
   stepSource: () => minimum([7, 3, 5, 2, 6]),
@@ -180,7 +181,10 @@ Repeated dispose after logical disposal is harmless. U2 invalid speed validation
 still wins before lifecycle/reentrancy rejection. No automatic command queue or
 support for asynchronous callbacks is added.
 
-## Compatibility and acceptance
+## Historical compatibility and acceptance
+
+The pre-1.0.0 design stage follows. The selected stepSource branch shipped in
+1.0.0; [U3](api-compatibility.md) governs later changes to its public union.
 
 This is a public API extension, not a fix to the current quickstart. It widens
 the exported source-selection union: existing source/async/else-history narrowing

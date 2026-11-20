@@ -2,10 +2,9 @@
 
 [Русский](ru/player-speed-validation.md) · [Player](player.md) · [API review](api-readiness-0.16.0.md)
 
-**Contract selected and implemented locally 2026-11-14; unreleased.** Published
-0.16.0 rejects invalid speeds with different error classes for synchronous and
-asynchronous sources. The working tree implements the unified rules below.
-The existing F1/U1 implementation is unchanged.
+**Released since 1.0.0; unchanged in 1.3.1.**
+[Current API](current-api.md) defines release status. The rules below apply to
+the published package; dated reports retain their original verification scope.
 
 ## Scope and decision
 
@@ -148,5 +147,5 @@ over an in-process cloned-message transport, including delayed requests/cleanup;
 it is not a new native browser/Worker verification. Results for the installed
 archive and bundle isolation are in the [implementation report](checks/u2-speed-implementation-2026-11-14.json).
 
-U2 is implemented locally, unreleased. U3/U4/U5 and the 1.0 compatibility decision
-remain separate. This implementation does not authorize publication.
+U2 shipped in 1.0.0. The dated reports above retain their original scope;
+[current API](current-api.md) defines present guarantees and release status.

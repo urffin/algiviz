@@ -2,10 +2,9 @@
 
 [Русский](ru/headless-reentrancy.md) · [Playback](playback.md) · [API review](api-readiness-0.16.0.md)
 
-**Selected and implemented locally on 2026-11-14; unreleased.** Released 0.16.0
-does not enforce U1. The working tree now implements the contract below without
-changing public signatures, exports, package version or dependencies. The earlier
-local Worker fix remains independent of U1. Implementation evidence follows.
+**Released since 1.0.0; unchanged in 1.3.1.**
+[Current API](current-api.md) defines release status. The rules below apply to
+the published package; dated reports retain their original verification scope.
 
 ## Scope and decision
 
@@ -188,4 +187,4 @@ generator behavior. The earlier 59-case baseline run failed 41 cases before
 the fix. Final full-suite, installed-package and declaration checks are recorded
 in [verification data](checks/u1-reentrancy-2026-11-14.json). Only the private
 state-steps declaration changes to IterableIterator; no package-exported type
-or function signature changes. Publication remains deferred.
+or function signature changes. That report preceded publication of 1.0.0.

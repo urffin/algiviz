@@ -2,7 +2,7 @@
 
 [README](../README.md) · [Русский](ru/playback.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
 ## Asynchronous state sources (0.15.0)
 
@@ -106,7 +106,7 @@ matching the player. If source consumption, a terminal predicate or rendering
 throws, cleanup is attempted without replacing that primary error. A standalone
 cleanup error from disposal or normal completion still propagates.
 
-### Reentrancy contract (U1; implemented locally, unreleased)
+### Reentrancy contract (U1; since 1.0.0)
 
 The [headless reentrancy contract](headless-reentrancy.md) selects synchronous
 rejection of nextStep, advance (including zero) and first dispose commands

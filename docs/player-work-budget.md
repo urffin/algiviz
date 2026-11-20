@@ -2,7 +2,7 @@
 
 [Русский](ru/player-work-budget.md) · [Player](player.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
 ## Contract selected before implementation, 2026-11-13
 

@@ -1,10 +1,11 @@
 # Support matrix
 
-**Version 1.3.0 boundary.** Fourteen independent entries include /grid and
-/canvas/grid. Existing host/Node/TypeScript requirements are preserved; no browser
-support expansion follows from adding these entries. [Candidate/migration notes](candidate-1.3.md)
-separate local archive checks, exact-SHA CI and publication. The recorded published
-baseline is 1.2.1, a documentation-only patch over 1.2.0.
+**Version 1.3.1; unchanged 1.3.0 runtime boundary.** Fourteen independent
+entries include /grid and /canvas/grid. Existing host/Node/TypeScript requirements
+are preserved; no browser support expansion follows from these entries.
+[Completed 1.3.0 publication](release-1.3.md) records exact-SHA CI, registry
+installation, signature/provenance and README checks. The [1.3.1 patch](release-1.3.1.md)
+corrects documentation without changing implementations, declarations or hosts.
 
 ## Current support boundary
 
@@ -20,7 +21,7 @@ baseline is 1.2.1, a documentation-only patch over 1.2.0.
 Imports access no DOM/Worker globals or external resources; active calls require
 their documented hosts. Headless/import/consumer CI selects Node 22/24/26 on
 Ubuntu/Windows and TypeScript 5.0.4/5.4.5/5.9.3/6.0.3 with strict NodeNext/Bundler,
-separate ES2022/DOM/WebWorker declarations. Exact candidate CI is a separate gate.
+separate ES2022/DOM/WebWorker declarations. All eleven jobs passed for 1.3.0; each later release requires its own exact-SHA CI.
 
 [Grid renderer acceptance](checks/grid-canvas-browser-2026-11-20.json) records
 18 checks: explicit backing ratios 1/1.25/2, actual viewport DPR, paths/text,
@@ -37,7 +38,7 @@ for unchanged behavior; the example's HTML changes only its version paragraph.
 The [1.2.0 receipt](releases/1.2.0.json) records completed CI/publication;
 [T1 native acceptance](checks/tree-t1-native-2026-11-19.json) records its 32 tree
 renderer and 17 example checks. The dated sections below retain their original
-scope and do not certify the 1.3.0 candidate.
+scope and do not certify later releases.
 
 **Historical candidate update, 2026-11-16:** [1.0.0 local preparation](candidate-1.0.md)
 retains this environment boundary. Exact-SHA CI/native verification remains;

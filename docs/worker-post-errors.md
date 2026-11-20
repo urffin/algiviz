@@ -2,7 +2,7 @@
 
 [Русский](ru/worker-post-errors.md) · [Worker API](worker-source-api.md) · [Current status](current-api.md) · [Compatibility](api-compatibility.md)
 
-**U5 selected and covered by permanent regressions locally, 2026-11-14; unreleased.**
+**U5 has permanent regressions; part of the published contract since 1.0.0.**
 Preserve the original host `postMessage` exception as `unknown`, without wrapping
 it in a transport `WorkerSourceError`. Put transport context in the session's
 existing report. This agrees with the current implementation on the probed paths;
@@ -135,5 +135,5 @@ copy/transfer, posted-then-thrown messages and Player Start/Next/Restart/disposa
 All 503 repository tests pass. [Regression verification](checks/u5-post-errors-regressions-2026-11-14.json)
 records installed consumers and unchanged production/declaration/build hashes.
 This is real adapter/endpoint coverage over the existing in-process transport,
-not a new native-browser or CI run. F1/U1/U2 and the new tests remain local and
-unreleased; baseline/candidate review and publication remain separate tasks.
+not a new native-browser or CI run. That dated report preceded the 1.0.0 release; see [current index](current-api.md)
+for published status.

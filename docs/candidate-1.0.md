@@ -2,6 +2,12 @@
 
 [Русский](ru/candidate-1.0.md) · [Migration](migration-1.0.md) · [Current API](current-api.md)
 
+**Post-release status:** 1.0.0 is published; stepSource, array results, F1/F2
+and U1–U5 are part of the stable API since 1.0.0. [Current index](current-api.md)
+describes 1.3.1. The earlier verification stages and their original limits
+follow as historical evidence; old pending release items do not describe current
+availability.
+
 **G3 evidence commit follow-up, 2026-11-16:** the verified native report and
 EN/RU status updates are included in the authorized documentation commit/push.
 The commit first adding the G3 record identifies this evidence revision; all 11

@@ -2,10 +2,10 @@
 
 [English](../grid-canvas-api.md) · [Grid API](grid-api.md) · [Tree Canvas](tree-canvas-api.md) · [Viewport](canvas-viewport.md) · [Совместимость](api-compatibility.md)
 
-**Версия 1.3.0.** Независимый /canvas/grid экспортирует createGridRenderer
+**API с 1.3.0; без изменений в 1.3.1.** Независимый /canvas/grid экспортирует createGridRenderer
 и пять типов ниже. Headless /grid остаётся отдельным DOM-free entry.
 Пакет содержит 14 entry, 30 runtime-имён и 155 type-only экспортов (143 различных).
-Прежние двенадцать entry сохраняются. [Изменения и миграция](candidate-1.3.md) ·
+Прежние двенадцать entry сохраняются. [Изменения и миграция](release-1.3.md) ·
 [Ревизия](grid-readiness-1.3.md) · [Нативная приёмка](../checks/grid-canvas-browser-2026-11-20.json).
 
 ## Публичные декларации
@@ -289,7 +289,7 @@ Player с настоящими controls, resize/DPR и cleanup. Это встр�
 историческую declaration-only стадию. Нынешняя приёмка проверяет реализацию.
 Точный архив 1.3.0 и identity прежней native-приёмки фиксирует
 [подготовка кандидата](../checks/candidate-1.3.0-2026-11-20.json). CI и публикация
-проверяются отдельными шагами; см. [заметки кандидата](candidate-1.3.md).
+завершены; см. [отчёт релиза](release-1.3.md).
 
 ## Пример поиска пути
 

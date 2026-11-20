@@ -2,17 +2,17 @@
 
 [Русский](ru/array-result.md) · [Current array API](array.md) · [Current status](current-api.md) · [Compatibility policy](api-compatibility.md)
 
-**Selected and implemented locally 2026-11-16; unpublished.**
-This working copy supports done({ result }), resultItemIds and colors.result.
-Published 0.16.0 and candidate 5e2fd18 do not contain this API. The design record
-below preserves its pre-implementation scope.
+**Available since 1.0.0; unchanged in 1.3.1.**
+The package supports done({ result }), resultItemIds and colors.result.
+[Current API](current-api.md) defines release status; dated evidence below retains
+its original verification scope.
 
 ## Application API
 
 Extend the existing completion call, without adding another step or method:
 
 ```js
-// Local unreleased API; install the working-copy archive.
+// @grundyjs/algiviz >= 1.0.0
 yield array.done({ result: [min] });
 ```
 
@@ -187,7 +187,10 @@ The existing source/asyncSource/history rules are unaffected. Player and the
 headless array player still finish on done, independently of whether results
 are selected. `closed`, disposal, buffering and scheduling have no new contract.
 
-## Compatibility and implementation acceptance
+## Historical compatibility and implementation acceptance
+
+The pre-1.0.0 design stage follows. Array results shipped in 1.0.0;
+[U3](api-compatibility.md) governs later changes.
 
 Under U3 this is designed as an **additive** feature: a new type-only export,
 optional options/state/palette fields, no new required ArrayTrace member and no

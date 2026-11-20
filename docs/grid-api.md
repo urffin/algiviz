@@ -2,11 +2,11 @@
 
 [Русский](ru/grid-api.md) · [Architecture sketch](grid-contract.md) · [Current API](current-api.md) · [Compatibility](api-compatibility.md)
 
-**Version 1.3.0.** Independent headless ESM entry /grid exports createGridTrace,
+**API since 1.3.0; unchanged in 1.3.1.** Independent headless ESM entry /grid exports createGridTrace,
 gridScene and the 22 types below. /canvas/grid is a separate optional backend.
 The package surface is 14 entries, 30 runtime names and 155 type-only exports
 (143 distinct). The twelve previous entries are unchanged; grid imports need 1.3.0.
-[Changes and migration](candidate-1.3.md) · [Readiness review](grid-readiness-1.3.md).
+[Changes and migration](release-1.3.md) · [Readiness review](grid-readiness-1.3.md).
 
 ## Scope and coordinates
 
@@ -316,8 +316,8 @@ both entries receive the common 1.x compatibility protection in 1.3.0.
 ## Verification and historical evidence
 
 The [1.3.0 preparation record](checks/candidate-1.3.0-2026-11-20.json) covers the
-exact archive, tests, installed consumers and evidence identity; [candidate notes](candidate-1.3.md)
-separate CI/publication from local checks. [Grid Canvas](grid-canvas-api.md) and
+exact archive, tests, installed consumers and evidence identity; [release notes](release-1.3.md)
+record completed CI/publication separately from local checks. [Grid Canvas](grid-canvas-api.md) and
 the [BFS example](examples.md#grid-bfs-shortest-path) have separate acceptance.
 
 The [initial headless implementation record](checks/grid-implementation-2026-11-20.json)

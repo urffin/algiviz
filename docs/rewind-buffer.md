@@ -2,7 +2,7 @@
 
 [Русский](ru/rewind-buffer.md) · [Playback](playback.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
 Added in 0.14.0 to `/playback`: `createRewindBuffer` and the type
 `RewindBuffer<T>`. A synchronous `Iterable<T>` can supply plain states, explicit

@@ -25,16 +25,17 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Package version: **1.3.0**. Two new entries, **/grid** and **/canvas/grid**,
-add dense grids, atomic operations, captions, results and ordered paths.
+Package version: **1.3.1** — a documentation patch with the unchanged 1.3.0 API.
+Available since 1.3.0, **/grid** and **/canvas/grid** add dense grids, atomic operations, captions, results and ordered paths.
 The stock Canvas renderer fits square cells, values and distance captions,
 preserves the green result and crossfades path appearance/replacement.
 There are 14 entries; the twelve existing imports need no migration.
 BFS remains application code in a separate example, not a package algorithm export.
 [Grid API](https://github.com/urffin/algiviz/blob/master/docs/grid-api.md) · [Grid Canvas](https://github.com/urffin/algiviz/blob/master/docs/grid-canvas-api.md) ·
 [BFS example](https://github.com/urffin/algiviz/blob/master/docs/examples.md#grid-bfs-shortest-path) ·
-[Changes and migration](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.3.md) ·
-[Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md).
+[Changes and migration](https://github.com/urffin/algiviz/blob/master/docs/release-1.3.md) ·
+[Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md) ·
+[1.3.1 documentation patch](https://github.com/urffin/algiviz/blob/master/docs/release-1.3.1.md).
 
 ## Install
 

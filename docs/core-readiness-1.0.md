@@ -2,6 +2,12 @@
 
 [Русский](ru/core-readiness-1.0.md) · [Candidate](candidate-1.0.md) · [Current API](current-api.md) · [Compatibility](api-compatibility.md)
 
+**Post-release status:** 1.0.0 is published; stepSource, array results, F1/F2
+and U1–U5 are part of the stable API since 1.0.0. [Current index](current-api.md)
+describes 1.3.1. The earlier verification stages and their original limits
+follow as historical evidence; old pending release items do not describe current
+availability.
+
 **Later native acceptance, 2026-11-16:** documentation commit 76f76ed passed all
 11 CI jobs and the [remaining G3 scope passed 133 native checks](checks/candidate-1.0.0-g3-76f76ed-2026-11-16.json),
 including actual DPR 1 → approximately 1.1 and zero remaining Workers/RAF. The

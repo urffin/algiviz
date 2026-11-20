@@ -2,7 +2,7 @@
 
 [Русский](ru/async-sources.md) · [Development plan](optional-player-proposal.md) · [Player](player.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
 The separate [Worker transport contract](worker-source.md), dated 2026-11-14,
 defines ownership/serialization and cooperative-then-forced shutdown in 0.16.0.

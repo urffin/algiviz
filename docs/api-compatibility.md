@@ -2,15 +2,15 @@
 
 [Русский](ru/api-compatibility.md) · [Stabilization](api-stability.md) · [Current API](current-api.md) · [Support evidence](support-matrix.md)
 
-**Version 1.3.0 scope.** U3 protects public types, errors, environments and
+**Version 1.3.1 scope; API unchanged from 1.3.0.** U3 protects public types, errors, environments and
 behavior equally across all fourteen entries, including /grid and /canvas/grid.
 There is no experimental tier. Existing twelve imports need no migration.
-[Changes/migration and verification status](candidate-1.3.md).
+[Changes/migration and verification status](release-1.3.md).
 Dated reviews and release receipts retain their original scope.
 
 ## Public surface
 
-Only the export map defines importable paths. Version 1.3.0 has **14 entries,
+Only the export map defines importable paths. Version 1.3.1 has **14 entries,
 30 runtime names, 155 type-only exports, 143 distinct types**. The 1.0.0 baseline
 had 8 / 21 / 69 / 57. Shared Worker types count at both paths; classes count as
 runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.md).

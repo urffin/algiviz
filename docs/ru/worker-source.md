@@ -2,7 +2,7 @@
 
 [English](../worker-source.md) · [Асинхронное поведение](async-sources.md) · [API адаптера](async-source-api.md) · [Интеграция с плеером](player-async-api.md) · [План](../optional-player-proposal.md)
 
-**Текущий справочник:** [опубликованный и локальный статус](current-api.md) · [политика U3](api-compatibility.md). Датированные проверки ниже относятся только к указанным этапам.
+**Текущий справочник:** [релизный статус](current-api.md) · [политика U3](api-compatibility.md). Датированные проверки ниже относятся только к указанным этапам.
 
 ## Текущий контракт, добавлен в 0.16.0
 
@@ -115,10 +115,9 @@
 
 SharedArrayBuffer и представления поверх него исключены, в том числе во вложенных
 контейнерах; они отклоняются до принятия/отправки поддерживаемых данных.
-**Локальный F1, без публикации:** правило охватывает и общую backing storage за
-WebAssembly.Memory в input/state-графах. В выпущенной 0.16.0 этот обход есть;
-[текущий статус](current-api.md) отделяет исправление от релиза.
-**Локальный F2, без публикации:** прямые shared buffers, views и вложенные
+**F1, с 1.0.0:** правило охватывает и общую backing storage за
+WebAssembly.Memory в input/state-графах. См. [текущий статус](current-api.md).
+**F2, с 1.0.0:** прямые shared buffers, views и вложенные
 input/state-графы отклоняются и без SharedArrayBuffer до импорта. Захваченная
 нативная проверка типа работает без WebAssembly и выделения общей памяти.
 См. [постоянные регрессии](../checks/worker-shared-buffer-fix-2026-11-14.json) и [native-проверки](../checks/worker-shared-buffer-fix-browser-2026-11-14.json). Нет

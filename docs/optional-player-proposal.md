@@ -1,5 +1,11 @@
 # Optional player and optimization directions
 
+**Post-release status:** 1.0.0 is published; stepSource, array results, F1/F2
+and U1–U5 are part of the stable API since 1.0.0. [Current index](current-api.md)
+describes 1.3.1. The earlier verification stages and their original limits
+follow as historical evidence; old pending release items do not describe current
+availability.
+
 **Candidate preparation, 2026-11-16:** [1.0.0](candidate-1.0.md) is prepared
 locally, unpublished, with [migration notes](migration-1.0.md). The authorized
 scope includes local checks and commit; push, CI, native certification and

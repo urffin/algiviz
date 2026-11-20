@@ -2,7 +2,7 @@
 
 [README](../README.md) · [Русский](ru/scene.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
 ## User-defined objects and visualizations
 

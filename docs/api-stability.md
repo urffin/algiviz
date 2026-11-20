@@ -1,5 +1,11 @@
 # API stabilization before 1.0
 
+**Post-release status:** 1.0.0 is published; stepSource, array results, F1/F2
+and U1–U5 are part of the stable API since 1.0.0. [Current index](current-api.md)
+describes 1.3.1. The earlier verification stages and their original limits
+follow as historical evidence; old pending release items do not describe current
+availability.
+
 **Core review, 2026-11-16:** [all four future model sketches fit](core-readiness-1.0.md)
 without core changes. The [1.0.0 documentation candidate](candidate-1.0.md)
 76f76ed is in origin with all 11 CI jobs successful. Its remaining native G3

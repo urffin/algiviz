@@ -1,30 +1,30 @@
 # Текущий API и статус проверок
 
-[English](../current-api.md) · [Совместимость](api-compatibility.md) · [Окружения](../support-matrix.md#current-support-boundary) · [Кандидат/миграция 1.3.0](candidate-1.3.md)
+[English](../current-api.md) · [Совместимость](api-compatibility.md) · [Окружения](../support-matrix.md#current-support-boundary) · [Релиз/миграция 1.3.0](release-1.3.md) · [Патч 1.3.1](release-1.3.1.md)
 
-**Версия пакета 1.3.0:** 14 entry, 30 runtime-имён, 155 type-only экспортов
+**Версия пакета 1.3.1; API сохранён из 1.3.0:** 14 entry, 30 runtime-имён, 155 type-only экспортов
 (143 различных). /grid добавляет createGridTrace, gridScene и 22 типа;
 /canvas/grid — createGridRenderer и пять типов. Прежние двенадцать entry
 не меняются и не требуют миграции. Grid imports требуют 1.3.0 или новее.
 
-Зафиксированная выпущенная база — 1.2.1 / c398d2d, документационный патч к 1.2.0.
-Её [заметки](release-1.2.1.md) и [отчёт 1.2.0](../releases/1.2.0.json)
-сохраняют историю публикации; они не сертифицируют кандидата 1.3.0.
-Состояние кандидата, CI точного SHA и отдельный этап публикации описаны в
-[заметках 1.3.0](candidate-1.3.md); текущая подготовка не заявляет registry-проверок.
+Функциональная релизная база — **1.3.0 / 90b26f8**. Все 11 CI jobs, публикация,
+exact/latest, свежая установка, подпись, provenance и README проверены;
+[заметки релиза](release-1.3.md) и [отчёт](../releases/1.3.0.json) фиксируют факты.
+1.3.1 исправляет документацию; её собственные проверки публикации фиксируются
+в [заметках патча](release-1.3.1.md), не выводятся из результатов 1.3.0.
 
 ## Карта четырнадцати entry
 
 | Entry | Справочник | Статус/первая версия |
 | --- | --- | --- |
-| /playback | [Playback](../playback.md), [перемотка](../rewind-buffer.md), [async](async-source-api.md) | 1.0.0; без изменений в 1.3.0 |
-| /scene | [Сцены](../scene.md) | 1.0.0; без изменений в 1.3.0 |
-| /array | [Массивы](array.md), [результат](array-result.md) | 1.0.0; без изменений в 1.3.0 |
-| /canvas | [Canvas массива](array.md#отрисовка-на-canvas) | 1.0.0; без изменений в 1.3.0 |
-| /canvas/viewport | [Viewport](canvas-viewport.md) | 1.0.0; без изменений в 1.3.0 |
-| /player | [Player](player.md), [явные шаги](player-step-source.md), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0; без изменений в 1.3.0 |
-| /worker | [Worker source](worker-source-api.md) | 1.0.0; без изменений в 1.3.0 |
-| /worker/runtime | [Worker endpoint](worker-source-api.md#декларации-worker-workerruntime) | 1.0.0; без изменений в 1.3.0 |
+| /playback | [Playback](../playback.md), [перемотка](../rewind-buffer.md), [async](async-source-api.md) | 1.0.0; без изменений в 1.3.1 |
+| /scene | [Сцены](../scene.md) | 1.0.0; без изменений в 1.3.1 |
+| /array | [Массивы](array.md), [результат](array-result.md) | 1.0.0; без изменений в 1.3.1 |
+| /canvas | [Canvas массива](array.md#отрисовка-на-canvas) | 1.0.0; без изменений в 1.3.1 |
+| /canvas/viewport | [Viewport](canvas-viewport.md) | 1.0.0; без изменений в 1.3.1 |
+| /player | [Player](player.md), [явные шаги](player-step-source.md), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0; без изменений в 1.3.1 |
+| /worker | [Worker source](worker-source-api.md) | 1.0.0; без изменений в 1.3.1 |
+| /worker/runtime | [Worker endpoint](worker-source-api.md#декларации-worker-workerruntime) | 1.0.0; без изменений в 1.3.1 |
 | /graph | [Graph API](graph-api.md), [подписи](graph-node-captions.md) | 1.1.0; опубликован |
 | /canvas/graph | [Рендерер](graph-api.md), [размещение](graph-node-captions.md) | 1.1.0; опубликован |
 | /tree | [Tree API](tree-api.md) | 1.2.0; опубликован |
@@ -48,10 +48,10 @@ EN/RU README/changelog внутри архива и identity native-доказа
 для неизменного runtime; HTML меняет только текст версии. Старые отчёты не
 переписываются как свежие прогоны. Поддержка браузеров не расширяется.
 
-R3 проверяется после commit/push: все 11 jobs должны быть успешны на итоговом SHA.
-R4 — отдельный тег/Release/npm с exact/latest, свежей установкой, provenance и
-registry-served документацией. Эти результаты нельзя выводить из локального
-архива или CI прежней версии. Оставшийся список — архитектурный эскиз, не entry.
+R3 и R4 релиза 1.3.0 завершены: [все 11 jobs](https://github.com/urffin/algiviz/actions/runs/44642599848)
+на точном SHA и [отчёт публикации](../releases/1.3.0.json). Эти результаты
+не переносятся автоматически на последующие версии. Связный список остаётся
+архитектурным эскизом, а не экспортируемым entry.
 
 ## Исторические доказательства
 

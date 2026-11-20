@@ -25,7 +25,8 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Версия пакета: **1.3.0**. Две новые точки входа — **/grid** и **/canvas/grid** —
+Версия пакета: **1.3.1** — документационный патч с прежним API 1.3.0.
+Доступные с 1.3.0 точки входа **/grid** и **/canvas/grid**
 добавляют плотные сетки, атомарные операции, подписи, результаты и упорядоченные пути.
 Штатный Canvas-рендерер размещает квадратные клетки, значения и расстояния,
 сохраняет зелёный итог и интерполирует появление/смену пути.
@@ -33,8 +34,9 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритм BFS остаётся кодом отдельного примера, а не экспортом пакета.
 [Grid API](https://github.com/urffin/algiviz/blob/master/docs/ru/grid-api.md) · [Grid Canvas](https://github.com/urffin/algiviz/blob/master/docs/ru/grid-canvas-api.md) ·
 [Пример BFS](https://github.com/urffin/algiviz/blob/master/docs/ru/examples.md#кратчайший-путь-bfs-на-сетке) ·
-[Изменения и миграция](https://github.com/urffin/algiviz/blob/master/docs/ru/candidate-1.3.md) ·
-[Текущий API](https://github.com/urffin/algiviz/blob/master/docs/ru/current-api.md).
+[Изменения и миграция](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.3.md) ·
+[Текущий API](https://github.com/urffin/algiviz/blob/master/docs/ru/current-api.md) ·
+[Документационный патч 1.3.1](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.3.1.md).
 
 ## Установка
 

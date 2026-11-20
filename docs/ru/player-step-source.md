@@ -2,9 +2,10 @@
 
 [English](../player-step-source.md) · [Текущий Player](player.md) · [Сравнение quickstart](quickstart-comparison.md) · [Совместимость](api-compatibility.md)
 
-**Контракт выбран 2026-11-16 и реализован локально; публикации нет.**
-stepSource и isTerminal доступны в рабочей копии. Опубликованная 0.16.0 и кандидат
-5e2fd18 их не содержат. Исторический design record ниже фиксирует этап до реализации.
+**Доступно с 1.0.0; без изменений в 1.3.1.**
+stepSource и isTerminal входят в опубликованный Player.
+[Текущий API](current-api.md) определяет релизный статус; датированные проверки
+ниже сохраняют свой исходный объём.
 
 ## Модель источника и кадра
 
@@ -28,7 +29,7 @@ render и getter frame выдают **Frame<State, Event>**: концы State, E
 Целевое подключение quickstart:
 
 ```ts
-// Локальный неопубликованный API; установите архив рабочей копии.
+// @grundyjs/algiviz >= 1.0.0
 const player = new Player(container, {
   viewport: canvas,
   stepSource: () => minimum([7, 3, 5, 2, 6]),
@@ -177,7 +178,10 @@ frame/status разрешены; для кандидата предикат ис
 скорости по-прежнему предшествует lifecycle/reentrancy-отказу. Очереди команд и
 поддержки async callbacks нет.
 
-## Совместимость и приёмка
+## История совместимости и приёмки
+
+Ниже сохранён проектный этап до 1.0.0. Выбранная ветка stepSource включена в
+выпущенную 1.0.0; ограничения будущих изменений union определяет [политика U3](api-compatibility.md).
 
 Это расширение публичного API, не исправление нынешнего quickstart. Оно расширяет
 экспортированный union источников: прежнее source/async/else-history narrowing

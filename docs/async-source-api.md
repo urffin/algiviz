@@ -2,7 +2,7 @@
 
 [Русский](ru/async-source-api.md) · [Behavioral contract](async-sources.md) · [Development plan](optional-player-proposal.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
 ## Published in 0.15.0, 2026-11-13
 

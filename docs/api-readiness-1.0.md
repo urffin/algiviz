@@ -2,6 +2,12 @@
 
 [Русский](ru/api-readiness-1.0.md) · [Current API](current-api.md) · [Compatibility policy](api-compatibility.md) · [Support boundary](support-matrix.md#current-support-boundary)
 
+**Post-release status:** 1.0.0 is published; stepSource, array results, F1/F2
+and U1–U5 are part of the stable API since 1.0.0. [Current index](current-api.md)
+describes 1.3.1. The earlier verification stages and their original limits
+follow as historical evidence; old pending release items do not describe current
+availability.
+
 **Current assessment, 2026-11-16:** the [four-model core review](core-readiness-1.0.md)
 records the a9b93f8 candidate, completed G1/G2, partial native G3 and remaining
 release steps. The text below retains the historical 2026-11-14 assessment with

@@ -2,6 +2,18 @@
 
 [Русский](ru/candidate-1.3.md) · [Changelog](../CHANGELOG.md) · [Current API](current-api.md) · [Grid readiness](grid-readiness-1.3.md)
 
+## Release closure — 2026-11-20
+
+**1.3.0 is published from 90b26f8; R0–R4 are complete.** All eleven CI jobs and
+exact/latest, installation, signature, provenance and README checks passed.
+[Release and migration](release-1.3.md) · [Actual receipt](releases/1.3.0.json) ·
+[Documentation patch 1.3.1](release-1.3.1.md).
+
+## Historical stages
+
+The original preparation scope follows. Earlier versions and pending items
+describe that recorded stage, not the current status of the published API.
+
 **Prepared 2026-11-20; unpublished.** Package.json and both root lockfile version
 fields are 1.3.0. The commit introducing this document identifies the candidate.
 This stage includes commit/push and waiting for all eleven CI jobs on that exact

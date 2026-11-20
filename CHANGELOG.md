@@ -2,12 +2,32 @@
 
 ## Unreleased
 
+## 1.3.1 — 2026-11-20
+
+Documentation-only patch; runtime, declarations, all fourteen exports, dependencies
+and examples are unchanged from 1.3.0. No migration is required.
+
+- Reconcile EN/RU README, API, environment and example references with the completed
+  1.3.0 release; /grid and /canvas/grid remain available since 1.3.0.
+- Correct stale pre-1.0 availability statements for stepSource, array results and
+  U1/U2/Worker contracts; retain original dated verification evidence.
+- Record the actual 1.3.0 CI/npm/provenance/README receipt, close its release gates
+  and explicitly separate historical design/preparation reports from current guarantees.
+- Link current release and patch notes instead of treating candidate reports as
+  the current release status. Inspect packaged EN/RU README and changelog before publication.
+
+[Patch notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.3.1.md).
+
 ## 1.3.0 — 2026-11-20
+
+Released from 90b26f8 after all eleven CI jobs. Exact npm 1.3.0, latest at
+verification, fresh installation, registry signature, source-bound provenance
+and registry/packaged EN/RU README were verified.
 
 This compatible minor adds two independent ESM entries. The twelve existing
 entry implementations, export records, dependencies and Player API are unchanged;
 existing imports need no migration. Grid imports require 1.3.0.
-[Changes, migration and verification](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.3.md).
+[Changes, migration and verification](https://github.com/urffin/algiviz/blob/master/docs/release-1.3.md).
 
 - Add headless /grid: createGridTrace, gridScene and 22 types for fixed-shape
   dense generic grids. Apply replacements or distinct writes with marks/captions

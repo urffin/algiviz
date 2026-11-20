@@ -2,7 +2,7 @@
 
 [Русский](ru/player-async-api.md) · [Player](player.md) · [Adapter](async-source-api.md) · [Behavior](async-sources.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
 ## Published in 0.15.0, 2026-11-13
 
@@ -232,9 +232,9 @@ usable. Start/Restart coalesce an existing preparation; they cannot bypass a
 cleanup barrier by creating another adapter. Calls after disposal and mutations
 from render/status callbacks retain existing rejection rules.
 
-**Local U2, unreleased:** [speed validation](player-speed-validation.md) now uses
+**U2, since 1.0.0:** [speed validation](player-speed-validation.md) now uses
 RangeError for every invalid value, without coercion/effects and before disposal/
-reentrancy checks, for all source kinds. Published 0.16.0 async/Worker uses TypeError.
+reentrancy checks, for all source kinds.
 
 `canStart` requires no installed frame, no preparation/cleanup barrier and a live
 widget. `canRestart` requires `started`, no preparation/cleanup barrier and a live

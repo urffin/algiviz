@@ -2,6 +2,18 @@
 
 [Русский](ru/grid-readiness-1.3.md) · [Current API](current-api.md) · [Grid API](grid-api.md) · [Grid Canvas](grid-canvas-api.md) · [BFS example](examples.md#grid-bfs-shortest-path) · [Machine review](checks/grid-readiness-1.3-2026-11-20.json)
 
+## Release closure — 2026-11-20
+
+**1.3.0 is published from 90b26f8; R0–R4 are complete.** All eleven CI jobs and
+exact/latest, installation, signature, provenance and README checks passed.
+[Release and migration](release-1.3.md) · [Actual receipt](releases/1.3.0.json) ·
+[Documentation patch 1.3.1](release-1.3.1.md).
+
+## Historical stages
+
+The original preparation scope follows. Earlier versions and pending items
+describe that recorded stage, not the current status of the published API.
+
 **Candidate follow-up, 2026-11-20:** package.json and both root lockfile versions
 are now 1.3.0. [Candidate notes](candidate-1.3.md) and the
 [preparation record](checks/candidate-1.3.0-2026-11-20.json) supersede the older

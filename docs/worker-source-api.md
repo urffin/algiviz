@@ -2,7 +2,7 @@
 
 [Русский](ru/worker-source-api.md) · [Behavior](worker-source.md) · [Async adapter](async-source-api.md) · [Player](player-async-api.md) · [Plan](optional-player-proposal.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
 ## Current API, added in 0.16.0
 
@@ -271,10 +271,9 @@ Only reachable, attached, non-shared ArrayBuffers may be listed, once each.
 Passing typed-array views themselves, other transferable resources, duplicates,
 unreachable or detached buffers is a serialization/transfer error, with no clone
 retry. SharedArrayBuffer/views are rejected throughout the supported data graph.
-Local F1 also rejects shared backing storage reached through WebAssembly.Memory,
-for initialization and emitted states, including nested graphs. This fix is
-unreleased: published 0.16.0 has the Memory bypass. See [current status](current-api.md).
-Local F2 also rejects direct shared buffers/views/nesting when the constructor
+F1, released since 1.0.0, rejects shared backing storage reached through WebAssembly.Memory
+for initialization and emitted states, including nested graphs. See [current status](current-api.md).
+F2, also released since 1.0.0, rejects direct shared buffers/views/nesting when the constructor
 is unavailable before import. The fallback uses captured intrinsic buffer branding
 without WebAssembly or shared allocation; public types and errors are unchanged.
 See [regressions](checks/worker-shared-buffer-fix-2026-11-14.json) and [native checks](checks/worker-shared-buffer-fix-browser-2026-11-14.json).

@@ -2,9 +2,9 @@
 
 [README](../README.md) · [Русский](ru/player.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
-**Local, unpublished:** [stepSource and isTerminal](player-step-source.md)
+**Available since 1.0.0:** [stepSource and isTerminal](player-step-source.md)
 connect typed explicit steps directly to render and complete without an EOF read.
 
 **Added in 0.12.0:** `/player` is an optional entry point for the browser widget.
@@ -176,9 +176,7 @@ consuming the source. Positive finite speeds are accepted, including custom ones
 
 U2 selects a [unified speed-validation contract](player-speed-validation.md):
 RangeError for every invalid value, without coercion, before lifecycle guards.
-It is implemented locally, unreleased: all source kinds now use RangeError.
-Published 0.16.0 still uses TypeError for asyncSource (including Worker). The
-document defines updates during waiting/preparation and the regression matrix.
+Since 1.0.0 every source kind uses RangeError. The document defines updates during waiting/preparation and the regression matrix.
 
 Restart shows a paused first frame. The UI Replay button restarts and then plays;
 programmatic `play()` does not restart an already completed session. Timed Play

@@ -2,7 +2,7 @@
 
 [Русский](ru/canvas-viewport.md) · [Prototype and checks](canvas-viewport-prototype.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
 Contract fixed on 2026-11-12; implemented on 2026-11-13.
 **Available from 0.13.0.** Version 0.12.0 does not export this entry.

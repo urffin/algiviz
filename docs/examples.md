@@ -261,7 +261,7 @@ with generators; visible presets contain 35 cells.
 BFS itself needs O(N) work and memory. Copying O(N) data on each of O(N) steps
 separately costs O(N²) work and full-history memory; a fixed generator window
 retains O(N) data. Drawing has separate costs.
-[1.3.0 readiness](grid-readiness-1.3.md) ·
+[1.3.0 release](release-1.3.md) · [Historical readiness](grid-readiness-1.3.md) ·
 [Verification report](checks/grid-player-example-2026-11-20.json) ·
 [Repeatable native checks](../test/grid-player-browser.html).
 To repeat native acceptance and save its report:

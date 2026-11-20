@@ -2,11 +2,10 @@
 
 [README](../README.md) · [Русский](ru/array.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
-**Local, unpublished:** [result markers](array-result.md) support
-`done({ result: [position] })` and stock green result rendering. Published
-0.16.0 does not contain this capability.
+**Available since 1.0.0:** [result markers](array-result.md) support
+`done({ result: [position] })` and stock green result rendering.
 
 ## User-defined algorithms
 

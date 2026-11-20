@@ -2,10 +2,10 @@
 
 [Русский](ru/grid-canvas-api.md) · [Grid API](grid-api.md) · [Tree Canvas](tree-canvas-api.md) · [Viewport](canvas-viewport.md) · [Compatibility](api-compatibility.md)
 
-**Version 1.3.0.** Independent /canvas/grid exports createGridRenderer and
+**API since 1.3.0; unchanged in 1.3.1.** Independent /canvas/grid exports createGridRenderer and
 the five types below. Headless /grid remains a separate DOM-free entry.
 The package has 14 entries, 30 runtime names and 155 type-only exports (143 distinct).
-The twelve previous entries are preserved. [Changes and migration](candidate-1.3.md) ·
+The twelve previous entries are preserved. [Changes and migration](release-1.3.md) ·
 [Readiness review](grid-readiness-1.3.md) · [Native acceptance](checks/grid-canvas-browser-2026-11-20.json).
 
 ## Public declarations
@@ -286,7 +286,7 @@ The [contract record](checks/grid-canvas-contract-2026-11-20.json) retains its
 historical declaration-only scope. Current acceptance checks the implementation.
 The exact 1.3.0 archive and identity of reused native acceptance are recorded in
 [candidate preparation](checks/candidate-1.3.0-2026-11-20.json). CI and publication
-are separate gates; see [candidate notes](candidate-1.3.md).
+are complete; see [release notes](release-1.3.md).
 
 ## Pathfinding example
 

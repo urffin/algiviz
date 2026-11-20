@@ -2,7 +2,7 @@
 
 [Русский](ru/worker-source.md) · [Async behavior](async-sources.md) · [Adapter API](async-source-api.md) · [Player integration](player-async-api.md) · [Plan](optional-player-proposal.md)
 
-**Current reference:** [published/local status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
+**Current reference:** [release status](current-api.md) · [U3 policy](api-compatibility.md). Dated checks below apply only to their recorded stages.
 
 ## Current contract, added in 0.16.0
 
@@ -107,10 +107,9 @@ or a promise to restore already affected sender resources.
 
 SharedArrayBuffer and views backed by it are excluded, including inside nested
 containers, and must be rejected before accepting/posting supported payloads.
-**Local F1, unreleased:** this also covers shared backing storage hidden behind
-WebAssembly.Memory in input/state graphs. Published 0.16.0 has that bypass;
-[current status](current-api.md) distinguishes the fix from the release.
-**Local F2, unreleased:** direct shared buffers, views and nested input/state
+**F1, since 1.0.0:** this also covers shared backing storage hidden behind
+WebAssembly.Memory in input/state graphs. See [current status](current-api.md).
+**F2, since 1.0.0:** direct shared buffers, views and nested input/state
 graphs are also rejected when SharedArrayBuffer is unavailable before import.
 Captured intrinsic branding works without WebAssembly or allocating shared memory.
 See [permanent regressions](checks/worker-shared-buffer-fix-2026-11-14.json) and [native checks](checks/worker-shared-buffer-fix-browser-2026-11-14.json).
