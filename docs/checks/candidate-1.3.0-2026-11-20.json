@@ -1,0 +1,1360 @@
+{
+  "date": "2026-11-20",
+  "checkedAt": "2026-11-20T00:00:08.869Z",
+  "scope": "Prepare and freeze exact 1.3.0 candidate; commit/push/exact-SHA CI follow this pre-commit record; no tag or publication",
+  "baseline": {
+    "version": "1.2.1",
+    "sha": "c398d2d0909b10f9c46089815e221adf0369e0e8"
+  },
+  "package": {
+    "name": "@grundyjs/algiviz",
+    "version": "1.3.0",
+    "lockfileRootVersions": [
+      "1.3.0",
+      "1.3.0"
+    ]
+  },
+  "surface": {
+    "entries": 14,
+    "runtime": 30,
+    "types": 155,
+    "distinctTypes": 143
+  },
+  "inventory": [
+    {
+      "entry": "./tree",
+      "runtime": [
+        "createTreeTrace",
+        "treeScene"
+      ],
+      "types": [
+        "TreeKind",
+        "TreeBinarySlot",
+        "TreeNode",
+        "TreeOrderedLink",
+        "TreeBinaryLink",
+        "TreeLink",
+        "TreeOrderedInput",
+        "TreeBinaryInput",
+        "TreeInput",
+        "TreePosition",
+        "TreeAnnotation",
+        "TreeMark",
+        "TreeNodeCaption",
+        "TreeNodeCaptionPatch",
+        "TreeMarkUpdate",
+        "TreeResultInput",
+        "TreeResult",
+        "TreeDoneOptions",
+        "TreeTraceOptions",
+        "TreeEdit",
+        "TreeSnapshot",
+        "TreeEvent",
+        "TreeStep",
+        "TreeFrame",
+        "TreeTrace",
+        "TreeSceneOptions",
+        "TreeNodeView",
+        "TreeLinkView",
+        "TreeObjects"
+      ]
+    },
+    {
+      "entry": "./canvas/graph",
+      "runtime": [
+        "createGraphRenderer"
+      ],
+      "types": [
+        "GraphPalette",
+        "GraphRendererOptions",
+        "GraphRenderSize",
+        "GraphRenderer"
+      ]
+    },
+    {
+      "entry": "./graph",
+      "runtime": [
+        "createGraphTrace",
+        "graphScene"
+      ],
+      "types": [
+        "GraphNode",
+        "GraphEdge",
+        "GraphInput",
+        "GraphPosition",
+        "GraphAnnotation",
+        "GraphNodeCaption",
+        "GraphNodeCaptionPatch",
+        "GraphMark",
+        "GraphMarkUpdate",
+        "GraphResultInput",
+        "GraphResult",
+        "GraphDoneOptions",
+        "GraphTraceOptions",
+        "GraphSnapshot",
+        "GraphEvent",
+        "GraphStep",
+        "GraphFrame",
+        "GraphTrace",
+        "GraphSceneOptions",
+        "GraphNodeView",
+        "GraphEdgeView",
+        "GraphObjects"
+      ]
+    },
+    {
+      "entry": "./scene",
+      "runtime": [
+        "createSceneFrame",
+        "createSceneRenderer",
+        "createSceneProjector"
+      ],
+      "types": [
+        "SceneObject",
+        "Scene",
+        "ObjectTransition",
+        "SceneFrame",
+        "SceneVisualizations"
+      ]
+    },
+    {
+      "entry": "./array",
+      "runtime": [
+        "createArrayTrace",
+        "defineArrayAlgorithm",
+        "createArrayPlayer",
+        "createArrayTimeline"
+      ],
+      "types": [
+        "ArrayTrace",
+        "ArrayAlgorithm",
+        "SortedRegions",
+        "ArrayDoneOptions",
+        "Item",
+        "ArrayEvent",
+        "ArraySnapshot",
+        "ArrayStep",
+        "ArrayPlayer",
+        "ArrayFrame",
+        "ArrayTimeline"
+      ]
+    },
+    {
+      "entry": "./playback",
+      "runtime": [
+        "createPlayer",
+        "createStatePlayer",
+        "createTimeline",
+        "createStepEmitter",
+        "createRewindBuffer",
+        "createAsyncSource"
+      ],
+      "types": [
+        "Player",
+        "Step",
+        "Frame",
+        "Timeline",
+        "RewindBuffer",
+        "AsyncSource",
+        "AsyncSourceSignal",
+        "AsyncSourceFactory",
+        "AsyncSourceReadResult",
+        "AsyncSourceCloseResult"
+      ]
+    },
+    {
+      "entry": "./player",
+      "runtime": [
+        "Player"
+      ],
+      "types": [
+        "PlayerOptions",
+        "PlayerStatus",
+        "PlayerLabels",
+        "PlayerCloseResult"
+      ]
+    },
+    {
+      "entry": "./canvas/viewport",
+      "runtime": [
+        "createCanvasViewport"
+      ],
+      "types": [
+        "CanvasViewportOptions",
+        "CanvasViewportSize",
+        "CanvasViewport"
+      ]
+    },
+    {
+      "entry": "./canvas",
+      "runtime": [
+        "arrayScene",
+        "createArrayRenderer",
+        "createSortRenderer"
+      ],
+      "types": [
+        "ArrayObjects",
+        "ArrayPalette",
+        "ArrayPaletteOverrides",
+        "ArrayRendererOptions"
+      ]
+    },
+    {
+      "entry": "./worker",
+      "runtime": [
+        "createWorkerSourceFactory",
+        "WorkerSourceError"
+      ],
+      "types": [
+        "WorkerSourceErrorOptions",
+        "WorkerSourceIterator",
+        "WorkerSourceSession",
+        "WorkerSourceFactory",
+        "WorkerSourceOptions",
+        "WorkerSourcePhase",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceErrorCode",
+        "WorkerSourceThrownKind",
+        "WorkerSourceRemoteError",
+        "WorkerSourceIssue",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceTermination",
+        "WorkerSourceCloseResult",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceCancellation",
+        "WorkerSourceSignal"
+      ]
+    },
+    {
+      "entry": "./worker/runtime",
+      "runtime": [
+        "exposeWorkerSource"
+      ],
+      "types": [
+        "WorkerStateFactory",
+        "WorkerTransferSelector",
+        "WorkerSourceEndpointOptions",
+        "WorkerSourcePhase",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceErrorCode",
+        "WorkerSourceThrownKind",
+        "WorkerSourceRemoteError",
+        "WorkerSourceIssue",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceTermination",
+        "WorkerSourceCloseResult",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceCancellation",
+        "WorkerSourceSignal"
+      ]
+    },
+    {
+      "entry": "./canvas/tree",
+      "runtime": [
+        "createTreeRenderer"
+      ],
+      "types": [
+        "TreePalette",
+        "TreeRendererOptions",
+        "TreeRenderSize",
+        "TreeRenderer"
+      ]
+    },
+    {
+      "entry": "./grid",
+      "runtime": [
+        "createGridTrace",
+        "gridScene"
+      ],
+      "types": [
+        "GridCoordinate",
+        "GridInput",
+        "GridWrite",
+        "GridAnnotation",
+        "GridMark",
+        "GridCellCaption",
+        "GridCellCaptionPatch",
+        "GridMarkUpdate",
+        "GridResultInput",
+        "GridResult",
+        "GridDoneOptions",
+        "GridTraceOptions",
+        "GridEdit",
+        "GridSnapshot",
+        "GridEvent",
+        "GridStep",
+        "GridFrame",
+        "GridTrace",
+        "GridSceneOptions",
+        "GridCellView",
+        "GridPathView",
+        "GridObjects"
+      ]
+    },
+    {
+      "entry": "./canvas/grid",
+      "runtime": [
+        "createGridRenderer"
+      ],
+      "types": [
+        "GridPalette",
+        "GridCellPresentation",
+        "GridRendererOptions",
+        "GridRenderSize",
+        "GridRenderer"
+      ]
+    }
+  ],
+  "checks": {
+    "repository": {
+      "fresh": true,
+      "passed": 708,
+      "failed": 0,
+      "logSha256": "05340762637f05d518b063427ee39a93e5c880d067dea953976ecf04091bc57e"
+    },
+    "installedConsumer": {
+      "fresh": true,
+      "compiler": "6.0.3",
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "runtimeRegressions": 456,
+      "strict": true,
+      "DOMAndWebWorkerCheckedSeparately": true,
+      "logSha256": "68c395be422140b6b552fc31c749163761e1012ab5a23430fedc049acfadac44"
+    },
+    "bundles": {
+      "fresh": true,
+      "variants": 42,
+      "reportSha256": "fbc6f4bb3afd5e30947d1b28feb98b6adf47e5785e8afebdbb6bbfdbbd9c24e1"
+    },
+    "native": {
+      "fresh": false,
+      "rendererChecks": 18,
+      "exampleChecks": 23,
+      "implementationAndCompiledIdentity": true,
+      "fixtureIdentity": true,
+      "exampleHTMLVersionParagraphOnly": true,
+      "versionAssertionOnly": true,
+      "sourceReports": [
+        "grid-canvas-browser-2026-11-20.json",
+        "grid-player-example-2026-11-20.json"
+      ]
+    },
+    "archive": {
+      "filename": "grundyjs-algiviz-1.3.0.tgz",
+      "version": "1.3.0",
+      "files": 131,
+      "distFiles": 126,
+      "headlessGridDistFiles": 12,
+      "canvasGridDistFiles": 8,
+      "integrity": "sha512-nUHKH2HjL4JfLJmZDQ6g9N/ZbapZ1xshixOx/oZpHVJyaZejv1yJ2zIxAU1Aa9XNcxQcdJa44YcgVWBN4dW1qw==",
+      "shasum": "ba82ee63f484d92f3ddf094b5ba3095a5e818c42",
+      "sha256": "f8700f65b5938e0cf292c1f91ee689902c3cc81f41aa691274b151892f9759d0",
+      "packagedDocumentation": [
+        {
+          "path": "README.md",
+          "bytes": 11353,
+          "sha256": "b18f1c08658a376ac0469a54fd72f1b6b17083e1edf97cac988322d039ad16cf"
+        },
+        {
+          "path": "ru/README.md",
+          "bytes": 16077,
+          "sha256": "b80584d062d040949d74588d828e1602523cbfe18d5dcd5d35b4fd484b3d31d5"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "bytes": 26526,
+          "sha256": "54090189d4895a6f1693bd6d9e1ee6f7f50a7218c8611f28fc5c28f911f27597"
+        }
+      ],
+      "examplesTestsScriptsExcluded": true
+    },
+    "declarationsMatchEN_RU": true,
+    "readmeListsAllFourteenImports": true,
+    "documentationLinks": 509,
+    "preservation": {
+      "sourceFilesUnchangedSinceReview": 63,
+      "releasedPublicEntryDeclarationsByteIdentical": 12,
+      "releasedExportRecordsUnchanged": 12,
+      "dependenciesAndBuildToolsUnchanged": true,
+      "oldHistoricalJSONUnchanged": 69,
+      "legacyMazeAndSharedPlaybackUnchanged": true
+    },
+    "gitDiffCheck": "passed"
+  },
+  "releaseGates": {
+    "R0": "complete",
+    "R1": "complete",
+    "R2": "complete",
+    "R3": "Verify all eleven jobs after commit/push on the exact final SHA",
+    "R4": "Not authorized: no tag, GitHub Release or npm publication"
+  },
+  "ciExpected": {
+    "nodeOSJobs": 6,
+    "typescriptJobs": 4,
+    "bundleJobs": 1,
+    "total": 11
+  },
+  "limits": {
+    "freshBrowserRun": false,
+    "benchmarkRun": false,
+    "tagCreated": false,
+    "published": false,
+    "preCommitRecordClaimsCI": false
+  },
+  "sourceFiles": [
+    {
+      "path": "src/array/index.ts",
+      "sha256": "d0922f5c0ea917db55a5528aef6a476ba93144c00c70f1da4c97153070f8442d"
+    },
+    {
+      "path": "src/array/player.ts",
+      "sha256": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f"
+    },
+    {
+      "path": "src/array/snapshot-builder.ts",
+      "sha256": "b8032b7a26b9106f606c9cc0ec1657063a599e72356397b8383b9fc9def75b66"
+    },
+    {
+      "path": "src/array/timeline.ts",
+      "sha256": "3849e56b429c14965f0191bab4236fed19ea762cf7ddabb206d0670d69064cf3"
+    },
+    {
+      "path": "src/array/trace.ts",
+      "sha256": "fc003f97e0c08f80fd6ad2c770ff935e31325b69a92ac2852fd846c43ddd206b"
+    },
+    {
+      "path": "src/array/types.ts",
+      "sha256": "707b4984f81df9c5db1d9eb253800ac9e5968cb3e3f63cca32e9e7d89a897a14"
+    },
+    {
+      "path": "src/canvas/graph-captions.ts",
+      "sha256": "7ad9ffc3248ba08b0fdc48bddffdf356bf0919ebb0c98c71a59305ac80a0fe91"
+    },
+    {
+      "path": "src/canvas/graph-geometry.ts",
+      "sha256": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa"
+    },
+    {
+      "path": "src/canvas/graph.ts",
+      "sha256": "dd46c600e45e577687b9a4cdfe27d9bc89cfbb177d26fadd19e6848452376611"
+    },
+    {
+      "path": "src/canvas/index.ts",
+      "sha256": "b901e35d3cc6ca78c5ef05bbf9b10efef8830f1aa3058a086ce009d8df73a965"
+    },
+    {
+      "path": "src/canvas/tree-geometry.ts",
+      "sha256": "19532278ae68562995ee9865e2dd7b34bb914eb449d7b4e7ca2eec9ed1f3b3ba"
+    },
+    {
+      "path": "src/canvas/tree-labels.ts",
+      "sha256": "b8c29b4126630348cc8cc57cfab29109687af1295abfb11c1fb84443f732df3b"
+    },
+    {
+      "path": "src/canvas/tree-layout.ts",
+      "sha256": "0f68f22653eac44bac8b8a1c2f2cff43e213cb30ca5fc43e6cb934bdc9475a1a"
+    },
+    {
+      "path": "src/canvas/tree.ts",
+      "sha256": "3d3af3e54ff5d69ff82b1af6d63652bac3156c3828bea6dd6f4c9094658be270"
+    },
+    {
+      "path": "src/canvas/viewport.ts",
+      "sha256": "a26ab096e666ffcb84e01b11ee302be2776e5d2a4ec1a48e1aa0185ef6149411"
+    },
+    {
+      "path": "src/graph/index.ts",
+      "sha256": "09c5153a1c91741dcf00098bc35c3b4c1f51689f0cdde79b161c5120c444ffb8"
+    },
+    {
+      "path": "src/graph/scene.ts",
+      "sha256": "c06d8a36b6d61622c811e88be40bc5f6812d870311bc5a7d6ccb6c6d070d0f3e"
+    },
+    {
+      "path": "src/graph/trace.ts",
+      "sha256": "4f5a46481fa3dcfe2501a83984e3479cb5d927b28e1d145f20c879409b0e08c7"
+    },
+    {
+      "path": "src/graph/types.ts",
+      "sha256": "968069c40eaf877c3b43b2fae6d88e93209701c953c5e3b7791436a879813f06"
+    },
+    {
+      "path": "src/graph/validation.ts",
+      "sha256": "2419ff65c27803922a2f2bd1744bf8525c1b343d72c12189201090b38aee7edf"
+    },
+    {
+      "path": "src/playback/async-source.ts",
+      "sha256": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d"
+    },
+    {
+      "path": "src/playback/index.ts",
+      "sha256": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0"
+    },
+    {
+      "path": "src/playback/player.ts",
+      "sha256": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787"
+    },
+    {
+      "path": "src/playback/rewind-buffer.ts",
+      "sha256": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70"
+    },
+    {
+      "path": "src/playback/state-player.ts",
+      "sha256": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b"
+    },
+    {
+      "path": "src/playback/state-steps.ts",
+      "sha256": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff"
+    },
+    {
+      "path": "src/playback/step-emitter.ts",
+      "sha256": "a42c006b86a441ab47bf720427164b10ca626ffd6bd7cab6a735dcc63ce41770"
+    },
+    {
+      "path": "src/playback/timeline.ts",
+      "sha256": "8095ff07cd9bf7afad108dd13e7e7ebb63e7cfb3d2fce5d2d45d620150074088"
+    },
+    {
+      "path": "src/playback/types.ts",
+      "sha256": "053f6e9b76c2d9c9847ec71219b2a90ec9f4a2ad7ec6629f992e974a73ec4261"
+    },
+    {
+      "path": "src/player/async-controller.ts",
+      "sha256": "80fab81a5572ddb57837390410d8de856ebd5ddc65134bba336ad62d539d1803"
+    },
+    {
+      "path": "src/player/async-session.ts",
+      "sha256": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f"
+    },
+    {
+      "path": "src/player/close-report.ts",
+      "sha256": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8"
+    },
+    {
+      "path": "src/player/controller.ts",
+      "sha256": "029b880fbc85272181bd2da1df825fc086c23b05053e66fa5a1bc1396ef51026"
+    },
+    {
+      "path": "src/player/index.ts",
+      "sha256": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d"
+    },
+    {
+      "path": "src/player/mount.ts",
+      "sha256": "c6d82fdfe8cd37425878bc29643b8d1c9967c4808176e614dbc57eeb6691763d"
+    },
+    {
+      "path": "src/player/player.ts",
+      "sha256": "97bad8b05e115b5e5c38b26fddd59b00db1212b8d00463022b4902de33928bed"
+    },
+    {
+      "path": "src/player/rewind-session.ts",
+      "sha256": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0"
+    },
+    {
+      "path": "src/player/step-session.ts",
+      "sha256": "5ff0ab5fd20bd6c63297806b2a0ebda9e3f55ece31727cac5c86929ebda839ff"
+    },
+    {
+      "path": "src/player/stream-playback.ts",
+      "sha256": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30"
+    },
+    {
+      "path": "src/player/types.ts",
+      "sha256": "c841f1fd2296c3535340e9f7dde29ed9e1a20b41bd6719d68146463f70055c2a"
+    },
+    {
+      "path": "src/scene/index.ts",
+      "sha256": "858bbb12d580c53b9f158ae50ab9976704f61bb1615120bab5ec046ec699db4b"
+    },
+    {
+      "path": "src/tree/attributes.ts",
+      "sha256": "f4ab2b4d17ecef4314d31586055e7dbccc698854d4ede94af51476bf65b88219"
+    },
+    {
+      "path": "src/tree/index.ts",
+      "sha256": "1884184ae99bd0b035c00b689201aa87deccb00d5a1dabe61636d5430875c915"
+    },
+    {
+      "path": "src/tree/scene.ts",
+      "sha256": "6e070842527417ac9a0c4ecaca1e4e336830412e4c13b0e389dffdbbd5dd8805"
+    },
+    {
+      "path": "src/tree/trace.ts",
+      "sha256": "172e84020d2d0ab4e1f0a488355e9f5e880d835e6bffb035bf21db045687dcf9"
+    },
+    {
+      "path": "src/tree/types.ts",
+      "sha256": "b13991b3a3373286c2477a00679cd6e54223aa0e1590ec478dd26214a66e22ea"
+    },
+    {
+      "path": "src/tree/validation.ts",
+      "sha256": "9e78a39525f02913cf71c8ebe93e392b258fb019150b54aa7ac3319b6c50314e"
+    },
+    {
+      "path": "src/worker/data.ts",
+      "sha256": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064"
+    },
+    {
+      "path": "src/worker/error.ts",
+      "sha256": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72"
+    },
+    {
+      "path": "src/worker/index.ts",
+      "sha256": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13"
+    },
+    {
+      "path": "src/worker/protocol.ts",
+      "sha256": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc"
+    },
+    {
+      "path": "src/worker/runtime.ts",
+      "sha256": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef"
+    },
+    {
+      "path": "src/worker/types.ts",
+      "sha256": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9"
+    },
+    {
+      "path": "src/canvas/grid-layout.ts",
+      "sha256": "a532a47d9ca02eac897571f3fbbdcbbbd1bef29389dd56231310007b151eca6c"
+    },
+    {
+      "path": "src/canvas/grid-state.ts",
+      "sha256": "61ad3f32212dc20dede94a731374b180522d8b6daf9c9d9a95b2d5c1992cd3f2"
+    },
+    {
+      "path": "src/canvas/grid-text.ts",
+      "sha256": "0c4b8439acd0555d5cfabafc1876ade0a81b859dccb21ed21a3a5e42f84dfcd6"
+    },
+    {
+      "path": "src/canvas/grid.ts",
+      "sha256": "21bc10b0bb5f3bbb52f3c4a38ad94465c2ee05fbf990b48147bfefd56f3649e2"
+    },
+    {
+      "path": "src/grid/attributes.ts",
+      "sha256": "8cdc720f9542d3bade000c2e3a3411640827992124151f7967c00d928ac5c6af"
+    },
+    {
+      "path": "src/grid/index.ts",
+      "sha256": "5c44ee986024cebcc2982399ca79cdfeeb7260eee3c761bccde7fffcd81c0cfe"
+    },
+    {
+      "path": "src/grid/scene.ts",
+      "sha256": "bae49a48852be7e946b12d69e89e35e8928b5e2246d6b9b12892035f144e21fa"
+    },
+    {
+      "path": "src/grid/trace.ts",
+      "sha256": "64fe42e4c9aad220ec0732c499505fa461a968ef72bb8c15b5cf8a6ab347f040"
+    },
+    {
+      "path": "src/grid/types.ts",
+      "sha256": "7d50465a192c0462e88af88d7a07aba0177e731245fd6c4db09a22a5a389fc74"
+    },
+    {
+      "path": "src/grid/validation.ts",
+      "sha256": "43f80b2db1b6b428688dbed056f763b34542d7f5af6103694c2827ccf14c0b56"
+    }
+  ],
+  "verificationFiles": [
+    {
+      "path": "scripts/array-dispatch-baseline.mjs",
+      "sha256": "328fa42f39dc06712e09ca18b4368acfa74229ee3962cbda41ab22c5c9a40e2f"
+    },
+    {
+      "path": "scripts/benchmark-array-dispatch.mjs",
+      "sha256": "7d293281873fe16ce3faafd4983da640ea4f5db454a4e2939ccc72fa4a73e308"
+    },
+    {
+      "path": "scripts/benchmark-scene-cache.mjs",
+      "sha256": "1ef340f74363c9920f1e52371613d120d0a48e44c96706cbe9f1968ec84ce0ba"
+    },
+    {
+      "path": "scripts/benchmark.mjs",
+      "sha256": "7b3582ef622792f111c3975f160cb66c67f271003ac381cdd9e45f87ea38714e"
+    },
+    {
+      "path": "scripts/check-player-rewind-memory.mjs",
+      "sha256": "0ae4a0af912679d6f5220ba2981372bad988b6bff2f0cbf15eb05ac56c9544ef"
+    },
+    {
+      "path": "scripts/check-rewind-memory.mjs",
+      "sha256": "cddf1cfd843265f5bebbe8935e82b47acf423d9c5fcd21aaf85fc4434a5c1a4f"
+    },
+    {
+      "path": "scripts/export-minimal-gif-node.mjs",
+      "sha256": "ce3aa519de4b87a0d092753ff374ceb03d85b36147f6831f3abbb37f0c079aae"
+    },
+    {
+      "path": "scripts/profile.mjs",
+      "sha256": "96a8a874f3e97216d76035f58bfff77cb06923046835e9b2fe76e1df3c4942bb"
+    },
+    {
+      "path": "scripts/review-api-0.16.0.mjs",
+      "sha256": "07ddaf0e191ae9a2d86e4cde72def22203026e86681b5771bb917fff9b29679b"
+    },
+    {
+      "path": "scripts/serve-api-review.mjs",
+      "sha256": "fc8f26c4d0512fcc3337b7d2ea1a3fe5de120195f2193395dd3a924c09610715"
+    },
+    {
+      "path": "scripts/serve-minimal-gif.mjs",
+      "sha256": "a9abcf477dba2f1c03789cf3f8a5b252e1c488c7601d46af5694e526e4ae6f56"
+    },
+    {
+      "path": "scripts/serve-player-async.mjs",
+      "sha256": "158f6ee5e4b50af349cf7fb3d44591bfae6aca8def79b6c4590f1385118a9838"
+    },
+    {
+      "path": "scripts/serve-player-work-budget.mjs",
+      "sha256": "ae7918d822959eebecb3ba09af949d88dd0bf4d52b091ea183b2077d81fdc2f7"
+    },
+    {
+      "path": "scripts/serve-worker-shared-buffer.mjs",
+      "sha256": "15e55bc78f78af4e3bc13daa5d2a33b26807fd2d35aed436f555b253a224c856"
+    },
+    {
+      "path": "scripts/serve-worker.mjs",
+      "sha256": "d80b93df49141e1e2acdfabbb4f1e2e5d3d9076fa90c426c18ea2a8829d4d8ad"
+    },
+    {
+      "path": "scripts/test-bundle.mjs",
+      "sha256": "b61fb235b22a604e1c9d3b67d4ea985cdfb5c8f412f230f7e9dbcc381d3571a9"
+    },
+    {
+      "path": "scripts/test-package.mjs",
+      "sha256": "21a733eb936d88a62758926c02f9d80774152406222260e35ac71b472bc3af7a"
+    },
+    {
+      "path": "scripts/test-tree-canvas-browser.mjs",
+      "sha256": "d9ad4aaa43c9377192a5027de655a62aac85d88f96c6b66ee1fbc5f868b777ab"
+    },
+    {
+      "path": "test/api-review-worker-browser.html",
+      "sha256": "1c120ba4a077fb5bf7646c3e61d650320fe8780019861a6256da359c20822dde"
+    },
+    {
+      "path": "test/array-dispatch-browser.html",
+      "sha256": "ec415b24c62a9619d9fca4e53d422e2404dbb1adc33de25e05f059bf80693522"
+    },
+    {
+      "path": "test/array-dispatch-browser.mjs",
+      "sha256": "35fdd7ee05023cec85d9f0e98aedc3e945f33d800e2adaf5de624c414aa38b84"
+    },
+    {
+      "path": "test/array-dispatch-workloads.mjs",
+      "sha256": "6a9e88fcd4a64adae0249dc9ef36b48cf010085d4d18d5802155e990b548a06c"
+    },
+    {
+      "path": "test/array-dispatch.test.mjs",
+      "sha256": "04b42707e2cb0252322e6dac6c60f47dce15e5f30eba7655a34400ac6474c1cb"
+    },
+    {
+      "path": "test/array-result.test.mjs",
+      "sha256": "0bb4e70f1dd3569715d9c2f390c2fa4f3b5617a78fbcbbd1c076bbfa9aebea56"
+    },
+    {
+      "path": "test/array-validation.test.mjs",
+      "sha256": "2a6930957fc4aa05ad8fa35f298651501a02e9230f674c800ef396d38fd050c2"
+    },
+    {
+      "path": "test/async-source.test.mjs",
+      "sha256": "52f47f3ae34f7e355e230af17be89e686ec0c53def66ef32e4ba7463031d5989"
+    },
+    {
+      "path": "test/bfs-graph-migration.test.mjs",
+      "sha256": "73fc641464e53f67163fb0bc511a52c9b27f26b214c55059c7cb229ea6fb3e6f"
+    },
+    {
+      "path": "test/bfs-path-example.test.mjs",
+      "sha256": "786761508096b328e2b4d6e0dedbac6fda6ad10a67967eff817a474d57661731"
+    },
+    {
+      "path": "test/bfs-two-examples.test.mjs",
+      "sha256": "568c11e38841e0ed0e7e69e4fb9b1a8f24f071d9981bdfc60cd7191997b95d36"
+    },
+    {
+      "path": "test/binary-search-example.test.mjs",
+      "sha256": "c7d848358eb94492a91d0f31e9f54384cee6c671ccf07f3b3b7efc5d468c6f12"
+    },
+    {
+      "path": "test/boids-example.test.mjs",
+      "sha256": "f3bde93a5866c944ca0e3cb946396d0d89e5b7b36ca4770623437a2dd4205172"
+    },
+    {
+      "path": "test/browser-smoke.html",
+      "sha256": "a59e9cba0bcd45455a512c47f16c668c60bb01b13efd51314774a112589d5c89"
+    },
+    {
+      "path": "test/browser-smoke.mjs",
+      "sha256": "6a003328f3d81baccddb94a381c4cbeb293f2bfe56169bd42c67da79f30a711b"
+    },
+    {
+      "path": "test/bubble-sort.test.mjs",
+      "sha256": "004199071eb3b0883e4c99c905068027270c80c318a6c21266c1ebd7c1a825b9"
+    },
+    {
+      "path": "test/canvas-contract.test.mjs",
+      "sha256": "b9e69724553e47d3ba8086e59f1f43e099a56c19455be12b13ba38f00ec2048a"
+    },
+    {
+      "path": "test/canvas-palette.test.mjs",
+      "sha256": "f445cd55f23983eeec54c45096f452adf09f8f17bd5eb5b82218e1bf1ad39c17"
+    },
+    {
+      "path": "test/canvas-viewport-browser.html",
+      "sha256": "2da71816e4c9dbd3233d3baca62e0ac6c0b062edba5c619d70217646c7e35e04"
+    },
+    {
+      "path": "test/canvas-viewport-browser.mjs",
+      "sha256": "ce3c74611f3c98083b389b58cc57709fb20fa105dd41fdefec0562257c53e72b"
+    },
+    {
+      "path": "test/canvas-viewport.test.mjs",
+      "sha256": "b777e9e53f3dde48effad374d0bba7824847871b5558ee24c2e6975b3a3dc52d"
+    },
+    {
+      "path": "test/demo-player.test.mjs",
+      "sha256": "370a82cf6c621dee815dd9bd8475542d827a5e3c599c7be611b7b6ca6b599036"
+    },
+    {
+      "path": "test/dfs-example.test.mjs",
+      "sha256": "8e1a586621149f0ea9501f4ab6437d4809bb99f9e646c5146e816fdac8259a28"
+    },
+    {
+      "path": "test/fixtures/array-dispatch-before.ts",
+      "sha256": "eb1d378693183baa32491e8ea9e8c16435d1abf722f84dee2c61e1e90b49cadf"
+    },
+    {
+      "path": "test/fixtures/bfs-before-graph.json",
+      "sha256": "75d7c1b64705968addd8496be058ab0ff38ce924e748fa9e56e1b30a5ff99c5d"
+    },
+    {
+      "path": "test/graph-canvas-browser.html",
+      "sha256": "c9c05e982c8fca19f9189b6ac21f3cbca4326fab6ab7e9bdfc05da9d96ff1a73"
+    },
+    {
+      "path": "test/graph-canvas-browser.mjs",
+      "sha256": "9439bd589df7d8f8bc18536fc97870ef510910088b3965ba8bcfc5659c1f3904"
+    },
+    {
+      "path": "test/graph-canvas-context.mjs",
+      "sha256": "fb8b03b9fa6f09d76a30bea6a77aa4c0048c08b41f54862d859ecfb19658cf6c"
+    },
+    {
+      "path": "test/graph-canvas-fixtures.mjs",
+      "sha256": "43f1db5e997cca3ed4c43b4806fbb563a87d6b7a3137d7f4b3feedc2d66af39c"
+    },
+    {
+      "path": "test/graph-canvas.test.mjs",
+      "sha256": "8f01ad1309607098194b0254446c4f68858f9dc552f17b4921fdff28df60209d"
+    },
+    {
+      "path": "test/graph-captions-browser.html",
+      "sha256": "7aa56ab0c2fc6fd7bc479598765966f1fc81ba436af28bd39d366d7ac40f7fdd"
+    },
+    {
+      "path": "test/graph-captions-browser.mjs",
+      "sha256": "4d4f7bdcd34da21b95182fed42a8acdc5d95a98e4ae96a19073127b724cf9d81"
+    },
+    {
+      "path": "test/graph-captions.test.mjs",
+      "sha256": "f3df074a9963ad27d1a8c72a70be5a7308b9f43556fd05b1537c7b2ac115f3fe"
+    },
+    {
+      "path": "test/graph-example.test.mjs",
+      "sha256": "c0bc4d2b6b90987561cbc125e9de393f805ad289df0358359d9dd20e56038409"
+    },
+    {
+      "path": "test/graph.test.mjs",
+      "sha256": "e55357d82ddd700eb4bb1c0147a096a2b644f0fbf7e2a5dcbd6b97414a2ef9bd"
+    },
+    {
+      "path": "test/heap-example.test.mjs",
+      "sha256": "9f1fa62df67ca60e5e75c6fa19676ce1004830be872244c6b6b9782d1a9aed97"
+    },
+    {
+      "path": "test/insertion-sort.test.mjs",
+      "sha256": "bc8cc8047e9b62f70e1f4e939616264444443f19bf8e313bf26df9f38f3ca7d2"
+    },
+    {
+      "path": "test/maze-example.test.mjs",
+      "sha256": "fe6d51c68cbc82f2835abf09861400cdadc67469b334d264e7cf484f7e88bbc5"
+    },
+    {
+      "path": "test/merge-example.test.mjs",
+      "sha256": "160c1033c906284d12ca8edf5ada54f71979b1ba60390047dbaf623471cc3d65"
+    },
+    {
+      "path": "test/minimal-example.test.mjs",
+      "sha256": "117339ca2576706fcf5c2d9f3e9d10fd22eaea9960d5205304c759b21da3c0be"
+    },
+    {
+      "path": "test/minimal-state-page.test.mjs",
+      "sha256": "3a04decb1fb21885dc4699319bac22be0e05e51bd2cd617f5224f9949a983c17"
+    },
+    {
+      "path": "test/minimum-example.test.mjs",
+      "sha256": "11fa38319ef2bf5b429b67213dfb8671d2414de38a916d209169f99ab1f1df97"
+    },
+    {
+      "path": "test/next-step-experiment.test.mjs",
+      "sha256": "937960a68872a79862986b59880adecaddc3371441e23213592914a4e5587d6f"
+    },
+    {
+      "path": "test/object-lifecycle.test.mjs",
+      "sha256": "ec51f1771baebfbfbed85a25047fa75588bcd0a881d83132e65a0abf114c6bee"
+    },
+    {
+      "path": "test/optional-player.test.mjs",
+      "sha256": "dfbe0dec84fdefd4150c7eb4da6cb840081291e22dc6853872cbd7a293ea8450"
+    },
+    {
+      "path": "test/package-consumer.ts",
+      "sha256": "93af6f9984fe509ce2d42770c49179e7ee2c0a2d7afc8114fcf7455fc3c71466"
+    },
+    {
+      "path": "test/package-exports.mjs",
+      "sha256": "8d4bee2574decbc3227a91af79a9ca4ece4c81a4f64e4f6fbddf97d8895f095e"
+    },
+    {
+      "path": "test/package-graph-canvas.ts",
+      "sha256": "4b31ff439589c6062e4f9449104bdd7644cdc78a07084370a73577f13a951865"
+    },
+    {
+      "path": "test/package-graph.ts",
+      "sha256": "4825d9b01da4e52189dac32ced20aaaa4eb98eb2b6cc157d9cf8a3252b99eb13"
+    },
+    {
+      "path": "test/package-headless.ts",
+      "sha256": "a552d1ffa603cfbc3d03b4ecbab39859b5ce7b2bc285b790330142864fe9b987"
+    },
+    {
+      "path": "test/package-player.ts",
+      "sha256": "1c8ee10d38d150b8e82a53ff2ef0e14e942ff95e6483f0a66c1c3c180bb2fc2e"
+    },
+    {
+      "path": "test/package-tree-canvas.ts",
+      "sha256": "95c6fadbaf0cd37bb90c77b4ee5a4a9f71ec27f7d2b708e902cd69b5de063681"
+    },
+    {
+      "path": "test/package-tree.ts",
+      "sha256": "c01c701815eac95b3bda9dec4328e56c5995bd1118f26e93f3edad783c07f3a7"
+    },
+    {
+      "path": "test/package-viewport.ts",
+      "sha256": "0e176902b12d3a701ada370d14eedbf333f70107b7509eb3bba088e646b3fbd3"
+    },
+    {
+      "path": "test/package-worker-runtime.ts",
+      "sha256": "e9ee1ffe03d274483fd7d51ee6b4117581147e015a2becd9af6e10f3f9d58c48"
+    },
+    {
+      "path": "test/package-worker.ts",
+      "sha256": "16e835ae730152d76dc1c55bde859c8b2bb7118a5adea3e50b2092ab92c55963"
+    },
+    {
+      "path": "test/playback-completion-matrix.test.mjs",
+      "sha256": "7c3604e6339ed942362a1b663603ea835c7b4995d680c6a7f1c9ea6a9efc4620"
+    },
+    {
+      "path": "test/playback-contract.test.mjs",
+      "sha256": "c7a63fc26208bf37ac0c4b9f981183c17c459fe3b8bb5c2cb4d39e482f015f38"
+    },
+    {
+      "path": "test/playback-reentrancy.test.mjs",
+      "sha256": "773d18f6a649e9e2eea9ceeb7d74a9cb5284cfc883a8525bb34c1c90f6f12a3f"
+    },
+    {
+      "path": "test/player-async-browser.html",
+      "sha256": "467e7e103cf2854797f5abb0bc551bee9a63735f9a94a0915db655b632248fd0"
+    },
+    {
+      "path": "test/player-async-browser.mjs",
+      "sha256": "e4e208588ecb745936a4ac6f791b71bd78762e351c2f79199ef29f3b7c564cb2"
+    },
+    {
+      "path": "test/player-async.test.mjs",
+      "sha256": "4d54b2c06f0c58211a5005fe386ea93d73fef47a912e6948fcd25a4c13d6561a"
+    },
+    {
+      "path": "test/player-speed.test.mjs",
+      "sha256": "47cb7173ae43d1625316351ddc8026c10c75dfd2e3c7c424e221e836f5009056"
+    },
+    {
+      "path": "test/player-steps.test.mjs",
+      "sha256": "765acd231a2b1918505e86af33381e3d319faba392d93c7d23a94001186293af"
+    },
+    {
+      "path": "test/player-test-dom.mjs",
+      "sha256": "646a8d45082462ac93ecf9d7bea406293d2c489eb4e7c035183594317bfc02a2"
+    },
+    {
+      "path": "test/player-work-budget-browser.html",
+      "sha256": "8e08d8a562a02eb798baa3e619fdcd219d4344f69686d4569a38d547af97eecd"
+    },
+    {
+      "path": "test/player-work-budget-browser.mjs",
+      "sha256": "f79f04f45b36e43bc8eeeb13d470053752528cf8e27326e10f90b78330c3810b"
+    },
+    {
+      "path": "test/player-worker-browser.html",
+      "sha256": "75bcacc23230a0fb176882adbf9ab51954aa61a704997aadc23bd89f81db65ff"
+    },
+    {
+      "path": "test/player-worker-browser.mjs",
+      "sha256": "671fba066f2fdcf7b75a24ddf457beaf2f8558ff9d828742ce4c78494f763999"
+    },
+    {
+      "path": "test/player-worker-native.mjs",
+      "sha256": "8bc45a9ba6dd7d5c58e049ec39b4991c9ab9e153c96624c99ff5cc0547b0dab2"
+    },
+    {
+      "path": "test/player-worker.test.mjs",
+      "sha256": "d61c7727cdfdac0ff49dd4b6fbc17bf37d5a902ca187420220a429645b786e65"
+    },
+    {
+      "path": "test/player.test.mjs",
+      "sha256": "eae6b2933d877b9fce2d066852ff9be463f3fd0e0d0bd9fe33e393ce9b1e77d1"
+    },
+    {
+      "path": "test/profile-browser.html",
+      "sha256": "4e14cee78df258ff0409c647db5e782e98dc96e3e2e1f41128a183204e76199d"
+    },
+    {
+      "path": "test/profile-browser.mjs",
+      "sha256": "86ac34499c431e63720a87bbca2b4effd2a10370cff883560ceaebc263274232"
+    },
+    {
+      "path": "test/profile-workloads.mjs",
+      "sha256": "b23485dee9aa63d0c49422c1015254cae2d277ee566903570ef63282564da6e7"
+    },
+    {
+      "path": "test/public-api.test.mjs",
+      "sha256": "bb5ff7d2a1c373c56608acac0b1a32e67edcdf9fc58959294aca02eaed65ce19"
+    },
+    {
+      "path": "test/quick-example.test.mjs",
+      "sha256": "65c36e0540ae9521b03d6888628264178b6abd913401471cf1aa853064abb7c4"
+    },
+    {
+      "path": "test/rewind-buffer.test.mjs",
+      "sha256": "5e5e8b222a5f7e9fc4e4bf31b92548de28449f6d2c53a9001981c858a8a6ca7f"
+    },
+    {
+      "path": "test/sand-example.test.mjs",
+      "sha256": "0a0a72b93dae12146ad50b030e324928e1aa4fa4d4ef12dbb691c60915e4ec39"
+    },
+    {
+      "path": "test/scene-cache.test.mjs",
+      "sha256": "badc6a491ca2030b25f5e89fe849036f084b379bac20c2fe72cc95f78f45ca8c"
+    },
+    {
+      "path": "test/scene-projector.test.mjs",
+      "sha256": "2c83468c5aca4e1716d7bd1ee53cb3e28df5a6978bc09315f0ec03cc5d4c7191"
+    },
+    {
+      "path": "test/scene-types.ts",
+      "sha256": "00f1d89129c24671f199c50ac7e32944bb2d2d73cd60aaf524662c9eb2ec5d96"
+    },
+    {
+      "path": "test/scene.test.mjs",
+      "sha256": "3fc5763f52b166e5ecac4db507731e40ce545731355c5fc0a418a56e6f0904db"
+    },
+    {
+      "path": "test/state-source-experiment.test.mjs",
+      "sha256": "69b2aeb120053fb1c9aba11939e0dcbf63659dfa72eed6ca9e87a86ff606501d"
+    },
+    {
+      "path": "test/step-emitter.test.mjs",
+      "sha256": "c4a67db77fd35776a742dfdf2f063e9b478e7b5ba164b4494bb15bfa0b52f065"
+    },
+    {
+      "path": "test/timeline.test.mjs",
+      "sha256": "0031d0fc7ecf991df7648f111ca35bee2f582b0a340cd24fd886903b15eff33d"
+    },
+    {
+      "path": "test/tree-canvas-browser.html",
+      "sha256": "b471bfa97554ada6359675493b7e40b5acda3260a46c1f905c7feb2f0c0dff36"
+    },
+    {
+      "path": "test/tree-canvas-browser.mjs",
+      "sha256": "fd77b18e7bb2667029c05d8a50d287a05e72eca05c15e605bc7b97ec9257cf4f"
+    },
+    {
+      "path": "test/tree-canvas-context.mjs",
+      "sha256": "682830f0f05ec6a5c2ef136ac7f63ab20a91e5612149491e873418d5bfd95919"
+    },
+    {
+      "path": "test/tree-canvas-fixtures.mjs",
+      "sha256": "0a2acfd0abdc6ee41ef52358aed0fc4031701d32e898974de9aa96b0021b23ac"
+    },
+    {
+      "path": "test/tree-canvas-playback.test.mjs",
+      "sha256": "e89ff0865fdf66e1e91c553e5fd1b34dc0753b0029c262bafef89fb5c119596b"
+    },
+    {
+      "path": "test/tree-canvas.test.mjs",
+      "sha256": "0d22d574facd4d70c0999e3bd4072b183413989c218affa1cba0b0edd707011a"
+    },
+    {
+      "path": "test/tree-playback.test.mjs",
+      "sha256": "b0ee9cfe161e72141a14b2b1e82b99c2c8b8b9cc5105951df6cf7f4f16e1a704"
+    },
+    {
+      "path": "test/tree-player-browser.html",
+      "sha256": "322c95be3d172511c2f1cb6f7ddd604e848af6b7d9bde97f0e833da6f73ebec4"
+    },
+    {
+      "path": "test/tree-player-browser.mjs",
+      "sha256": "9c92779a5ce6423b22bc889f213c3e3972642933364b294ee55406ad49547e38"
+    },
+    {
+      "path": "test/tree-player-example.test.mjs",
+      "sha256": "eae8f5c0a1619425170c75138b30f11686e20589e17f2de0e18c9d9721bf0c16"
+    },
+    {
+      "path": "test/tree-pointer.test.mjs",
+      "sha256": "428822fb716918ec5d0def4b5cd772d15ae566716e71a5a435085d76ec56a2bb"
+    },
+    {
+      "path": "test/tree-slot-bounds.test.mjs",
+      "sha256": "5d3e1ea8ba784f97bfdee21b9e4e13dccc960e2c6a46ec086ce6ab364d2653fb"
+    },
+    {
+      "path": "test/tree-slot-fixtures.mjs",
+      "sha256": "3fa2a46b392e4da6bedebab94827f5b16a2e962623e99e796eb2d2f7668432c7"
+    },
+    {
+      "path": "test/tree-slot-oracle.mjs",
+      "sha256": "f48b8291db341cae888273bdd7b9ce717d340f96aa393fb26155ad655ce2b7f3"
+    },
+    {
+      "path": "test/tree-svg.test.mjs",
+      "sha256": "bcfcf084c09b047bafc8196e6f3aaa85cc8e88544fe8b7c7c4f62c7f9ceb564b"
+    },
+    {
+      "path": "test/tree-test-fixtures.mjs",
+      "sha256": "cf448d02a48979041e2510285f3d992e082abe9c7ccdb32d83be74c1cce4cd81"
+    },
+    {
+      "path": "test/tree.test.mjs",
+      "sha256": "e5373b873d6a5cb585f937281f75bc9f112f080a28f9cc1a46b2956523c68cca"
+    },
+    {
+      "path": "test/tsconfig.json",
+      "sha256": "28b0297c7d1635db9e83aa1a152614033378839cbad4e4d7bd59acbea4b71faa"
+    },
+    {
+      "path": "test/visualization-pipeline.test.mjs",
+      "sha256": "1c6d1191e06a7f518f21f7aa740a2953ab97f383a65c83e56e88145c97cb605a"
+    },
+    {
+      "path": "test/worker-browser.html",
+      "sha256": "0955ea1da2878068828af20c6229e75086d3cb76be314431875760eb656b2e1f"
+    },
+    {
+      "path": "test/worker-browser.mjs",
+      "sha256": "e1a8fad660a0ca30efb0d365bc6f3dc19313153d1b9c703b8d7969db9910ec27"
+    },
+    {
+      "path": "test/worker-data.test.mjs",
+      "sha256": "c11b75eeb07c19641fef41d606ce65600623d30ac58e9a85d4a66b7cd5613778"
+    },
+    {
+      "path": "test/worker-native-fixture.mjs",
+      "sha256": "3deeff5e315fb6fa8663fe1a57d13a0d58b2da9f9b82d8c56f68cc6a5cfc007f"
+    },
+    {
+      "path": "test/worker-post-errors.test.mjs",
+      "sha256": "0f8471b2a40182153beaceac0c15b4ea4012f4d20afc823ce287536d80558466"
+    },
+    {
+      "path": "test/worker-protocol.test.mjs",
+      "sha256": "742e472bcd64a364355bfe611966c59bc147e94840cbd9ee80de631cf64fc76b"
+    },
+    {
+      "path": "test/worker-shared-buffer-browser.html",
+      "sha256": "ec5c7ffb05a2b7dc208a12bfdf7eabe700a9c1cf63beb8baed479cb0eacd863d"
+    },
+    {
+      "path": "test/worker-shared-buffer.test.mjs",
+      "sha256": "a627530ac4a48c0c6b512756809f484f327b0aa8bc08becbf1dda79555b21541"
+    },
+    {
+      "path": "test/worker-silent-fixture.mjs",
+      "sha256": "ea09afbade78c89e111065f522b3dd38581535caea66aa9f8cd40916db3b9bf5"
+    },
+    {
+      "path": "test/worker-source.test.mjs",
+      "sha256": "febfeabdafba26e04cb9874a75941720ff695f8fdb30eebc1b1543db90bec86b"
+    },
+    {
+      "path": "test/worker-test-transport.mjs",
+      "sha256": "c595352bb174fb8a77b16bc43cc8e8de9fa35dd781aa2ece8da13d2c9d68fe72"
+    },
+    {
+      "path": "scripts/test-grid-canvas-browser.mjs",
+      "sha256": "614d8c1f290655e27fea79d8e406a7d94207d0609251b1f757c44f6fc3abd93e"
+    },
+    {
+      "path": "test/grid-canvas-browser.html",
+      "sha256": "51015622f207e6ff37b92ec32835ec2ba658f155f573ccd0ba728950b3a806ec"
+    },
+    {
+      "path": "test/grid-canvas-browser.mjs",
+      "sha256": "631e462e31373d1a9fee1774483720090634555b6add36068f6d45cccb5d392b"
+    },
+    {
+      "path": "test/grid-canvas-fixtures.mjs",
+      "sha256": "88561d1f4642b916e476da5ed3ad3d12362bf7b48979e3aa2e8da3fb5cbcfeaf"
+    },
+    {
+      "path": "test/grid-canvas-playback.test.mjs",
+      "sha256": "4ca8fa924a72dc5f381dd72bb06d289bc1407125e9cf4eafadb2f9d4451f05b4"
+    },
+    {
+      "path": "test/grid-canvas.test.mjs",
+      "sha256": "6c5960f4e11b25e496a567f48b7d3c64944866087ebce71aedb521e30b4d53db"
+    },
+    {
+      "path": "test/grid-playback.test.mjs",
+      "sha256": "aaea1f35abe6471fa60c4179c9de535881b828e524b52313a80db1e51c469595"
+    },
+    {
+      "path": "test/grid-player-browser.html",
+      "sha256": "d5f5fa4ba9cd5a503542d3387d5e5a550e1f42117a8a0b2b396ee51e1aea4426"
+    },
+    {
+      "path": "test/grid-player-browser.mjs",
+      "sha256": "5907696b70e755ad739c1faca5383dabc17a35fa09d7b41a0690b7c7b4c7ba80"
+    },
+    {
+      "path": "test/grid-player-example.test.mjs",
+      "sha256": "e2552a45337551bbb41f61645af0ac240d49494aa1e85ea572749b7eeb53fb7e"
+    },
+    {
+      "path": "test/grid-test-fixtures.mjs",
+      "sha256": "3e38c69d165f7a229bf4da3468b6834af940622ac3f371e658478a090c3d2e5f"
+    },
+    {
+      "path": "test/grid.test.mjs",
+      "sha256": "bc2252d599223f10dee0af8fe970d106e7da9afccda5d2cae0e22b09ffcebc83"
+    },
+    {
+      "path": "test/package-grid-canvas.ts",
+      "sha256": "e46f8fa6191b0e9476577638e6ae3e85d52fd250c122943edb3a382622363d06"
+    },
+    {
+      "path": "test/package-grid.ts",
+      "sha256": "b4fc489f59c1b95bbe70cc5bf71a7dcf0e989b83a1f6d09fbbd0c38bb2d33f15"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "README.md",
+      "sha256": "b18f1c08658a376ac0469a54fd72f1b6b17083e1edf97cac988322d039ad16cf"
+    },
+    {
+      "path": "ru/README.md",
+      "sha256": "b80584d062d040949d74588d828e1602523cbfe18d5dcd5d35b4fd484b3d31d5"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "54090189d4895a6f1693bd6d9e1ee6f7f50a7218c8611f28fc5c28f911f27597"
+    },
+    {
+      "path": "docs/current-api.md",
+      "sha256": "b6da9e811c2606d45a088c5c017f0522f62c9bc72c81851beb81ca4b2902cbd1"
+    },
+    {
+      "path": "docs/ru/current-api.md",
+      "sha256": "dab2ecbe025778def04557291e517c6d2beb758ffa1c93188fdfbef5f5520a43"
+    },
+    {
+      "path": "docs/api-compatibility.md",
+      "sha256": "869e6a5dc450ed2296a01b22dba3db8b483cf9659e9992b449dc56b14af7e45c"
+    },
+    {
+      "path": "docs/ru/api-compatibility.md",
+      "sha256": "12c2d79fdb74b73324b91b6c4acc5956ad87a5984939ad1f3b53e932187601ad"
+    },
+    {
+      "path": "docs/grid-api.md",
+      "sha256": "c1c455d80ceaa9633f171046a88b7b8e8f530ec2b365d678f92e00b560720103"
+    },
+    {
+      "path": "docs/ru/grid-api.md",
+      "sha256": "dfbe8a7a97d774f88a1338a11f5d51689c9705ac25d8e56c5908e56f152c36d9"
+    },
+    {
+      "path": "docs/grid-canvas-api.md",
+      "sha256": "5bf414a5ac4f70784a4646d020885941a3a126ce763384659f3535f555aaa7c1"
+    },
+    {
+      "path": "docs/ru/grid-canvas-api.md",
+      "sha256": "06984b71f2861144d0eabbcb5e34889b4a14eb07955ea5708a894808ffd16d0e"
+    },
+    {
+      "path": "docs/examples.md",
+      "sha256": "c8101917dec1dd5142c36d0a894cda0feee5386c7f81defbb292bbdab38c669e"
+    },
+    {
+      "path": "docs/ru/examples.md",
+      "sha256": "3d45a031c65cc301962eeb17ecc6175ed64a85447e6772308738dc66d893bcd3"
+    },
+    {
+      "path": "docs/support-matrix.md",
+      "sha256": "1af9cf2a994a190b9d9bf3b712e975f5d88df1858e207124b5c8444092251f51"
+    },
+    {
+      "path": "docs/grid-readiness-1.3.md",
+      "sha256": "732931fa2cabd2133b0376fec9527b3d574cde1f1d4eefa423de8425e7378e21"
+    },
+    {
+      "path": "docs/ru/grid-readiness-1.3.md",
+      "sha256": "7399208c8fc8b284a50ff1f155d8a9ea28c7ce61c3f2a859455032411299351f"
+    },
+    {
+      "path": "docs/grid-contract.md",
+      "sha256": "40003dcdfc808cd61488374772d870fa85a33a38848156d9fd215afe0484e152"
+    },
+    {
+      "path": "docs/ru/grid-contract.md",
+      "sha256": "d14b87b971d4946a1568744a384b31305056bf6278a3fd3d23f0eb185eae206f"
+    },
+    {
+      "path": "docs/candidate-1.3.md",
+      "sha256": "bf8c827688466c44c0aa32b01470dc3f527644d4b9db9d2a64ab2ad2f2fcd3ee"
+    },
+    {
+      "path": "docs/ru/candidate-1.3.md",
+      "sha256": "1549006659ad989f54d1e47f053f617a9a7b9267c3fad67dfba726bb58ff03fe"
+    }
+  ],
+  "historicalEvidence": [
+    {
+      "path": "docs/checks/grid-implementation-2026-11-20.json",
+      "sha256": "a7c6cd14e9764747353f77791dec4f8c0648c0314aa7fa8aa9cc2b6a7fb71e41"
+    },
+    {
+      "path": "docs/checks/grid-canvas-implementation-2026-11-20.json",
+      "sha256": "aaae86b1bf5d5d453206225ab0ad8b5f480b06062dd951ae9494bbec6ab1ceeb"
+    },
+    {
+      "path": "docs/checks/grid-canvas-browser-2026-11-20.json",
+      "sha256": "b616a7079f8ff231342b316538810dd62f5550ac258694f9ecb9ef3c2ee085b3"
+    },
+    {
+      "path": "docs/checks/grid-player-example-2026-11-20.json",
+      "sha256": "2275daba110e02408d9c8cffd5941790b505878694455c0c6a623e0a5a64175f"
+    },
+    {
+      "path": "docs/checks/grid-readiness-1.3-2026-11-20.json",
+      "sha256": "40e8d05ca9ddafe6b66a5d409a7c51e89d80f2ff4a54f95a7ea5c4ec3f783b09"
+    }
+  ],
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\candidate-1.3.0-f669007b"
+}

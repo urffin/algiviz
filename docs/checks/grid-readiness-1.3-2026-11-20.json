@@ -1,0 +1,828 @@
+{
+  "date": "2026-11-20",
+  "checkedAt": "2026-11-19T23:39:08.408Z",
+  "scope": "Final local /grid and /canvas/grid API/documentation/example readiness review for 1.3.0; documentation-only changes; no candidate, commit or publication",
+  "baseline": {
+    "version": "1.2.1",
+    "sha": "c398d2d0909b10f9c46089815e221adf0369e0e8",
+    "releasedEntries": 12,
+    "releasedRuntime": 27,
+    "releasedTypes": 128,
+    "releasedDistinctTypes": 116
+  },
+  "targetVersion": "1.3.0",
+  "versionDecision": "Compatible minor: two independent additive entries; twelve released implementations and export records preserved",
+  "surface": {
+    "entries": 14,
+    "runtime": 30,
+    "types": 155,
+    "distinctTypes": 143
+  },
+  "inventory": [
+    {
+      "entry": "./tree",
+      "runtime": [
+        "createTreeTrace",
+        "treeScene"
+      ],
+      "types": [
+        "TreeKind",
+        "TreeBinarySlot",
+        "TreeNode",
+        "TreeOrderedLink",
+        "TreeBinaryLink",
+        "TreeLink",
+        "TreeOrderedInput",
+        "TreeBinaryInput",
+        "TreeInput",
+        "TreePosition",
+        "TreeAnnotation",
+        "TreeMark",
+        "TreeNodeCaption",
+        "TreeNodeCaptionPatch",
+        "TreeMarkUpdate",
+        "TreeResultInput",
+        "TreeResult",
+        "TreeDoneOptions",
+        "TreeTraceOptions",
+        "TreeEdit",
+        "TreeSnapshot",
+        "TreeEvent",
+        "TreeStep",
+        "TreeFrame",
+        "TreeTrace",
+        "TreeSceneOptions",
+        "TreeNodeView",
+        "TreeLinkView",
+        "TreeObjects"
+      ]
+    },
+    {
+      "entry": "./canvas/graph",
+      "runtime": [
+        "createGraphRenderer"
+      ],
+      "types": [
+        "GraphPalette",
+        "GraphRendererOptions",
+        "GraphRenderSize",
+        "GraphRenderer"
+      ]
+    },
+    {
+      "entry": "./graph",
+      "runtime": [
+        "createGraphTrace",
+        "graphScene"
+      ],
+      "types": [
+        "GraphNode",
+        "GraphEdge",
+        "GraphInput",
+        "GraphPosition",
+        "GraphAnnotation",
+        "GraphNodeCaption",
+        "GraphNodeCaptionPatch",
+        "GraphMark",
+        "GraphMarkUpdate",
+        "GraphResultInput",
+        "GraphResult",
+        "GraphDoneOptions",
+        "GraphTraceOptions",
+        "GraphSnapshot",
+        "GraphEvent",
+        "GraphStep",
+        "GraphFrame",
+        "GraphTrace",
+        "GraphSceneOptions",
+        "GraphNodeView",
+        "GraphEdgeView",
+        "GraphObjects"
+      ]
+    },
+    {
+      "entry": "./scene",
+      "runtime": [
+        "createSceneFrame",
+        "createSceneRenderer",
+        "createSceneProjector"
+      ],
+      "types": [
+        "SceneObject",
+        "Scene",
+        "ObjectTransition",
+        "SceneFrame",
+        "SceneVisualizations"
+      ]
+    },
+    {
+      "entry": "./array",
+      "runtime": [
+        "createArrayTrace",
+        "defineArrayAlgorithm",
+        "createArrayPlayer",
+        "createArrayTimeline"
+      ],
+      "types": [
+        "ArrayTrace",
+        "ArrayAlgorithm",
+        "SortedRegions",
+        "ArrayDoneOptions",
+        "Item",
+        "ArrayEvent",
+        "ArraySnapshot",
+        "ArrayStep",
+        "ArrayPlayer",
+        "ArrayFrame",
+        "ArrayTimeline"
+      ]
+    },
+    {
+      "entry": "./playback",
+      "runtime": [
+        "createPlayer",
+        "createStatePlayer",
+        "createTimeline",
+        "createStepEmitter",
+        "createRewindBuffer",
+        "createAsyncSource"
+      ],
+      "types": [
+        "Player",
+        "Step",
+        "Frame",
+        "Timeline",
+        "RewindBuffer",
+        "AsyncSource",
+        "AsyncSourceSignal",
+        "AsyncSourceFactory",
+        "AsyncSourceReadResult",
+        "AsyncSourceCloseResult"
+      ]
+    },
+    {
+      "entry": "./player",
+      "runtime": [
+        "Player"
+      ],
+      "types": [
+        "PlayerOptions",
+        "PlayerStatus",
+        "PlayerLabels",
+        "PlayerCloseResult"
+      ]
+    },
+    {
+      "entry": "./canvas/viewport",
+      "runtime": [
+        "createCanvasViewport"
+      ],
+      "types": [
+        "CanvasViewportOptions",
+        "CanvasViewportSize",
+        "CanvasViewport"
+      ]
+    },
+    {
+      "entry": "./canvas",
+      "runtime": [
+        "arrayScene",
+        "createArrayRenderer",
+        "createSortRenderer"
+      ],
+      "types": [
+        "ArrayObjects",
+        "ArrayPalette",
+        "ArrayPaletteOverrides",
+        "ArrayRendererOptions"
+      ]
+    },
+    {
+      "entry": "./worker",
+      "runtime": [
+        "createWorkerSourceFactory",
+        "WorkerSourceError"
+      ],
+      "types": [
+        "WorkerSourceErrorOptions",
+        "WorkerSourceIterator",
+        "WorkerSourceSession",
+        "WorkerSourceFactory",
+        "WorkerSourceOptions",
+        "WorkerSourcePhase",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceErrorCode",
+        "WorkerSourceThrownKind",
+        "WorkerSourceRemoteError",
+        "WorkerSourceIssue",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceTermination",
+        "WorkerSourceCloseResult",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceCancellation",
+        "WorkerSourceSignal"
+      ]
+    },
+    {
+      "entry": "./worker/runtime",
+      "runtime": [
+        "exposeWorkerSource"
+      ],
+      "types": [
+        "WorkerStateFactory",
+        "WorkerTransferSelector",
+        "WorkerSourceEndpointOptions",
+        "WorkerSourcePhase",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceErrorCode",
+        "WorkerSourceThrownKind",
+        "WorkerSourceRemoteError",
+        "WorkerSourceIssue",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceTermination",
+        "WorkerSourceCloseResult",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceCancellation",
+        "WorkerSourceSignal"
+      ]
+    },
+    {
+      "entry": "./canvas/tree",
+      "runtime": [
+        "createTreeRenderer"
+      ],
+      "types": [
+        "TreePalette",
+        "TreeRendererOptions",
+        "TreeRenderSize",
+        "TreeRenderer"
+      ]
+    },
+    {
+      "entry": "./grid",
+      "runtime": [
+        "createGridTrace",
+        "gridScene"
+      ],
+      "types": [
+        "GridCoordinate",
+        "GridInput",
+        "GridWrite",
+        "GridAnnotation",
+        "GridMark",
+        "GridCellCaption",
+        "GridCellCaptionPatch",
+        "GridMarkUpdate",
+        "GridResultInput",
+        "GridResult",
+        "GridDoneOptions",
+        "GridTraceOptions",
+        "GridEdit",
+        "GridSnapshot",
+        "GridEvent",
+        "GridStep",
+        "GridFrame",
+        "GridTrace",
+        "GridSceneOptions",
+        "GridCellView",
+        "GridPathView",
+        "GridObjects"
+      ]
+    },
+    {
+      "entry": "./canvas/grid",
+      "runtime": [
+        "createGridRenderer"
+      ],
+      "types": [
+        "GridPalette",
+        "GridCellPresentation",
+        "GridRendererOptions",
+        "GridRenderSize",
+        "GridRenderer"
+      ]
+    }
+  ],
+  "conclusion": {
+    "readyForCandidatePreparation": true,
+    "unresolvedAPIDecisions": [],
+    "openTechnicalBlockers": [],
+    "releaseGatesComplete": [
+      "R0"
+    ],
+    "pendingReleaseGates": [
+      "R1",
+      "R2",
+      "R3",
+      "R4"
+    ]
+  },
+  "findings": [
+    {
+      "id": "D1",
+      "status": "closed",
+      "kind": "documentation",
+      "summary": "EN/RU installation import lists omitted released /tree and /canvas/tree; corrected to all twelve published paths",
+      "apiChange": false
+    },
+    {
+      "id": "D2",
+      "status": "closed",
+      "kind": "documentation",
+      "summary": "Clarified Scene objects returned by gridScene versus get(id) on SceneFrame after matching/dispatch",
+      "apiChange": false
+    }
+  ],
+  "checks": {
+    "preflightEvidenceIdentity": {
+      "reusedRepositoryTests": 708,
+      "boundPreexistingTestInputs": 287,
+      "allCurrentSources": 63,
+      "releasedSourcesUnchanged": 53,
+      "releasedExportRecordsUnchanged": 12,
+      "releasedDeclarationsByteIdentical": 12,
+      "reusedCompilers": [
+        "5.0.4",
+        "5.4.5",
+        "5.9.3",
+        "6.0.3"
+      ],
+      "reusedBundles": 42,
+      "reusedNative": {
+        "renderer": 18,
+        "example": 23
+      },
+      "exampleCompiledRuntimeHashesMatched": 71,
+      "staleEvidence": 0
+    },
+    "repository": {
+      "passed": 708,
+      "failed": 0,
+      "fresh": false,
+      "reuse": "Unchanged runtime/test/example sources and recorded successful log; current documentation/link validation is fresh",
+      "source": "grid-player-example-2026-11-20.json"
+    },
+    "installedPackage": {
+      "fresh": true,
+      "compiler": "6.0.3",
+      "resolutions": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "runtimeRegressions": 456,
+      "logSha256": "6cc101933a2f7c5cb74022ecffc2e619606099749b2ea1afe9f319b7539bb8db",
+      "otherCompilersReused": [
+        "5.0.4",
+        "5.4.5",
+        "5.9.3"
+      ],
+      "source": "grid-canvas-implementation-2026-11-20.json"
+    },
+    "bundles": {
+      "variants": 42,
+      "fresh": false,
+      "source": "grid-canvas-implementation-2026-11-20.json",
+      "hashesMatch": true
+    },
+    "native": {
+      "fresh": false,
+      "rendererChecks": 18,
+      "exampleChecks": 23,
+      "rendererRasterCases": 12,
+      "progressValues": 4,
+      "explicitBackingRatios": [
+        1,
+        1.25,
+        2
+      ],
+      "exampleViewportWidths": [
+        960,
+        390
+      ],
+      "hashesMatch": true,
+      "sources": [
+        "grid-canvas-browser-2026-11-20.json",
+        "grid-player-example-2026-11-20.json"
+      ],
+      "boundary": "Recorded embedded Chromium host; ordinary bitmap reset and host throws; synthetic persisted page lifecycle handlers, not BFcache eligibility or forced GPU loss"
+    },
+    "archive": {
+      "fresh": true,
+      "version": "1.2.1",
+      "files": 131,
+      "distFiles": 126,
+      "headlessGridDistFiles": 12,
+      "canvasGridDistFiles": 8,
+      "integrity": "sha512-jmjzYFGDKQpsWaf3Vc+KBJXIM7xjnttzljPtu9jGITxphp3HZjKlI63MKJtFslAJTJR4k1PoOus8NO+ZTS7jtw==",
+      "shasum": "64bdb14f4d6edec19195d3dae008af9adc8b6bbf",
+      "documentation": {
+        "README.md": {
+          "bytes": 11870,
+          "sha256": "eb6e7848a8de061fe5da4dabdb8d094a8885847b168d29b36c2441bac183711f"
+        },
+        "ru/README.md": {
+          "bytes": 16821,
+          "sha256": "e59d0bc55d7f916d9aa66c4110affd5ae94651ba1f9996582375e7c66a122c2e"
+        },
+        "CHANGELOG.md": {
+          "bytes": 26156,
+          "sha256": "00c20f259edf1afb9a4de7a79ab00b02878c04200aa3c503332b42d06273054d"
+        }
+      },
+      "warning": "Working-copy archive versioned 1.2.1 for local testing, not the published archive and not an exact 1.3.0 candidate"
+    },
+    "declarationsMatchDocumentation": true,
+    "EN_RUCodeBlocksMatch": true,
+    "readmePublishedImportListComplete": true,
+    "documentationLinks": 437,
+    "preservation": {
+      "currentSourceFilesUnchanged": 63,
+      "releasedSourceFilesUnchanged": 53,
+      "releasedPublicDeclarationsByteIdentical": 12,
+      "releasedExportRecordsUnchanged": 12,
+      "allExistingTestsAndExamplesUnchanged": true,
+      "allHistoricalJSONUnchanged": 68,
+      "packageAndLockfileUnchanged": true
+    },
+    "gitDiffCheck": "passed"
+  },
+  "remainingReleaseSteps": [
+    {
+      "id": "R0",
+      "status": "complete",
+      "task": "Local API/code/documentation/example/package review; D1/D2 closure"
+    },
+    {
+      "id": "R1",
+      "status": "pending",
+      "task": "Version and lockfile 1.3.0; release-facing EN/RU README/changelog/API/environment/example status and migration notes; update version-status assertions"
+    },
+    {
+      "id": "R2",
+      "status": "pending",
+      "task": "Freeze all untracked work; verify exact 1.3.0 archive, consumers, documentation, exports/types/file list and applicable source/native evidence"
+    },
+    {
+      "id": "R3",
+      "status": "pending",
+      "task": "Authorized commit/push and all eleven CI jobs on the final SHA",
+      "jobs": {
+        "nodeOS": 6,
+        "typescript": 4,
+        "bundle": 1
+      }
+    },
+    {
+      "id": "R4",
+      "status": "not_authorized",
+      "task": "Separately authorized v1.3.0/GitHub Release; npm OIDC/provenance; exact/latest/fresh install/source identity/registry README and packaged docs verification"
+    }
+  ],
+  "limits": {
+    "APIChanged": false,
+    "implementationChanged": false,
+    "versionChanged": false,
+    "lockfileChanged": false,
+    "performanceBenchmark": false,
+    "freshBrowserRun": false,
+    "registryLookup": false,
+    "commitCreated": false,
+    "pushed": false,
+    "CI": false,
+    "tagCreated": false,
+    "published": false
+  },
+  "identity": {
+    "sources": [
+      {
+        "path": "src/array/index.ts",
+        "sha256": "d0922f5c0ea917db55a5528aef6a476ba93144c00c70f1da4c97153070f8442d"
+      },
+      {
+        "path": "src/array/player.ts",
+        "sha256": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f"
+      },
+      {
+        "path": "src/array/snapshot-builder.ts",
+        "sha256": "b8032b7a26b9106f606c9cc0ec1657063a599e72356397b8383b9fc9def75b66"
+      },
+      {
+        "path": "src/array/timeline.ts",
+        "sha256": "3849e56b429c14965f0191bab4236fed19ea762cf7ddabb206d0670d69064cf3"
+      },
+      {
+        "path": "src/array/trace.ts",
+        "sha256": "fc003f97e0c08f80fd6ad2c770ff935e31325b69a92ac2852fd846c43ddd206b"
+      },
+      {
+        "path": "src/array/types.ts",
+        "sha256": "707b4984f81df9c5db1d9eb253800ac9e5968cb3e3f63cca32e9e7d89a897a14"
+      },
+      {
+        "path": "src/canvas/graph-captions.ts",
+        "sha256": "7ad9ffc3248ba08b0fdc48bddffdf356bf0919ebb0c98c71a59305ac80a0fe91"
+      },
+      {
+        "path": "src/canvas/graph-geometry.ts",
+        "sha256": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa"
+      },
+      {
+        "path": "src/canvas/graph.ts",
+        "sha256": "dd46c600e45e577687b9a4cdfe27d9bc89cfbb177d26fadd19e6848452376611"
+      },
+      {
+        "path": "src/canvas/index.ts",
+        "sha256": "b901e35d3cc6ca78c5ef05bbf9b10efef8830f1aa3058a086ce009d8df73a965"
+      },
+      {
+        "path": "src/canvas/tree-geometry.ts",
+        "sha256": "19532278ae68562995ee9865e2dd7b34bb914eb449d7b4e7ca2eec9ed1f3b3ba"
+      },
+      {
+        "path": "src/canvas/tree-labels.ts",
+        "sha256": "b8c29b4126630348cc8cc57cfab29109687af1295abfb11c1fb84443f732df3b"
+      },
+      {
+        "path": "src/canvas/tree-layout.ts",
+        "sha256": "0f68f22653eac44bac8b8a1c2f2cff43e213cb30ca5fc43e6cb934bdc9475a1a"
+      },
+      {
+        "path": "src/canvas/tree.ts",
+        "sha256": "3d3af3e54ff5d69ff82b1af6d63652bac3156c3828bea6dd6f4c9094658be270"
+      },
+      {
+        "path": "src/canvas/viewport.ts",
+        "sha256": "a26ab096e666ffcb84e01b11ee302be2776e5d2a4ec1a48e1aa0185ef6149411"
+      },
+      {
+        "path": "src/graph/index.ts",
+        "sha256": "09c5153a1c91741dcf00098bc35c3b4c1f51689f0cdde79b161c5120c444ffb8"
+      },
+      {
+        "path": "src/graph/scene.ts",
+        "sha256": "c06d8a36b6d61622c811e88be40bc5f6812d870311bc5a7d6ccb6c6d070d0f3e"
+      },
+      {
+        "path": "src/graph/trace.ts",
+        "sha256": "4f5a46481fa3dcfe2501a83984e3479cb5d927b28e1d145f20c879409b0e08c7"
+      },
+      {
+        "path": "src/graph/types.ts",
+        "sha256": "968069c40eaf877c3b43b2fae6d88e93209701c953c5e3b7791436a879813f06"
+      },
+      {
+        "path": "src/graph/validation.ts",
+        "sha256": "2419ff65c27803922a2f2bd1744bf8525c1b343d72c12189201090b38aee7edf"
+      },
+      {
+        "path": "src/playback/async-source.ts",
+        "sha256": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d"
+      },
+      {
+        "path": "src/playback/index.ts",
+        "sha256": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0"
+      },
+      {
+        "path": "src/playback/player.ts",
+        "sha256": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787"
+      },
+      {
+        "path": "src/playback/rewind-buffer.ts",
+        "sha256": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70"
+      },
+      {
+        "path": "src/playback/state-player.ts",
+        "sha256": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b"
+      },
+      {
+        "path": "src/playback/state-steps.ts",
+        "sha256": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff"
+      },
+      {
+        "path": "src/playback/step-emitter.ts",
+        "sha256": "a42c006b86a441ab47bf720427164b10ca626ffd6bd7cab6a735dcc63ce41770"
+      },
+      {
+        "path": "src/playback/timeline.ts",
+        "sha256": "8095ff07cd9bf7afad108dd13e7e7ebb63e7cfb3d2fce5d2d45d620150074088"
+      },
+      {
+        "path": "src/playback/types.ts",
+        "sha256": "053f6e9b76c2d9c9847ec71219b2a90ec9f4a2ad7ec6629f992e974a73ec4261"
+      },
+      {
+        "path": "src/player/async-controller.ts",
+        "sha256": "80fab81a5572ddb57837390410d8de856ebd5ddc65134bba336ad62d539d1803"
+      },
+      {
+        "path": "src/player/async-session.ts",
+        "sha256": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f"
+      },
+      {
+        "path": "src/player/close-report.ts",
+        "sha256": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8"
+      },
+      {
+        "path": "src/player/controller.ts",
+        "sha256": "029b880fbc85272181bd2da1df825fc086c23b05053e66fa5a1bc1396ef51026"
+      },
+      {
+        "path": "src/player/index.ts",
+        "sha256": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d"
+      },
+      {
+        "path": "src/player/mount.ts",
+        "sha256": "c6d82fdfe8cd37425878bc29643b8d1c9967c4808176e614dbc57eeb6691763d"
+      },
+      {
+        "path": "src/player/player.ts",
+        "sha256": "97bad8b05e115b5e5c38b26fddd59b00db1212b8d00463022b4902de33928bed"
+      },
+      {
+        "path": "src/player/rewind-session.ts",
+        "sha256": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0"
+      },
+      {
+        "path": "src/player/step-session.ts",
+        "sha256": "5ff0ab5fd20bd6c63297806b2a0ebda9e3f55ece31727cac5c86929ebda839ff"
+      },
+      {
+        "path": "src/player/stream-playback.ts",
+        "sha256": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30"
+      },
+      {
+        "path": "src/player/types.ts",
+        "sha256": "c841f1fd2296c3535340e9f7dde29ed9e1a20b41bd6719d68146463f70055c2a"
+      },
+      {
+        "path": "src/scene/index.ts",
+        "sha256": "858bbb12d580c53b9f158ae50ab9976704f61bb1615120bab5ec046ec699db4b"
+      },
+      {
+        "path": "src/tree/attributes.ts",
+        "sha256": "f4ab2b4d17ecef4314d31586055e7dbccc698854d4ede94af51476bf65b88219"
+      },
+      {
+        "path": "src/tree/index.ts",
+        "sha256": "1884184ae99bd0b035c00b689201aa87deccb00d5a1dabe61636d5430875c915"
+      },
+      {
+        "path": "src/tree/scene.ts",
+        "sha256": "6e070842527417ac9a0c4ecaca1e4e336830412e4c13b0e389dffdbbd5dd8805"
+      },
+      {
+        "path": "src/tree/trace.ts",
+        "sha256": "172e84020d2d0ab4e1f0a488355e9f5e880d835e6bffb035bf21db045687dcf9"
+      },
+      {
+        "path": "src/tree/types.ts",
+        "sha256": "b13991b3a3373286c2477a00679cd6e54223aa0e1590ec478dd26214a66e22ea"
+      },
+      {
+        "path": "src/tree/validation.ts",
+        "sha256": "9e78a39525f02913cf71c8ebe93e392b258fb019150b54aa7ac3319b6c50314e"
+      },
+      {
+        "path": "src/worker/data.ts",
+        "sha256": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064"
+      },
+      {
+        "path": "src/worker/error.ts",
+        "sha256": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72"
+      },
+      {
+        "path": "src/worker/index.ts",
+        "sha256": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13"
+      },
+      {
+        "path": "src/worker/protocol.ts",
+        "sha256": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc"
+      },
+      {
+        "path": "src/worker/runtime.ts",
+        "sha256": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef"
+      },
+      {
+        "path": "src/worker/types.ts",
+        "sha256": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9"
+      },
+      {
+        "path": "src/canvas/grid-layout.ts",
+        "sha256": "a532a47d9ca02eac897571f3fbbdcbbbd1bef29389dd56231310007b151eca6c"
+      },
+      {
+        "path": "src/canvas/grid-state.ts",
+        "sha256": "61ad3f32212dc20dede94a731374b180522d8b6daf9c9d9a95b2d5c1992cd3f2"
+      },
+      {
+        "path": "src/canvas/grid-text.ts",
+        "sha256": "0c4b8439acd0555d5cfabafc1876ade0a81b859dccb21ed21a3a5e42f84dfcd6"
+      },
+      {
+        "path": "src/canvas/grid.ts",
+        "sha256": "21bc10b0bb5f3bbb52f3c4a38ad94465c2ee05fbf990b48147bfefd56f3649e2"
+      },
+      {
+        "path": "src/grid/attributes.ts",
+        "sha256": "8cdc720f9542d3bade000c2e3a3411640827992124151f7967c00d928ac5c6af"
+      },
+      {
+        "path": "src/grid/index.ts",
+        "sha256": "5c44ee986024cebcc2982399ca79cdfeeb7260eee3c761bccde7fffcd81c0cfe"
+      },
+      {
+        "path": "src/grid/scene.ts",
+        "sha256": "bae49a48852be7e946b12d69e89e35e8928b5e2246d6b9b12892035f144e21fa"
+      },
+      {
+        "path": "src/grid/trace.ts",
+        "sha256": "64fe42e4c9aad220ec0732c499505fa461a968ef72bb8c15b5cf8a6ab347f040"
+      },
+      {
+        "path": "src/grid/types.ts",
+        "sha256": "7d50465a192c0462e88af88d7a07aba0177e731245fd6c4db09a22a5a389fc74"
+      },
+      {
+        "path": "src/grid/validation.ts",
+        "sha256": "43f80b2db1b6b428688dbed056f763b34542d7f5af6103694c2827ccf14c0b56"
+      }
+    ],
+    "evidence": [
+      {
+        "path": "docs/checks/grid-implementation-2026-11-20.json",
+        "sha256": "a7c6cd14e9764747353f77791dec4f8c0648c0314aa7fa8aa9cc2b6a7fb71e41"
+      },
+      {
+        "path": "docs/checks/grid-canvas-implementation-2026-11-20.json",
+        "sha256": "aaae86b1bf5d5d453206225ab0ad8b5f480b06062dd951ae9494bbec6ab1ceeb"
+      },
+      {
+        "path": "docs/checks/grid-canvas-browser-2026-11-20.json",
+        "sha256": "b616a7079f8ff231342b316538810dd62f5550ac258694f9ecb9ef3c2ee085b3"
+      },
+      {
+        "path": "docs/checks/grid-player-example-2026-11-20.json",
+        "sha256": "2275daba110e02408d9c8cffd5941790b505878694455c0c6a623e0a5a64175f"
+      }
+    ],
+    "documentation": [
+      {
+        "path": "README.md",
+        "sha256": "eb6e7848a8de061fe5da4dabdb8d094a8885847b168d29b36c2441bac183711f"
+      },
+      {
+        "path": "ru/README.md",
+        "sha256": "e59d0bc55d7f916d9aa66c4110affd5ae94651ba1f9996582375e7c66a122c2e"
+      },
+      {
+        "path": "CHANGELOG.md",
+        "sha256": "00c20f259edf1afb9a4de7a79ab00b02878c04200aa3c503332b42d06273054d"
+      },
+      {
+        "path": "docs/current-api.md",
+        "sha256": "129a8c0685129855918789c7f93bdf6deecb8815f28cd2662e389a037e93447d"
+      },
+      {
+        "path": "docs/ru/current-api.md",
+        "sha256": "641ce9e79638d4a0ab9551ebbbca1fd9573d0c44f03bfedfd168ddf672936545"
+      },
+      {
+        "path": "docs/examples.md",
+        "sha256": "4c5fb527646dddc18592ef0872d48deb04040773bf4a224eff33b5e548a3b29c"
+      },
+      {
+        "path": "docs/ru/examples.md",
+        "sha256": "415715b2f89a927909ed69e2a31bbb5f174c35ac183f80c4e8f49f7c55e3a93d"
+      },
+      {
+        "path": "docs/grid-api.md",
+        "sha256": "35ad6494a347345461cc97bd17a91c9ee3bb6e5a0ed263beda6798f90e57bc42"
+      },
+      {
+        "path": "docs/ru/grid-api.md",
+        "sha256": "154175f16e5729ff51a41939c74929c7578fa7f4e01c4f5ef05896fb256a70b4"
+      },
+      {
+        "path": "docs/grid-canvas-api.md",
+        "sha256": "47ce2a6121fa4fd9a1bdfbaeac2c95154f14258172b221dd1822c6b1f8121a50"
+      },
+      {
+        "path": "docs/ru/grid-canvas-api.md",
+        "sha256": "c1a32b957a6e0a0a555cd0f2a5554b9ca732f031d7b6cbaed31e6eb470b9784e"
+      },
+      {
+        "path": "docs/support-matrix.md",
+        "sha256": "38fc582e5a93d14a1671a6ed443a3eb7acc67e3a1083636c02a2c24755494cd5"
+      },
+      {
+        "path": "docs/grid-readiness-1.3.md",
+        "sha256": "ec6c2366870d659613461a4fafa4260776032cfb96a21d9c8cd58ba726364bfa"
+      },
+      {
+        "path": "docs/ru/grid-readiness-1.3.md",
+        "sha256": "87815f2e93500d24c61082e87fd5d74cd958c2a21e2bdddb5830d477aeedc56a"
+      }
+    ]
+  },
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\grid-readiness-1.3-00f545b1"
+}

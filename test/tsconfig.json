@@ -17,6 +17,8 @@
     "../examples/custom-objects.ts",
     "package-graph-canvas.ts",
     "package-tree.ts",
-    "package-tree-canvas.ts"
+    "package-tree-canvas.ts",
+    "package-grid.ts",
+    "package-grid-canvas.ts"
   ]
 }

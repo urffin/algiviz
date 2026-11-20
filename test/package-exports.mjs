@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 const expected = {
+    'canvas/grid': ['createGridRenderer'],
+    grid: ['createGridTrace', 'gridScene'],
     'canvas/tree': ['createTreeRenderer'],
     tree: ['createTreeTrace', 'treeScene'],
     'canvas/graph': ['createGraphRenderer'],
@@ -30,6 +32,12 @@ for (const suffix of ['/worker/index.js', '/worker/runtime.js', '/worker/types',
     await assert.rejects(import(`@grundyjs/algiviz${suffix}`), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });
 for (const suffix of ['/playback/async-source.js', '/playback/state-steps.js', '/player/stream-playback.js', '/player/rewind-session.js',
     '/player/async-controller.js', '/player/async-session.js', '/player/close-report.js'])
+    await assert.rejects(import(`@grundyjs/algiviz${suffix}`), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });
+
+for (const suffix of ['/canvas/grid.js', '/canvas/grid-layout.js', '/canvas/grid-text.js', '/canvas/grid-state.js', '/dist/canvas/grid.js'])
+    await assert.rejects(import(`@grundyjs/algiviz${suffix}`), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });
+
+for (const suffix of ['/grid/index.js', '/grid/types.js', '/grid/trace.js', '/grid/scene.js', '/grid/attributes.js', '/grid/validation.js', '/dist/grid/index.js'])
     await assert.rejects(import(`@grundyjs/algiviz${suffix}`), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });
 
 for (const suffix of ['/tree/index.js', '/tree/types.js', '/tree/trace.js', '/tree/scene.js', '/tree/validation.js', '/tree/attributes.js', '/dist/tree/index.js'])

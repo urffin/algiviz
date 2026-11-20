@@ -1,0 +1,566 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local /canvas/grid on the built-in Chromium host; no browser support expansion or forced GPU context loss",
+  "acceptance": {
+    "date": "2026-11-19T22:51:18.534Z",
+    "host": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "devicePixelRatio": 1.100000023841858
+    },
+    "passed": 18,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "Native light · 328×218 · backing 1",
+        "passed": true
+      },
+      {
+        "name": "Native light · 328×218 · backing 1.25",
+        "passed": true
+      },
+      {
+        "name": "Native light · 328×218 · backing 2",
+        "passed": true
+      },
+      {
+        "name": "Native light · 390×280 · backing 1",
+        "passed": true
+      },
+      {
+        "name": "Native light · 390×280 · backing 1.25",
+        "passed": true
+      },
+      {
+        "name": "Native light · 390×280 · backing 2",
+        "passed": true
+      },
+      {
+        "name": "Native dark · 328×218 · backing 1",
+        "passed": true
+      },
+      {
+        "name": "Native dark · 328×218 · backing 1.25",
+        "passed": true
+      },
+      {
+        "name": "Native dark · 328×218 · backing 2",
+        "passed": true
+      },
+      {
+        "name": "Native dark · 390×280 · backing 1",
+        "passed": true
+      },
+      {
+        "name": "Native dark · 390×280 · backing 1.25",
+        "passed": true
+      },
+      {
+        "name": "Native dark · 390×280 · backing 2",
+        "passed": true
+      },
+      {
+        "name": "Presenter: captured current-only data and failures before native Canvas mutation",
+        "passed": true
+      },
+      {
+        "name": "Stable/singleton/repeated paths and hidden lines retain independent green selection",
+        "passed": true
+      },
+      {
+        "name": "Empty/thin grids and hidden captions avoid phantom cells or measurements",
+        "passed": true
+      },
+      {
+        "name": "Dirty native context, falsy nested host errors, bitmap reset and transparent replay",
+        "passed": true
+      },
+      {
+        "name": "Player stream: real controls, Pause/Next/rewind/Restart, viewport DPR and dispose",
+        "passed": true
+      },
+      {
+        "name": "Player history: real controls, Pause/Next/rewind/Restart, viewport DPR and dispose",
+        "passed": true
+      }
+    ],
+    "details": [
+      {
+        "theme": "light",
+        "width": 328,
+        "height": 218,
+        "ratio": 1,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 1068,
+            "pathDifferencePixels": 581
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 1068,
+            "pathDifferencePixels": 1917
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 1068,
+            "pathDifferencePixels": 1994
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 1068,
+            "pathDifferencePixels": 1324
+          }
+        ]
+      },
+      {
+        "theme": "light",
+        "width": 328,
+        "height": 218,
+        "ratio": 1.25,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 1651,
+            "pathDifferencePixels": 851
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 1651,
+            "pathDifferencePixels": 2865
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 1651,
+            "pathDifferencePixels": 2888
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 1651,
+            "pathDifferencePixels": 1939
+          }
+        ]
+      },
+      {
+        "theme": "light",
+        "width": 328,
+        "height": 218,
+        "ratio": 2,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 4360,
+            "pathDifferencePixels": 1910
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 4360,
+            "pathDifferencePixels": 6629
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 4360,
+            "pathDifferencePixels": 6669
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 4360,
+            "pathDifferencePixels": 4616
+          }
+        ]
+      },
+      {
+        "theme": "light",
+        "width": 390,
+        "height": 280,
+        "ratio": 1,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 1090,
+            "pathDifferencePixels": 710
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 1090,
+            "pathDifferencePixels": 2377
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 1090,
+            "pathDifferencePixels": 2426
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 1090,
+            "pathDifferencePixels": 1660
+          }
+        ]
+      },
+      {
+        "theme": "light",
+        "width": 390,
+        "height": 280,
+        "ratio": 1.25,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 1724,
+            "pathDifferencePixels": 1022
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 1724,
+            "pathDifferencePixels": 3403
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 1724,
+            "pathDifferencePixels": 3455
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 1724,
+            "pathDifferencePixels": 2332
+          }
+        ]
+      },
+      {
+        "theme": "light",
+        "width": 390,
+        "height": 280,
+        "ratio": 2,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 4316,
+            "pathDifferencePixels": 2570
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 4316,
+            "pathDifferencePixels": 8340
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 4316,
+            "pathDifferencePixels": 8371
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 4316,
+            "pathDifferencePixels": 5609
+          }
+        ]
+      },
+      {
+        "theme": "dark",
+        "width": 328,
+        "height": 218,
+        "ratio": 1,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 1068,
+            "pathDifferencePixels": 601
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 1068,
+            "pathDifferencePixels": 2034
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 1068,
+            "pathDifferencePixels": 2014
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 1068,
+            "pathDifferencePixels": 1444
+          }
+        ]
+      },
+      {
+        "theme": "dark",
+        "width": 328,
+        "height": 218,
+        "ratio": 1.25,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 1651,
+            "pathDifferencePixels": 875
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 1651,
+            "pathDifferencePixels": 2888
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 1651,
+            "pathDifferencePixels": 2865
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 1651,
+            "pathDifferencePixels": 2030
+          }
+        ]
+      },
+      {
+        "theme": "dark",
+        "width": 328,
+        "height": 218,
+        "ratio": 2,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 4360,
+            "pathDifferencePixels": 1910
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 4360,
+            "pathDifferencePixels": 6749
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 4360,
+            "pathDifferencePixels": 6669
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 4360,
+            "pathDifferencePixels": 4776
+          }
+        ]
+      },
+      {
+        "theme": "dark",
+        "width": 390,
+        "height": 280,
+        "ratio": 1,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 1090,
+            "pathDifferencePixels": 732
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 1090,
+            "pathDifferencePixels": 2464
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 1090,
+            "pathDifferencePixels": 2445
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 1090,
+            "pathDifferencePixels": 1745
+          }
+        ]
+      },
+      {
+        "theme": "dark",
+        "width": 390,
+        "height": 280,
+        "ratio": 1.25,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 1724,
+            "pathDifferencePixels": 1036
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 1724,
+            "pathDifferencePixels": 3495
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 1724,
+            "pathDifferencePixels": 3453
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 1724,
+            "pathDifferencePixels": 2444
+          }
+        ]
+      },
+      {
+        "theme": "dark",
+        "width": 390,
+        "height": 280,
+        "ratio": 2,
+        "passes": [
+          {
+            "progress": 0,
+            "labels": 8,
+            "equalTextPixels": 4316,
+            "pathDifferencePixels": 2616
+          },
+          {
+            "progress": 0.25,
+            "labels": 8,
+            "equalTextPixels": 4316,
+            "pathDifferencePixels": 8421
+          },
+          {
+            "progress": 0.5,
+            "labels": 8,
+            "equalTextPixels": 4316,
+            "pathDifferencePixels": 8329
+          },
+          {
+            "progress": 1,
+            "labels": 8,
+            "equalTextPixels": 4316,
+            "pathDifferencePixels": 5776
+          }
+        ]
+      },
+      {
+        "mode": "stream",
+        "runs": 2,
+        "reads": 4,
+        "closes": 2,
+        "actualDevicePixelRatio": 1.100000023841858
+      },
+      {
+        "mode": "history",
+        "runs": 2,
+        "reads": 6,
+        "closes": 2,
+        "actualDevicePixelRatio": 1.100000023841858
+      }
+    ]
+  },
+  "coverage": {
+    "explicitBackingRatios": [
+      1,
+      1.25,
+      2
+    ],
+    "rasterCases": 12,
+    "progressValues": [
+      0,
+      0.25,
+      0.5,
+      1
+    ],
+    "rasterPasses": 48,
+    "hiddenPathComparisons": 48,
+    "playerModes": [
+      "stream",
+      "history"
+    ],
+    "realControls": true,
+    "rewind": true,
+    "restart": true,
+    "dispose": true,
+    "ordinaryBitmapReset": true,
+    "primaryHostErrorAndStateRestoration": true
+  },
+  "identity": {
+    "note": "Recorded after acceptance; implementation sources remained unchanged afterward. Documentation-only follow-up does not rerun native acceptance.",
+    "sources": [
+      {
+        "path": "src/canvas/grid.ts",
+        "sha256": "21bc10b0bb5f3bbb52f3c4a38ad94465c2ee05fbf990b48147bfefd56f3649e2"
+      },
+      {
+        "path": "src/canvas/grid-layout.ts",
+        "sha256": "a532a47d9ca02eac897571f3fbbdcbbbd1bef29389dd56231310007b151eca6c"
+      },
+      {
+        "path": "src/canvas/grid-state.ts",
+        "sha256": "61ad3f32212dc20dede94a731374b180522d8b6daf9c9d9a95b2d5c1992cd3f2"
+      },
+      {
+        "path": "src/canvas/grid-text.ts",
+        "sha256": "0c4b8439acd0555d5cfabafc1876ade0a81b859dccb21ed21a3a5e42f84dfcd6"
+      }
+    ],
+    "compiled": [
+      {
+        "path": "dist/canvas/grid.js",
+        "sha256": "7075235a6c2d0ca7867a5e34e8ec5e665e68d6d3ae80c49ae4bcb8b36b36d9bd"
+      },
+      {
+        "path": "dist/canvas/grid-layout.js",
+        "sha256": "15fa62604070c68ff5ed73d38608e15ab020f30ac48979d61db2b10281ba0a71"
+      },
+      {
+        "path": "dist/canvas/grid-state.js",
+        "sha256": "ef35a9e008b4110bc3c6e584eaca66a2f7e46dd67def0d062104ad0f813f025d"
+      },
+      {
+        "path": "dist/canvas/grid-text.js",
+        "sha256": "0cea3d9ad5e2a6d126726a090b914bf57b84f1a576f74dd2be66bee0b63ddbed"
+      }
+    ],
+    "fixture": [
+      {
+        "path": "test/grid-canvas-browser.html",
+        "sha256": "51015622f207e6ff37b92ec32835ec2ba658f155f573ccd0ba728950b3a806ec"
+      },
+      {
+        "path": "test/grid-canvas-browser.mjs",
+        "sha256": "631e462e31373d1a9fee1774483720090634555b6add36068f6d45cccb5d392b"
+      },
+      {
+        "path": "scripts/test-grid-canvas-browser.mjs",
+        "sha256": "614d8c1f290655e27fea79d8e406a7d94207d0609251b1f757c44f6fc3abd93e"
+      }
+    ]
+  }
+}

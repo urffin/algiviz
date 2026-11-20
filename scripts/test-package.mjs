@@ -51,6 +51,8 @@ try {
     await copyFile(join(root, "test/package-headless.ts"), join(workspace, "headless.ts"));
     await copyFile(join(root, "test/package-graph.ts"), join(workspace, "graph.ts"));
     await copyFile(join(root, "test/package-tree.ts"), join(workspace, "tree.ts"));
+    await copyFile(join(root, "test/package-grid.ts"), join(workspace, "grid.ts"));
+    await copyFile(join(root, "test/package-grid-canvas.ts"), join(workspace, "grid-canvas.ts"));
     await copyFile(join(root, "test/package-tree-canvas.ts"), join(workspace, "tree-canvas.ts"));
     await copyFile(join(root, "test/package-graph-canvas.ts"), join(workspace, "graph-canvas.ts"));
     const installed = JSON.parse(await readFile(join(workspace, "node_modules/@grundyjs/algiviz/package.json"), "utf8"));
@@ -71,7 +73,7 @@ try {
         const headlessConfig = join(workspace, `tsconfig.headless.${resolution}.json`);
         await writeFile(headlessConfig, JSON.stringify({
             compilerOptions: { ...compilerOptions, lib: ["ES2022"], noEmit: true },
-            files: ["headless.ts", "graph.ts", "tree.ts"]
+            files: ["headless.ts", "graph.ts", "tree.ts", "grid.ts"]
         }));
         execFileSync(process.execPath, [compiler, "-p", headlessConfig], { stdio: "inherit" });
         const excludedConfig = join(workspace, `tsconfig.canvas-tree-no-dom.${resolution}.json`);
@@ -84,16 +86,25 @@ try {
             excluded=true;
         }
         if (!excluded) throw new Error("Canvas tree unexpectedly compiled without DOM declarations");
+        const gridExcluded = join(workspace, 'tsconfig.canvas-grid-no-dom.'+resolution+'.json');
+        await writeFile(join(workspace,'canvas-grid-no-dom.ts'), "import {createGridRenderer} from '@grundyjs/algiviz/canvas/grid'; void createGridRenderer;\n");
+        await writeFile(gridExcluded, JSON.stringify({compilerOptions:{...compilerOptions,lib:['ES2022'],noEmit:true},files:['canvas-grid-no-dom.ts']}));
+        let gridRejected=false;
+        try {execFileSync(process.execPath,[compiler,'-p',gridExcluded],{encoding:'utf8',stdio:['ignore','pipe','pipe']});}
+        catch(error){const diagnostics=String(error.stdout);if(error.status!==2||!diagnostics.includes("Cannot find name 'CanvasRenderingContext2D'")||(diagnostics.match(/error TS/g)??[]).length!==1)throw error;gridRejected=true;}
+        if(!gridRejected)throw Error('Canvas grid unexpectedly compiled without DOM');
         const outDir = `output-${resolution}`;
         const domConfig = join(workspace, `tsconfig.dom.${resolution}.json`);
         await writeFile(domConfig, JSON.stringify({
             compilerOptions: { ...compilerOptions, lib: ["ES2022", "DOM"], noEmitOnError: true, outDir },
-            files: ["consumer.ts", "custom-objects.ts", "player.ts", "viewport.ts", "worker.ts", "graph.ts", "graph-canvas.ts", "tree.ts", "tree-canvas.ts"]
+            files: ["consumer.ts", "custom-objects.ts", "player.ts", "viewport.ts", "worker.ts", "graph.ts", "graph-canvas.ts", "tree.ts", "tree-canvas.ts", "grid.ts", "grid-canvas.ts"]
         }));
         execFileSync(process.execPath, [compiler, "-p", domConfig], { stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "consumer.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "graph.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "tree.js")], { cwd: workspace, stdio: "inherit" });
+        execFileSync(process.execPath, [join(workspace, outDir, "grid.js")], { cwd: workspace, stdio: "inherit" });
+        execFileSync(process.execPath, [join(workspace, outDir, "grid-canvas.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "tree-canvas.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "graph-canvas.js")], { cwd: workspace, stdio: "inherit" });
         execFileSync(process.execPath, [join(workspace, outDir, "player.js")], { cwd: workspace, stdio: "inherit" });
@@ -118,6 +129,9 @@ try {
     await copyFile(join(root, "test/async-source.test.mjs"), join(workspace, "async-source.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "async-source.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-test-dom.mjs"), join(workspace, "player-test-dom.mjs"));
+    for (const name of ["grid.test.mjs", "grid-playback.test.mjs", "grid-test-fixtures.mjs"])
+        await copyFile(join(root, `test/${name}`), join(workspace, name));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "grid.test.mjs"), join(workspace, "grid-playback.test.mjs")], { cwd: workspace, stdio: "inherit" });
     for (const name of ["tree.test.mjs", "tree-playback.test.mjs", "tree-test-fixtures.mjs"])
         await copyFile(join(root, "test", name), join(workspace, name));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "tree.test.mjs"), join(workspace, "tree-playback.test.mjs")], { cwd: workspace, stdio: "inherit" });
@@ -129,6 +143,9 @@ try {
     for (const name of ["tree-canvas.test.mjs", "tree-canvas-playback.test.mjs", "tree-canvas-context.mjs", "tree-canvas-fixtures.mjs", "tree-slot-bounds.test.mjs", "tree-slot-fixtures.mjs", "tree-slot-oracle.mjs"])
         await copyFile(join(root, "test", name), join(workspace, name));
     execFileSync(process.execPath, ["--test", join(workspace, "tree-canvas.test.mjs"), join(workspace, "tree-canvas-playback.test.mjs"), join(workspace, "tree-slot-bounds.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    for(const name of ["grid-canvas.test.mjs","grid-canvas-playback.test.mjs","grid-canvas-fixtures.mjs"])
+        await copyFile(join(root,"test/"+name),join(workspace,name));
+    execFileSync(process.execPath,["--test",join(workspace,"grid-canvas.test.mjs"),join(workspace,"grid-canvas-playback.test.mjs")],{cwd:workspace,stdio:"inherit"});
     await copyFile(join(root, "test/array-result.test.mjs"), join(workspace, "array-result.test.mjs"));
     execFileSync(process.execPath, ["--test", join(workspace, "array-result.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-async.test.mjs"), join(workspace, "player-async.test.mjs"));

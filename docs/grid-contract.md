@@ -2,6 +2,20 @@
 
 [Русский](ru/grid-contract.md) · [Graph](graph-contract.md) · [Tree](tree-contract.md) · [Scenes](scene.md) · [Compatibility](api-compatibility.md)
 
+**Candidate follow-up, 2026-11-20:** package.json and both root lockfile versions
+are now 1.3.0. [Candidate notes](candidate-1.3.md) and the
+[preparation record](checks/candidate-1.3.0-2026-11-20.json) supersede the older
+version and R1/R2 status. R3 is checked after commit/push on the final SHA;
+R4 (tag/publication) is outside this task. Dated stages below remain historical.
+
+**Canvas follow-up, 2026-11-20:** independent [/canvas/grid](grid-canvas-api.md)
+is implemented and checked locally, including native Canvas/Player acceptance.
+Neither grid entry is published; historical scope below is retained.
+
+**Implementation follow-up, 2026-11-20:** headless /grid is implemented locally,
+unpublished. [Current Grid API](grid-api.md) · [Checks](checks/grid-implementation-2026-11-20.json).
+The design stages below retain their historical scope.
+
 **API follow-up, 2026-11-19:** the [public /grid contract](grid-api.md) is selected
 against released 1.2.0; no implementation/export is added. It resolves the earlier
 coordinate, operation, result, limit and projection questions. The sketch and

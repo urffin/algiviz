@@ -1,12 +1,12 @@
-# Proposed Grid API: /grid
+# Grid API: /grid
 
 [Русский](ru/grid-api.md) · [Architecture sketch](grid-contract.md) · [Current API](current-api.md) · [Compatibility](api-compatibility.md)
 
-**Contract only, 2026-11-19; not implemented or published.** Baseline: released
-1.2.0 / 8e1f50b. The selected future headless ESM path is `/grid`, with
-`createGridTrace`, `gridScene` and the 22 types below. None is currently exported.
-`/canvas/grid` is a separate future backend; its boundary is selected below,
-while its complete option/signature contract is a subsequent stage.
+**Version 1.3.0.** Independent headless ESM entry /grid exports createGridTrace,
+gridScene and the 22 types below. /canvas/grid is a separate optional backend.
+The package surface is 14 entries, 30 runtime names and 155 type-only exports
+(143 distinct). The twelve previous entries are unchanged; grid imports need 1.3.0.
+[Changes and migration](candidate-1.3.md) · [Readiness review](grid-readiness-1.3.md).
 
 ## Scope and coordinates
 
@@ -39,9 +39,9 @@ Rectangular regions can be explicitly expanded to coordinate lists by an
 application. Payload values may themselves be typed arrays, but remain opaque
 and application-owned; this grants no shared-memory or transfer exception.
 
-## Complete proposed declarations
+## Public declarations
 
-These declarations are a design artifact, not an importable module or package stub.
+Public declarations for @grundyjs/algiviz/grid in 1.3.0.
 
 ```ts
 import type { Step, Frame } from "@grundyjs/algiviz/playback";
@@ -187,7 +187,7 @@ valid. Both collections may overlap and are independent.
 
 Every referenced coordinate must exist. There is **no** adjacency, wall,
 traversability, cost or simple-path test: those are application policies. A
-non-neighbor consecutive pair is a direct segment in the future stock renderer;
+non-neighbor consecutive pair is a direct segment in the stock renderer;
 there are no invented intermediate cells. `GridCellView.result` is true for the
 union of explicit selected cells and path membership, without altering roles.
 The gridPath object's ordered IDs preserve repeats; it is not a graph conversion.
@@ -196,6 +196,8 @@ No-path, distances, queues, scalar answers and algorithm-specific status live in
 an application state wrapper. An empty selection does not imply any such answer.
 
 ```ts
+import { createGridTrace } from "@grundyjs/algiviz/grid";
+
 function* example() {
     const grid = createGridTrace({ rows: 2, columns: 3, values: [0, 0, 0, 0, 0, 0] });
     yield grid.start();
@@ -212,7 +214,7 @@ function* example() {
 }
 ```
 
-This is proposed usage, not a runnable example against npm 1.2.0.
+This example requires @grundyjs/algiviz 1.3.0 or newer.
 
 ## Validation, ownership and error priority
 
@@ -269,7 +271,10 @@ different namespaces. Cells are emitted row-major at zIndex 0, with copied/froze
 view records retaining value references. One gridPath object at zIndex 1 appears
 only for a nonempty result path; its cellIds reference emitted cells in path
 order with repeats. A one-cell path exists but has no segment. Zero-area grids
-produce an empty scene, never a fake cell. `scene.get` exposes declared objects.
+produce an empty scene, never a fake cell. `gridScene` returns `Scene` with
+`objects`. Lookup via `get(id)` belongs to the `SceneFrame` produced by
+`createSceneFrame` or passed during dispatch; it is not a method on `gridScene`
+output.
 
 Frames preserve both endpoint values/roles/captions/results. Events describe a
 command; edit does not duplicate values in its event. Playback/projection cannot
@@ -283,9 +288,9 @@ Trace work, values capture and a per-cell scene can cost O(rows×columns); histo
 can retain that cost per step. Player read budgets do not preempt one expensive
 command/projection/render. Limits above are not a performance guarantee.
 
-## Canvas boundary and remaining design
+## Canvas boundary
 
-The future `/canvas/grid` stays optional and DOM-typed; `/grid` is ES2022-only,
+`/canvas/grid` stays optional and DOM-typed; `/grid` is ES2022-only,
 DOM-free and has no renderer dependency. The renderer consumes the two endpoint
 snapshots with existing progress, computes a regular cell layout and paints it;
 no domain pixel geometry is stored in the headless model. Cell identity remains
@@ -303,17 +308,21 @@ It must not mutate state, request source steps, run algorithms or require events
 Hover, hit-testing, editing, pan/zoom, moving entities and graph/tree conversion
 are outside this first backend boundary.
 
-Before renderer implementation, separately fix the complete createGridRenderer
-options/signatures, value-presentation callbacks and their capture/reentrancy
-rules, sizing/text fitting, endpoint presentation/opacity and path drawing
-details. No renderer types or export are claimed in this contract. The same
-compatibility policy applies when either new entry is first published.
+The separate [Grid Canvas contract](grid-canvas-api.md) now selects complete
+createGridRenderer declarations, regular fitting, presentation callbacks, text,
+result/path and interpolation. The renderer is implemented and checked separately;
+both entries receive the common 1.x compatibility protection in 1.3.0.
 
-## Verification scope
+## Verification and historical evidence
 
-The [contract check](checks/grid-public-api-2026-11-19.json) records isolated
-declaration/usage checks against released core types, negative type cases,
-EN/RU parity and source/metadata identity. It is not implementation acceptance:
-no grid validator, trace, projector, renderer, package stub or export is added.
-The older [architecture evidence](checks/grid-contract-2026-11-16.json) retains
-its 32 runtime scenarios; those do not test this future implementation.
+The [1.3.0 preparation record](checks/candidate-1.3.0-2026-11-20.json) covers the
+exact archive, tests, installed consumers and evidence identity; [candidate notes](candidate-1.3.md)
+separate CI/publication from local checks. [Grid Canvas](grid-canvas-api.md) and
+the [BFS example](examples.md#grid-bfs-shortest-path) have separate acceptance.
+
+The [initial headless implementation record](checks/grid-implementation-2026-11-20.json)
+retains its historical 30 grid regressions, 678 repository tests, four TypeScript
+consumers and 38 bundle variants. Its old version/status does not describe 1.3.0.
+The [public contract](checks/grid-public-api-2026-11-19.json) and
+[architecture check](checks/grid-contract-2026-11-16.json) retain their original
+scope and counts. Old JSON is not rewritten as fresh acceptance.

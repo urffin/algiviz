@@ -1,0 +1,506 @@
+{
+  "date": "2026-11-20",
+  "checkedAt": "2026-11-19T23:06:41.597Z",
+  "scope": "Local /canvas/grid implementation; preserve existing headless /grid; no commit, tag or publication",
+  "baseline": {
+    "version": "1.2.1",
+    "sha": "c398d2d0909b10f9c46089815e221adf0369e0e8",
+    "headlessGridEvidence": "grid-implementation-2026-11-20.json",
+    "headlessSurface": {
+      "entries": 13,
+      "runtime": 29,
+      "types": 150,
+      "distinctTypes": 138
+    }
+  },
+  "surface": {
+    "entries": 14,
+    "runtime": 30,
+    "types": 155,
+    "distinctTypes": 143
+  },
+  "selectedAPI": {
+    "runtime": [
+      "createGridRenderer"
+    ],
+    "types": [
+      "GridPalette",
+      "GridCellPresentation",
+      "GridRendererOptions",
+      "GridRenderSize",
+      "GridRenderer"
+    ],
+    "rendererMethods": [
+      "render"
+    ],
+    "discreteCurrentValuesAndPresentation": true,
+    "regularSquareLayout": true,
+    "textExclusionClip": true,
+    "resultPriority": true,
+    "orderedPathCrossfade": true,
+    "callerOwnsViewportAndDPR": true
+  },
+  "checks": {
+    "repository": {
+      "passed": 701,
+      "failed": 0,
+      "logSha256": "ae742fd17799fc9e32ea5570aaf1026ed99392843c2829a8ca0b2e9572b1b86f"
+    },
+    "newPermanentRegressions": {
+      "renderer": 21,
+      "playback": 2
+    },
+    "installedPackage": {
+      "matrix": [
+        {
+          "version": "5.0.4",
+          "resolutions": [
+            "NodeNext",
+            "Bundler"
+          ],
+          "runtimeTests": 456,
+          "logSha256": "2c126b2af32e9364c7c790282e5db29ace54278fdf1d92fe84d4f1f3e6ff9d23"
+        },
+        {
+          "version": "5.4.5",
+          "resolutions": [
+            "NodeNext",
+            "Bundler"
+          ],
+          "runtimeTests": 456,
+          "logSha256": "345046acaf1459e79de36625f4d3c69b332597120bb5c39fc3f1f0d370a06a8e"
+        },
+        {
+          "version": "5.9.3",
+          "resolutions": [
+            "NodeNext",
+            "Bundler"
+          ],
+          "runtimeTests": 456,
+          "logSha256": "a60fc35d4f0a5d7917705b9a8a31269a609eb0be025e8b8f1af689cea0245892"
+        },
+        {
+          "version": "6.0.3",
+          "resolutions": [
+            "NodeNext",
+            "Bundler"
+          ],
+          "runtimeTests": 456,
+          "logSha256": "3290cf7ea9ed25c7fc212d38a202e6b055a4c4d751e4a4a615c9fcb56a7ada3b"
+        }
+      ],
+      "strict": true,
+      "noUncheckedIndexedAccess": true,
+      "exactOptionalPropertyTypes": true,
+      "headlessLib": [
+        "ES2022"
+      ],
+      "domLib": [
+        "ES2022",
+        "DOM"
+      ],
+      "DOMRequired": true,
+      "constructorSafeWithoutDOMGlobals": true,
+      "negativeTypeCases": 23
+    },
+    "bundles": {
+      "variants": 42,
+      "independentGridCanvas": true,
+      "unrelatedEntriesExcludeGridCanvas": true,
+      "deferredGridCanvasImport": true,
+      "reportSha256": "ad706f7ef711cc7c6c0aa64703bef6e257e18dcda23f9887ae02df413ef24bbb"
+    },
+    "native": {
+      "report": "grid-canvas-browser-2026-11-20.json",
+      "reportSha256": "b616a7079f8ff231342b316538810dd62f5550ac258694f9ecb9ef3c2ee085b3",
+      "passed": 18,
+      "failed": 0,
+      "rasterCases": 12,
+      "progressValues": 4,
+      "host": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+        "devicePixelRatio": 1.100000023841858
+      }
+    },
+    "archive": {
+      "files": 131,
+      "distFiles": 126,
+      "newCanvasGridDistFiles": 8,
+      "version": "1.2.1",
+      "integrity": "sha512-xLd/i4piMtijTcIkyCMer4TWGJ+cVMqEGGs795Y8weEckNBvB3qt3oEuNXjpWVYwUkcAWdpUQpEvoOAgNfpIIw==",
+      "shasum": "829c8a2ed19e9e3f3e709d7376ec59f2e49ac99b"
+    },
+    "declarationsMatchDocumentation": true,
+    "releasedPublicEntryDeclarationsByteIdentical": 12,
+    "preexistingSourceFilesUnchanged": 59,
+    "preexistingExportRecordsUnchanged": 13,
+    "historicalJSONUnchanged": 65,
+    "EN_RUCodeAndPaletteParity": true,
+    "documentationLinks": 334,
+    "gitDiffCheck": "passed"
+  },
+  "limits": {
+    "forcedGPUContextLoss": false,
+    "benchmarkRun": false,
+    "versionChanged": false,
+    "lockfileChanged": false,
+    "CI": false,
+    "published": false,
+    "newGridEntriesAvailableInNpm1_2_1": false
+  },
+  "sourceFiles": [
+    {
+      "path": "src/grid/attributes.ts",
+      "sha256": "8cdc720f9542d3bade000c2e3a3411640827992124151f7967c00d928ac5c6af"
+    },
+    {
+      "path": "src/grid/index.ts",
+      "sha256": "5c44ee986024cebcc2982399ca79cdfeeb7260eee3c761bccde7fffcd81c0cfe"
+    },
+    {
+      "path": "src/grid/scene.ts",
+      "sha256": "bae49a48852be7e946b12d69e89e35e8928b5e2246d6b9b12892035f144e21fa"
+    },
+    {
+      "path": "src/grid/trace.ts",
+      "sha256": "64fe42e4c9aad220ec0732c499505fa461a968ef72bb8c15b5cf8a6ab347f040"
+    },
+    {
+      "path": "src/grid/types.ts",
+      "sha256": "7d50465a192c0462e88af88d7a07aba0177e731245fd6c4db09a22a5a389fc74"
+    },
+    {
+      "path": "src/grid/validation.ts",
+      "sha256": "43f80b2db1b6b428688dbed056f763b34542d7f5af6103694c2827ccf14c0b56"
+    },
+    {
+      "path": "src/array/index.ts",
+      "sha256": "d0922f5c0ea917db55a5528aef6a476ba93144c00c70f1da4c97153070f8442d"
+    },
+    {
+      "path": "src/array/player.ts",
+      "sha256": "ab694fe944a0921d0faaa06dcd9811218e80767406a55a86fe3698c5222f4b4f"
+    },
+    {
+      "path": "src/array/snapshot-builder.ts",
+      "sha256": "b8032b7a26b9106f606c9cc0ec1657063a599e72356397b8383b9fc9def75b66"
+    },
+    {
+      "path": "src/array/timeline.ts",
+      "sha256": "3849e56b429c14965f0191bab4236fed19ea762cf7ddabb206d0670d69064cf3"
+    },
+    {
+      "path": "src/array/trace.ts",
+      "sha256": "fc003f97e0c08f80fd6ad2c770ff935e31325b69a92ac2852fd846c43ddd206b"
+    },
+    {
+      "path": "src/array/types.ts",
+      "sha256": "707b4984f81df9c5db1d9eb253800ac9e5968cb3e3f63cca32e9e7d89a897a14"
+    },
+    {
+      "path": "src/canvas/graph-captions.ts",
+      "sha256": "7ad9ffc3248ba08b0fdc48bddffdf356bf0919ebb0c98c71a59305ac80a0fe91"
+    },
+    {
+      "path": "src/canvas/graph-geometry.ts",
+      "sha256": "045a3aac887dd9933c75fe3c50885cfda8243c636c88ee704b03785c0aadaeaa"
+    },
+    {
+      "path": "src/canvas/graph.ts",
+      "sha256": "dd46c600e45e577687b9a4cdfe27d9bc89cfbb177d26fadd19e6848452376611"
+    },
+    {
+      "path": "src/canvas/index.ts",
+      "sha256": "b901e35d3cc6ca78c5ef05bbf9b10efef8830f1aa3058a086ce009d8df73a965"
+    },
+    {
+      "path": "src/canvas/tree-geometry.ts",
+      "sha256": "19532278ae68562995ee9865e2dd7b34bb914eb449d7b4e7ca2eec9ed1f3b3ba"
+    },
+    {
+      "path": "src/canvas/tree-labels.ts",
+      "sha256": "b8c29b4126630348cc8cc57cfab29109687af1295abfb11c1fb84443f732df3b"
+    },
+    {
+      "path": "src/canvas/tree-layout.ts",
+      "sha256": "0f68f22653eac44bac8b8a1c2f2cff43e213cb30ca5fc43e6cb934bdc9475a1a"
+    },
+    {
+      "path": "src/canvas/tree.ts",
+      "sha256": "3d3af3e54ff5d69ff82b1af6d63652bac3156c3828bea6dd6f4c9094658be270"
+    },
+    {
+      "path": "src/canvas/viewport.ts",
+      "sha256": "a26ab096e666ffcb84e01b11ee302be2776e5d2a4ec1a48e1aa0185ef6149411"
+    },
+    {
+      "path": "src/graph/index.ts",
+      "sha256": "09c5153a1c91741dcf00098bc35c3b4c1f51689f0cdde79b161c5120c444ffb8"
+    },
+    {
+      "path": "src/graph/scene.ts",
+      "sha256": "c06d8a36b6d61622c811e88be40bc5f6812d870311bc5a7d6ccb6c6d070d0f3e"
+    },
+    {
+      "path": "src/graph/trace.ts",
+      "sha256": "4f5a46481fa3dcfe2501a83984e3479cb5d927b28e1d145f20c879409b0e08c7"
+    },
+    {
+      "path": "src/graph/types.ts",
+      "sha256": "968069c40eaf877c3b43b2fae6d88e93209701c953c5e3b7791436a879813f06"
+    },
+    {
+      "path": "src/graph/validation.ts",
+      "sha256": "2419ff65c27803922a2f2bd1744bf8525c1b343d72c12189201090b38aee7edf"
+    },
+    {
+      "path": "src/playback/async-source.ts",
+      "sha256": "d9e7ba389571c5b4bbd895885829173d0c48d941e0a28089fd88e729c5095b6d"
+    },
+    {
+      "path": "src/playback/index.ts",
+      "sha256": "0ff29668ceb33edde28dda54ab3c3f349b4ee3710fd9e262db4f9c80afd631a0"
+    },
+    {
+      "path": "src/playback/player.ts",
+      "sha256": "ceccb0c7cf1cc9621a62e1a1ae5685d2d45d38e6cf9bec45801b74e58cfcc787"
+    },
+    {
+      "path": "src/playback/rewind-buffer.ts",
+      "sha256": "993ff0c185ac711021d83973c2a3799429b52a4ff7401fdd0b47407d8ba1fd70"
+    },
+    {
+      "path": "src/playback/state-player.ts",
+      "sha256": "fb928066380a898eea4e39bf2d96e34782c07564a765b0304f2c1cf21a76941b"
+    },
+    {
+      "path": "src/playback/state-steps.ts",
+      "sha256": "a23c6132c0d9c969a9cd5ec067160e979b421ae55c609eefe1d27244d76eccff"
+    },
+    {
+      "path": "src/playback/step-emitter.ts",
+      "sha256": "a42c006b86a441ab47bf720427164b10ca626ffd6bd7cab6a735dcc63ce41770"
+    },
+    {
+      "path": "src/playback/timeline.ts",
+      "sha256": "8095ff07cd9bf7afad108dd13e7e7ebb63e7cfb3d2fce5d2d45d620150074088"
+    },
+    {
+      "path": "src/playback/types.ts",
+      "sha256": "053f6e9b76c2d9c9847ec71219b2a90ec9f4a2ad7ec6629f992e974a73ec4261"
+    },
+    {
+      "path": "src/player/async-controller.ts",
+      "sha256": "80fab81a5572ddb57837390410d8de856ebd5ddc65134bba336ad62d539d1803"
+    },
+    {
+      "path": "src/player/async-session.ts",
+      "sha256": "8d06dcd5208911ca33cf18d9e82414e90ae756cad31d4f2bfbd0b9ec9384cd8f"
+    },
+    {
+      "path": "src/player/close-report.ts",
+      "sha256": "0a065cef4a1895bd0a22a258d5c9fd379523cd48c003c924da5f39a72cdfdfe8"
+    },
+    {
+      "path": "src/player/controller.ts",
+      "sha256": "029b880fbc85272181bd2da1df825fc086c23b05053e66fa5a1bc1396ef51026"
+    },
+    {
+      "path": "src/player/index.ts",
+      "sha256": "1db39bafd4dedcc783aab6e4e087556a3a561ed0bb0b29c9827e9b54d08ebf6d"
+    },
+    {
+      "path": "src/player/mount.ts",
+      "sha256": "c6d82fdfe8cd37425878bc29643b8d1c9967c4808176e614dbc57eeb6691763d"
+    },
+    {
+      "path": "src/player/player.ts",
+      "sha256": "97bad8b05e115b5e5c38b26fddd59b00db1212b8d00463022b4902de33928bed"
+    },
+    {
+      "path": "src/player/rewind-session.ts",
+      "sha256": "b3ecf99d19e690f91944adbf4beb31bcc729bfee7589a2bf84fd0ca63c13bcf0"
+    },
+    {
+      "path": "src/player/step-session.ts",
+      "sha256": "5ff0ab5fd20bd6c63297806b2a0ebda9e3f55ece31727cac5c86929ebda839ff"
+    },
+    {
+      "path": "src/player/stream-playback.ts",
+      "sha256": "99b08dfce7a9fb48605b31dbb15ab82eceaebf14e3158a20d061aa15b9d61f30"
+    },
+    {
+      "path": "src/player/types.ts",
+      "sha256": "c841f1fd2296c3535340e9f7dde29ed9e1a20b41bd6719d68146463f70055c2a"
+    },
+    {
+      "path": "src/scene/index.ts",
+      "sha256": "858bbb12d580c53b9f158ae50ab9976704f61bb1615120bab5ec046ec699db4b"
+    },
+    {
+      "path": "src/tree/attributes.ts",
+      "sha256": "f4ab2b4d17ecef4314d31586055e7dbccc698854d4ede94af51476bf65b88219"
+    },
+    {
+      "path": "src/tree/index.ts",
+      "sha256": "1884184ae99bd0b035c00b689201aa87deccb00d5a1dabe61636d5430875c915"
+    },
+    {
+      "path": "src/tree/scene.ts",
+      "sha256": "6e070842527417ac9a0c4ecaca1e4e336830412e4c13b0e389dffdbbd5dd8805"
+    },
+    {
+      "path": "src/tree/trace.ts",
+      "sha256": "172e84020d2d0ab4e1f0a488355e9f5e880d835e6bffb035bf21db045687dcf9"
+    },
+    {
+      "path": "src/tree/types.ts",
+      "sha256": "b13991b3a3373286c2477a00679cd6e54223aa0e1590ec478dd26214a66e22ea"
+    },
+    {
+      "path": "src/tree/validation.ts",
+      "sha256": "9e78a39525f02913cf71c8ebe93e392b258fb019150b54aa7ac3319b6c50314e"
+    },
+    {
+      "path": "src/worker/data.ts",
+      "sha256": "944fdbc5e77c688ca1758cb19d364fb92b06ac188d88cdcf524a9aa45eea8064"
+    },
+    {
+      "path": "src/worker/error.ts",
+      "sha256": "b535c21512d21dabaa7bf833fc5cb7480ad0bb98f2bff1b4c9efaf7cde679a72"
+    },
+    {
+      "path": "src/worker/index.ts",
+      "sha256": "eb5fc9a3eff8280e181f8c04e20386924ce69c55c9b92a07f6c2ecb0737e6e13"
+    },
+    {
+      "path": "src/worker/protocol.ts",
+      "sha256": "4c378857495e4d952531a877313231930cc457a7966d4980c57ed284d75e9ebc"
+    },
+    {
+      "path": "src/worker/runtime.ts",
+      "sha256": "755295e2273a040898c1d1830f0fcaa18ecab15c062ea0df713ff1f0b5a98bef"
+    },
+    {
+      "path": "src/worker/types.ts",
+      "sha256": "88ca9b48aa992c84b53b0bcbb5dbb9c01a9624614f14c6468602616954a93eb9"
+    },
+    {
+      "path": "src/canvas/grid.ts",
+      "sha256": "21bc10b0bb5f3bbb52f3c4a38ad94465c2ee05fbf990b48147bfefd56f3649e2"
+    },
+    {
+      "path": "src/canvas/grid-layout.ts",
+      "sha256": "a532a47d9ca02eac897571f3fbbdcbbbd1bef29389dd56231310007b151eca6c"
+    },
+    {
+      "path": "src/canvas/grid-state.ts",
+      "sha256": "61ad3f32212dc20dede94a731374b180522d8b6daf9c9d9a95b2d5c1992cd3f2"
+    },
+    {
+      "path": "src/canvas/grid-text.ts",
+      "sha256": "0c4b8439acd0555d5cfabafc1876ade0a81b859dccb21ed21a3a5e42f84dfcd6"
+    }
+  ],
+  "verificationFiles": [
+    {
+      "path": "test/grid-canvas.test.mjs",
+      "sha256": "6c5960f4e11b25e496a567f48b7d3c64944866087ebce71aedb521e30b4d53db"
+    },
+    {
+      "path": "test/grid-canvas-playback.test.mjs",
+      "sha256": "4ca8fa924a72dc5f381dd72bb06d289bc1407125e9cf4eafadb2f9d4451f05b4"
+    },
+    {
+      "path": "test/grid-canvas-fixtures.mjs",
+      "sha256": "88561d1f4642b916e476da5ed3ad3d12362bf7b48979e3aa2e8da3fb5cbcfeaf"
+    },
+    {
+      "path": "test/package-grid-canvas.ts",
+      "sha256": "e46f8fa6191b0e9476577638e6ae3e85d52fd250c122943edb3a382622363d06"
+    },
+    {
+      "path": "test/grid-canvas-browser.html",
+      "sha256": "51015622f207e6ff37b92ec32835ec2ba658f155f573ccd0ba728950b3a806ec"
+    },
+    {
+      "path": "test/grid-canvas-browser.mjs",
+      "sha256": "631e462e31373d1a9fee1774483720090634555b6add36068f6d45cccb5d392b"
+    },
+    {
+      "path": "scripts/test-grid-canvas-browser.mjs",
+      "sha256": "614d8c1f290655e27fea79d8e406a7d94207d0609251b1f757c44f6fc3abd93e"
+    },
+    {
+      "path": "test/package-exports.mjs",
+      "sha256": "8d4bee2574decbc3227a91af79a9ca4ece4c81a4f64e4f6fbddf97d8895f095e"
+    },
+    {
+      "path": "scripts/test-package.mjs",
+      "sha256": "21a733eb936d88a62758926c02f9d80774152406222260e35ac71b472bc3af7a"
+    },
+    {
+      "path": "scripts/test-bundle.mjs",
+      "sha256": "b61fb235b22a604e1c9d3b67d4ea985cdfb5c8f412f230f7e9dbcc381d3571a9"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "b6398fb89051c4f1d3c68bc263c1647313c9d220003960c93ea5a7ce0aaa140e"
+    },
+    {
+      "path": "README.md",
+      "sha256": "4bc7db086452ab53d466c64920c4d7437ead86f26a98eb64ecb02f2a0d53a48c"
+    },
+    {
+      "path": "docs/api-compatibility.md",
+      "sha256": "e5b3c067f9b0e554c913b90cb3df37ee8cf8eb2cc8df29c0c34a601d475f7cde"
+    },
+    {
+      "path": "docs/current-api.md",
+      "sha256": "8b718e53169399197de386569123f986be3529684fc717eb6b2410814d1d3927"
+    },
+    {
+      "path": "docs/grid-api.md",
+      "sha256": "45fdffd758b4ecedca4dc77fdd0cc4bb1efa1b5f1df14d5ecbfd5180031e79d4"
+    },
+    {
+      "path": "docs/grid-contract.md",
+      "sha256": "0829dee10fc2f3669774ea83669a1dacb65ab45c21fc953e0df412e88d5755ca"
+    },
+    {
+      "path": "docs/ru/api-compatibility.md",
+      "sha256": "0b168f302441a84eb1e5a4de2b92571bd1e909a9aac8a0d3bd84befd4f9b6e6e"
+    },
+    {
+      "path": "docs/ru/current-api.md",
+      "sha256": "00f7ee47b542e967b571f04b8125c5f625d3413f564ebaf118fd44ff8ea52a7a"
+    },
+    {
+      "path": "docs/ru/grid-api.md",
+      "sha256": "1b0418d9b0b8d0d073a84dba8f7788f359edee16cee547d6b47db57fdaf0a34c"
+    },
+    {
+      "path": "docs/ru/grid-contract.md",
+      "sha256": "820497a71ebcbc1ea63ad47544c0813449f50e52997d892c003825dc9ad1e656"
+    },
+    {
+      "path": "docs/support-matrix.md",
+      "sha256": "c9f43d33f920e7a4e86e3a4af923085f59b6be95837fc978c577ba633e3bfae8"
+    },
+    {
+      "path": "ru/README.md",
+      "sha256": "eb00454fa7e10b551b5400be9692dc38e722aae982aca4ed5d1afa056d4d0383"
+    },
+    {
+      "path": "docs/grid-canvas-api.md",
+      "sha256": "69369be958a9d56ed7a1414c3737f0e7f997a5df5085e659f1e2a4cb66f20b49"
+    },
+    {
+      "path": "docs/ru/grid-canvas-api.md",
+      "sha256": "75665d65b2fef2f6a744a88c0485c30e315fc75f75e0aaa12816f56a04e2d432"
+    }
+  ],
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\grid-canvas-implementation-bf53205f"
+}

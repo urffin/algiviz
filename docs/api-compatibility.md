@@ -2,17 +2,16 @@
 
 [Русский](ru/api-compatibility.md) · [Stabilization](api-stability.md) · [Current API](current-api.md) · [Support evidence](support-matrix.md)
 
-**Current scope, 2026-11-19.** Released 1.2.0 publishes twelve entries. U3
-protects public types, errors, environments and behavior equally for every entry,
-including /tree and /canvas/tree. No entry is experimental. Existing ten imports
-need no migration. [Release receipt](releases/1.2.0.json).
-Dated reviews/candidates retain their original scope. Future [grid API](grid-api.md)
-is not implemented/exported; first publication will receive the same protection.
+**Version 1.3.0 scope.** U3 protects public types, errors, environments and
+behavior equally across all fourteen entries, including /grid and /canvas/grid.
+There is no experimental tier. Existing twelve imports need no migration.
+[Changes/migration and verification status](candidate-1.3.md).
+Dated reviews and release receipts retain their original scope.
 
 ## Public surface
 
-Only the export map defines importable paths. Released 1.2.0 has **12 entries,
-27 runtime names, 128 type-only exports, 116 distinct types**. The 1.0.0 baseline
+Only the export map defines importable paths. Version 1.3.0 has **14 entries,
+30 runtime names, 155 type-only exports, 143 distinct types**. The 1.0.0 baseline
 had 8 / 21 / 69 / 57. Shared Worker types count at both paths; classes count as
 runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.md).
 
@@ -30,6 +29,8 @@ runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.
 | `/canvas/graph` | `createGraphRenderer` | 4 |
 | `/tree` | `createTreeTrace`, `treeScene` | 29 |
 | `/canvas/tree` | `createTreeRenderer` | 4 |
+| `/grid` | `createGridTrace`, `gridScene` | 22 |
+| `/canvas/grid` | `createGridRenderer` | 5 |
 
 The protected contract includes exported names, signatures, generics/inference,
 overload selection for existing calls, readonly/optional fields and reachable
@@ -136,15 +137,15 @@ The U3 policy itself introduced no runtime change.
 ## Environments and loading
 
 Import safety, declaration libraries, runtime capabilities and concrete version
-verification are separate guarantees. All ten released runtime entries must remain
+verification are separate guarantees. All fourteen runtime entries must remain
 importable without DOM/Worker globals or import-time allocation of external resources; that
 does not make their active browser operations available in Node.
 
 | Entries | Declaration libraries | Active runtime boundary |
 | --- | --- | --- |
-| `/playback`, `/scene`, `/array`, `/graph` | ES2022, no DOM or ambient Node types required | Headless JS/iterables; async adapter uses its cooperative DOM-free signal |
+| `/playback`, `/scene`, `/array`, `/graph`, `/tree`, `/grid` | ES2022, no DOM or ambient Node types required | Headless JS/iterables; async adapter uses its cooperative DOM-free signal |
 | `/canvas` | ES2022 + DOM | Canvas 2D host; bitmap coordinates; no implicit viewport ownership |
-| `/canvas/graph` | ES2022 + DOM | Canvas 2D host; explicit logical size and caller-owned bitmap/CSS sizing |
+| `/canvas/graph`, `/canvas/tree`, `/canvas/grid` | ES2022 + DOM | Canvas 2D host; explicit logical size and caller-owned bitmap/CSS sizing |
 | `/canvas/viewport`, `/player` | ES2022 + DOM | Browser DOM/window and the documented measurement/scheduling APIs; creation/mounting is explicit |
 | `/worker` | ES2022 + DOM; browser-Worker host use with WebWorker types also documented | Dedicated module Worker host, native clone/transfer facilities; lazy exclusive Worker ownership |
 | `/worker/runtime` | ES2022 + WebWorker, checked separately from DOM | Explicit dedicated Worker endpoint installation and compatible source factory |
@@ -165,7 +166,7 @@ in separate programs rather than merged into one permissive environment.
 Browser verification is limited to the recorded Windows built-in Chromium host
 and scenarios in the [support matrix](support-matrix.md#current-support-boundary).
 Its UA is not a minimum Chromium version or a desktop Chrome/Edge guarantee.
-Targeted desktop viewport checks do not certify the complete eight-entry API.
+Targeted desktop viewport checks do not certify the complete public API.
 Firefox, Safari/iOS, other WebViews, CommonJS, Bun/Deno, Node `worker_threads`,
 SharedWorker and ServiceWorker remain outside the promise. Broader support needs
 explicit target selection and evidence; absence of verification is not evidence
@@ -174,8 +175,8 @@ library integration.
 
 Existing entry graphs retain their separation: headless consumers do not acquire
 DOM types or mandatory UI/Worker imports; `/canvas/viewport` stays independent;
-Worker modules are not silently loaded by the existing six entries. No runtime
-dependency or polyfill is made mandatory for these eight entries. Compatible
+Worker modules are not silently loaded by unrelated entries. No runtime
+dependency or polyfill is made mandatory for the fourteen entries. Compatible
 optimization may alter chunks/bytes, but not these loading/host requirements.
 Dropping a selected target or raising required language/lib/host capabilities is
 breaking even if upstream changes support status. Build-tool version changes

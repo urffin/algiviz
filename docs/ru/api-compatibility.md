@@ -2,17 +2,16 @@
 
 [English](../api-compatibility.md) · [Стабилизация](../api-stability.md) · [Текущий API](current-api.md) · [Проверенные окружения](../support-matrix.md)
 
-**Актуальный объём, 2026-11-19.** Выпущенная 1.2.0 содержит двенадцать entry.
-U3 одинаково защищает публичные типы, ошибки, окружения и поведение всех модулей,
-включая /tree и /canvas/tree. Экспериментальных entry нет. Десяти прежним импортам
-миграция не нужна. [Отчёт выпуска](../releases/1.2.0.json).
-Датированные ревизии/кандидаты сохраняют прежний объём. Будущий [grid API](grid-api.md)
-пока не реализован/экспортирован; при первой публикации получает ту же защиту.
+**Объём версии 1.3.0.** U3 одинаково защищает публичные типы, ошибки,
+окружения и поведение всех четырнадцати entry, включая /grid и /canvas/grid.
+Experimental-уровня нет. Прежним двенадцати импортам миграция не нужна.
+[Изменения/миграция и статус проверки](candidate-1.3.md).
+Датированные ревизии и отчёты выпусков сохраняют свой исходный объём.
 
 ## Публичная поверхность
 
-Импортируемые пути определяет только export map. Выпущенная 1.2.0: **12 entry,
-27 runtime-имён, 128 type-only экспортов, 116 различных типов**. База 1.0.0 имела
+Импортируемые пути определяет только export map. Версия 1.3.0: **14 entry,
+30 runtime-имён, 155 type-only экспортов, 143 различных типа**. База 1.0.0 имела
 8 / 21 / 69 / 57. Общие Worker-типы считаются по обоим путям; классы — runtime-имена.
 [Инвентарь](current-api.md) и [ревизия 1.1](graph-readiness-1.1.md).
 
@@ -30,6 +29,8 @@ U3 одинаково защищает публичные типы, ошибки
 | `/canvas/graph` | `createGraphRenderer` | 4 |
 | `/tree` | `createTreeTrace`, `treeScene` | 29 |
 | `/canvas/tree` | `createTreeRenderer` | 4 |
+| `/grid` | `createGridTrace`, `gridScene` | 22 |
+| `/canvas/grid` | `createGridRenderer` | 5 |
 
 Защищены экспортируемые имена, сигнатуры, generics/вывод типов, выбор overload
 для прежних вызовов, readonly/optional-поля и достижимые публичные структурные
@@ -134,15 +135,15 @@ host postMessage throw как unknown с host/post-контекстом отчё
 ## Окружения и загрузка
 
 Безопасность импорта, lib деклараций, runtime-возможности и проверка конкретных
-версий — разные гарантии. Все десять выпущенных runtime-entry сохраняют импорт без
+версий — разные гарантии. Все четырнадцать runtime-entry сохраняют импорт без
 DOM/Worker globals и без выделения внешних ресурсов при импорте; это не делает
 их активные browser-операции доступными в Node.
 
 | Entry | Lib деклараций | Активный runtime |
 | --- | --- | --- |
-| `/playback`, `/scene`, `/array`, `/graph` | ES2022, без обязательных DOM/ambient Node types | Headless JS/iterables; async-адаптер с собственным DOM-free cooperative signal |
+| `/playback`, `/scene`, `/array`, `/graph`, `/tree`, `/grid` | ES2022, без обязательных DOM/ambient Node types | Headless JS/iterables; async-адаптер с собственным DOM-free cooperative signal |
 | `/canvas` | ES2022 + DOM | Canvas 2D host, bitmap-координаты, без неявного владения viewport |
-| `/canvas/graph` | ES2022 + DOM | Canvas 2D host; явный logical size, bitmap/CSS-размеры принадлежат приложению |
+| `/canvas/graph`, `/canvas/tree`, `/canvas/grid` | ES2022 + DOM | Canvas 2D host; явный logical size, bitmap/CSS-размеры принадлежат приложению |
 | `/canvas/viewport`, `/player` | ES2022 + DOM | Browser DOM/window и описанные measurement/scheduling API, явные создание/монтаж |
 | `/worker` | ES2022 + DOM; browser-Worker host с WebWorker types также описан | Dedicated module Worker host, native clone/transfer, ленивое эксклюзивное владение |
 | `/worker/runtime` | ES2022 + WebWorker, отдельно от DOM | Явная установка dedicated Worker endpoint и совместимая source factory |
@@ -163,7 +164,7 @@ Windows/Linux для headless/импорта/потребителей; TypeScrip
 Browser-проверки ограничены записанным Windows-хостом встроенного Chromium и
 сценариями [матрицы поддержки](../support-matrix.md#current-support-boundary).
 Его UA не задаёт minimum Chromium или гарантию desktop Chrome/Edge. Точечные
-desktop-проверки viewport не сертифицируют весь API восьми entry. Firefox,
+desktop-проверки viewport не сертифицируют весь публичный API. Firefox,
 Safari/iOS, другие WebViews, CommonJS, Bun/Deno, Node worker_threads, SharedWorker
 и ServiceWorker остаются вне обещания. Для расширения нужны выбранные цели и
 доказательства; отсутствие проверки не доказывает несовместимость. Import maps
@@ -171,8 +172,8 @@ Safari/iOS, другие WebViews, CommonJS, Bun/Deno, Node worker_threads, Shar
 
 Графы существующих entry сохраняют разделение: headless-потребители не получают
 DOM types и обязательные UI/Worker imports; `/canvas/viewport` независим;
-Worker-модули не загружаются неявно прежними шестью entry. Runtime dependency
-и polyfill не становятся обязательными для этих восьми entry. Совместимая
+Worker-модули не загружаются неявно посторонними entry. Runtime dependency
+и polyfill не становятся обязательными для четырнадцати entry. Совместимая
 оптимизация может менять чанки/байты, но не требования загрузки/host.
 Исключение выбранной цели или повышение требований language/lib/host — breaking,
 даже если upstream изменил поддержку. Смена build tool сама по себе внутренняя,

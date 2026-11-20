@@ -2,6 +2,34 @@
 
 ## Unreleased
 
+## 1.3.0 — 2026-11-20
+
+This compatible minor adds two independent ESM entries. The twelve existing
+entry implementations, export records, dependencies and Player API are unchanged;
+existing imports need no migration. Grid imports require 1.3.0.
+[Changes, migration and verification](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.3.md).
+
+- Add headless /grid: createGridTrace, gridScene and 22 types for fixed-shape
+  dense generic grids. Apply replacements or distinct writes with marks/captions
+  atomically; preserve state identity, step index and lifecycle on errors.
+- Add unique result-cell selections and ordered paths preserving repeats,
+  stable namespaced coordinate scene IDs, strict validation, original exceptions
+  and guards against recursive trace control. Values remain application-owned.
+- Add optional /canvas/grid: createGridRenderer and five types. Fit square cells
+  with inset borders; explicitly present generic values, fit measured labels and
+  captions, preserve green result priority and crossfade ordered paths outside
+  text. Caller owns Canvas/viewport/DPR; restore context state and preserve primary
+  host errors, including falsy throws. Clear transparent backgrounds on replay.
+- Add a separate repository Grid BFS example with shortest-distance captions,
+  a green shortest path, unreachable/zero-move cases, history/bounded rewind,
+  Restart and cleanup. Preserve the earlier maze. Algorithms and examples are
+  application code, not package exports or shipped files.
+- Add permanent grid/Canvas/Player/BFS regressions, strict installed consumers,
+  independent/lazy bundle checks and repeatable native raster/control fixtures.
+- Reconcile EN/RU README, API, environment and example documentation; clarify
+  Scene versus SceneFrame lookup and include all fourteen imports. Preserve
+  historical reports and keep exact-SHA CI/publication gates separate.
+
 ## 1.2.1 — 2026-11-20
 
 Documentation-only patch. Runtime implementations, declarations, twelve export

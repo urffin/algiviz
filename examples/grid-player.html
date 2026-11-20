@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Grid BFS shortest path</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101827;color:#f1f5f9;font:16px/1.5 system-ui}
+main{max-width:1000px;margin:auto;padding:24px}a{color:#c4b5fd}p{color:#cbd5e1}
+canvas{display:block;width:100%;border-radius:12px}.inputs{display:flex;flex-wrap:wrap;gap:16px;margin:18px 0}
+label{display:flex;flex-direction:column;gap:6px;min-width:0}select{max-width:100%;min-height:44px;padding:8px;font:inherit;color:inherit;background:#1e293b;border:1px solid #64748b;border-radius:6px}
+:focus-visible{outline:2px solid #c4b5fd;outline-offset:3px}#status{min-height:3em}#error{color:#fca5a5}
+#status,#queue,#result,#counters{overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+@media(max-width:640px){main{padding:16px}.inputs>label{width:100%}}
+</style></head><body><main>
+<a href="./index.html">All examples</a><h1>Grid · BFS shortest path</h1>
+<p>Find a shortest path from S to T between blocked cells. Move north, east, south or west;
+every move costs one. BFS discovers each cell once, using a first-in, first-out queue.</p>
+<p><a href="./maze.html">Detailed maze: seeded generation, BFS/DFS, custom walls and drawing</a></p>
+<div class="inputs"><label>Grid<select id="preset"></select></label><label>Playback mode<select id="mode"></select></label></div>
+<div id="player"><canvas width="960" height="520" role="img" aria-label="BFS grid: blocked cells, start S, target T, distance captions and green shortest path; queue and full result are described below"></canvas></div>
+<p>S: start. T: target. #: blocked. Purple: queued. Yellow: current. Grey: processed.
+Captions d=N show shortest distances from S. Green cells and the connecting line show the final path.</p>
+<p id="mode-note"></p><p id="error" role="alert"></p><p id="status" role="status" aria-live="polite"></p>
+<p id="counters"></p><p id="queue"></p><p id="result"></p>
+<p>Coordinates below are (row,column), counted from 1. The default 5 × 7 grid has a shortest
+path of 10 moves. Try the divided grid for an unreachable target, or S=T for a zero-move path:
+one green cell, without a line.</p>
+<p>Search stops when T is dequeued, so other cells may remain in the queue. Neighbors are checked
+in north–east–south–west order; another order can choose a different shortest path of the same length.
+No diagonal moves, weights or automatic maze generation are involved.</p>
+<p>Use Previous and Next to replay the result. Full history also supports seeking.
+Restart repeats the selected grid with a fresh queue and trace. Changing the grid or mode starts again.</p>
+<p>The BFS, obstacles, queue and parents belong to this example. The library supplies /grid steps,
+/canvas/grid drawing and Player controls. Shared timing is 650 ms per step with a 1,000 ms final hold.
+The algorithm uses O(N) work and memory; copying O(N) snapshot data per step makes full history
+O(N²). The generator retains a fixed window of 32 positions.</p>
+<p>This repository page uses the local build. /grid and /canvas/grid require @grundyjs/algiviz 1.3.0 or newer.</p>
+<p><a href="../docs/grid-api.md">Grid API</a> · <a href="../docs/grid-canvas-api.md">Grid Canvas</a></p>
+</main><script type="importmap">{"imports":{"@grundyjs/algiviz/grid":"../dist/grid/index.js","@grundyjs/algiviz/canvas/grid":"../dist/canvas/grid.js","@grundyjs/algiviz/player":"../dist/player/index.js","@grundyjs/algiviz/canvas/viewport":"../dist/canvas/viewport.js"}}</script>
+<script type="module" src="./grid-player-demo.mjs"></script></body></html>

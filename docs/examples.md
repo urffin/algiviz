@@ -31,6 +31,7 @@ included in the npm archive.
 | [BFS with the stock graph renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | The same algorithm with createGraphTrace, /canvas/graph and Player |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
+| [Grid BFS shortest path](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Shortest path between obstacles with /grid, stock Canvas and Player; distances, green result, history and generator |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 | [Tree insertion and rotation](https://github.com/urffin/algiviz/blob/master/examples/tree-player.html) | Insert 1 into 3 ← 2, rotate right once, preserve in-order, replay the green tree with stock Canvas and Player |
 | [Boids flock](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Seeded simulation, five obstacle layouts and one-bird inspection with neighbors and steering vectors |
@@ -225,6 +226,53 @@ Generator playback is lazy, while history enables backward seeks. The traversal
 uses O(V + E) time and O(V) auxiliary space; snapshot history has a separate
 O(V(V + E)) upper bound. No graph API or built-in DFS is added to the package.
 
+
+## Grid BFS shortest path
+
+Open [examples/grid-player.html](../examples/grid-player.html) after a local build
+and serve the repository root over HTTP. This separate page uses /grid,
+/canvas/grid and Player; grid entries require 1.3.0 or newer.
+The [earlier maze](../examples/maze.html), with seeded generation, BFS/DFS,
+between-cell walls and custom drawing, remains unchanged. This example instead
+uses blocked cells.
+
+On the 5 × 7 grid, BFS finds a shortest path of 10 moves. Movement is north, east,
+south or west, with unit cost. Cells are discovered on enqueue; search stops
+when the target is dequeued. Captions d=N retain distances from the start.
+Another neighbor order can select a different path of the same length. Two more
+presets demonstrate an unreachable target and S=T: a zero-move path is one green
+cell without a line. Coordinates are (row,column), counted from 1.
+
+The [algorithm](../examples/grid-player-algorithm.mjs) owns obstacles, the queue
+and parents. `createGridTrace` records immutable states and
+`done({ result: { path } })`; `createGridRenderer` draws values, distance captions,
+the line and green result.
+The queue and complete path remain available in HTML independently of Canvas.
+
+Player uses the shared 650 ms step / 1000 ms final-hold timing and its own
+0.25–16× speeds. The generator retains 32 positions including the current one;
+Previous replays snapshots without rerunning the search. History supports seeking,
+including the path appearance. Restart creates a fresh queue and trace; changing
+the grid/mode also starts again, preserving speed. Pagehide closes Player and the
+viewport; BFcache restoration starts a new session. Input/limit validation precedes
+session replacement. Shared example limits are 64 cells with history and 2000
+with generators; visible presets contain 35 cells.
+
+BFS itself needs O(N) work and memory. Copying O(N) data on each of O(N) steps
+separately costs O(N²) work and full-history memory; a fixed generator window
+retains O(N) data. Drawing has separate costs.
+[1.3.0 readiness](grid-readiness-1.3.md) ·
+[Verification report](checks/grid-player-example-2026-11-20.json) ·
+[Repeatable native checks](../test/grid-player-browser.html).
+To repeat native acceptance and save its report:
+
+```sh
+npm run build
+node scripts/test-grid-canvas-browser.mjs --report grid-bfs-native.json
+```
+
+The server prints its local address and chosen port. Open
+`/test/grid-player-browser.html` there, or `/examples/grid-player.html` for the demo.
 
 ## Maze generation and pathfinding
 

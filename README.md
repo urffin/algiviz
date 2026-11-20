@@ -25,16 +25,15 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Package line: **1.2.x**. **1.2.1 updates documentation only**; the public API
-and implementations are unchanged from 1.2.0 (`8e1f50b`).
-Twelve entries are published, including `/tree` and `/canvas/tree`: ordered/binary
-trees, atomic edits, layout, empty slots, captions and green results.
-The ten previous imports need no migration.
-[Documentation patch](https://github.com/urffin/algiviz/blob/master/docs/release-1.2.1.md) ·
-[1.2.0 verification](https://github.com/urffin/algiviz/blob/master/docs/release-1.2.md) ·
-[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.2.1) ·
-[Tree API](https://github.com/urffin/algiviz/blob/master/docs/tree-api.md) ·
-[Tree Canvas](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md) ·
+Package version: **1.3.0**. Two new entries, **/grid** and **/canvas/grid**,
+add dense grids, atomic operations, captions, results and ordered paths.
+The stock Canvas renderer fits square cells, values and distance captions,
+preserves the green result and crossfades path appearance/replacement.
+There are 14 entries; the twelve existing imports need no migration.
+BFS remains application code in a separate example, not a package algorithm export.
+[Grid API](https://github.com/urffin/algiviz/blob/master/docs/grid-api.md) · [Grid Canvas](https://github.com/urffin/algiviz/blob/master/docs/grid-canvas-api.md) ·
+[BFS example](https://github.com/urffin/algiviz/blob/master/docs/examples.md#grid-bfs-shortest-path) ·
+[Changes and migration](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.3.md) ·
 [Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md).
 
 ## Install
@@ -45,9 +44,10 @@ npm install @grundyjs/algiviz
 
 There is no root entry point or CommonJS build. Import the modules you need:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
-`/worker`, `/worker/runtime`, `/graph` and `/canvas/graph`.
+`/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
+`/grid` and `/canvas/grid`.
 
-Graph entries require 1.1.0 or newer; npm 1.0.0 contains neither.
+Graph entries require 1.1.0, tree entries 1.2.0, and grid entries 1.3.0 or newer.
 Algorithms live in application code and examples. Compatible features use minor
 releases under the [1.x compatibility policy](https://github.com/urffin/algiviz/blob/master/docs/api-compatibility.md);
 consult [CHANGELOG.md](CHANGELOG.md) when updating.
@@ -84,6 +84,8 @@ plain states/pre → createArrayPlayer → standard Player → scenes/interpolat
 | [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Graph Canvas: arrows, loops, parallel edges and caption placement | 1.1.0 |
 | [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-api.md) | Ordered/binary traces, atomic topology edits and scene projection | 1.2.0 |
 | [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md) | Explicit tree layout, empty binary slots, relation interpolation, captions and result | 1.2.0 |
+| [`/grid`](https://github.com/urffin/algiviz/blob/master/docs/grid-api.md) | Dense grids, atomic operations, marks, result/path and scene | 1.3.0 |
+| [`/canvas/grid`](https://github.com/urffin/algiviz/blob/master/docs/grid-canvas-api.md) | Regular cells, values/captions, green results and paths | 1.3.0 |
 
 Headless entries need no DOM. Canvas/Player/viewport and the Worker host need
 their actual hosts and DOM types; the Worker endpoint uses WebWorker types.
@@ -125,6 +127,7 @@ with explicit ArrayBuffer transfer and observable completion through closed.
 | [BFS with the stock graph renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | The same algorithm with createGraphTrace, vertex distance captions, /canvas/graph and Player |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
+| [Grid BFS shortest path](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Shortest path between obstacles with /grid, stock Canvas and Player; distances, green result, history and generator |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 | [Tree insertion and rotation](https://github.com/urffin/algiviz/blob/master/examples/tree-player.html) | Fixed BST insertion, one right rotation, stock tree layout/Canvas and Player; green result and rewind |
 | [Boids flock](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Seeded simulation, five obstacle layouts and one-bird inspection with neighbors and steering vectors |

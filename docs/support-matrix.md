@@ -1,19 +1,43 @@
 # Support matrix
 
-**Released boundary, 2026-11-19:** 1.2.0 publishes twelve entries, including
-/tree and /canvas/tree. Headless array/graph/tree use ES2022 declarations;
-Canvas/Player/viewport/Worker host require DOM types, endpoint uses WebWorker.
-Imports do not access DOM globals; calls require their actual host. Exact-SHA
-CI and registry signature/provenance are in [the release receipt](releases/1.2.0.json).
-No browser/version support expansion follows from this documentation update.
-[T1 native acceptance](checks/tree-t1-native-2026-11-19.json) records 32 renderer
-and 17 example checks on the released candidate's embedded Chromium host,
-explicit bitmap ratios and actual host DPR. It does not certify other browser
-products or forced GPU context loss. Dated sections below remain historical.
+**Version 1.3.0 boundary.** Fourteen independent entries include /grid and
+/canvas/grid. Existing host/Node/TypeScript requirements are preserved; no browser
+support expansion follows from adding these entries. [Candidate/migration notes](candidate-1.3.md)
+separate local archive checks, exact-SHA CI and publication. The recorded published
+baseline is 1.2.1, a documentation-only patch over 1.2.0.
 
-Future [grid API](grid-api.md) is a headless ES2022-only design; /canvas/grid
-will be a separate optional DOM-typed backend. Neither entry is implemented or
-exported, and declaration-only checks do not certify runtime/browser support.
+## Current support boundary
+
+| Entries | Declarations | Active runtime boundary |
+| --- | --- | --- |
+| /playback, /scene, /array, /graph, /tree, /grid | ES2022; no DOM or ambient Node types | Headless JS/iterables; async sources use a cooperative DOM-free signal |
+| /canvas | ES2022 + DOM | HTML Canvas 2D; bitmap coordinates |
+| /canvas/graph, /canvas/tree, /canvas/grid | ES2022 + DOM | HTML Canvas 2D; explicit logical sizes and caller-owned bitmap/DPR |
+| /canvas/viewport, /player | ES2022 + DOM | Browser DOM/window, measurement, scheduling and explicit mounting/disposal |
+| /worker | ES2022 + DOM | Dedicated module Worker host with native clone/transfer facilities |
+| /worker/runtime | ES2022 + WebWorker, separately checked | Explicit dedicated Worker endpoint installation |
+
+Imports access no DOM/Worker globals or external resources; active calls require
+their documented hosts. Headless/import/consumer CI selects Node 22/24/26 on
+Ubuntu/Windows and TypeScript 5.0.4/5.4.5/5.9.3/6.0.3 with strict NodeNext/Bundler,
+separate ES2022/DOM/WebWorker declarations. Exact candidate CI is a separate gate.
+
+[Grid renderer acceptance](checks/grid-canvas-browser-2026-11-20.json) records
+18 checks: explicit backing ratios 1/1.25/2, actual viewport DPR, paths/text,
+transparent rewind and ordinary bitmap/context reset. [Grid BFS acceptance](checks/grid-player-example-2026-11-20.json)
+records 23 checks at 960/390 px, controls, result, rewind/Restart, cleanup and the
+preserved maze. BFcache handlers are tested with synthetic persisted lifecycle
+events; cache eligibility is not certified. These checks belong to the recorded
+built-in Chromium host, not other browsers or forced GPU context loss.
+[Preparation evidence](checks/candidate-1.3.0-2026-11-20.json) records their reuse
+for unchanged behavior; the example's HTML changes only its version paragraph.
+
+## Historical verification context
+
+The [1.2.0 receipt](releases/1.2.0.json) records completed CI/publication;
+[T1 native acceptance](checks/tree-t1-native-2026-11-19.json) records its 32 tree
+renderer and 17 example checks. The dated sections below retain their original
+scope and do not certify the 1.3.0 candidate.
 
 **Historical candidate update, 2026-11-16:** [1.0.0 local preparation](candidate-1.0.md)
 retains this environment boundary. Exact-SHA CI/native verification remains;
@@ -106,7 +130,7 @@ installation subsequently passed twelve viewport contract tests, type checks,
 DOM-free runtime import and verified signatures/attestation; this does not turn
 the earlier local-build browser check into a registry-tarball browser run.
 
-## Current support boundary
+## Historical support boundary (0.16.0)
 
 | Area | Recorded boundary |
 | --- | --- |

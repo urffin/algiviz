@@ -1,6 +1,7 @@
 import { createTreeTrace, treeScene, type TreeSnapshot, type TreeEvent } from '@grundyjs/algiviz/tree';
 import { createArrayTrace, type ArraySnapshot, type ArrayEvent } from '@grundyjs/algiviz/array';
 import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
+import {createGridTrace, gridScene, type GridSnapshot, type GridEvent} from '@grundyjs/algiviz/grid';
 import { Player, type PlayerOptions, type PlayerStatus, type PlayerLabels, type PlayerCloseResult } from '@grundyjs/algiviz/player';
 import type { Frame } from '@grundyjs/algiviz/playback';
 import { createGraphTrace, graphScene, type GraphSnapshot, type GraphEvent } from '@grundyjs/algiviz/graph';
@@ -187,4 +188,14 @@ export function checkDirectArrayRenderer(host: HTMLElement, ctx: CanvasRendering
 export function checkTreePlayer(host: HTMLElement) {
  const widget = new Player(host, { stepSource: function* () { const t = createTreeTrace({kind:"binary",rootId:"A",nodes:[{id:"A",data:2}],links:[]},{layout:[{nodeId:"A",x:0,y:0}]}); yield t.start(); yield t.done({result:{nodeIds:["A"]}}); }, isTerminal: s => s.event.type === "done", render(frame) { const n:number|undefined=frame.current.tree.nodes[0]?.data; treeScene(frame.current,{namespace:"player"}); void n; } });
  const frame: Frame<TreeSnapshot<number,unknown,"binary">,TreeEvent>|null=widget.frame; void frame;
+}
+
+export function checkGridPlayerTypes(host: HTMLElement) {
+    function* steps() { const trace=createGridTrace({rows:1,columns:1,values:[1]});yield trace.start();yield trace.done({result:{path:[{row:0,column:0}]}}); }
+    const player=new Player(host,{stepSource:steps,isTerminal:s=>s.event.type==='done',rewindCapacity:4,render(frame){
+        const state:GridSnapshot<number>=frame.current;const event:GridEvent=frame.event;
+        gridScene(state,{namespace:'grid-player'});void event;
+        // @ts-expect-error inferred grid payload stays numeric
+        const bad:string=state.grid.values[0]!;void bad;
+    }});player.previous();player.restart();player.dispose();
 }

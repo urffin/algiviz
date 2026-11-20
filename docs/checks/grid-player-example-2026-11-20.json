@@ -1,0 +1,690 @@
+{
+  "date": "2026-11-20",
+  "checkedAt": "2026-11-19T23:23:12.307Z",
+  "scope": "Separate application-owned Grid BFS example; preserve the existing maze and library API; no commit or publication",
+  "baseline": {
+    "sha": "c398d2d0909b10f9c46089815e221adf0369e0e8",
+    "version": "1.2.1",
+    "localUnpublishedEntries": [
+      "/grid",
+      "/canvas/grid"
+    ]
+  },
+  "example": {
+    "page": "examples/grid-player.html",
+    "publicImports": [
+      "/grid",
+      "/canvas/grid",
+      "/player",
+      "/canvas/viewport"
+    ],
+    "algorithm": "Unweighted four-neighbor BFS, discover on enqueue, stop when target dequeued",
+    "neighborOrder": [
+      "north",
+      "east",
+      "south",
+      "west"
+    ],
+    "coordinates": "Zero-based row/column in code; one-based (row,column) in HTML",
+    "presets": [
+      "passages",
+      "blocked",
+      "same"
+    ],
+    "default": {
+      "rows": 5,
+      "columns": 7,
+      "steps": 68,
+      "pathMoves": 10,
+      "pathCellIds": [
+        0,
+        1,
+        2,
+        9,
+        16,
+        17,
+        18,
+        25,
+        32,
+        33,
+        34
+      ],
+      "discovered": 23,
+      "dequeued": 22,
+      "queueRemaining": 1
+    },
+    "playback": {
+      "stepDurationMs": 650,
+      "finalHoldMs": 1000,
+      "rewindCapacity": 32,
+      "retainedFloorAfterDefaultRun": 36,
+      "maxStepsPerFrame": 16,
+      "sharedLimits": {
+        "history": 64,
+        "generator": 2000
+      }
+    }
+  },
+  "checks": {
+    "repository": {
+      "passed": 708,
+      "failed": 0,
+      "logSha256": "0ef44706ef23189419bb4b4b0caf2c076a8031e4a3a9bf225faf161624ae8ebf"
+    },
+    "newPermanentRegressions": {
+      "passed": 7,
+      "failed": 0,
+      "independentOracle": "Repeated full edge relaxation, no shared BFS queue/parents code",
+      "exhaustive3x2ObstacleAndOpenEndpointCases": 672,
+      "logSha256": "2dba670b15ff24f11e086b2e942d210b0251939c513943d94d6a826ce0746ae4"
+    },
+    "native": {
+      "date": "2026-11-19T23:20:06.406Z",
+      "host": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+        "devicePixelRatio": 1.100000023841858
+      },
+      "checks": [
+        {
+          "name": "960px · generator: native cells, distance captions, Play/Pause and viewport DPR",
+          "passed": true
+        },
+        {
+          "name": "960px · generator: shortest path joins exactly the eleven green cells; resize preserves result",
+          "passed": true
+        },
+        {
+          "name": "960px · generator: Previous/Next replay, bounded window and fresh Restart",
+          "passed": true
+        },
+        {
+          "name": "960px · generator: unreachable and zero-move paths, including rewind and Restart",
+          "passed": true
+        },
+        {
+          "name": "960px · history: native cells, distance captions, Play/Pause and viewport DPR",
+          "passed": true
+        },
+        {
+          "name": "960px · history: shortest path joins exactly the eleven green cells; resize preserves result",
+          "passed": true
+        },
+        {
+          "name": "960px · history: Previous/Next replay, bounded window and fresh Restart",
+          "passed": true
+        },
+        {
+          "name": "960px · history: native seek into path appearance and jump backwards",
+          "passed": true
+        },
+        {
+          "name": "960px · history: unreachable and zero-move paths, including rewind and Restart",
+          "passed": true
+        },
+        {
+          "name": "960px · failed selections preserve session; grid/mode changes preserve speed",
+          "passed": true
+        },
+        {
+          "name": "960px · pagehide disposes controls/viewport; BFcache starts a fresh search",
+          "passed": true
+        },
+        {
+          "name": "390px · generator: native cells, distance captions, Play/Pause and viewport DPR",
+          "passed": true
+        },
+        {
+          "name": "390px · generator: shortest path joins exactly the eleven green cells; resize preserves result",
+          "passed": true
+        },
+        {
+          "name": "390px · generator: Previous/Next replay, bounded window and fresh Restart",
+          "passed": true
+        },
+        {
+          "name": "390px · generator: unreachable and zero-move paths, including rewind and Restart",
+          "passed": true
+        },
+        {
+          "name": "390px · history: native cells, distance captions, Play/Pause and viewport DPR",
+          "passed": true
+        },
+        {
+          "name": "390px · history: shortest path joins exactly the eleven green cells; resize preserves result",
+          "passed": true
+        },
+        {
+          "name": "390px · history: Previous/Next replay, bounded window and fresh Restart",
+          "passed": true
+        },
+        {
+          "name": "390px · history: native seek into path appearance and jump backwards",
+          "passed": true
+        },
+        {
+          "name": "390px · history: unreachable and zero-move paths, including rewind and Restart",
+          "passed": true
+        },
+        {
+          "name": "390px · failed selections preserve session; grid/mode changes preserve speed",
+          "passed": true
+        },
+        {
+          "name": "390px · pagehide disposes controls/viewport; BFcache starts a fresh search",
+          "passed": true
+        },
+        {
+          "name": "Preserved maze: seeded generation, BFS and DFS cycle still work with original controls",
+          "passed": true
+        }
+      ],
+      "details": [
+        {
+          "width": 960,
+          "mode": "generator",
+          "bitmapWidth": 986,
+          "bitmapHeight": 572,
+          "DPR": 1.100000023841858,
+          "pathIds": [
+            0,
+            1,
+            2,
+            9,
+            16,
+            17,
+            18,
+            25,
+            32,
+            33,
+            34
+          ],
+          "greenPixels": 105737
+        },
+        {
+          "width": 960,
+          "mode": "history",
+          "bitmapWidth": 986,
+          "bitmapHeight": 572,
+          "DPR": 1.100000023841858,
+          "pathIds": [
+            0,
+            1,
+            2,
+            9,
+            16,
+            17,
+            18,
+            25,
+            32,
+            33,
+            34
+          ],
+          "greenPixels": 105737
+        },
+        {
+          "width": 390,
+          "mode": "generator",
+          "bitmapWidth": 377,
+          "bitmapHeight": 269,
+          "DPR": 1.100000023841858,
+          "pathIds": [
+            0,
+            1,
+            2,
+            9,
+            16,
+            17,
+            18,
+            25,
+            32,
+            33,
+            34
+          ],
+          "greenPixels": 19094
+        },
+        {
+          "width": 390,
+          "mode": "history",
+          "bitmapWidth": 377,
+          "bitmapHeight": 269,
+          "DPR": 1.100000023841858,
+          "pathIds": [
+            0,
+            1,
+            2,
+            9,
+            16,
+            17,
+            18,
+            25,
+            32,
+            33,
+            34
+          ],
+          "greenPixels": 19094
+        },
+        {
+          "preservedMaze": "bfs",
+          "pathMoves": 1
+        },
+        {
+          "preservedMaze": "dfs",
+          "pathMoves": 5
+        }
+      ],
+      "passed": 23,
+      "failed": 0,
+      "note": "Same-origin iframe UI/pixel checks on the recorded built-in Chromium host. BFcache lifecycle handlers are tested with dispatched persisted pagehide/pageshow events; this does not certify browser cache eligibility."
+    },
+    "preservation": {
+      "allLibrarySourceFilesByteIdentical": 63,
+      "previousExamplesByteIdentical": 79,
+      "mazeFilesByteIdentical": [
+        "examples/maze-algorithm.mjs",
+        "examples/maze-demo.mjs",
+        "examples/maze-scene.mjs",
+        "examples/maze.html"
+      ],
+      "historicalJSONUnchanged": 67,
+      "packageAndLockfileByteIdentical": true,
+      "sharedPlaybackHelpersUnchanged": true,
+      "EN_RUCodeBlocksMatch": true,
+      "documentationLinks": 353,
+      "gitDiffCheck": "passed"
+    },
+    "packageCheckRerun": false,
+    "packageCheckReason": "Example/documentation-only changes; library sources, export records and build/package configuration remain unchanged. Packaged README/changelog gain documentation of the repository example."
+  },
+  "limits": {
+    "publicAPIChanged": false,
+    "versionChanged": false,
+    "forcedGPUContextLoss": false,
+    "benchmarkRun": false,
+    "CI": false,
+    "commitCreated": false,
+    "tagCreated": false,
+    "published": false
+  },
+  "identity": {
+    "preexistingSourceManifestSha256": "66789c7b8c7ea0379f9b877356105744b74232a7d59ccaa54fd592303d5cdabf",
+    "newExampleFiles": [
+      {
+        "path": "examples/grid-player.html",
+        "sha256": "b356e4d82ca6f5584817e6026a79d48f7ddbf38ea07387c78384affdb08dbac9"
+      },
+      {
+        "path": "examples/grid-player-algorithm.mjs",
+        "sha256": "0353efc06deecac3b40495057b4b619dc1ea4065793a781815706454d85bb0c3"
+      },
+      {
+        "path": "examples/grid-player-session.mjs",
+        "sha256": "c6d574c07125be4a1387ff62934b35d46c5cdd8e67abe279b50eb1a709621083"
+      },
+      {
+        "path": "examples/grid-player-page.mjs",
+        "sha256": "16f0ac1d89c102cdd015f5fd04fea2b3bf79cb2f58aa2b9ba3d30b226582a992"
+      },
+      {
+        "path": "examples/grid-player-demo.mjs",
+        "sha256": "569b19fccbf989fef8562b99c70236a9e22133e62f25918afcae676e1d7fcc76"
+      }
+    ],
+    "verificationFiles": [
+      {
+        "path": "test/grid-player-example.test.mjs",
+        "sha256": "917877469570af060eede69aeabf18d4f238a988985990c42ae8a61b7abd957c"
+      },
+      {
+        "path": "test/grid-player-browser.html",
+        "sha256": "d5f5fa4ba9cd5a503542d3387d5e5a550e1f42117a8a0b2b396ee51e1aea4426"
+      },
+      {
+        "path": "test/grid-player-browser.mjs",
+        "sha256": "5907696b70e755ad739c1faca5383dabc17a35fa09d7b41a0690b7c7b4c7ba80"
+      }
+    ],
+    "preservedMaze": [
+      {
+        "path": "examples/maze-algorithm.mjs",
+        "sha256": "abb493331933215090883f75fc7f4dddffb5e6862341963f0754c5f3a6b542bc"
+      },
+      {
+        "path": "examples/maze-demo.mjs",
+        "sha256": "b24d8c5799feb46cc7f30100ef1244116dcdb0bac0d521101053fccf006f6d17"
+      },
+      {
+        "path": "examples/maze-scene.mjs",
+        "sha256": "46905680f24b408a131baa241ad1099387011e2989a40c6b2f19ec22d8c05347"
+      },
+      {
+        "path": "examples/maze.html",
+        "sha256": "4519aa16ab075b82b0a2b20e37ce2e00fdd5da9f7c40b7bbb83fc721f2ea3383"
+      }
+    ],
+    "compiledRuntimeFiles": [
+      {
+        "path": "dist/array/index.js",
+        "sha256": "d9affd87227649dd8386a0550e27750524a86d1e64d2432ee8d2bae0ab681412"
+      },
+      {
+        "path": "dist/array/player.js",
+        "sha256": "bc502a21189ddf46e7c5a26a9f168bd9370a3c44cbcabdca20bc79508d8ef378"
+      },
+      {
+        "path": "dist/array/snapshot-builder.js",
+        "sha256": "3837c97e8d61035f596bb39eb05fcf683b2479b20efde57ff0a94c8bb9b0335e"
+      },
+      {
+        "path": "dist/array/timeline.js",
+        "sha256": "6edddc02d02445ab097092ba7de7e6f6338444cb55895cd928d0ebe1c872ee17"
+      },
+      {
+        "path": "dist/array/trace.js",
+        "sha256": "755b8e1a423cded441782ead532da77e81592dc2cc392347667e05012e34304e"
+      },
+      {
+        "path": "dist/array/types.js",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      {
+        "path": "dist/canvas/graph-captions.js",
+        "sha256": "9f159e886f431b5bcfdf1ed45af3703295972fea21cad1057c41d5bf24378696"
+      },
+      {
+        "path": "dist/canvas/graph-geometry.js",
+        "sha256": "e4c036521fee679c1b410265036df8f771d8d5b1c8877a0821707c334a8875f6"
+      },
+      {
+        "path": "dist/canvas/graph.js",
+        "sha256": "708a0317c306ee2df3a4650e19d51048e0d4de149fa5cdf52e7b8a9236cd7668"
+      },
+      {
+        "path": "dist/canvas/grid-layout.js",
+        "sha256": "15fa62604070c68ff5ed73d38608e15ab020f30ac48979d61db2b10281ba0a71"
+      },
+      {
+        "path": "dist/canvas/grid-state.js",
+        "sha256": "ef35a9e008b4110bc3c6e584eaca66a2f7e46dd67def0d062104ad0f813f025d"
+      },
+      {
+        "path": "dist/canvas/grid-text.js",
+        "sha256": "0cea3d9ad5e2a6d126726a090b914bf57b84f1a576f74dd2be66bee0b63ddbed"
+      },
+      {
+        "path": "dist/canvas/grid.js",
+        "sha256": "7075235a6c2d0ca7867a5e34e8ec5e665e68d6d3ae80c49ae4bcb8b36b36d9bd"
+      },
+      {
+        "path": "dist/canvas/index.js",
+        "sha256": "80cf6c7482625ec1b2370defb5adcd42c4ff92199afe4bb72a78f79d72e43a29"
+      },
+      {
+        "path": "dist/canvas/tree-geometry.js",
+        "sha256": "b5f1fc9993ff22a1a4efa2107a42828095e690925a2c264ec6b47104f8f026c9"
+      },
+      {
+        "path": "dist/canvas/tree-labels.js",
+        "sha256": "fe7f71fd4b62dbc0346a407b5d133057d63c33d00f99a0c806040840d30c362b"
+      },
+      {
+        "path": "dist/canvas/tree-layout.js",
+        "sha256": "5954438d13f44c5c080af425d8f8d6ed3da3fc4fa675222be0a94b1c6199ad5e"
+      },
+      {
+        "path": "dist/canvas/tree.js",
+        "sha256": "bd771dc90c753f1fa2937fe58475bb7d2c640d84c1e6bc6705b6ab5fb709de94"
+      },
+      {
+        "path": "dist/canvas/viewport.js",
+        "sha256": "f6251d1932144a5dc86915dd585e99e9c36ed4519ade48fff3c1f29a508bdd18"
+      },
+      {
+        "path": "dist/compat/algorithms.js",
+        "sha256": "38fe7b6af2fa0e95763c6cb5a35c7908c154ce3ffd3a936d70f51bbd12b3fe58"
+      },
+      {
+        "path": "dist/core/bubble-sort.js",
+        "sha256": "00aeda18eb3177534b67a442c8cce1345fa7ecba27bf1247e35b84bc92d98867"
+      },
+      {
+        "path": "dist/core/index.js",
+        "sha256": "ec8fcd37b575f4b4fec5e3b549f823b3161a500779f330a227cc4ab049577507"
+      },
+      {
+        "path": "dist/core/insertion-sort.js",
+        "sha256": "f945531fb309c1300db880a8971715c3d57bdb8036bf4ac787fe332b057094b1"
+      },
+      {
+        "path": "dist/core/player.js",
+        "sha256": "5dbeecaf27cf99d69dbe2812d79391fce171b3ef6f721778d7d331badb1d0c1e"
+      },
+      {
+        "path": "dist/core/timeline.js",
+        "sha256": "bfccc768c71d710c98379701fb3bda8f767fdb7a025978bcc6bfc93429f46622"
+      },
+      {
+        "path": "dist/core/types.js",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      {
+        "path": "dist/examples/custom-objects.js",
+        "sha256": "9232096290845d3bf5bb67425f846b92f5bd7575afa4d4d674520ab49b6f6e8d"
+      },
+      {
+        "path": "dist/graph/index.js",
+        "sha256": "87c9ca7e9378b1ddc8e59734751edfbe6d0a7b08c9c5bfc7ca11d8d3d489f362"
+      },
+      {
+        "path": "dist/graph/scene.js",
+        "sha256": "f25e2fe6e5c812b3ad6c0647c46c08b313aa55873d027751c60134ec433e725f"
+      },
+      {
+        "path": "dist/graph/trace.js",
+        "sha256": "7d411c3d50a3b6f134dc465e0efc1e05ef9c0bec72f2e574446b86ef8a6ca61f"
+      },
+      {
+        "path": "dist/graph/types.js",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      {
+        "path": "dist/graph/validation.js",
+        "sha256": "23dea9f91346c3d38916aa89a17df86f565a4eae14c77b5ac2caf4b284dec755"
+      },
+      {
+        "path": "dist/grid/attributes.js",
+        "sha256": "a75732419313e994e1eeda5aaa00c37b4f884a81b006c65e78e0f365ba7c840a"
+      },
+      {
+        "path": "dist/grid/index.js",
+        "sha256": "f0867c6539eaf5a7eaa53662eaa5a33c2c459d2a6fe2167de6a7050d3d0b4705"
+      },
+      {
+        "path": "dist/grid/scene.js",
+        "sha256": "ada5574b35af03227bb26033562775c93951f93fa7e8e67fe9aa7826d1c6a1b2"
+      },
+      {
+        "path": "dist/grid/trace.js",
+        "sha256": "d2b2b064c619cb7cc1a81c97a11104c74314f8212028ca5c72c886e5fddf0a2d"
+      },
+      {
+        "path": "dist/grid/types.js",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      {
+        "path": "dist/grid/validation.js",
+        "sha256": "ee05aeac0e534c8fdd2dc424b98d9f0ea777d15dffa81fdba8ea721c1ad91843"
+      },
+      {
+        "path": "dist/playback/async-source.js",
+        "sha256": "44aa496a5abefd8aa2b02319978079ce752d80e29aa6136acfc9408409237193"
+      },
+      {
+        "path": "dist/playback/index.js",
+        "sha256": "044c588c7e294e98a629e506b92f69e3203e156f6c3943e57df563d4f1105687"
+      },
+      {
+        "path": "dist/playback/player.js",
+        "sha256": "d958fbf79c7f15382a2b459cacc18111c10efdde476c20607d8cb44c2bc3b1b3"
+      },
+      {
+        "path": "dist/playback/rewind-buffer.js",
+        "sha256": "2c4d516c0f4a45fa3e2667643f31fe72035494531888677f8947d3c78f41592e"
+      },
+      {
+        "path": "dist/playback/state-player.js",
+        "sha256": "661bdf01f2c2825b949dda2ecfa4289bd58f09b84359d52b030ee760a404a499"
+      },
+      {
+        "path": "dist/playback/state-steps.js",
+        "sha256": "34e53c7779c38b1fc5f79f91db8e92270ee75432269e59329b354a9faf6abbe1"
+      },
+      {
+        "path": "dist/playback/step-emitter.js",
+        "sha256": "9890fd6c100e531ab90f3820fbe24cb8e301db2ae2da43d5ac4a04269e4b4faa"
+      },
+      {
+        "path": "dist/playback/timeline.js",
+        "sha256": "5917dc68668c722776ee40d12c3f516e363b829a2bfa24547e5abc4829adf84b"
+      },
+      {
+        "path": "dist/playback/types.js",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      {
+        "path": "dist/player/async-controller.js",
+        "sha256": "d5af36f3a0e81c5651337fea1d781ddd92b59a4ddfe396c6dd1e7a8e6be99567"
+      },
+      {
+        "path": "dist/player/async-session.js",
+        "sha256": "f2200835e2efd61b60cf58a45686cf1719491d776224c07b7ade5507c1c0ed9c"
+      },
+      {
+        "path": "dist/player/close-report.js",
+        "sha256": "a4bd9795d2f5045512fb28242c8eabf737958db1ecdb5ccea4e809d34eecbd64"
+      },
+      {
+        "path": "dist/player/controller.js",
+        "sha256": "5175c28edd9adf38bbd0ad8ee425a830e8fb1daf1ddafeafb3e9c2a7a793b882"
+      },
+      {
+        "path": "dist/player/index.js",
+        "sha256": "975dce9e70cb2bef6d0dcedf63ca72d019438692b9b5483e39fc316991215709"
+      },
+      {
+        "path": "dist/player/mount.js",
+        "sha256": "e8d0f669cef161b9483cd6d5f2559188e0498085637f2846facf44851f68cb0d"
+      },
+      {
+        "path": "dist/player/player.js",
+        "sha256": "fc6d3de63be984c05723ca3b5a73825a24b345d62c36a19edc40225a810fb2f5"
+      },
+      {
+        "path": "dist/player/rewind-session.js",
+        "sha256": "6de6641781d5b9f77af76832c0753de9942bb11478abac7660e9210b77f86809"
+      },
+      {
+        "path": "dist/player/step-session.js",
+        "sha256": "473093594d9bd8178d6ee9be4fd2ea37d57d91d17345b63fff1f442f2c6c43ce"
+      },
+      {
+        "path": "dist/player/stream-playback.js",
+        "sha256": "6bfae958919b99f4a265bc0b353e5b508fb10ac232ef86d16b7453105ff7bcf8"
+      },
+      {
+        "path": "dist/player/types.js",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      {
+        "path": "dist/scene/index.js",
+        "sha256": "48225899cca5a0b262a07379c464b248274fb8972d545cd20822d6fbe679668b"
+      },
+      {
+        "path": "dist/tree/attributes.js",
+        "sha256": "448525b05463e29ea5a536dcccddd6118e8114b9a5275d2962dff316376a5063"
+      },
+      {
+        "path": "dist/tree/index.js",
+        "sha256": "ea7ad9cc310124a05963f723a1fa86493cf66641d27201350ca271ce983c9d34"
+      },
+      {
+        "path": "dist/tree/scene.js",
+        "sha256": "8a6da63aa65469153e78bfb57b93351ca0b924fa3d3ddf674ee1d74d918959ec"
+      },
+      {
+        "path": "dist/tree/trace.js",
+        "sha256": "b8bdd1c3ef9505e2b496558ae978bcb44c424b92e43c53065f67dbb58d45c5c6"
+      },
+      {
+        "path": "dist/tree/types.js",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      },
+      {
+        "path": "dist/tree/validation.js",
+        "sha256": "dbcc15f44366b1f4efc0bef7ab19c9553c03eb709322333fd81d188ef52831f6"
+      },
+      {
+        "path": "dist/worker/data.js",
+        "sha256": "7dbcedcf296c4d98444367f89212de3db2680e448e305249cc4eee14d0b78c55"
+      },
+      {
+        "path": "dist/worker/error.js",
+        "sha256": "58d1775a80232f4201a704686132e818e522c5a6c71517839ec9a8dd9cae70fc"
+      },
+      {
+        "path": "dist/worker/index.js",
+        "sha256": "27ffc0d59aa1e0af8791bcaa6467fa0f125505930d355417bd5051908289c07d"
+      },
+      {
+        "path": "dist/worker/protocol.js",
+        "sha256": "5f3ddcc2b4ca24cf19fd2d6a36e6cb134901b78d8b165e2b514544594121c8ef"
+      },
+      {
+        "path": "dist/worker/runtime.js",
+        "sha256": "cb37667676669bfddc66fe6467bb73dca05091fce02f9db6d45973828f61efad"
+      },
+      {
+        "path": "dist/worker/types.js",
+        "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+      }
+    ],
+    "documentationFiles": [
+      {
+        "path": "CHANGELOG.md",
+        "sha256": "03e8faa4f88da01e1d5be772020a0920961070b63e520932e079b89095951086"
+      },
+      {
+        "path": "README.md",
+        "sha256": "ffab0a4f2ba9827f4309951f6a7be6a62971ebf5b482699cb65e2ce781fa5c6b"
+      },
+      {
+        "path": "ru/README.md",
+        "sha256": "6dfa44a5d6247db0a5091e78593c97d7010c2a63b4468b4893e4c8ce3aefcf3a"
+      },
+      {
+        "path": "docs/examples.md",
+        "sha256": "d2c4f39fa062569903616b8144bada2b075a5c41e690e7b009929f3433a00951"
+      },
+      {
+        "path": "docs/ru/examples.md",
+        "sha256": "a1d8c0014e90a5024b17ec4fd05d3e2046cda7e4665e6861563621a54cffa6bc"
+      },
+      {
+        "path": "docs/current-api.md",
+        "sha256": "adcce14637388aebc53f868fe1cb63fe2d93dd13e2fb12a5dc494dc12ddaf01d"
+      },
+      {
+        "path": "docs/ru/current-api.md",
+        "sha256": "42b11241592c44b21527e5525d51867b8849135b5a0df5d661cea880fa075404"
+      },
+      {
+        "path": "docs/grid-canvas-api.md",
+        "sha256": "926b09682e961875de544e19ede44190c778f9d000481b40417b8d51094315a5"
+      },
+      {
+        "path": "docs/ru/grid-canvas-api.md",
+        "sha256": "a576c1469f4639b2338098e08642774568ea4d19a91457062d55aed475397d35"
+      }
+    ]
+  },
+  "evidenceDirectory": "D:\\CodexData\\visualizations\\2026\\11\\13\\01a1d3e9-b342-7d43-a642-5da32ac1f39f\\grid-player-example-522b4002"
+}

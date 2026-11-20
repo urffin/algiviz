@@ -19,6 +19,10 @@ const runNpm = (args, cwd) => execFileSync(process.execPath, [npm, ...args], {
 const existing = ['playback', 'scene', 'array', 'canvas']
     .map(name => `export * from '@grundyjs/algiviz/${name}';`).join('\n');
 const sources = {
+    gridCanvas: "export { createGridRenderer } from '@grundyjs/algiviz/canvas/grid';",
+    gridCanvasDynamic: existing + "\nexport async function loadGridCanvas() { return import('@grundyjs/algiviz/canvas/grid'); }",
+    grid: "export { createGridTrace, gridScene } from '@grundyjs/algiviz/grid';",
+    gridDynamic: `${existing}\nexport async function loadGrid() { return import('@grundyjs/algiviz/grid'); }`,
     treeCanvas: "export { createTreeRenderer } from '@grundyjs/algiviz/canvas/tree';",
     treeCanvasDynamic: existing + "\nexport async function loadTreeCanvas() { return import('@grundyjs/algiviz/canvas/tree'); }",
     existing,
@@ -121,6 +125,24 @@ try {
                     assert.equal(initialModules.some(canvasTree), false);
                 }
             }
+            if (!['grid', 'gridDynamic', 'gridCanvas', 'gridCanvasDynamic'].includes(name)) assert.equal(allModules.some(path => path.includes('/dist/grid/')), false, 'Unrelated entry loaded grid code');
+            const canvasGrid = path => /\/canvas\/grid(?:-layout|-state|-text)?\.js$/.test(path);
+            if (!['gridCanvas', 'gridCanvasDynamic'].includes(name)) assert.equal(allModules.some(canvasGrid), false, 'Unrelated entry loaded Canvas grid');
+            if (name === 'gridCanvas' || name === 'gridCanvasDynamic') {
+                assert.ok(allModules.some(path => path.endsWith('/canvas/grid.js')));
+                assert.equal(allModules.some(path => /\/(grid\/trace|grid\/index|canvas\/graph|canvas\/tree|tree\/trace)\.js$/.test(path)), false, 'Grid Canvas loaded another backend/trace builder');
+                if (name === 'gridCanvas') assert.equal(allModules.some(path => path.endsWith('/canvas/index.js')), false);
+                else { assert.ok(result.files.size > result.initial.size, 'Grid Canvas not deferred');assert.equal(initialModules.some(canvasGrid), false); }
+            }
+            if (name === 'grid') {
+                const modules = allModules.filter(path => path.includes('/dist/'));
+                assert.ok(modules.length > 0 && modules.every(path => path.includes('/dist/grid/')), 'Grid imported a backend or unrelated entry');
+            }
+            if (name === 'gridDynamic') {
+                assert.ok(result.files.size > result.initial.size, 'Grid import was not deferred');
+                assert.equal(initialModules.some(path => path.includes('/dist/grid/')), false);
+                assert.ok(allModules.some(path => path.includes('/dist/grid/')));
+            }
             if (name === 'tree') {
                 const modules = allModules.filter(path => path.includes('/dist/'));
                 assert.ok(modules.length > 0 && modules.every(path => path.includes('/dist/tree/')), 'Tree imported a backend or unrelated entry');
@@ -193,6 +215,19 @@ try {
                 const entryUrl = pathToFileURL(join(current, result.entry)).href;
                 const check = `const m = await import(${JSON.stringify(entryUrl)});
                     if (typeof document !== 'undefined') throw Error('Unexpected DOM');
+                    if (${JSON.stringify(name)} === 'gridCanvas' || ${JSON.stringify(name)} === 'gridCanvasDynamic') {
+                        const drawing = ${JSON.stringify(name)} === 'gridCanvas' ? m : await m.loadGridCanvas();
+                        const renderer = drawing.createGridRenderer({theme:'light',presentCell:({value})=>({label:String(value)})});
+                        if (typeof renderer.render !== 'function' || Object.keys(renderer).join() !== 'render') throw Error('Bundled Grid Canvas API failed');
+                    }
+                    if (${JSON.stringify(name)} === 'grid' || ${JSON.stringify(name)} === 'gridDynamic') {
+                        const grid = ${JSON.stringify(name)} === 'grid' ? m : await m.loadGrid();
+                        const trace = grid.createGridTrace({rows:1,columns:1,values:[1]});
+                        trace.start();trace.edit({writes:[{row:0,column:0,value:2}]});
+                        const state = trace.done({result:{path:[{row:0,column:0},{row:0,column:0}]}}).state;
+                        const scene = grid.gridScene(state,{namespace:'bundle'});
+                        if (scene.objects[0].data.value !== 2 || !scene.objects[0].data.result || scene.objects[1].data.cellIds.length !== 2) throw Error('Bundled grid result/path missing');
+                    }
                     if (${JSON.stringify(name)} === 'treeCanvas' || ${JSON.stringify(name)} === 'treeCanvasDynamic') {
                         const drawing = ${JSON.stringify(name)} === 'treeCanvas' ? m : await m.loadTreeCanvas();
                         const renderer = drawing.createTreeRenderer({theme:'light',emptySlots:'visible'});
