@@ -6,6 +6,8 @@ are preserved; no browser support expansion follows from these entries.
 [Completed 1.3.0 publication](release-1.3.md) records exact-SHA CI, registry
 installation, signature/provenance and README checks. The [1.3.1 patch](release-1.3.1.md)
 corrects documentation without changing implementations, declarations or hosts.
+Its [exact-SHA CI and registry receipt](releases/1.3.1.json) confirms all eleven
+jobs, fresh installation and signature/provenance/README checks.
 
 ## Current support boundary
 

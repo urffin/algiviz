@@ -10,8 +10,9 @@ are unchanged and need no migration. Grid imports require 1.3.0 or newer.
 The functional release baseline is **1.3.0 / 90b26f8**. All eleven CI jobs,
 publication, exact/latest, fresh installation, signature, provenance and README
 were verified; [release notes](release-1.3.md) and the [receipt](releases/1.3.0.json)
-record the facts. 1.3.1 corrects documentation; its own publication checks are
-recorded in [patch notes](release-1.3.1.md), not inferred from 1.3.0 results.
+record the facts. Documentation patch **1.3.1 / d61829d** is also published
+and verified: all eleven CI jobs, exact/latest, fresh installation, signature/
+provenance and README. [Patch notes](release-1.3.1.md) · [Actual receipt](releases/1.3.1.json).
 
 ## Entry reference map: fourteen paths
 
