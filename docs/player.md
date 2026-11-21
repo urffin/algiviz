@@ -52,6 +52,8 @@ factory. Start displays the first state, paused. There is no implicit autoplay.
 The [interactive example](../examples/optional-player.html) uses Canvas recording
 and SVG streaming with independent widgets.
 
+For views that share one playback position, see [Two panels in one Player](player-multiple-panels.md).
+
 ## Select one source capability
 
 | Option | Retention and controls |

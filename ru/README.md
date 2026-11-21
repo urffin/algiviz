@@ -130,6 +130,7 @@ Player принимает обычные состояния через source, �
 | [BFS со штатным графическим renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | Тот же алгоритм с createGraphTrace, расстояниями у вершин, /canvas/graph и Player |
 | [BFS с графом и очередью](https://github.com/urffin/algiviz/blob/master/examples/graph-queue.html) | Граф и FIFO-очередь на связном списке анимируются вместе в одном Player |
 | [Стягивание ребра](https://github.com/urffin/algiviz/blob/master/examples/graph-contraction.html) | Одна операция удаляет вершину и перенаправляет два ребра с сохранением их ID. Использует динамический API графа с 1.5.0 |
+| [Минимальное остовное дерево Краскала](https://github.com/urffin/algiviz/blob/master/examples/kruskal.html) | Взвешенный граф и растущий лес воспроизводятся синхронно в одном Player |
 | [DFS графа](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Стек вызовов, возвраты, глубина и путь дерева; история/генератор |
 | [Лабиринт](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Генерация рандомизированным DFS, волна BFS, поиск DFS, циклы и недостижимый выход; история/генератор |
 | [BFS на сетке](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Кратчайший путь между препятствиями: /grid, штатный Canvas и Player; расстояния, зелёный итог, история и генератор |

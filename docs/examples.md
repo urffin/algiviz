@@ -31,6 +31,7 @@ included in the npm archive.
 | [BFS with the stock graph renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | The same algorithm with createGraphTrace, /canvas/graph and Player |
 | [BFS graph and queue](https://github.com/urffin/algiviz/blob/master/examples/graph-queue.html) | The same BFS with a graph and a linked-list queue in one Player |
 | [Edge contraction](https://github.com/urffin/algiviz/blob/master/examples/graph-contraction.html) | One graph edit removes a vertex and redirects two edges without changing their IDs |
+| [Kruskal’s minimum spanning tree](https://github.com/urffin/algiviz/blob/master/examples/kruskal.html) | Weighted input graph and growing forest with cycle rejection and a green final tree |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Grid BFS shortest path](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Shortest path between obstacles with /grid, stock Canvas and Player; distances, green result, history and generator |
@@ -242,15 +243,17 @@ distance/counter summaries and playback settings.
 
 [The queue adapter](../examples/graph-queue-session.mjs) turns the BFS queue IDs
 into a singly linked snapshot. Enqueue and dequeue each change the list in one
-edit. Other traversal steps reuse the list snapshot. Each Player frame supplies
-the same progress and previous/current pair to both renderers, with separate
-Canvas sizes. The empty queue stays visible at the end beside the green path.
+edit. Other traversal steps reuse the list snapshot. Both renderers take their
+previous/current snapshots and the shared progress from the same Player frame,
+with separate Canvas sizes. The empty queue stays visible beside the green path.
 History seeks both views together; the generator's Previous button uses the
 shared bounded window of 32 steps. Restart returns both views to the applied
 start vertex.
 
 The application code owns the queue projection and the two Canvas viewports.
 The stock renderers and Player supply drawing, transitions and playback.
+[Two panels in one Player](player-multiple-panels.md) explains how the views
+share a snapshot and project the same frame.
 
 ## Edge contraction
 
@@ -267,6 +270,26 @@ to fade the removed vertex and edge and crossfade the old and new routes.
 Step backward or restart in either Player mode. The generator keeps a
 four-step rewind window, and the full-history slider lets you inspect the
 transition between the two snapshots.
+
+## Kruskal’s minimum spanning tree
+
+After building the repository and starting the local HTTP server, open
+[kruskal.html](../examples/kruskal.html). Two Canvas views share one Player.
+`createGraphTrace` keeps the weighted input topology fixed. A separate
+`createDynamicGraphTrace` starts with all five vertices and adds each accepted
+edge with the same ID. The renderer uses `topologyTransitions` to fade new
+edges into the forest. The algorithm and its component tracking live in the
+[example](../examples/kruskal.mjs).
+
+AC, BC, BD and CE join separate components. AB and CD are skipped because
+they would form cycles. Both views mark the final tree in green, with a total
+weight of 13. Previous restores both views to the same step. Full history
+also lets you seek within a transition, and Restart clears the forest in both
+modes.
+
+[Native Canvas checks](../test/kruskal-browser.html) run from the same HTTP server.
+See [Two panels in one Player](player-multiple-panels.md) for snapshot assembly
+and frame projection.
 
 ## Graph depth-first search
 

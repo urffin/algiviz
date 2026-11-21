@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>AlgiViz · Kruskal browser checks</title>
+<h1>Kruskal native Canvas checks</h1>
+<pre id="report" role="status">Running…</pre>
+<script type="module">
+import { timing } from '../examples/player-settings.mjs';
+
+const results = [];
+function check(condition, name) {
+    if (!condition) throw new Error(name);
+    results.push(name);
+}
+
+function greenPixels(canvas) {
+    const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+    let count = 0;
+    for (let i = 0; i < data.length; i += 4) {
+        if (data[i] === 52 && data[i + 1] === 211 && data[i + 2] === 153 && data[i + 3] === 255) count++;
+    }
+    return count;
+}
+
+async function verify(width) {
+    const iframe = document.createElement('iframe');
+    iframe.title = 'Kruskal at ' + width + 'px';
+    iframe.width = width;
+    iframe.height = 860;
+    const loaded = new Promise(resolve => iframe.addEventListener('load', resolve, { once: true }));
+    iframe.src = '../examples/kruskal.html';
+    document.body.append(iframe);
+    await loaded;
+    const view = iframe.contentWindow, doc = iframe.contentDocument;
+    const canvases = [...doc.querySelectorAll('canvas')];
+    const viewport = doc.querySelector('.panes');
+    const mode = doc.querySelector('#mode');
+    const status = () => doc.querySelector('#status').textContent;
+    const phase = () => doc.querySelector('.algiviz-player').dataset.phase;
+    const control = action => doc.querySelector('[data-action="' + action + '"]');
+    const tick = () => new Promise(resolve => view.requestAnimationFrame(resolve));
+    const pixels = () => canvases.map(canvas => canvas.toDataURL());
+    const matches = (a, b) => a.every((image, index) => image === b[index]);
+    function click(action) {
+        const button = control(action);
+        if (!button || button.hidden || button.disabled) throw new Error('Unavailable control ' + action);
+        button.click();
+    }
+    function select(input, value, event) {
+        input.value = value;
+        input.dispatchEvent(new view.Event(event, { bubbles: true }));
+    }
+    for (const playback of ['generator', 'history']) {
+        const verifyMode = (ok, name) => check(ok, width + 'px / ' + playback + ' / ' + name);
+        select(mode, playback, 'change');
+        await tick();
+        const positions = canvases.map(canvas => canvas.getBoundingClientRect());
+        const sideBySide = positions[0].top === positions[1].top && positions[0].right <= positions[1].left;
+        const stacked = positions[0].left === positions[1].left && positions[0].bottom < positions[1].top;
+        verifyMode(doc.querySelectorAll('.algiviz-player').length === 1
+            && viewport.querySelectorAll('canvas').length === 2
+            && viewport.parentElement.classList.contains('algiviz-player__viewport')
+            && canvases.every((canvas, i) => canvas.width === Math.round(positions[i].width * view.devicePixelRatio))
+            && doc.documentElement.scrollWidth <= doc.documentElement.clientWidth
+            && (width > 640 ? sideBySide : stacked), 'two responsive canvases in one Player');
+        verifyMode(control('seek').hidden === (playback === 'generator'), 'correct seek control');
+        const initial = pixels();
+        click('next');
+        const first = pixels();
+        verifyMode(status().startsWith('Accept A–C (weight 1)') && initial.every((image, i) => image !== first[i]),
+            'accepted edge changes both canvases');
+        click('previous');
+        verifyMode(status().startsWith('Start with five') && matches(pixels(), initial), 'Previous restores both canvases');
+        click('next');
+        verifyMode(matches(pixels(), first), 'Next replays both canvases');
+        click('next');
+        const twoEdges = pixels();
+        click('next');
+        const rejected = pixels();
+        verifyMode(status().startsWith('Skip A–B (weight 3)') && status().includes('would form a cycle')
+            && rejected[0] !== twoEdges[0] && rejected[1] === twoEdges[1], 'cycle rejection leaves forest intact');
+        for (let i = 0; i < 5 && phase() !== 'finished'; i++) click('next');
+        verifyMode(phase() === 'finished' && status() === 'Minimum spanning tree: 4 edges. Total weight: 13.'
+            && canvases.every(canvas => greenPixels(canvas) > 80), 'green tree and total weight 13');
+        if (playback === 'history') {
+            const seek = ms => select(control('seek'), ms, 'input');
+            seek(timing.stepDurationMs / 2);
+            const between = pixels();
+            verifyMode(between[1] !== initial[1] && between[1] !== first[1], 'Seek shows a fading edge');
+            seek(timing.stepDurationMs);
+            verifyMode(matches(pixels(), first), 'Seek restores both endpoint canvases');
+            seek(timing.stepDurationMs / 2);
+            verifyMode(matches(pixels(), between), 'Seek reproduces the same intermediate frame');
+        }
+        click('restart');
+        verifyMode(status().includes('Total weight: 0.') && matches(pixels(), initial)
+            && canvases.every(canvas => greenPixels(canvas) === 0)
+            && doc.querySelector('#error').textContent === '', 'Restart restores the initial graph and empty forest');
+        click('play');
+        const playing = phase() === 'playing';
+        await tick();
+        click('play');
+        const paused = pixels();
+        await tick();
+        verifyMode(playing && phase() === 'paused' && matches(pixels(), paused), 'Pause freezes both canvases');
+    }
+    iframe.remove();
+}
+
+const report = document.querySelector('#report');
+try {
+    for (const width of [960, 390]) await verify(width);
+    report.textContent = results.length + ' checks passed\n' + results.join('\n');
+} catch (error) {
+    report.textContent = 'FAILED after ' + results.length + '\n' + error.stack;
+}
+</script>
+</html>

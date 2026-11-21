@@ -129,6 +129,7 @@ with explicit ArrayBuffer transfer and observable completion through closed.
 | [BFS with the stock graph renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | The same algorithm with createGraphTrace, vertex distance captions, /canvas/graph and Player |
 | [BFS graph and queue](https://github.com/urffin/algiviz/blob/master/examples/graph-queue.html) | The graph and a linked-list FIFO queue animate together in one Player |
 | [Edge contraction](https://github.com/urffin/algiviz/blob/master/examples/graph-contraction.html) | One edit removes a vertex and redirects two edges with stable IDs. Uses the dynamic graph API introduced in 1.5.0 |
+| [Kruskal’s minimum spanning tree](https://github.com/urffin/algiviz/blob/master/examples/kruskal.html) | A weighted input graph and a growing forest advance together in one Player |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Grid BFS shortest path](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Shortest path between obstacles with /grid, stock Canvas and Player; distances, green result, history and generator |
