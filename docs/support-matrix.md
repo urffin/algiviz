@@ -1,9 +1,8 @@
 # Support matrix
 
-**Version 1.6.0** has sixteen independent ESM entry points. The optional
-`itemLabel` callback uses the existing DOM and HTML Canvas 2D boundary
-of `/canvas`. The environment requirements are listed below.
-[Current API](current-api.md) · [Release notes](release-1.6.md).
+**Version 1.7.0** has sixteen independent ESM entry points.
+`stepHistory` uses the existing browser DOM, timing and controls of `/player`.
+[Current API](current-api.md) · [Release notes](release-1.7.md).
 
 The [1.4.0 receipt](releases/1.4.0.json) records all eleven CI jobs on the released commit and the registry verification.
 

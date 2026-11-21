@@ -3,13 +3,14 @@
 [English](../api-compatibility.md) · [Стабилизация](../api-stability.md) · [Текущий API](current-api.md) · [Проверенные окружения](../support-matrix.md)
 
 U3 защищает публичные типы, ошибки, окружения и поведение всех 16 точек входа
-1.6.0. Необязательная функция `itemLabel` доступна по существующему пути
-`/canvas`. [Изменения и миграция](release-1.6.md).
+1.7.0. У `stepHistory` отдельный тип опций и перегрузка конструктора.
+У `PlayerOptions` сохраняются четыре ветки.
+[Изменения и миграция](release-1.7.md).
 
 ## Публичная поверхность
 
-Импортируемые пути определяет только export map. Версия 1.6.0 содержит **16 точек входа,
-34 имени времени выполнения, 189 экспортов типов, 177 различных имён**. База 1.0.0 имела
+Импортируемые пути определяет только export map. Версия 1.7.0 содержит **16 точек входа,
+34 имени времени выполнения, 190 экспортов типов, 178 различных имён**. База 1.0.0 имела
 8 / 21 / 69 / 57. Общие Worker-типы считаются по обоим путям; классы — runtime-имена.
 [Инвентарь](current-api.md) и [ревизия 1.1](graph-readiness-1.1.md).
 
@@ -20,7 +21,7 @@ U3 защищает публичные типы, ошибки, окружени�
 | `/array` | `createArrayTrace`, `defineArrayAlgorithm`, `createArrayPlayer`, `createArrayTimeline` | 11 |
 | `/canvas` | `arrayScene`, `createArrayRenderer`, `createSortRenderer` | 4 |
 | `/canvas/viewport` | `createCanvasViewport` | 3 |
-| `/player` | `Player` | 4 |
+| `/player` | `Player` | 5 |
 | `/worker` | `createWorkerSourceFactory`, `WorkerSourceError` | 17 |
 | `/worker/runtime` | `exposeWorkerSource` | 15 |
 | `/graph` | `createGraphTrace`, `createDynamicGraphTrace`, `graphScene` | 26 |

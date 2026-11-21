@@ -3,13 +3,14 @@
 [Русский](ru/api-compatibility.md) · [Stabilization](api-stability.md) · [Current API](current-api.md) · [Support evidence](support-matrix.md)
 
 U3 protects public types, errors, environments and behavior across all sixteen
-1.6.0 entry points. The optional `itemLabel` callback uses the existing
-`/canvas` path. [Release notes and migration](release-1.6.md).
+1.7.0 entry points. `stepHistory` has a separate options type and constructor
+overload, preserving the four `PlayerOptions` branches.
+[Release notes and migration](release-1.7.md).
 
 ## Public surface
 
-Only the export map defines importable paths. Version 1.6.0 has **16 entries,
-34 runtime names, 189 type-only exports, 177 distinct types**. The 1.0.0 baseline
+Only the export map defines importable paths. Version 1.7.0 has **16 entries,
+34 runtime names, 190 type-only exports, 178 distinct types**. The 1.0.0 baseline
 had 8 / 21 / 69 / 57. Shared Worker types count at both paths; classes count as
 runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.md).
 
@@ -20,7 +21,7 @@ runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.
 | `/array` | `createArrayTrace`, `defineArrayAlgorithm`, `createArrayPlayer`, `createArrayTimeline` | 11 |
 | `/canvas` | `arrayScene`, `createArrayRenderer`, `createSortRenderer` | 4 |
 | `/canvas/viewport` | `createCanvasViewport` | 3 |
-| `/player` | `Player` | 4 |
+| `/player` | `Player` | 5 |
 | `/worker` | `createWorkerSourceFactory`, `WorkerSourceError` | 17 |
 | `/worker/runtime` | `exposeWorkerSource` | 15 |
 | `/graph` | `createGraphTrace`, `createDynamicGraphTrace`, `graphScene` | 26 |

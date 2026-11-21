@@ -203,8 +203,9 @@ readable. The heap uses the stock `createTreeRenderer`. The empty heap and
 array `[1, 2b, 2a]` show the final state.
 
 Both playback modes rewind the two panels together and Restart restores the
-input. Full history can seek within an exchange. The shared state stores
-the array event so its highlights also work during history playback.
+input. Full history uses `stepHistory` (1.7.0) to retain algorithm events
+while seeking within an exchange. The shared state stores the array event
+used by the tile view to highlight the swap.
 [Two panels in one Player](player-multiple-panels.md).
 [Native Canvas checks](../test/heap-player-browser.html) run from the same HTTP server.
 

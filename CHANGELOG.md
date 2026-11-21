@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.7.0
+
+Minor release. The 16 ESM entry points and four existing `PlayerOptions`
+source branches remain compatible with 1.6.0.
+
+- Add `stepHistory` to `/player` for time seeking over explicit steps.
+  Frames retain the destination step's event and source index, and a failed
+  Restart keeps the previous recording. The constructor overload accepts
+  the new `PlayerStepHistoryOptions` type.
+  [Full history of steps](https://github.com/urffin/algiviz/blob/master/docs/player.md#full-history-of-steps)
+- Use `stepHistory` for full history in the heap sort example. The array
+  and tree share a playback position and use their own snapshots.
+  [Two panels in one Player](https://github.com/urffin/algiviz/blob/master/docs/player-multiple-panels.md)
+
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.7.md).
+
 ## 1.6.0
 
 Minor release. The 16 ESM import paths remain compatible with 1.5.0.

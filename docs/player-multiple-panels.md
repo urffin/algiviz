@@ -100,10 +100,10 @@ player.start();
 ```
 
 With `stepSource`, Previous restores both panels within the retained window.
-With `history`, Seek also shows intermediate frames. History stores the states
-and leaves `frame.event` undefined, so keep messages, queue order and totals in
-the shared snapshot. Restart shows the initial snapshot again. A generator
-factory creates fresh traces for each run.
+Both recording modes support seeking to intermediate frames. The `history`
+option stores states and leaves `frame.event` undefined, so keep messages,
+queue order and totals in the shared snapshot. Restart shows the initial
+snapshot again. A generator factory creates fresh traces for each run.
 
 When a Canvas changes size, measure it and redraw the current `player.frame`
 if available. This keeps both panels at the same playback position. On teardown,
@@ -134,18 +134,19 @@ yield Object.freeze({
 
 Here `arraySnapshot` and `arrayEvent` come from `state` and `event` of the
 same `ArrayStep`. For full history, pass this factory as the Player's
-`history` option.
+`stepHistory` option.
 
 ```js
-const history = () => Object.freeze(Array.from(heapPanelSteps(), step => step.state));
+const stepHistory = () => Array.from(heapPanelSteps());
 ```
 
-The `history` factory returns states. Player builds timeline steps from those
-states with `event: undefined`, so history frames have no step event. When
-projecting a frame for the stock array renderer, take the event from
-`frame.current.arrayEvent`. It describes the operation that produced the
-destination array snapshot. Take the array snapshots from both endpoints
-and keep the shared progress and step index.
+The heap example uses `stepHistory` (1.7.0) to retain the
+algorithm event during seeking. Its `frame.event` is `extract-swap` during
+the extraction exchange. The array trace still records its own `swap`
+event. When projecting a frame for the stock array renderer, take the event
+from `frame.current.arrayEvent`. It describes the operation that produced
+the destination array snapshot. Take the array snapshots from both
+endpoints and keep the shared progress and step index.
 The tree renderer uses its projected snapshots and the shared frame metadata.
 For a panel using stock bars, create the array renderer once with
 `itemLabel` (1.6.0). Before each draw, take the label map from the same

@@ -1,4 +1,4 @@
-import { createStepSession } from "./step-session.js";
+import { captureStep, createStepSession } from "./step-session.js";
 import type { Frame, Step } from "../playback/types.js";
 import type { PlayerControls, PlayerStatus } from "./types.js";
 import { createRewindSession } from "./rewind-session.js";
@@ -36,6 +36,7 @@ export interface ControllerOptions<State, Event = undefined> {
     asyncSource?: AsyncSourceFactory<State> | undefined;
     deferClose?: boolean | undefined;
     history?: (() => readonly State[]) | undefined;
+    stepHistory?: (() => readonly Step<State, Event>[]) | undefined;
     render: (frame: Frame<State, Event>) => void;
     stepDurationMs?: number | undefined;
     finalHoldMs?: number | undefined;
@@ -48,22 +49,32 @@ export interface ControllerOptions<State, Event = undefined> {
 }
 import { createStatePlayer, createTimeline } from '../playback/index.js';
 
-function createRecording<State, Event>(states: readonly State[], stepDurationMs: number, finalHoldMs: number): Session<State, Event> {
+function captureStateHistory<State>(states: readonly State[]): readonly Step<State, undefined>[] {
     if (!Array.isArray(states)) throw new TypeError('Recording factory must return an array of states');
-    const steps = Array.from({ length: states.length }, (_, index) => {
+    return Array.from({ length: states.length }, (_, index) => {
         if (!(index in states)) throw new TypeError('Recording states must not be sparse');
-        return { index, state: states[index], event: undefined };
+        return { index, state: states[index]!, event: undefined };
     });
+}
+
+function captureStepHistory<State, Event>(steps: readonly Step<State, Event>[]): readonly Step<State, Event>[] {
+    if (!Array.isArray(steps)) throw new TypeError('Step recording factory must return an array of steps');
+    return Array.from({ length: steps.length }, (_, position) => {
+        if (!Object.hasOwn(steps, position)) throw new TypeError('Recording steps must not be sparse');
+        return captureStep<State, Event>(steps[position]!);
+    });
+}
+
+function createRecording<State, Event>(steps: readonly Step<State, Event>[], stepDurationMs: number, finalHoldMs: number): Session<State, Event> {
     const timeline = createTimeline(steps, { stepDurationMs, finalHoldMs });
-    const end = (states.length - 1) * stepDurationMs;
+    const end = (steps.length - 1) * stepDurationMs;
     let time = 0;
     function seek(value: number) {
         if (!Number.isFinite(value)) throw new TypeError('Position must be finite');
         time = Math.max(0, Math.min(value, timeline.durationMs));
     }
     return Object.freeze({
-        // Public state-only options require Event to include undefined.
-        get frame() { return timeline.sample(time) as Frame<State, Event>; },
+        get frame() { return timeline.sample(time); },
         get finished() { return time >= timeline.durationMs; },
         get positionMs() { return time; },
         durationMs: timeline.durationMs,
@@ -84,12 +95,12 @@ class PreparationFailure {
 }
 
 export function createStateController<State, Event>(options: ControllerOptions<State, Event>): StateController<State, Event> {
-    const { source, asyncSource, history, stepSource, isTerminal, render, stepDurationMs, finalHoldMs = 0, rewindCapacity, maxStepsPerFrame,
+    const { source, asyncSource, history, stepSource, stepHistory, isTerminal, render, stepDurationMs, finalHoldMs = 0, rewindCapacity, maxStepsPerFrame,
         scheduler, onChange = () => {}, onStatus = () => {}, onError = () => {} } = options;
-    const recorded = history !== undefined;
-    if ([source, asyncSource, history, stepSource].filter(value => value !== undefined).length !== 1 ||
-        typeof (recorded ? history : stepSource ?? asyncSource ?? source) !== 'function' || typeof render !== 'function')
-        throw new TypeError('Expected exactly one source/asyncSource/history/stepSource factory and a render callback');
+    const recorded = history !== undefined || stepHistory !== undefined;
+    const factories = [source, asyncSource, history, stepSource, stepHistory].filter(value => value !== undefined);
+    if (factories.length !== 1 || typeof factories[0] !== 'function' || typeof render !== 'function')
+        throw new TypeError('Expected exactly one source/asyncSource/history/stepSource/stepHistory factory and a render callback');
     if (stepSource !== undefined ? typeof isTerminal !== 'function' : isTerminal !== undefined)
         throw new TypeError('isTerminal is required only with stepSource');
     const timed = stepDurationMs !== undefined;
@@ -195,11 +206,17 @@ export function createStateController<State, Event>(options: ControllerOptions<S
         let candidate: Session<State, Event>;
         // A rejected source must not destroy the previous readable/usable session.
         try {
-            candidate = stepSource !== undefined ? createStepSession(stepSource(), isTerminal!, { stepDurationMs, finalHoldMs }, rewindCapacity, maxStepsPerFrame)
-                : recorded ? createRecording<State, Event>(history!(), stepDurationMs!, finalHoldMs)
-                : widenStateSession(rewindCapacity !== undefined ? createRewindSession(source!(), rewindCapacity, { stepDurationMs, finalHoldMs }, maxStepsPerFrame)
-                : maxStepsPerFrame === undefined ? createStatePlayer(source!(), { stepDurationMs, finalHoldMs })
-                : createStreamPlayback(stateSteps(source!()), { stepDurationMs, finalHoldMs }, maxStepsPerFrame));
+            if (recorded) {
+                // Public state-only history options require Event to include undefined.
+                const steps = stepHistory !== undefined ? captureStepHistory(stepHistory())
+                    : captureStateHistory(history!()) as readonly Step<State, Event>[];
+                candidate = createRecording(steps, stepDurationMs!, finalHoldMs);
+            } else {
+                candidate = stepSource !== undefined ? createStepSession(stepSource(), isTerminal!, { stepDurationMs, finalHoldMs }, rewindCapacity, maxStepsPerFrame)
+                    : widenStateSession(rewindCapacity !== undefined ? createRewindSession(source!(), rewindCapacity, { stepDurationMs, finalHoldMs }, maxStepsPerFrame)
+                    : maxStepsPerFrame === undefined ? createStatePlayer(source!(), { stepDurationMs, finalHoldMs })
+                    : createStreamPlayback(stateSteps(source!()), { stepDurationMs, finalHoldMs }, maxStepsPerFrame));
+            }
         }
         catch (caught) { throw new PreparationFailure(caught); }
         try { player?.dispose(); }

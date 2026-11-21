@@ -2,7 +2,7 @@ import { createTreeTrace, treeScene, type TreeSnapshot, type TreeEvent } from '@
 import { createArrayTrace, type ArraySnapshot, type ArrayEvent } from '@grundyjs/algiviz/array';
 import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
 import {createGridTrace, gridScene, type GridSnapshot, type GridEvent} from '@grundyjs/algiviz/grid';
-import { Player, type PlayerOptions, type PlayerStatus, type PlayerLabels, type PlayerCloseResult } from '@grundyjs/algiviz/player';
+import { Player, type PlayerOptions, type PlayerStepHistoryOptions, type PlayerStatus, type PlayerLabels, type PlayerCloseResult } from '@grundyjs/algiviz/player';
 import type { Frame } from '@grundyjs/algiviz/playback';
 import { createGraphTrace, graphScene, type GraphSnapshot, type GraphEvent } from '@grundyjs/algiviz/graph';
 
@@ -183,6 +183,69 @@ export function checkDirectArrayRenderer(host: HTMLElement, ctx: CanvasRendering
  const widget = new Player(host, { stepSource: function* () { const a = createArrayTrace([3,1]); yield a.start(); yield a.done(); },
  isTerminal: step => step.event.type === 'done', render: frame => renderer.render(ctx, frame) });
  const frame: Frame<ArraySnapshot, ArrayEvent> | null = widget.frame; void frame;
+}
+
+export function readLegacyHistory(options: PlayerOptions<number>) {
+    if (options.source !== undefined || options.asyncSource !== undefined || options.stepSource !== undefined) return;
+    return options.history();
+}
+
+export function checkLegacyPlayerExhaustiveness(options: PlayerOptions<number>) {
+    if (options.source !== undefined || options.asyncSource !== undefined ||
+        options.stepSource !== undefined || options.history !== undefined) return;
+    const exhaustive: never = options;
+    return exhaustive;
+}
+
+export function checkLegacyPlayerConstructor(options: PlayerOptions<number>) {
+    type ConstructorOptions = ConstructorParameters<typeof Player<number, undefined>>[1];
+    const extracted: ConstructorOptions = options;
+    const original: PlayerOptions<number> = extracted;
+    return original;
+}
+
+export function checkStepHistoryPlayerTypes(host: HTMLElement, ctx: CanvasRenderingContext2D) {
+    function* steps() {
+        const trace = createArrayTrace([3, 1]);
+        yield trace.start();
+        yield trace.swap(0, 1);
+        yield trace.done();
+    }
+    const stepHistory = () => Object.freeze(Array.from(steps()));
+    const renderer = createArrayRenderer({ theme: 'light' });
+    const recording = new Player(host, {
+        stepHistory, stepDurationMs: 100, stepSource: undefined, history: undefined,
+        render(frame) {
+            renderer.render(ctx, frame);
+            const event: ArrayEvent = frame.event;
+            // @ts-expect-error The event type cannot collapse to undefined.
+            const missing: undefined = frame.event;
+            void event; void missing;
+        },
+    });
+    const frame: Frame<ArraySnapshot, ArrayEvent> | null = recording.frame;
+    recording.seek(50); recording.restart(); recording.dispose(); void frame;
+    const explicit: PlayerStepHistoryOptions<ArraySnapshot, ArrayEvent> = {
+        stepHistory, stepDurationMs: 100, render: frame => renderer.render(ctx, frame),
+    };
+    const typedRecording: Player<ArraySnapshot, ArrayEvent> = new Player(host, explicit);
+    // @ts-expect-error The legacy options remain a closed union.
+    const legacy: PlayerOptions<ArraySnapshot, ArrayEvent> = explicit;
+    typedRecording.dispose(); void legacy;
+    new Player(host, { history: () => [1], stepHistory: undefined, stepDurationMs: 100,
+        render(frame) { const event: undefined = frame.event; void event; } });
+    // @ts-expect-error Full step history requires timing.
+    new Player(host, { stepHistory, render() {} });
+    // @ts-expect-error Full step history requires an array, not an arbitrary iterable.
+    new Player(host, { stepHistory: steps, stepDurationMs: 100, render() {} });
+    // @ts-expect-error The last recorded step is terminal, with no predicate.
+    new Player(host, { stepHistory, isTerminal: () => true, stepDurationMs: 100, render() {} });
+    // @ts-expect-error Rewind windows apply to streams.
+    new Player(host, { stepHistory, rewindCapacity: 2, stepDurationMs: 100, render() {} });
+    // @ts-expect-error Source work budgets apply to streams.
+    new Player(host, { stepHistory, maxStepsPerFrame: 2, stepDurationMs: 100, render() {} });
+    // @ts-expect-error Histories are mutually exclusive.
+    new Player(host, { stepHistory, history: () => [1], stepDurationMs: 100, render() {} });
 }
 
 export function checkTreePlayer(host: HTMLElement) {

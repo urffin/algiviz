@@ -86,7 +86,7 @@ export function* heapPanelSteps() {
 
 export function prepareHeapPanelSession(mode) {
     if (mode === 'history') {
-        return { ...timing, history: () => Object.freeze(Array.from(heapPanelSteps(), step => step.state)) };
+        return { ...timing, stepHistory: () => Array.from(heapPanelSteps()) };
     }
     if (mode === 'generator') {
         return { ...timing, stepSource: heapPanelSteps, isTerminal: step => step.event.type === 'done', rewindCapacity: 24 };

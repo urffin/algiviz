@@ -25,12 +25,11 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Версия **1.6.0** добавляет необязательную функцию `itemLabel` в
-`createArrayRenderer`. Она позволяет подписывать равные значения по ID
-элементов, например `2a` и `2b`, при обмене и перемотке. По умолчанию
-подписи числовые.
-[Подписи элементов](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md#подписи-элементов) ·
-[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.6.md) ·
+Версия **1.7.0** добавляет `stepHistory` в `Player`. Явные шаги можно записать
+вместе с событиями и перематывать по времени. Кадр сохраняет событие и исходный
+индекс целевого шага.
+[Полная история шагов](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md#полная-история-шагов) ·
+[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.7.md) ·
 [Текущий API](https://github.com/urffin/algiviz/blob/master/docs/ru/current-api.md)
 
 ## Установка
@@ -40,7 +39,7 @@ npm install @grundyjs/algiviz
 ```
 
 Пакет использует отдельные точки входа ESM. Корневой точки входа и сборки
-CommonJS нет. Версия 1.6.0 содержит 16 точек входа:
+CommonJS нет. Версия 1.7.0 содержит 16 точек входа:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
 `/grid`, `/canvas/grid`, `/list` и `/canvas/list`.
@@ -100,8 +99,9 @@ host для вызова. [Граница окружений](https://github.com
 
 ## Источники и воспроизведение
 
-Player принимает обычные состояния через source, явные шаги через stepSource,
-полную запись через history и асинхронные состояния через asyncSource.
+Player принимает обычные состояния через `source`, явные шаги через
+`stepSource` и асинхронные состояния через `asyncSource`. Для записи
+состояний используйте `history`, а для записи шагов с событиями — `stepHistory`.
 [Выбор источника](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md).
 
 Для потока опция [rewindCapacity](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md)

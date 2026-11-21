@@ -1,15 +1,14 @@
 # Current API and verification status
 
-[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.6.0 release notes](release-1.6.md)
+[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.7.0 release notes](release-1.7.md)
 
-**Version 1.6.0** has 16 entry points, 34 runtime exports and 189 type-only
-exports (177 distinct names). It adds optional `itemLabel` to the array
-Canvas renderer. Existing imports and renderer options remain compatible.
+**Version 1.7.0** has 16 entry points, 34 runtime exports and 190 type-only
+exports (178 distinct names). It adds `stepHistory` through a constructor
+overload with `PlayerStepHistoryOptions`. `PlayerOptions` retains its four
+source branches.
 
-The [1.5.0 publication receipt](releases/1.5.0.json) records verification for
+The [1.6.0 publication receipt](releases/1.6.0.json) records verification for
 the previous release.
-
-**1.6.0 is published.** All eleven CI jobs, the registry signature, provenance and README were verified. [Verification receipt](releases/1.6.0.json).
 
 ## Entry reference map
 
@@ -20,7 +19,7 @@ the previous release.
 | /array | [Array](array.md), [result](array-result.md) | 1.0.0 |
 | /canvas | [Array Canvas](array.md#canvas-rendering), [item labels](array.md#custom-item-labels) | 1.0.0, item labels since 1.6.0 |
 | /canvas/viewport | [Viewport](canvas-viewport.md) | 1.0.0 |
-| /player | [Player](player.md), [explicit steps](player-step-source.md), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0 |
+| /player | [Player](player.md), [explicit steps](player-step-source.md), [full step history](player.md#full-history-of-steps), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0, `stepHistory` since 1.7.0 |
 | /worker | [Worker source](worker-source-api.md) | 1.0.0 |
 | /worker/runtime | [Worker endpoint](worker-source-api.md#worker-declarations-workerruntime) | 1.0.0 |
 | /graph | [Graph API](graph-api.md), [dynamic topology](graph-dynamic-topology.md), [captions](graph-node-captions.md) | 1.1.0, dynamic edits since 1.5.0 |
@@ -34,15 +33,14 @@ the previous release.
 
 ## Example and verification
 
-The [heap sort example](examples.md#heap-sort-with-player) shows why the
-array keeps a dedicated tile view when labels cross. The [1.6.0 readiness
-review](readiness-1.6.md) records the renderer comparison and compatibility
-checks against 1.5.0.
+The [heap sort example](examples.md#heap-sort-with-player) uses `stepHistory`
+to seek through synchronized array and tree snapshots. The [1.7.0 readiness
+review](readiness-1.7.md) records the example and compatibility checks.
 
 ## Reading historical evidence
 
 Dated documents/JSON retain their original scope. Old local/candidate/0.16.0
-status refers to that verification stage. For the API contract of 1.6.0, use
+status refers to that verification stage. For the API contract of 1.7.0, use
 this index for release-baseline status.
 
 - [1.0 candidate](candidate-1.0.md), [core readiness](core-readiness-1.0.md), [migration](migration-1.0.md).

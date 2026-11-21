@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>AlgiViz · Array step history browser checks</title>
+<h1>Bubble sort with stepHistory</h1>
+<div id="player">
+    <canvas width="390" height="180" style="max-width:390px" aria-label="Bubble sort"></canvas>
+</div>
+<pre id="report" role="status">Running…</pre>
+<script type="importmap">
+{
+    "imports": {
+        "@grundyjs/algiviz/array": "../dist/array/index.js",
+        "@grundyjs/algiviz/canvas": "../dist/canvas/index.js",
+        "@grundyjs/algiviz/player": "../dist/player/index.js"
+    }
+}
+</script>
+<script type="module">
+import { bubble } from '../examples/algorithms.mjs';
+import { timing } from '../examples/player-settings.mjs';
+import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
+import { Player } from '@grundyjs/algiviz/player';
+
+const host = document.querySelector('#player');
+const canvas = host.querySelector('canvas'), ctx = canvas.getContext('2d');
+const report = document.querySelector('#report');
+const renderer = createArrayRenderer({ theme: 'dark' });
+const stepMs = timing.stepDurationMs;
+const results = [];
+let starts = 0;
+const player = new Player(host, {
+    ...timing, viewport: canvas, autoHide: false,
+    stepHistory() {
+        starts++;
+        return Array.from(bubble.iterate([3, 1, 2]));
+    },
+    render: frame => renderer.render(ctx, frame),
+});
+
+function check(condition, name) {
+    if (!condition) throw new Error(name);
+    results.push(name);
+}
+const control = action => host.querySelector('[data-action="' + action + '"]');
+const pixels = () => canvas.toDataURL();
+const values = snapshot => snapshot.slots.map(item => item.value).join(',');
+function seek(time) {
+    const slider = control('seek');
+    slider.value = String(time);
+    slider.dispatchEvent(new Event('input'));
+}
+function activeBars() {
+    const row = ctx.getImageData(0, Math.floor(canvas.height * .64), canvas.width, 1).data;
+    let runs = 0, inside = false;
+    for (let i = 0; i < row.length; i += 4) {
+        const active = row[i] === 251 && row[i + 1] === 191 && row[i + 2] === 36 && row[i + 3] === 255;
+        if (active && !inside) runs++;
+        inside = active;
+    }
+    return runs;
+}
+
+try {
+    check(starts === 0 && player.frame === null, 'the recording factory waits for Start');
+    control('start').click();
+    const initial = pixels(), firstFrame = player.frame;
+    check(starts === 1 && firstFrame.event.type === 'start'
+        && values(firstFrame.current) === '3,1,2' && !control('seek').disabled, 'Start shows the original array and seek bar');
+    seek(stepMs * 1.2);
+    const insideSwap = pixels(), swapFrame = player.frame;
+    check(swapFrame.event.type === 'swap' && swapFrame.progress === .2
+        && values(swapFrame.previous) === '3,1,2' && values(swapFrame.current) === '1,3,2', 'seek exposes the swap event and both endpoints');
+    check(activeBars() === 2, 'stock Canvas shows two separate yellow bars during the swap');
+    control('next').click();
+    check(player.status.positionMs === 2 * stepMs && player.frame.progress === 1
+        && player.frame.event === swapFrame.event, 'Next completes the same swap');
+    control('previous').click();
+    check(player.status.positionMs === stepMs && player.frame.event.type === 'compare', 'Previous restores the comparison');
+    seek(stepMs * 1.2);
+    check(pixels() === insideSwap && player.frame.event === swapFrame.event && starts === 1, 'seeking again reproduces the same pixels and event');
+    control('restart').click();
+    check(starts === 2 && player.status.positionMs === 0 && player.status.phase === 'paused'
+        && player.frame.event.type === 'start' && player.frame.current !== firstFrame.current
+        && pixels() === initial, 'Restart makes a fresh recording and restores the original pixels');
+    report.textContent = results.length + ' checks passed\n' + results.join('\n');
+} catch (error) {
+    report.textContent = 'FAILED after ' + results.length + '\n' + error.stack;
+} finally {
+    player.dispose();
+}
+</script>
+</html>

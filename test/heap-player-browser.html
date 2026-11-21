@@ -35,10 +35,18 @@ async function verify(width) {
         const view = iframe.contentWindow, doc = iframe.contentDocument;
         const canvases = [...doc.querySelectorAll('canvas')];
         const arrayContext = canvases[0].getContext('2d');
-        const { fillText } = arrayContext;
+        const { fillText, fillRect } = arrayContext;
         const labels = [];
+        let highlighted = 0;
+        arrayContext.fillRect = function (x, y, width, height) {
+            if (this.fillStyle === '#fbbf24') highlighted++;
+            fillRect.call(this, x, y, width, height);
+        };
         arrayContext.fillText = function (text, x, y) {
-            if (text === '0') labels.length = 0;
+            if (text === '0') {
+                labels.length = 0;
+                highlighted = 0;
+            }
             if (this.font.startsWith('bold ')) {
                 const metrics = this.measureText(text);
                 labels.push({ text, x, top: y - metrics.actualBoundingBoxAscent, bottom: y + metrics.actualBoundingBoxDescent });
@@ -103,6 +111,7 @@ async function verify(width) {
                 const [one, b, a] = labels;
                 verifyMode(shows('1, 2b, 2a') && one.x === b.x && b.x === a.x
                     && one.bottom < b.top && b.bottom < a.top, 'all three labels stay separate at the crossing');
+                verifyMode(highlighted === 2, 'two exchanged tiles stay highlighted during the transition');
                 select(control('seek'), 6 * timing.stepDurationMs, 'input');
                 verifyMode(matches(pixels(), swapped), 'Seek restores both exchange endpoints');
             }

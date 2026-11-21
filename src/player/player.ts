@@ -1,12 +1,15 @@
 import { mountControls } from "./mount.js";
-import type { PlayerControls, PlayerOptions, PlayerStatus } from "./types.js";
+import type { PlayerControls, PlayerOptions, PlayerStepHistoryOptions, PlayerStatus } from "./types.js";
 import type { Frame } from "../playback/types.js";
 
 /** Optional browser widget. Construction creates idle controls; start reads the first state. */
 export class Player<State, Event = undefined> {
     readonly #controls: PlayerControls<State, Event>;
 
-    constructor(container: HTMLElement, options: PlayerOptions<State, Event>) {
+    constructor(container: HTMLElement, options: PlayerStepHistoryOptions<State, Event>);
+    // Keep the legacy overload last so ConstructorParameters keeps its option type.
+    constructor(container: HTMLElement, options: PlayerOptions<State, Event>);
+    constructor(container: HTMLElement, options: PlayerOptions<State, Event> | PlayerStepHistoryOptions<State, Event>) {
         this.#controls = mountControls(container, options);
     }
 

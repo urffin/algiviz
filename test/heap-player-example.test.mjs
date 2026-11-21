@@ -62,7 +62,7 @@ test('the stream starts fresh after early return and reproduces the complete his
     const steps = [...stream.stepSource()];
     assert.deepEqual(steps[0], start);
     assert.notEqual(steps[0].state, start.state);
-    assert.deepEqual(history.history(), steps.map(step => step.state));
+    assert.deepEqual(history.stepHistory(), steps);
     assert.deepEqual(steps.filter(stream.isTerminal), [steps.at(-1)]);
     assert.throws(() => prepareHeapPanelSession('invalid'), RangeError);
 });
@@ -87,9 +87,12 @@ for (const mode of ['generator', 'history']) {
         try {
             player.start();
             const start = player.frame.current, initial = commands();
+            assert.equal(player.frame.event.type, 'start');
             assert.deepEqual(drawnLabels().map(call => call.args[0]), ['2a', '2b', '1']);
             for (let i = 0; i < 6; i++) player.next();
             const swap = player.frame.current, swapped = commands();
+            assert.equal(player.frame.event.type, 'extract-swap');
+            assert.equal(swap.arrayEvent.type, 'swap');
             assert.deepEqual(drawnLabels().map(call => call.args[0]), ['1', '2b', '2a']);
             player.next();
             const shrunk = player.frame.current, afterShrink = commands();
@@ -104,6 +107,7 @@ for (const mode of ['generator', 'history']) {
 
             for (let i = 0; i <= 11 && player.status.phase !== 'finished'; i++) player.next();
             assert.equal(player.status.phase, 'finished');
+            assert.equal(player.frame.event.type, 'done');
             assert.deepEqual(drawnLabels().map(call => call.args[0]), ['1', '2b', '2a']);
             assert.equal(array.calls('fillRect').filter(call => call.state.fillStyle === '#34d399').length, 3);
             assert.equal(tree.calls('arc').length, 0);
@@ -111,7 +115,9 @@ for (const mode of ['generator', 'history']) {
             if (mode === 'history') {
                 player.seek(5.5 * timing.stepDurationMs);
                 assert.equal(player.frame.progress, .5);
-                assert.equal(player.frame.event, undefined);
+                assert.equal(player.frame.event.type, 'extract-swap');
+                assert.equal(player.frame.current.arrayEvent.type, 'swap');
+                assert.equal(player.frame.stepIndex, 6);
                 const byLabel = new Map(drawnLabels().map(call => [call.args[0], call.args.slice(1)]));
                 const [a, b, one] = ['2a', '2b', '1'].map(label => byLabel.get(label));
                 assert.equal(a[0], b[0]);
@@ -121,6 +127,7 @@ for (const mode of ['generator', 'history']) {
             }
             player.restart();
             assert.deepEqual(player.frame.current, start);
+            assert.equal(player.frame.event.type, 'start');
             assert.deepEqual(commands(), initial);
         } finally {
             player.dispose();

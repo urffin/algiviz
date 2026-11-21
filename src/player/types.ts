@@ -107,8 +107,8 @@ type StateSources<State> = (
         readonly rewindCapacity?: undefined; readonly maxStepsPerFrame?: undefined }
 );
 
-/** Exactly one lazy factory. Explicit steps require a synchronous terminal predicate. */
-export type PlayerOptions<State, Event = undefined> = SharedOptions<State, Event> & (
+/** Exactly one stream or state-history factory. */
+export type PlayerOptions<State, Event = undefined> = SharedOptions<State, Event> & { readonly stepHistory?: undefined } & (
     { readonly stepSource: () => Iterable<Step<State, Event>>;
         readonly isTerminal: (step: Step<State, Event>) => boolean;
         readonly source?: undefined; readonly asyncSource?: undefined; readonly history?: undefined;
@@ -117,3 +117,16 @@ export type PlayerOptions<State, Event = undefined> = SharedOptions<State, Event
         readonly stepSource?: undefined; readonly isTerminal?: undefined;
     } : never)
 );
+
+/** Full history of explicit steps, including their events and source indices. */
+export type PlayerStepHistoryOptions<State, Event = undefined> = SharedOptions<State, Event> & {
+    readonly stepHistory: () => readonly Step<State, Event>[];
+    readonly stepDurationMs: number;
+    readonly source?: undefined;
+    readonly asyncSource?: undefined;
+    readonly history?: undefined;
+    readonly stepSource?: undefined;
+    readonly isTerminal?: undefined;
+    readonly rewindCapacity?: undefined;
+    readonly maxStepsPerFrame?: undefined;
+};

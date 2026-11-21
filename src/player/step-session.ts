@@ -5,6 +5,14 @@ import type { Step } from "../playback/types.js";
 const objectLike = (value: unknown): value is object =>
     value !== null && (typeof value === 'object' || typeof value === 'function');
 
+export function captureStep<State, Event>(value: Step<State, Event>): Step<State, Event> {
+    if (!objectLike(value)) throw new TypeError('Expected a step');
+    const index = value.index;
+    if (typeof index !== 'number') throw new TypeError('Step index must be a number');
+    if (!Number.isFinite(index)) throw new RangeError('Step index must be finite');
+    return Object.freeze({ index, state: value.state, event: value.event });
+}
+
 /** Owns the physical iterator separately from replaceable buffered playback. */
 export function createStepSession<State, Event>(source: Iterable<Step<State, Event>>,
     isTerminal: (step: Step<State, Event>) => boolean,
@@ -24,12 +32,7 @@ export function createStepSession<State, Event>(source: Iterable<Step<State, Eve
                 const result = iterator.next();
                 if (!objectLike(result)) throw new TypeError('Expected an iterator result');
                 if (result.done) throw new RangeError('Step source ended without a terminal step');
-                const value = result.value;
-                if (!objectLike(value)) throw new TypeError('Expected a step');
-                const index = value.index;
-                if (typeof index !== 'number') throw new TypeError('Step index must be a number');
-                if (!Number.isFinite(index)) throw new RangeError('Step index must be finite');
-                const step = Object.freeze({ index, state: value.state, event: value.event });
+                const step = captureStep(result.value);
                 const terminal = isTerminal(step);
                 if (typeof terminal !== 'boolean') throw new TypeError('isTerminal must return a boolean');
                 yield { step, terminal };

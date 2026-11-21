@@ -25,11 +25,11 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Version **1.6.0** adds the optional `itemLabel` callback to
-`createArrayRenderer`. Use the item ID to label equal values, such as `2a` and
-`2b`, through an exchange or rewind. The default labels are numeric.
-[Custom item labels](https://github.com/urffin/algiviz/blob/master/docs/array.md#custom-item-labels) ·
-[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.6.md) ·
+Version **1.7.0** adds `stepHistory` to `Player`. Record explicit steps with
+their events and seek to any point in the recording. The frame keeps the
+event and source index of the destination step.
+[Full history of steps](https://github.com/urffin/algiviz/blob/master/docs/player.md#full-history-of-steps) ·
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.7.md) ·
 [Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md)
 
 ## Install
@@ -39,7 +39,7 @@ npm install @grundyjs/algiviz
 ```
 
 The package uses ESM subpath imports. There is no root entry point or CommonJS
-build. Version 1.6.0 provides 16 entry points:
+build. Version 1.7.0 provides 16 entry points:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
 `/grid`, `/canvas/grid`, `/list` and `/canvas/list`.
@@ -99,8 +99,9 @@ Import safety does not provide a drawing/mounting host. [Environment boundary](h
 
 ## Sources and playback
 
-Player accepts plain states through source, explicit steps through stepSource,
-a complete recording through history and asynchronous states through asyncSource.
+Player accepts plain states through `source`, explicit steps through `stepSource`
+and asynchronous states through `asyncSource`. Use `history` for a recording of
+states or `stepHistory` for a recording that also carries step events.
 [Choose a source](https://github.com/urffin/algiviz/blob/master/docs/player.md).
 
 For streams, [rewindCapacity](https://github.com/urffin/algiviz/blob/master/docs/player.md)

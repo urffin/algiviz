@@ -183,8 +183,9 @@ try {
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "worker-post-errors.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-worker.test.mjs"), join(workspace, "player-worker.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-worker.test.mjs")], { cwd: workspace, stdio: "inherit" });
-    await copyFile(join(root, "test/player-steps.test.mjs"), join(workspace, "player-steps.test.mjs"));
-    execFileSync(process.execPath, ["--test", join(workspace, "player-steps.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    for (const name of ["player-steps.test.mjs", "player-step-history.test.mjs"])
+        await copyFile(join(root, "test", name), join(workspace, name));
+    execFileSync(process.execPath, ["--test", join(workspace, "player-steps.test.mjs"), join(workspace, "player-step-history.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-speed.test.mjs"), join(workspace, "player-speed.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-speed.test.mjs")], { cwd: workspace, stdio: "inherit" });
     console.log(`Packed consumer passed: ${pkg.name}@${pkg.version}`);

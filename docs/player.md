@@ -63,6 +63,7 @@ For views that share one playback position, see [Two panels in one Player](playe
 | `asyncSource: AsyncSourceFactory<State>` (0.15.0) | Owns a lazy async session with stream timing/rewind/budget options, one pending request and no prefetch. Pause stages a late result; Restart prepares before replacement. |
 | `stepSource: () => Iterable<Step<State, Event>>` + `isTerminal` | Explicit synchronous steps, classified once per position. Frame exposes State/Event/index directly. Supports timing, rewindCapacity and maxStepsPerFrame; no seeking. |
 | `history: () => readonly State[]` | Explicit dense, nonempty recording retained in full. Requires positive `stepDurationMs`. Supports Previous, time seeking and a known duration; completion is known at the final boundary. The factory is not called before Start. |
+| `stepHistory: () => readonly Step<State, Event>[]` (1.7.0) | Full recording of explicit steps with their events and source indices. Uses the same timing and navigation as `history`. |
 
 Exactly one factory is required. An iterable is never silently collected to
 enable seeking. All factories must support restart; each invocation supplies a
@@ -81,6 +82,53 @@ const ui = new Player(container, {
 slider onto a stream. Recordings use `createTimeline` internally; seeking clamps
 finite times and pauses playback. It does not recreate the recording. Invalid
 non-finite positions are rejected before affecting a usable session.
+
+## Full history of steps
+
+Use `PlayerStepHistoryOptions<State, Event>` from `/player` to type an
+options object for this constructor overload.
+`PlayerOptions<State, Event>` retains the four branches for streams and
+state-only recordings. [Readiness review](readiness-1.7.md).
+
+`stepHistory` accepts a synchronous factory that returns a nonempty array
+of explicit steps with every position present. Supply a finite positive
+`stepDurationMs`. The last array position determines the end of the
+recording, followed by `finalHoldMs`. The stream options `isTerminal`,
+`rewindCapacity` and `maxStepsPerFrame` are rejected in this mode.
+An explicit `undefined` source or stream option is treated as omitted.
+
+```ts
+const ui = new Player(container, {
+  stepHistory: () => Array.from(makeSteps()),
+  stepDurationMs: 500,
+  render: draw,
+});
+```
+
+`makeSteps` can also be the factory for a separate `stepSource` session.
+Player infers both State and Event. A sampled frame uses the event and
+`stepIndex` of the step that supplies `current`, including during an
+incomplete transition, reverse seeking and the final hold. For three
+steps at 500 ms intervals, seeking to 250 ms samples the transition to
+the second step and exposes its event. State-only `history` still exposes
+`undefined` for `frame.event`.
+
+The whole array is validated before its first render. A non-array result,
+missing array position, malformed step or nonnumeric index produces a
+`TypeError`. An empty array or nonfinite numeric index produces a
+`RangeError`. Finite indices may repeat, skip values or be negative or
+fractional. Timing uses array order. Player captures the step wrappers
+and retains the original immutable state and event references.
+
+Start and Restart prepare the array synchronously. Next, Previous and
+Seek reuse it. Restart stops playback, validates a fresh recording, and
+returns to the first frame with the selected speed. A single step with
+zero final hold is already finished. If preparation fails, the previous
+recording, position and frame remain available, playback stops, and
+`onError` receives the original failure.
+
+[Bubble sort browser check](../test/step-history-array-browser.html) passes
+the recorded frame directly to `createArrayRenderer`.
 
 ## Bounded streaming navigation (0.14.0)
 
