@@ -6,6 +6,8 @@
 HTML Canvas 2D context. The prior fourteen entries keep their environment requirements.
 [Current API](current-api.md) · [Release notes](release-1.4.md).
 
+The [1.4.0 receipt](releases/1.4.0.json) records all eleven CI jobs on the released commit and the registry verification.
+
 ## Current support boundary
 
 | Entries | Declarations | Active runtime boundary |

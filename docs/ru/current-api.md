@@ -7,6 +7,8 @@
 `createListTrace`, `listScene` и 25 типов. [/canvas/list](list-canvas-api.md)
 добавляет `createListRenderer` и пять типов. Прежним импортам миграция не нужна.
 
+**1.4.0 опубликована.** Все 11 задач CI, подпись реестра, provenance и README проверены. [Отчёт проверки](../releases/1.4.0.json).
+
 ## Карта точек входа
 
 | Entry | Справочник | Статус/первая версия |

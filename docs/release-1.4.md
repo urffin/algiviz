@@ -22,3 +22,9 @@ with ES2022 declarations. `/canvas/list` requires DOM declarations and an HTML
 Canvas 2D context for drawing. The package has 16 ESM subpaths and no runtime dependencies.
 
 [Changelog](../CHANGELOG.md) · [Historical readiness review](list-readiness-1.4.md)
+
+## Publication · 2026-11-21
+
+All eleven CI jobs passed on the release commit. Registry checks verified the exact version, the `latest` tag, a fresh installation, the registry signature and provenance. The two README files and changelog match the release archive. The npm package page README matches the archived English README.
+
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.4.0) · [npm 1.4.0](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.4.0) · [CI](https://github.com/urffin/algiviz/actions/runs/44917950685) · [npm workflow](https://github.com/urffin/algiviz/actions/runs/44918209383) · [Verification receipt](releases/1.4.0.json)

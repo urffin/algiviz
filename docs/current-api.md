@@ -7,6 +7,8 @@ exports (173 distinct names). [/list](list-api.md) adds `createListTrace`,
 `listScene` and 25 types. [/canvas/list](list-canvas-api.md) adds
 `createListRenderer` and five types. Existing imports need no migration.
 
+**1.4.0 is published.** All eleven CI jobs, the registry signature, provenance and README were verified. [Verification receipt](releases/1.4.0.json).
+
 ## Entry reference map
 
 | Entry | Reference | Status/first version |

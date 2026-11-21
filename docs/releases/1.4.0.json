@@ -1,0 +1,213 @@
+{
+  "date": "2026-11-21",
+  "verifiedAt": "2026-11-21T15:23:59.605Z",
+  "package": "@grundyjs/algiviz",
+  "version": "1.4.0",
+  "sha": "1ec97f06430ee8b3978bf7ddab760afb8bb18b96",
+  "tag": "v1.4.0",
+  "release": {
+    "id": 453777180,
+    "url": "https://github.com/urffin/algiviz/releases/tag/v1.4.0",
+    "target": "1ec97f06430ee8b3978bf7ddab760afb8bb18b96",
+    "draft": false,
+    "prerelease": false
+  },
+  "ci": {
+    "checkedAt": "2026-11-21T15:15:04.445Z",
+    "sha": "1ec97f06430ee8b3978bf7ddab760afb8bb18b96",
+    "run": {
+      "id": 44917950685,
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/urffin/algiviz/actions/runs/44917950685",
+      "headSHA": "1ec97f06430ee8b3978bf7ddab760afb8bb18b96"
+    },
+    "exactElevenJobNames": true,
+    "total": 11,
+    "passed": 11,
+    "active": [],
+    "queued": [],
+    "failures": [],
+    "jobs": [
+      {
+        "id": 136887501721,
+        "name": "Optional modules bundle isolation",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887501721"
+      },
+      {
+        "id": 136887501800,
+        "name": "Node 24 / ubuntu-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887501800"
+      },
+      {
+        "id": 136887501870,
+        "name": "Node 26 / ubuntu-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887501870"
+      },
+      {
+        "id": 136887501883,
+        "name": "TypeScript 5.4.5 consumer",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887501883"
+      },
+      {
+        "id": 136887501884,
+        "name": "Node 24 / windows-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887501884"
+      },
+      {
+        "id": 136887501903,
+        "name": "Node 22 / ubuntu-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887501903"
+      },
+      {
+        "id": 136887501950,
+        "name": "TypeScript 5.0.4 consumer",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887501950"
+      },
+      {
+        "id": 136887501955,
+        "name": "TypeScript 5.9.3 consumer",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887501955"
+      },
+      {
+        "id": 136887501956,
+        "name": "Node 26 / windows-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887501956"
+      },
+      {
+        "id": 136887502003,
+        "name": "Node 22 / windows-latest",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887502003"
+      },
+      {
+        "id": 136887502015,
+        "name": "TypeScript 6.0.3 consumer",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44917950685/job/136887502015"
+      }
+    ],
+    "complete": true
+  },
+  "publish": {
+    "id": 44918209383,
+    "attempt": 1,
+    "sha": "1ec97f06430ee8b3978bf7ddab760afb8bb18b96",
+    "status": "completed",
+    "conclusion": "success",
+    "url": "https://github.com/urffin/algiviz/actions/runs/44918209383",
+    "jobs": [
+      {
+        "id": 136888290988,
+        "name": "publish",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/urffin/algiviz/actions/runs/44918209383/job/136888290988"
+      }
+    ]
+  },
+  "npm": {
+    "exactVersion": "1.4.0",
+    "latest": "1.4.0",
+    "gitHead": "1ec97f06430ee8b3978bf7ddab760afb8bb18b96",
+    "integrity": "sha512-qdT1ov7jD+lLOO/MdodYaMwrgMsSIuFsi7x3Ui7jijHQa4SL/unCn3EEf9iHGa6TU0LDJXeaIEPCHILQ1GgOIQ=="
+  },
+  "payload": {
+    "checkedAt": "2026-11-21T15:23:33.300Z",
+    "version": "1.4.0",
+    "latest": "1.4.0",
+    "sha": "1ec97f06430ee8b3978bf7ddab760afb8bb18b96",
+    "integrity": "sha512-qdT1ov7jD+lLOO/MdodYaMwrgMsSIuFsi7x3Ui7jijHQa4SL/unCn3EEf9iHGa6TU0LDJXeaIEPCHILQ1GgOIQ==",
+    "files": 151,
+    "publicEntries": 16,
+    "distFilesMatchAfterNewlineNormalization": 146,
+    "distFilesByteIdentical": 145,
+    "newlineOnlyDifferences": [
+      "LICENSE",
+      "dist/player/mount.js"
+    ],
+    "documentation": [
+      {
+        "path": "README.md",
+        "sha256": "4bb805cfa969c23ea92249d64ea5f1a9efdf575b4eb551e80923aa8ca323cffb",
+        "byteIdentical": true,
+        "matchesAfterNewlineNormalization": true
+      },
+      {
+        "path": "ru/README.md",
+        "sha256": "a1116cef3b0657a75f8d95420db7a8b38beeaf1230af98997147febde338caee",
+        "byteIdentical": true,
+        "matchesAfterNewlineNormalization": true
+      },
+      {
+        "path": "CHANGELOG.md",
+        "sha256": "dfed2d8f18097af8dbba2246d4a3efd8f9ce2c8daa48037991a92ea9c94062a4",
+        "byteIdentical": true,
+        "matchesAfterNewlineNormalization": true
+      }
+    ],
+    "registryReadmeMatchesPublishedArchive": true,
+    "registryReadmeMatchesRepository": true,
+    "provenance": {
+      "predicateType": "https://slsa.dev/provenance/v1",
+      "source": {
+        "uri": "git+https://github.com/urffin/algiviz@refs/tags/v1.4.0",
+        "digest": {
+          "gitCommit": "1ec97f06430ee8b3978bf7ddab760afb8bb18b96"
+        }
+      },
+      "workflow": {
+        "ref": "refs/tags/v1.4.0",
+        "repository": "https://github.com/urffin/algiviz",
+        "path": ".github/workflows/npm-publish.yml"
+      },
+      "subject": {
+        "name": "pkg:npm/%40grundyjs/algiviz@1.4.0",
+        "digest": {
+          "sha512": "a9d4f5a2fee30fe94b38efcc76875868cc2b80cb1222e16c8bbc77522ee38a31d06b848bfee9c29f71047fd88719ae935342c325779a2043c21c82d0d4680e21"
+        }
+      },
+      "artifactDigestMatches": true,
+      "runURL": "https://github.com/urffin/algiviz/actions/runs/44918209383",
+      "logIndex": "4033383823",
+      "url": "https://search.sigstore.dev/?logIndex=4033383823",
+      "cryptographicVerification": "npm audit signatures: one verified registry signature and one verified attestation"
+    }
+  },
+  "consumer": {
+    "version": "1.4.0",
+    "entries": 16,
+    "runtimeExports": 33,
+    "privatePathsRejected": 4,
+    "listTraceSceneRenderer": "passed",
+    "resolved": "https://registry.npmjs.org/@grundyjs/algiviz/-/algiviz-1.4.0.tgz",
+    "integrity": "sha512-qdT1ov7jD+lLOO/MdodYaMwrgMsSIuFsi7x3Ui7jijHQa4SL/unCn3EEf9iHGa6TU0LDJXeaIEPCHILQ1GgOIQ=="
+  },
+  "registrySignatureVerified": true,
+  "attestationCryptographicallyVerified": true,
+  "registryReadmeMatchesRelease": true,
+  "packagedEN_RUReadmesMatchRelease": true,
+  "packagedChangelogMatchesRelease": true,
+  "auditLogSha256": "9cdf8300bc0626677e7f6527de39b57f070439aec1dfce90f033d52811948b72"
+}
