@@ -31,6 +31,8 @@ export type ArrayPaletteOverrides = { readonly [Role in keyof ArrayPalette]?: Ar
 export interface ArrayRendererOptions {
     readonly theme: "light" | "dark";
     readonly colors?: ArrayPaletteOverrides | undefined;
+    /** Label for a visible item. Return undefined for the numeric label or "" to hide it. */
+    readonly itemLabel?: ((this: void, item: Item) => string | undefined) | undefined;
 }
 
 const palettes = {
@@ -75,6 +77,10 @@ export function createArrayRenderer(options: ArrayRendererOptions) {
     for (const key of Object.keys(colors) as (keyof ArrayPalette)[]) {
         const color = options.colors?.[key];
         if (color !== undefined) colors[key] = color;
+    }
+    const itemLabel = options.itemLabel;
+    if (itemLabel !== undefined && typeof itemLabel !== "function") {
+        throw new TypeError("Array itemLabel must be a function");
     }
     const projectFrame = createSceneProjector(arrayScene);
     // The cached dispatcher never retains the per-call drawing callback or its context.
@@ -150,7 +156,11 @@ export function createArrayRenderer(options: ArrayRendererOptions) {
                     ctx.fillStyle = colors.text;
                     ctx.font = `${fontSize}px sans-serif`;
                     ctx.textAlign = "center";
-                    ctx.fillText(String(next.item.value), x, baseline - size - fontSize, cell * 0.95);
+                    const label = itemLabel?.(next.item);
+                    if (label !== undefined && typeof label !== "string") {
+                        throw new TypeError("Array itemLabel must return a string or undefined");
+                    }
+                    if (label !== "") ctx.fillText(label ?? String(next.item.value), x, baseline - size - fontSize, cell * 0.95);
                     ctx.fillText(String(next.index), margin + (next.index + 0.5) * cell, baseline + height * 0.06);
                 }, projected);
                 ctx.textAlign = "left";

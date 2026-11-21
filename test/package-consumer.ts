@@ -125,6 +125,19 @@ check(typeof createArrayRenderer(paletteOptions).render === 'function', 'Palette
 const noColors: ArrayRendererOptions = { theme: 'dark', colors: undefined };
 createArrayRenderer(noColors);
 createSortRenderer({ theme: 'light', colors: undefined });
+const labeledOptions: ArrayRendererOptions = {
+    theme: 'dark',
+    itemLabel(item) {
+        const id: string = item.id, value: number = item.value;
+        return value === 2 ? id : undefined;
+    },
+};
+createArrayRenderer(labeledOptions);
+createSortRenderer({ theme: 'light', itemLabel: undefined });
+if (false) {
+    // @ts-expect-error Labels return text or undefined.
+    createArrayRenderer({ theme: 'dark', itemLabel: item => item.value });
+}
 for (const factory of [createArrayRenderer, createSortRenderer]) {
     let rejected = false;
     try { Reflect.apply(factory, undefined, [{ theme: 'invalid' }]); }

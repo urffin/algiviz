@@ -196,9 +196,11 @@ and a binary `/tree` snapshot for one Player.
 
 The tree uses the same item IDs as the array. The exchange moves `2a` into the
 last slot. The next step removes it from the tree and marks that array slot as
-sorted. The array view uses `arrayScene` to match items. Swapping tiles
-follow separate paths to keep their labels readable. The tree uses the stock
-Canvas renderer. The empty heap and array `[1, 2b, 2a]` show the final state.
+sorted. The array view uses `arrayScene` to match items and draws tiles along
+separate paths. At the midpoint of the first exchange, both moving tiles
+pass the stationary `2b` at different heights, keeping all three labels
+readable. The heap uses the stock `createTreeRenderer`. The empty heap and
+array `[1, 2b, 2a]` show the final state.
 
 Both playback modes rewind the two panels together and Restart restores the
 input. Full history can seek within an exchange. The shared state stores

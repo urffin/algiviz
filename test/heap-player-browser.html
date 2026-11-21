@@ -34,6 +34,18 @@ async function verify(width) {
     try {
         const view = iframe.contentWindow, doc = iframe.contentDocument;
         const canvases = [...doc.querySelectorAll('canvas')];
+        const arrayContext = canvases[0].getContext('2d');
+        const { fillText } = arrayContext;
+        const labels = [];
+        arrayContext.fillText = function (text, x, y) {
+            if (text === '0') labels.length = 0;
+            if (this.font.startsWith('bold ')) {
+                const metrics = this.measureText(text);
+                labels.push({ text, x, top: y - metrics.actualBoundingBoxAscent, bottom: y + metrics.actualBoundingBoxDescent });
+            }
+            fillText.call(this, text, x, y);
+        };
+        const shows = expected => labels.map(label => label.text).join(', ') === expected;
         const mode = doc.querySelector('#mode');
         const status = () => doc.querySelector('#status').textContent;
         const phase = () => doc.querySelector('.algiviz-player').dataset.phase;
@@ -63,12 +75,12 @@ async function verify(width) {
                 && doc.documentElement.scrollWidth <= doc.documentElement.clientWidth
                 && arranged && control('seek').hidden === (playback === 'generator'), 'two responsive panels in one Player');
             const initial = pixels();
-            verifyMode(status() === 'Start with [2a, 2b, 1].', 'original occurrence labels');
+            verifyMode(status() === 'Start with [2a, 2b, 1].' && shows('2a, 2b, 1'), 'original occurrence labels');
             for (let i = 0; i < 5; i++) click('next');
             const beforeSwap = pixels();
             click('next');
             const swapped = pixels();
-            verifyMode(status() === 'Move maximum 2a to index 2.' && bothChanged(beforeSwap, swapped),
+            verifyMode(status() === 'Move maximum 2a to index 2.' && bothChanged(beforeSwap, swapped) && shows('1, 2b, 2a'),
                 'maximum exchange changes both canvases');
 
             click('next');
@@ -76,23 +88,27 @@ async function verify(width) {
             verifyMode(status().startsWith('Remove 2a from the heap.') && bothChanged(swapped, shrunk)
                 && greenPixels(canvases[0]) > 200, 'extraction shrinks the tree and keeps the sorted tile');
             click('previous');
-            verifyMode(status() === 'Move maximum 2a to index 2.' && matches(pixels(), swapped), 'Previous restores both canvases');
+            verifyMode(status() === 'Move maximum 2a to index 2.' && matches(pixels(), swapped)
+                && shows('1, 2b, 2a'), 'Previous restores both canvases');
             click('next');
             verifyMode(matches(pixels(), shrunk), 'Next replays the extraction');
 
             for (let i = 0; i < 12 && phase() !== 'finished'; i++) click('next');
             verifyMode(phase() === 'finished' && status() === 'Sorted order: [1, 2b, 2a]. The heap is empty.'
-                && greenPixels(canvases[0]) > 1000, 'green sorted suffix preserves the two occurrence labels');
+                && greenPixels(canvases[0]) > 1000 && shows('1, 2b, 2a'), 'green sorted suffix preserves the two occurrence labels');
             if (playback === 'history') {
                 select(control('seek'), 5.5 * timing.stepDurationMs, 'input');
                 const between = pixels();
                 verifyMode(bothChanged(between, beforeSwap) && bothChanged(between, swapped), 'Seek shows a mid-exchange frame');
+                const [one, b, a] = labels;
+                verifyMode(shows('1, 2b, 2a') && one.x === b.x && b.x === a.x
+                    && one.bottom < b.top && b.bottom < a.top, 'all three labels stay separate at the crossing');
                 select(control('seek'), 6 * timing.stepDurationMs, 'input');
                 verifyMode(matches(pixels(), swapped), 'Seek restores both exchange endpoints');
             }
             click('restart');
             verifyMode(matches(pixels(), initial) && status() === 'Start with [2a, 2b, 1].'
-                && !doc.querySelector('#error').textContent, 'Restart restores both initial canvases');
+                && shows('2a, 2b, 1') && !doc.querySelector('#error').textContent, 'Restart restores both initial canvases');
             click('play');
             const started = phase() === 'playing';
             await tick();

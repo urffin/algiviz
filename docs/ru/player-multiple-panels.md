@@ -147,10 +147,20 @@ const history = () => Object.freeze(Array.from(heapPanelSteps(), step => step.st
 к целевому снимку массива. Возьмите снимки массива из
 обоих концов перехода, сохранив общий прогресс и индекс шага. Рендерер дерева
 использует свои снимки и общие метаданные кадра.
-В этом фрагменте `arrayRenderer` создан через `createArrayRenderer`.
+Для панели со штатными столбцами создайте рендерер массива один раз с
+`itemLabel` (1.6.0). Перед каждой отрисовкой берите словарь подписей
+из того же снимка, что и событие массива. Тогда `2a` и `2b` будут следовать
+за элементами с соответствующими ID.
 
 ```js
+let labelById;
+const arrayRenderer = createArrayRenderer({
+    theme: 'dark',
+    itemLabel: item => labelById[item.id],
+});
+
 function renderHeap(frame) {
+    labelById = frame.current.labelById;
     const arrayFrame = {
         ...projectFrame(frame, state => state.array),
         event: frame.current.arrayEvent,
@@ -160,7 +170,7 @@ function renderHeap(frame) {
 }
 ```
 
-В самом примере панель массива рисует свои плитки, чтобы показать разные
-подписи `2a` и `2b`. Она проецирует те же снимки и берёт данные для
-подсветки напрямую из `current.arrayEvent`.
+В примере пирамидальной сортировки используются те же общие снимки
+и событие массива. При обмене панель рисует свои плитки на разной высоте,
+чтобы подписи читались в точке пересечения горизонтальных траекторий.
 [Код панели массива](../../examples/heap-player-array.mjs).

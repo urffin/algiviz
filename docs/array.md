@@ -182,7 +182,7 @@ Dispatcher reuse shipped in 0.14.0; [before/after measurements](array-dispatch-p
 retain their original stage and do not imply universal speedups. This section
 covers the public `/canvas` entry under the same U3 policy as `/array`.
 
-`createArrayRenderer({ theme: "dark" | "light", colors? })` returns a frozen
+`createArrayRenderer({ theme: "dark" | "light", colors?, itemLabel? })` returns a frozen
 object with `render(ctx, frame): void`. `createSortRenderer` is the identical
 compatibility alias. A theme is required; missing or invalid themes throw
 `TypeError` at creation. Omitting `colors` or passing `colors: undefined` uses
@@ -240,6 +240,36 @@ Use this adapter with your own `bar` handler and `createSceneRenderer` from
 [`/scene`](scene.md) when you need different drawing. `/canvas` can be imported
 without a browser at runtime, but its declarations require DOM types because
 they reference `CanvasRenderingContext2D`.
+
+### Custom item labels
+
+Since 1.6.0, both `createArrayRenderer` and its alias `createSortRenderer`
+accept `itemLabel?: (this: void, item: Item) => string | undefined`. The renderer
+captures the function at creation and passes the immutable item being drawn.
+Omit the option or return `undefined` to display `String(item.value)`.
+Return `""` to hide the value label while keeping its slot index.
+
+```js
+import { createArrayTrace } from '@grundyjs/algiviz/array';
+import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
+
+const trace = createArrayTrace([2, 2, 1]);
+const [a, b] = trace.start().state.slots;
+const labels = new Map([[a.id, '2a'], [b.id, '2b']]);
+const renderer = createArrayRenderer({ theme: 'dark', itemLabel: item => labels.get(item.id) });
+```
+
+Look up labels by item ID to keep them attached to the same bar during a
+swap, including intermediate and replayed frames. On Restart, derive labels
+from the new session's initial items using the same rule. Labels follow the
+existing bar geometry and text width limit. Bars and their labels can overlap
+during an exchange. Under 24 bitmap pixels per cell, the renderer skips item
+and index labels and does not call `itemLabel`.
+
+A non-function option other than `undefined` throws `TypeError` at creation.
+A return value other than a string or `undefined` throws `TypeError` during
+rendering. Exceptions from the function propagate unchanged, and the renderer
+restores the Canvas settings through its existing `save`/`restore` contract.
 
 ### Custom array colors
 

@@ -188,7 +188,7 @@ trace в одной сцене приложение должно раздели�
 сохраняют исходный этап и не обещают ускорение любого workload. Этот раздел
 описывает публичный `/canvas` под той же политикой U3, что и `/array`.
 
-`createArrayRenderer({ theme: "dark" | "light", colors? })` возвращает
+`createArrayRenderer({ theme: "dark" | "light", colors?, itemLabel? })` возвращает
 замороженный объект с `render(ctx, frame): void`. `createSortRenderer` — тот же
 совместимый псевдоним. Тема обязательна; отсутствующая или неверная тема вызывает
 `TypeError` при создании. Пропуск `colors` и `colors: undefined` используют
@@ -247,6 +247,37 @@ trace выше и разделяйте пространства ID при объ
 `bar` и `createSceneRenderer` из [`/scene`](scene.md). `/canvas` можно импортировать
 без браузера в runtime, но его декларациям нужны DOM-типы из-за ссылки на
 `CanvasRenderingContext2D`.
+
+### Подписи элементов
+
+С версии 1.6.0 `createArrayRenderer` и его псевдоним `createSortRenderer`
+принимают `itemLabel?: (this: void, item: Item) => string | undefined`. Рендерер
+запоминает функцию при создании и передаёт ей отрисовываемый неизменяемый
+элемент. Если опция отсутствует или функция вернула `undefined`, выводится
+`String(item.value)`. Пустая строка скрывает подпись значения, сохраняя индекс.
+
+```js
+import { createArrayTrace } from '@grundyjs/algiviz/array';
+import { createArrayRenderer } from '@grundyjs/algiviz/canvas';
+
+const trace = createArrayTrace([2, 2, 1]);
+const [a, b] = trace.start().state.slots;
+const labels = new Map([[a.id, '2a'], [b.id, '2b']]);
+const renderer = createArrayRenderer({ theme: 'dark', itemLabel: item => labels.get(item.id) });
+```
+
+Выбирайте подпись по ID элемента. Тогда она следует за его столбцом при
+обмене, в том числе в промежуточных кадрах и при перемотке. При Restart
+назначьте подписи начальным элементам нового сеанса по тому же правилу.
+Подписи используют прежнюю геометрию и ограничение ширины текста. При обмене
+столбцы и их подписи могут перекрываться. При ширине ячейки меньше 24
+пикселей bitmap рендерер скрывает значения и
+индексы и пропускает вызов `itemLabel`.
+
+Опция принимает функцию или `undefined`. Другие значения дают `TypeError`
+при создании. Функция возвращает строку или `undefined`. Другой результат
+даёт `TypeError` при отрисовке. Исключения функции передаются как есть,
+а настройки Canvas восстанавливаются через `save`/`restore`.
 
 ### Пользовательские цвета массива
 

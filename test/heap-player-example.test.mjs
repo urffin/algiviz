@@ -113,8 +113,10 @@ for (const mode of ['generator', 'history']) {
                 assert.equal(player.frame.progress, .5);
                 assert.equal(player.frame.event, undefined);
                 const byLabel = new Map(drawnLabels().map(call => [call.args[0], call.args.slice(1)]));
-                assert.equal(byLabel.get('2a')[0], byLabel.get('1')[0]);
-                assert.ok(byLabel.get('2a')[1] > byLabel.get('1')[1]);
+                const [a, b, one] = ['2a', '2b', '1'].map(label => byLabel.get(label));
+                assert.equal(a[0], b[0]);
+                assert.equal(b[0], one[0]);
+                assert.ok(one[1] < b[1] && b[1] < a[1]);
                 assert.equal(array.calls('fillRect').filter(call => call.state.fillStyle === '#fbbf24').length, 2);
             }
             player.restart();

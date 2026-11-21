@@ -147,10 +147,19 @@ projecting a frame for the stock array renderer, take the event from
 destination array snapshot. Take the array snapshots from both endpoints
 and keep the shared progress and step index.
 The tree renderer uses its projected snapshots and the shared frame metadata.
-In this excerpt, `arrayRenderer` is an instance from `createArrayRenderer`.
+For a panel using stock bars, create the array renderer once with
+`itemLabel` (1.6.0). Before each draw, take the label map from the same
+snapshot as the array event, so `2a` and `2b` follow their item IDs.
 
 ```js
+let labelById;
+const arrayRenderer = createArrayRenderer({
+    theme: 'dark',
+    itemLabel: item => labelById[item.id],
+});
+
 function renderHeap(frame) {
+    labelById = frame.current.labelById;
     const arrayFrame = {
         ...projectFrame(frame, state => state.array),
         event: frame.current.arrayEvent,
@@ -160,7 +169,7 @@ function renderHeap(frame) {
 }
 ```
 
-The heap demo draws its own array tiles to display the distinct labels `2a`
-and `2b`. Its array view projects the same snapshots and reads
-`current.arrayEvent` directly for the highlights.
+The heap demo uses the same shared snapshots and array event. It draws its
+own tiles at different heights during the exchange to keep the labels
+readable where their horizontal paths cross.
 [Array view source](../examples/heap-player-array.mjs).

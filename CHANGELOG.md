@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.6.0
+
+Minor release. The 16 ESM import paths remain compatible with 1.5.0.
+
+- Add optional `itemLabel` to the array Canvas renderer so labels can follow
+  stable item IDs, including equal values during exchange, rewind and Restart.
+  Omitting the option preserves numeric labels and the default rendering.
+  [Array renderer](https://github.com/urffin/algiviz/blob/master/docs/array.md#custom-item-labels)
+- Add repository examples for Kruskal's algorithm and heap sort with two
+  synchronized panels. Document shared snapshots, frame projection and how to
+  retain an array event for full history in English and Russian.
+  [Two panels in one Player](https://github.com/urffin/algiviz/blob/master/docs/player-multiple-panels.md)
+
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.6.md).
+
 ## 1.5.0
 
 Minor release. All 16 import paths and the default graph renderer behavior

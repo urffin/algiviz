@@ -1,11 +1,9 @@
 # Support matrix
 
-**Version 1.5.0** has sixteen independent ESM entry points. The
-[dynamic graph trace](graph-dynamic-topology.md) uses ES2022 declarations
-without DOM or Worker globals. [Topology transitions](graph-dynamic-canvas.md)
-use the existing DOM and HTML Canvas 2D boundary. The release preserves the
-environment requirements of all sixteen entries.
-[Current API](current-api.md) · [Release notes](release-1.5.md).
+**Version 1.6.0** has sixteen independent ESM entry points. The optional
+`itemLabel` callback uses the existing DOM and HTML Canvas 2D boundary
+of `/canvas`. The environment requirements are listed below.
+[Current API](current-api.md) · [Release notes](release-1.6.md).
 
 The [1.4.0 receipt](releases/1.4.0.json) records all eleven CI jobs on the released commit and the registry verification.
 

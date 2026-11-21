@@ -1,16 +1,13 @@
 # Current API and verification status
 
-[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.5.0 release notes](release-1.5.md)
+[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.6.0 release notes](release-1.6.md)
 
-**Version 1.5.0** has 16 entry points, 34 runtime exports and 189 type-only
-exports (177 distinct names). It adds `createDynamicGraphTrace` and four types
-to `/graph` and the opt-in `topologyTransitions` option to `/canvas/graph`.
-Existing imports need no migration.
+**Version 1.6.0** has 16 entry points, 34 runtime exports and 189 type-only
+exports (177 distinct names). It adds optional `itemLabel` to the array
+Canvas renderer. Existing imports and renderer options remain compatible.
 
-The [1.4.0 publication receipt](releases/1.4.0.json) records verification for
-the preceding release.
-
-**1.5.0 is published.** All eleven CI jobs, the registry signature, provenance and README were verified. [Verification receipt](releases/1.5.0.json).
+The [1.5.0 publication receipt](releases/1.5.0.json) records verification for
+the previous release.
 
 ## Entry reference map
 
@@ -19,7 +16,7 @@ the preceding release.
 | /playback | [Playback](playback.md), [rewind](rewind-buffer.md), [async](async-source-api.md) | 1.0.0 |
 | /scene | [Scene](scene.md) | 1.0.0 |
 | /array | [Array](array.md), [result](array-result.md) | 1.0.0 |
-| /canvas | [Array Canvas](array.md#canvas-rendering) | 1.0.0 |
+| /canvas | [Array Canvas](array.md#canvas-rendering), [item labels](array.md#custom-item-labels) | 1.0.0, item labels since 1.6.0 |
 | /canvas/viewport | [Viewport](canvas-viewport.md) | 1.0.0 |
 | /player | [Player](player.md), [explicit steps](player-step-source.md), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0 |
 | /worker | [Worker source](worker-source-api.md) | 1.0.0 |
@@ -35,14 +32,15 @@ the preceding release.
 
 ## Example and verification
 
-The [edge contraction example](examples.md#edge-contraction) demonstrates removal,
-redirects with stable IDs, rewind and Restart. The [readiness review](graph-readiness-1.5.md)
-records compatibility checks against 1.4.0.
+The [heap sort example](examples.md#heap-sort-with-player) shows why the
+array keeps a dedicated tile view when labels cross. The [1.6.0 readiness
+review](readiness-1.6.md) records the renderer comparison and compatibility
+checks against 1.5.0.
 
 ## Reading historical evidence
 
 Dated documents/JSON retain their original scope. Old local/candidate/0.16.0
-status refers to that verification stage. For the API contract of 1.5.0, use
+status refers to that verification stage. For the API contract of 1.6.0, use
 this index for release-baseline status.
 
 - [1.0 candidate](candidate-1.0.md), [core readiness](core-readiness-1.0.md), [migration](migration-1.0.md).

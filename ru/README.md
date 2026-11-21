@@ -25,12 +25,12 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Версия **1.5.0** добавляет динамические графы. `createDynamicGraphTrace`
-записывает атомарные изменения со стабильными ID вершин и рёбер.
-При включённой опции `topologyTransitions` Canvas анимирует появление
-и удаление вершин и рёбер, а также перенаправление рёбер.
-[Пример стягивания ребра](https://github.com/urffin/algiviz/blob/master/docs/ru/examples.md#стягивание-ребра) ·
-[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.5.md) ·
+Версия **1.6.0** добавляет необязательную функцию `itemLabel` в
+`createArrayRenderer`. Она позволяет подписывать равные значения по ID
+элементов, например `2a` и `2b`, при обмене и перемотке. По умолчанию
+подписи числовые.
+[Подписи элементов](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md#подписи-элементов) ·
+[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.6.md) ·
 [Текущий API](https://github.com/urffin/algiviz/blob/master/docs/ru/current-api.md)
 
 ## Установка
@@ -40,7 +40,7 @@ npm install @grundyjs/algiviz
 ```
 
 Пакет использует отдельные точки входа ESM. Корневой точки входа и сборки
-CommonJS нет. Версия 1.5.0 содержит 16 точек входа:
+CommonJS нет. Версия 1.6.0 содержит 16 точек входа:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
 `/grid`, `/canvas/grid`, `/list` и `/canvas/list`.
@@ -73,7 +73,7 @@ CommonJS нет. Версия 1.5.0 содержит 16 точек входа:
 | [`/playback`](https://github.com/urffin/algiviz/blob/master/docs/playback.md) | Шаги, плееры, история, завершение и жизненный цикл | 1.0.0 |
 | [`/scene`](https://github.com/urffin/algiviz/blob/master/docs/scene.md) | Собственные типы, сопоставление объектов и проекция | 1.0.0 |
 | [`/array`](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md) | Неизменяемые операции массива, отметки и результат | 1.0.0 |
-| [`/canvas`](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md) | Готовый Canvas-рендерер массива и палитры | 1.0.0 |
+| [`/canvas`](https://github.com/urffin/algiviz/blob/master/docs/ru/array.md) | Готовый Canvas-рендерер массива и палитры. Настраиваемые подписи элементов с 1.6.0 | 1.0.0 |
 | [`/canvas/viewport`](https://github.com/urffin/algiviz/blob/master/docs/ru/canvas-viewport.md) | CSS-размеры Canvas, DPR и очистка | 1.0.0 |
 | [`/player`](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md) | Необязательный виджет Player, медиапанель, запись/поток, загрузка по запросу | 1.0.0 |
 | [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Фабрика выделенного браузерного Worker и ошибки транспорта | 1.0.0 |

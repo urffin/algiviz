@@ -169,8 +169,9 @@ try {
     for(const name of ["grid-canvas.test.mjs","grid-canvas-playback.test.mjs","grid-canvas-fixtures.mjs","list-canvas.test.mjs"])
         await copyFile(join(root,"test/"+name),join(workspace,name));
     execFileSync(process.execPath,["--test",join(workspace,"grid-canvas.test.mjs"),join(workspace,"grid-canvas-playback.test.mjs"),join(workspace,"list-canvas.test.mjs")],{cwd:workspace,stdio:"inherit"});
-    await copyFile(join(root, "test/array-result.test.mjs"), join(workspace, "array-result.test.mjs"));
-    execFileSync(process.execPath, ["--test", join(workspace, "array-result.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    for (const name of ["array-result.test.mjs", "array-item-label.test.mjs"])
+        await copyFile(join(root, "test", name), join(workspace, name));
+    execFileSync(process.execPath, ["--test", join(workspace, "array-result.test.mjs"), join(workspace, "array-item-label.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/player-async.test.mjs"), join(workspace, "player-async.test.mjs"));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "player-async.test.mjs")], { cwd: workspace, stdio: "inherit" });
     await copyFile(join(root, "test/worker-test-transport.mjs"), join(workspace, "worker-test-transport.mjs"));
