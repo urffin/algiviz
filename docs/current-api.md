@@ -10,6 +10,8 @@ Existing imports need no migration.
 The [1.4.0 publication receipt](releases/1.4.0.json) records verification for
 the preceding release.
 
+**1.5.0 is published.** All eleven CI jobs, the registry signature, provenance and README were verified. [Verification receipt](releases/1.5.0.json).
+
 ## Entry reference map
 
 | Entry | Reference | Status/first version |

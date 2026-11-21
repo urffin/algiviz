@@ -32,3 +32,9 @@ DOM and needs an HTML Canvas 2D context for drawing. The package has no runtime
 dependencies. Both example pages and their algorithms live in the repository.
 
 [Changelog](../CHANGELOG.md) · [Readiness review](graph-readiness-1.5.md)
+
+## Publication · 2026-11-21
+
+All eleven CI jobs passed on the release commit. Registry checks verified exact version 1.5.0, the latest tag and a fresh installation. The registry signature and provenance were verified. Both README files and the changelog match the tagged commit, and the registry README matches the archived English README. The EN/RU documentation was checked against the tag.
+
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.5.0) · [npm 1.5.0](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.5.0) · [CI](https://github.com/urffin/algiviz/actions/runs/44937844231) · [npm workflow](https://github.com/urffin/algiviz/actions/runs/44939422403) · [Verification receipt](releases/1.5.0.json)

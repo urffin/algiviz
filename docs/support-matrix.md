@@ -9,6 +9,8 @@ environment requirements of all sixteen entries.
 
 The [1.4.0 receipt](releases/1.4.0.json) records all eleven CI jobs on the released commit and the registry verification.
 
+The [1.5.0 receipt](releases/1.5.0.json) records exact-commit CI and the npm registry verification.
+
 ## Current support boundary
 
 | Entries | Declarations | Active runtime boundary |

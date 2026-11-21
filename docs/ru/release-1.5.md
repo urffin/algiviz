@@ -33,3 +33,9 @@ ES2022 и DOM, а для отрисовки — контекст HTML Canvas 2D.
 находятся в репозитории.
 
 [Changelog](../../CHANGELOG.md) · [Ревизия готовности](graph-readiness-1.5.md)
+
+## Публикация · 2026-11-21
+
+Все 11 задач CI прошли на коммите выпуска. В npm проверены точная версия 1.5.0, тег latest и свежая установка. Подпись реестра и provenance подтверждены. Оба README и changelog совпали с файлами коммита выпуска, а README в реестре совпал с английским README из архива. Документация EN/RU сверена с тегом.
+
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.5.0) · [npm 1.5.0](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.5.0) · [CI](https://github.com/urffin/algiviz/actions/runs/44937844231) · [npm workflow](https://github.com/urffin/algiviz/actions/runs/44939422403) · [Отчёт проверки](../releases/1.5.0.json)
