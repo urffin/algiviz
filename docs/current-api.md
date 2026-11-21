@@ -9,6 +9,8 @@ Canvas renderer. Existing imports and renderer options remain compatible.
 The [1.5.0 publication receipt](releases/1.5.0.json) records verification for
 the previous release.
 
+**1.6.0 is published.** All eleven CI jobs, the registry signature, provenance and README were verified. [Verification receipt](releases/1.6.0.json).
+
 ## Entry reference map
 
 | Entry | Reference | Status/first version |

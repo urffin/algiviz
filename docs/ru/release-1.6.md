@@ -30,3 +30,9 @@ HTML Canvas 2D. Размеры Canvas и DPR задаёт приложение. 
 и алгоритмы находятся в репозитории.
 
 [Changelog](../../CHANGELOG.md) · [Историческая ревизия готовности](readiness-1.6.md)
+
+## Публикация · 2026-11-22
+
+Все 11 задач CI прошли на коммите выпуска. В npm проверены точная версия 1.6.0, тег latest и свежая установка. Подпись реестра и provenance подтверждены. Оба README и changelog совпали с файлами коммита выпуска, а README в реестре совпал с английским README из архива. Документация EN/RU сверена с тегом.
+
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.6.0) · [npm 1.6.0](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.6.0) · [CI](https://github.com/urffin/algiviz/actions/runs/44954783997) · [npm workflow](https://github.com/urffin/algiviz/actions/runs/44955814225) · [Отчёт проверки](../releases/1.6.0.json)
