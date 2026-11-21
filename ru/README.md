@@ -25,14 +25,12 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Версия **1.4.0** добавляет два необязательных модуля для односвязных списков.
-[`/list`](https://github.com/urffin/algiviz/blob/master/docs/ru/list-api.md)
-записывает атомарные изменения со стабильными ID узлов и слотов указателей,
-подписями и отметками результата.
-[`/canvas/list`](https://github.com/urffin/algiviz/blob/master/docs/ru/list-canvas-api.md)
-анимирует указатели head и next, показывает null и выделяет итоговую цепочку зелёным.
-[Пример списка](https://github.com/urffin/algiviz/blob/master/docs/ru/examples.md#операции-со-связным-списком) ·
-[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.4.md) ·
+Версия **1.5.0** добавляет динамические графы. `createDynamicGraphTrace`
+записывает атомарные изменения со стабильными ID вершин и рёбер.
+При включённой опции `topologyTransitions` Canvas анимирует появление
+и удаление вершин и рёбер, а также перенаправление рёбер.
+[Пример стягивания ребра](https://github.com/urffin/algiviz/blob/master/docs/ru/examples.md#стягивание-ребра) ·
+[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.5.md) ·
 [Текущий API](https://github.com/urffin/algiviz/blob/master/docs/ru/current-api.md)
 
 ## Установка
@@ -42,7 +40,7 @@ npm install @grundyjs/algiviz
 ```
 
 Пакет использует отдельные точки входа ESM. Корневой точки входа и сборки
-CommonJS нет. Версия 1.4.0 содержит 16 точек входа:
+CommonJS нет. Версия 1.5.0 содержит 16 точек входа:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
 `/grid`, `/canvas/grid`, `/list` и `/canvas/list`.
@@ -80,14 +78,17 @@ CommonJS нет. Версия 1.4.0 содержит 16 точек входа:
 | [`/player`](https://github.com/urffin/algiviz/blob/master/docs/ru/player.md) | Необязательный виджет Player, медиапанель, запись/поток, загрузка по запросу | 1.0.0 |
 | [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Фабрика выделенного браузерного Worker и ошибки транспорта | 1.0.0 |
 | [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Endpoint внутри Worker; отдельные типы WebWorker | 1.0.0 |
-| [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Trace фиксированного графа, отметки/подписи/результат и сцена | 1.1.0 |
-| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Canvas графа: стрелки, петли, параллельные рёбра и размещение подписей | 1.1.0 |
+| [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Шаги графа, отметки, подписи, результат и сцена. Динамические изменения с 1.5.0 | 1.1.0 |
+| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Стрелки, петли, параллельные рёбра и подписи. Опция переходов топологии с 1.5.0 | 1.1.0 |
 | [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-api.md) | Ordered/binary trace, атомарный edit топологии и проекция сцены | 1.2.0 |
 | [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md) | Явная раскладка дерева, пустые слоты, интерполяция связей, подписи и результат | 1.2.0 |
 | [`/grid`](https://github.com/urffin/algiviz/blob/master/docs/ru/grid-api.md) | Плотная сетка, атомарные операции, отметки, результат/путь и сцена | 1.3.0 |
 | [`/canvas/grid`](https://github.com/urffin/algiviz/blob/master/docs/ru/grid-canvas-api.md) | Регулярные клетки, значения/подписи, зелёный результат и пути | 1.3.0 |
 | [`/list`](https://github.com/urffin/algiviz/blob/master/docs/ru/list-api.md) | Односвязные списки со стабильными ID узлов и слотов, атомарными изменениями и результатами | 1.4.0 |
 | [`/canvas/list`](https://github.com/urffin/algiviz/blob/master/docs/ru/list-canvas-api.md) | Раскладка, анимация указателей, head и null, подписи и зелёный результат | 1.4.0 |
+
+[API динамического графа](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-dynamic-topology.md) ·
+[Переходы Canvas](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-dynamic-canvas.md).
 
 Headless-модули не требуют DOM. Canvas/Player/viewport и Worker-host требуют своих
 host и DOM-типов; endpoint Worker — WebWorker-типов. Безопасный импорт не заменяет
@@ -127,6 +128,8 @@ Player принимает обычные состояния через source, �
 | [Бинарный поиск](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | Первое вхождение в отсортированном массиве, замкнутый интервал поиска и ленивое воспроизведение |
 | [Подробный BFS графа](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Своя сцена: анимированная очередь, расстояния у вершин и отметки пути; штатный Player |
 | [BFS со штатным графическим renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | Тот же алгоритм с createGraphTrace, расстояниями у вершин, /canvas/graph и Player |
+| [BFS с графом и очередью](https://github.com/urffin/algiviz/blob/master/examples/graph-queue.html) | Граф и FIFO-очередь на связном списке анимируются вместе в одном Player |
+| [Стягивание ребра](https://github.com/urffin/algiviz/blob/master/examples/graph-contraction.html) | Одна операция удаляет вершину и перенаправляет два ребра с сохранением их ID. Использует динамический API графа с 1.5.0 |
 | [DFS графа](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Стек вызовов, возвраты, глубина и путь дерева; история/генератор |
 | [Лабиринт](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Генерация рандомизированным DFS, волна BFS, поиск DFS, циклы и недостижимый выход; история/генератор |
 | [BFS на сетке](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Кратчайший путь между препятствиями: /grid, штатный Canvas и Player; расстояния, зелёный итог, история и генератор |

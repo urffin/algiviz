@@ -3,14 +3,13 @@
 [English](../api-compatibility.md) · [Стабилизация](../api-stability.md) · [Текущий API](current-api.md) · [Проверенные окружения](../support-matrix.md)
 
 U3 защищает публичные типы, ошибки, окружения и поведение всех 16 точек входа
-1.4.0, включая [/list](list-api.md) и [/canvas/list](list-canvas-api.md).
-`ListEvent.type`, `ListPointerId.kind` и `ListObjects` закрыты. Роли открыты.
-[Изменения и миграция](release-1.4.md).
+1.5.0. Динамический граф использует существующие пути импорта.
+[Изменения и миграция](release-1.5.md).
 
 ## Публичная поверхность
 
-Импортируемые пути определяет только export map. Версия 1.4.0: **16 точек входа,
-33 имени времени выполнения, 185 экспортов типов, 173 различных имени**. База 1.0.0 имела
+Импортируемые пути определяет только export map. Версия 1.5.0 содержит **16 точек входа,
+34 имени времени выполнения, 189 экспортов типов, 177 различных имён**. База 1.0.0 имела
 8 / 21 / 69 / 57. Общие Worker-типы считаются по обоим путям; классы — runtime-имена.
 [Инвентарь](current-api.md) и [ревизия 1.1](graph-readiness-1.1.md).
 
@@ -24,7 +23,7 @@ U3 защищает публичные типы, ошибки, окружени�
 | `/player` | `Player` | 4 |
 | `/worker` | `createWorkerSourceFactory`, `WorkerSourceError` | 17 |
 | `/worker/runtime` | `exposeWorkerSource` | 15 |
-| `/graph` | `createGraphTrace`, `graphScene` | 22 |
+| `/graph` | `createGraphTrace`, `createDynamicGraphTrace`, `graphScene` | 26 |
 | `/canvas/graph` | `createGraphRenderer` | 4 |
 | `/tree` | `createTreeTrace`, `treeScene` | 29 |
 | `/canvas/tree` | `createTreeRenderer` | 4 |
@@ -67,10 +66,9 @@ wrapper-объектов, точным пикселям/шрифтам, текс
 
 ## Типы и расширяемость
 
-Для новых graph entry после выпуска закрыты GraphEvent.type, ключи GraphObjects
-и режимы nodeCaptions auto/hidden; роли остаются открытыми строками. Изменение
-обязательных структурных членов и расширение закрытых вариантов требуют
-прежней проверки breaking-совместимости.
+`GraphEvent.type`, `DynamicGraphEvent.type`, ключи `GraphObjects` и режимы
+`nodeCaptions` закрыты. `ListEvent.type`, `ListPointerId.kind` и ключи
+`ListObjects` также закрыты. Роли графа и списка остаются открытыми строками.
 
 
 Публичные discriminants и literal unions считаются **закрытыми**, если конкретный
@@ -142,9 +140,9 @@ DOM/Worker globals и без выделения внешних ресурсов 
 
 | Entry | Lib деклараций | Активный runtime |
 | --- | --- | --- |
-| `/playback`, `/scene`, `/array`, `/graph`, `/tree`, `/grid` | ES2022, без обязательных DOM/ambient Node types | Headless JS/iterables; async-адаптер с собственным DOM-free cooperative signal |
+| `/playback`, `/scene`, `/array`, `/graph`, `/tree`, `/grid`, `/list` | ES2022, без обязательных DOM/ambient Node types | Headless JS/iterables; async-адаптер с собственным DOM-free cooperative signal |
 | `/canvas` | ES2022 + DOM | Canvas 2D host, bitmap-координаты, без неявного владения viewport |
-| `/canvas/graph`, `/canvas/tree`, `/canvas/grid` | ES2022 + DOM | Canvas 2D host; явный logical size, bitmap/CSS-размеры принадлежат приложению |
+| `/canvas/graph`, `/canvas/tree`, `/canvas/grid`, `/canvas/list` | ES2022 + DOM | Canvas 2D host; явный logical size, bitmap/CSS-размеры принадлежат приложению |
 | `/canvas/viewport`, `/player` | ES2022 + DOM | Browser DOM/window и описанные measurement/scheduling API, явные создание/монтаж |
 | `/worker` | ES2022 + DOM; browser-Worker host с WebWorker types также описан | Dedicated module Worker host, native clone/transfer, ленивое эксклюзивное владение |
 | `/worker/runtime` | ES2022 + WebWorker, отдельно от DOM | Явная установка dedicated Worker endpoint и совместимая source factory |

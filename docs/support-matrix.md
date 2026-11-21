@@ -1,10 +1,11 @@
 # Support matrix
 
-**Version 1.4.0** has sixteen independent ESM entry points.
-[/list](list-api.md) uses ES2022 declarations without DOM or Worker globals.
-[/canvas/list](list-canvas-api.md) uses DOM declarations and renders with an
-HTML Canvas 2D context. The prior fourteen entries keep their environment requirements.
-[Current API](current-api.md) · [Release notes](release-1.4.md).
+**Version 1.5.0** has sixteen independent ESM entry points. The
+[dynamic graph trace](graph-dynamic-topology.md) uses ES2022 declarations
+without DOM or Worker globals. [Topology transitions](graph-dynamic-canvas.md)
+use the existing DOM and HTML Canvas 2D boundary. The release preserves the
+environment requirements of all sixteen entries.
+[Current API](current-api.md) · [Release notes](release-1.5.md).
 
 The [1.4.0 receipt](releases/1.4.0.json) records all eleven CI jobs on the released commit and the registry verification.
 

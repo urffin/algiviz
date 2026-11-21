@@ -1,4 +1,5 @@
-import { createGraphTrace, graphScene, type GraphNode, type GraphEdge, type GraphInput,
+import { createGraphTrace, createDynamicGraphTrace, graphScene, type GraphNode, type GraphEdge, type GraphInput,
+    type DynamicGraphEdit, type DynamicGraphEvent, type DynamicGraphStep, type DynamicGraphTrace,
     type GraphNodeCaption, type GraphNodeCaptionPatch, type GraphPosition, type GraphAnnotation, type GraphMark, type GraphMarkUpdate,
     type GraphResultInput, type GraphResult, type GraphDoneOptions, type GraphTraceOptions,
     type GraphSnapshot, type GraphEvent, type GraphStep, type GraphFrame, type GraphTrace,
@@ -52,7 +53,46 @@ const stateOnly: GraphFrame<{score:number},string,undefined> = { ...frames.sampl
 const noEvent: Frame<typeof trace.state,undefined> = stateOnly; project(noEvent);
 void score; void payload;
 
+const dynamic = createDynamicGraphTrace({
+    nodes: [{ id: 'A', data: { score: 1 } }, { id: 'B', data: { score: 2 } }],
+    edges: [{ id: 'e', from: 'A', to: 'B', data: 'edge' }],
+});
+const typedTrace: DynamicGraphTrace<{score:number},string> = dynamic;
+const update: DynamicGraphEdit<{score:number},string> = {
+    edges: [{ id: 'e', from: 'B', to: 'A', data: 'edge' }],
+    nodes: undefined,
+};
+const dynamicStart = typedTrace.start();
+const edit: DynamicGraphStep<{score:number},string> = typedTrace.edit(update);
+const dynamicTimeline = createTimeline([dynamicStart, edit], { stepDurationMs: 10, finalHoldMs: 0 });
+const dynamicFrame: GraphFrame<{score:number},string,DynamicGraphEvent> = dynamicTimeline.sample(5);
+project(dynamicFrame);
+check(edit.event.type === 'edit' && edit.state.graph.edges[0]?.from === 'B', 'Installed dynamic edit failed');
+const dynamicNodeData: number | undefined = edit.state.graph.nodes[0]?.data?.score;
+const dynamicEdgeData: string | undefined = edit.state.graph.edges[0]?.data;
+function fixedEvent(event: GraphEvent): string {
+    switch (event.type) {
+        case 'start': case 'mark': case 'layout': case 'done': return event.type;
+        default: { const impossible: never = event; return impossible; }
+    }
+}
+check(fixedEvent(initial.event) === 'start', 'The installed fixed event changed');
+void dynamicNodeData; void dynamicEdgeData;
+
 export function graphTypeErrors() {
+    // @ts-expect-error The fixed GraphEvent excludes topology changes.
+    const fixedEdit: GraphEvent = { type: 'edit' };
+    // @ts-expect-error A dynamic step can carry an edit.
+    const fixedStep: GraphStep<{score:number},string> = edit;
+    // @ts-expect-error No default update.
+    dynamic.edit();
+    // @ts-expect-error Node payload inference is preserved in edit.
+    dynamic.edit({ nodes: [{ id: 'C', data: { score: 'three' } }] });
+    // @ts-expect-error Edge payload inference is independent.
+    dynamic.edit({ edges: [{ id: 'e', from: 'A', to: 'B', data: 2 }] });
+    // @ts-expect-error Public edit fields are readonly.
+    update.edges = [];
+    void fixedEdit; void fixedStep;
     // @ts-expect-error Caption text is a string, never a coerced number.
     trace.mark({ nodeCaptions: [{ id: 'A', text: 1 }] });
     // @ts-expect-error Explicit undefined does not clear a caption.

@@ -29,6 +29,8 @@ included in the npm archive.
 | [Binary search](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | First occurrence in sorted input, closed search intervals and lazy playback |
 | [Detailed graph BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Custom scene with animated queue, vertex distances and path markers; standard Player |
 | [BFS with the stock graph renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | The same algorithm with createGraphTrace, /canvas/graph and Player |
+| [BFS graph and queue](https://github.com/urffin/algiviz/blob/master/examples/graph-queue.html) | The same BFS with a graph and a linked-list queue in one Player |
+| [Edge contraction](https://github.com/urffin/algiviz/blob/master/examples/graph-contraction.html) | One graph edit removes a vertex and redirects two edges without changing their IDs |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Grid BFS shortest path](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Shortest path between obstacles with /grid, stock Canvas and Player; distances, green result, history and generator |
@@ -200,7 +202,7 @@ No tree-specific algorithm or renderer is added to the package.
 
 ## Graph breadth-first search
 
-Two complementary pages share one application-owned BFS generator and the same
+Three pages share one application-owned BFS generator and the same
 standard Player controls:
 
 - [Detailed BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html)
@@ -209,8 +211,10 @@ standard Player controls:
 - [Stock renderer BFS](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html)
   demonstrates createGraphTrace and /canvas/graph; distance captions appear beside
   vertices when space permits, with full queue/distances retained in HTML.
+- [BFS graph and queue](#bfs-graph-and-queue-in-one-player) adds a Canvas FIFO queue
+  using /list and /canvas/list below the same stock graph drawing.
 
-Choose a graph/start/optional target, then Apply. Both pages mark on enqueue,
+Choose a graph/start/optional target, then Apply. All three pages mark on enqueue,
 complete the reachable component and restore one shortest path through parents.
 The final path stays green. History supports seeking; generator mode offers
 Previous within 32 retained source positions. Restart/mode changes retain applied
@@ -219,11 +223,50 @@ inputs, and speed survives Apply/mode changes. Shared timing is 650 ms per step,
 Loops/parallel edges and edge-order tie-breaking are supported; directed/weighted
 inputs are rejected by this undirected, unweighted example.
 
-The GIF above depicts the detailed drawing with the earlier controls. Both current
-pages use Player; no graph-specific drawing is added to Player. The working-tree
-graph entries are absent from published 1.0.0. [Comparison](bfs-graph-comparison.md)
-explains the two pages and distinguishes the historical migration measurements.
-[Walkthrough](custom-graph-example.md) describes their shared state/control layer.
+The GIF above depicts the detailed drawing with the earlier controls.
+[The original comparison](bfs-graph-comparison.md) covers the detailed and
+stock graph pages and records the migration measurements.
+[Walkthrough](custom-graph-example.md) describes the shared state and controls.
+
+## BFS graph and queue in one Player
+
+Open [graph-queue.html](../examples/graph-queue.html) after a local build. The
+three BFS pages share the algorithm, graph presets, start and target selection,
+distance/counter summaries and playback settings.
+
+| Page | Graph | Queue |
+| --- | --- | --- |
+| [Detailed BFS](../examples/graph.html) | Custom scene with start/target markers, processed checks and a moving edge-inspection dot | Custom queue animation in the same scene |
+| [Stock graph BFS](../examples/graph-player.html) | Stock graph Canvas renderer with distance captions and a green path | Text |
+| [BFS graph and queue](../examples/graph-queue.html) | Same stock graph view | Stock list Canvas renderer with linked nodes and a head pointer, plus the same text summary |
+
+[The queue adapter](../examples/graph-queue-session.mjs) turns the BFS queue IDs
+into a singly linked snapshot. Enqueue and dequeue each change the list in one
+edit. Other traversal steps reuse the list snapshot. Each Player frame supplies
+the same progress and previous/current pair to both renderers, with separate
+Canvas sizes. The empty queue stays visible at the end beside the green path.
+History seeks both views together; the generator's Previous button uses the
+shared bounded window of 32 steps. Restart returns both views to the applied
+start vertex.
+
+The application code owns the queue projection and the two Canvas viewports.
+The stock renderers and Player supply drawing, transitions and playback.
+
+## Edge contraction
+
+The example uses the dynamic graph API introduced in 1.5.0. Build the repository
+and open [graph-contraction.html](../examples/graph-contraction.html) through the local HTTP server.
+The example contracts edge `AB` into vertex `A` using one
+[`createDynamicGraphTrace`](graph-dynamic-topology.md) edit. The edit removes
+`B` and `AB`, redirects `BC` from C–B to C–A and `BD` from B–D to A–D,
+and preserves both edge IDs. The undirected edges `AC` and `BC` now run in
+parallel. The final state marks `A`, `BC`, and `BD` in green.
+
+The [Canvas renderer](graph-dynamic-canvas.md) enables `topologyTransitions`
+to fade the removed vertex and edge and crossfade the old and new routes.
+Step backward or restart in either Player mode. The generator keeps a
+four-step rewind window, and the full-history slider lets you inspect the
+transition between the two snapshots.
 
 ## Graph depth-first search
 

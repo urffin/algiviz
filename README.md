@@ -25,13 +25,11 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Version **1.4.0** adds two optional modules for singly linked lists.
-[`/list`](https://github.com/urffin/algiviz/blob/master/docs/list-api.md) records
-atomic edits with stable node and pointer-slot IDs, captions and results.
-[`/canvas/list`](https://github.com/urffin/algiviz/blob/master/docs/list-canvas-api.md)
-animates head and next pointers, shows null markers and highlights the final chain in green.
-[Linked list example](https://github.com/urffin/algiviz/blob/master/docs/examples.md#linked-list-edits) ·
-[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.4.md) ·
+Version **1.5.0** adds dynamic graphs. `createDynamicGraphTrace` records atomic
+edits with stable node and edge IDs. The Canvas option `topologyTransitions`
+animates additions, removals and edge redirects when enabled.
+[Edge contraction example](https://github.com/urffin/algiviz/blob/master/docs/examples.md#edge-contraction) ·
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.5.md) ·
 [Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md)
 
 ## Install
@@ -41,7 +39,7 @@ npm install @grundyjs/algiviz
 ```
 
 The package uses ESM subpath imports. There is no root entry point or CommonJS
-build. Version 1.4.0 provides 16 entry points:
+build. Version 1.5.0 provides 16 entry points:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
 `/grid`, `/canvas/grid`, `/list` and `/canvas/list`.
@@ -79,14 +77,17 @@ plain states/pre → createArrayPlayer → standard Player → scenes/interpolat
 | [`/player`](https://github.com/urffin/algiviz/blob/master/docs/player.md) | Optional Player widget, media controls, recording/streams and on-demand loading | 1.0.0 |
 | [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Dedicated browser Worker factory and transport errors | 1.0.0 |
 | [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Worker-side endpoint; separate WebWorker types | 1.0.0 |
-| [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Fixed graph traces, marks/captions/results and scene projection | 1.1.0 |
-| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Graph Canvas: arrows, loops, parallel edges and caption placement | 1.1.0 |
+| [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Graph traces, marks, captions, results and scene projection. Dynamic edits since 1.5.0 | 1.1.0 |
+| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Arrows, loops, parallel edges and captions. Opt-in topology transitions since 1.5.0 | 1.1.0 |
 | [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-api.md) | Ordered/binary traces, atomic topology edits and scene projection | 1.2.0 |
 | [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md) | Explicit tree layout, empty binary slots, relation interpolation, captions and result | 1.2.0 |
 | [`/grid`](https://github.com/urffin/algiviz/blob/master/docs/grid-api.md) | Dense grids, atomic operations, marks, result/path and scene | 1.3.0 |
 | [`/canvas/grid`](https://github.com/urffin/algiviz/blob/master/docs/grid-canvas-api.md) | Regular cells, values/captions, green results and paths | 1.3.0 |
 | [`/list`](https://github.com/urffin/algiviz/blob/master/docs/list-api.md) | Singly linked lists with stable node and slot IDs, atomic edits and results | 1.4.0 |
 | [`/canvas/list`](https://github.com/urffin/algiviz/blob/master/docs/list-canvas-api.md) | Layout, animated pointers, head and null markers, captions and green results | 1.4.0 |
+
+[Dynamic graph API](https://github.com/urffin/algiviz/blob/master/docs/graph-dynamic-topology.md) ·
+[Canvas transitions](https://github.com/urffin/algiviz/blob/master/docs/graph-dynamic-canvas.md).
 
 Headless entries need no DOM. Canvas/Player/viewport and the Worker host need
 their actual hosts and DOM types; the Worker endpoint uses WebWorker types.
@@ -126,6 +127,8 @@ with explicit ArrayBuffer transfer and observable completion through closed.
 | [Binary search](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | First occurrence in sorted input, closed search intervals and lazy playback |
 | [Detailed graph BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Custom scene with animated queue, vertex distances and path markers; standard Player |
 | [BFS with the stock graph renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | The same algorithm with createGraphTrace, vertex distance captions, /canvas/graph and Player |
+| [BFS graph and queue](https://github.com/urffin/algiviz/blob/master/examples/graph-queue.html) | The graph and a linked-list FIFO queue animate together in one Player |
+| [Edge contraction](https://github.com/urffin/algiviz/blob/master/examples/graph-contraction.html) | One edit removes a vertex and redirects two edges with stable IDs. Uses the dynamic graph API introduced in 1.5.0 |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Grid BFS shortest path](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Shortest path between obstacles with /grid, stock Canvas and Player; distances, green result, history and generator |

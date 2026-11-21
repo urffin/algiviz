@@ -3,6 +3,7 @@ import { createGraphRenderer } from '@grundyjs/algiviz/canvas/graph';
 import { createCanvasViewport } from '@grundyjs/algiviz/canvas/viewport';
 import { Player } from '@grundyjs/algiviz/player';
 import { graphFrames, size } from './graph-canvas-fixtures.mjs';
+import { graphTopologySteps } from './graph-topology-fixture.mjs';
 
 const results = [], gallery = document.querySelector('#gallery'), f = graphFrames();
 const ensure = (condition, message) => { if (!condition) throw Error(message); };
@@ -24,7 +25,7 @@ function instrument(ctx, throwStroke) {
         get(target, key) {
             const value = Reflect.get(target, key, target);
             if (typeof value !== 'function') return value;
-            return (...args) => { calls.push({ name: key, args }); if (key === 'stroke' && throwStroke) throw throwStroke.error; return value.apply(target, args); };
+            return (...args) => { calls.push({ name: key, args, alpha: target.globalAlpha }); if (key === 'stroke' && throwStroke) throw throwStroke.error; return value.apply(target, args); };
         },
         set(target, key, value) { return Reflect.set(target, key, value, target); }
     });
@@ -118,7 +119,106 @@ await check('Player: result → Previous → Next → Restart → dispose', asyn
     player.previous();ensure(green(ctx)===0,'Previous retained final style');player.next();ensure(green(ctx)>500&&reads===3,'Replay advanced source or lost result');
     player.restart();ensure(green(ctx)===0&&reads===4,'Restart retained result');player.dispose();player.dispose();await player.closed;viewport.dispose();ensure(closes===2,'Source cleanup count');
 });
-const report={date:'2026-11-17',host:{userAgent:navigator.userAgent,devicePixelRatio:window.devicePixelRatio},checks:results,passed:results.filter(r=>r.passed).length,failed:results.filter(r=>!r.passed).length};
+const [oldGraph, newGraph, finalGraph] = [...graphTopologySteps()].map(step => step.state);
+const transition = { previous: oldGraph, current: newGraph, progress: .5, stepIndex: 1, event: undefined };
+for (const theme of ['light', 'dark']) {
+    for (const ratio of [1, 1.25, 2]) {
+        await check(`Динамические маршруты · ${theme} · DPR ${ratio}`, () => {
+            const logical = { width: 420.25, height: 300.5 };
+            const view = canvas(`Динамические маршруты · ${theme} · DPR ${ratio}`, logical.width, logical.height, ratio);
+            const renderer = createGraphRenderer({ theme, topologyTransitions: true });
+            dirty(view.ctx);
+            const saved = state(view.ctx);
+            for (const [progress, alphas] of [[0, [1, 1]], [.25, [.75, .25, .25, .75]], [.5, [.5, .5, .5, .5]], [1, [1, 1]]]) {
+                const wrapped = instrument(view.ctx);
+                renderer.render(wrapped.proxy, { ...transition, progress }, logical);
+                equal(wrapped.calls.filter(call => call.name === 'stroke').map(call => call.alpha), alphas, 'Wrong branch opacity');
+                equal(wrapped.calls.find(call => call.name === 'setTransform').args,
+                    [view.canvas.width / logical.width, 0, 0, view.canvas.height / logical.height, 0, 0], 'Wrong transform');
+                equal(state(view.ctx), saved, 'Canvas state leaked');
+            }
+            renderer.render(view.ctx, paintFrame(finalGraph), logical);
+            ensure(green(view.ctx, theme === 'light' ? [4, 120, 87] : [52, 211, 153]) > 200, 'Missing result color');
+            renderer.render(view.ctx, transition, logical);
+        });
+    }
+}
+
+await check('Прежний режим: пропуск, undefined и false дают одинаковый bitmap', () => {
+    const view = canvas('Обычный режим', 400, 280);
+    const standard = createGraphRenderer({ theme: 'dark' });
+    const wrapped = instrument(view.ctx);
+    standard.render(wrapped.proxy, transition, { width: 400, height: 280 });
+    const expected = view.canvas.toDataURL();
+    equal(wrapped.calls.filter(call => call.name === 'stroke').map(call => call.alpha), [1, .5, .5], 'Default edge no longer morphs');
+    for (const topologyTransitions of [undefined, false]) {
+        createGraphRenderer({ theme: 'dark', topologyTransitions }).render(view.ctx, transition, { width: 400, height: 280 });
+        ensure(view.canvas.toDataURL() === expected, 'Explicit default changed pixels');
+    }
+});
+
+for (const mode of ['stream', 'history']) {
+    await check(`Динамический Player · ${mode} · Previous, Seek, Restart и resize`, async () => {
+        const view = canvas(`Перемотка · ${mode}`, 430, 280);
+        const renderer = createGraphRenderer({ theme: 'light', topologyTransitions: true, colors: { background: 'transparent' } });
+        let player, edits = 0;
+        const viewport = createCanvasViewport(view.canvas, { onResize() { if (player?.frame) draw(player.frame); } });
+        function draw(frame) {
+            const dimensions = viewport.resize(width => width * .7);
+            if (dimensions) renderer.render(view.ctx, frame, dimensions);
+        }
+        function* steps() {
+            for (const step of graphTopologySteps()) {
+                if (step.event.type === 'edit') edits++;
+                yield step;
+            }
+        }
+        const source = mode === 'stream' ? { stepSource: steps, isTerminal: step => step.event.type === 'done', rewindCapacity: 3 }
+            : { history: () => Array.from(steps(), step => step.state) };
+        player = new Player(view.canvas.parentElement, { ...source, viewport: view.canvas, stepDurationMs: 100, render: draw });
+        try {
+            player.start();
+            const initial = view.canvas.toDataURL();
+            player.next();
+            const edited = view.canvas.toDataURL();
+            ensure(edited !== initial, 'Edit did not change the bitmap');
+            player.previous();
+            ensure(view.canvas.toDataURL() === initial, 'Previous did not remove the new target');
+            player.next();
+            ensure(view.canvas.toDataURL() === edited && edits === 1, 'Replay changed the frame or reran the edit');
+            player.next();
+            ensure(green(view.ctx) > 200, 'Done did not highlight the result');
+            if (mode === 'history') {
+                player.seek(50);
+                const middle = view.canvas.toDataURL();
+                ensure(middle !== initial && middle !== edited, 'Seek missed the crossfade');
+                player.seek(200);
+                player.seek(50);
+                ensure(view.canvas.toDataURL() === middle, 'Seek depended on draw order');
+            }
+            player.restart();
+            ensure(view.canvas.toDataURL() === initial, 'Restart retained old pixels');
+            const startFrame = player.frame;
+            const editCount = edits;
+            view.canvas.style.width = '370px';
+            await new Promise(requestAnimationFrame);
+            await new Promise(requestAnimationFrame);
+            await new Promise(requestAnimationFrame);
+            ensure(view.canvas.width === Math.round(370 * devicePixelRatio), 'Wrong backing size after resize');
+            ensure(player.frame === startFrame && edits === editCount, 'Resize advanced playback');
+            const empty = createGraphTrace({ nodes: [], edges: [] }).state;
+            draw(paintFrame(empty));
+            ensure(pixels(view.ctx).every(value => value === 0), 'Transparent empty frame left previous pixels');
+        } finally {
+            player.dispose();
+            viewport.dispose();
+            const closed = await player.closed;
+            ensure(closed.errorCount === 0, 'Player cleanup failed');
+        }
+    });
+}
+
+const report={date:new Date().toISOString().slice(0,10),host:{userAgent:navigator.userAgent,devicePixelRatio:window.devicePixelRatio},checks:results,passed:results.filter(r=>r.passed).length,failed:results.filter(r=>!r.passed).length};
 document.querySelector('#status').textContent=`Завершено: ${report.passed}/${results.length}, ошибок ${report.failed}`;
 document.querySelector('#report').textContent=JSON.stringify(report,null,2);
 await fetch('/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(report)});

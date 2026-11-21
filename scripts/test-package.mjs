@@ -154,11 +154,15 @@ try {
     for (const name of ["tree.test.mjs", "tree-playback.test.mjs", "tree-test-fixtures.mjs"])
         await copyFile(join(root, "test", name), join(workspace, name));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "tree.test.mjs"), join(workspace, "tree-playback.test.mjs")], { cwd: workspace, stdio: "inherit" });
-    await copyFile(join(root, "test/graph.test.mjs"), join(workspace, "graph.test.mjs"));
-    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "graph.test.mjs")], { cwd: workspace, stdio: "inherit" });
-    for (const name of ["graph-captions.test.mjs", "graph-canvas.test.mjs", "graph-canvas-context.mjs", "graph-canvas-fixtures.mjs"])
+    for (const name of ["graph.test.mjs", "graph-dynamic.test.mjs"])
         await copyFile(join(root, "test", name), join(workspace, name));
-    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "graph-canvas.test.mjs"), join(workspace, "graph-captions.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test",
+        join(workspace, "graph.test.mjs"), join(workspace, "graph-dynamic.test.mjs")], { cwd: workspace, stdio: "inherit" });
+    for (const name of ["graph-captions.test.mjs", "graph-canvas.test.mjs", "graph-canvas-context.mjs", "graph-canvas-fixtures.mjs",
+        "graph-topology-canvas.test.mjs", "graph-topology-fixture.mjs"])
+        await copyFile(join(root, "test", name), join(workspace, name));
+    execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "graph-canvas.test.mjs"),
+        join(workspace, "graph-captions.test.mjs"), join(workspace, "graph-topology-canvas.test.mjs")], { cwd: workspace, stdio: "inherit" });
     for (const name of ["tree-canvas.test.mjs", "tree-canvas-playback.test.mjs", "tree-canvas-context.mjs", "tree-canvas-fixtures.mjs", "tree-slot-bounds.test.mjs", "tree-slot-fixtures.mjs", "tree-slot-oracle.mjs"])
         await copyFile(join(root, "test", name), join(workspace, name));
     execFileSync(process.execPath, ["--test", join(workspace, "tree-canvas.test.mjs"), join(workspace, "tree-canvas-playback.test.mjs"), join(workspace, "tree-slot-bounds.test.mjs")], { cwd: workspace, stdio: "inherit" });

@@ -1,13 +1,14 @@
 # Current API and verification status
 
-[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.4.0 release notes](release-1.4.md)
+[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.5.0 release notes](release-1.5.md)
 
-**Version 1.4.0** has 16 entry points, 33 runtime exports and 185 type-only
-exports (173 distinct names). [/list](list-api.md) adds `createListTrace`,
-`listScene` and 25 types. [/canvas/list](list-canvas-api.md) adds
-`createListRenderer` and five types. Existing imports need no migration.
+**Version 1.5.0** has 16 entry points, 34 runtime exports and 189 type-only
+exports (177 distinct names). It adds `createDynamicGraphTrace` and four types
+to `/graph` and the opt-in `topologyTransitions` option to `/canvas/graph`.
+Existing imports need no migration.
 
-**1.4.0 is published.** All eleven CI jobs, the registry signature, provenance and README were verified. [Verification receipt](releases/1.4.0.json).
+The [1.4.0 publication receipt](releases/1.4.0.json) records verification for
+the preceding release.
 
 ## Entry reference map
 
@@ -21,8 +22,8 @@ exports (173 distinct names). [/list](list-api.md) adds `createListTrace`,
 | /player | [Player](player.md), [explicit steps](player-step-source.md), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0 |
 | /worker | [Worker source](worker-source-api.md) | 1.0.0 |
 | /worker/runtime | [Worker endpoint](worker-source-api.md#worker-declarations-workerruntime) | 1.0.0 |
-| /graph | [Graph API](graph-api.md), [captions](graph-node-captions.md) | 1.1.0 |
-| /canvas/graph | [Renderer](graph-api.md), [placement](graph-node-captions.md) | 1.1.0 |
+| /graph | [Graph API](graph-api.md), [dynamic topology](graph-dynamic-topology.md), [captions](graph-node-captions.md) | 1.1.0, dynamic edits since 1.5.0 |
+| /canvas/graph | [Renderer](graph-api.md), [transitions](graph-dynamic-canvas.md), [placement](graph-node-captions.md) | 1.1.0, opt-in topology transitions since 1.5.0 |
 | /tree | [Tree API](tree-api.md) | 1.2.0 |
 | /canvas/tree | [Tree Canvas](tree-canvas-api.md) | 1.2.0 |
 | /grid | [Grid API](grid-api.md) | 1.3.0 |
@@ -32,14 +33,14 @@ exports (173 distinct names). [/list](list-api.md) adds `createListTrace`,
 
 ## Example and verification
 
-The [linked list example](examples.md#linked-list-edits) demonstrates insertion,
-removal, reversal, green results, rewind and Restart. The [November 20 review](list-readiness-1.4.md)
-records the local checks. The [1.3.1 receipt](releases/1.3.1.json) covers the preceding version.
+The [edge contraction example](examples.md#edge-contraction) demonstrates removal,
+redirects with stable IDs, rewind and Restart. The [readiness review](graph-readiness-1.5.md)
+records compatibility checks against 1.4.0.
 
 ## Reading historical evidence
 
 Dated documents/JSON retain their original scope. Old local/candidate/0.16.0
-status refers to that verification stage, not the API contract of 1.4.0. Use
+status refers to that verification stage. For the API contract of 1.5.0, use
 this index for release-baseline status.
 
 - [1.0 candidate](candidate-1.0.md), [core readiness](core-readiness-1.0.md), [migration](migration-1.0.md).

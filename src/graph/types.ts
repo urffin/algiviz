@@ -84,6 +84,23 @@ export interface GraphTrace<NodeData = unknown, EdgeData = unknown> {
     setLayout(layout: readonly GraphPosition[]): GraphStep<NodeData, EdgeData>;
     done(options?: GraphDoneOptions): GraphStep<NodeData, EdgeData>;
 }
+export interface DynamicGraphEdit<NodeData = unknown, EdgeData = unknown> {
+    readonly nodes?: readonly GraphNode<NodeData>[] | undefined;
+    readonly edges?: readonly GraphEdge<EdgeData>[] | undefined;
+    readonly layout?: readonly GraphPosition[] | undefined;
+    readonly marks?: GraphMarkUpdate | undefined;
+}
+export type DynamicGraphEvent = GraphEvent | Readonly<{ type: "edit" }>;
+export type DynamicGraphStep<NodeData = unknown, EdgeData = unknown> =
+    Step<GraphSnapshot<NodeData, EdgeData>, DynamicGraphEvent>;
+export interface DynamicGraphTrace<NodeData = unknown, EdgeData = unknown> {
+    readonly state: GraphSnapshot<NodeData, EdgeData>;
+    start(): DynamicGraphStep<NodeData, EdgeData>;
+    edit(update: DynamicGraphEdit<NodeData, EdgeData>): DynamicGraphStep<NodeData, EdgeData>;
+    mark(update: GraphMarkUpdate): DynamicGraphStep<NodeData, EdgeData>;
+    setLayout(layout: readonly GraphPosition[]): DynamicGraphStep<NodeData, EdgeData>;
+    done(options?: GraphDoneOptions): DynamicGraphStep<NodeData, EdgeData>;
+}
 export interface GraphSceneOptions {
     readonly namespace: string;
 }

@@ -21,6 +21,7 @@ export interface GraphRendererOptions {
     readonly colors?: { readonly [K in keyof GraphPalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly topologyTransitions?: boolean | undefined;
 }
 export interface GraphRenderSize {
     readonly width: number;
@@ -62,6 +63,11 @@ export function createGraphRenderer(options: GraphRendererOptions): GraphRendere
     if (fields.nodeCaptions !== undefined && fields.nodeCaptions !== "auto" && fields.nodeCaptions !== "hidden")
         throw new TypeError("Graph node captions must be auto or hidden");
     const captionsHidden = fields.nodeCaptions === "hidden";
+    const topology = Object.getOwnPropertyDescriptor(options, "topologyTransitions");
+    if (topology && (!("value" in topology) || (topology.value !== undefined && typeof topology.value !== "boolean"))) {
+        throw new TypeError("Graph topologyTransitions must be a boolean data property");
+    }
+    const topologyTransitions = topology?.value === true;
     function color(view: { readonly result: boolean; readonly role: string | null }, base: "node" | "edge"): string {
         if (view.result) return colors.result;
         if (view.role !== null) {
@@ -96,9 +102,9 @@ export function createGraphRenderer(options: GraphRendererOptions): GraphRendere
                 const sx = bitmapWidth / width, sy = bitmapHeight / height;
                 if (![sx, sy].every(value => Number.isFinite(value) && value > 0)) throw new RangeError("Graph bitmap transform is not representable");
                 const scene = createSceneFrame({ previous, current, progress, stepIndex: 0, event: undefined });
-                const geometry = graphGeometry(scene, width, height);
+                const geometry = graphGeometry(scene, width, height, topologyTransitions);
                 const edges = geometry.edges.map(edge => ({ ...edge, color: color(edge.view, "edge"),
-                    text: edge.view.edge.label ?? (edge.view.edge.weight === undefined ? "" : String(edge.view.edge.weight)) }));
+                    text: edge.showLabel ? edge.view.edge.label ?? (edge.view.edge.weight === undefined ? "" : String(edge.view.edge.weight)) : "" }));
                 const nodes = geometry.nodes.map(node => ({ ...node, color: color(node.view, "node"), text: node.view.node.label ?? node.view.node.id }));
                 cache = next;
                 ctx.save();
@@ -116,6 +122,7 @@ export function createGraphRenderer(options: GraphRendererOptions): GraphRendere
                     if ("wordSpacing" in ctx) ctx.wordSpacing = "0px";
                     if ("textRendering" in ctx) ctx.textRendering = "auto";
                     const captions = captionsHidden ? [] : graphCaptions(ctx, nodes, edges, geometry.radius, width, height);
+                    if (topologyTransitions) ctx.clearRect(0, 0, width, height);
                     ctx.fillStyle = colors.background; ctx.fillRect(0, 0, width, height);
                     for (const edge of edges) {
                         ctx.globalAlpha = edge.presence; ctx.strokeStyle = edge.color; ctx.fillStyle = edge.color;

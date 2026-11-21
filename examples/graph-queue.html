@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · BFS graph and queue</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #101827; color: #f1f5f9; font: 16px/1.5 system-ui; }
+main { max-width: 1080px; margin: auto; padding: 24px; }
+a { color: #c4b5fd; }
+p { color: #cbd5e1; overflow-wrap: anywhere; }
+form { display: grid; grid-template-columns: minmax(0, 1.6fr) repeat(2, minmax(0, 1fr)) auto; gap: 12px; align-items: end; }
+label { display: grid; gap: 6px; min-width: 0; }
+button, select { min-width: 0; min-height: 44px; padding: 8px; color: inherit; background: #1e293b; border: 1px solid #64748b; border-radius: 6px; font: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid #c4b5fd; outline-offset: 3px; }
+.mode { width: fit-content; max-width: 100%; margin: 16px 0; }
+.panes section + section { border-top: 1px solid #475569; }
+.panes h2 { margin: 0; padding: 8px 12px; font-size: 1rem; }
+.panes canvas { display: block; width: 100%; }
+#error { color: #fca5a5; }
+#status { min-height: 3em; }
+@media (max-width: 640px) {
+    main { padding: 16px; }
+    form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .preset, #apply { grid-column: 1 / -1; }
+}
+</style>
+</head>
+<body>
+<main>
+<a href="./index.html">All examples</a>
+<h1>BFS · graph and queue</h1>
+<p>Follow breadth-first search on the graph and see each vertex enter or leave the FIFO queue.</p>
+<form id="input-form">
+    <label class="preset">Graph<select id="graph"></select></label>
+    <label>Start vertex<select id="start"></select></label>
+    <label>Target vertex<select id="target"></select></label>
+    <button id="apply" type="submit">Apply</button>
+</form>
+<label class="mode">Playback mode<select id="mode"></select></label>
+<div id="player">
+    <div class="panes">
+        <section aria-labelledby="graph-title">
+            <h2 id="graph-title">Graph</h2>
+            <canvas id="graph-canvas" width="960" height="400" role="img" aria-label="Graph traversal and shortest path" aria-describedby="distances result"></canvas>
+        </section>
+        <section aria-labelledby="queue-title">
+            <h2 id="queue-title">Queue · front first</h2>
+            <canvas id="queue-canvas" width="960" height="175" role="img" aria-label="FIFO queue as a linked list" aria-describedby="queue"></canvas>
+        </section>
+    </div>
+</div>
+<p id="mode-note"></p>
+<p id="error" role="alert"></p>
+<p id="status" role="status" aria-live="polite"></p>
+<p id="queue"></p>
+<p id="distances" aria-label="Distances from start"></p>
+<p id="counters"></p>
+<p id="result"></p>
+<p>Purple vertices are queued, yellow marks the current vertex or inspected edge, and grey vertices have been processed. The final path stays green.</p>
+<p><a href="./graph.html">Detailed BFS with a custom scene</a> · <a href="./graph-player.html">Stock graph renderer with a text queue</a></p>
+</main>
+<script type="importmap">
+{
+    "imports": {
+        "@grundyjs/algiviz/graph": "../dist/graph/index.js",
+        "@grundyjs/algiviz/list": "../dist/list/index.js",
+        "@grundyjs/algiviz/canvas/graph": "../dist/canvas/graph.js",
+        "@grundyjs/algiviz/canvas/list": "../dist/canvas/list.js",
+        "@grundyjs/algiviz/player": "../dist/player/index.js",
+        "@grundyjs/algiviz/canvas/viewport": "../dist/canvas/viewport.js",
+        "@grundyjs/algiviz/playback": "../dist/playback/index.js"
+    }
+}
+</script>
+<script type="module" src="./graph-queue-demo.mjs"></script>
+</body>
+</html>

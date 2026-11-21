@@ -2,11 +2,11 @@
 
 [Русский](ru/graph-api.md) · [Architecture sketch](graph-contract.md) · [Scene](scene.md) · [Compatibility](api-compatibility.md)
 
-**Released in 1.1.0, 2026-11-17.** /graph exports createGraphTrace, graphScene
-and 22 types; /canvas/graph exports createGraphRenderer and four types. Published
-1.0.0 has neither entry. [Release and verification](release-1.1.md) record the
-exact SHA, all 11 CI jobs, registry installation/latest and signed provenance.
-Vertex captions, atomic patches and auto/hidden placement are included.
+The graph modules were introduced in [1.1.0](release-1.1.md) with vertex
+captions, atomic patches and auto/hidden placement. Version 1.5.0 adds
+[`createDynamicGraphTrace`](graph-dynamic-topology.md) and opt-in
+[`topologyTransitions`](graph-dynamic-canvas.md) under the same import paths.
+[AlgiViz 1.5.0](release-1.5.md) · [Edge contraction example](examples.md#edge-contraction).
 
 The [contract-only record](checks/graph-public-api-2026-11-17.json), [headless](checks/graph-implementation-2026-11-17.json)
 and [Canvas](checks/graph-canvas-implementation-2026-11-17.json) implementation
@@ -16,13 +16,14 @@ their pre-caption scope and are not added to that count.
 
 ## Scope and entry boundary
 
-`/graph` exports **createGraphTrace** and **graphScene**, plus the types in
-the next block. It stays headless, synchronous and DOM-free (ES2022 declarations).
+`/graph` exports **createGraphTrace**, **createDynamicGraphTrace** and
+**graphScene**, plus 26 types. The next block covers the fixed trace and shared
+types. The [dynamic API reference](graph-dynamic-topology.md#public-api) covers
+the four dynamic types. The module stays synchronous and DOM-free (ES2022).
 `/canvas/graph` independently exports **createGraphRenderer** and its four
 types. It may import `/graph` and `/scene`; the reverse dependency is forbidden.
 Importing either entry must not access DOM globals; calling the Canvas renderer
-requires Canvas 2D. `/canvas`, its array exports, and the other seven existing
-entries remain unchanged. No graph export is added to an existing barrel.
+requires Canvas 2D. Graph exports stay on their dedicated import paths.
 
 The first trace has fixed, finite topology. Empty/disconnected graphs, mixed
 directed and undirected edges, loops, parallel edges and finite signed weights
@@ -322,15 +323,17 @@ Node positions interpolate previous/current endpoints with Frame.progress;
 edges resolve the same node transitions through scene.get, including both
 generations and zero-presence enter/exit objects. Generic scene mechanisms can
 compose independently supplied snapshots, but do not add topology-editing methods
-to this fixed trace. Topology edits/retargeting policies remain separate work.
+to this fixed trace. See the [dynamic trace](graph-dynamic-topology.md)
+for topology edits and retargeting.
 Projection never reads progress, viewport dimensions, DPR or mutable DOM. Use
 `createSceneProjector(state => graphScene(state, { namespace: "main" }))` for
 existing bounded endpoint caching; change projector when its captured policy changes.
 
 ## Declarations: /canvas/graph
 
-The renderer is implemented in this working copy, with green result pixels in
-both themes. This entry remains absent from the published 1.0.0 package.
+The renderer is available since 1.1.0 and highlights results in green in both
+themes. From 1.5.0, the [topologyTransitions option](graph-dynamic-canvas.md)
+enables dynamic topology transitions.
 
 ```ts
 import type { Frame } from "@grundyjs/algiviz/playback";
@@ -351,6 +354,7 @@ export interface GraphRendererOptions {
     readonly colors?: { readonly [K in keyof GraphPalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly topologyTransitions?: boolean | undefined;
 }
 export interface GraphRenderSize {
     readonly width: number;
@@ -424,7 +428,7 @@ the graph.
 
 ## Usage shape and control compatibility
 
-Headless playback works from this working copy after `npm run build`:
+Use headless playback to project each fixed-graph snapshot:
 
 ```ts
 import { createGraphTrace, graphScene } from "@grundyjs/algiviz/graph";
@@ -451,8 +455,7 @@ player.nextStep();
 player.dispose();
 ```
 
-The Canvas snippet now works with a build of this working copy. It cannot run
-with the published 1.0.0. Initial Canvas/mount/logical size setup stays with the application.
+For Canvas playback, the application provides the context, mount and logical size.
 
 ```ts
 import { createGraphTrace } from "@grundyjs/algiviz/graph";

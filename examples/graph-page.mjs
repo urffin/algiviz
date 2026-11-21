@@ -21,19 +21,26 @@ export function describeGraphStep(frame) {
     }
 }
 
-// Shared application controls and panels; drawing is supplied by each example.
-export function mountGraphDemo(createDrawing) {
-    const $ = id => document.getElementById(id), canvas = document.querySelector('canvas');
-    let player, viewport, drawing, applied, mode = 'history', restoreRequest = 0;
+// Each example supplies one drawing per canvas in the Player's viewport.
+export function mountGraphDemo(createDrawing, prepareSession = prepareGraphSession) {
+    const $ = id => document.getElementById(id), host = $('player');
+    const stage = host.firstElementChild, canvases = [...host.querySelectorAll('canvas')];
+    let player, viewports, drawings, applied, mode = 'history', restoreRequest = 0;
     const preset = () => graphExamples.find(example => example.id === $('graph').value);
     const showError = error => { $('error').textContent = error instanceof Error ? error.message : String(error); };
-    function mountViewport() { viewport = createCanvasViewport(canvas, { onResize: () => { if (player?.frame) render(player.frame); } }); }
-    mountViewport();
-
+    function mountViewports() {
+        viewports = canvases.map(canvas => createCanvasViewport(canvas, {
+            onResize() { if (player?.frame) render(player.frame); },
+        }));
+    }
+    mountViewports();
 
     function render(frame) {
-        const s = frame.current, size = viewport.resize(width => drawing.height(width, s));
-        if (size) drawing.render(viewport.context, frame, size);
+        const s = frame.current;
+        for (const [index, viewport] of viewports.entries()) {
+            const drawing = drawings[index], size = viewport.resize(width => drawing.height(width, s));
+            if (size) drawing.render(viewport.context, frame, size);
+        }
         const text = 'Step ' + frame.stepIndex + ': ' + describeGraphStep(frame);
         $('status').setAttribute('aria-live', player?.status.phase === 'playing' ? 'off' : 'polite');
         if ($('status').textContent !== text) $('status').textContent = text;
@@ -50,12 +57,12 @@ export function mountGraphDemo(createDrawing) {
     }
     function load(next = applied, nextMode = mode) {
         if (!next) throw new RangeError('Choose a graph');
-        const options = prepareGraphSession(next.graph, next.start, next.target, next.id, nextMode);
+        const options = prepareSession(next.graph, next.start, next.target, next.id, nextMode);
         const nextDrawing = createDrawing(next.id);
         const speed = player?.status.speed ?? 1;
         player?.dispose();
-        drawing = nextDrawing;
-        player = new Player($('player'), { ...options, viewport: canvas, autoHide: false, render, onError: showError,
+        drawings = [nextDrawing].flat();
+        player = new Player(host, { ...options, viewport: stage, autoHide: false, render, onError: showError,
             onStatus(status) { $('status').setAttribute('aria-live', status.phase === 'playing' ? 'off' : 'polite'); } });
         applied = next; mode = nextMode; $('mode').value = mode; $('error').textContent = '';
         $('mode-note').textContent = mode === 'history' ? 'Full history retains all snapshots and supports seeking.'
@@ -81,9 +88,13 @@ export function mountGraphDemo(createDrawing) {
         load({ id: example.id, graph: example.graph, start: $('start').value, target: $('target').value || null }, $('mode').value);
     } catch (error) { showError(error); } };
     $('mode').onchange = () => { try { load(applied, $('mode').value); } catch (error) { $('mode').value = mode; showError(error); } };
-    window.addEventListener('pagehide', () => { cancelAnimationFrame(restoreRequest); player?.dispose(); viewport.dispose(); });
+    window.addEventListener('pagehide', () => {
+        cancelAnimationFrame(restoreRequest);
+        player?.dispose();
+        viewports.forEach(viewport => viewport.dispose());
+    });
     window.addEventListener('pageshow', event => {
-        if (event.persisted) { mountViewport(); try { load(); } catch (error) { showError(error); } }
+        if (event.persisted) { mountViewports(); try { load(); } catch (error) { showError(error); } }
         cancelAnimationFrame(restoreRequest); restoreRequest = requestAnimationFrame(() => { $('mode').value = mode; });
     });
     options(); const first = preset(); load({ id: first.id, graph: first.graph, start: first.start, target: first.target });

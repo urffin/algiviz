@@ -7,7 +7,7 @@ const expected = {
     'canvas/tree': ['createTreeRenderer'],
     tree: ['createTreeTrace', 'treeScene'],
     'canvas/graph': ['createGraphRenderer'],
-    graph: ['createGraphTrace', 'graphScene'],
+    graph: ['createDynamicGraphTrace', 'createGraphTrace', 'graphScene'],
     playback: ['createPlayer', 'createStatePlayer', 'createStepEmitter', 'createTimeline', 'createRewindBuffer', 'createAsyncSource'],
     scene: ['createSceneFrame', 'createSceneProjector', 'createSceneRenderer'],
     array: ['createArrayPlayer', 'createArrayTimeline', 'createArrayTrace', 'defineArrayAlgorithm'],

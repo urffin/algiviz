@@ -28,6 +28,17 @@ export function checkGraphCanvasTypes(host: HTMLElement, canvas: HTMLCanvasEleme
     };
     renderer.render(viewport.context, stateOnly, { width: 640, height: 400 });
     createGraphRenderer({ theme: 'dark', nodeCaptions: 'hidden' });
+    const topologyOptions: GraphRendererOptions = { theme: 'dark', topologyTransitions: true };
+    const topology: GraphRenderer = createGraphRenderer(topologyOptions);
+    createGraphRenderer({ theme: 'light', topologyTransitions: undefined });
+    createGraphRenderer({ theme: 'light', topologyTransitions: false });
+    topology.render(viewport.context, stateOnly, { width: 640, height: 400 });
+    // @ts-expect-error The opt-in is a readonly boolean field.
+    topologyOptions.topologyTransitions = false;
+    // @ts-expect-error No coercion from strings.
+    createGraphRenderer({ theme: 'dark', topologyTransitions: 'true' });
+    // @ts-expect-error Null does not mean omitted.
+    createGraphRenderer({ theme: 'dark', topologyTransitions: null });
     // @ts-expect-error No force-visible caption mode.
     createGraphRenderer({ theme: 'dark', nodeCaptions: 'always' });
     // @ts-expect-error Caption placement is not a mutable callback.

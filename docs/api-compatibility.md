@@ -3,14 +3,13 @@
 [Русский](ru/api-compatibility.md) · [Stabilization](api-stability.md) · [Current API](current-api.md) · [Support evidence](support-matrix.md)
 
 U3 protects public types, errors, environments and behavior across all sixteen
-1.4.0 entry points, including [/list](list-api.md) and [/canvas/list](list-canvas-api.md).
-`ListEvent.type`, `ListPointerId.kind` and `ListObjects` are closed. Roles are open.
-[Release notes and migration](release-1.4.md).
+1.5.0 entry points. The dynamic graph additions use the existing graph paths.
+[Release notes and migration](release-1.5.md).
 
 ## Public surface
 
-Only the export map defines importable paths. Version 1.4.0 has **16 entries,
-33 runtime names, 185 type-only exports, 173 distinct types**. The 1.0.0 baseline
+Only the export map defines importable paths. Version 1.5.0 has **16 entries,
+34 runtime names, 189 type-only exports, 177 distinct types**. The 1.0.0 baseline
 had 8 / 21 / 69 / 57. Shared Worker types count at both paths; classes count as
 runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.md).
 
@@ -24,7 +23,7 @@ runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.
 | `/player` | `Player` | 4 |
 | `/worker` | `createWorkerSourceFactory`, `WorkerSourceError` | 17 |
 | `/worker/runtime` | `exposeWorkerSource` | 15 |
-| `/graph` | `createGraphTrace`, `graphScene` | 22 |
+| `/graph` | `createGraphTrace`, `createDynamicGraphTrace`, `graphScene` | 26 |
 | `/canvas/graph` | `createGraphRenderer` | 4 |
 | `/tree` | `createTreeTrace`, `treeScene` | 29 |
 | `/canvas/tree` | `createTreeRenderer` | 4 |
@@ -68,10 +67,9 @@ the package compatibility surface.
 
 ## Types and extensibility
 
-For new graph entries after publication, GraphEvent.type, GraphObjects keys and
-nodeCaptions auto/hidden modes are closed; roles remain open strings. Required
-structural members and closed-case expansion follow the same breaking-change
-review rules.
+`GraphEvent.type`, `DynamicGraphEvent.type`, `GraphObjects` keys and the
+`nodeCaptions` modes are closed. `ListEvent.type`, `ListPointerId.kind` and
+`ListObjects` keys are also closed. Graph and list roles remain open strings.
 
 
 Treat current public discriminants and literal unions as **closed**, unless a
@@ -144,9 +142,9 @@ does not make their active browser operations available in Node.
 
 | Entries | Declaration libraries | Active runtime boundary |
 | --- | --- | --- |
-| `/playback`, `/scene`, `/array`, `/graph`, `/tree`, `/grid` | ES2022, no DOM or ambient Node types required | Headless JS/iterables; async adapter uses its cooperative DOM-free signal |
+| `/playback`, `/scene`, `/array`, `/graph`, `/tree`, `/grid`, `/list` | ES2022, no DOM or ambient Node types required | Headless JS/iterables; async adapter uses its cooperative DOM-free signal |
 | `/canvas` | ES2022 + DOM | Canvas 2D host; bitmap coordinates; no implicit viewport ownership |
-| `/canvas/graph`, `/canvas/tree`, `/canvas/grid` | ES2022 + DOM | Canvas 2D host; explicit logical size and caller-owned bitmap/CSS sizing |
+| `/canvas/graph`, `/canvas/tree`, `/canvas/grid`, `/canvas/list` | ES2022 + DOM | Canvas 2D host; explicit logical size and caller-owned bitmap/CSS sizing |
 | `/canvas/viewport`, `/player` | ES2022 + DOM | Browser DOM/window and the documented measurement/scheduling APIs; creation/mounting is explicit |
 | `/worker` | ES2022 + DOM; browser-Worker host use with WebWorker types also documented | Dedicated module Worker host, native clone/transfer facilities; lazy exclusive Worker ownership |
 | `/worker/runtime` | ES2022 + WebWorker, checked separately from DOM | Explicit dedicated Worker endpoint installation and compatible source factory |

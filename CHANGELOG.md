@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.5.0
+
+Minor release. All 16 import paths and the default graph renderer behavior
+are preserved. Existing applications need no migration.
+
+- Add `createDynamicGraphTrace` to `/graph` for atomic node and edge edits
+  with stable identities, layout and marks. Dynamic steps use a separate event
+  union and the existing graph snapshots, scenes and playback controls.
+  [Dynamic topology](https://github.com/urffin/algiviz/blob/master/docs/graph-dynamic-topology.md)
+- Add the opt-in `topologyTransitions` setting in `/canvas/graph` for attached
+  route crossfades, parallel lane transitions and complete transparent repaints.
+  [Dynamic Canvas rendering](https://github.com/urffin/algiviz/blob/master/docs/graph-dynamic-canvas.md)
+- Add an edge contraction example with stable edge IDs and a BFS example that
+  displays a graph and linked-list queue in one Player.
+  [Examples](https://github.com/urffin/algiviz/blob/master/docs/examples.md)
+
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.5.md).
+
 ## 1.4.0 — 2026-11-21
 
 Minor release. The fourteen existing imports are unchanged and need no migration.

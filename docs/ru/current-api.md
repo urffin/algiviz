@@ -1,13 +1,14 @@
 # Текущий API и статус проверок
 
-[English](../current-api.md) · [Совместимость](api-compatibility.md) · [Окружения](../support-matrix.md#current-support-boundary) · [Заметки к 1.4.0](release-1.4.md)
+[English](../current-api.md) · [Совместимость](api-compatibility.md) · [Окружения](../support-matrix.md#current-support-boundary) · [Заметки к 1.5.0](release-1.5.md)
 
-**Версия 1.4.0** содержит 16 точек входа, 33 экспорта времени выполнения и
-185 экспортов типов (173 различных имени). [/list](list-api.md) добавляет
-`createListTrace`, `listScene` и 25 типов. [/canvas/list](list-canvas-api.md)
-добавляет `createListRenderer` и пять типов. Прежним импортам миграция не нужна.
+**Версия 1.5.0** содержит 16 точек входа, 34 экспорта времени выполнения и
+189 экспортов типов (177 различных имён). Она добавляет `createDynamicGraphTrace`
+и четыре типа в `/graph` и явно включаемую опцию `topologyTransitions` в
+`/canvas/graph`. Прежним импортам миграция не нужна.
 
-**1.4.0 опубликована.** Все 11 задач CI, подпись реестра, provenance и README проверены. [Отчёт проверки](../releases/1.4.0.json).
+[Отчёт о публикации 1.4.0](../releases/1.4.0.json) содержит результаты проверок
+предыдущего релиза.
 
 ## Карта точек входа
 
@@ -21,8 +22,8 @@
 | /player | [Player](player.md), [явные шаги](player-step-source.md), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0 |
 | /worker | [Worker source](worker-source-api.md) | 1.0.0 |
 | /worker/runtime | [Worker endpoint](worker-source-api.md#декларации-worker-workerruntime) | 1.0.0 |
-| /graph | [Graph API](graph-api.md), [подписи](graph-node-captions.md) | 1.1.0 |
-| /canvas/graph | [Рендерер](graph-api.md), [размещение](graph-node-captions.md) | 1.1.0 |
+| /graph | [API графа](graph-api.md), [динамическая топология](graph-dynamic-topology.md), [подписи](graph-node-captions.md) | 1.1.0, динамические изменения с 1.5.0 |
+| /canvas/graph | [Рендерер](graph-api.md), [переходы](graph-dynamic-canvas.md), [размещение](graph-node-captions.md) | 1.1.0, опция переходов топологии с 1.5.0 |
 | /tree | [Tree API](tree-api.md) | 1.2.0 |
 | /canvas/tree | [Tree Canvas](tree-canvas-api.md) | 1.2.0 |
 | /grid | [Grid API](grid-api.md) | 1.3.0 |
@@ -32,14 +33,15 @@
 
 ## Пример и проверки
 
-[Пример списка](examples.md#операции-со-связным-списком) показывает вставку,
-удаление и разворот, зелёный итог, перемотку и Restart. [Ревизия от 20 ноября](list-readiness-1.4.md)
-фиксирует локальные проверки. [Отчёт 1.3.1](../releases/1.3.1.json) относится к предыдущей версии.
+[Пример стягивания ребра](examples.md#стягивание-ребра) показывает удаление,
+перенаправление с сохранением ID, перемотку и Restart.
+[Ревизия готовности](graph-readiness-1.5.md) фиксирует сравнение с 1.4.0.
 
 ## Исторические доказательства
 
 Датированные документы и JSON не переписываются задним числом. Их старые статусы
-«локально», «кандидат», «baseline 0.16.0» относятся к этапу проверки, не к API-контракту 1.4.0. Статус релизной базы берётся из этого индекса.
+«локально», «кандидат», «baseline 0.16.0» относятся к этапу проверки.
+API-контракт 1.5.0 описан в этом индексе и связанных справочниках.
 
 - [Кандидат 1.0](candidate-1.0.md), [готовность ядра](core-readiness-1.0.md), [миграция](migration-1.0.md).
 - F1/F2: [ошибка Memory](../checks/worker-memory-fix-2026-11-14.json), [отсутствующий SharedArrayBuffer](../checks/worker-shared-buffer-fix-2026-11-14.json).

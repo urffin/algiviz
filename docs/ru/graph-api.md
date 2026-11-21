@@ -2,11 +2,11 @@
 
 [English](../graph-api.md) · [Архитектурный эскиз](graph-contract.md) · [Сцены](scene.md) · [Совместимость](api-compatibility.md)
 
-**Выпущено в 1.1.0, 2026-11-17.** /graph экспортирует createGraphTrace, graphScene
-и 22 типа; /canvas/graph — createGraphRenderer и четыре типа. В 1.0.0 этих entry нет.
-[Выпуск и проверки](release-1.1.md) фиксируют точный SHA, все 11 CI jobs, registry-
-установку/latest и подписанный provenance. Подписи вершин, атомарные патчи и
-размещение auto/hidden включены.
+Модули графа появились в [1.1.0](release-1.1.md) с подписями вершин,
+атомарными обновлениями и режимами размещения auto/hidden. С 1.5.0 по тем же
+путям импорта доступны [`createDynamicGraphTrace`](graph-dynamic-topology.md)
+и явно включаемая опция [`topologyTransitions`](graph-dynamic-canvas.md).
+[AlgiViz 1.5.0](release-1.5.md) · [Пример стягивания ребра](examples.md#стягивание-ребра).
 
 [Отчёт контракта](../checks/graph-public-api-2026-11-17.json), отчёты [headless](../checks/graph-implementation-2026-11-17.json)
 и [Canvas](../checks/graph-canvas-implementation-2026-11-17.json) сохраняют этапы.
@@ -16,13 +16,14 @@
 
 ## Объём и границы entry
 
-`/graph` экспортирует **createGraphTrace** и **graphScene**, а также типы
-из следующего блока. Модуль остаётся синхронным, headless и независимым от DOM
-(декларации ES2022). `/canvas/graph` отдельно экспортирует **createGraphRenderer**
+`/graph` экспортирует **createGraphTrace**, **createDynamicGraphTrace**,
+**graphScene** и 26 типов. Следующий блок описывает фиксированный trace и
+общие типы. Четыре динамических типа описаны в [справочнике](graph-dynamic-topology.md#публичный-api).
+Модуль остаётся синхронным и независимым от DOM (декларации ES2022).
+`/canvas/graph` отдельно экспортирует **createGraphRenderer**
 и четыре своих типа. Он может импортировать `/graph` и `/scene`; обратная
 зависимость запрещена. Импорт обоих entry не обращается к DOM globals; вызов
-Canvas-рендерера требует Canvas 2D. `/canvas`, его array-экспорты и остальные
-семь нынешних entry не меняются. В существующие barrel-файлы граф не добавляется.
+Canvas-рендерера требует Canvas 2D. Экспорты графа остаются на отдельных путях импорта.
 
 Первый trace имеет фиксированную конечную топологию. Поддерживаются пустой и
 несвязный граф, смесь направленных/ненаправленных рёбер, петли, параллельные рёбра
@@ -322,15 +323,16 @@ ID, не сопоставление по подписи.
 разрешают те же переходы через scene.get, включая оба поколения и enter/exit с
 нулевым presence. Generic scene позволяет независимо подготовленные снимки, но
 не добавляет методов редактирования топологии в фиксированный trace. Политики
-изменения топологии/перенаправления — отдельная работа. Проекция не читает
+изменения топологии и перенаправления описаны в [контракте динамического trace](graph-dynamic-topology.md).
+Проекция не читает
 progress, размер viewport, DPR или mutable DOM. Для нынешнего ограниченного кеша
 используем `createSceneProjector(state => graphScene(state, { namespace: "main" }))`;
 при смене захваченной политики создаём новый projector.
 
 ## Декларации: /canvas/graph
 
-Рендерер реализован в рабочем дереве; результат рисуется зелёным в обеих темах.
-В опубликованной 1.0.0 этого entry по-прежнему нет.
+Рендерер доступен с 1.1.0 и выделяет результат зелёным в обеих темах.
+С 1.5.0 переходы между топологиями включает [опция topologyTransitions](graph-dynamic-canvas.md).
 
 ```ts
 import type { Frame } from "@grundyjs/algiviz/playback";
@@ -351,6 +353,7 @@ export interface GraphRendererOptions {
     readonly colors?: { readonly [K in keyof GraphPalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly topologyTransitions?: boolean | undefined;
 }
 export interface GraphRenderSize {
     readonly width: number;
@@ -423,7 +426,7 @@ nodeCaptions: auto/hidden в renderer управляет рисованием; �
 
 ## Пример использования и управление
 
-Headless-воспроизведение работает из рабочего дерева после `npm run build`:
+Headless-плеер проецирует каждый снимок фиксированного графа:
 
 ```ts
 import { createGraphTrace, graphScene } from "@grundyjs/algiviz/graph";
@@ -450,8 +453,7 @@ player.nextStep();
 player.dispose();
 ```
 
-Canvas-фрагмент теперь работает со сборкой рабочего дерева; в опубликованной
-1.0.0 нужных entry нет. Подготовка Canvas, mount и логического size остаётся в приложении.
+Для воспроизведения на Canvas приложение задаёт контекст, контейнер и логический размер.
 
 ```ts
 import { createGraphTrace } from "@grundyjs/algiviz/graph";
