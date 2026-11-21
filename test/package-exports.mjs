@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 const expected = {
+    'canvas/list': ['createListRenderer'],
+    list: ['createListTrace', 'listScene'],
     'canvas/grid': ['createGridRenderer'],
     grid: ['createGridTrace', 'gridScene'],
     'canvas/tree': ['createTreeRenderer'],
@@ -41,4 +43,8 @@ for (const suffix of ['/grid/index.js', '/grid/types.js', '/grid/trace.js', '/gr
     await assert.rejects(import(`@grundyjs/algiviz${suffix}`), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });
 
 for (const suffix of ['/tree/index.js', '/tree/types.js', '/tree/trace.js', '/tree/scene.js', '/tree/validation.js', '/tree/attributes.js', '/dist/tree/index.js'])
+    await assert.rejects(import(`@grundyjs/algiviz${suffix}`), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });
+
+for (const suffix of ['/list/index.js', '/list/types.js', '/list/trace.js', '/list/scene.js', '/list/validation.js', '/list/attributes.js', '/dist/list/index.js',
+    '/canvas/list.js', '/canvas/list-geometry.js', '/canvas/list-text.js', '/canvas/list-context.js', '/dist/canvas/list.js'])
     await assert.rejects(import(`@grundyjs/algiviz${suffix}`), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });

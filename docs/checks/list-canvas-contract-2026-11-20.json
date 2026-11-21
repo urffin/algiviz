@@ -1,0 +1,329 @@
+{
+  "date": "2026-11-20",
+  "checkedAt": "2026-11-20T09:02:36.065Z",
+  "scope": "Select /canvas/list public renderer/layout contract only; no implementation or publication",
+  "baseline": {
+    "headSHA": "e8f9d6ab89f6455d749f0a689233ff9662877f75",
+    "packageVersion": "1.3.1",
+    "publishedEntries": 14,
+    "localEntries": 15,
+    "localListImplemented": true,
+    "listImplementationRecordSha256": "074cd5f584ae3d0c265c2b14f477199d0179b5aadf74859c3235bb24113a36d4",
+    "note": "Working tree includes uncommitted headless /list; its exact source/compiled/verification hashes remain unchanged"
+  },
+  "proposedSurface": {
+    "entry": "./canvas/list",
+    "runtimeNames": [
+      "createListRenderer"
+    ],
+    "typeOnlyNames": [
+      "ListPalette",
+      "ListNodePresentation",
+      "ListRendererOptions",
+      "ListRenderSize",
+      "ListRenderer"
+    ],
+    "methods": [
+      "layout",
+      "render"
+    ],
+    "implemented": false,
+    "exported": false,
+    "targetVersionReserved": false
+  },
+  "decisions": {
+    "layout": "Iterative chain ranks x=i*nodeGap/y=0; output nodes storage order; explicit positions recorded atomically before yield; render never relayouts",
+    "defaults": {
+      "nodeGap": 4,
+      "pointerGap": 1,
+      "nullPointers": "visible",
+      "nodeCaptions": "auto",
+      "presentNode": "absent"
+    },
+    "geometry": "2x1 logical node, independent value/next compartments; permanent external head badge; null boxes belong to structural slots, never fake nodes",
+    "fit": "Joint immutable endpoint glyph bounds plus potential null boxes for every slot, even non-null/hidden; routing gutter, 4px margin plus 8px stroke reserve; progress-independent contain",
+    "retargeting": "Stable slot identity; own old/new references resolved at interpolated node/head centers; old 1-p/new p, no double owner fade",
+    "presentation": "Current nodes then exits, once per union node even at zero presence; current/previous captured immutable snapshot respectively; no opaque coercion or ID fallback",
+    "result": "Independent node-value and next/head compartment fills; selected slot route/null outline; result outranks roles/presenter; state-only and rewind safe",
+    "text": "Measured labels/captions within compartments; deterministic safe omission against visible glyphs/text; routes clipped out of accepted text reservations",
+    "ownership": "Frozen layout/render surface, no source/DPR/bitmap/context ownership or retained history; bounded to transient per-call state",
+    "errors": "busy before arguments; both endpoints and safe geometry before callbacks/paint; original/falsy primary beats restore; no new error class",
+    "canvasBoundary": "HTML Canvas 2D/DOM declarations; import/factory/layout no DOM globals; no existing entry or union changes",
+    "staging": "Invalid working arenas/dangling assignments remain application-owned custom scenes"
+  },
+  "verification": {
+    "positiveStrictConfigurations": 4,
+    "expectedDOMExclusions": 2,
+    "configurations": [
+      {
+        "typescript": "6.0.3",
+        "resolution": "NodeNext",
+        "environment": "DOM",
+        "lib": [
+          "ES2022",
+          "DOM"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "exitCode": 0,
+        "passed": true,
+        "expectedDOMExclusion": false,
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "typescript": "6.0.3",
+        "resolution": "NodeNext",
+        "environment": "headless",
+        "lib": [
+          "ES2022"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "exitCode": 0,
+        "passed": true,
+        "expectedDOMExclusion": false,
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "typescript": "6.0.3",
+        "resolution": "NodeNext",
+        "environment": "excluded",
+        "lib": [
+          "ES2022"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "exitCode": 2,
+        "passed": true,
+        "expectedDOMExclusion": true,
+        "logSha256": "c294093812f5ff5109dd0f398557beef3a760abc976d8e1c64e53e2ac86ca634"
+      },
+      {
+        "typescript": "6.0.3",
+        "resolution": "Bundler",
+        "environment": "DOM",
+        "lib": [
+          "ES2022",
+          "DOM"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "exitCode": 0,
+        "passed": true,
+        "expectedDOMExclusion": false,
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "typescript": "6.0.3",
+        "resolution": "Bundler",
+        "environment": "headless",
+        "lib": [
+          "ES2022"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "exitCode": 0,
+        "passed": true,
+        "expectedDOMExclusion": false,
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "typescript": "6.0.3",
+        "resolution": "Bundler",
+        "environment": "excluded",
+        "lib": [
+          "ES2022"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "exitCode": 2,
+        "passed": true,
+        "expectedDOMExclusion": true,
+        "logSha256": "c294093812f5ff5109dd0f398557beef3a760abc976d8e1c64e53e2ac86ca634"
+      }
+    ],
+    "negativeCanvasTypeCases": 28,
+    "EN_RUCodeParity": true,
+    "integrationSampleTypechecked": true,
+    "documentationLinksChecked": 140,
+    "explicitWitnesses": {
+      "checkedAt": "2026-11-20T08:59:43.629Z",
+      "scope": "Explicit layout table/arithmetic and actual headless List/Scene endpoint witnesses only; no Canvas factory/layout implementation, paint or native host",
+      "manualLayoutFixtures": 5,
+      "progress": [
+        0,
+        0.5,
+        1
+      ],
+      "passed": 19,
+      "failed": 0,
+      "cases": [
+        {
+          "name": "layout table: empty",
+          "passed": true
+        },
+        {
+          "name": "layout table: singleton",
+          "passed": true
+        },
+        {
+          "name": "layout table: storage independent",
+          "passed": true
+        },
+        {
+          "name": "layout table: reverse",
+          "passed": true
+        },
+        {
+          "name": "layout table: gap two and insert",
+          "passed": true
+        },
+        {
+          "name": "B-to-X retargeting and attached endpoint data at p=0",
+          "passed": true
+        },
+        {
+          "name": "B-to-X retargeting and attached endpoint data at p=0.5",
+          "passed": true
+        },
+        {
+          "name": "B-to-X retargeting and attached endpoint data at p=1",
+          "passed": true
+        },
+        {
+          "name": "deletion/null and zero-presence old target at p=0",
+          "passed": true
+        },
+        {
+          "name": "deletion/null and zero-presence old target at p=0.5",
+          "passed": true
+        },
+        {
+          "name": "deletion/null and zero-presence old target at p=1",
+          "passed": true
+        },
+        {
+          "name": "reverse/target-to-null and head identity at p=0",
+          "passed": true
+        },
+        {
+          "name": "reverse/target-to-null and head identity at p=0.5",
+          "passed": true
+        },
+        {
+          "name": "reverse/target-to-null and head identity at p=1",
+          "passed": true
+        },
+        {
+          "name": "node/slot selections are independently available for compartment colors",
+          "passed": true
+        },
+        {
+          "name": "head survives empty to singleton without a fake null node",
+          "passed": true
+        },
+        {
+          "name": "potential null reservation is necessary during null-to-target owner motion",
+          "passed": true
+        },
+        {
+          "name": "full stroke padding retains four CSS pixels after eight-pixel extents",
+          "passed": true
+        },
+        {
+          "name": "head anchor is independent of head target for unchanged recorded node bounds",
+          "passed": true
+        }
+      ]
+    },
+    "sourceFilesUnchanged": 69,
+    "compiledFilesUnchanged": 153,
+    "protectedFilesUnchanged": 304,
+    "historicalReportsUnchanged": true,
+    "packageLockfileVersionExportsUnchanged": true,
+    "readmeAndChangelogUnchanged": true,
+    "previousListAcceptance": {
+      "fresh": false,
+      "groups": 39,
+      "repositoryTests": 747,
+      "sourceCompiledVerificationIdentity": true,
+      "record": "list-implementation-2026-11-20.json"
+    },
+    "repositoryTestsRerun": false,
+    "rendererRuntimeTestsRun": false,
+    "fullSupportedCompilerMatrixRun": false,
+    "nativeCanvasRun": false,
+    "reason": "Design and isolated declaration checks only; explicit fixtures assert existing List/Scene data and specification arithmetic, not a renderer implementation"
+  },
+  "probeFiles": [
+    {
+      "path": "renderer-contract.d.ts",
+      "sha256": "e5ec3bf7102bca04eaf4c3d0bec38a88d42085d5973f24b3ea8c7d4f14995338"
+    },
+    {
+      "path": "sample.ts",
+      "sha256": "dcef02a97a2e0971cee5ed1fe4dfb3cb5730633a33c54042624e80574a589400"
+    },
+    {
+      "path": "DOM.ts",
+      "sha256": "d671604fd1893fd0607037e7b1e8a72d5ae6f812d12e803da88b8673f21c1d1b"
+    },
+    {
+      "path": "headless.ts",
+      "sha256": "eeadafd9fc3a6cee6987a8bbc889c9f5a5f77c26eb3c18ed69df153f47a670c2"
+    },
+    {
+      "path": "excluded.ts",
+      "sha256": "142304e773b740351a0d0751d22f119929610ff0e17051eb0c919e52cc6a6443"
+    },
+    {
+      "path": "witness.mjs",
+      "sha256": "da9fca9ca1427c1dfba4f000e398d0519f05f237d17a7435813e0756d7a51cc6"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "docs/list-canvas-api.md",
+      "sha256": "d35bf72a36e93aeab84ab9981bc1fa3b73c829e740a7e1809ba60d1eae276754"
+    },
+    {
+      "path": "docs/ru/list-canvas-api.md",
+      "sha256": "57f5c26bebeb2d9d52f8e099fcf8726299d28adc790ddcdae30497d6dfbedb28"
+    },
+    {
+      "path": "docs/list-api.md",
+      "sha256": "7f32711c1ab0f3bf1fb454519d6eabb7e3bf5b2e507c1daa3ed0ad31bb02b10b"
+    },
+    {
+      "path": "docs/ru/list-api.md",
+      "sha256": "2dd2937696f0b4cf74bae799c77927c8821cbf8ddae75137e157a476d492f92b"
+    },
+    {
+      "path": "docs/current-api.md",
+      "sha256": "b5713586a84c98b62fbf9c776148405f3e1881a121b922af4e48b15fb1aa58de"
+    },
+    {
+      "path": "docs/ru/current-api.md",
+      "sha256": "ce62d3f335ebfe3c7969cc6d739aa2d996769df275130515bc2897085d8f7a17"
+    }
+  ],
+  "limits": {
+    "noSourceOrPackageStubAdded": true,
+    "noCanvasFactoryOrLayoutImplementation": true,
+    "noFontRasterOrDPRVerification": true,
+    "noCommitPushTagOrRelease": true,
+    "noPublication": true
+  }
+}

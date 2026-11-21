@@ -25,18 +25,15 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Версия пакета: **1.3.1** — документационный патч с прежним API 1.3.0.
-Доступные с 1.3.0 точки входа **/grid** и **/canvas/grid**
-добавляют плотные сетки, атомарные операции, подписи, результаты и упорядоченные пути.
-Штатный Canvas-рендерер размещает квадратные клетки, значения и расстояния,
-сохраняет зелёный итог и интерполирует появление/смену пути.
-Всего 14 entry; прежним двенадцати импортам миграция не нужна.
-Алгоритм BFS остаётся кодом отдельного примера, а не экспортом пакета.
-[Grid API](https://github.com/urffin/algiviz/blob/master/docs/ru/grid-api.md) · [Grid Canvas](https://github.com/urffin/algiviz/blob/master/docs/ru/grid-canvas-api.md) ·
-[Пример BFS](https://github.com/urffin/algiviz/blob/master/docs/ru/examples.md#кратчайший-путь-bfs-на-сетке) ·
-[Изменения и миграция](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.3.md) ·
-[Текущий API](https://github.com/urffin/algiviz/blob/master/docs/ru/current-api.md) ·
-[Документационный патч 1.3.1](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.3.1.md).
+Версия **1.4.0** добавляет два необязательных модуля для односвязных списков.
+[`/list`](https://github.com/urffin/algiviz/blob/master/docs/ru/list-api.md)
+записывает атомарные изменения со стабильными ID узлов и слотов указателей,
+подписями и отметками результата.
+[`/canvas/list`](https://github.com/urffin/algiviz/blob/master/docs/ru/list-canvas-api.md)
+анимирует указатели head и next, показывает null и выделяет итоговую цепочку зелёным.
+[Пример списка](https://github.com/urffin/algiviz/blob/master/docs/ru/examples.md#операции-со-связным-списком) ·
+[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.4.md) ·
+[Текущий API](https://github.com/urffin/algiviz/blob/master/docs/ru/current-api.md)
 
 ## Установка
 
@@ -44,12 +41,13 @@ AlgiViz управляет воспроизведением и сопостав�
 npm install @grundyjs/algiviz
 ```
 
-У пакета нет корневой точки входа и сборки CommonJS. Импортируйте нужные модули:
+Пакет использует отдельные точки входа ESM. Корневой точки входа и сборки
+CommonJS нет. Версия 1.4.0 содержит 16 точек входа:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
-`/grid` и `/canvas/grid`.
+`/grid`, `/canvas/grid`, `/list` и `/canvas/list`.
 
-Graph entry требуют 1.1.0, tree — 1.2.0, grid — 1.3.0 или новее.
+Модули графа доступны с 1.1.0, дерева — с 1.2.0, сетки — с 1.3.0, списка — с 1.4.0.
 Алгоритмы находятся в коде приложения и примерах. Совместимые возможности выходят
 в minor по [политике 1.x](https://github.com/urffin/algiviz/blob/master/docs/ru/api-compatibility.md);
 при обновлении сверяйтесь с [CHANGELOG.md](../CHANGELOG.md).
@@ -88,6 +86,8 @@ Graph entry требуют 1.1.0, tree — 1.2.0, grid — 1.3.0 или нове
 | [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md) | Явная раскладка дерева, пустые слоты, интерполяция связей, подписи и результат | 1.2.0 |
 | [`/grid`](https://github.com/urffin/algiviz/blob/master/docs/ru/grid-api.md) | Плотная сетка, атомарные операции, отметки, результат/путь и сцена | 1.3.0 |
 | [`/canvas/grid`](https://github.com/urffin/algiviz/blob/master/docs/ru/grid-canvas-api.md) | Регулярные клетки, значения/подписи, зелёный результат и пути | 1.3.0 |
+| [`/list`](https://github.com/urffin/algiviz/blob/master/docs/ru/list-api.md) | Односвязные списки со стабильными ID узлов и слотов, атомарными изменениями и результатами | 1.4.0 |
+| [`/canvas/list`](https://github.com/urffin/algiviz/blob/master/docs/ru/list-canvas-api.md) | Раскладка, анимация указателей, head и null, подписи и зелёный результат | 1.4.0 |
 
 Headless-модули не требуют DOM. Canvas/Player/viewport и Worker-host требуют своих
 host и DOM-типов; endpoint Worker — WebWorker-типов. Безопасный импорт не заменяет
@@ -132,6 +132,7 @@ Player принимает обычные состояния через source, �
 | [BFS на сетке](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Кратчайший путь между препятствиями: /grid, штатный Canvas и Player; расстояния, зелёный итог, история и генератор |
 | [Обход дерева](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Собственные узлы, рёбра и указатель с Canvas и SVG с сохранением элементов |
 | [Вставка и поворот дерева](https://github.com/urffin/algiviz/blob/master/examples/tree-player.html) | Фиксированная BST-вставка, один правый поворот, штатные layout/Canvas и Player; зелёный итог и перемотка |
+| [Операции со связным списком](https://github.com/urffin/algiviz/blob/master/examples/list-player.html) | Вставка, удаление и разворот со штатным Canvas и Player |
 | [Стая Boids](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Воспроизводимая симуляция, пять окружений и разбор одной птицы с соседями и управляющими векторами |
 | [Падающий песок](https://github.com/urffin/algiviz/blob/master/examples/sand.html) | Воспроизводимая клеточная модель, редактор препятствий, затвор и разбор одной песчинки с разрешением конфликтов |
 

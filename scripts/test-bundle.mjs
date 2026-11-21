@@ -19,6 +19,10 @@ const runNpm = (args, cwd) => execFileSync(process.execPath, [npm, ...args], {
 const existing = ['playback', 'scene', 'array', 'canvas']
     .map(name => `export * from '@grundyjs/algiviz/${name}';`).join('\n');
 const sources = {
+    listCanvas: "export { createListRenderer } from '@grundyjs/algiviz/canvas/list';",
+    listCanvasDynamic: existing + "\nexport async function loadListCanvas() { return import('@grundyjs/algiviz/canvas/list'); }",
+    list: "export { createListTrace, listScene } from '@grundyjs/algiviz/list';",
+    listDynamic: existing + "\nexport async function loadList() { return import('@grundyjs/algiviz/list'); }",
     gridCanvas: "export { createGridRenderer } from '@grundyjs/algiviz/canvas/grid';",
     gridCanvasDynamic: existing + "\nexport async function loadGridCanvas() { return import('@grundyjs/algiviz/canvas/grid'); }",
     grid: "export { createGridTrace, gridScene } from '@grundyjs/algiviz/grid';",
@@ -114,6 +118,25 @@ try {
             const allModules = Object.values(result.outputs).flatMap(output => Object.keys(output.inputs));
             if (!['tree', 'treeCanvas'].includes(name)) assert.equal(initialModules.some(path => path.includes('/dist/tree/')), false, 'Unexpected initial tree dependency');
             if (!['tree', 'treeDynamic', 'treeCanvas', 'treeCanvasDynamic'].includes(name)) assert.equal(allModules.some(path => path.includes('/dist/tree/')), false, 'Unrelated entry loaded tree code');
+            if (!['list', 'listDynamic', 'listCanvas', 'listCanvasDynamic'].includes(name)) assert.equal(allModules.some(path => path.includes('/dist/list/')), false, 'Unrelated entry loaded list code');
+            if (name === 'list') {
+                const modules = allModules.filter(path => path.includes('/dist/'));
+                assert.ok(modules.length > 0 && modules.every(path => path.includes('/dist/list/')), 'List imported a backend or unrelated entry');
+            }
+            if (name === 'listDynamic') {
+                assert.ok(result.files.size > result.initial.size, 'List import was not deferred');
+                assert.equal(initialModules.some(path => path.includes('/dist/list/')), false);
+                assert.ok(allModules.some(path => path.includes('/dist/list/')));
+            }
+            const canvasList = path => /\/canvas\/list(?:-geometry|-context|-text)?\.js$/.test(path);
+            if (name === "listCanvas" || name === "listCanvasDynamic") {
+                assert.ok(allModules.some(canvasList));
+                assert.equal(allModules.some(path => /\/dist\/(?:list\/(?:trace|index)|player\/|worker\/)/.test(path)), false);
+                if (name === "listCanvasDynamic") {
+                    assert.ok(result.files.size > result.initial.size, "Canvas list not deferred");
+                    assert.equal(initialModules.some(path => canvasList(path) || path.includes("/dist/list/")), false);
+                }
+            } else assert.equal(allModules.some(canvasList), false, "Unrelated entry loaded Canvas list");
             const canvasTree = path => /\/canvas\/tree(?:-layout|-geometry|-labels)?\.js$/.test(path);
             if (!['treeCanvas', 'treeCanvasDynamic'].includes(name)) assert.equal(allModules.some(canvasTree), false, 'Unrelated entry loaded Canvas tree');
             if (name === 'treeCanvas' || name === 'treeCanvasDynamic') {
@@ -215,6 +238,19 @@ try {
                 const entryUrl = pathToFileURL(join(current, result.entry)).href;
                 const check = `const m = await import(${JSON.stringify(entryUrl)});
                     if (typeof document !== 'undefined') throw Error('Unexpected DOM');
+                    if (${JSON.stringify(name)} === 'list' || ${JSON.stringify(name)} === 'listDynamic') {
+                        const list = ${JSON.stringify(name)} === 'list' ? m : await m.loadList();
+                        const trace = list.createListTrace({headId:'A',nodes:[{id:'A',value:1,nextId:null}]},{layout:[{nodeId:'A',x:0,y:0}]});
+                        trace.start(); trace.edit({nodes:[{id:'A',value:2,nextId:null}]});
+                        const state = trace.done({result:{pointerIds:[{kind:'next',nodeId:'A'}]}}).state;
+                        const scene = list.listScene(state,{namespace:'bundle'});
+                        if (scene.objects.length !== 3 || scene.objects[2].data.node.value !== 2 || !scene.objects[1].data.result || scene.objects[1].data.to !== null) throw Error('Bundled list result/null slot missing');
+                    }
+                    if (${JSON.stringify(name)} === 'listCanvas' || ${JSON.stringify(name)} === 'listCanvasDynamic') {
+                        const drawing = ${JSON.stringify(name)} === 'listCanvas' ? m : await m.loadListCanvas();
+                        const renderer = drawing.createListRenderer({theme:'light'});
+                        if (renderer.layout({headId:null,nodes:[]}).length !== 0 || typeof renderer.render !== 'function') throw Error('Bundled list Canvas API failed');
+                    }
                     if (${JSON.stringify(name)} === 'gridCanvas' || ${JSON.stringify(name)} === 'gridCanvasDynamic') {
                         const drawing = ${JSON.stringify(name)} === 'gridCanvas' ? m : await m.loadGridCanvas();
                         const renderer = drawing.createGridRenderer({theme:'light',presentCell:({value})=>({label:String(value)})});

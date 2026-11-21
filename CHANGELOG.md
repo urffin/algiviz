@@ -1,6 +1,26 @@
 # Changelog
 
-## Unreleased
+## 1.4.0 — 2026-11-21
+
+Minor release. The fourteen existing imports are unchanged and need no migration.
+
+- Add independent headless /list: createListTrace, listScene and 25 types for
+  complete acyclic singly linked lists, stable node/head/next-slot IDs, atomic
+  edits with marks, captions and independent result selections.
+- Validate complete topology, canonical snapshots and retired identities without
+  partial commits; preserve opaque values and original exceptions. Project null
+  pointer slots and both endpoint targets through the existing scene/playback API.
+- Add permanent validation, rewind/Restart/cleanup regressions, installed strict
+  consumers and independent static/lazy bundle checks. Intermediate pointer
+  assignments remain application-owned working state.
+- Add optional /canvas/list with explicit layout, head and null markers, attached
+  arrow crossfades during retargeting, measured text and independent green node
+  and pointer selections. Rendering uses caller-owned Canvas dimensions and DPR.
+  A selected null marker keeps its foreground text over the canvas background.
+- Add a linked-list example for insertion, removal and reversal with Player,
+  a green final chain, bounded rewind and history seeking.
+
+[Release notes and examples](https://github.com/urffin/algiviz/blob/master/docs/release-1.4.md).
 
 ## 1.3.1 — 2026-11-20
 

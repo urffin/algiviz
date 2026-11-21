@@ -1,0 +1,654 @@
+{
+  "date": "2026-11-20",
+  "checkedAt": "2026-11-20T07:31:27.069Z",
+  "scope": "Local /list implementation and package verification; no Canvas renderer, release, commit or push",
+  "baseline": {
+    "version": "1.3.1",
+    "sha": "e8f9d6ab89f6455d749f0a689233ff9662877f75",
+    "publishedEntries": 14
+  },
+  "localSurface": {
+    "entries": 15,
+    "runtime": 32,
+    "typeOnly": 180,
+    "distinctTypes": 168
+  },
+  "inventory": [
+    {
+      "entry": "./tree",
+      "runtime": [
+        "createTreeTrace",
+        "treeScene"
+      ],
+      "types": [
+        "TreeKind",
+        "TreeBinarySlot",
+        "TreeNode",
+        "TreeOrderedLink",
+        "TreeBinaryLink",
+        "TreeLink",
+        "TreeOrderedInput",
+        "TreeBinaryInput",
+        "TreeInput",
+        "TreePosition",
+        "TreeAnnotation",
+        "TreeMark",
+        "TreeNodeCaption",
+        "TreeNodeCaptionPatch",
+        "TreeMarkUpdate",
+        "TreeResultInput",
+        "TreeResult",
+        "TreeDoneOptions",
+        "TreeTraceOptions",
+        "TreeEdit",
+        "TreeSnapshot",
+        "TreeEvent",
+        "TreeStep",
+        "TreeFrame",
+        "TreeTrace",
+        "TreeSceneOptions",
+        "TreeNodeView",
+        "TreeLinkView",
+        "TreeObjects"
+      ]
+    },
+    {
+      "entry": "./canvas/graph",
+      "runtime": [
+        "createGraphRenderer"
+      ],
+      "types": [
+        "GraphPalette",
+        "GraphRendererOptions",
+        "GraphRenderSize",
+        "GraphRenderer"
+      ]
+    },
+    {
+      "entry": "./graph",
+      "runtime": [
+        "createGraphTrace",
+        "graphScene"
+      ],
+      "types": [
+        "GraphNode",
+        "GraphEdge",
+        "GraphInput",
+        "GraphPosition",
+        "GraphAnnotation",
+        "GraphNodeCaption",
+        "GraphNodeCaptionPatch",
+        "GraphMark",
+        "GraphMarkUpdate",
+        "GraphResultInput",
+        "GraphResult",
+        "GraphDoneOptions",
+        "GraphTraceOptions",
+        "GraphSnapshot",
+        "GraphEvent",
+        "GraphStep",
+        "GraphFrame",
+        "GraphTrace",
+        "GraphSceneOptions",
+        "GraphNodeView",
+        "GraphEdgeView",
+        "GraphObjects"
+      ]
+    },
+    {
+      "entry": "./scene",
+      "runtime": [
+        "createSceneFrame",
+        "createSceneRenderer",
+        "createSceneProjector"
+      ],
+      "types": [
+        "SceneObject",
+        "Scene",
+        "ObjectTransition",
+        "SceneFrame",
+        "SceneVisualizations"
+      ]
+    },
+    {
+      "entry": "./array",
+      "runtime": [
+        "createArrayTrace",
+        "defineArrayAlgorithm",
+        "createArrayPlayer",
+        "createArrayTimeline"
+      ],
+      "types": [
+        "ArrayTrace",
+        "ArrayAlgorithm",
+        "SortedRegions",
+        "ArrayDoneOptions",
+        "Item",
+        "ArrayEvent",
+        "ArraySnapshot",
+        "ArrayStep",
+        "ArrayPlayer",
+        "ArrayFrame",
+        "ArrayTimeline"
+      ]
+    },
+    {
+      "entry": "./playback",
+      "runtime": [
+        "createPlayer",
+        "createStatePlayer",
+        "createTimeline",
+        "createStepEmitter",
+        "createRewindBuffer",
+        "createAsyncSource"
+      ],
+      "types": [
+        "Player",
+        "Step",
+        "Frame",
+        "Timeline",
+        "RewindBuffer",
+        "AsyncSource",
+        "AsyncSourceSignal",
+        "AsyncSourceFactory",
+        "AsyncSourceReadResult",
+        "AsyncSourceCloseResult"
+      ]
+    },
+    {
+      "entry": "./player",
+      "runtime": [
+        "Player"
+      ],
+      "types": [
+        "PlayerOptions",
+        "PlayerStatus",
+        "PlayerLabels",
+        "PlayerCloseResult"
+      ]
+    },
+    {
+      "entry": "./canvas/viewport",
+      "runtime": [
+        "createCanvasViewport"
+      ],
+      "types": [
+        "CanvasViewportOptions",
+        "CanvasViewportSize",
+        "CanvasViewport"
+      ]
+    },
+    {
+      "entry": "./canvas",
+      "runtime": [
+        "arrayScene",
+        "createArrayRenderer",
+        "createSortRenderer"
+      ],
+      "types": [
+        "ArrayObjects",
+        "ArrayPalette",
+        "ArrayPaletteOverrides",
+        "ArrayRendererOptions"
+      ]
+    },
+    {
+      "entry": "./worker",
+      "runtime": [
+        "createWorkerSourceFactory",
+        "WorkerSourceError"
+      ],
+      "types": [
+        "WorkerSourceErrorOptions",
+        "WorkerSourceIterator",
+        "WorkerSourceSession",
+        "WorkerSourceFactory",
+        "WorkerSourceOptions",
+        "WorkerSourcePhase",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceErrorCode",
+        "WorkerSourceThrownKind",
+        "WorkerSourceRemoteError",
+        "WorkerSourceIssue",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceTermination",
+        "WorkerSourceCloseResult",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceCancellation",
+        "WorkerSourceSignal"
+      ]
+    },
+    {
+      "entry": "./worker/runtime",
+      "runtime": [
+        "exposeWorkerSource"
+      ],
+      "types": [
+        "WorkerStateFactory",
+        "WorkerTransferSelector",
+        "WorkerSourceEndpointOptions",
+        "WorkerSourcePhase",
+        "WorkerSourceRemotePhase",
+        "WorkerSourceErrorCode",
+        "WorkerSourceThrownKind",
+        "WorkerSourceRemoteError",
+        "WorkerSourceIssue",
+        "WorkerSourceCleanupSummary",
+        "WorkerSourceTermination",
+        "WorkerSourceCloseResult",
+        "WorkerSourceShutdownOptions",
+        "WorkerSourceCancellation",
+        "WorkerSourceSignal"
+      ]
+    },
+    {
+      "entry": "./canvas/tree",
+      "runtime": [
+        "createTreeRenderer"
+      ],
+      "types": [
+        "TreePalette",
+        "TreeRendererOptions",
+        "TreeRenderSize",
+        "TreeRenderer"
+      ]
+    },
+    {
+      "entry": "./grid",
+      "runtime": [
+        "createGridTrace",
+        "gridScene"
+      ],
+      "types": [
+        "GridCoordinate",
+        "GridInput",
+        "GridWrite",
+        "GridAnnotation",
+        "GridMark",
+        "GridCellCaption",
+        "GridCellCaptionPatch",
+        "GridMarkUpdate",
+        "GridResultInput",
+        "GridResult",
+        "GridDoneOptions",
+        "GridTraceOptions",
+        "GridEdit",
+        "GridSnapshot",
+        "GridEvent",
+        "GridStep",
+        "GridFrame",
+        "GridTrace",
+        "GridSceneOptions",
+        "GridCellView",
+        "GridPathView",
+        "GridObjects"
+      ]
+    },
+    {
+      "entry": "./canvas/grid",
+      "runtime": [
+        "createGridRenderer"
+      ],
+      "types": [
+        "GridPalette",
+        "GridCellPresentation",
+        "GridRendererOptions",
+        "GridRenderSize",
+        "GridRenderer"
+      ]
+    },
+    {
+      "entry": "./list",
+      "runtime": [
+        "createListTrace",
+        "listScene"
+      ],
+      "types": [
+        "ListAnnotation",
+        "ListDoneOptions",
+        "ListEdit",
+        "ListEvent",
+        "ListFrame",
+        "ListInput",
+        "ListMark",
+        "ListMarkUpdate",
+        "ListNode",
+        "ListNodeCaption",
+        "ListNodeCaptionPatch",
+        "ListNodeView",
+        "ListObjects",
+        "ListPointerAnnotation",
+        "ListPointerId",
+        "ListPointerMark",
+        "ListPointerView",
+        "ListPosition",
+        "ListResult",
+        "ListResultInput",
+        "ListSceneOptions",
+        "ListSnapshot",
+        "ListStep",
+        "ListTrace",
+        "ListTraceOptions"
+      ]
+    }
+  ],
+  "implementation": {
+    "entry": "./list",
+    "runtimeNames": [
+      "createListTrace",
+      "listScene"
+    ],
+    "typeOnlyNames": 25,
+    "sourceFiles": 6,
+    "stableIDs": "Explicit node IDs; structural permanent head and owner next slots, independent of target",
+    "atomicity": "Full candidate validation, layout, pruning, patches, owned copies and allocation precede state/index/lifecycle/retirement commit",
+    "retirement": "Removed node IDs cannot be reused within one trace; Restart creates fresh trace history",
+    "result": "Independent unique node and pointer-slot selections, including head/null targets",
+    "projection": "Two closed kinds; 2N+1 objects; explicit nulls and stable namespaced IDs; clone-compatible standalone snapshots",
+    "intermediateAssignments": "Application-owned State/arena/custom scene only; no invalid-list phase or staging builder"
+  },
+  "checks": {
+    "repository": {
+      "fresh": true,
+      "passed": 747,
+      "failed": 0,
+      "logSha256": "87393ac1b8e5d4d47df812d1707a7eb5ce615c005a12dbc19e3b03df7ef369fb"
+    },
+    "listRegressions": {
+      "fresh": true,
+      "modelAndScene": 31,
+      "playback": 8,
+      "total": 39,
+      "logSha256": "c19a4ea35d8f0a0aa16bd823a88a013aaf3193363c86c703b1d1d074ed869f06",
+      "widgetHost": "Existing modeled DOM; no native browser claim"
+    },
+    "installedConsumers": [
+      {
+        "typescript": "5.0.4",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "headlessES2022": true,
+        "separateDOMAndWebWorker": true,
+        "runtimeRegressionGroups": 495,
+        "newListGroups": 39,
+        "logSha256": "01f9b1eeb81b01ead61cdacdf57441916c479179e8b25421ec2e7453d4827ca5"
+      },
+      {
+        "typescript": "5.4.5",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "headlessES2022": true,
+        "separateDOMAndWebWorker": true,
+        "runtimeRegressionGroups": 495,
+        "newListGroups": 39,
+        "logSha256": "ccdb53095d6d19a40e54f9ca598bf96c97e0f01c206edd74291abf7efc1ec161"
+      },
+      {
+        "typescript": "5.9.3",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "headlessES2022": true,
+        "separateDOMAndWebWorker": true,
+        "runtimeRegressionGroups": 495,
+        "newListGroups": 39,
+        "logSha256": "b7397463f115684f31481321b6ea3196fd985e486a33ae3db14728709ea6bdf7"
+      },
+      {
+        "typescript": "6.0.3",
+        "resolutions": [
+          "NodeNext",
+          "Bundler"
+        ],
+        "strict": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "headlessES2022": true,
+        "separateDOMAndWebWorker": true,
+        "runtimeRegressionGroups": 495,
+        "newListGroups": 39,
+        "logSha256": "f74126201b39a54ad521fce9770c39b76e23b898f9577d367bdac3281fda21bf"
+      }
+    ],
+    "bundles": {
+      "fresh": true,
+      "variants": 46,
+      "newListStaticAndDynamicVariants": 4,
+      "minifiedOutputsExecutedInNode": true,
+      "existingBundlesUnchanged": true,
+      "reportSha256": "b4a7b009cb2ea2f83a62ade80a000b79d2e2bf017ca0c17035db79f40599d334"
+    },
+    "archive": {
+      "local": true,
+      "version": "1.3.1",
+      "filename": "grundyjs-algiviz-1.3.1.tgz",
+      "files": 143,
+      "distFiles": 138,
+      "listDistFiles": 12,
+      "integrity": "sha512-iT0JSVwBOy69GBtpKBFey/pSjA8k6NqzYJmnhv8gnXBRIw9w1yqnWLCt+cmsLCdadxIwc4XBNR4JR3FpFkpcXg==",
+      "sha256": "00971d0fd07f53265a1d8f0f2887cdf19d0a02994e061829ed74bc5f3bd3bd68",
+      "packagedDocumentation": [
+        {
+          "path": "README.md",
+          "sha256": "33e297dcf5afc079452cfe5f98f6335428521727a177a4161b78d9f740116940",
+          "byteIdentical": true
+        },
+        {
+          "path": "ru/README.md",
+          "sha256": "efd71c350fa400234bb017a70785fb5d7f6dd260220fbb9e48f116f437d863dc",
+          "byteIdentical": true
+        },
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "3410c33a017d4cdac67b0eb218c37bb127dfb1a51490feb9dbd26e840b019514",
+          "byteIdentical": true
+        }
+      ],
+      "existingDistMatchesPublishedAfterNewlineNormalization": 126,
+      "testsExamplesScriptsExcluded": true
+    },
+    "publicDeclarationsMatchContract": true,
+    "EN_RUCodeParity": true,
+    "negativeListTypeCases": 22,
+    "documentationLinksChecked": 326,
+    "preservation": {
+      "previousImplementationSourcesUnchanged": 63,
+      "previousExportRecordsUnchanged": 14,
+      "dependenciesCompilerLockfileVersionUnchanged": true,
+      "previousExamplesAndRuntimeTestsUnchanged": true,
+      "historicalJSONUnchanged": true
+    },
+    "limits": {
+      "nativeCanvasRun": false,
+      "benchmarkRun": false,
+      "existingCoreChanged": false,
+      "canvasListAdded": false,
+      "stagingAPIAdded": false,
+      "versionChanged": false,
+      "registryPublicationClaimed": false,
+      "commitPushTagOrReleaseCreated": false
+    }
+  },
+  "sourceFiles": [
+    {
+      "path": "src/list/attributes.ts",
+      "sha256": "31944f5a07222296775f060c5df5079918d69da6d708200812e7421a71fe02d5"
+    },
+    {
+      "path": "src/list/index.ts",
+      "sha256": "4f9bbe4b1a4eafc5e1e511dd3a4e04d936e21db82c7c1c97f317bff00729a1a1"
+    },
+    {
+      "path": "src/list/scene.ts",
+      "sha256": "45407d4106183ffe26b0c78cb19100364298428afd3bb6df648dacbd3370c2c7"
+    },
+    {
+      "path": "src/list/trace.ts",
+      "sha256": "553d6dda8c5346906bea7df6e0c7d64bd79bacc35769a90ffd59018b9d8dddc2"
+    },
+    {
+      "path": "src/list/types.ts",
+      "sha256": "e6662bcb454228467e8bfe05ce8f4c784d8807b29c02e081405412e7ac87a1df"
+    },
+    {
+      "path": "src/list/validation.ts",
+      "sha256": "636fa98b31c905a07bbccbe78dbc53051292ee92ce7c732a08b6e631a57f93da"
+    }
+  ],
+  "compiledFiles": [
+    {
+      "path": "dist/list/attributes.js",
+      "sha256": "83f9a99e9729a12555e2435b13b0c966ce0f311ac8cc77e81e2904c89f406773"
+    },
+    {
+      "path": "dist/list/index.js",
+      "sha256": "c3f4a3dc5a15b473009d874afac5ad95a0d850316e22f22f4ab3887905e5bfdd"
+    },
+    {
+      "path": "dist/list/scene.js",
+      "sha256": "418be0d9161ad8882e14abd400b229a8753e19faba6ca6606c589dcda3d60687"
+    },
+    {
+      "path": "dist/list/trace.js",
+      "sha256": "293855f35e1eaf232333fd57bfebc1a3c7435dc1c478f69ed59834b4310a1873"
+    },
+    {
+      "path": "dist/list/types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    {
+      "path": "dist/list/validation.js",
+      "sha256": "a9b3f60001f1135e38650d83c36b5b197de50dda63f8d44d3c6f9a400f540992"
+    },
+    {
+      "path": "dist/list/attributes.d.ts",
+      "sha256": "48f6bc88d2595dd4839f2674cc1c1b3c8c086bc562853e6ddfadbbebcafd8cbe"
+    },
+    {
+      "path": "dist/list/index.d.ts",
+      "sha256": "4e46ec5681ea0bb2faac5773bf4973982548cbd5423d3d2231540422c1fdf3a2"
+    },
+    {
+      "path": "dist/list/scene.d.ts",
+      "sha256": "71843b03aef245c710f4eff18657cb14305716995717d5818b479f3008963a5b"
+    },
+    {
+      "path": "dist/list/trace.d.ts",
+      "sha256": "839d31b3fbbd841d1400fe8a3f58cf15b803bcd628836d035576f3506f85a21d"
+    },
+    {
+      "path": "dist/list/types.d.ts",
+      "sha256": "58d55a1b409d493404a859492d17586dfbaf9610e2a1e95e359300d95cad31d9"
+    },
+    {
+      "path": "dist/list/validation.d.ts",
+      "sha256": "26f821ce98811030c6aa494714cc88bc4c320b1f44c9f9c9621a20ba2e98aa0d"
+    }
+  ],
+  "verificationFiles": [
+    {
+      "path": "test/list.test.mjs",
+      "sha256": "87ace685de45aeaa72d8eb78934e993f7627ae3cbacc5f5e6750b7ef9e8a7020"
+    },
+    {
+      "path": "test/list-playback.test.mjs",
+      "sha256": "9b58e29a3fdcc572d3d6e7368491a938dd7b8e24c9c1b9c4cf979d83863db11f"
+    },
+    {
+      "path": "test/list-test-fixtures.mjs",
+      "sha256": "c73393459c10c4dc8416c42eb9a3d70ae03ba47a721182a29c465f6ff1f1f656"
+    },
+    {
+      "path": "test/package-list.ts",
+      "sha256": "b024e066214b6335d5e0f848699abe447a5378a39cad23e6d41880a6836b9c5b"
+    },
+    {
+      "path": "test/package-list-player.ts",
+      "sha256": "31333b22ce940a7ea18154b25b90b387451b8b29f5811b9abb3a2b50b5153f20"
+    },
+    {
+      "path": "test/package-exports.mjs",
+      "sha256": "897eb585b0424cd49cae41b5babc19785eb136631457285409fa2aa864f4edbb"
+    },
+    {
+      "path": "test/tsconfig.json",
+      "sha256": "8ebae6e3b3245b05a69bc666922bd0fe56eadf6edbf11a277a1fd763778f56de"
+    },
+    {
+      "path": "scripts/test-package.mjs",
+      "sha256": "39bfaf5eb0006d8103208ea11baf6e5128f7887d95fcc96db71bc6208675ed57"
+    },
+    {
+      "path": "scripts/test-bundle.mjs",
+      "sha256": "eb6d49a06f9134a073ceaa5315c411dce334a1a703ab93d58178f9b7aad369b1"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "3410c33a017d4cdac67b0eb218c37bb127dfb1a51490feb9dbd26e840b019514"
+    },
+    {
+      "path": "README.md",
+      "sha256": "33e297dcf5afc079452cfe5f98f6335428521727a177a4161b78d9f740116940"
+    },
+    {
+      "path": "ru/README.md",
+      "sha256": "efd71c350fa400234bb017a70785fb5d7f6dd260220fbb9e48f116f437d863dc"
+    },
+    {
+      "path": "docs/list-api.md",
+      "sha256": "235b9a1c78277d5cedc26e5adbabb6350458d194727844505cb7be5fa5ff0786"
+    },
+    {
+      "path": "docs/ru/list-api.md",
+      "sha256": "a1c07e29bc87e9353faa2d204e259c5b4a0fa2acae87e790f5453bde11c73d3a"
+    },
+    {
+      "path": "docs/current-api.md",
+      "sha256": "af8bf3f59fbe341655a0fe94f96f99521b079a77c98a7c185e88a68d5a2adec0"
+    },
+    {
+      "path": "docs/ru/current-api.md",
+      "sha256": "d99f8b07021b535edc063e105b00256f0c842427c13c9dada47e256326553ee3"
+    },
+    {
+      "path": "docs/linked-list-contract.md",
+      "sha256": "616ac6c4d85c3f9cb7c7e6a07f6b5b3c743624737efa7c980f9d12dedbba1b95"
+    },
+    {
+      "path": "docs/ru/linked-list-contract.md",
+      "sha256": "c91a3a05414c514c26b8dd3882e86df6c1980ca553146acf8483d1c673bedf49"
+    },
+    {
+      "path": "docs/api-compatibility.md",
+      "sha256": "0217aaf4d7d55e5bfb0628d58a4a9e7a3d0ff4bc2749a6857fbac54308c76d85"
+    },
+    {
+      "path": "docs/ru/api-compatibility.md",
+      "sha256": "6131a92664a662cd5602b423ec59065d9c21eb3d54b961815405aa5851f1221b"
+    },
+    {
+      "path": "docs/support-matrix.md",
+      "sha256": "19c08b55382e0d599ff3aa1266c1003ee6f8ea68c37f5f2a13b346e3af48d03f"
+    }
+  ],
+  "historicalContract": {
+    "path": "docs/checks/list-public-api-2026-11-20.json",
+    "sha256": "c92c2e76969c176d3a97be8237a24f8d405e562b4573f848ee219e14164bc430"
+  }
+}

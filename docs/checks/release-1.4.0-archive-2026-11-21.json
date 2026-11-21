@@ -1,0 +1,60 @@
+{
+  "version": "1.4.0",
+  "date": "2026-11-21",
+  "package": "@grundyjs/algiviz",
+  "archive": {
+    "filename": "grundyjs-algiviz-1.4.0.tgz",
+    "integrity": "sha512-2au41hElkfpfKzocJmfebyVaG/Irnu2SLrE2b66Wi7xYXdP4loZjXgSaqVrGHSjkHv/fawKTKQOW7P3n9/WC4Q==",
+    "files": 151,
+    "documentation": [
+      {
+        "path": "README.md",
+        "sha256": "4bb805cfa969c23ea92249d64ea5f1a9efdf575b4eb551e80923aa8ca323cffb"
+      },
+      {
+        "path": "ru/README.md",
+        "sha256": "a1116cef3b0657a75f8d95420db7a8b38beeaf1230af98997147febde338caee"
+      },
+      {
+        "path": "CHANGELOG.md",
+        "sha256": "dfed2d8f18097af8dbba2246d4a3efd8f9ce2c8daa48037991a92ea9c94062a4"
+      }
+    ],
+    "verifiedDocumentationLinks": 462
+  },
+  "compatibility": {
+    "baseline": "1.3.1",
+    "oldEntries": 14,
+    "oldDistFiles": 126,
+    "oldDistMatchesAfterLineEndingNormalization": true,
+    "newEntries": [
+      "./canvas/list",
+      "./list"
+    ],
+    "entries": 16,
+    "runtime": 33,
+    "typeOnly": 185,
+    "distinctTypes": 173
+  },
+  "localChecks": {
+    "repositoryTests": 764,
+    "installedTests": 507,
+    "typescript": "6.0.3",
+    "resolutions": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "bundleVariants": 50
+  },
+  "nativeEvidence": {
+    "renderer": {
+      "checks": 11,
+      "record": "list-readiness-1.4-2026-11-20.json"
+    },
+    "example": {
+      "checks": 14,
+      "record": "list-player-example-2026-11-20.json"
+    },
+    "reuse": "Recorded source, fixture and renderer hashes match. Native checks were run on November 20."
+  }
+}

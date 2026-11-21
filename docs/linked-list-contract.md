@@ -2,6 +2,18 @@
 
 [Русский](ru/linked-list-contract.md) · [Graph](graph-contract.md) · [Tree](tree-contract.md) · [Scenes](scene.md) · [Compatibility](api-compatibility.md)
 
+The implementation is available in 1.4.0. See the [List API](list-api.md) and
+[Canvas API](list-canvas-api.md) for the public contracts. The dated sections below
+record the design and implementation process.
+
+**Public API selected 2026-11-20:** the future entry is named /list.
+[The /list contract](list-api.md) selects createListTrace/listScene, complete
+atomic edits, stable node IDs and structural head/next-slot IDs, marks/results,
+validation and the application-owned microstep boundary. Released 1.3.1 is the
+baseline. The implementation and package exports were added after this design stage. The sketch below
+retains its historical scope; previously undecided names/choices are superseded
+where the new contract explicitly specifies them.
+
 **Architecture review, 2026-11-16; no implementation or publication.** Candidate
 a9b93f8 is the baseline. There is no linked-list package entry, trace, event type
 or stock renderer. Entry names such as /list or /linked-list and all signatures

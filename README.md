@@ -25,17 +25,14 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Package version: **1.3.1** — a documentation patch with the unchanged 1.3.0 API.
-Available since 1.3.0, **/grid** and **/canvas/grid** add dense grids, atomic operations, captions, results and ordered paths.
-The stock Canvas renderer fits square cells, values and distance captions,
-preserves the green result and crossfades path appearance/replacement.
-There are 14 entries; the twelve existing imports need no migration.
-BFS remains application code in a separate example, not a package algorithm export.
-[Grid API](https://github.com/urffin/algiviz/blob/master/docs/grid-api.md) · [Grid Canvas](https://github.com/urffin/algiviz/blob/master/docs/grid-canvas-api.md) ·
-[BFS example](https://github.com/urffin/algiviz/blob/master/docs/examples.md#grid-bfs-shortest-path) ·
-[Changes and migration](https://github.com/urffin/algiviz/blob/master/docs/release-1.3.md) ·
-[Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md) ·
-[1.3.1 documentation patch](https://github.com/urffin/algiviz/blob/master/docs/release-1.3.1.md).
+Version **1.4.0** adds two optional modules for singly linked lists.
+[`/list`](https://github.com/urffin/algiviz/blob/master/docs/list-api.md) records
+atomic edits with stable node and pointer-slot IDs, captions and results.
+[`/canvas/list`](https://github.com/urffin/algiviz/blob/master/docs/list-canvas-api.md)
+animates head and next pointers, shows null markers and highlights the final chain in green.
+[Linked list example](https://github.com/urffin/algiviz/blob/master/docs/examples.md#linked-list-edits) ·
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.4.md) ·
+[Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md)
 
 ## Install
 
@@ -43,12 +40,13 @@ BFS remains application code in a separate example, not a package algorithm expo
 npm install @grundyjs/algiviz
 ```
 
-There is no root entry point or CommonJS build. Import the modules you need:
+The package uses ESM subpath imports. There is no root entry point or CommonJS
+build. Version 1.4.0 provides 16 entry points:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
-`/grid` and `/canvas/grid`.
+`/grid`, `/canvas/grid`, `/list` and `/canvas/list`.
 
-Graph entries require 1.1.0, tree entries 1.2.0, and grid entries 1.3.0 or newer.
+Graph entries were introduced in 1.1.0, tree in 1.2.0, grid in 1.3.0 and list in 1.4.0.
 Algorithms live in application code and examples. Compatible features use minor
 releases under the [1.x compatibility policy](https://github.com/urffin/algiviz/blob/master/docs/api-compatibility.md);
 consult [CHANGELOG.md](CHANGELOG.md) when updating.
@@ -87,6 +85,8 @@ plain states/pre → createArrayPlayer → standard Player → scenes/interpolat
 | [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md) | Explicit tree layout, empty binary slots, relation interpolation, captions and result | 1.2.0 |
 | [`/grid`](https://github.com/urffin/algiviz/blob/master/docs/grid-api.md) | Dense grids, atomic operations, marks, result/path and scene | 1.3.0 |
 | [`/canvas/grid`](https://github.com/urffin/algiviz/blob/master/docs/grid-canvas-api.md) | Regular cells, values/captions, green results and paths | 1.3.0 |
+| [`/list`](https://github.com/urffin/algiviz/blob/master/docs/list-api.md) | Singly linked lists with stable node and slot IDs, atomic edits and results | 1.4.0 |
+| [`/canvas/list`](https://github.com/urffin/algiviz/blob/master/docs/list-canvas-api.md) | Layout, animated pointers, head and null markers, captions and green results | 1.4.0 |
 
 Headless entries need no DOM. Canvas/Player/viewport and the Worker host need
 their actual hosts and DOM types; the Worker endpoint uses WebWorker types.
@@ -131,6 +131,7 @@ with explicit ArrayBuffer transfer and observable completion through closed.
 | [Grid BFS shortest path](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Shortest path between obstacles with /grid, stock Canvas and Player; distances, green result, history and generator |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 | [Tree insertion and rotation](https://github.com/urffin/algiviz/blob/master/examples/tree-player.html) | Fixed BST insertion, one right rotation, stock tree layout/Canvas and Player; green result and rewind |
+| [Linked list edits](https://github.com/urffin/algiviz/blob/master/examples/list-player.html) | Insert, remove and reverse a list with the stock Canvas renderer and Player |
 | [Boids flock](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Seeded simulation, five obstacle layouts and one-bird inspection with neighbors and steering vectors |
 | [Falling sand](https://github.com/urffin/algiviz/blob/master/examples/sand.html) | Seeded cell simulation, paintable obstacles, a hopper gate and exact one-grain inspection with conflict resolution |
 

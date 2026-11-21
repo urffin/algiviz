@@ -1,63 +1,43 @@
 # Current API and verification status
 
-[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.3.0 release/migration](release-1.3.md) · [1.3.1 patch](release-1.3.1.md)
+[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.4.0 release notes](release-1.4.md)
 
-**Package version 1.3.1; API unchanged from 1.3.0:** 14 entries, 30 runtime names, 155 type-only exports
-(143 distinct). /grid adds createGridTrace, gridScene and 22 types;
-/canvas/grid adds createGridRenderer and five types. The twelve existing entries
-are unchanged and need no migration. Grid imports require 1.3.0 or newer.
+**Version 1.4.0** has 16 entry points, 33 runtime exports and 185 type-only
+exports (173 distinct names). [/list](list-api.md) adds `createListTrace`,
+`listScene` and 25 types. [/canvas/list](list-canvas-api.md) adds
+`createListRenderer` and five types. Existing imports need no migration.
 
-The functional release baseline is **1.3.0 / 90b26f8**. All eleven CI jobs,
-publication, exact/latest, fresh installation, signature, provenance and README
-were verified; [release notes](release-1.3.md) and the [receipt](releases/1.3.0.json)
-record the facts. Documentation patch **1.3.1 / d61829d** is also published
-and verified: all eleven CI jobs, exact/latest, fresh installation, signature/
-provenance and README. [Patch notes](release-1.3.1.md) · [Actual receipt](releases/1.3.1.json).
-
-## Entry reference map: fourteen paths
+## Entry reference map
 
 | Entry | Reference | Status/first version |
 | --- | --- | --- |
-| /playback | [Playback](playback.md), [rewind](rewind-buffer.md), [async](async-source-api.md) | 1.0.0; unchanged in 1.3.1 |
-| /scene | [Scene](scene.md) | 1.0.0; unchanged in 1.3.1 |
-| /array | [Array](array.md), [result](array-result.md) | 1.0.0; unchanged in 1.3.1 |
-| /canvas | [Array Canvas](array.md#canvas-rendering) | 1.0.0; unchanged in 1.3.1 |
-| /canvas/viewport | [Viewport](canvas-viewport.md) | 1.0.0; unchanged in 1.3.1 |
-| /player | [Player](player.md), [explicit steps](player-step-source.md), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0; unchanged in 1.3.1 |
-| /worker | [Worker source](worker-source-api.md) | 1.0.0; unchanged in 1.3.1 |
-| /worker/runtime | [Worker endpoint](worker-source-api.md#worker-declarations-workerruntime) | 1.0.0; unchanged in 1.3.1 |
-| /graph | [Graph API](graph-api.md), [captions](graph-node-captions.md) | 1.1.0; released |
-| /canvas/graph | [Renderer](graph-api.md), [placement](graph-node-captions.md) | 1.1.0; released |
-| /tree | [Tree API](tree-api.md) | 1.2.0; released |
-| /canvas/tree | [Tree Canvas](tree-canvas-api.md) | 1.2.0; released |
+| /playback | [Playback](playback.md), [rewind](rewind-buffer.md), [async](async-source-api.md) | 1.0.0 |
+| /scene | [Scene](scene.md) | 1.0.0 |
+| /array | [Array](array.md), [result](array-result.md) | 1.0.0 |
+| /canvas | [Array Canvas](array.md#canvas-rendering) | 1.0.0 |
+| /canvas/viewport | [Viewport](canvas-viewport.md) | 1.0.0 |
+| /player | [Player](player.md), [explicit steps](player-step-source.md), [async](player-async-api.md), [Worker](player-worker.md) | 1.0.0 |
+| /worker | [Worker source](worker-source-api.md) | 1.0.0 |
+| /worker/runtime | [Worker endpoint](worker-source-api.md#worker-declarations-workerruntime) | 1.0.0 |
+| /graph | [Graph API](graph-api.md), [captions](graph-node-captions.md) | 1.1.0 |
+| /canvas/graph | [Renderer](graph-api.md), [placement](graph-node-captions.md) | 1.1.0 |
+| /tree | [Tree API](tree-api.md) | 1.2.0 |
+| /canvas/tree | [Tree Canvas](tree-canvas-api.md) | 1.2.0 |
 | /grid | [Grid API](grid-api.md) | 1.3.0 |
 | /canvas/grid | [Grid Canvas](grid-canvas-api.md) | 1.3.0 |
+| /list | [List API](list-api.md) | 1.4.0 |
+| /canvas/list | [List Canvas](list-canvas-api.md) | 1.4.0 |
 
-## Examples and verification
+## Example and verification
 
-The separate [Grid BFS](examples.md#grid-bfs-shortest-path) uses /grid,
-/canvas/grid and Player for distances, a green shortest path, history/bounded
-rewind and Restart. The earlier maze, custom/stock graph BFS and both tree pages
-remain separate. Application algorithms are not exports or npm-shipped files.
-
-The [readiness review](grid-readiness-1.3.md) covers R0 and documentation D1/D2.
-[Candidate preparation](checks/candidate-1.3.0-2026-11-20.json) records R1/R2:
-version/lockfile, exact archive, fresh tests/installed consumers/bundles,
-packaged EN/RU README/changelog checks and native evidence identity.
-The earlier [18 renderer](checks/grid-canvas-browser-2026-11-20.json) and
-[23 BFS UI checks](checks/grid-player-example-2026-11-20.json) are reused for
-unchanged runtime; the HTML changes only version text. Old reports are not
-rewritten as fresh runs. Browser support is not expanded.
-
-R3 and R4 for 1.3.0 are complete: [all eleven jobs](https://github.com/urffin/algiviz/actions/runs/44642599848)
-on the exact SHA and the [publication receipt](releases/1.3.0.json). These results
-do not automatically certify later versions. Linked-list support remains an
-architecture sketch, not an entry.
+The [linked list example](examples.md#linked-list-edits) demonstrates insertion,
+removal, reversal, green results, rewind and Restart. The [November 20 review](list-readiness-1.4.md)
+records the local checks. The [1.3.1 receipt](releases/1.3.1.json) covers the preceding version.
 
 ## Reading historical evidence
 
 Dated documents/JSON retain their original scope. Old local/candidate/0.16.0
-status refers to that verification stage, not the API contract of 1.3.0. Use
+status refers to that verification stage, not the API contract of 1.4.0. Use
 this index for release-baseline status.
 
 - [1.0 candidate](candidate-1.0.md), [core readiness](core-readiness-1.0.md), [migration](migration-1.0.md).

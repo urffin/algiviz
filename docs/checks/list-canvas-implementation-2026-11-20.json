@@ -1,0 +1,170 @@
+{
+  "date": "2026-11-20",
+  "scope": "Local /canvas/list implementation and verification",
+  "workingVersion": "1.3.1",
+  "localExports": 16,
+  "published": false,
+  "repository": {
+    "passed": 758,
+    "listCanvasRegressions": 11
+  },
+  "installedArchive": {
+    "compiler": "6.0.3",
+    "resolution": [
+      "NodeNext",
+      "Bundler"
+    ],
+    "runtimeRegressions": 506,
+    "expectedDomExclusions": 2
+  },
+  "bundle": {
+    "passedVariants": 50,
+    "canvasListVariants": 4
+  },
+  "archive": {
+    "integrity": "sha512-SlFlfpQT11Qu858uwALavqc/Q9lm7gVsC7FdOUWFT4HMXVjmEalGXLiOjyFlCc/62FK4Tid19D7bZY0Oxr5GJQ==",
+    "files": 151,
+    "shippedDocs": [
+      {
+        "path": "README.md",
+        "sha256": "8010a9a22d5c83fd172d07d6d49625c398128a7174ccce8b36458f3b1a55edc0"
+      },
+      {
+        "path": "ru/README.md",
+        "sha256": "d8fc886f737908c0dd68566fd749b7004b59ace74004ee04f0fb3cfc5a6e00c9"
+      },
+      {
+        "path": "CHANGELOG.md",
+        "sha256": "c8eb5ba9be275b804c397e10fa09d4cd4f3f57ca9997ae40168192ee303a550d"
+      }
+    ]
+  },
+  "native": {
+    "host": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "devicePixelRatio": 1.100000023841858
+    },
+    "passed": 10,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "light · backing 1 · insertion, deletion, reversal and result",
+        "passed": true
+      },
+      {
+        "name": "light · backing 1.25 · insertion, deletion, reversal and result",
+        "passed": true
+      },
+      {
+        "name": "light · backing 2 · insertion, deletion, reversal and result",
+        "passed": true
+      },
+      {
+        "name": "dark · backing 1 · insertion, deletion, reversal and result",
+        "passed": true
+      },
+      {
+        "name": "dark · backing 1.25 · insertion, deletion, reversal and result",
+        "passed": true
+      },
+      {
+        "name": "dark · backing 2 · insertion, deletion, reversal and result",
+        "passed": true
+      },
+      {
+        "name": "Empty list, hidden null stub and small canvas",
+        "passed": true
+      },
+      {
+        "name": "Context state, bitmap reset and transparent rewind",
+        "passed": true
+      },
+      {
+        "name": "Player stream · controls, rewind, Restart, viewport and disposal",
+        "passed": true
+      },
+      {
+        "name": "Player history · controls, rewind, Restart, viewport and disposal",
+        "passed": true
+      }
+    ]
+  },
+  "verifiedFiles": [
+    {
+      "path": "src/canvas/list.ts",
+      "sha256": "43e2070b2b0a9f392779b896ed2741d675906b7f500f4ae626afbe4e983259ba"
+    },
+    {
+      "path": "src/canvas/list-context.ts",
+      "sha256": "2ca90e66368bb82a531dde149fbf15b15629628e534246d921f746a0791b8437"
+    },
+    {
+      "path": "src/canvas/list-geometry.ts",
+      "sha256": "36d8aabe1586254d1c3f98fa5b1b86e9cadeaa7930c370ccce7e021f60d68d56"
+    },
+    {
+      "path": "src/canvas/list-text.ts",
+      "sha256": "4c5a67dda5a08fb12e347b3b5d42b33054d67994622a806eb300b3a73deee385"
+    },
+    {
+      "path": "src/list/scene.ts",
+      "sha256": "97f22caebd0e8ede9a208aa364a33821167f4011fc211c5abdbba6aebcb0aa66"
+    },
+    {
+      "path": "test/list-canvas.test.mjs",
+      "sha256": "689773031c9dd9e339489f9a13eebcfd9d024778a3e2af7e42183f580adf3080"
+    },
+    {
+      "path": "test/package-list-canvas.ts",
+      "sha256": "35fb11c74cf625a1fd79d758946a1dba6370ac8c15c5c45103ea0d24c8a2c65a"
+    },
+    {
+      "path": "test/list-canvas-browser.html",
+      "sha256": "4e7282cb38e33afcceae73677424b5d2be222f5cb3ad63a5dc93e14aad5a3e01"
+    },
+    {
+      "path": "test/list-canvas-browser.mjs",
+      "sha256": "322e8821c912239441a08dd4f36b8a5da0776145f64a41dbb3aca61285a1c88a"
+    },
+    {
+      "path": "docs/list-canvas-api.md",
+      "sha256": "7b4b7ec05c60a8f9af6ca6786af90ddf8bed61b4ee3f143dff5a2a42621b27e6"
+    },
+    {
+      "path": "docs/ru/list-canvas-api.md",
+      "sha256": "a3b55a883dee1aa2d04ad6f402e7cfa1d5ce6d7a5af740d3e98e8fea74b56061"
+    },
+    {
+      "path": "dist/canvas/list-context.js",
+      "sha256": "cdedb1109f84b40fb183265a9ca5851cd904ffb53ddcae890d87afe619a6df34"
+    },
+    {
+      "path": "dist/canvas/list-geometry.js",
+      "sha256": "dce3096907260c87d56b5f74390863568936ef638322229f9e0e73a4db7af776"
+    },
+    {
+      "path": "dist/canvas/list-text.js",
+      "sha256": "34a6c99244def1672baf00f25379137223f5f563a169ebd8b7fd97407810522f"
+    },
+    {
+      "path": "dist/canvas/list.js",
+      "sha256": "fbfb29fdc09bafc40d9a7b32601d67e029560a3e2cb227ba5bc60a601084744f"
+    },
+    {
+      "path": "dist/canvas/list-context.d.ts",
+      "sha256": "99153d9dd01900458cb8185db4271ee78b85237b4098f1446a1df733906231e3"
+    },
+    {
+      "path": "dist/canvas/list-geometry.d.ts",
+      "sha256": "b63864479e11c8603e953d32fb8db787642db93a0e0a8e216266efd82af8558d"
+    },
+    {
+      "path": "dist/canvas/list-text.d.ts",
+      "sha256": "d20ef28180d6b295385f6fed22b0cd05882f4d110363116624b45a1fbfc16fc4"
+    },
+    {
+      "path": "dist/canvas/list.d.ts",
+      "sha256": "a10a20809c74ffccd664f6dc74392535e44c49a68ee9ddf0a53bfa3a98dc5b76"
+    }
+  ]
+}

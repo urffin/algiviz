@@ -34,6 +34,7 @@ included in the npm archive.
 | [Grid BFS shortest path](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Shortest path between obstacles with /grid, stock Canvas and Player; distances, green result, history and generator |
 | [Tree traversal](https://github.com/urffin/algiviz/blob/master/examples/tree.html) | Custom nodes, edges and pointer with Canvas and retained SVG backends |
 | [Tree insertion and rotation](https://github.com/urffin/algiviz/blob/master/examples/tree-player.html) | Insert 1 into 3 ← 2, rotate right once, preserve in-order, replay the green tree with stock Canvas and Player |
+| [Linked list edits](https://github.com/urffin/algiviz/blob/master/examples/list-player.html) | Insert 5 after 7, remove 3 and reverse the chain with the list Canvas renderer and Player (1.4.0+) |
 | [Boids flock](https://github.com/urffin/algiviz/blob/master/examples/boids.html) | Seeded simulation, five obstacle layouts and one-bird inspection with neighbors and steering vectors |
 | [Falling sand](https://github.com/urffin/algiviz/blob/master/examples/sand.html) | Synchronous cellular updates, a gated funnel, editable obstacles and exact one-grain inspection |
 
@@ -75,6 +76,24 @@ The earlier [detailed traversal](../examples/tree.html) keeps custom nodes, link
 a pointer and Canvas/SVG drawing. It remains a separate example.
 [Verification report](checks/tree-player-example-2026-11-19.json) ·
 [Repeatable native UI checks](../test/tree-player-browser.html) (serve the repository root).
+
+## Linked list edits
+
+Open [list-player.html](../examples/list-player.html) after a local build.
+The [example algorithm](../examples/list-player-algorithm.mjs) starts with
+`7 → 3 → 9`, inserts `5` after `7`, removes `3`, then reverses the links. Each
+operation records a complete chain in a single edit. The renderer animates
+the old and new pointer targets between snapshots. The final green chain is
+`9 → 5 → 7 → null`, with independent selections for values and pointer slots.
+
+Use Previous and Next in either mode. The generator window holds up to eight
+steps, including the current one. Full history also has a seek slider. Restart
+recreates the original chain. The example uses the local
+[/list](list-api.md) and [/canvas/list](list-canvas-api.md) modules.
+
+The browser check runs the example at 960 and 390 px in both modes. It exercises
+the controls, final result pixels, viewport sizing and page cleanup.
+[Verification report](checks/list-player-example-2026-11-20.json)
 
 ## Boids: three rules of a flock
 

@@ -19,6 +19,9 @@
     "package-tree.ts",
     "package-tree-canvas.ts",
     "package-grid.ts",
-    "package-grid-canvas.ts"
+    "package-grid-canvas.ts",
+    "package-list.ts",
+    "package-list-player.ts",
+    "package-list-canvas.ts"
   ]
 }

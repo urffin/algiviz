@@ -1,0 +1,148 @@
+{
+  "date": "2026-11-20",
+  "scope": "Readiness review for 1.4.0 before candidate preparation",
+  "head": "e8f9d6ab89f6455d749f0a689233ff9662877f75",
+  "baseline": {
+    "version": "1.3.1",
+    "publishedCommit": "d61829d72ed8cbdc27a591d280f224703eb3e248",
+    "previousExportPaths": 14,
+    "previousDistFiles": 126,
+    "byteIdenticalDistFiles": 125,
+    "allDistMatchAfterLineEndingNormalization": true
+  },
+  "local": {
+    "version": "1.3.1",
+    "target": "1.4.0",
+    "entries": 16,
+    "runtimeExports": 33,
+    "typeOnlyExports": 185,
+    "distinctTypeNames": 173
+  },
+  "fix": "Preserve foreground text in outlined null markers while keeping selection color on the marker and route, and result text on the head badge.",
+  "archive": {
+    "version": "1.3.1",
+    "files": 151,
+    "integrity": "sha512-+h1aOfm79X+zgDiPaDNOfhwL4gPbIJ+UMl9bcYSKo6xzO88QTbhGAVGwXaYLO+k90YWuAxd7te59VuVT883NFw==",
+    "documentation": [
+      {
+        "path": "README.md",
+        "sha256": "ae2e7c2810da76cd25ef712863a9cfa139ac0ae5b188643ad9f81efdae2487f9"
+      },
+      {
+        "path": "ru/README.md",
+        "sha256": "58b83e4bda3144130a0a53b43025a527043a4839ab9da5d1f1a5eae2c0304b7f"
+      },
+      {
+        "path": "CHANGELOG.md",
+        "sha256": "af34b0dc1d7ec1f3d6e6d09a5de5d57e0b8ac3d21d57b351676b72e599984f56"
+      }
+    ]
+  },
+  "checks": {
+    "repository": 764,
+    "installed": {
+      "typescript": "6.0.3",
+      "resolution": [
+        "NodeNext",
+        "Bundler"
+      ],
+      "runtimeTests": 507
+    },
+    "bundleVariants": 50,
+    "native": {
+      "host": {
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+        "devicePixelRatio": 1.100000023841858
+      },
+      "passed": 11,
+      "failed": 0,
+      "checks": [
+        {
+          "name": "light · backing 1 · insertion, deletion, reversal and result",
+          "passed": true
+        },
+        {
+          "name": "light · backing 1.25 · insertion, deletion, reversal and result",
+          "passed": true
+        },
+        {
+          "name": "light · backing 2 · insertion, deletion, reversal and result",
+          "passed": true
+        },
+        {
+          "name": "dark · backing 1 · insertion, deletion, reversal and result",
+          "passed": true
+        },
+        {
+          "name": "dark · backing 1.25 · insertion, deletion, reversal and result",
+          "passed": true
+        },
+        {
+          "name": "dark · backing 2 · insertion, deletion, reversal and result",
+          "passed": true
+        },
+        {
+          "name": "Empty list, hidden null stub and small canvas",
+          "passed": true
+        },
+        {
+          "name": "Selected null stays readable against the Canvas background in both themes",
+          "passed": true
+        },
+        {
+          "name": "Context state, bitmap reset and transparent rewind",
+          "passed": true
+        },
+        {
+          "name": "Player stream · controls, rewind, Restart, viewport and disposal",
+          "passed": true
+        },
+        {
+          "name": "Player history · controls, rewind, Restart, viewport and disposal",
+          "passed": true
+        }
+      ]
+    },
+    "historicalExample": {
+      "native": 14,
+      "widths": [
+        960,
+        390
+      ],
+      "note": "Example code and fixtures still match the earlier report. Fresh native renderer acceptance includes the null text fix and both Player modes."
+    },
+    "declarationParity": true,
+    "READMEExportTableMatches": true,
+    "localDocumentationLinks": 487
+  },
+  "release": {
+    "remaining": [
+      "Finalize 1.4.0 version and release-facing documentation",
+      "Inspect the 1.4.0 archive",
+      "Commit and verify all 11 CI jobs",
+      "Publish and verify registry metadata, provenance and documentation"
+    ]
+  },
+  "verifiedFiles": [
+    {
+      "path": "src/canvas/list.ts",
+      "sha256": "924ed88db7e4bbdb2a47c0971037b42cd55a93b0fba5d956677d35a076ab7734"
+    },
+    {
+      "path": "test/list-canvas.test.mjs",
+      "sha256": "418e77e856664a0f14e96bd4922e63f8c17aa196ff4dd4462b5880f4bdd6db25"
+    },
+    {
+      "path": "test/list-canvas-browser.mjs",
+      "sha256": "d9fa20e71245b989a02d8e3e6459081fcd7e698e84060dc5715d6c947c6c059c"
+    },
+    {
+      "path": "test/list-player-example.test.mjs",
+      "sha256": "eb761fac93925d7b141f0d43845db0b63cf051c174f6fb906701f88b2c5d90ae"
+    },
+    {
+      "path": "dist/canvas/list.js",
+      "sha256": "b8905026e8ed6e435b6de769116ca2d4bb1dcb82690e903b47765a8fdfb6762b"
+    }
+  ]
+}

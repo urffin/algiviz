@@ -1,0 +1,336 @@
+{
+  "date": "2026-11-20",
+  "checkedAt": "2026-11-20T01:12:20.663Z",
+  "scope": "Select public /list API and EN/RU documentation only; no implementation or publication",
+  "baseline": {
+    "version": "1.3.1",
+    "sha": "e8f9d6ab89f6455d749f0a689233ff9662877f75",
+    "entries": 14,
+    "source": "Released checkout and unchanged local compiled declarations; no fresh registry lookup"
+  },
+  "proposedSurface": {
+    "entry": "./list",
+    "runtimeNames": [
+      "createListTrace",
+      "listScene"
+    ],
+    "typeOnlyNames": [
+      "ListNode",
+      "ListInput",
+      "ListPosition",
+      "ListPointerId",
+      "ListAnnotation",
+      "ListMark",
+      "ListPointerAnnotation",
+      "ListPointerMark",
+      "ListNodeCaption",
+      "ListNodeCaptionPatch",
+      "ListMarkUpdate",
+      "ListResultInput",
+      "ListResult",
+      "ListDoneOptions",
+      "ListTraceOptions",
+      "ListEdit",
+      "ListSnapshot",
+      "ListEvent",
+      "ListStep",
+      "ListFrame",
+      "ListTrace",
+      "ListSceneOptions",
+      "ListNodeView",
+      "ListPointerView",
+      "ListObjects"
+    ],
+    "implemented": false,
+    "exported": false,
+    "targetVersionReserved": false,
+    "model": "One finite acyclic singly linked chain; explicit node IDs and opaque required values",
+    "pointerIdentity": "Structural head slot or owner-node next slot; independent of target",
+    "nodeCeiling": 1000000,
+    "atomicOperations": [
+      "start",
+      "edit(headId/nodes/layout/marks)",
+      "mark",
+      "setLayout",
+      "done"
+    ],
+    "removedNodeIDs": "Retired for trace lifetime; failed edits do not reserve or retire IDs",
+    "result": "Independent unique node and structural pointer-slot selections, preserving caller order",
+    "sceneKinds": [
+      "listNode",
+      "listPointer"
+    ],
+    "intermediateAssignments": "Application-owned arena/State/custom Scene only; never an invalid ListSnapshot",
+    "canvas": "Separate future optional /canvas/list contract; no renderer signature or implementation selected"
+  },
+  "verification": {
+    "declarationChecks": [
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "NodeNext",
+        "lib": [
+          "ES2022"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "exitCode": 0,
+        "configurationSha256": "fa83c774c4db7a59e3bb8465a64361d26e128a8cadd5118ef48261ca9e579456",
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "NodeNext",
+        "lib": [
+          "ES2022",
+          "DOM"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "exitCode": 0,
+        "configurationSha256": "f47ea395d5725feb9ffadd1cb1b660d395791fe365a1c0d36b960b5f4678d897",
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "Bundler",
+        "lib": [
+          "ES2022"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "exitCode": 0,
+        "configurationSha256": "a348f0416f45fa0a41f97871105b388e4a6ad1af2b58e8c99639ddd4e2cd8e56",
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "typescript": "6.0.3",
+        "moduleResolution": "Bundler",
+        "lib": [
+          "ES2022",
+          "DOM"
+        ],
+        "strict": true,
+        "noEmit": true,
+        "noUncheckedIndexedAccess": true,
+        "exactOptionalPropertyTypes": true,
+        "exitCode": 0,
+        "configurationSha256": "62c5c0c5ba399caf3d8d00d07db5bfd87260a387a9d0eb38c852f1ca2839215f",
+        "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "negativeTypeCases": {
+      "headless": 20,
+      "DOM": 2
+    },
+    "totalNegativeTypeCases": 22,
+    "EN_RUCodeParity": true,
+    "exampleMatchesDeclarationFixture": true,
+    "documentationLinksChecked": 126,
+    "protectedTrackedFilesUnchanged": 532,
+    "sourceFilesUnchanged": 63,
+    "historicalJSONUnchanged": 73,
+    "packageMetadataLockfileExportsUnchanged": true,
+    "examplesTestsScriptsUnchanged": true,
+    "gitDiffCheck": "passed",
+    "genericCoreProbe": {
+      "checkedAt": "2026-11-20T01:10:06.895Z",
+      "scope": "Handwritten fixtures through existing generic Scene/playback APIs; no list implementation or validator",
+      "passed": 19,
+      "failed": 0,
+      "cases": [
+        {
+          "name": "next-slot retargeting matches one retained pointer",
+          "passed": true
+        },
+        {
+          "name": "both endpoint target positions remain available when target/layout changes",
+          "passed": true
+        },
+        {
+          "name": "new node and owned pointer enter even at zero presence",
+          "passed": true
+        },
+        {
+          "name": "deletion retains old target and owned exiting slot at zero presence",
+          "passed": true
+        },
+        {
+          "name": "null-to-target and target-to-null retain next-slot IDs on reversal",
+          "passed": true
+        },
+        {
+          "name": "head-slot identity survives empty/nonempty and head changes",
+          "passed": true
+        },
+        {
+          "name": "node/slot/domain/namespace identities cannot collide",
+          "passed": true
+        },
+        {
+          "name": "generic dispatcher resolves pointers before drawing nodes and includes null slots",
+          "passed": true
+        },
+        {
+          "name": "result data survives terminal/undefined events and null-slot selections",
+          "passed": true
+        },
+        {
+          "name": "backward frame restores prior snapshot result and targets without inverse operations",
+          "passed": true
+        },
+        {
+          "name": "projector caches immutable endpoints and preserves frame metadata",
+          "passed": true
+        },
+        {
+          "name": "timeline seek/final hold select persistent snapshots",
+          "passed": true
+        },
+        {
+          "name": "bounded rewind restores exact references and replays without another read",
+          "passed": true
+        },
+        {
+          "name": "headless explicit-step completion performs no read past done and closes source",
+          "passed": true
+        },
+        {
+          "name": "early and repeated dispose close one owned iterator",
+          "passed": true
+        },
+        {
+          "name": "fresh-source restart restores original state and preserves old result snapshot",
+          "passed": true
+        },
+        {
+          "name": "application arena microsteps can keep the committed list view separate",
+          "passed": true
+        },
+        {
+          "name": "absent freed target needs explicit tombstone/custom data",
+          "passed": true
+        },
+        {
+          "name": "structured-cloned unfrozen scene fixtures need no brand",
+          "passed": true
+        }
+      ]
+    },
+    "repositoryTestsRerun": false,
+    "runtimeListTestsRun": false,
+    "fullSupportedCompilerMatrixRun": false,
+    "nativeCanvasRun": false,
+    "CIStarted": false,
+    "reason": "Documentation/declaration design only. Handwritten fixtures exercise existing generic APIs without implementing a list trace, validator or projection"
+  },
+  "probeFiles": [
+    {
+      "path": "list-contract.d.ts",
+      "sha256": "2940354dbfbfdb04b353e3f0daa11f8ffb6328fd5fa262f6bfbc517e861f9510"
+    },
+    {
+      "path": "sample.ts",
+      "sha256": "d6d38006210fdb9141c4d596f5647e5c5d858286b1e8e68eb9265abe6a798864"
+    },
+    {
+      "path": "headless.ts",
+      "sha256": "7a122cc15fd5b5db4b3be50764c01074b96814aab3d1e3916c0469d46ce24df7"
+    },
+    {
+      "path": "DOM.ts",
+      "sha256": "177874a0e3739f803dd467c5994c45e303acc462c921e7646590c1b7e5e22592"
+    },
+    {
+      "path": "core-probe.mjs",
+      "sha256": "a6ad60117ea67cb3c1b001b4d3333fc46c952e40dab05350d4e1a47d5ec5ebdd"
+    }
+  ],
+  "existingRuntimeFiles": [
+    {
+      "path": "dist/scene/index.js",
+      "sha256": "48225899cca5a0b262a07379c464b248274fb8972d545cd20822d6fbe679668b"
+    },
+    {
+      "path": "dist/playback/async-source.js",
+      "sha256": "44aa496a5abefd8aa2b02319978079ce752d80e29aa6136acfc9408409237193"
+    },
+    {
+      "path": "dist/playback/index.js",
+      "sha256": "044c588c7e294e98a629e506b92f69e3203e156f6c3943e57df563d4f1105687"
+    },
+    {
+      "path": "dist/playback/player.js",
+      "sha256": "d958fbf79c7f15382a2b459cacc18111c10efdde476c20607d8cb44c2bc3b1b3"
+    },
+    {
+      "path": "dist/playback/rewind-buffer.js",
+      "sha256": "2c4d516c0f4a45fa3e2667643f31fe72035494531888677f8947d3c78f41592e"
+    },
+    {
+      "path": "dist/playback/state-player.js",
+      "sha256": "661bdf01f2c2825b949dda2ecfa4289bd58f09b84359d52b030ee760a404a499"
+    },
+    {
+      "path": "dist/playback/state-steps.js",
+      "sha256": "34e53c7779c38b1fc5f79f91db8e92270ee75432269e59329b354a9faf6abbe1"
+    },
+    {
+      "path": "dist/playback/step-emitter.js",
+      "sha256": "9890fd6c100e531ab90f3820fbe24cb8e301db2ae2da43d5ac4a04269e4b4faa"
+    },
+    {
+      "path": "dist/playback/timeline.js",
+      "sha256": "5917dc68668c722776ee40d12c3f516e363b829a2bfa24547e5abc4829adf84b"
+    },
+    {
+      "path": "dist/playback/types.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    }
+  ],
+  "documentationFiles": [
+    {
+      "path": "docs/current-api.md",
+      "sha256": "48f606bef21305b8b2227515d8c88613f5b56ba26f921c4e02cf1dafbc4bb592"
+    },
+    {
+      "path": "docs/ru/current-api.md",
+      "sha256": "e1a23db3aecae6c0954aea374988932c0d99ed68bc0a362359a4c68d778be11d"
+    },
+    {
+      "path": "docs/linked-list-contract.md",
+      "sha256": "817b0f8bc5bc939f060eda62d7da41f344ebca13dc54ef6855d717b8da3b9f19"
+    },
+    {
+      "path": "docs/ru/linked-list-contract.md",
+      "sha256": "11779bbb3bd9f77c50d8bd46d568f0f225c1166eac7f0315a447ba2ce5862936"
+    },
+    {
+      "path": "docs/list-api.md",
+      "sha256": "d096ce0056fc7e8fd9afd37f3ec554fd12b0da6bf50df545c5f4abe8f7b00fc5"
+    },
+    {
+      "path": "docs/ru/list-api.md",
+      "sha256": "3b93bbd12331c94cfebe5d9746ff48a41541da4ccafb02de25ebe277e523dfe7"
+    }
+  ],
+  "earlierArchitectureRecord": {
+    "path": "docs/checks/linked-list-contract-2026-11-16.json",
+    "sha256": "9b7037ccffaf0bfae7d941fcf1394bef9cde06cc67aeb5f67d7cb5b1ea9714be",
+    "fresh": false
+  },
+  "limits": {
+    "noListValidatorOrFactory": true,
+    "noPackageEntryOrStub": true,
+    "noRendererOrBrowserClaim": true,
+    "noRuntimeOrAPIChangeToExistingEntries": true,
+    "noVersionChange": true,
+    "noCommitOrPush": true,
+    "noTagOrPublication": true
+  }
+}

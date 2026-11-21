@@ -2,16 +2,15 @@
 
 [Русский](ru/api-compatibility.md) · [Stabilization](api-stability.md) · [Current API](current-api.md) · [Support evidence](support-matrix.md)
 
-**Version 1.3.1 scope; API unchanged from 1.3.0.** U3 protects public types, errors, environments and
-behavior equally across all fourteen entries, including /grid and /canvas/grid.
-There is no experimental tier. Existing twelve imports need no migration.
-[Changes/migration and verification status](release-1.3.md).
-Dated reviews and release receipts retain their original scope.
+U3 protects public types, errors, environments and behavior across all sixteen
+1.4.0 entry points, including [/list](list-api.md) and [/canvas/list](list-canvas-api.md).
+`ListEvent.type`, `ListPointerId.kind` and `ListObjects` are closed. Roles are open.
+[Release notes and migration](release-1.4.md).
 
 ## Public surface
 
-Only the export map defines importable paths. Version 1.3.1 has **14 entries,
-30 runtime names, 155 type-only exports, 143 distinct types**. The 1.0.0 baseline
+Only the export map defines importable paths. Version 1.4.0 has **16 entries,
+33 runtime names, 185 type-only exports, 173 distinct types**. The 1.0.0 baseline
 had 8 / 21 / 69 / 57. Shared Worker types count at both paths; classes count as
 runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.md).
 
@@ -31,6 +30,8 @@ runtime names. [Inventory](current-api.md) and [1.1 review](graph-readiness-1.1.
 | `/canvas/tree` | `createTreeRenderer` | 4 |
 | `/grid` | `createGridTrace`, `gridScene` | 22 |
 | `/canvas/grid` | `createGridRenderer` | 5 |
+| `/list` | `createListTrace`, `listScene` | 25 |
+| `/canvas/list` | `createListRenderer` | 5 |
 
 The protected contract includes exported names, signatures, generics/inference,
 overload selection for existing calls, readonly/optional fields and reachable
@@ -137,7 +138,7 @@ The U3 policy itself introduced no runtime change.
 ## Environments and loading
 
 Import safety, declaration libraries, runtime capabilities and concrete version
-verification are separate guarantees. All fourteen runtime entries must remain
+verification are separate guarantees. All sixteen runtime entries must remain
 importable without DOM/Worker globals or import-time allocation of external resources; that
 does not make their active browser operations available in Node.
 
@@ -176,7 +177,7 @@ library integration.
 Existing entry graphs retain their separation: headless consumers do not acquire
 DOM types or mandatory UI/Worker imports; `/canvas/viewport` stays independent;
 Worker modules are not silently loaded by unrelated entries. No runtime
-dependency or polyfill is made mandatory for the fourteen entries. Compatible
+dependency or polyfill is made mandatory for the sixteen entries. Compatible
 optimization may alter chunks/bytes, but not these loading/host requirements.
 Dropping a selected target or raising required language/lib/host capabilities is
 breaking even if upstream changes support status. Build-tool version changes

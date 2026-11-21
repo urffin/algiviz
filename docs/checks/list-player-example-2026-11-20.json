@@ -1,0 +1,207 @@
+{
+  "date": "2026-11-20",
+  "scope": "Repository linked-list example and native playback checks",
+  "chain": [
+    [
+      7,
+      3,
+      9
+    ],
+    [
+      7,
+      5,
+      3,
+      9
+    ],
+    [
+      7,
+      5,
+      9
+    ],
+    [
+      9,
+      5,
+      7
+    ]
+  ],
+  "repository": {
+    "passed": 763,
+    "failed": 0,
+    "newExampleRegressions": 5
+  },
+  "native": {
+    "passed": 14,
+    "failed": 0,
+    "host": {
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+      "devicePixelRatio": 1.100000023841858
+    },
+    "checks": [
+      {
+        "name": "960px · generator · Play, Pause and viewport",
+        "passed": true
+      },
+      {
+        "name": "960px · generator · insert, remove, reverse and finish",
+        "passed": true
+      },
+      {
+        "name": "960px · generator · rewind, replay and Restart",
+        "passed": true
+      },
+      {
+        "name": "960px · history · Play, Pause and viewport",
+        "passed": true
+      },
+      {
+        "name": "960px · history · insert, remove, reverse and finish",
+        "passed": true
+      },
+      {
+        "name": "960px · history · rewind, replay and Restart",
+        "passed": true
+      },
+      {
+        "name": "960px · history seek, invalid mode and page lifecycle",
+        "passed": true
+      },
+      {
+        "name": "390px · generator · Play, Pause and viewport",
+        "passed": true
+      },
+      {
+        "name": "390px · generator · insert, remove, reverse and finish",
+        "passed": true
+      },
+      {
+        "name": "390px · generator · rewind, replay and Restart",
+        "passed": true
+      },
+      {
+        "name": "390px · history · Play, Pause and viewport",
+        "passed": true
+      },
+      {
+        "name": "390px · history · insert, remove, reverse and finish",
+        "passed": true
+      },
+      {
+        "name": "390px · history · rewind, replay and Restart",
+        "passed": true
+      },
+      {
+        "name": "390px · history seek, invalid mode and page lifecycle",
+        "passed": true
+      }
+    ],
+    "details": [
+      {
+        "width": 960,
+        "playback": "generator",
+        "dpr": 1.100000023841858,
+        "greenPixels": 16718
+      },
+      {
+        "width": 960,
+        "playback": "history",
+        "dpr": 1.100000023841858,
+        "greenPixels": 16718
+      },
+      {
+        "width": 390,
+        "playback": "generator",
+        "dpr": 1.100000023841858,
+        "greenPixels": 2859
+      },
+      {
+        "width": 390,
+        "playback": "history",
+        "dpr": 1.100000023841858,
+        "greenPixels": 2859
+      }
+    ],
+    "lifecycle": "Simulated persisted pagehide/pageshow events exercise the cleanup and restore handlers."
+  },
+  "verification": {
+    "exampleDocumentationLinks": 12,
+    "rendererImplementationMatchesPriorAcceptance": true
+  },
+  "files": [
+    {
+      "path": "examples/list-player.html",
+      "sha256": "04bdb9e441b9e1fc4144e2a44570b0d46fa5d0a24d4088288a4e226c11335d42"
+    },
+    {
+      "path": "examples/list-player-algorithm.mjs",
+      "sha256": "0fb28835b909576ae1ef0b73517f3e06010bc6d0899c9a37617c5f1f2dc331c6"
+    },
+    {
+      "path": "examples/list-player-demo.mjs",
+      "sha256": "b4855994f529e8410dbfa4c3ede2fcc6a5bae49b90678ec22c326f66f28d2945"
+    },
+    {
+      "path": "examples/player-settings.mjs",
+      "sha256": "b38cd03d9bf5ec9ce0382bece0354e912c99b651d64407c3d1a4b0d90394ab07"
+    },
+    {
+      "path": "test/list-player-example.test.mjs",
+      "sha256": "eb761fac93925d7b141f0d43845db0b63cf051c174f6fb906701f88b2c5d90ae"
+    },
+    {
+      "path": "test/list-player-browser.html",
+      "sha256": "09674db1a36cafd2ecb6281d27cc9674d7aff966f271bd08def688750bd5cde7"
+    },
+    {
+      "path": "test/list-player-browser.mjs",
+      "sha256": "f3ccaca1e3150e893fd622c6deb644336e1ffaed4517699d715c7ea1f32c8665"
+    },
+    {
+      "path": "dist/canvas/list-context.js",
+      "sha256": "cdedb1109f84b40fb183265a9ca5851cd904ffb53ddcae890d87afe619a6df34"
+    },
+    {
+      "path": "dist/canvas/list-geometry.js",
+      "sha256": "dce3096907260c87d56b5f74390863568936ef638322229f9e0e73a4db7af776"
+    },
+    {
+      "path": "dist/canvas/list-text.js",
+      "sha256": "34a6c99244def1672baf00f25379137223f5f563a169ebd8b7fd97407810522f"
+    },
+    {
+      "path": "dist/canvas/list.js",
+      "sha256": "fbfb29fdc09bafc40d9a7b32601d67e029560a3e2cb227ba5bc60a601084744f"
+    },
+    {
+      "path": "dist/canvas/list-context.d.ts",
+      "sha256": "99153d9dd01900458cb8185db4271ee78b85237b4098f1446a1df733906231e3"
+    },
+    {
+      "path": "dist/canvas/list-geometry.d.ts",
+      "sha256": "b63864479e11c8603e953d32fb8db787642db93a0e0a8e216266efd82af8558d"
+    },
+    {
+      "path": "dist/canvas/list-text.d.ts",
+      "sha256": "d20ef28180d6b295385f6fed22b0cd05882f4d110363116624b45a1fbfc16fc4"
+    },
+    {
+      "path": "dist/canvas/list.d.ts",
+      "sha256": "a10a20809c74ffccd664f6dc74392535e44c49a68ee9ddf0a53bfa3a98dc5b76"
+    },
+    {
+      "path": "dist/list/trace.js",
+      "sha256": "293855f35e1eaf232333fd57bfebc1a3c7435dc1c478f69ed59834b4310a1873"
+    },
+    {
+      "path": "dist/list/scene.js",
+      "sha256": "b8d8f31a96ac666d868e0229fd3be4b881895043ea2231e44b7f91330138c79c"
+    },
+    {
+      "path": "dist/player/index.js",
+      "sha256": "975dce9e70cb2bef6d0dcedf63ca72d019438692b9b5483e39fc316991215709"
+    },
+    {
+      "path": "dist/canvas/viewport.js",
+      "sha256": "f6251d1932144a5dc86915dd585e99e9c36ed4519ade48fff3c1f29a508bdd18"
+    }
+  ]
+}

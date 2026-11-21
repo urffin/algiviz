@@ -1,21 +1,18 @@
 # Support matrix
 
-**Version 1.3.1; unchanged 1.3.0 runtime boundary.** Fourteen independent
-entries include /grid and /canvas/grid. Existing host/Node/TypeScript requirements
-are preserved; no browser support expansion follows from these entries.
-[Completed 1.3.0 publication](release-1.3.md) records exact-SHA CI, registry
-installation, signature/provenance and README checks. The [1.3.1 patch](release-1.3.1.md)
-corrects documentation without changing implementations, declarations or hosts.
-Its [exact-SHA CI and registry receipt](releases/1.3.1.json) confirms all eleven
-jobs, fresh installation and signature/provenance/README checks.
+**Version 1.4.0** has sixteen independent ESM entry points.
+[/list](list-api.md) uses ES2022 declarations without DOM or Worker globals.
+[/canvas/list](list-canvas-api.md) uses DOM declarations and renders with an
+HTML Canvas 2D context. The prior fourteen entries keep their environment requirements.
+[Current API](current-api.md) · [Release notes](release-1.4.md).
 
 ## Current support boundary
 
 | Entries | Declarations | Active runtime boundary |
 | --- | --- | --- |
-| /playback, /scene, /array, /graph, /tree, /grid | ES2022; no DOM or ambient Node types | Headless JS/iterables; async sources use a cooperative DOM-free signal |
+| /playback, /scene, /array, /graph, /tree, /grid, /list | ES2022; no DOM or ambient Node types | Headless JS/iterables; async sources use a cooperative DOM-free signal |
 | /canvas | ES2022 + DOM | HTML Canvas 2D; bitmap coordinates |
-| /canvas/graph, /canvas/tree, /canvas/grid | ES2022 + DOM | HTML Canvas 2D; explicit logical sizes and caller-owned bitmap/DPR |
+| /canvas/graph, /canvas/tree, /canvas/grid, /canvas/list | ES2022 + DOM | HTML Canvas 2D; explicit logical sizes and caller-owned bitmap/DPR |
 | /canvas/viewport, /player | ES2022 + DOM | Browser DOM/window, measurement, scheduling and explicit mounting/disposal |
 | /worker | ES2022 + DOM | Dedicated module Worker host with native clone/transfer facilities |
 | /worker/runtime | ES2022 + WebWorker, separately checked | Explicit dedicated Worker endpoint installation |
@@ -23,7 +20,7 @@ jobs, fresh installation and signature/provenance/README checks.
 Imports access no DOM/Worker globals or external resources; active calls require
 their documented hosts. Headless/import/consumer CI selects Node 22/24/26 on
 Ubuntu/Windows and TypeScript 5.0.4/5.4.5/5.9.3/6.0.3 with strict NodeNext/Bundler,
-separate ES2022/DOM/WebWorker declarations. All eleven jobs passed for 1.3.0; each later release requires its own exact-SHA CI.
+separate ES2022/DOM/WebWorker declarations. Release CI results apply to the SHA identified in each receipt.
 
 [Grid renderer acceptance](checks/grid-canvas-browser-2026-11-20.json) records
 18 checks: explicit backing ratios 1/1.25/2, actual viewport DPR, paths/text,
@@ -34,6 +31,8 @@ events; cache eligibility is not certified. These checks belong to the recorded
 built-in Chromium host, not other browsers or forced GPU context loss.
 [Preparation evidence](checks/candidate-1.3.0-2026-11-20.json) records their reuse
 for unchanged behavior; the example's HTML changes only its version paragraph.
+
+[List Canvas acceptance](checks/list-readiness-1.4-2026-11-20.json) records 11 native Chromium checks, including both themes and Player modes, backing ratios 1/1.25/2 and context reset. [List example acceptance](checks/list-player-example-2026-11-20.json) records 14 checks at widths of 960 and 390 CSS pixels.
 
 ## Historical verification context
 

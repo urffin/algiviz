@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Linked list edits</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #101827; color: #f1f5f9; font: 16px/1.5 system-ui; }
+main { max-width: 1000px; margin: auto; padding: 24px; }
+a { color: #c4b5fd; }
+p { color: #cbd5e1; }
+label { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 18px 0; }
+select { min-height: 44px; padding: 8px; font: inherit; color: inherit; background: #1e293b; border: 1px solid #64748b; border-radius: 6px; }
+:focus-visible { outline: 2px solid #c4b5fd; outline-offset: 3px; }
+canvas { display: block; width: 100%; border-radius: 12px; }
+#status { min-height: 3em; color: #f1f5f9; }
+#error { color: #fca5a5; }
+@media (max-width: 640px) { main { padding: 16px; } }
+</style>
+</head>
+<body>
+<main>
+<a href="./index.html">All examples</a>
+<h1>Linked list · insert, remove, reverse</h1>
+<p>Start with 7 → 3 → 9. Insert 5 after 7, remove 3, then reverse the remaining list.</p>
+<label>Playback mode
+    <select id="mode">
+        <option value="generator">Generator · bounded rewind</option>
+        <option value="history">Full history · seeking</option>
+    </select>
+</label>
+<div id="player">
+    <canvas width="920" height="320" role="img" aria-label="Singly linked list with head and next pointers" aria-describedby="status"></canvas>
+</div>
+<p id="status" role="status" aria-live="polite"></p>
+<p id="error" role="alert"></p>
+<p>Follow the arrows from <strong>head</strong> to <strong>null</strong>. Each node has a value on the left and a <strong>next</strong> slot on the right. Yellow highlights changed links. Green marks the final chain.</p>
+<p id="mode-note"></p>
+<p>Next and Previous step through the edits. Restart restores the original chain.</p>
+<p>Each edit records a complete, valid chain. While the arrows animate, the renderer uses the old and new snapshots together.</p>
+<p>Build the repository to run this example. <a href="../docs/list-api.md">List API</a> · <a href="../docs/list-canvas-api.md">List Canvas</a></p>
+</main>
+<script type="importmap">
+{
+  "imports": {
+    "@grundyjs/algiviz/list": "../dist/list/index.js",
+    "@grundyjs/algiviz/canvas/list": "../dist/canvas/list.js",
+    "@grundyjs/algiviz/player": "../dist/player/index.js",
+    "@grundyjs/algiviz/canvas/viewport": "../dist/canvas/viewport.js"
+  }
+}
+</script>
+<script type="module" src="./list-player-demo.mjs"></script>
+</body>
+</html>
