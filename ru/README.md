@@ -125,6 +125,7 @@ Player принимает обычные состояния через source, �
 | [Сортировка слиянием](https://github.com/urffin/algiviz/blob/master/examples/merge.html) | Собственное состояние и сцена из двух строк для основного массива и буфера |
 | [Разбиения быстрой сортировки](https://github.com/urffin/algiviz/blob/master/examples/quick.html) | Разбиения Ломуто и трёхстороннее с собственными состоянием и сценой |
 | [Пирамидальная сортировка](https://github.com/urffin/algiviz/blob/master/examples/heap.html) | Построение max-heap и извлечение с согласованными идентификаторами элементов дерева и массива |
+| [Пирамидальная сортировка с Player](https://github.com/urffin/algiviz/blob/master/examples/heap-player.html) | Сортировка `[2a, 2b, 1]` с синхронными панелями массива и кучи, перемоткой и Restart |
 | [Бинарный поиск](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | Первое вхождение в отсортированном массиве, замкнутый интервал поиска и ленивое воспроизведение |
 | [Подробный BFS графа](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Своя сцена: анимированная очередь, расстояния у вершин и отметки пути; штатный Player |
 | [BFS со штатным графическим renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | Тот же алгоритм с createGraphTrace, расстояниями у вершин, /canvas/graph и Player |

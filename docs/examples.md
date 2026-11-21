@@ -26,6 +26,7 @@ included in the npm archive.
 | [Merge sort](https://github.com/urffin/algiviz/blob/master/examples/merge.html) | Custom state and a two-row scene for the main array and buffer |
 | [Quick sort partitions](https://github.com/urffin/algiviz/blob/master/examples/quick.html) | Lomuto and three-way partitioning with custom state and scene |
 | [Heap sort](https://github.com/urffin/algiviz/blob/master/examples/heap.html) | Max-heap construction and extraction with synchronized tree and array identities |
+| [Heap sort with Player](https://github.com/urffin/algiviz/blob/master/examples/heap-player.html) | Fixed input `[2a, 2b, 1]` with separate array and heap panels |
 | [Binary search](https://github.com/urffin/algiviz/blob/master/examples/binary-search.html) | First occurrence in sorted input, closed search intervals and lazy playback |
 | [Detailed graph BFS](https://github.com/urffin/algiviz/blob/master/examples/graph.html) | Custom scene with animated queue, vertex distances and path markers; standard Player |
 | [BFS with the stock graph renderer](https://github.com/urffin/algiviz/blob/master/examples/graph-player.html) | The same algorithm with createGraphTrace, /canvas/graph and Player |
@@ -185,6 +186,25 @@ Bottom-up construction is O(n), worst-case sorting O(n log n), and the iterative
 in-place algorithm uses O(1) auxiliary space. This demo copies input and retains
 O(n) adjacent snapshot data in generator mode; full history can use O(n² log n).
 It is not stable: [2a, 2b, 1] becomes [1, 2b, 2a].
+
+## Heap sort with Player
+
+After a local build, open [heap-player.html](../examples/heap-player.html). It
+uses the same sorting generator as the editable [heap demo](../examples/heap.html).
+On the fixed input `[2a, 2b, 1]`, each step records an `/array` snapshot
+and a binary `/tree` snapshot for one Player.
+
+The tree uses the same item IDs as the array. The exchange moves `2a` into the
+last slot. The next step removes it from the tree and marks that array slot as
+sorted. The array view uses `arrayScene` to match items. Swapping tiles
+follow separate paths to keep their labels readable. The tree uses the stock
+Canvas renderer. The empty heap and array `[1, 2b, 2a]` show the final state.
+
+Both playback modes rewind the two panels together and Restart restores the
+input. Full history can seek within an exchange. The shared state stores
+the array event so its highlights also work during history playback.
+[Two panels in one Player](player-multiple-panels.md).
+[Native Canvas checks](../test/heap-player-browser.html) run from the same HTTP server.
 
 ## Binary search
 

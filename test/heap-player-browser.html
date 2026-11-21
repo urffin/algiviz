@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>AlgiViz · Heap Player browser checks</title>
+<h1>Heap Player native Canvas checks</h1>
+<pre id="report" role="status">Running…</pre>
+<script type="module">
+import { timing } from '../examples/player-settings.mjs';
+
+const results = [];
+function check(condition, name) {
+    if (!condition) throw new Error(name);
+    results.push(name);
+}
+
+function greenPixels(canvas) {
+    const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+    let count = 0;
+    for (let i = 0; i < data.length; i += 4) {
+        if (data[i] === 52 && data[i + 1] === 211 && data[i + 2] === 153 && data[i + 3] === 255) count++;
+    }
+    return count;
+}
+
+async function verify(width) {
+    const iframe = document.createElement('iframe');
+    iframe.title = 'Heap Player at ' + width + 'px';
+    iframe.width = width;
+    iframe.height = 760;
+    const loaded = new Promise(resolve => iframe.addEventListener('load', resolve, { once: true }));
+    iframe.src = '../examples/heap-player.html';
+    document.body.append(iframe);
+    await loaded;
+    try {
+        const view = iframe.contentWindow, doc = iframe.contentDocument;
+        const canvases = [...doc.querySelectorAll('canvas')];
+        const mode = doc.querySelector('#mode');
+        const status = () => doc.querySelector('#status').textContent;
+        const phase = () => doc.querySelector('.algiviz-player').dataset.phase;
+        const control = action => doc.querySelector('[data-action="' + action + '"]');
+        const tick = () => new Promise(resolve => view.requestAnimationFrame(resolve));
+        const pixels = () => canvases.map(canvas => canvas.toDataURL());
+        const matches = (a, b) => a.every((image, index) => image === b[index]);
+        const bothChanged = (a, b) => a.every((image, index) => image !== b[index]);
+        function click(action) {
+            const button = control(action);
+            if (!button || button.hidden || button.disabled) throw new Error('Unavailable control ' + action);
+            button.click();
+        }
+        function select(input, value, event) {
+            input.value = value;
+            input.dispatchEvent(new view.Event(event, { bubbles: true }));
+        }
+        for (const playback of ['generator', 'history']) {
+            const verifyMode = (ok, name) => check(ok, width + 'px / ' + playback + ' / ' + name);
+            select(mode, playback, 'change');
+            await tick();
+            const [a, t] = canvases.map(canvas => canvas.getBoundingClientRect());
+            const arranged = width > 640 ? a.top === t.top && a.right <= t.left : a.left === t.left && a.bottom < t.top;
+            verifyMode(doc.querySelectorAll('.algiviz-player').length === 1
+                && doc.querySelectorAll('.algiviz-player__viewport canvas').length === 2
+                && canvases.every((canvas, i) => canvas.width === Math.round((i === 0 ? a : t).width * view.devicePixelRatio))
+                && doc.documentElement.scrollWidth <= doc.documentElement.clientWidth
+                && arranged && control('seek').hidden === (playback === 'generator'), 'two responsive panels in one Player');
+            const initial = pixels();
+            verifyMode(status() === 'Start with [2a, 2b, 1].', 'original occurrence labels');
+            for (let i = 0; i < 5; i++) click('next');
+            const beforeSwap = pixels();
+            click('next');
+            const swapped = pixels();
+            verifyMode(status() === 'Move maximum 2a to index 2.' && bothChanged(beforeSwap, swapped),
+                'maximum exchange changes both canvases');
+
+            click('next');
+            const shrunk = pixels();
+            verifyMode(status().startsWith('Remove 2a from the heap.') && bothChanged(swapped, shrunk)
+                && greenPixels(canvases[0]) > 200, 'extraction shrinks the tree and keeps the sorted tile');
+            click('previous');
+            verifyMode(status() === 'Move maximum 2a to index 2.' && matches(pixels(), swapped), 'Previous restores both canvases');
+            click('next');
+            verifyMode(matches(pixels(), shrunk), 'Next replays the extraction');
+
+            for (let i = 0; i < 12 && phase() !== 'finished'; i++) click('next');
+            verifyMode(phase() === 'finished' && status() === 'Sorted order: [1, 2b, 2a]. The heap is empty.'
+                && greenPixels(canvases[0]) > 1000, 'green sorted suffix preserves the two occurrence labels');
+            if (playback === 'history') {
+                select(control('seek'), 5.5 * timing.stepDurationMs, 'input');
+                const between = pixels();
+                verifyMode(bothChanged(between, beforeSwap) && bothChanged(between, swapped), 'Seek shows a mid-exchange frame');
+                select(control('seek'), 6 * timing.stepDurationMs, 'input');
+                verifyMode(matches(pixels(), swapped), 'Seek restores both exchange endpoints');
+            }
+            click('restart');
+            verifyMode(matches(pixels(), initial) && status() === 'Start with [2a, 2b, 1].'
+                && !doc.querySelector('#error').textContent, 'Restart restores both initial canvases');
+            click('play');
+            const started = phase() === 'playing';
+            await tick();
+            click('play');
+            const paused = pixels();
+            await tick();
+            verifyMode(started && phase() === 'paused' && matches(pixels(), paused), 'Pause freezes both canvases');
+        }
+    } finally { iframe.remove(); }
+}
+
+const report = document.querySelector('#report');
+try {
+    for (const width of [960, 390]) await verify(width);
+    report.textContent = results.length + ' checks passed\n' + results.join('\n');
+} catch (error) {
+    report.textContent = 'FAILED after ' + results.length + '\n' + error.stack;
+}
+</script>
+</html>

@@ -5,8 +5,9 @@
 Use one source, one Player and one snapshot per logical step. The snapshot
 contains the state of both panels and any text or totals that should follow
 playback. Both panels then use the same step, progress and playback controls.
-See the [Kruskal example](../examples/kruskal.html) and the
-[BFS graph and queue example](../examples/graph-queue.html).
+See the [Kruskal example](../examples/kruskal.html),
+[BFS graph and queue](../examples/graph-queue.html), and
+[heap sort with Player](../examples/heap-player.html).
 
 ## Capture one snapshot per step
 
@@ -48,7 +49,7 @@ source consumed by Player. The sequence of yielded steps defines playback order.
 Call both renderers from the same `render(frame)` callback. For each panel,
 extract its snapshot from **both** `previous` and `current`, preserving
 `progress`, `stepIndex` and `event`. The app-local function below expresses
-the projection both examples perform. Each renderer receives the context and
+the projection used by Kruskal and BFS. Each renderer receives the context and
 logical size of its own Canvas.
 [Kruskal rendering](../examples/kruskal-demo.mjs) ·
 [BFS graph renderer](../examples/graph-player-view.mjs) ·
@@ -108,3 +109,58 @@ When a Canvas changes size, measure it and redraw the current `player.frame`
 if available. This keeps both panels at the same playback position. On teardown,
 dispose the Player and each Canvas viewport.
 [Canvas viewport](canvas-viewport.md).
+
+## Keep the array event in full history
+
+Heap sort on `[2a, 2b, 1]` records an array snapshot and a binary-tree snapshot
+in each shared step. An extraction exchange has heap event `extract-swap`,
+while the array trace records `swap` with the IDs of both moved items. Keep
+that `ArrayEvent` next to the array snapshot so the same items can be
+highlighted when seeking within the exchange. This excerpt runs after both
+traces have processed the heap step. [Heap session source](../examples/heap-player-session.mjs).
+
+```js
+yield Object.freeze({
+    ...step,
+    state: Object.freeze({
+        array: arraySnapshot,
+        tree: tree.state,
+        arrayEvent,
+        labelById,
+        message: describe(step.event, arraySnapshot.slots, labelById),
+    }),
+});
+```
+
+Here `arraySnapshot` and `arrayEvent` come from `state` and `event` of the
+same `ArrayStep`. For full history, pass this factory as the Player's
+`history` option.
+
+```js
+const history = () => Object.freeze(Array.from(heapPanelSteps(), step => step.state));
+```
+
+The `history` factory returns states. Player builds timeline steps from those
+states with `event: undefined`, so history frames have no step event. When
+projecting a frame for the stock array renderer, take the event from
+`frame.current.arrayEvent`. It describes the operation that produced the
+destination array snapshot. Take the array snapshots from both endpoints
+and keep the shared progress and step index.
+The tree renderer uses its projected snapshots and the shared frame metadata.
+In this excerpt, `arrayRenderer` is an instance from `createArrayRenderer`.
+
+```js
+function renderHeap(frame) {
+    const arrayFrame = {
+        ...projectFrame(frame, state => state.array),
+        event: frame.current.arrayEvent,
+    };
+    arrayRenderer.render(arrayContext, arrayFrame);
+    treeRenderer.render(treeContext, projectFrame(frame, state => state.tree), treeSize);
+}
+```
+
+The heap demo draws its own array tiles to display the distinct labels `2a`
+and `2b`. Its array view projects the same snapshots and reads
+`current.arrayEvent` directly for the highlights.
+[Array view source](../examples/heap-player-array.mjs).

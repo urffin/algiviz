@@ -5,8 +5,9 @@
 Используйте один источник, один Player и один снимок на логический шаг. В
 снимке храните состояния обеих панелей, а также текст и счётчики, которые
 должны меняться при перемотке. Обе панели получают один номер шага, прогресс
-и общие кнопки управления. См. [пример Краскала](../../examples/kruskal.html) и
-[BFS с графом и очередью](../../examples/graph-queue.html).
+и общие кнопки управления. См. [пример Краскала](../../examples/kruskal.html),
+[BFS с графом и очередью](../../examples/graph-queue.html) и
+[пирамидальную сортировку с Player](../../examples/heap-player.html).
 
 ## Соберите общий снимок шага
 
@@ -49,7 +50,7 @@ yield Object.freeze({
 Вызывайте оба рендерера из одного `render(frame)`. Для каждой панели
 извлеките её снимок **из обоих** полей `previous` и `current` и сохраните
 `progress`, `stepIndex` и `event`. Ниже вспомогательная функция приложения
-показывает проекцию, которую выполняют оба примера. Каждый рендерер получает
+показывает проекцию, которую выполняют Краскал и BFS. Каждый рендерер получает
 контекст и логический размер своего Canvas.
 [Отрисовка Краскала](../../examples/kruskal-demo.mjs) ·
 [Граф BFS](../../examples/graph-player-view.mjs) ·
@@ -110,3 +111,56 @@ player.start();
 если он уже есть. Позиция воспроизведения останется общей для обеих панелей.
 При удалении виджета освободите Player и каждый Canvas viewport.
 [Canvas viewport](canvas-viewport.md).
+
+## Сохраните событие массива в полной истории
+
+Пирамидальная сортировка на `[2a, 2b, 1]` хранит снимки массива и бинарного
+дерева в одном шаге. При обмене для извлечения максимума событие алгоритма
+имеет тип `extract-swap`, а trace массива записывает `swap` с ID двух
+перемещённых элементов. Сохраните этот `ArrayEvent` рядом со снимком массива,
+чтобы при перемотке внутрь обмена подсвечивались те же элементы. Этот фрагмент
+выполняется после обновления обеих структур. [Код сеанса](../../examples/heap-player-session.mjs).
+
+```js
+yield Object.freeze({
+    ...step,
+    state: Object.freeze({
+        array: arraySnapshot,
+        tree: tree.state,
+        arrayEvent,
+        labelById,
+        message: describe(step.event, arraySnapshot.slots, labelById),
+    }),
+});
+```
+
+`arraySnapshot` и `arrayEvent` берутся из полей `state` и `event` одного
+`ArrayStep`. Для полной истории передайте эту фабрику в опцию `history` Player.
+
+```js
+const history = () => Object.freeze(Array.from(heapPanelSteps(), step => step.state));
+```
+
+Фабрика `history` возвращает состояния. Player строит из них шаги таймлайна
+с `event: undefined`. При проекции для штатного рендерера массива возьмите
+событие из `frame.current.arrayEvent`. Оно описывает операцию, которая привела
+к целевому снимку массива. Возьмите снимки массива из
+обоих концов перехода, сохранив общий прогресс и индекс шага. Рендерер дерева
+использует свои снимки и общие метаданные кадра.
+В этом фрагменте `arrayRenderer` создан через `createArrayRenderer`.
+
+```js
+function renderHeap(frame) {
+    const arrayFrame = {
+        ...projectFrame(frame, state => state.array),
+        event: frame.current.arrayEvent,
+    };
+    arrayRenderer.render(arrayContext, arrayFrame);
+    treeRenderer.render(treeContext, projectFrame(frame, state => state.tree), treeSize);
+}
+```
+
+В самом примере панель массива рисует свои плитки, чтобы показать разные
+подписи `2a` и `2b`. Она проецирует те же снимки и берёт данные для
+подсветки напрямую из `current.arrayEvent`.
+[Код панели массива](../../examples/heap-player-array.mjs).
