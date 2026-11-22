@@ -6,7 +6,7 @@
 the five types below. Headless /grid remains a separate DOM-free entry.
 The package has 14 entries, 30 runtime names and 155 type-only exports (143 distinct).
 The twelve previous entries are preserved. [Changes and migration](release-1.3.md) ·
-[Readiness review](grid-readiness-1.3.md) · [Native acceptance](checks/grid-canvas-browser-2026-11-20.json).
+[Native acceptance](checks/grid-canvas-browser-2026-11-20.json).
 
 ## Public declarations
 

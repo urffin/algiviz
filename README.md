@@ -25,11 +25,11 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Version **1.7.0** adds `stepHistory` to `Player`. Record explicit steps with
-their events and seek to any point in the recording. The frame keeps the
-event and source index of the destination step.
-[Full history of steps](https://github.com/urffin/algiviz/blob/master/docs/player.md#full-history-of-steps) ·
-[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.7.md) ·
+Version **1.8.0** adds `mapFrame(frame, selectState)` to `/playback`. Give a
+renderer its panel's `previous` and `current` snapshots while keeping the
+shared frame's progress, source step index and event.
+[Synchronized panels](https://github.com/urffin/algiviz/blob/master/docs/player-multiple-panels.md) ·
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.8.md) ·
 [Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md)
 
 ## Install
@@ -39,7 +39,7 @@ npm install @grundyjs/algiviz
 ```
 
 The package uses ESM subpath imports. There is no root entry point or CommonJS
-build. Version 1.7.0 provides 16 entry points:
+build. Version 1.8.0 provides 16 entry points:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
 `/grid`, `/canvas/grid`, `/list` and `/canvas/list`.
@@ -132,6 +132,7 @@ with explicit ArrayBuffer transfer and observable completion through closed.
 | [BFS graph and queue](https://github.com/urffin/algiviz/blob/master/examples/graph-queue.html) | The graph and a linked-list FIFO queue animate together in one Player |
 | [Edge contraction](https://github.com/urffin/algiviz/blob/master/examples/graph-contraction.html) | One edit removes a vertex and redirects two edges with stable IDs. Uses the dynamic graph API introduced in 1.5.0 |
 | [Kruskal’s minimum spanning tree](https://github.com/urffin/algiviz/blob/master/examples/kruskal.html) | A weighted input graph and a growing forest advance together in one Player |
+| [Dijkstra’s shortest paths](https://github.com/urffin/algiviz/blob/master/examples/dijkstra.html) | One Player seeks through the weighted graph, distances and priority queue |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Grid BFS shortest path](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Shortest path between obstacles with /grid, stock Canvas and Player; distances, green result, history and generator |

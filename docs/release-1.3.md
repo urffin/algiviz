@@ -1,6 +1,6 @@
 # Release 1.3.0
 
-[Русский](ru/release-1.3.md) · [Current API](current-api.md) · [Machine receipt](releases/1.3.0.json)
+[Русский](ru/release-1.3.md) · [Current API](current-api.md)
 
 **Released 2026-11-20** from commit `90b26f8b936ece9b149e0ac660856b2953ac2b4e`.
 [GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.3.0) ·
@@ -21,10 +21,9 @@ is application code; it and the preserved maze are not npm algorithm exports.
 - Packaged EN/RU README and changelog matched the release; the registry-served README matched the archive.
 - Registry signature and SLSA provenance were cryptographically verified. Provenance binds the tarball digest, source SHA, v1.3.0 tag and npm-publish workflow; [transparency record](https://search.sigstore.dev/?logIndex=4010859496).
 
-The receipt records verification at 2026-11-20T00:21:37.673Z; latest is a point-in-time
-observation. Native renderer (18 checks) and BFS UI (23 checks) acceptance retained
-their recorded host limits. [Preparation](candidate-1.3.md) and
-[readiness](grid-readiness-1.3.md) are historical evidence; R0–R4 are complete.
+The npm dist-tag was checked at 2026-11-20T00:21:37.673Z.
+Native renderer (18 checks) and BFS UI (23 checks) acceptance retained
+their recorded host limits.
 
 [Documentation patch 1.3.1](release-1.3.1.md) reconciles release statuses and
 README references without changing this functional API.

@@ -30,7 +30,7 @@ Restart вызывает фабрику заново. При ошибке фаб
 Новая опция использует существующие требования `/player` к DOM и времени
 воспроизведения. Примеры и браузерные проверки находятся в репозитории.
 
-[Changelog](../../CHANGELOG.md) · [Историческая ревизия готовности](readiness-1.7.md)
+[Changelog](../../CHANGELOG.md)
 
 ## Публикация
 
@@ -39,5 +39,4 @@ Restart вызывает фабрику заново. При ошибке фаб
 побайтно совпали с файлами тега. README из реестра, подпись npm и аттестация
 provenance прошли проверку.
 [GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.7.0) ·
-[npm 1.7.0](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.7.0) ·
-[Отчёт о публикации](../releases/1.7.0.json)
+[npm 1.7.0](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.7.0)

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { createArrayPlayer as createSortPlayer, createArrayTimeline as createSortTimeline } from "@grundyjs/algiviz/array";
+import { createTimeline, mapFrame } from "@grundyjs/algiviz/playback";
 import { insertion } from "../examples/algorithms.mjs";
 const insertionSortSteps = input => insertion.steps(input);
 const iterateInsertionSortSteps = input => insertion.iterate(input);
@@ -35,6 +36,30 @@ test("invalid times and options", () => {
     }
     const timeline = createSortTimeline(steps, { stepDurationMs: 100, finalHoldMs: 0 });
     for (const time of [NaN, Infinity, -Infinity]) assert.throws(() => timeline.sample(time), TypeError);
+});
+
+test("mapFrame projects both endpoints and keeps the destination metadata on seek", () => {
+    const first = Object.freeze({ panel: { value: 1 } });
+    const second = Object.freeze({ panel: { value: 2 } });
+    const event = Object.freeze({ type: "change" });
+    const timeline = createTimeline([
+        { index: -3, state: first, event: undefined },
+        { index: 42, state: second, event },
+    ], { stepDurationMs: 100, finalHoldMs: 50 });
+    const frame = timeline.sample(25);
+    const mapped = mapFrame(frame, state => state.panel);
+    assert.equal(mapped.previous, first.panel);
+    assert.equal(mapped.current, second.panel);
+    assert.equal(mapped.progress, .25);
+    assert.equal(mapped.stepIndex, 42);
+    assert.equal(mapped.event, event);
+    assert.ok(Object.isFrozen(mapped));
+    assert.equal(frame.previous, first);
+    assert.equal(frame.current, second);
+
+    const rewind = mapFrame(timeline.sample(0), state => state.panel.value);
+    assert.deepEqual(rewind, { previous: 1, current: 1, progress: 1, stepIndex: -3, event: undefined });
+    assert.deepEqual(mapFrame(timeline.sample(25), state => state.panel), mapped);
 });
 
 test("renderer emits finite geometry for empty, signed and extreme inputs", () => {

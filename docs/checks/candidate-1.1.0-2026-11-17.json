@@ -779,18 +779,6 @@
         "sha256": "6f3dc71e7ddbc709a8bf21b4d7f6eebcf2eb4d5dbb2e1d3ae376dcd69fdf527e",
         "lfSha256": "6921bc3d47d9c0105ed60eea55d5c465a2c9958cba1c43e5ee4b8459f672b545"
       },
-      "docs/releases/0.14.0.json": {
-        "sha256": "877ff7c134768ce17c6750d4dbec3eec73da0c41da608b7d05876bac5e573fc4",
-        "lfSha256": "877ff7c134768ce17c6750d4dbec3eec73da0c41da608b7d05876bac5e573fc4"
-      },
-      "docs/releases/0.15.0.json": {
-        "sha256": "43c98b79e57fcfcbbe399c674c5cb773ddbcb8234691b1b27a3ad8cff1edf483",
-        "lfSha256": "43c98b79e57fcfcbbe399c674c5cb773ddbcb8234691b1b27a3ad8cff1edf483"
-      },
-      "docs/releases/0.16.0.json": {
-        "sha256": "f8c444d5b94e6d18d5e5be2e19099633ba8c5c811b758e3caf4223399a614527",
-        "lfSha256": "f8c444d5b94e6d18d5e5be2e19099633ba8c5c811b758e3caf4223399a614527"
-      },
       "docs/rewind-buffer.md": {
         "sha256": "73d96408b95885f27d6e2d6c8c166fa4cebd17533d507e55f334e4e161dc4516",
         "lfSha256": "73d96408b95885f27d6e2d6c8c166fa4cebd17533d507e55f334e4e161dc4516"

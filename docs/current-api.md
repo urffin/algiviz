@@ -1,20 +1,16 @@
 # Current API and verification status
 
-[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.7.0 release notes](release-1.7.md)
+[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.8.0 release notes](release-1.8.md)
 
-**Version 1.7.0** has 16 entry points, 34 runtime exports and 190 type-only
-exports (178 distinct names). It adds `stepHistory` through a constructor
-overload with `PlayerStepHistoryOptions`. `PlayerOptions` retains its four
-source branches.
-
-The [1.7.0 publication receipt](releases/1.7.0.json) records the release
-commit, CI, and verification of the npm archive, README and provenance.
+**Version 1.8.0** has 16 entry points, 35 runtime exports and 190 type-only
+exports (178 distinct names). `mapFrame` projects both states in a frame
+and preserves progress, source step index and event.
 
 ## Entry reference map
 
 | Entry | Reference | Status/first version |
 | --- | --- | --- |
-| /playback | [Playback](playback.md), [rewind](rewind-buffer.md), [async](async-source-api.md) | 1.0.0 |
+| /playback | [Playback](playback.md), [frame projection](playback.md#project-a-frame), [rewind](rewind-buffer.md), [async](async-source-api.md) | 1.0.0, `mapFrame` since 1.8.0 |
 | /scene | [Scene](scene.md) | 1.0.0 |
 | /array | [Array](array.md), [result](array-result.md) | 1.0.0 |
 | /canvas | [Array Canvas](array.md#canvas-rendering), [item labels](array.md#custom-item-labels) | 1.0.0, item labels since 1.6.0 |
@@ -33,17 +29,16 @@ commit, CI, and verification of the npm archive, README and provenance.
 
 ## Example and verification
 
-The [heap sort example](examples.md#heap-sort-with-player) uses `stepHistory`
-to seek through synchronized array and tree snapshots. The [1.7.0 readiness
-review](readiness-1.7.md) records the example and compatibility checks.
+The [synchronized panels guide](player-multiple-panels.md) shows how to
+project frames for Canvas interpolation and how Dijkstra's graph, distances and
+priority queue share a discrete step when seeking.
 
 ## Reading historical evidence
 
 Dated documents/JSON retain their original scope. Old local/candidate/0.16.0
-status refers to that verification stage. For the API contract of 1.7.0, use
-this index for release-baseline status.
+status refers to that verification stage. This index describes the 1.8.0 API.
 
-- [1.0 candidate](candidate-1.0.md), [core readiness](core-readiness-1.0.md), [migration](migration-1.0.md).
+- [Migration to 1.0](migration-1.0.md).
 - F1/F2: [Memory bypass](checks/worker-memory-fix-2026-11-14.json), [missing SharedArrayBuffer](checks/worker-shared-buffer-fix-2026-11-14.json).
 - U1/U2/U5: [reentrancy](headless-reentrancy.md), [speed](player-speed-validation.md), [host postMessage](worker-post-errors.md).
 - [Initial graph](checks/graph-implementation-2026-11-17.json), [initial Canvas](checks/graph-canvas-implementation-2026-11-17.json), [captions](checks/graph-node-captions-implementation-2026-11-17.json).

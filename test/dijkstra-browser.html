@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>AlgiViz · Dijkstra browser checks</title>
+<h1>Dijkstra Player browser checks</h1>
+<pre id="report" role="status">Running…</pre>
+<script type="module">
+import { timing } from '../examples/player-settings.mjs';
+
+const results = [];
+async function verify(width) {
+    const iframe = document.createElement('iframe');
+    iframe.title = 'Dijkstra Player at ' + width + 'px';
+    iframe.width = width;
+    iframe.height = 850;
+    const loaded = new Promise(resolve => iframe.addEventListener('load', resolve, { once: true }));
+    iframe.src = '../examples/dijkstra.html';
+    document.body.append(iframe);
+    await loaded;
+    try {
+        const view = iframe.contentWindow, doc = iframe.contentDocument;
+        const widget = doc.querySelector('.algiviz-player');
+        const canvas = doc.querySelector('#graph');
+        const sections = [...doc.querySelectorAll('.panes section')];
+        const control = action => widget.querySelector(`[data-action="${action}"]`);
+        const scrub = control('seek');
+        const distanceB = () => [...doc.querySelector('#distances').rows[1].cells].map(cell => cell.textContent).join(' ');
+        const queue = () => [...doc.querySelector('#queue').children].map(item => item.textContent).join(', ');
+        const status = () => doc.querySelector('#status').textContent;
+        const bitmap = () => canvas.toDataURL();
+        const state = () => [bitmap(), distanceB(), queue(), status()];
+        const seek = step => {
+            scrub.value = String(step * timing.stepDurationMs);
+            scrub.dispatchEvent(new view.Event('input', { bubbles: true }));
+        };
+        const check = (condition, name) => {
+            if (!condition) throw new Error(`${width}px / ${name}`);
+            results.push(`${width}px / ${name}`);
+        };
+        await new Promise(resolve => view.requestAnimationFrame(resolve));
+        const [graph, distances, priorityQueue] = sections.map(section => section.getBoundingClientRect());
+        const arranged = width > 700
+            ? graph.top === distances.top && distances.top === priorityQueue.top && graph.right <= distances.left && distances.right <= priorityQueue.left
+            : graph.bottom <= distances.top && distances.bottom <= priorityQueue.top;
+        check(doc.querySelectorAll('.algiviz-player').length === 1 && sections.length === 3 &&
+            sections.every(section => widget.querySelector('.algiviz-player__viewport').contains(section)) &&
+            doc.documentElement.scrollWidth <= doc.documentElement.clientWidth && arranged && !scrub.hidden && !scrub.disabled,
+            'three responsive panels share one seek bar');
+        const initial = state();
+        check(distanceB() === 'B ∞ — Tentative' && queue() === 'A · 0', 'start distances and priority');
+        seek(5);
+        const before = state();
+        check(distanceB() === 'B 8 A Tentative' && queue() === 'D · 6, B · 8', 'B starts behind D');
+        seek(6);
+        const after = state();
+        check(bitmap() !== before[0] && distanceB() === 'B 5 C Tentative' && queue() === 'B · 5, D · 6' &&
+            status().includes('Update B from 8 to 5'), 'the improved edge changes the graph, distance and queue together');
+        seek(5.5);
+        check(state().every((value, index) => value === after[index]), 'the middle of the step uses the same destination in all panels');
+        seek(5);
+        check(state().every((value, index) => value === before[index]), 'backward seek restores the graph, distance and queue');
+        control('next').click();
+        check(state().every((value, index) => value === after[index]), 'Next restores the improvement');
+        control('previous').click();
+        check(state().every((value, index) => value === before[index]), 'Previous reverses the improvement');
+        seek(10);
+        check(distanceB() === 'B 5 C Final' && queue() === '' && !doc.querySelector('#empty-queue').hidden &&
+            status().includes('shortest-path tree'), 'final distances and empty queue');
+        control('restart').click();
+        check(state().every((value, index) => value === initial[index]), 'Restart restores all three panels');
+        control('play').click();
+        const started = widget.dataset.phase === 'playing';
+        await new Promise(resolve => view.requestAnimationFrame(resolve));
+        control('play').click();
+        const paused = state();
+        await new Promise(resolve => view.requestAnimationFrame(resolve));
+        check(started && widget.dataset.phase === 'paused' && state().every((value, index) => value === paused[index]),
+            'Pause freezes all three panels');
+    } finally { iframe.remove(); }
+}
+
+const report = document.querySelector('#report');
+try {
+    for (const width of [960, 390]) await verify(width);
+    report.textContent = results.length + ' checks passed\n' + results.join('\n');
+} catch (error) {
+    report.textContent = 'FAILED after ' + results.length + '\n' + error.stack;
+}
+</script>
+</html>

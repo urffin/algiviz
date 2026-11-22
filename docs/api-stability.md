@@ -6,8 +6,8 @@ describes 1.3.1. The earlier verification stages and their original limits
 follow as historical evidence; old pending release items do not describe current
 availability.
 
-**Core review, 2026-11-16:** [all four future model sketches fit](core-readiness-1.0.md)
-without core changes. The [1.0.0 documentation candidate](candidate-1.0.md)
+**Core review, 2026-11-16:** [all four future model sketches fit](checks/api-readiness-1.0-core-extensibility-2026-11-16.json)
+without core changes. The [1.0.0 documentation candidate](checks/candidate-1.0.0-2026-11-16.json)
 76f76ed is in origin with all 11 CI jobs successful. Its remaining native G3
 scope passes [133 checks](checks/candidate-1.0.0-g3-76f76ed-2026-11-16.json), alongside
 the retained 26-check stepSource/result/control scope on the identical payload.
@@ -17,8 +17,8 @@ Earlier review/status sections retain their stage scope.
 
 **Post-F2 readiness recheck, 2026-11-14:** all eight entries are ready locally,
 with no known technical blocker or unresolved API clarification in the reviewed
-boundary. [Current assessment](api-readiness-1.0.md) and [fresh evidence](checks/api-readiness-1.0-after-f2-2026-11-14.json)
-verify the closed F1/F2 and U1–U5 status. G1–G3 candidate definition/verification
+boundary. The [post-F2 verification](checks/api-readiness-1.0-after-f2-2026-11-14.json)
+records the closed F1/F2 and U1–U5 status. G1–G3 candidate definition/verification
 and separately authorized publication remain. API, implementation and version
 are unchanged by this recheck; this is not a release approval.
 
@@ -99,7 +99,7 @@ review before any long-term API promise.
 npm/latest, source/digest provenance, registry signature/attestation and a fresh
 registry installation were verified. That release published
 17 runtime names and 30 type-only names across the same six entries.
-See [verification data](releases/0.14.0.json). This closes 0.14.0 publication;
+This closes 0.14.0 publication;
 the deliberate 1.0 compatibility decision below remains open.
 
 0.15.0 publication follow-up: `/playback` now additionally exports
@@ -110,7 +110,7 @@ existing playback engines remain synchronous. The separate [widget integration](
 now supports asyncSource with waiting/control/cleanup contracts. Release
 `c0fa843` passed all eleven CI jobs, publication, npm/latest provenance, fresh
 registry consumers, signature and attestation checks. All 56 published build
-files match after CRLF/LF normalization. See [verification data](releases/0.15.0.json).
+files match after CRLF/LF normalization.
 The long-term 1.0 compatibility decision remains separate.
 
 2026-11-14 Worker follow-up: the [behavioral contract](worker-source.md)
@@ -124,7 +124,7 @@ The existing asyncSource boundary needs no Player/core changes. Current checks
 include 304 repository tests and 25 native Player/Worker checks, in addition to
 the standalone adapter evidence. All eleven exact-commit CI jobs, publication,
 fresh registry consumers and signature/provenance checks passed; all 68 published
-build files match after newline normalization. See [release verification](releases/0.16.0.json).
+build files match after newline normalization.
 Worker transport is not a prerequisite for 1.0.
 
 ## U2 implemented locally, 2026-11-14
@@ -180,12 +180,12 @@ no public API/version change. The common validator checks the native Memory
 backing store, including foreign realms and nested data. All 312 tests, installed
 NodeNext/Bundler consumers and 32 public Worker cases passed. Six native Worker
 checks confirm rejection in both directions and preserved copy/transfer. See the
-[review follow-up](api-readiness-0.16.0.md) and [native report](checks/worker-memory-fix-browser-2026-11-14.json).
+[review follow-up](checks/api-readiness-0.16.0.json) and [native report](checks/worker-memory-fix-browser-2026-11-14.json).
 The original review below describes published 0.16.0; it is retained as history.
 
 ## Historical eight-entry API review, 2026-11-14
 
-The [0.16.0 API readiness review](api-readiness-0.16.0.md) now covers all eight
+The [0.16.0 API readiness review](checks/api-readiness-0.16.0.json) now covers all eight
 public entries and supersedes the earlier four-module-only readiness assessment
 for the next 1.0 decision. Three entries are ready within their documented
 boundary, three need contract clarification and the two Worker entries require
@@ -208,10 +208,10 @@ checks below. It does not mean 1.0 has been approved or every integration tested
 
 | Module | Status at 0.11.2 | Scope and evidence |
 | --- | --- | --- |
-| `/playback` | Technically ready | Lazy explicit steps or plain states, manual/timed controls, timelines and step emission. Completion, indices, disposal and error precedence are covered by [contract tests](../test/playback-contract.test.mjs) and the [completion matrix](../test/playback-completion-matrix.test.mjs). See the [reference](playback.md) and [minimal API audit](minimal-api-audit.md). |
+| `/playback` | Technically ready | Lazy explicit steps or plain states, manual/timed controls, timelines and step emission. Completion, indices, disposal and error precedence are covered by [contract tests](../test/playback-contract.test.mjs) and the [completion matrix](../test/playback-completion-matrix.test.mjs). See the [playback reference](playback.md). |
 | `/scene` | Technically ready | Backend-independent matching and dispatch, stable IDs, layers, nullable enter/exit endpoints and bounded projection caching. [Scene](../test/scene.test.mjs), [projector](../test/scene-projector.test.mjs) and [object lifecycle](../test/object-lifecycle.test.mjs) tests cover custom types and retained backends. See the [reference](scene.md). |
-| `/array` | Technically ready after 0.11.1 | Optional fixed-length numeric trace with one held item. Invalid swap/shift positions preserve identities and state; input markers allow explicit undefined. [Validation regressions](../test/array-validation.test.mjs), strict consumers and [RU/EN guarantees](array.md#array-model-guarantees) close the [array audit](array-api-audit.md) recommendations. |
-| `/canvas` | Technically ready after 0.11.2 | Optional array scene adapter and full-frame bitmap renderer. Large-array scaling, paint-state isolation, early progress validation, theme validation and undefined colors are covered by ten [Canvas contract tests](../test/canvas-contract.test.mjs) and strict consumers. [RU/EN documentation](array.md#canvas-rendering) closes the [Canvas audit](canvas-api-audit.md) recommendations. |
+| `/array` | Technically ready after 0.11.1 | Optional fixed-length numeric trace with one held item. Invalid swap/shift positions preserve identities and state; input markers allow explicit undefined. [Validation regressions](../test/array-validation.test.mjs), strict consumers and [documented guarantees](array.md#array-model-guarantees) cover these cases. |
+| `/canvas` | Technically ready after 0.11.2 | Optional array scene adapter and full-frame bitmap renderer. Large-array scaling, paint-state isolation, early progress validation, theme validation and undefined colors are covered by ten [Canvas contract tests](../test/canvas-contract.test.mjs) and strict consumers. See the [Canvas reference](array.md#canvas-rendering). |
 
 The references have linked Russian versions. The audits preserve their original
 findings and dated follow-ups; their historical defect descriptions are not a
@@ -224,7 +224,7 @@ The [U3 policy](api-compatibility.md) now applies equally to all eight entries;
 historical export counts below do not redefine the current inventory.
 
 - Keep the four baseline ESM entry points. There are 14 runtime names (13 distinct
-  functions) and 23 type-only exports, recorded in the [public export audit](public-exports-audit.md).
+  functions) and 23 type-only exports.
   There is no root/CommonJS export; `/core` and bundled algorithms were removed
   in 0.7.0. Keep `createSortRenderer` as the identical `createArrayRenderer` alias.
   The 0.12.0 `/player` adds only `Player` and three type-only names, for
@@ -368,7 +368,7 @@ The current release's successful CI does not certify a later 1.0 candidate.
 
 ## What remains before 1.0, in order
 
-The [current core review](core-readiness-1.0.md) leaves no known API/implementation
+The [current core review](checks/api-readiness-1.0-core-extensibility-2026-11-16.json) leaves no known API/implementation
 blocker after all four model sketches. The [support scope](support-matrix.md#current-support-boundary)
 is retained; broadening it and implementing new structures remain optional work.
 
@@ -390,7 +390,7 @@ is retained; broadening it and implementing new structures remain optional work.
    work remains separately authorized.
 
 F1/F2 and U1–U5 are resolved in the unpublished candidate. Publication remains
-deferred; the [current gate list](candidate-1.0.md#remaining-release-gates)
+deferred; the [candidate verification](checks/candidate-1.0.0-g3-76f76ed-2026-11-16.json)
 records completed G1/G2/G3 for 76f76ed and the pending evidence documentation.
 The historical four-module audits identified
 no remaining required code change within their historical scope. A

@@ -1,6 +1,6 @@
 # Выпуск AlgiViz 1.2.0
 
-[English](../release-1.2.md) · [Отчёт](../releases/1.2.0.json) · [Текущий API](current-api.md) · [Changelog](../../CHANGELOG.md)
+[English](../release-1.2.md) · [Текущий API](current-api.md) · [Changelog](../../CHANGELOG.md)
 
 **Выпущено 2026-11-19** с 8e1f50b3fb0a565e1634066ebd9e3e32dd0ced1f.
 [Стабильный GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.2.0),
@@ -42,7 +42,6 @@ ordered/binary layout, пустые слоты, прикреплённые cross
 
 Workflow завершился раньше обработки npm. Публикация проверена после появления
 exact-version/latest metadata; повторной публикации или обхода approval не было.
-Полные счётчики, digests и ограничения — в отчёте.
 
 ## Исправление документации
 

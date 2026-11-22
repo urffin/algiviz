@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
+import { mapFrame } from '@grundyjs/algiviz/playback';
 import { createGraphRenderer } from '@grundyjs/algiviz/canvas/graph';
 import { Player } from '@grundyjs/algiviz/player';
 import { kruskalSteps, prepareKruskalSession } from '../examples/kruskal.mjs';
@@ -67,7 +68,7 @@ for (const mode of ['generator', 'history']) {
             render(frame) {
                 drawings = keys.map((key, index) => {
                     const target = recording(size.width, size.height);
-                    renderers[index].render(target.ctx, { ...frame, previous: frame.previous[key], current: frame.current[key] }, size);
+                    renderers[index].render(target.ctx, mapFrame(frame, state => state[key]), size);
                     return target;
                 });
             },
@@ -117,11 +118,11 @@ for (const mode of ['generator', 'history']) {
     });
 }
 
-test('Kruskal page maps the four public modules to the local build', async () => {
+test('Kruskal page maps its public imports to the local build', async () => {
     const html = await readFile(new URL('../examples/kruskal.html', import.meta.url), 'utf8');
     const { imports } = JSON.parse(html.match(/<script type="importmap">([\s\S]*?)<\/script>/)[1]);
     const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
-    const expected = Object.fromEntries(['graph', 'canvas/graph', 'canvas/viewport', 'player'].map(entry => [
+    const expected = Object.fromEntries(['graph', 'canvas/graph', 'canvas/viewport', 'playback', 'player'].map(entry => [
         pkg.name + '/' + entry, '.' + pkg.exports['./' + entry].import,
     ]));
     assert.deepEqual(imports, expected);

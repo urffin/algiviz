@@ -498,7 +498,7 @@
       "package-lock.json",
       "tsconfig.json",
       "tsconfig.worker.json",
-      "all existing docs/checks and docs/releases"
+      "all existing check and release evidence"
     ],
     "implementationAPIAndMetadataUnchanged": true
   },
@@ -746,9 +746,6 @@
     "docs/checks/worker-shared-buffer-fix-2026-11-14.json": "4298d75df2bfcca215fde9734c8f562de13e304b92da22a5f425b274e302cf6d",
     "docs/checks/worker-shared-buffer-fix-browser-2026-11-14.json": "5506865fec6097806450171ca98d29cb2969cb8993c0b27bfe9899d9708f405c",
     "docs/checks/worker-source-browser-2026-11-14.json": "5dd5e964012fbf4de732f24f4db65e623487e5716e5f0c86900bbc1c54227030",
-    "docs/releases/0.14.0.json": "877ff7c134768ce17c6750d4dbec3eec73da0c41da608b7d05876bac5e573fc4",
-    "docs/releases/0.15.0.json": "43c98b79e57fcfcbbe399c674c5cb773ddbcb8234691b1b27a3ad8cff1edf483",
-    "docs/releases/0.16.0.json": "f8c444d5b94e6d18d5e5be2e19099633ba8c5c811b758e3caf4223399a614527",
     "package.json": "abe3d7d317b05b7777314b912729446697bb49d831d8a7907364f9e47a0e1c27",
     "package-lock.json": "4246584f6ea114da70c5a6aa564d954cc809a9d7772121f47b592a26a6403875",
     "tsconfig.json": "b9729c023af5e26af7297d6e9a0c4a3d4bfb789bd737ba99e5e63b404791e678",

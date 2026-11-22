@@ -3,20 +3,20 @@
 [English](../api-compatibility.md) · [Стабилизация](../api-stability.md) · [Текущий API](current-api.md) · [Проверенные окружения](../support-matrix.md)
 
 U3 защищает публичные типы, ошибки, окружения и поведение всех 16 точек входа
-1.7.0. У `stepHistory` отдельный тип опций и перегрузка конструктора.
-У `PlayerOptions` сохраняются четыре ветки.
-[Изменения и миграция](release-1.7.md).
+1.8.0. `mapFrame` добавляет проекцию кадра в `/playback`. У `stepHistory`
+сохраняются отдельный тип опций и перегрузка конструктора.
+[Заметки к выпуску](release-1.8.md).
 
 ## Публичная поверхность
 
-Импортируемые пути определяет только export map. Версия 1.7.0 содержит **16 точек входа,
-34 имени времени выполнения, 190 экспортов типов, 178 различных имён**. База 1.0.0 имела
+Импортируемые пути определяет только export map. Версия 1.8.0 содержит **16 точек входа,
+35 имён времени выполнения, 190 экспортов типов, 178 различных имён**. База 1.0.0 имела
 8 / 21 / 69 / 57. Общие Worker-типы считаются по обоим путям; классы — runtime-имена.
-[Инвентарь](current-api.md) и [ревизия 1.1](graph-readiness-1.1.md).
+[Инвентарь](current-api.md) и [заметки к 1.1](release-1.1.md).
 
 | Суффикс entry | Runtime-имена | Type-only имён |
 | --- | --- | --- |
-| `/playback` | `createPlayer`, `createStatePlayer`, `createTimeline`, `createStepEmitter`, `createRewindBuffer`, `createAsyncSource` | 10 |
+| `/playback` | `createPlayer`, `createStatePlayer`, `createTimeline`, `mapFrame`, `createStepEmitter`, `createRewindBuffer`, `createAsyncSource` | 10 |
 | `/scene` | `createSceneFrame`, `createSceneRenderer`, `createSceneProjector` | 5 |
 | `/array` | `createArrayTrace`, `defineArrayAlgorithm`, `createArrayPlayer`, `createArrayTimeline` | 11 |
 | `/canvas` | `arrayScene`, `createArrayRenderer`, `createSortRenderer` | 4 |
@@ -218,7 +218,7 @@ type cases, затронутые lifecycle/error-регрессии и гран�
 свой объём; зелёные проверки не расширяют набор поддерживаемых целей.
 
 U4 согласовал восемь прежних справочников; в 1.1 добавлены два графовых под
-той же политикой. Выпуски 1.0 и 1.1 завершены; см. [отчёт 1.1](../releases/1.1.0.json).
+той же политикой. Выпуски 1.0 и 1.1 завершены.
 Для будущих изменений приёмка кандидата и публикация остаются отдельными
 действиями по поручению владельца. [Проверка U3](../checks/u3-compatibility-policy-2026-11-14.json)
 фиксирует инвентарь и отсутствие изменений реализации на этом docs-этапе.

@@ -396,6 +396,5 @@ Lack of pixel identity is not permission to change layout coordinates, result
 priority, omission safety or error classes without compatibility review.
 
 The [insertion/rotation example](../examples/tree-player.html) uses these APIs with Player;
-the detailed custom traversal remains separate. The [review](tree-readiness-1.2.md)
-is complete and T1 is closed with refreshed acceptance. [Release 1.2.0](release-1.2.md)
-is complete; [candidate notes](candidate-1.2.md) retain historical preparation.
+the detailed custom traversal remains separate. The [1.2.0 release notes](release-1.2.md)
+record the outcome of the T1 fix and acceptance checks.

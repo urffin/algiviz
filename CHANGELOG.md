@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.8.0
+
+- Add `mapFrame` to `/playback` to project both snapshots while preserving
+  progress, source step index and event.
+- Use it in the Kruskal, BFS and heap sort examples. Document synchronized
+  Canvas and DOM panels using Dijkstra’s shortest paths.
+
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.8.md).
+
 ## 1.7.0
 
 Minor release. The 16 ESM entry points and four existing `PlayerOptions`
@@ -140,8 +149,7 @@ installation, registry signature and source-bound provenance were verified.
 This compatible minor release adds two independent ESM entries. The ten released
 1.1.0 entry implementations, dependencies and Player API are unchanged; existing
 imports need no migration. Tree imports require 1.2.0.
-[Release verification](https://github.com/urffin/algiviz/blob/master/docs/release-1.2.md) ·
-[Historical preparation/migration](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.2.md).
+[Release verification](https://github.com/urffin/algiviz/blob/master/docs/release-1.2.md).
 
 - Add headless `/tree`: `createTreeTrace`, `treeScene` and 29 types for
   rooted ordered/binary trees. Support stable explicit node/link IDs, sparse
@@ -199,7 +207,6 @@ were verified after successful CI and the publishing workflow.
   and CI instructions. The minimum-search quickstart uses published npm 1.0.0;
   graph example pages use the repository build.
 
-See [candidate notes](https://github.com/urffin/algiviz/blob/master/docs/candidate-1.1.md) for historical preparation scope; see the release verification above for completed gates.
 
 ## 1.0.0
 

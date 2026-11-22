@@ -21,8 +21,6 @@ The packaged README links to the repository's detailed EN/RU references.
 npm install @grundyjs/algiviz@1.2.1
 ```
 
-The [1.2.0 receipt](releases/1.2.0.json) records that completed release's CI,
-exact-version/latest and cryptographic provenance observations. Its historical
-scope is preserved. The documentation patch uses the same GitHub Release →
+The documentation patch uses the same GitHub Release →
 OIDC npm workflow, with exact-commit CI before release and independent npm,
 README payload and provenance verification after publication.

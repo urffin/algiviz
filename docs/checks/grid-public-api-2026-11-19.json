@@ -11,7 +11,6 @@
     "distinctTypeOnlyNames": 116
   },
   "releaseClosure": {
-    "receipt": "docs/releases/1.2.0.json",
     "source": "Completed publication verification task; no fresh registry lookup in this task",
     "exactVersion": "1.2.0",
     "latestVerified": "1.2.0",

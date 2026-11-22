@@ -1,5 +1,6 @@
 import { createTreeRenderer } from '@grundyjs/algiviz/canvas/tree';
 import { createCanvasViewport } from '@grundyjs/algiviz/canvas/viewport';
+import { mapFrame } from '@grundyjs/algiviz/playback';
 import { Player } from '@grundyjs/algiviz/player';
 import { createHeapArrayRenderer } from './heap-player-array.mjs';
 import { prepareHeapPanelSession } from './heap-player-session.mjs';
@@ -18,9 +19,7 @@ function render(frame) {
     const treeSize = treeViewport.resize(() => 180);
     if (arraySize) drawArray(arrayViewport.context, frame, arraySize);
     if (treeSize) {
-        treeRenderer.render(treeViewport.context, {
-            ...frame, previous: frame.previous.tree, current: frame.current.tree,
-        }, treeSize);
+        treeRenderer.render(treeViewport.context, mapFrame(frame, state => state.tree), treeSize);
     }
     if (status.textContent !== frame.current.message) status.textContent = frame.current.message;
 }

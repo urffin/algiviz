@@ -1,6 +1,6 @@
 # Валидация скорости Player: выбранный контракт U2
 
-[English](../player-speed-validation.md) · [Player](player.md) · [Ревизия API](../api-readiness-0.16.0.md)
+[English](../player-speed-validation.md) · [Player](player.md)
 
 **Выпущено с 1.0.0; без изменений в 1.3.1.**
 [Текущий API](current-api.md) определяет релизный статус. Правила ниже действуют

@@ -1,13 +1,14 @@
-# Две панели в одном Player
+# Синхронные панели в одном Player
 
 [English](../player-multiple-panels.md) · [Справочник Player](player.md)
 
 Используйте один источник, один Player и один снимок на логический шаг. В
-снимке храните состояния обеих панелей, а также текст и счётчики, которые
-должны меняться при перемотке. Обе панели получают один номер шага, прогресс
+снимке храните состояния всех панелей, а также текст и счётчики, которые
+должны меняться при перемотке. Все панели получают один номер шага, прогресс
 и общие кнопки управления. См. [пример Краскала](../../examples/kruskal.html),
-[BFS с графом и очередью](../../examples/graph-queue.html) и
-[пирамидальную сортировку с Player](../../examples/heap-player.html).
+[BFS с графом и очередью](../../examples/graph-queue.html),
+[пирамидальную сортировку с Player](../../examples/heap-player.html) и
+[кратчайшие пути Дейкстры](../../examples/dijkstra.html).
 
 ## Соберите общий снимок шага
 
@@ -49,30 +50,24 @@ yield Object.freeze({
 
 Вызывайте оба рендерера из одного `render(frame)`. Для каждой панели
 извлеките её снимок **из обоих** полей `previous` и `current` и сохраните
-`progress`, `stepIndex` и `event`. Ниже вспомогательная функция приложения
-показывает проекцию, которую выполняют Краскал и BFS. Каждый рендерер получает
-контекст и логический размер своего Canvas.
+`progress`, `stepIndex` и `event`. Для этого есть `mapFrame` из `/playback`
+(с версии 1.8.0). Каждый рендерер получает контекст и логический
+размер своего Canvas.
 [Отрисовка Краскала](../../examples/kruskal-demo.mjs) ·
 [Граф BFS](../../examples/graph-player-view.mjs) ·
 [Очередь BFS](../../examples/graph-queue-demo.mjs).
 
 ```js
-function projectFrame(frame, select) {
-    return {
-        ...frame,
-        previous: select(frame.previous),
-        current: select(frame.current),
-    };
-}
+import { mapFrame } from '@grundyjs/algiviz/playback';
 
 function renderKruskal(frame) {
-    graphRenderer.render(graphContext, projectFrame(frame, state => state.graph), graphSize);
-    forestRenderer.render(forestContext, projectFrame(frame, state => state.forest), forestSize);
+    graphRenderer.render(graphContext, mapFrame(frame, state => state.graph), graphSize);
+    forestRenderer.render(forestContext, mapFrame(frame, state => state.forest), forestSize);
 }
 
 function renderBfs(frame) {
-    graphRenderer.render(graphContext, projectFrame(frame, state => state.visual), graphSize);
-    queueRenderer.render(queueContext, projectFrame(frame, state => state.queueVisual), queueSize);
+    graphRenderer.render(graphContext, mapFrame(frame, state => state.visual), graphSize);
+    queueRenderer.render(queueContext, mapFrame(frame, state => state.queueVisual), queueSize);
 }
 ```
 
@@ -163,11 +158,11 @@ const arrayRenderer = createArrayRenderer({
 function renderHeap(frame) {
     labelById = frame.current.labelById;
     const arrayFrame = {
-        ...projectFrame(frame, state => state.array),
+        ...mapFrame(frame, state => state.array),
         event: frame.current.arrayEvent,
     };
     arrayRenderer.render(arrayContext, arrayFrame);
-    treeRenderer.render(treeContext, projectFrame(frame, state => state.tree), treeSize);
+    treeRenderer.render(treeContext, mapFrame(frame, state => state.tree), treeSize);
 }
 ```
 
@@ -175,3 +170,30 @@ function renderHeap(frame) {
 и событие массива. При обмене панель рисует свои плитки на разной высоте,
 чтобы подписи читались в точке пересечения горизонтальных траекторий.
 [Код панели массива](../../examples/heap-player-array.mjs).
+
+## Покажите один дискретный шаг на Canvas и в DOM
+
+В [демо Дейкстры](../../examples/dijkstra.html) опция
+`stepHistory: () => Array.from(dijkstraSteps())` записывает общий снимок на
+каждом шаге. Граф, таблица расстояний и очередь с приоритетом берут данные из
+`frame.current`. Когда ребро C → B сокращает расстояние до B с 8 до 5, граф
+выделяет это ребро, а B перемещается перед D в очереди. При перемотке назад
+все три панели восстанавливают прежнее ребро, расстояние и порядок в очереди.
+
+Координаты вершин фиксированы. Передайте целевой снимок графа в оба конца
+кадра рендерера и задайте ему прогресс 1. Тогда выделение ребра меняется в тот
+же момент, что и DOM-панели. Исходный прогресс Player доступен панелям с
+интерполяцией.
+
+```js
+function renderDijkstra(frame) {
+    const { current, event } = frame;
+    graphRenderer.render(graphContext, {
+        ...frame, previous: current.graph, current: current.graph, progress: 1,
+    }, graphSize);
+    renderDistances(current.distances, event.vertex);
+    renderQueue(current.queue);
+}
+```
+
+[Код отрисовки](../../examples/dijkstra-demo.mjs) · [Проверки в браузере](../../test/dijkstra-browser.html).

@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { createListRenderer } from '@grundyjs/algiviz/canvas/list';
+import { mapFrame } from '@grundyjs/algiviz/playback';
 import { Player } from '@grundyjs/algiviz/player';
 import { graphSteps } from '../examples/graph-algorithm.mjs';
 import { graphPositions } from '../examples/graph-layout.mjs';
@@ -80,6 +81,8 @@ for (const mode of ['generator', 'history']) {
             player.next();
             const discover = player.frame.current;
             assert.equal(discover.event.kind, 'discover');
+            assert.equal(mapFrame(player.frame, state => state.queueVisual).event,
+                mode === 'history' ? undefined : discover.event);
             assert.deepEqual(discover.queue, ['B']);
             assert.equal(discover.visual.nodeCaptions.find(caption => caption.id === 'B').text, 'd = 1');
             player.previous();
@@ -91,6 +94,10 @@ for (const mode of ['generator', 'history']) {
                 assert.equal(player.frame.previous, beforeDiscover);
                 assert.equal(player.frame.current, discover);
                 assert.equal(player.frame.progress, 0.5);
+                assert.deepEqual(mapFrame(player.frame, state => state.queueVisual), {
+                    previous: beforeDiscover.queueVisual, current: discover.queueVisual,
+                    progress: 0.5, stepIndex: player.frame.stepIndex, event: undefined,
+                });
             }
             for (let count = 0; count < 100 && player.status.phase !== 'finished'; count++) player.next();
             assert.equal(player.status.phase, 'finished');

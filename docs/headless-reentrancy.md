@@ -1,6 +1,6 @@
 # Headless player reentrancy: selected U1 contract
 
-[Русский](ru/headless-reentrancy.md) · [Playback](playback.md) · [API review](api-readiness-0.16.0.md)
+[Русский](ru/headless-reentrancy.md) · [Playback](playback.md)
 
 **Released since 1.0.0; unchanged in 1.3.1.**
 [Current API](current-api.md) defines release status. The rules below apply to

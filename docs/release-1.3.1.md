@@ -3,8 +3,7 @@
 [Русский](ru/release-1.3.1.md) · [Current API](current-api.md) · [Completed 1.3.0 release](release-1.3.md)
 
 Version **1.3.1** reconciles EN/RU README, changelog, API/environment references
-and release statuses with the completed 1.3.0 publication. It adds the
-[actual 1.3.0 receipt](releases/1.3.0.json), replaces candidate-facing links in
+and release statuses with the completed 1.3.0 publication. It replaces candidate-facing links in
 current references and clearly labels preparation/design reports as historical.
 
 Runtime sources, declarations, all fourteen exports, dependencies and examples
@@ -13,13 +12,12 @@ available since 1.3.0; the reproducible minimum-search quickstart stays pinned
 to 1.0.0, which already provides the features it uses.
 
 The immutable package includes the corrected EN/RU README and changelog.
-Actual 1.3.1 publication checks follow. The 1.3.0 receipt retains its separate
-historical scope.
+The results below are for 1.3.1.
 
 ## Completed publication — 2026-11-20
 
 Released from d61829d72ed8cbdc27a591d280f224703eb3e248.
-[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.3.1) · [npm 1.3.1](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.3.1) · [Machine receipt](releases/1.3.1.json).
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.3.1) · [npm 1.3.1](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.3.1).
 
 All eleven [CI jobs](https://github.com/urffin/algiviz/actions/runs/44647976891) passed on the exact SHA. The [publication workflow](https://github.com/urffin/algiviz/actions/runs/44648303067) succeeded.
 Exact npm and latest were 1.3.1 at verification; gitHead matches the release.

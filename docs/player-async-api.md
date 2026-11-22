@@ -9,8 +9,7 @@
 Version 0.15.0 publishes asyncSource, waiting metadata and closed in /player
 using the separate createAsyncSource adapter. Existing sync/history options and
 synchronous command signatures remain supported. All eleven exact-commit CI jobs,
-the publishing workflow and fresh registry checks passed; see the
-[release verification](releases/0.15.0.json).
+the publishing workflow and fresh registry checks passed.
 
 Add `asyncSource: AsyncSourceFactory<State>` as the third exclusive source
 capability. The widget constructs/owns its adapter; callers do not pass an

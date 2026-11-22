@@ -93,4 +93,4 @@ uses manual navigation, with budgeting disabled; it checks retention regression,
 not per-RAF counts. The pending budget itself stores only numbers by inspection.
 
 These implementation checks preceded publication. Version 0.14.0 was then
-published after exact-commit CI; see the [release verification](releases/0.14.0.json).
+published after exact-commit CI.

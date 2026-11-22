@@ -1,6 +1,6 @@
 # Релиз 1.3.0
 
-[English](../release-1.3.md) · [Текущий API](current-api.md) · [Машинный отчёт](../releases/1.3.0.json)
+[English](../release-1.3.md) · [Текущий API](current-api.md)
 
 **Выпущен 2026-11-20** с коммита `90b26f8b936ece9b149e0ac660856b2953ac2b4e`.
 [GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.3.0) ·
@@ -21,10 +21,9 @@
 - EN/RU README и changelog внутри пакета совпали с релизом; README registry совпал с архивом.
 - Подпись registry и SLSA provenance криптографически проверены. Provenance связывает digest архива, исходный SHA, тег v1.3.0 и npm-publish workflow; [transparency record](https://search.sigstore.dev/?logIndex=4010859496).
 
-Время проверки в отчёте: 2026-11-20T00:21:37.673Z; latest — наблюдение на этот момент.
+Тег `latest` проверен в 2026-11-20T00:21:37.673Z.
 Нативная приёмка renderer (18 проверок) и BFS UI (23 проверки) сохраняет границы
-записанного host. [Подготовка](candidate-1.3.md) и [ревизия](grid-readiness-1.3.md)
-остаются историческими доказательствами; R0–R4 завершены.
+записанного host.
 
 [Документационный патч 1.3.1](release-1.3.1.md) согласует статусы релиза и ссылки
 README, сохраняя этот функциональный API.

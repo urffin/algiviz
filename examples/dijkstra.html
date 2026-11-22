@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AlgiViz · Dijkstra’s shortest paths</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #101827; color: #f1f5f9; font: 16px/1.5 system-ui; }
+main { max-width: 1080px; margin: auto; padding: 24px; }
+a { color: #c4b5fd; }
+p { color: #cbd5e1; }
+.panes { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1.2fr) minmax(0, .8fr); gap: 1px; background: #475569; }
+.panes section { min-width: 0; background: #1e293b; }
+.panes h2 { margin: 0; padding: 10px 12px; font-size: 1rem; }
+canvas { display: block; width: 100%; }
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th, td { padding: 7px 8px; border-bottom: 1px solid #334155; font-size: .88rem; }
+thead { color: #cbd5e1; }
+tbody td, ol { font-variant-numeric: tabular-nums; }
+tbody .settled td:last-child { color: #6ee7b7; }
+tbody .focused { background: #422f16; }
+#queue { margin: 0; padding: 0 14px 0 36px; }
+#queue li { padding: 7px 2px; border-bottom: 1px solid #334155; }
+#queue li:first-child { color: #fde68a; }
+#empty-queue { margin: 4px 12px 12px; }
+#status { min-height: 3em; color: #f1f5f9; }
+@media (max-width: 700px) {
+    main { padding: 16px; }
+    .panes { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<main>
+<a href="./index.html">All examples</a>
+<h1>Dijkstra’s shortest paths</h1>
+<p>Start at A and take the smallest distance from the queue. B first enters at 8, then moves ahead of D when A → C → B lowers its distance to 5.</p>
+<div id="player">
+    <div class="panes">
+        <section aria-labelledby="graph-title">
+            <h2 id="graph-title">Weighted graph</h2>
+            <canvas id="graph" width="460" height="270" role="img" aria-label="Directed graph with edges A to B (8), A to C (2), A to D (6), C to B (3), and B to D (2)" aria-describedby="status legend"></canvas>
+        </section>
+        <section aria-labelledby="distances-title">
+            <h2 id="distances-title">Distances from A</h2>
+            <table aria-labelledby="distances-title">
+                <thead><tr><th scope="col">Vertex</th><th scope="col">Distance</th><th scope="col">Via</th><th scope="col">Status</th></tr></thead>
+                <tbody id="distances"></tbody>
+            </table>
+        </section>
+        <section aria-labelledby="queue-title">
+            <h2 id="queue-title">Priority queue</h2>
+            <ol id="queue" aria-label="Removal order, smallest distance first"></ol>
+            <p id="empty-queue" hidden>Empty</p>
+        </section>
+    </div>
+</div>
+<p id="status" role="status" aria-live="polite"></p>
+<p id="legend">Yellow marks the current vertex and any improved edge. Blue edges show the best paths found so far. The final tree is green.</p>
+</main>
+<script type="importmap">
+{
+    "imports": {
+        "@grundyjs/algiviz/graph": "../dist/graph/index.js",
+        "@grundyjs/algiviz/canvas/graph": "../dist/canvas/graph.js",
+        "@grundyjs/algiviz/canvas/viewport": "../dist/canvas/viewport.js",
+        "@grundyjs/algiviz/player": "../dist/player/index.js"
+    }
+}
+</script>
+<script type="module" src="./dijkstra-demo.mjs"></script>
+</body>
+</html>

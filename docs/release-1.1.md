@@ -1,6 +1,6 @@
 # AlgiViz 1.1.0 release
 
-[Русский](ru/release-1.1.md) · [Receipt](releases/1.1.0.json) · [Current API](current-api.md) · [Changelog](../CHANGELOG.md)
+[Русский](ru/release-1.1.md) · [Current API](current-api.md) · [Changelog](../CHANGELOG.md)
 
 **Released 2026-11-17** from 629defe2eb570034ea368d736c1e5fdf74ea3502.
 [Stable GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.1.0),
@@ -39,8 +39,6 @@ npm initially reported processing delay after accepting publication. The task
 waited for exact-version and latest metadata and verified them before completion;
 no duplicate local publish or trusted-publisher change was made.
 
-The receipt records the completed release task's observations. This documentation
-closure reuses that evidence; it makes no fresh registry/latest lookup claim.
-Candidate/readiness/implementation reports keep their historical hashes and
-stages. Candidate labels in the tagged npm documentation describe preparation;
-this page and the receipt record completed publication.
+These results describe the original publication check. Candidate, readiness and
+implementation reports describe earlier stages. Candidate labels in the tagged
+npm documentation describe preparation.

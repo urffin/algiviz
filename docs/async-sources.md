@@ -13,7 +13,7 @@ ordinary async source still cannot be forcibly interrupted by this adapter.
 ## Scope, 2026-11-13
 
 This contract covers the standalone adapter and widget integration published
-in 0.15.0. See the [release verification](releases/0.15.0.json).
+in 0.15.0.
 Start/Pause/Restart and RAF sections below describe widget behavior;
 the adapter uses next/dispose as specified in its public API.
 

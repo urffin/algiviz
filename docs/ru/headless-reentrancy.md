@@ -1,6 +1,6 @@
 # Повторное управление headless-плеерами: выбранный контракт U1
 
-[English](../headless-reentrancy.md) · [Воспроизведение](playback.md) · [Ревизия API](../api-readiness-0.16.0.md)
+[English](../headless-reentrancy.md) · [Воспроизведение](playback.md)
 
 **Выпущено с 1.0.0; без изменений в 1.3.1.**
 [Текущий API](current-api.md) определяет релизный статус. Правила ниже действуют

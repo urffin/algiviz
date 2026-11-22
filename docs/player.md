@@ -11,7 +11,6 @@ connect typed explicit steps directly to render and complete without an EOF read
 
 **Added in 0.15.0:** [asyncSource integration](player-async-api.md), waiting
 metadata and observable cleanup. Synchronous sources/history remain supported.
-[Release verification](releases/0.15.0.json).
 
 **Added in 0.16.0:** [Worker factories](player-worker.md) connect directly through
 asyncSource, preserving waiting, controls, bounded rewind and observable cleanup.
@@ -88,7 +87,7 @@ non-finite positions are rejected before affecting a usable session.
 Use `PlayerStepHistoryOptions<State, Event>` from `/player` to type an
 options object for this constructor overload.
 `PlayerOptions<State, Event>` retains the four branches for streams and
-state-only recordings. [Readiness review](readiness-1.7.md).
+state-only recordings.
 
 `stepHistory` accepts a synchronous factory that returns a nonempty array
 of explicit steps with every position present. Supply a finite positive

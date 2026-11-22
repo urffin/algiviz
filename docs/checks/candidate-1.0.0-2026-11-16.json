@@ -856,7 +856,7 @@
     },
     "unchangedPreparationFiles": 238,
     "unchangedBuiltDeclarations": 41,
-    "unchangedScope": "All existing src/test/scripts/dist/.github and raw docs/checks/docs/releases files preserved during candidate preparation",
+    "unchangedScope": "All existing src/test/scripts/dist/.github and raw check and release evidence preserved during candidate preparation",
     "historicalEvidence": "Original audit/F1/F2/U1-U5/release JSON preserved byte-for-byte; candidate is new evidence, not relabelling prior results",
     "benchmark": "Not run: no performance implementation change",
     "ciStarted": false,
@@ -1889,18 +1889,6 @@
     "docs/checks/worker-source-browser-2026-11-14.json": {
       "sha256": "5dd5e964012fbf4de732f24f4db65e623487e5716e5f0c86900bbc1c54227030",
       "lfSha256": "5dd5e964012fbf4de732f24f4db65e623487e5716e5f0c86900bbc1c54227030"
-    },
-    "docs/releases/0.14.0.json": {
-      "sha256": "877ff7c134768ce17c6750d4dbec3eec73da0c41da608b7d05876bac5e573fc4",
-      "lfSha256": "877ff7c134768ce17c6750d4dbec3eec73da0c41da608b7d05876bac5e573fc4"
-    },
-    "docs/releases/0.15.0.json": {
-      "sha256": "43c98b79e57fcfcbbe399c674c5cb773ddbcb8234691b1b27a3ad8cff1edf483",
-      "lfSha256": "43c98b79e57fcfcbbe399c674c5cb773ddbcb8234691b1b27a3ad8cff1edf483"
-    },
-    "docs/releases/0.16.0.json": {
-      "sha256": "f8c444d5b94e6d18d5e5be2e19099633ba8c5c811b758e3caf4223399a614527",
-      "lfSha256": "f8c444d5b94e6d18d5e5be2e19099633ba8c5c811b758e3caf4223399a614527"
     }
   },
   "externalArtifacts": {

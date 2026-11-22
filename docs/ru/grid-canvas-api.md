@@ -6,7 +6,7 @@
 и пять типов ниже. Headless /grid остаётся отдельным DOM-free entry.
 Пакет содержит 14 entry, 30 runtime-имён и 155 type-only экспортов (143 различных).
 Прежние двенадцать entry сохраняются. [Изменения и миграция](release-1.3.md) ·
-[Ревизия](grid-readiness-1.3.md) · [Нативная приёмка](../checks/grid-canvas-browser-2026-11-20.json).
+[Нативная приёмка](../checks/grid-canvas-browser-2026-11-20.json).
 
 ## Публичные декларации
 

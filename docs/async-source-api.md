@@ -7,8 +7,7 @@
 ## Published in 0.15.0, 2026-11-13
 
 Version 0.15.0 publishes one runtime export, `createAsyncSource`, and five
-public types from `@grundyjs/algiviz/playback`. See the
-[release verification](releases/0.15.0.json). No package entry or dependency was added. Existing synchronous
+public types from `@grundyjs/algiviz/playback`. No package entry or dependency was added. Existing synchronous
 APIs are unchanged; widget integration is implemented separately in /player.
 
 The adapter owns one lazy source session. It requests plain immutable states;

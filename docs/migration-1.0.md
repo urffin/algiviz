@@ -1,6 +1,6 @@
 # Migrating from 0.16.0 to 1.0.0
 
-[Русский](ru/migration-1.0.md) · [Compatibility policy](api-compatibility.md) · [Current API](current-api.md) · [Historical preparation](candidate-1.0.md)
+[Русский](ru/migration-1.0.md) · [Compatibility policy](api-compatibility.md) · [Current API](current-api.md)
 
 **1.0.0 is released; these notes describe migration from 0.16.0.**
 Explicit steps and array results are available since 1.0.0. Existing applications
@@ -231,6 +231,3 @@ There is no root/CommonJS export, public internal deep path or cross-version
 Worker protocol promise. Host and endpoint use the same package version.
 The environment boundary is retained; candidate preparation adds no new browser,
 compiler, Node worker_threads, SharedWorker or ServiceWorker guarantee.
-
-Follow [candidate status](candidate-1.0.md) for the remaining exact-SHA CI/native
-checks. These notes do not state that 1.0.0 has been published.

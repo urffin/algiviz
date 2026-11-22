@@ -33,6 +33,7 @@ included in the npm archive.
 | [BFS graph and queue](https://github.com/urffin/algiviz/blob/master/examples/graph-queue.html) | The same BFS with a graph and a linked-list queue in one Player |
 | [Edge contraction](https://github.com/urffin/algiviz/blob/master/examples/graph-contraction.html) | One graph edit removes a vertex and redirects two edges without changing their IDs |
 | [Kruskal’s minimum spanning tree](https://github.com/urffin/algiviz/blob/master/examples/kruskal.html) | Weighted input graph and growing forest with cycle rejection and a green final tree |
+| [Dijkstra’s shortest paths](https://github.com/urffin/algiviz/blob/master/examples/dijkstra.html) | One Player seeks through the graph, distances and priority queue using `stepHistory` |
 | [Graph DFS](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Recursive call frames, backtracking, tree depth and paths; history/generator playback |
 | [Maze](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Randomized DFS generation, BFS wave, DFS backtracking, cycles and unreachable exits; history/generator playback |
 | [Grid BFS shortest path](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Shortest path between obstacles with /grid, stock Canvas and Player; distances, green result, history and generator |
@@ -314,6 +315,15 @@ modes.
 See [Two panels in one Player](player-multiple-panels.md) for snapshot assembly
 and frame projection.
 
+## Dijkstra’s shortest paths
+
+After building locally, open [dijkstra.html](../examples/dijkstra.html). The
+direct edge A → B first gives B a distance of 8. Relaxing C → B lowers it to 5
+and moves B ahead of D in the priority queue. Seek back across that step to
+restore the old edge, distance and queue order together. The example records
+all three panels in one snapshot per step. [Example code](../examples/dijkstra.mjs) ·
+[Browser checks](../test/dijkstra-browser.html).
+
 ## Graph depth-first search
 
 Open [examples/dfs.html](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) to compare DFS with BFS on the same
@@ -369,7 +379,7 @@ with generators; visible presets contain 35 cells.
 BFS itself needs O(N) work and memory. Copying O(N) data on each of O(N) steps
 separately costs O(N²) work and full-history memory; a fixed generator window
 retains O(N) data. Drawing has separate costs.
-[1.3.0 release](release-1.3.md) · [Historical readiness](grid-readiness-1.3.md) ·
+[1.3.0 release](release-1.3.md) ·
 [Verification report](checks/grid-player-example-2026-11-20.json) ·
 [Repeatable native checks](../test/grid-player-browser.html).
 To repeat native acceptance and save its report:

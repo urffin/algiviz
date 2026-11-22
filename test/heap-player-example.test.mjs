@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { createTreeRenderer } from '@grundyjs/algiviz/canvas/tree';
+import { mapFrame } from '@grundyjs/algiviz/playback';
 import { Player } from '@grundyjs/algiviz/player';
 import { createSceneFrame } from '@grundyjs/algiviz/scene';
 import { treeScene } from '@grundyjs/algiviz/tree';
@@ -79,7 +80,7 @@ for (const mode of ['generator', 'history']) {
                 array = recording(size.width, size.height);
                 tree = recording(size.width, size.height);
                 drawArray(array.ctx, frame, size);
-                treeRenderer.render(tree.ctx, { ...frame, previous: frame.previous.tree, current: frame.current.tree }, size);
+                treeRenderer.render(tree.ctx, mapFrame(frame, state => state.tree), size);
             },
         });
         const commands = () => [array.commands, tree.commands];

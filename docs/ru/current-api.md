@@ -1,20 +1,16 @@
 # Текущий API и статус проверок
 
-[English](../current-api.md) · [Совместимость](api-compatibility.md) · [Окружения](../support-matrix.md#current-support-boundary) · [Заметки к 1.7.0](release-1.7.md)
+[English](../current-api.md) · [Совместимость](api-compatibility.md) · [Окружения](../support-matrix.md#current-support-boundary) · [Заметки к 1.8.0](release-1.8.md)
 
-**Версия 1.7.0** содержит 16 точек входа, 34 экспорта времени выполнения и
-190 экспортов типов (178 различных имён). Она добавляет `stepHistory` через
-перегрузку конструктора с типом `PlayerStepHistoryOptions`. У `PlayerOptions`
-сохраняются четыре ветки источников.
-
-[Отчёт о публикации 1.7.0](../releases/1.7.0.json) фиксирует коммит релиза,
-результаты CI и проверку архива npm, README и provenance.
+**Версия 1.8.0** содержит 16 точек входа, 35 экспортов времени выполнения и
+190 экспортов типов (178 различных имён). `mapFrame` преобразует оба
+снимка кадра и сохраняет прогресс, исходный индекс шага и событие.
 
 ## Карта точек входа
 
 | Entry | Справочник | Статус/первая версия |
 | --- | --- | --- |
-| /playback | [Playback](../playback.md), [перемотка](../rewind-buffer.md), [async](async-source-api.md) | 1.0.0 |
+| /playback | [Воспроизведение](playback.md), [проекция кадра](playback.md#проекция-кадра), [перемотка](../rewind-buffer.md), [async](async-source-api.md) | 1.0.0, `mapFrame` с 1.8.0 |
 | /scene | [Сцены](../scene.md) | 1.0.0 |
 | /array | [Массивы](array.md), [результат](array-result.md) | 1.0.0 |
 | /canvas | [Canvas массива](array.md#отрисовка-на-canvas), [подписи элементов](array.md#подписи-элементов) | 1.0.0, подписи с 1.6.0 |
@@ -33,18 +29,17 @@
 
 ## Пример и проверки
 
-[Пример пирамидальной сортировки](examples.md#пирамидальная-сортировка-с-player)
-использует `stepHistory` для перемотки синхронных снимков массива и дерева.
-[Ревизия готовности 1.7.0](readiness-1.7.md) фиксирует проверки примеров
-и совместимости.
+[Руководство по синхронным панелям](player-multiple-panels.md) показывает,
+как проецировать кадры для интерполяции на Canvas и как граф, расстояния и
+очередь Дейкстры при перемотке отображают один дискретный шаг.
 
 ## Исторические доказательства
 
 Датированные документы и JSON не переписываются задним числом. Их старые статусы
 «локально», «кандидат», «baseline 0.16.0» относятся к этапу проверки.
-API-контракт 1.7.0 описан в этом индексе и связанных справочниках.
+API-контракт 1.8.0 описан в этом индексе и связанных справочниках.
 
-- [Кандидат 1.0](candidate-1.0.md), [готовность ядра](core-readiness-1.0.md), [миграция](migration-1.0.md).
+- [Миграция на 1.0](migration-1.0.md).
 - F1/F2: [ошибка Memory](../checks/worker-memory-fix-2026-11-14.json), [отсутствующий SharedArrayBuffer](../checks/worker-shared-buffer-fix-2026-11-14.json).
 - U1/U2/U5: [повторное управление](headless-reentrancy.md), [скорость](player-speed-validation.md), [host postMessage](worker-post-errors.md).
 - [Первый Graph API](../checks/graph-implementation-2026-11-17.json), [первый Canvas](../checks/graph-canvas-implementation-2026-11-17.json), [подписи](../checks/graph-node-captions-implementation-2026-11-17.json).

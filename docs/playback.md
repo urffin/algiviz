@@ -11,7 +11,7 @@
 cancellation. `dispose(reason?)` invalidates immediately; `closed` separately
 reports settled cleanup and diagnostics. It has no clock, rendering, rewind or
 widget controls. See the [public API and usage](async-source-api.md).
-This addition is published in 0.15.0; see [release verification](releases/0.15.0.json).
+This addition is published in 0.15.0.
 The synchronous playback engines below keep their existing contracts.
 The separate [Worker transport/API](worker-source-api.md) is added in 0.16.0;
 it adds no Worker dependency to this entry.
@@ -46,6 +46,15 @@ It retains adjacent snapshots only; the timeline retains the supplied history.
 Custom array events or tree/graph operations can use this contract and a custom
 renderer. The scene API dispatches individual objects; there is no built-in
 graph/tree algorithm or operation set.
+
+## Project a frame
+
+Since 1.8.0, `/playback` exports `mapFrame(frame, selectState)`.
+It applies the selector to both snapshots and returns a new, shallow-frozen
+frame with the original `progress`, `stepIndex` and `event`. The selected
+states are used as returned. A Canvas renderer can interpolate a panel's
+snapshots while the shared Player keeps the original playback position.
+[Synchronized panels](player-multiple-panels.md).
 
 ## Playback contracts
 

@@ -3,7 +3,7 @@
 [Русский](ru/graph-contract.md) · [Scene](scene.md) · [Playback](playback.md) · [Compatibility policy](api-compatibility.md)
 
 **Released follow-up, 2026-11-17:** /graph and /canvas/graph are published in
-1.1.0. [API](graph-api.md) and [release receipt](releases/1.1.0.json) supersede
+1.1.0. The [API reference](graph-api.md) supersedes
 availability statements in the historical sketch/stage notes below.
 
 **Follow-up, 2026-11-17:** the [public API contract](graph-api.md) now selects

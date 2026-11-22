@@ -8,7 +8,7 @@ const expected = {
     tree: ['createTreeTrace', 'treeScene'],
     'canvas/graph': ['createGraphRenderer'],
     graph: ['createDynamicGraphTrace', 'createGraphTrace', 'graphScene'],
-    playback: ['createPlayer', 'createStatePlayer', 'createStepEmitter', 'createTimeline', 'createRewindBuffer', 'createAsyncSource'],
+    playback: ['createPlayer', 'createStatePlayer', 'createStepEmitter', 'createTimeline', 'mapFrame', 'createRewindBuffer', 'createAsyncSource'],
     scene: ['createSceneFrame', 'createSceneProjector', 'createSceneRenderer'],
     array: ['createArrayPlayer', 'createArrayTimeline', 'createArrayTrace', 'defineArrayAlgorithm'],
     canvas: ['arrayScene', 'createArrayRenderer', 'createSortRenderer'],

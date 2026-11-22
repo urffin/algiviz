@@ -11,8 +11,7 @@ valid graph after a topology change.
 `GraphSnapshot`, with a separate step event type that includes
 `{ type: "edit" }`. The existing `createGraphTrace` keeps its fixed topology
 and closed `GraphEvent`. The dynamic trace uses the existing `Step`, `Frame`
-and `graphScene`. The [1.5.0 readiness review](graph-readiness-1.5.md) records
-the declaration and behavior comparison with 1.4.0.
+and `graphScene`.
 
 ## Public API
 

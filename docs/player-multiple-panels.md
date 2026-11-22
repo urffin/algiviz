@@ -1,13 +1,14 @@
-# Two panels in one Player
+# Synchronized panels in one Player
 
 [Русский](ru/player-multiple-panels.md) · [Player reference](player.md)
 
 Use one source, one Player and one snapshot per logical step. The snapshot
-contains the state of both panels and any text or totals that should follow
-playback. Both panels then use the same step, progress and playback controls.
+contains each panel's state and any text or totals that should follow playback.
+All panels use the same step, progress and playback controls.
 See the [Kruskal example](../examples/kruskal.html),
-[BFS graph and queue](../examples/graph-queue.html), and
-[heap sort with Player](../examples/heap-player.html).
+[BFS graph and queue](../examples/graph-queue.html),
+[heap sort with Player](../examples/heap-player.html), and
+[Dijkstra’s shortest paths](../examples/dijkstra.html).
 
 ## Capture one snapshot per step
 
@@ -48,30 +49,24 @@ source consumed by Player. The sequence of yielded steps defines playback order.
 
 Call both renderers from the same `render(frame)` callback. For each panel,
 extract its snapshot from **both** `previous` and `current`, preserving
-`progress`, `stepIndex` and `event`. The app-local function below expresses
-the projection used by Kruskal and BFS. Each renderer receives the context and
-logical size of its own Canvas.
+`progress`, `stepIndex` and `event`. Use `mapFrame` from `/playback` (1.8.0).
+Each renderer receives the context and logical size of its
+own Canvas.
 [Kruskal rendering](../examples/kruskal-demo.mjs) ·
 [BFS graph renderer](../examples/graph-player-view.mjs) ·
 [BFS queue renderer](../examples/graph-queue-demo.mjs).
 
 ```js
-function projectFrame(frame, select) {
-    return {
-        ...frame,
-        previous: select(frame.previous),
-        current: select(frame.current),
-    };
-}
+import { mapFrame } from '@grundyjs/algiviz/playback';
 
 function renderKruskal(frame) {
-    graphRenderer.render(graphContext, projectFrame(frame, state => state.graph), graphSize);
-    forestRenderer.render(forestContext, projectFrame(frame, state => state.forest), forestSize);
+    graphRenderer.render(graphContext, mapFrame(frame, state => state.graph), graphSize);
+    forestRenderer.render(forestContext, mapFrame(frame, state => state.forest), forestSize);
 }
 
 function renderBfs(frame) {
-    graphRenderer.render(graphContext, projectFrame(frame, state => state.visual), graphSize);
-    queueRenderer.render(queueContext, projectFrame(frame, state => state.queueVisual), queueSize);
+    graphRenderer.render(graphContext, mapFrame(frame, state => state.visual), graphSize);
+    queueRenderer.render(queueContext, mapFrame(frame, state => state.queueVisual), queueSize);
 }
 ```
 
@@ -162,11 +157,11 @@ const arrayRenderer = createArrayRenderer({
 function renderHeap(frame) {
     labelById = frame.current.labelById;
     const arrayFrame = {
-        ...projectFrame(frame, state => state.array),
+        ...mapFrame(frame, state => state.array),
         event: frame.current.arrayEvent,
     };
     arrayRenderer.render(arrayContext, arrayFrame);
-    treeRenderer.render(treeContext, projectFrame(frame, state => state.tree), treeSize);
+    treeRenderer.render(treeContext, mapFrame(frame, state => state.tree), treeSize);
 }
 ```
 
@@ -174,3 +169,29 @@ The heap demo uses the same shared snapshots and array event. It draws its
 own tiles at different heights during the exchange to keep the labels
 readable where their horizontal paths cross.
 [Array view source](../examples/heap-player-array.mjs).
+
+## Show one discrete step in Canvas and DOM panels
+
+The [Dijkstra demo](../examples/dijkstra.html) uses
+`stepHistory: () => Array.from(dijkstraSteps())`. Its graph, distance table and
+priority queue update together from `frame.current`. When C → B lowers B's
+distance from 8 to 5, the graph highlights that edge and B moves ahead of D.
+Seeking backwards restores the previous edge, distance and queue position.
+
+The graph has a fixed layout. Pass the destination graph to both endpoints of
+its renderer frame with progress 1 so the highlighted edge changes on the same
+step as the DOM panels. The Player's original progress is still available to
+panels that interpolate.
+
+```js
+function renderDijkstra(frame) {
+    const { current, event } = frame;
+    graphRenderer.render(graphContext, {
+        ...frame, previous: current.graph, current: current.graph, progress: 1,
+    }, graphSize);
+    renderDistances(current.distances, event.vertex);
+    renderQueue(current.queue);
+}
+```
+
+[Demo rendering](../examples/dijkstra-demo.mjs) · [Browser checks](../test/dijkstra-browser.html).

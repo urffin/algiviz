@@ -4,7 +4,7 @@
 
 **Released in 1.1.0, 2026-11-17.** /graph and /canvas/graph include immutable
 captions, atomic mark and Canvas-metric placement. BFS supplies distances.
-[Release receipt](releases/1.1.0.json) records completed publication; [implementation/native checks](checks/graph-node-captions-implementation-2026-11-17.json)
+[Implementation and native checks](checks/graph-node-captions-implementation-2026-11-17.json)
 supplement the historical [contract review](checks/graph-node-captions-contract-2026-11-17.json).
 Npm 1.0.0 has neither graph entry; dependencies are unchanged.
 

@@ -1,16 +1,8 @@
 # Support matrix
 
-**Version 1.7.0** has sixteen independent ESM entry points.
-`stepHistory` uses the existing browser DOM, timing and controls of `/player`.
-[Current API](current-api.md) · [Release notes](release-1.7.md).
-
-The [1.4.0 receipt](releases/1.4.0.json) records all eleven CI jobs on the released commit and the registry verification.
-
-The [1.5.0 receipt](releases/1.5.0.json) records exact-commit CI and the npm registry verification.
-
-The [1.6.0 receipt](releases/1.6.0.json) records exact-commit CI, registry verification and documentation parity.
-
-The [1.7.0 receipt](releases/1.7.0.json) records exact-commit CI, registry verification and provenance.
+**Version 1.8.0** has sixteen independent ESM entry points.
+`mapFrame` is part of the DOM-free `/playback` entry.
+[Current API](current-api.md) · [Release notes](release-1.8.md).
 
 ## Current support boundary
 
@@ -26,7 +18,7 @@ The [1.7.0 receipt](releases/1.7.0.json) records exact-commit CI, registry verif
 Imports access no DOM/Worker globals or external resources; active calls require
 their documented hosts. Headless/import/consumer CI selects Node 22/24/26 on
 Ubuntu/Windows and TypeScript 5.0.4/5.4.5/5.9.3/6.0.3 with strict NodeNext/Bundler,
-separate ES2022/DOM/WebWorker declarations. Release CI results apply to the SHA identified in each receipt.
+separate ES2022/DOM/WebWorker declarations. Release CI results apply to the commit tested by each workflow run.
 
 [Grid renderer acceptance](checks/grid-canvas-browser-2026-11-20.json) records
 18 checks: explicit backing ratios 1/1.25/2, actual viewport DPR, paths/text,
@@ -42,18 +34,17 @@ for unchanged behavior; the example's HTML changes only its version paragraph.
 
 ## Historical verification context
 
-The [1.2.0 receipt](releases/1.2.0.json) records completed CI/publication;
 [T1 native acceptance](checks/tree-t1-native-2026-11-19.json) records its 32 tree
 renderer and 17 example checks. The dated sections below retain their original
 scope and do not certify later releases.
 
-**Historical candidate update, 2026-11-16:** [1.0.0 local preparation](candidate-1.0.md)
+**Historical candidate update, 2026-11-16:** [1.0.0 local preparation](checks/candidate-1.0.0-2026-11-16.json)
 retains this environment boundary. Exact-SHA CI/native verification remains;
 the older local and release checks below keep their original version scope.
 
 **Historical status, 2026-11-14:** [all eight entries](current-api.md) are published
 in 0.16.0; F1/F2/U1/U2 are local and unreleased, and U5 has permanent coverage.
-The [post-F2 readiness review](api-readiness-1.0.md) finds no remaining known
+The [post-F2 readiness review](checks/api-readiness-1.0-after-f2-2026-11-14.json) finds no remaining known
 technical blocker within the same boundary. Latest completed local evidence is
 the F2 stage: 509 repository tests, strict installed NodeNext/Bundler consumers,
 bundle isolation and 34 focused native Worker cases. This documentation recheck
@@ -98,7 +89,7 @@ boundary below. Installed consumers separately check DOM and WebWorker types,
 exports, runtime behavior and independent/lazy ESM graphs. All eleven exact-commit
 CI jobs and publication passed. Fresh registry consumers, signature, attestation
 and exact source/tag/digest provenance were verified; all 68 build files match
-after newline normalization. See [release verification](releases/0.16.0.json).
+after newline normalization.
 
 ## Scope and status
 

@@ -21,8 +21,6 @@
 npm install @grundyjs/algiviz@1.2.1
 ```
 
-[Отчёт 1.2.0](../releases/1.2.0.json) фиксирует CI, exact-version/latest и
-криптографическую provenance завершённого выпуска. Исторический объём сохранён.
 Документационный патч использует тот же GitHub Release → OIDC npm workflow:
 CI точного коммита до выпуска и независимые проверки npm, README внутри архива
 и provenance после публикации.

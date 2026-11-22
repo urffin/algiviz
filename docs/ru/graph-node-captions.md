@@ -4,7 +4,7 @@
 
 **Выпущено в 1.1.0, 2026-11-17.** /graph и /canvas/graph включают неизменяемые
 подписи, атомарный mark и размещение по метрикам Canvas. BFS задаёт расстояния.
-[Отчёт выпуска](../releases/1.1.0.json) фиксирует публикацию; [implementation/native](../checks/graph-node-captions-implementation-2026-11-17.json)
+[Проверки реализации и браузера](../checks/graph-node-captions-implementation-2026-11-17.json)
 дополняют историческую [ревизию контракта](../checks/graph-node-captions-contract-2026-11-17.json).
 Npm 1.0.0 не содержит графовые entry; зависимости прежние.
 

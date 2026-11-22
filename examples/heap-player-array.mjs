@@ -1,4 +1,5 @@
 import { arrayScene } from '@grundyjs/algiviz/canvas';
+import { mapFrame } from '@grundyjs/algiviz/playback';
 import { createSceneFrame, createSceneProjector } from '@grundyjs/algiviz/scene';
 
 function activeIds(event) {
@@ -10,8 +11,8 @@ function activeIds(event) {
 export function createHeapArrayRenderer() {
     const project = createSceneProjector(arrayScene);
     return (ctx, frame, { width, height }) => {
-        const { current, previous, progress } = frame;
-        const scene = createSceneFrame(project({ ...frame, previous: previous.array, current: current.array }));
+        const { current, progress } = frame;
+        const scene = createSceneFrame(project(mapFrame(frame, state => state.array)));
         const count = current.array.slots.length;
         const sortedFrom = count - current.array.sortedSuffixLength;
         const active = activeIds(current.arrayEvent);

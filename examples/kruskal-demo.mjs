@@ -1,5 +1,6 @@
 import { createGraphRenderer } from '@grundyjs/algiviz/canvas/graph';
 import { createCanvasViewport } from '@grundyjs/algiviz/canvas/viewport';
+import { mapFrame } from '@grundyjs/algiviz/playback';
 import { Player } from '@grundyjs/algiviz/player';
 import { prepareKruskalSession } from './kruskal.mjs';
 
@@ -21,10 +22,10 @@ function showError(error) {
 }
 
 function render(frame) {
-    const { previous, current } = frame;
+    const { current } = frame;
     for (const { key, renderer, viewport } of viewports) {
         const size = viewport.resize(width => Math.max(220, Math.min(290, width * .64)));
-        if (size) renderer.render(viewport.context, { ...frame, previous: previous[key], current: current[key] }, size);
+        if (size) renderer.render(viewport.context, mapFrame(frame, state => state[key]), size);
     }
     const message = `${current.message} Total weight: ${current.totalWeight}.`;
     if (status.textContent !== message) status.textContent = message;

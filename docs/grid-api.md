@@ -6,7 +6,7 @@
 gridScene and the 22 types below. /canvas/grid is a separate optional backend.
 The package surface is 14 entries, 30 runtime names and 155 type-only exports
 (143 distinct). The twelve previous entries are unchanged; grid imports need 1.3.0.
-[Changes and migration](release-1.3.md) · [Readiness review](grid-readiness-1.3.md).
+[Changes and migration](release-1.3.md).
 
 ## Scope and coordinates
 

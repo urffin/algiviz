@@ -22,10 +22,10 @@ AlgiViz 1.4.0 добавляет две независимые точки вхо
 ES2022. Для `/canvas/list` требуются декларации DOM и контекст HTML Canvas 2D
 при отрисовке. Пакет содержит 16 точек входа ESM и не имеет зависимостей времени выполнения.
 
-[Changelog](../../CHANGELOG.md) · [Историческая ревизия готовности](list-readiness-1.4.md)
+[Changelog](../../CHANGELOG.md)
 
 ## Публикация · 2026-11-21
 
 Все 11 задач CI прошли на коммите выпуска. В npm проверены точная версия и тег `latest`, свежая установка, подпись реестра и provenance. Английский и русский README и changelog совпали с архивом выпуска. README на странице npm совпал с английским README из архива.
 
-[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.4.0) · [npm 1.4.0](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.4.0) · [CI](https://github.com/urffin/algiviz/actions/runs/44917950685) · [npm workflow](https://github.com/urffin/algiviz/actions/runs/44918209383) · [Отчёт проверки](../releases/1.4.0.json)
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.4.0) · [npm 1.4.0](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.4.0) · [CI](https://github.com/urffin/algiviz/actions/runs/44917950685) · [npm workflow](https://github.com/urffin/algiviz/actions/runs/44918209383)

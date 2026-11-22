@@ -1,5 +1,5 @@
 import type { ArrayDoneOptions } from '@grundyjs/algiviz/array';
-import { createPlayer, createStatePlayer, createTimeline, createStepEmitter, createRewindBuffer, type RewindBuffer, type Player, type Step, type Frame, type Timeline } from '@grundyjs/algiviz/playback';
+import { createPlayer, createStatePlayer, createTimeline, createStepEmitter, createRewindBuffer, mapFrame, type RewindBuffer, type Player, type Step, type Frame, type Timeline } from '@grundyjs/algiviz/playback';
 import { createAsyncSource, type AsyncSource, type AsyncSourceSignal, type AsyncSourceFactory,
     type AsyncSourceReadResult, type AsyncSourceCloseResult } from '@grundyjs/algiviz/playback';
 import { createSceneFrame, createSceneProjector, createSceneRenderer, type SceneObject, type Scene, type ObjectTransition, type SceneFrame, type SceneVisualizations } from '@grundyjs/algiviz/scene';
@@ -20,6 +20,14 @@ createPlayer(steps, { ...timing, isTerminal: step => step.event === 'done' }).di
 createTimeline(steps, timing).sample(0);
 const statePlayer: Player<{ x: number }, undefined> = createStatePlayer([{ x: 1 }, { x: 2 }]);
 const stateFrame: Frame<{ x: number }, undefined> = statePlayer.nextStep();
+const mappedX = mapFrame(stateFrame, state => state.x);
+const mappedFrame: Frame<number, undefined> = mappedX;
+const stepEvent = { kind: 'movement' } as const;
+const mappedEvent = mapFrame({ ...stateFrame, event: stepEvent }, state => String(state.x));
+const mappedStep: Frame<string, typeof stepEvent> = mappedEvent;
+// @ts-expect-error The selector determines the projected state type.
+const wrongProjection: Frame<string, undefined> = mappedX;
+void mappedFrame; void mappedStep; void wrongProjection;
 const event: undefined = stateFrame.event;
 // @ts-expect-error Plain-state playback does not manufacture user events.
 const userEvent: string = stateFrame.event;

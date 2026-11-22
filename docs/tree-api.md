@@ -399,7 +399,7 @@ bundle isolation. The earlier [contract-only report](checks/tree-public-api-2026
 retains its declaration-probe scope; it is not rewritten as runtime evidence.
 The regression areas below are covered in this headless stage. The later
 [Canvas implementation report](checks/tree-canvas-implementation-2026-11-19.json)
-covers layout/render/native verification separately. Candidate CI/publication completed; see the [release receipt](release-1.2.md).
+covers layout/render/native verification separately. The [release notes](release-1.2.md) record CI and npm publication results.
 
 | Area | Required regression cases |
 | --- | --- |
@@ -411,7 +411,7 @@ covers layout/render/native verification separately. Candidate CI/publication co
 | Scene/control | Old/new link endpoints, enter/update/exit, namespaced composition, event-free cloned snapshots, history/bounded rewind, Restart/dispose |
 | Package | Real installed exports, strict supported compilers, ES2022-only headless types, lazy independent loading, all existing ten entries unchanged |
 
-The [readiness review](tree-readiness-1.2.md) selects 1.2.0 as the compatible minor
-target, published as 1.2.0; 1.2.1 updates documentation without API changes. Slot/kind/event closed
+The API shipped in [1.2.0](release-1.2.md). Version 1.2.1 updates documentation
+without API changes. Slot/kind/event closed
 sets and all selected error/ownership behavior need the same compatibility review
 at first publication.

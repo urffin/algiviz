@@ -6,12 +6,12 @@ describes 1.3.1. The earlier verification stages and their original limits
 follow as historical evidence; old pending release items do not describe current
 availability.
 
-**Candidate preparation, 2026-11-16:** [1.0.0](candidate-1.0.md) is prepared
+**Candidate preparation, 2026-11-16:** [1.0.0](checks/candidate-1.0.0-2026-11-16.json) is prepared
 locally, unpublished, with [migration notes](migration-1.0.md). The authorized
 scope includes local checks and commit; push, CI, native certification and
 publication remain separate. Historical stages below are retained.
 
-**Current status, 2026-11-14:** the [post-F2 eight-entry review](api-readiness-1.0.md)
+**Current status, 2026-11-14:** the [post-F2 eight-entry review](checks/api-readiness-1.0-after-f2-2026-11-14.json)
 finds all eight entries ready locally within the declared boundary; F1/F2 and
 U1–U5 leave no known technical blocker. [Fresh evidence](checks/api-readiness-1.0-after-f2-2026-11-14.json) verifies
 inventory/provenance without repeating unchanged runtime suites. Remaining
@@ -167,7 +167,7 @@ installed archive passed 32 public Worker cases and strict NodeNext/Bundler
 consumers. Six native Worker checks passed: direct/nested input and state
 rejection, ordinary copy and transfer, and clean acknowledged shutdown. See the
 [fix report](checks/worker-memory-fix-browser-2026-11-14.json) and
-[review follow-up](api-readiness-0.16.0.md).
+[review follow-up](checks/api-readiness-0.16.0.json).
 
 F1 is resolved locally, unreleased; package version remains 0.16.0. Clarifications
 At that F1 stage U1-U5 remained open; later decisions are recorded above. No
@@ -176,7 +176,7 @@ release candidate or publication started with that fix.
 ## API review before 1.0, 2026-11-14
 
 The owner authorized review of all eight public entries, without API changes or
-publication. The [readiness report](api-readiness-0.16.0.md) inventories 21 runtime
+publication. The [readiness report](checks/api-readiness-0.16.0.json) inventories 21 runtime
 names and 68 type-only exports (56 unique type-only names). Three entries are
 ready, three require clarification and two Worker entries require implementation
 changes: shared WebAssembly.Memory bypasses isolation. Host postMessage errors
@@ -209,8 +209,7 @@ attestation passed. A fresh registry installation passed strict headless, DOM
 and WebWorker consumers under NodeNext/Bundler, exact exports/private paths,
 19 async-source, 21 async-Player, 27 Worker and 11 Worker/Player cases. All 68
 published build files match after CRLF/LF normalization.
-[Verification data](releases/0.16.0.json) closes this release stage. The separate
-1.0 compatibility decision remains open; no further stage starts by this record.
+The separate 1.0 compatibility decision remains open.
 
 ## 0.15.0 released and verified
 
@@ -223,8 +222,7 @@ passed before publication; the [publishing workflow](https://github.com/urffin/a
 also passed. npm exact/latest, source/digest provenance, registry signature and
 attestation, fresh NodeNext/Bundler consumers and 40 strict async cases were
 verified. All 56 published build files match after CRLF/LF normalization.
-[Verification data](releases/0.15.0.json) closes this release stage. Worker
-transport and the 1.0 compatibility decision remain separate next directions;
+Worker transport and the 1.0 compatibility decision remain separate next directions;
 no further stage or publication is started by this record.
 
 ## Worker contract stage, 2026-11-14
@@ -332,7 +330,7 @@ commit/workflow/tag match the release. A fresh registry installation passed the
 runtime export/private-path inventory, strict headless and DOM consumers, and
 runtime integration checks. All 48 published build files match the local candidate
 after CRLF/LF normalization. `npm audit signatures` verified one registry signature
-and one attestation. [Verification data](releases/0.14.0.json) records the results.
+and one attestation.
 
 This release stage is complete. The next development direction is specified in
 the proposed [asynchronous-source behavioral contract](async-sources.md)
@@ -642,7 +640,7 @@ mounted UI in the supported browser host; old smoke results do not cover it.
 | Canvas viewport helper | Shipped in 0.13.0; consolidates repeated CSS/bitmap size, DPR and resize handling | Opt-in browser helper with explicit coordinate semantics and teardown; do not silently change the existing renderer's bitmap contract. |
 | Bounded rewind adapter | Shipped in 0.14.0 as `/playback`'s `createRewindBuffer`; [contract and checks](rewind-buffer.md) | Capacity includes current; replay does not reread the source. Opt-in `rewindCapacity` integrates it with `/player` controls and window status. |
 | Cooperative scheduling / async sources | Work budgeting shipped in 0.14.0; asyncSource shipped in 0.15.0 | One expensive call remains uninterruptible on its executing thread. Preserve [budgeting](player-work-budget.md) and [async ownership/control](async-sources.md) contracts. |
-| Worker adapter | Transport/endpoint and [Player controls](player-worker.md) released in 0.16.0; [verification](releases/0.16.0.json) | Release stage closed. Preserve fresh ownership, one pull, explicit transfer and bounded shutdown; 1.0 compatibility remains a separate decision. |
+| Worker adapter | Transport/endpoint and [Player controls](player-worker.md) released in 0.16.0 | Release stage closed. Preserve fresh ownership, one pull, explicit transfer and bounded shutdown; 1.0 compatibility remains a separate decision. |
 
 ## Optimization candidates from the current code
 

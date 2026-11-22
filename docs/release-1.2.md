@@ -1,6 +1,6 @@
 # AlgiViz 1.2.0 release
 
-[Русский](ru/release-1.2.md) · [Receipt](releases/1.2.0.json) · [Current API](current-api.md) · [Changelog](../CHANGELOG.md)
+[Русский](ru/release-1.2.md) · [Current API](current-api.md) · [Changelog](../CHANGELOG.md)
 
 **Released 2026-11-19** from 8e1f50b3fb0a565e1634066ebd9e3e32dd0ced1f.
 [Stable GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.2.0),
@@ -42,7 +42,7 @@ export. Grid/list remain designs; neither has a package entry.
 
 The workflow succeeded before npm propagation completed. Publication was
 verified after exact-version/latest metadata appeared; no duplicate publish or
-approval bypass occurred. Full counts, digests and limits are in the receipt.
+approval bypass occurred.
 
 ## Documentation correction
 

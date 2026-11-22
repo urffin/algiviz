@@ -33,6 +33,7 @@
 | [BFS с графом и очередью](https://github.com/urffin/algiviz/blob/master/examples/graph-queue.html) | Тот же BFS с графом и очередью на связном списке в одном Player |
 | [Стягивание ребра](https://github.com/urffin/algiviz/blob/master/examples/graph-contraction.html) | Одна операция удаляет вершину и перенаправляет два ребра с сохранением их ID |
 | [Минимальное остовное дерево Краскала](https://github.com/urffin/algiviz/blob/master/examples/kruskal.html) | Взвешенный граф и растущий лес с пропуском циклов и зелёным итогом |
+| [Кратчайшие пути Дейкстры](https://github.com/urffin/algiviz/blob/master/examples/dijkstra.html) | Граф, расстояния и очередь с приоритетом в одном Player с `stepHistory` |
 | [DFS графа](https://github.com/urffin/algiviz/blob/master/examples/dfs.html) | Стек вызовов, возвраты, глубина и путь дерева; история/генератор |
 | [Лабиринт](https://github.com/urffin/algiviz/blob/master/examples/maze.html) | Генерация рандомизированным DFS, волна BFS, поиск DFS, циклы и недостижимый выход; история/генератор |
 | [BFS на сетке](https://github.com/urffin/algiviz/blob/master/examples/grid-player.html) | Кратчайший путь между препятствиями: /grid, штатный Canvas и Player; расстояния, зелёный итог, история и генератор |
@@ -325,6 +326,15 @@ Canvas-панелями. `createGraphTrace` сохраняет топологи�
 Сборка снимка и проекция кадра описаны в руководстве
 [Две панели в одном Player](player-multiple-panels.md).
 
+## Кратчайшие пути Дейкстры
+
+После локальной сборки откройте [dijkstra.html](../../examples/dijkstra.html).
+Прямое ребро A → B даёт расстояние 8. При обработке C → B расстояние
+снижается до 5, и B обгоняет D в очереди с приоритетом. Перемотка назад
+восстанавливает прежнее ребро, расстояние и порядок в очереди одновременно.
+На каждом шаге `stepHistory` хранит один снимок для всех трёх панелей.
+[Код примера](../../examples/dijkstra.mjs) · [Проверки в браузере](../../test/dijkstra-browser.html).
+
 ## Обход графа в глубину
 
 Откройте [examples/dfs.html](https://github.com/urffin/algiviz/blob/master/examples/dfs.html), чтобы сравнить DFS и BFS
@@ -382,7 +392,7 @@ viewport; возврат через BFcache создаёт новый сеанс
 Сам BFS требует O(N) работы и памяти. Копирование O(N) данных на каждом из O(N)
 шагов отдельно даёт O(N²) работы и памяти полной истории; фиксированное окно
 генератора удерживает O(N) данных. Рисование оплачивается отдельно.
-[Релиз 1.3.0](release-1.3.md) · [Историческая ревизия](grid-readiness-1.3.md) ·
+[Релиз 1.3.0](release-1.3.md) ·
 [Отчёт проверки](../checks/grid-player-example-2026-11-20.json) ·
 [Повторяемая native-проверка](../../test/grid-player-browser.html).
 Для повторения native-проверки с сохранением отчёта:
