@@ -31,3 +31,13 @@ Restart вызывает фабрику заново. При ошибке фаб
 воспроизведения. Примеры и браузерные проверки находятся в репозитории.
 
 [Changelog](../../CHANGELOG.md) · [Историческая ревизия готовности](readiness-1.7.md)
+
+## Публикация
+
+Релиз вышел 22 ноября 2026 года. На коммите релиза прошли все 11 задач CI.
+Реестр npm отдавал 1.7.0 под тегом `latest`. Оба README и CHANGELOG в архиве
+побайтно совпали с файлами тега. README из реестра, подпись npm и аттестация
+provenance прошли проверку.
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.7.0) ·
+[npm 1.7.0](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.7.0) ·
+[Отчёт о публикации](../releases/1.7.0.json)

@@ -7,8 +7,8 @@ exports (178 distinct names). It adds `stepHistory` through a constructor
 overload with `PlayerStepHistoryOptions`. `PlayerOptions` retains its four
 source branches.
 
-The [1.6.0 publication receipt](releases/1.6.0.json) records verification for
-the previous release.
+The [1.7.0 publication receipt](releases/1.7.0.json) records the release
+commit, CI, and verification of the npm archive, README and provenance.
 
 ## Entry reference map
 

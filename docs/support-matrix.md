@@ -10,6 +10,8 @@ The [1.5.0 receipt](releases/1.5.0.json) records exact-commit CI and the npm reg
 
 The [1.6.0 receipt](releases/1.6.0.json) records exact-commit CI, registry verification and documentation parity.
 
+The [1.7.0 receipt](releases/1.7.0.json) records exact-commit CI, registry verification and provenance.
+
 ## Current support boundary
 
 | Entries | Declarations | Active runtime boundary |

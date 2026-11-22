@@ -32,3 +32,13 @@ option uses the existing DOM and timing requirements for `/player`.
 The examples and browser checks live in the repository.
 
 [Changelog](../CHANGELOG.md) · [Historical readiness review](readiness-1.7.md)
+
+## Publication
+
+Released on November 22, 2026. All 11 CI jobs passed on the tagged commit.
+The npm registry served 1.7.0 as `latest`. The English and Russian READMEs
+and changelog matched the tagged files byte for byte. The registry README,
+registry signature and provenance attestation also passed verification.
+[GitHub Release](https://github.com/urffin/algiviz/releases/tag/v1.7.0) ·
+[npm 1.7.0](https://www.npmjs.com/package/@grundyjs/algiviz/v/1.7.0) ·
+[Publication receipt](releases/1.7.0.json)
