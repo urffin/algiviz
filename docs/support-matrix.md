@@ -1,8 +1,8 @@
 # Support matrix
 
-**Version 1.8.0** has sixteen independent ESM entry points.
-`mapFrame` is part of the DOM-free `/playback` entry.
-[Current API](current-api.md) · [Release notes](release-1.8.md).
+**Version 1.9.0** has sixteen independent ESM entry points.
+Automatic edge label placement uses text metrics from the existing 2D Canvas host.
+[Current API](current-api.md) · [Release notes](release-1.9.md).
 
 ## Current support boundary
 

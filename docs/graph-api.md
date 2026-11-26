@@ -354,6 +354,10 @@ export interface GraphRendererOptions {
     readonly colors?: { readonly [K in keyof GraphPalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly edgeLabels?: {
+        readonly placement: "auto";
+        readonly preferredSide?: "left" | "right" | undefined;
+    } | undefined;
     readonly topologyTransitions?: boolean | undefined;
 }
 export interface GraphRenderSize {
@@ -414,6 +418,18 @@ parallel lanes remain visible at ordinary sizes. Coincident nodes/tiny viewports
 are valid but do not guarantee legibility. Font, padding, curve equations and
 anti-aliasing are presentation defaults, not pixel-stable API promises. No built-in
 queue panel, event-specific animation or remembered final-step highlight is used.
+
+### Edge label placement
+
+Since 1.9.0, `edgeLabels: { placement: "auto", preferredSide: "left" }`
+tries to place horizontal labels alongside each visible curve. Left is the default
+and is relative to the direction from `from` to `to`; the renderer can try the
+other side and nearby positions. It checks measured text against strokes,
+arrowheads, nodes, previously placed labels and the drawing bounds. A label with
+no suitable position is skipped. Edge labels are placed before node captions.
+Omitting the option preserves the established placement and paint order.
+
+### Node captions
 
 Captions belong to nodeCaptions in State, not Event or a live callback. Initial
 values come from options, mark patches text atomically with roles, setLayout/done

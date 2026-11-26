@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.9.0
+
+- Add opt-in `edgeLabels: { placement: "auto", preferredSide }` to
+  `/canvas/graph` for collision-aware edge label placement.
+- Preserve the existing label placement and painting order when the option
+  is omitted.
+
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.9.md).
+
 ## 1.8.0
 
 - Add `mapFrame` to `/playback` to project both snapshots while preserving

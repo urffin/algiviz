@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>AlgiViz · graph edge labels</title>
+<h1>Graph edge labels on Canvas</h1>
+<pre id="report" role="status">Running…</pre>
+<script type="importmap">
+{"imports":{"@grundyjs/algiviz/graph":"../dist/graph/index.js","@grundyjs/algiviz/canvas/graph":"../dist/canvas/graph.js","@grundyjs/algiviz/playback":"../dist/playback/index.js"}}
+</script>
+<script type="module">
+import { createGraphRenderer } from '@grundyjs/algiviz/canvas/graph';
+import { createTimeline } from '@grundyjs/algiviz/playback';
+import { ahoLabelFrames } from './graph-edge-label-fixtures.mjs';
+
+const checks = [];
+function check(condition, name) {
+    if (!condition) throw new Error(name);
+    checks.push(name);
+}
+function surface(width, height, dpr) {
+    const canvas = document.createElement('canvas');
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const calls = [];
+    const fillText = ctx.fillText;
+    ctx.fillText = function (...args) {
+        if (args.length === 3) calls.push(args);
+        fillText.apply(this, args);
+    };
+    return { ctx, calls, pixels: () => ctx.getImageData(0, 0, canvas.width, canvas.height).data };
+}
+const same = (a, b) => a.every((value, i) => value === b[i]);
+const report = document.querySelector('#report');
+try {
+    const renderer = createGraphRenderer({ theme: 'light', edgeLabels: { placement: 'auto' } });
+    for (const { name, start, fallback, withoutLabels, labelCount } of ahoLabelFrames()) {
+        const timeline = createTimeline([start, fallback], { stepDurationMs: 100, finalHoldMs: 50 });
+        for (const [width, height, dpr] of [[390, 310, 2], [960, 509, 1]]) {
+            const label = `${name} / ${width}px`;
+            const size = { width, height };
+            const draw = frame => {
+                const target = surface(width, height, dpr);
+                renderer.render(target.ctx, frame, size);
+                return target;
+            };
+            const initial = draw(timeline.sample(0));
+            const transition = timeline.sample(45);
+            const current = draw(transition);
+            check(current.calls.length === labelCount && initial.calls.length === labelCount,
+                label + ' / all letter labels visible');
+            check(current.calls.every(([text, x, y], i) => text === initial.calls[i][0] &&
+                Math.abs(x - initial.calls[i][1]) < 1e-8 && Math.abs(y - initial.calls[i][2]) < 1e-8) &&
+                same(initial.pixels(), draw(timeline.sample(0)).pixels()) &&
+                same(current.pixels(), draw(timeline.sample(45)).pixels()), label + ' / stable under highlighting and seek');
+
+            const bare = draw({ ...transition, previous: withoutLabels(start), current: withoutLabels(fallback) }).pixels();
+            const painted = current.pixels();
+            const background = bare.slice(0, 4);
+            let changed = 0, overlap = false;
+            for (let i = 0; i < bare.length; i += 4) {
+                if (painted[i] === bare[i] && painted[i + 1] === bare[i + 1] &&
+                    painted[i + 2] === bare[i + 2] && painted[i + 3] === bare[i + 3]) continue;
+                changed++;
+                if (!background.every((value, channel) => value === bare[i + channel])) overlap = true;
+            }
+            check(changed > 0 && !overlap, label + ' / label pixels clear of existing strokes, arrows and nodes');
+        }
+    }
+    report.textContent = checks.length + ' checks passed\n' + checks.join('\n');
+} catch (error) {
+    report.textContent = 'FAILED after ' + checks.length + '\n' + error.stack;
+}
+</script>
+</html>

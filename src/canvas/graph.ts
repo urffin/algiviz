@@ -4,7 +4,7 @@ import { graphScene } from "../graph/scene.js";
 import { record, string } from "../graph/validation.js";
 import { createSceneFrame, type Scene } from "../scene/index.js";
 import { graphGeometry } from "./graph-geometry.js";
-import { graphCaptions } from "./graph-captions.js";
+import { graphCaptions, graphEdgeLabels } from "./graph-captions.js";
 
 export interface GraphPalette {
     readonly background: string;
@@ -21,6 +21,10 @@ export interface GraphRendererOptions {
     readonly colors?: { readonly [K in keyof GraphPalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly edgeLabels?: {
+        readonly placement: "auto";
+        readonly preferredSide?: "left" | "right" | undefined;
+    } | undefined;
     readonly topologyTransitions?: boolean | undefined;
 }
 export interface GraphRenderSize {
@@ -45,7 +49,7 @@ function dimension(value: unknown): number {
 
 /** Optional full-bitmap graph drawing. The caller owns CSS/bitmap size and redraw scheduling. */
 export function createGraphRenderer(options: GraphRendererOptions): GraphRenderer {
-    const fields = record(options, ["theme", "colors", "roleColors", "nodeCaptions"], ["theme"]);
+    const fields = record(options, ["theme", "colors", "roleColors", "nodeCaptions", "edgeLabels"], ["theme"]);
     if (fields.theme !== "light" && fields.theme !== "dark") throw new TypeError("Graph renderer theme must be light or dark");
     const colors = { ...palettes[fields.theme] }, keys = Object.keys(colors) as (keyof GraphPalette)[];
     if (fields.colors !== undefined) {
@@ -63,6 +67,15 @@ export function createGraphRenderer(options: GraphRendererOptions): GraphRendere
     if (fields.nodeCaptions !== undefined && fields.nodeCaptions !== "auto" && fields.nodeCaptions !== "hidden")
         throw new TypeError("Graph node captions must be auto or hidden");
     const captionsHidden = fields.nodeCaptions === "hidden";
+    let edgeLabelSide: "left" | "right" | undefined;
+    if (fields.edgeLabels !== undefined) {
+        const labels = record(fields.edgeLabels, ["placement", "preferredSide"], ["placement"]);
+        if (labels.placement !== "auto") throw new TypeError("Graph edge label placement must be auto");
+        const side = labels.preferredSide;
+        if (side !== undefined && side !== "left" && side !== "right")
+            throw new TypeError("Graph edge label preferred side must be left or right");
+        edgeLabelSide = side ?? "left";
+    }
     const topology = Object.getOwnPropertyDescriptor(options, "topologyTransitions");
     if (topology && (!("value" in topology) || (topology.value !== undefined && typeof topology.value !== "boolean"))) {
         throw new TypeError("Graph topologyTransitions must be a boolean data property");
@@ -121,7 +134,12 @@ export function createGraphRenderer(options: GraphRendererOptions): GraphRendere
                     if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
                     if ("wordSpacing" in ctx) ctx.wordSpacing = "0px";
                     if ("textRendering" in ctx) ctx.textRendering = "auto";
-                    const captions = captionsHidden ? [] : graphCaptions(ctx, nodes, edges, geometry.radius, width, height);
+                    const labels = edgeLabelSide === undefined ? undefined
+                        : graphEdgeLabels(ctx, nodes, edges, geometry.radius, width, height, edgeLabelSide);
+                    const captions = captionsHidden ? [] : graphCaptions(ctx, nodes, labels === undefined ? edges : edges.map(edge => {
+                        const label = labels.get(edge);
+                        return label ? { ...edge, label } : { ...edge, text: "" };
+                    }), geometry.radius, width, height);
                     if (topologyTransitions) ctx.clearRect(0, 0, width, height);
                     ctx.fillStyle = colors.background; ctx.fillRect(0, 0, width, height);
                     for (const edge of edges) {
@@ -133,7 +151,11 @@ export function createGraphRenderer(options: GraphRendererOptions): GraphRendere
                             ctx.beginPath(); ctx.moveTo(edge.arrow[0]!.x, edge.arrow[0]!.y);
                             ctx.lineTo(edge.arrow[1]!.x, edge.arrow[1]!.y); ctx.lineTo(edge.arrow[2]!.x, edge.arrow[2]!.y); ctx.closePath(); ctx.fill();
                         }
-                        if (edge.text) { ctx.fillStyle = colors.text; ctx.fillText(edge.text, edge.label.x, edge.label.y); }
+                        if (!labels && edge.text) { ctx.fillStyle = colors.text; ctx.fillText(edge.text, edge.label.x, edge.label.y); }
+                    }
+                    if (labels) for (const label of labels.values()) {
+                        ctx.globalAlpha = label.presence; ctx.fillStyle = colors.text;
+                        ctx.fillText(label.text, label.x, label.y);
                     }
                     for (const node of nodes) {
                         ctx.globalAlpha = node.presence; ctx.fillStyle = node.color;

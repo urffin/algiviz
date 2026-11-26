@@ -353,6 +353,10 @@ export interface GraphRendererOptions {
     readonly colors?: { readonly [K in keyof GraphPalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly edgeLabels?: {
+        readonly placement: "auto";
+        readonly preferredSide?: "left" | "right" | undefined;
+    } | undefined;
     readonly topologyTransitions?: boolean | undefined;
 }
 export interface GraphRenderSize {
@@ -412,6 +416,19 @@ render и не заменяет корректный endpoint-cache неверн
 Шрифт, отступы, формулы кривых и anti-aliasing — defaults представления, не
 обещание стабильных пикселей. Нет штатной панели очереди, анимации конкретного
 события или запомненной подсветки последнего шага.
+
+### Размещение подписей рёбер
+
+С версии 1.9.0 опция `edgeLabels: { placement: "auto", preferredSide: "left" }`
+размещает горизонтальные подписи рядом с видимыми кривыми. По умолчанию
+предпочтительна левая сторона по направлению от `from` к `to`. Рендерер
+также пробует другую сторону и соседние точки. Он проверяет границы текста
+относительно линий, наконечников стрелок, узлов, уже размещённых подписей и
+границ Canvas. Если свободного места нет, подпись пропускается. Подписи
+рёбер размещаются раньше дополнительных подписей вершин. Без опции
+сохраняются прежние положение подписей и порядок отрисовки.
+
+### Дополнительные подписи вершин
 
 Подписи хранятся в nodeCaptions, а не в Event или живом callback. Начальные
 значения задаются в options, mark меняет их вместе с ролями, setLayout/done

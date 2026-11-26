@@ -25,11 +25,11 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Версия **1.8.0** добавляет `mapFrame(frame, selectState)` в `/playback`.
-Рендерер получает снимки `previous` и `current` своей панели. Прогресс,
-исходный индекс шага и событие сохраняются из общего кадра.
-[Синхронные панели](https://github.com/urffin/algiviz/blob/master/docs/ru/player-multiple-panels.md) ·
-[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.8.md) ·
+Версия **1.9.0** добавляет `edgeLabels: { placement: "auto" }` в
+`/canvas/graph`. Рендерер ищет свободное место для подписи рядом с кривой
+ребра. Без этой опции сохраняется прежнее размещение.
+[Справочник Canvas-графа](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md#размещение-подписей-рёбер) ·
+[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.9.md) ·
 [Текущий API](https://github.com/urffin/algiviz/blob/master/docs/ru/current-api.md)
 
 ## Установка
@@ -39,7 +39,7 @@ npm install @grundyjs/algiviz
 ```
 
 Пакет использует отдельные точки входа ESM. Корневой точки входа и сборки
-CommonJS нет. Версия 1.8.0 содержит 16 точек входа:
+CommonJS нет. Версия 1.9.0 содержит 16 точек входа:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
 `/grid`, `/canvas/grid`, `/list` и `/canvas/list`.

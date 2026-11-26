@@ -32,6 +32,12 @@ export function checkGraphCanvasTypes(host: HTMLElement, canvas: HTMLCanvasEleme
     const topology: GraphRenderer = createGraphRenderer(topologyOptions);
     createGraphRenderer({ theme: 'light', topologyTransitions: undefined });
     createGraphRenderer({ theme: 'light', topologyTransitions: false });
+    createGraphRenderer({ theme: 'light', edgeLabels: { placement: 'auto', preferredSide: 'right' } });
+    createGraphRenderer({ theme: 'light', edgeLabels: { placement: 'auto', preferredSide: undefined } });
+    // @ts-expect-error The current placement is selected by omitting the option.
+    createGraphRenderer({ theme: 'light', edgeLabels: { placement: 'legacy' } });
+    // @ts-expect-error Side is relative to the directed edge.
+    createGraphRenderer({ theme: 'light', edgeLabels: { placement: 'auto', preferredSide: 'top' } });
     topology.render(viewport.context, stateOnly, { width: 640, height: 400 });
     // @ts-expect-error The opt-in is a readonly boolean field.
     topologyOptions.topologyTransitions = false;

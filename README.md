@@ -25,11 +25,11 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Version **1.8.0** adds `mapFrame(frame, selectState)` to `/playback`. Give a
-renderer its panel's `previous` and `current` snapshots while keeping the
-shared frame's progress, source step index and event.
-[Synchronized panels](https://github.com/urffin/algiviz/blob/master/docs/player-multiple-panels.md) ·
-[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.8.md) ·
+Version **1.9.0** adds `edgeLabels: { placement: "auto" }` to
+`/canvas/graph`. Edge labels can move to a clear spot beside their curves.
+Omitting the option preserves the existing placement.
+[Graph Canvas reference](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md#edge-label-placement) ·
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.9.md) ·
 [Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md)
 
 ## Install
@@ -39,7 +39,7 @@ npm install @grundyjs/algiviz
 ```
 
 The package uses ESM subpath imports. There is no root entry point or CommonJS
-build. Version 1.8.0 provides 16 entry points:
+build. Version 1.9.0 provides 16 entry points:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
 `/grid`, `/canvas/grid`, `/list` and `/canvas/list`.

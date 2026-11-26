@@ -3,13 +3,13 @@
 [Русский](ru/api-compatibility.md) · [Stabilization](api-stability.md) · [Current API](current-api.md) · [Support evidence](support-matrix.md)
 
 U3 protects public types, errors, environments and behavior across all sixteen
-1.8.0 entry points. `mapFrame` extends `/playback` with frame projection.
-`stepHistory` retains its separate options type and constructor overload.
-[Release notes](release-1.8.md).
+1.9.0 entry points. The `edgeLabels` option in `/canvas/graph` is optional;
+existing options retain their behavior.
+[Release notes](release-1.9.md).
 
 ## Public surface
 
-Only the export map defines importable paths. Version 1.8.0 has **16 entries,
+Only the export map defines importable paths. Version 1.9.0 has **16 entries,
 35 runtime names, 190 type-only exports, 178 distinct types**. The 1.0.0 baseline
 had 8 / 21 / 69 / 57. Shared Worker types count at both paths; classes count as
 runtime names. [Inventory](current-api.md) and [1.1 release notes](release-1.1.md).
