@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.10.0
+
+- Add `nodeRadius` to `/canvas/graph` and `/canvas/tree` for a preferred node
+  radius that also informs connection geometry and label placement.
+- Add `drawEdge` and `edgeBend` to `/canvas/graph`. Edges can use custom
+  painting or optional stock stroke and arrow helpers. Bends feed the same
+  geometry used for painting, arrows and edge labels.
+- Add `drawNode` and per-frame `doubleOutlineNodeIds` to `/canvas/tree`.
+  Applications can decorate or replace the node body and mark trie terminals
+  independently of their playback role.
+
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.10.md).
+
 ## 1.9.0
 
 - Add opt-in `edgeLabels: { placement: "auto", preferredSide }` to

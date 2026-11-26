@@ -4,7 +4,7 @@ import { finite } from "./tree-layout.js";
 
 export type Point = Readonly<{ x: number; y: number }>;
 export type Curve = readonly [Point, Point, Point, Point];
-export interface NodePaint { view: TreeNodeView; point: Point; presence: number }
+export interface NodePaint { view: TreeNodeView; point: Point; presence: number; paintRadius: number }
 export interface LinkPaint { view: TreeLinkView; curve: Curve; presence: number }
 export interface SlotPaint { owner: string; start: Point; end: Point; presence: number }
 export function point(x: number, y: number): Point { return { x: finite(x), y: finite(y) }; }
@@ -21,7 +21,7 @@ function emptySlots(state: TreeSnapshot): Map<string, Set<TreeBinarySlot>> {
 
 /** Joint endpoint bounds, including hidden/zero-presence ghosts, give a progress-independent camera. */
 export function treeGeometry(scene: SceneFrame<TreeObjects, undefined>, previous: TreeSnapshot, current: TreeSnapshot,
-    width: number, height: number, horizontalGap: number, levelGap: number) {
+    width: number, height: number, nodeRadius: number, horizontalGap: number, levelGap: number, outlined?: ReadonlySet<string>) {
     const beforeSlots = emptySlots(previous), afterSlots = emptySlots(current);
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     function bound(p: Point) {
@@ -35,7 +35,10 @@ export function treeGeometry(scene: SceneFrame<TreeObjects, undefined>, previous
         const slots = generation === "previous" ? beforeSlots : afterSlots;
         for (const slot of slots.get(node.id) ?? []) bound(point(position.x + (slot === "left" ? -horizontalGap : horizontalGap), position.y + levelGap));
     }
-    const radius = Math.min(16, width / 8, height / 8), padding = Math.min(40, width / 3, height / 3);
+    const radius = Math.min(nodeRadius, width / 8, height / 8);
+    const outlineWidth = Math.min(1, radius / 8), ringGap = Math.min(3, radius / 4);
+    const outlineRadius = radius + outlineWidth * 1.5 + ringGap;
+    const padding = Math.min(width / 3, height / 3, Math.max(40, outlineRadius));
     const spanX = minX === Infinity ? 0 : finite(maxX - minX), spanY = minY === Infinity ? 0 : finite(maxY - minY);
     let scale = Math.min(spanX > 0 ? (width - 2 * padding) / spanX : Infinity, spanY > 0 ? (height - 2 * padding) / spanY : Infinity);
     if (spanX === 0 && spanY === 0) scale = 1;
@@ -50,7 +53,9 @@ export function treeGeometry(scene: SceneFrame<TreeObjects, undefined>, previous
         const before = object.previous?.type === "treeNode" ? object.previous.data : endpoint.data;
         const after = object.current?.type === "treeNode" ? object.current.data : endpoint.data;
         const p = mix(position(before.position), position(after.position), scene.progress);
-        nodePositions.set(object.id, p); nodes.push({ view: endpoint.data, point: p, presence: object.presence });
+        const paintRadius = outlined?.has(endpoint.data.node.id) ? outlineRadius : radius;
+        nodePositions.set(object.id, p);
+        nodes.push({ view: endpoint.data, point: p, presence: object.presence, paintRadius });
         for (const slot of ["left", "right"] as const) {
             const a = beforeSlots.get(before.node.id)?.has(slot) && object.previous !== null;
             const b = afterSlots.get(after.node.id)?.has(slot) && object.current !== null;
@@ -83,5 +88,5 @@ export function treeGeometry(scene: SceneFrame<TreeObjects, undefined>, previous
                 { view: endpoint.data, curve: route(b), presence: scene.progress });
         } else links.push({ view: endpoint.data, curve: route(b ?? a!), presence: object.presence });
     }
-    return { nodes, links, slots, radius };
+    return { nodes, links, slots, radius, outlineWidth };
 }

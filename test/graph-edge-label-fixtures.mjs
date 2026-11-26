@@ -23,7 +23,8 @@ export function ahoLabelFrames() {
         const layout = positions.map(([, x, y], id) => ({ nodeId: String(id), x, y }));
         const edges = connections.map(([from, to, label]) => ({
             id: label === null ? `fail:${from}` : `next:${to}`,
-            from: String(from), to: String(to), directed: true, ...(label === null ? {} : { label })
+            from: String(from), to: String(to), directed: true,
+            data: { kind: label === null ? 'failure' : 'transition' }, ...(label === null ? {} : { label })
         }));
         const trace = createGraphTrace({ nodes, edges }, { layout });
         const start = trace.start();

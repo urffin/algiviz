@@ -1,10 +1,11 @@
 import type { Frame } from "../playback/types.js";
-import type { GraphSnapshot, GraphObjects } from "../graph/types.js";
+import type { GraphSnapshot, GraphObjects, GraphEdgeView } from "../graph/types.js";
 import { graphScene } from "../graph/scene.js";
-import { record, string } from "../graph/validation.js";
+import { array, record, string } from "../graph/validation.js";
 import { createSceneFrame, type Scene } from "../scene/index.js";
-import { graphGeometry } from "./graph-geometry.js";
+import { graphGeometry, type GraphEdgePaint } from "./graph-geometry.js";
 import { graphCaptions, graphEdgeLabels } from "./graph-captions.js";
+import { withDrawCallback } from "./draw-callback.js";
 
 export interface GraphPalette {
     readonly background: string;
@@ -16,7 +17,20 @@ export interface GraphPalette {
     readonly queued: string;
     readonly result: string;
 }
-export interface GraphRendererOptions {
+export interface GraphEdgeStrokeOptions {
+    readonly dash?: readonly number[] | undefined;
+}
+export interface GraphEdgeDrawContext<E = unknown> {
+    readonly ctx: CanvasRenderingContext2D;
+    readonly view: GraphEdgeView<E>;
+    readonly curve: GraphEdgePaint["curve"];
+    readonly arrow: GraphEdgePaint["arrow"];
+    readonly drawStroke: (options?: GraphEdgeStrokeOptions) => void;
+    readonly drawArrow: () => void;
+}
+export type GraphEdgeDrawer<E = unknown> = (this: void, drawing: GraphEdgeDrawContext<E>) => void;
+export type GraphEdgeBender<E = unknown> = (this: void, view: GraphEdgeView<E>) => number | undefined;
+export interface GraphRendererOptions<E = unknown> {
     readonly theme: "light" | "dark";
     readonly colors?: { readonly [K in keyof GraphPalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
@@ -26,6 +40,9 @@ export interface GraphRendererOptions {
         readonly preferredSide?: "left" | "right" | undefined;
     } | undefined;
     readonly topologyTransitions?: boolean | undefined;
+    readonly drawEdge?: GraphEdgeDrawer<E> | undefined;
+    readonly edgeBend?: GraphEdgeBender<E> | undefined;
+    readonly nodeRadius?: number | undefined;
 }
 export interface GraphRenderSize {
     readonly width: number;
@@ -33,6 +50,9 @@ export interface GraphRenderSize {
 }
 export interface GraphRenderer {
     render<N, E, Event>(context: CanvasRenderingContext2D, frame: Frame<GraphSnapshot<N, E>, Event>, size: GraphRenderSize): void;
+}
+export interface GraphRendererWithEdgeData<E> {
+    readonly render: <N, Event>(context: CanvasRenderingContext2D, frame: Frame<GraphSnapshot<N, E>, Event>, size: GraphRenderSize) => void;
 }
 
 const palettes: Readonly<Record<"light" | "dark", GraphPalette>> = {
@@ -48,8 +68,14 @@ function dimension(value: unknown): number {
 }
 
 /** Optional full-bitmap graph drawing. The caller owns CSS/bitmap size and redraw scheduling. */
-export function createGraphRenderer(options: GraphRendererOptions): GraphRenderer {
-    const fields = record(options, ["theme", "colors", "roleColors", "nodeCaptions", "edgeLabels"], ["theme"]);
+export function createGraphRenderer(options: GraphRendererOptions & {
+    readonly drawEdge?: undefined;
+    readonly edgeBend?: undefined;
+}): GraphRenderer;
+export function createGraphRenderer<E>(options: GraphRendererOptions<E>): GraphRendererWithEdgeData<E>;
+export function createGraphRenderer(options: GraphRendererOptions): GraphRenderer;
+export function createGraphRenderer<E>(options: GraphRendererOptions<E>): GraphRenderer {
+    const fields = record(options, ["theme", "colors", "roleColors", "nodeCaptions", "edgeLabels", "drawEdge", "edgeBend", "nodeRadius"], ["theme"]);
     if (fields.theme !== "light" && fields.theme !== "dark") throw new TypeError("Graph renderer theme must be light or dark");
     const colors = { ...palettes[fields.theme] }, keys = Object.keys(colors) as (keyof GraphPalette)[];
     if (fields.colors !== undefined) {
@@ -81,6 +107,13 @@ export function createGraphRenderer(options: GraphRendererOptions): GraphRendere
         throw new TypeError("Graph topologyTransitions must be a boolean data property");
     }
     const topologyTransitions = topology?.value === true;
+    if (fields.drawEdge !== undefined && typeof fields.drawEdge !== "function") throw new TypeError("Graph drawEdge must be a function");
+    const drawEdge = fields.drawEdge as GraphEdgeDrawer | undefined;
+    if (fields.edgeBend !== undefined && typeof fields.edgeBend !== "function") throw new TypeError("Graph edgeBend must be a function");
+    const edgeBend = fields.edgeBend as GraphEdgeBender | undefined;
+    const nodeRadius = fields.nodeRadius === undefined ? 16 : fields.nodeRadius;
+    if (typeof nodeRadius !== "number") throw new TypeError("Graph node radius must be a number");
+    if (!Number.isFinite(nodeRadius) || nodeRadius <= 0) throw new RangeError("Graph node radius must be finite and positive");
     function color(view: { readonly result: boolean; readonly role: string | null }, base: "node" | "edge"): string {
         if (view.result) return colors.result;
         if (view.role !== null) {
@@ -115,7 +148,7 @@ export function createGraphRenderer(options: GraphRendererOptions): GraphRendere
                 const sx = bitmapWidth / width, sy = bitmapHeight / height;
                 if (![sx, sy].every(value => Number.isFinite(value) && value > 0)) throw new RangeError("Graph bitmap transform is not representable");
                 const scene = createSceneFrame({ previous, current, progress, stepIndex: 0, event: undefined });
-                const geometry = graphGeometry(scene, width, height, topologyTransitions);
+                const geometry = graphGeometry(scene, width, height, nodeRadius, topologyTransitions, edgeBend);
                 const edges = geometry.edges.map(edge => ({ ...edge, color: color(edge.view, "edge"),
                     text: edge.showLabel ? edge.view.edge.label ?? (edge.view.edge.weight === undefined ? "" : String(edge.view.edge.weight)) : "" }));
                 const nodes = geometry.nodes.map(node => ({ ...node, color: color(node.view, "node"), text: node.view.node.label ?? node.view.node.id }));
@@ -142,14 +175,47 @@ export function createGraphRenderer(options: GraphRendererOptions): GraphRendere
                     }), geometry.radius, width, height);
                     if (topologyTransitions) ctx.clearRect(0, 0, width, height);
                     ctx.fillStyle = colors.background; ctx.fillRect(0, 0, width, height);
-                    for (const edge of edges) {
-                        ctx.globalAlpha = edge.presence; ctx.strokeStyle = edge.color; ctx.fillStyle = edge.color;
-                        ctx.lineWidth = edge.view.result || edge.view.role === "active" ? 3 : 1.5;
+                    function stroke(edge: GraphEdgePaint): void {
                         const [a, b, c, d] = edge.curve;
                         ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.bezierCurveTo(b.x, b.y, c.x, c.y, d.x, d.y); ctx.stroke();
+                    }
+                    function arrowhead(edge: GraphEdgePaint): void {
                         if (edge.arrow.length) {
                             ctx.beginPath(); ctx.moveTo(edge.arrow[0]!.x, edge.arrow[0]!.y);
                             ctx.lineTo(edge.arrow[1]!.x, edge.arrow[1]!.y); ctx.lineTo(edge.arrow[2]!.x, edge.arrow[2]!.y); ctx.closePath(); ctx.fill();
+                        }
+                    }
+                    for (const edge of edges) {
+                        ctx.globalAlpha = edge.presence; ctx.strokeStyle = edge.color; ctx.fillStyle = edge.color;
+                        const lineWidth = edge.view.result || edge.view.role === "active" ? 3 : 1.5;
+                        ctx.lineWidth = lineWidth;
+                        if (drawEdge === undefined) {
+                            stroke(edge);
+                            arrowhead(edge);
+                        } else if (edge.presence > 0) {
+                            for (const point of edge.curve) Object.freeze(point);
+                            for (const point of edge.arrow) Object.freeze(point);
+                            const curve = Object.freeze(edge.curve), arrow = Object.freeze(edge.arrow);
+                            withDrawCallback(ctx, assertActive => {
+                                drawEdge({ ctx, view: edge.view, curve, arrow,
+                                    drawStroke(options) {
+                                        assertActive();
+                                        const dash = options === undefined ? undefined : record(options, ["dash"], []).dash;
+                                        const pattern = dash === undefined ? [] : array(dash).map(segment => {
+                                            if (typeof segment !== "number") throw new TypeError("Graph dash lengths must be numbers");
+                                            if (!Number.isFinite(segment) || segment < 0) throw new RangeError("Graph dash lengths must be finite and nonnegative");
+                                            return segment;
+                                        });
+                                        ctx.globalAlpha = edge.presence; ctx.strokeStyle = edge.color; ctx.lineWidth = lineWidth;
+                                        ctx.setLineDash(pattern); ctx.lineDashOffset = 0;
+                                        stroke(edge);
+                                    },
+                                    drawArrow() {
+                                        assertActive();
+                                        ctx.globalAlpha = edge.presence; ctx.fillStyle = edge.color;
+                                        arrowhead(edge);
+                                    } });
+                            });
                         }
                         if (!labels && edge.text) { ctx.fillStyle = colors.text; ctx.fillText(edge.text, edge.label.x, edge.label.y); }
                     }

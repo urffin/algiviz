@@ -25,11 +25,13 @@ AlgiViz управляет воспроизведением и сопостав�
 Алгоритмы и расположение объектов остаются в приложении; AlgiViz предоставляет API
 воспроизведения и отрисовки.
 
-Версия **1.9.0** добавляет `edgeLabels: { placement: "auto" }` в
-`/canvas/graph`. Рендерер ищет свободное место для подписи рядом с кривой
-ребра. Без этой опции сохраняется прежнее размещение.
-[Справочник Canvas-графа](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md#размещение-подписей-рёбер) ·
-[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.9.md) ·
+Версия **1.10.0** добавляет `nodeRadius` в Canvas-рендереры графа и дерева.
+`drawEdge` и `edgeBend` позволяют рисовать изогнутые пунктирные суффиксные
+ссылки. `drawNode` и `doubleOutlineNodeIds` позволяют оформить концы слов
+в префиксном дереве.
+[Справочник Canvas-графа](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md#изгиб-рёбер) ·
+[Справочник Canvas-дерева](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md#двойной-контур-конца-слова-в-префиксном-дереве) ·
+[Заметки к выпуску](https://github.com/urffin/algiviz/blob/master/docs/ru/release-1.10.md) ·
 [Текущий API](https://github.com/urffin/algiviz/blob/master/docs/ru/current-api.md)
 
 ## Установка
@@ -39,7 +41,7 @@ npm install @grundyjs/algiviz
 ```
 
 Пакет использует отдельные точки входа ESM. Корневой точки входа и сборки
-CommonJS нет. Версия 1.9.0 содержит 16 точек входа:
+CommonJS нет. Версия 1.10.0 содержит 16 точек входа:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
 `/grid`, `/canvas/grid`, `/list` и `/canvas/list`.
@@ -78,9 +80,9 @@ CommonJS нет. Версия 1.9.0 содержит 16 точек входа:
 | [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Фабрика выделенного браузерного Worker и ошибки транспорта | 1.0.0 |
 | [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/ru/worker-source-api.md) | Endpoint внутри Worker; отдельные типы WebWorker | 1.0.0 |
 | [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Шаги графа, отметки, подписи, результат и сцена. Динамические изменения с 1.5.0 | 1.1.0 |
-| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Стрелки, петли, параллельные рёбра и подписи. Опция переходов топологии с 1.5.0 | 1.1.0 |
+| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/ru/graph-api.md) | Стрелки, переходы топологии и подписи. Настройка радиуса узлов, изгиба и отрисовки рёбер с 1.10.0 | 1.1.0 |
 | [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-api.md) | Ordered/binary trace, атомарный edit топологии и проекция сцены | 1.2.0 |
-| [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md) | Явная раскладка дерева, пустые слоты, интерполяция связей, подписи и результат | 1.2.0 |
+| [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/ru/tree-canvas-api.md) | Явная раскладка, пустые слоты и подписи. Настройка радиуса, отрисовки узлов и двойного контура с 1.10.0 | 1.2.0 |
 | [`/grid`](https://github.com/urffin/algiviz/blob/master/docs/ru/grid-api.md) | Плотная сетка, атомарные операции, отметки, результат/путь и сцена | 1.3.0 |
 | [`/canvas/grid`](https://github.com/urffin/algiviz/blob/master/docs/ru/grid-canvas-api.md) | Регулярные клетки, значения/подписи, зелёный результат и пути | 1.3.0 |
 | [`/list`](https://github.com/urffin/algiviz/blob/master/docs/ru/list-api.md) | Односвязные списки со стабильными ID узлов и слотов, атомарными изменениями и результатами | 1.4.0 |

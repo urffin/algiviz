@@ -38,7 +38,8 @@ function sameRoute(before: GraphEdgeView, after: GraphEdgeView): boolean {
 }
 
 /** Build a complete numeric drawing plan before making any Canvas calls. */
-export function graphGeometry(scene: SceneFrame<GraphObjects, undefined>, width: number, height: number, topologyTransitions: boolean) {
+export function graphGeometry(scene: SceneFrame<GraphObjects, undefined>, width: number, height: number, nodeRadius: number, topologyTransitions: boolean,
+    edgeBend?: (this: void, view: GraphEdgeView) => number | undefined) {
     const p = scene.progress;
     function nodeView(id: string, generation: "previous" | "current", fallback: boolean): GraphNodeView {
         const transition = scene.get(id);
@@ -54,8 +55,9 @@ export function graphGeometry(scene: SceneFrame<GraphObjects, undefined>, width:
             && (a.y <= b.y && c.y >= d.y || a.y >= b.y && c.y <= d.y);
     }
     let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-    let maxLoop = 0, maxLane = 0;
-    const radius = Math.min(16, width / 8, height / 8);
+    let maxLoop = 0, maxLane = 0, maxBend = 0;
+    const bends = edgeBend === undefined ? undefined : new Map<GraphEdgeView, number | undefined>();
+    const radius = Math.min(nodeRadius, width / 8, height / 8);
     for (const object of scene.objects) for (const endpoint of [object.previous, object.current]) {
         if (endpoint?.type === "graphNode") {
             const { x, y } = endpoint.data.position;
@@ -66,11 +68,23 @@ export function graphGeometry(scene: SceneFrame<GraphObjects, undefined>, width:
             if (edge.from === edge.to || (topologyTransitions && mayCoincide(view))) {
                 maxLoop = Math.max(maxLoop, radius * 1.5 + (routeCount - 1) * 12);
             }
-            if (edge.from !== edge.to) maxLane = Math.max(maxLane, (routeCount - 1) * 9);
+            if (edge.from !== edge.to) {
+                maxLane = Math.max(maxLane, (routeCount - 1) * 9);
+                if (bends && !bends.has(view)) {
+                    const bend = edgeBend?.(view);
+                    if (bend !== undefined) {
+                        if (typeof bend !== "number") throw new TypeError("Graph edge bend must be a number");
+                        if (!Number.isFinite(bend)) throw new RangeError("Graph edge bend must be finite");
+                        maxBend = Math.max(maxBend, Math.abs(bend));
+                    }
+                    bends.set(view, bend);
+                }
+            }
         }
     }
     const strokePadding = topologyTransitions ? 1.5 : 0;
-    const padding = Math.min(width / 3, height / 3, Math.max(32, maxLoop * 2.5 + radius, maxLane + radius + 12) + strokePadding);
+    const stockPadding = Math.max(32, maxLoop * 2.5 + radius, maxLane + radius + 12) + strokePadding;
+    const padding = Math.min(width / 3, height / 3, Math.max(stockPadding, maxBend + 1.5));
     const spanX = minX === Infinity ? 0 : finite(maxX - minX), spanY = minY === Infinity ? 0 : finite(maxY - minY);
     let scale = Math.min(spanX > 0 ? (width - 2 * padding) / spanX : Infinity,
         spanY > 0 ? (height - 2 * padding) / spanY : Infinity);
@@ -88,7 +102,7 @@ export function graphGeometry(scene: SceneFrame<GraphObjects, undefined>, width:
         }
         return position(view);
     }
-    function curve(view: GraphEdgeView, a: Point, b: Point, offset: number, loopIndex: number): Curve {
+    function curve(view: GraphEdgeView, a: Point, b: Point, offset: number, loopIndex: number, previous?: GraphEdgeView): Curve {
         const dx = b.x - a.x, dy = b.y - a.y;
         if (view.edge.from === view.edge.to || (dx === 0 && dy === 0)) {
             const loop = finite(radius * 1.5 + loopIndex * 12), diagonal = radius * Math.SQRT1_2;
@@ -97,8 +111,22 @@ export function graphGeometry(scene: SceneFrame<GraphObjects, undefined>, width:
         }
         const direction = unit(dx, dy), orientation = view.edge.from <= view.edge.to ? 1 : -1;
         const lane = finite(offset);
-        const control = point(a.x / 2 + b.x / 2 - direction.y * orientation * lane * 2,
-            a.y / 2 + b.y / 2 + direction.x * orientation * lane * 2);
+        const bend = bends?.get(view), previousBend = previous && bends?.get(previous);
+        let control: Point;
+        if (bend === undefined && previousBend === undefined) {
+            control = point(a.x / 2 + b.x / 2 - direction.y * orientation * lane * 2,
+                a.y / 2 + b.y / 2 + direction.x * orientation * lane * 2);
+        } else {
+            const limit = Math.min(Math.hypot(dx, dy) / 4, Math.max(0, padding - 1.5));
+            const clamp = (requested: number) => Math.max(-limit, Math.min(limit, requested));
+            let shift = bend === undefined ? orientation * laneOffset(view) * 2 : clamp(bend);
+            if (previous) {
+                const fromShift = previousBend === undefined ? orientation * laneOffset(previous) * 2
+                    : clamp(previousBend) * (previous.from === view.from ? 1 : -1);
+                shift = (1 - p) * fromShift + p * shift;
+            }
+            control = point(a.x / 2 + b.x / 2 - direction.y * shift, a.y / 2 + b.y / 2 + direction.x * shift);
+        }
         const startDirection = unit(control.x - a.x, control.y - a.y), endDirection = unit(b.x - control.x, b.y - control.y);
         const start = point(a.x + startDirection.x * radius, a.y + startDirection.y * radius);
         const end = point(b.x - endDirection.x * radius, b.y - endDirection.y * radius);
@@ -116,16 +144,16 @@ export function graphGeometry(scene: SceneFrame<GraphObjects, undefined>, width:
         edges.push({ view, curve: path, arrow, label, presence, showLabel });
     }
     function dynamicRoute(view: GraphEdgeView, generation: "previous" | "current", presence: number,
-        showLabel: boolean, offset = laneOffset(view), loopIndex = view.routeIndex): void {
+        showLabel: boolean, offset = laneOffset(view), loopIndex = view.routeIndex, previous?: GraphEdgeView): void {
         if (presence === 0) return;
-        const path = curve(view, attached(view.from, generation), attached(view.to, generation), offset, loopIndex);
+        const path = curve(view, attached(view.from, generation), attached(view.to, generation), offset, loopIndex, previous);
         addEdge(view, path, presence, showLabel);
     }
     function dynamicEdge(before: GraphEdgeView | undefined, after: GraphEdgeView | undefined): void {
         if (before && after && sameRoute(before, after)) {
             dynamicRoute(after, "current", 1, true,
                 (1 - p) * laneOffset(before) + p * laneOffset(after),
-                (1 - p) * before.routeIndex + p * after.routeIndex);
+                (1 - p) * before.routeIndex + p * after.routeIndex, before);
             return;
         }
         if (before) dynamicRoute(before, "previous", 1 - p, !after || p < .5);

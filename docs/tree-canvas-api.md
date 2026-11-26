@@ -3,7 +3,7 @@
 [Русский](ru/tree-canvas-api.md) · [Tree API](tree-api.md) · [Graph Canvas](graph-api.md) · [Viewport](canvas-viewport.md) · [Contract check](checks/tree-canvas-contract-2026-11-18.json)
 
 **Released in 1.2.0, 2026-11-19**, commit 8e1f50b. Independent /canvas/tree
-exports createTreeRenderer and four types. Calls require DOM types and a Canvas
+exported createTreeRenderer and four types in that release. Calls require DOM types and a Canvas
 2D host; headless /tree remains separate. npm 1.1.0 contains neither entry.
 [Release and verification](release-1.2.md) · [Initial implementation](checks/tree-canvas-implementation-2026-11-19.json) ·
 [T1 correction](checks/tree-t1-fix-2026-11-19.json) · [Native acceptance](checks/tree-t1-native-2026-11-19.json).
@@ -33,7 +33,7 @@ export interface TreePalette {
     readonly queued: string;
     readonly result: string;
 }
-export interface TreeRendererOptions {
+export interface TreeRendererOptions<N = unknown> {
     readonly theme: "light" | "dark";
     readonly colors?: { readonly [K in keyof TreePalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
@@ -41,19 +41,29 @@ export interface TreeRendererOptions {
     readonly levelGap?: number | undefined;
     readonly emptySlots?: "hidden" | "visible" | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly nodeRadius?: number | undefined;
+    readonly drawNode?: TreeNodeDrawer<N> | undefined;
 }
 export interface TreeRenderSize {
     readonly width: number;
     readonly height: number;
+}
+export interface TreeRenderOptions {
+    readonly doubleOutlineNodeIds?: readonly string[] | undefined;
 }
 export interface TreeRenderer {
     layout<N, L>(tree: TreeInput<N, L>): readonly TreePosition[];
     render<N, L, Kind extends TreeKind, Event>(
         context: CanvasRenderingContext2D,
         frame: Frame<TreeSnapshot<N, L, Kind>, Event>,
-        size: TreeRenderSize
+        size: TreeRenderSize,
+        options?: TreeRenderOptions
     ): void;
 }
+export declare function createTreeRenderer(
+    options: TreeRendererOptions & { readonly drawNode?: undefined }
+): TreeRenderer;
+export declare function createTreeRenderer<N>(options: TreeRendererOptions<N>): TreeRendererWithNodeData<N>;
 export declare function createTreeRenderer(options: TreeRendererOptions): TreeRenderer;
 ```
 
@@ -83,6 +93,14 @@ Canvas or change to /canvas, /canvas/graph, Player or the existing unions is mad
 The optional entry may load tree validation/projection and generic scene matching,
 not Player, Worker, array/graph backends or the tree trace builder. Other entries
 must not load it without an explicit static/dynamic import.
+
+## Node radius
+
+Since 1.10.0, `nodeRadius` sets the preferred radius of every tree node in
+logical Canvas pixels. It must be finite and positive and defaults to 16.
+The renderer uses the smallest of this value, width / 8 and height / 8. This radius is used for
+links, double outlines, captions and the geometry passed to `drawNode`.
+The coordinates returned by `layout()` are independent of this option.
 
 ## Pure layout: ordered and binary
 
@@ -172,6 +190,77 @@ Changing renderer policy never rewrites already retained snapshots. For a genera
 TreeEdit, resolve omitted/undefined rootId/nodes/links against the current tree
 before calling layout; plain object spread alone does not implement edit's
 undefined-as-omitted rule. The example uses only explicitly defined update fields.
+
+## Double outlines for trie terminals
+
+Available since 1.10.0.
+
+Pass `doubleOutlineNodeIds` in the fourth argument of `render` to draw an
+inner stroke and an outer ring around selected nodes. Both outlines follow the
+node's role, result and opacity. Their outer radius is reserved for captions,
+link labels and empty-slot markers. Node positions and link anchors stay
+fixed. Omit the option for the default drawing.
+
+For an ordered trie, keep the end-of-word flag in each snapshot's node data.
+Derive the IDs inside Player's render callback so that seeking via
+`stepHistory` restores the selection from the displayed frame.
+
+```ts
+render: frame => {
+    const doubleOutlineNodeIds = frame.current.tree.nodes
+        .filter(node => node.data?.terminal)
+        .map(node => node.id);
+    renderer.render(context, frame, logicalSize, { doubleOutlineNodeIds });
+}
+```
+
+The option accepts a dense array of nonempty IDs. Repeated IDs have the same
+effect as a single ID. An ID absent from both snapshots has no effect. If a
+node leaves the scene, include its ID while it should retain the ring as it
+fades out.
+
+## Custom node drawing
+
+Since 1.10.0, `drawNode` runs once for each visible
+node and receives the read-only `view`, `center`, `radius`, `outerRadius`,
+the Canvas context `ctx`, and `drawDefault()`. Geometry uses the same logical
+pixels as `TreeRenderSize`. `outerRadius` includes the reserved space for the
+double outline, if selected.
+
+`drawDefault()` draws the node body and any double outline at the point where
+you call it. Draw after the call to add a foreground detail, or omit the call
+to supply the whole body. The renderer draws node text and captions separately.
+Keep custom details within the reserved outline if they need to coexist with
+automatically placed labels.
+
+```ts
+const renderer = createTreeRenderer<{ terminal: boolean }>({
+    theme: "light",
+    nodeRadius: 21,
+    horizontalGap: 2.7,
+    drawNode({ ctx, view, center, radius, drawDefault }) {
+        drawDefault();
+        if (!view.node.data?.terminal) return;
+        ctx.fillStyle = "#db2777";
+        ctx.beginPath();
+        ctx.arc(center.x + radius * .55, center.y - radius * .55,
+            radius * .15, 0, 2 * Math.PI);
+        ctx.fill();
+    },
+});
+```
+
+The callback runs synchronously with the node's interpolated position and
+opacity already applied. Balance any `ctx.save()` / `ctx.restore()` calls
+inside it and use the drawing helper during the callback only. Other nodes and
+the renderer's labels get their own Canvas drawing state. An explicit node data
+type constrains the snapshots accepted by the returned renderer.
+The entry exports `TreeNodeDrawContext<N>`, `TreeNodeDrawer<N>` and
+`TreeRendererWithNodeData<N>` for explicit type annotations.
+
+To match a site's typography, store the character in node data and set the
+node's `label` to an empty string. The callback can then paint its own text
+and role-based fill and outlines.
 
 ## Empty binary slots
 
@@ -317,14 +406,14 @@ cleanup and event-free history/async/Worker delivery keep current Player contrac
 ## Validation, context state and errors
 
 Factory validates options envelope, theme, palette overrides, own role colors,
-horizontalGap, levelGap, emptySlots, nodeCaptions in that order. Missing/invalid
+horizontalGap, levelGap, emptySlots, nodeCaptions, drawNode and nodeRadius in that order. Missing/invalid
 theme, enum values, containers, accessors or empty/non-string colors give TypeError.
 Wrong gap type gives TypeError; nonpositive/nonfinite gap gives RangeError.
 layout validates TreeInput as /tree, then computes/validates complete positions.
 Original Proxy throws, including opaque/falsy values, remain original.
 
 render order: busy guard; size envelope and width/height; frame envelope and
-progress; previous snapshot; current snapshot; matching tree kind;
+progress; optional doubleOutlineNodeIds; previous snapshot; current snapshot; matching tree kind;
 then ctx.canvas bitmap dimensions and numeric drawing plan. Only previous/current/
 progress are consumed from Frame: event and stepIndex are not read or validated.
 Frame/size must be plain records with recognized own data properties. Capture

@@ -3,14 +3,14 @@
 [English](../api-compatibility.md) · [Стабилизация](../api-stability.md) · [Текущий API](current-api.md) · [Проверенные окружения](../support-matrix.md)
 
 U3 защищает публичные типы, ошибки, окружения и поведение всех 16 точек входа
-1.9.0. Настройка `edgeLabels` в `/canvas/graph` необязательна. Поведение
-прежних опций сохраняется.
-[Заметки к выпуску](release-1.9.md).
+1.10.0. Canvas-рендереры графа и дерева сохраняют штатное поведение при
+пропуске новых опций размера и отрисовки.
+[Заметки к выпуску](release-1.10.md).
 
 ## Публичная поверхность
 
-Импортируемые пути определяет только export map. Версия 1.9.0 содержит **16 точек входа,
-35 имён времени выполнения, 190 экспортов типов, 178 различных имён**. База 1.0.0 имела
+Импортируемые пути определяет только export map. Версия 1.10.0 содержит **16 точек входа,
+35 имён времени выполнения, 199 экспортов типов, 187 различных имён**. База 1.0.0 имела
 8 / 21 / 69 / 57. Общие Worker-типы считаются по обоим путям; классы — runtime-имена.
 [Инвентарь](current-api.md) и [заметки к 1.1](release-1.1.md).
 
@@ -25,9 +25,9 @@ U3 защищает публичные типы, ошибки, окружени�
 | `/worker` | `createWorkerSourceFactory`, `WorkerSourceError` | 17 |
 | `/worker/runtime` | `exposeWorkerSource` | 15 |
 | `/graph` | `createGraphTrace`, `createDynamicGraphTrace`, `graphScene` | 26 |
-| `/canvas/graph` | `createGraphRenderer` | 4 |
+| `/canvas/graph` | `createGraphRenderer` | 9 |
 | `/tree` | `createTreeTrace`, `treeScene` | 29 |
-| `/canvas/tree` | `createTreeRenderer` | 4 |
+| `/canvas/tree` | `createTreeRenderer` | 8 |
 | `/grid` | `createGridTrace`, `gridScene` | 22 |
 | `/canvas/grid` | `createGridRenderer` | 5 |
 | `/list` | `createListTrace`, `listScene` | 25 |

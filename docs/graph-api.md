@@ -349,11 +349,14 @@ export interface GraphPalette {
     readonly queued: string;
     readonly result: string;
 }
-export interface GraphRendererOptions {
+export interface GraphRendererOptions<E = unknown> {
     readonly theme: "light" | "dark";
+    readonly drawEdge?: GraphEdgeDrawer<E> | undefined;
+    readonly edgeBend?: GraphEdgeBender<E> | undefined;
     readonly colors?: { readonly [K in keyof GraphPalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly nodeRadius?: number | undefined;
     readonly edgeLabels?: {
         readonly placement: "auto";
         readonly preferredSide?: "left" | "right" | undefined;
@@ -367,6 +370,10 @@ export interface GraphRenderSize {
 export interface GraphRenderer {
     render<N, E, Event>(context: CanvasRenderingContext2D, frame: Frame<GraphSnapshot<N, E>, Event>, size: GraphRenderSize): void;
 }
+export declare function createGraphRenderer(
+    options: GraphRendererOptions & { readonly drawEdge?: undefined; readonly edgeBend?: undefined }
+): GraphRenderer;
+export declare function createGraphRenderer<E>(options: GraphRendererOptions<E>): GraphRendererWithEdgeData<E>;
 export declare function createGraphRenderer(options: GraphRendererOptions): GraphRenderer;
 ```
 
@@ -428,6 +435,71 @@ other side and nearby positions. It checks measured text against strokes,
 arrowheads, nodes, previously placed labels and the drawing bounds. A label with
 no suitable position is skipped. Edge labels are placed before node captions.
 Omitting the option preserves the established placement and paint order.
+
+### Node radius
+
+Since 1.10.0, `nodeRadius` sets the preferred radius of every graph node in
+logical Canvas pixels. It must be finite and positive and defaults to 16.
+The renderer uses the smallest of this value, width / 8 and height / 8. The resolved radius
+determines the painted node, where edges and arrowheads attach, and the space
+reserved when placing labels. The graph's stored layout coordinates stay the
+same.
+
+### Edge bends
+
+Since 1.10.0, you can return a finite number from `edgeBend(view)` to set the
+maximum displacement of the quadratic control point from
+the midpoint of the two node centers. The value is in logical Canvas pixels.
+Positive bends go to the right of the direction from source to target, and
+negative bends go to the left. Zero gives a straight edge. Return
+`undefined` to use the stock route and parallel lane.
+
+The renderer caps the displacement at a quarter of the distance between the
+centers and at the available drawing space. Self-loops keep their stock
+shape. The callback receives each relevant endpoint view before any Canvas
+commands are issued. Keep it deterministic so the same frame can be redrawn
+or reached by seeking. The renderer interpolates the bends of a retained route
+and keeps endpoint-specific bends on routes that fade in or out.
+
+The rendered path, arrow and label placement share the resulting curve.
+`GraphEdgeBender<E>` is the exported callback type. An explicit edge data
+type constrains the snapshots accepted by the returned renderer.
+
+### Custom edge drawing
+
+Since 1.10.0, `drawEdge` runs for each visible route. It receives
+`ctx`, `view`, the four cubic Bézier points in `curve` and the
+arrow vertices in `arrow` (empty for an undirected edge). Geometry uses
+logical Canvas pixels. With topology transitions enabled, the outgoing and
+incoming routes each receive their own view and opacity.
+
+```ts
+const renderer = createGraphRenderer<{ kind: "failure" | "transition" }>({
+    theme: "light",
+    nodeRadius: 19,
+    edgeLabels: { placement: "auto" },
+    edgeBend: view => view.edge.data?.kind === "failure" ? 24 : undefined,
+    drawEdge({ view, drawStroke, drawArrow }) {
+        drawStroke(view.edge.data?.kind === "failure" ? { dash: [5, 4] } : undefined);
+        drawArrow();
+    },
+});
+```
+
+`drawStroke()` draws the shaft with the renderer's color, opacity and width.
+A dash pattern accepts finite nonnegative lengths and follows Canvas rules.
+`drawArrow()` fills the stock arrow. Call either helper, both, or neither.
+Labels are drawn separately and use the provided curve and arrow for safe
+placement. If you draw a different route, automatic placement still follows
+the renderer's geometry.
+
+The callback runs synchronously. Balance any Canvas saves and restores within
+it, and call the helpers only while it runs. The renderer restores Canvas
+state between routes. An explicit edge data type constrains the snapshots
+accepted by the returned renderer.
+The entry exports `GraphEdgeDrawContext<E>`, `GraphEdgeDrawer<E>`,
+`GraphEdgeStrokeOptions` and `GraphRendererWithEdgeData<E>` for explicit type
+annotations.
 
 ### Node captions
 

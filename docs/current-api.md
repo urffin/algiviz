@@ -1,10 +1,10 @@
 # Current API and verification status
 
-[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.9.0 release notes](release-1.9.md)
+[Русский](ru/current-api.md) · [Compatibility](api-compatibility.md) · [Environments](support-matrix.md#current-support-boundary) · [1.10.0 release notes](release-1.10.md)
 
-**Version 1.9.0** has 16 entry points, 35 runtime exports and 190 type-only
-exports (178 distinct names). `/canvas/graph` adds optional automatic placement
-of edge labels.
+**Version 1.10.0** has 16 entry points, 35 runtime exports and 199 type-only
+exports (187 distinct names). The graph and tree Canvas renderers support
+configurable node radius and custom drawing.
 
 ## Entry reference map
 
@@ -19,9 +19,9 @@ of edge labels.
 | /worker | [Worker source](worker-source-api.md) | 1.0.0 |
 | /worker/runtime | [Worker endpoint](worker-source-api.md#worker-declarations-workerruntime) | 1.0.0 |
 | /graph | [Graph API](graph-api.md), [dynamic topology](graph-dynamic-topology.md), [captions](graph-node-captions.md) | 1.1.0, dynamic edits since 1.5.0 |
-| /canvas/graph | [Renderer](graph-api.md), [transitions](graph-dynamic-canvas.md), [node captions](graph-node-captions.md), [edge labels](graph-api.md#edge-label-placement) | 1.1.0, topology transitions since 1.5.0, automatic edge label placement since 1.9.0 |
+| /canvas/graph | [Renderer](graph-api.md), [transitions](graph-dynamic-canvas.md), [node captions](graph-node-captions.md), [edge labels](graph-api.md#edge-label-placement), [edge bends](graph-api.md#edge-bends), [custom drawing](graph-api.md#custom-edge-drawing) | 1.1.0, topology transitions since 1.5.0, auto labels since 1.9.0, radius, bends and custom edge drawing since 1.10.0 |
 | /tree | [Tree API](tree-api.md) | 1.2.0 |
-| /canvas/tree | [Tree Canvas](tree-canvas-api.md) | 1.2.0 |
+| /canvas/tree | [Tree Canvas](tree-canvas-api.md), [custom drawing](tree-canvas-api.md#custom-node-drawing) | 1.2.0, radius, double outlines and custom node drawing since 1.10.0 |
 | /grid | [Grid API](grid-api.md) | 1.3.0 |
 | /canvas/grid | [Grid Canvas](grid-canvas-api.md) | 1.3.0 |
 | /list | [List API](list-api.md) | 1.4.0 |
@@ -36,7 +36,7 @@ priority queue share a discrete step when seeking.
 ## Reading historical evidence
 
 Dated documents/JSON retain their original scope. Old local/candidate/0.16.0
-status refers to that verification stage. This index describes the 1.9.0 API.
+status refers to that verification stage. This index describes the 1.10.0 API.
 
 - [Migration to 1.0](migration-1.0.md).
 - F1/F2: [Memory bypass](checks/worker-memory-fix-2026-11-14.json), [missing SharedArrayBuffer](checks/worker-shared-buffer-fix-2026-11-14.json).

@@ -25,11 +25,12 @@ Use it for educational demos, interactive articles and algorithm walkthroughs.
 Algorithms and layouts belong to your application; AlgiViz provides the playback
 and rendering API.
 
-Version **1.9.0** adds `edgeLabels: { placement: "auto" }` to
-`/canvas/graph`. Edge labels can move to a clear spot beside their curves.
-Omitting the option preserves the existing placement.
-[Graph Canvas reference](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md#edge-label-placement) ·
-[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.9.md) ·
+Version **1.10.0** adds `nodeRadius` to the graph and tree Canvas renderers.
+Use `drawEdge` and `edgeBend` for dashed, curved failure links. Use `drawNode`
+and per-frame `doubleOutlineNodeIds` to highlight trie terminals.
+[Graph Canvas reference](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md#edge-bends) ·
+[Tree Canvas reference](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md#double-outlines-for-trie-terminals) ·
+[Release notes](https://github.com/urffin/algiviz/blob/master/docs/release-1.10.md) ·
 [Current API](https://github.com/urffin/algiviz/blob/master/docs/current-api.md)
 
 ## Install
@@ -39,7 +40,7 @@ npm install @grundyjs/algiviz
 ```
 
 The package uses ESM subpath imports. There is no root entry point or CommonJS
-build. Version 1.9.0 provides 16 entry points:
+build. Version 1.10.0 provides 16 entry points:
 `/player`, `/playback`, `/scene`, `/array`, `/canvas`, `/canvas/viewport`,
 `/worker`, `/worker/runtime`, `/graph`, `/canvas/graph`, `/tree`, `/canvas/tree`,
 `/grid`, `/canvas/grid`, `/list` and `/canvas/list`.
@@ -78,9 +79,9 @@ plain states/pre → createArrayPlayer → standard Player → scenes/interpolat
 | [`/worker`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Dedicated browser Worker factory and transport errors | 1.0.0 |
 | [`/worker/runtime`](https://github.com/urffin/algiviz/blob/master/docs/worker-source-api.md) | Worker-side endpoint; separate WebWorker types | 1.0.0 |
 | [`/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Graph traces, marks, captions, results and scene projection. Dynamic edits since 1.5.0 | 1.1.0 |
-| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Arrows, loops, parallel edges and captions. Opt-in topology transitions since 1.5.0 | 1.1.0 |
+| [`/canvas/graph`](https://github.com/urffin/algiviz/blob/master/docs/graph-api.md) | Arrows, topology transitions and edge labels. Configurable node radius, edge bends and drawing since 1.10.0 | 1.1.0 |
 | [`/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-api.md) | Ordered/binary traces, atomic topology edits and scene projection | 1.2.0 |
-| [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md) | Explicit tree layout, empty binary slots, relation interpolation, captions and result | 1.2.0 |
+| [`/canvas/tree`](https://github.com/urffin/algiviz/blob/master/docs/tree-canvas-api.md) | Explicit layout, binary slots and captions. Configurable radius, node drawing and double outlines since 1.10.0 | 1.2.0 |
 | [`/grid`](https://github.com/urffin/algiviz/blob/master/docs/grid-api.md) | Dense grids, atomic operations, marks, result/path and scene | 1.3.0 |
 | [`/canvas/grid`](https://github.com/urffin/algiviz/blob/master/docs/grid-canvas-api.md) | Regular cells, values/captions, green results and paths | 1.3.0 |
 | [`/list`](https://github.com/urffin/algiviz/blob/master/docs/list-api.md) | Singly linked lists with stable node and slot IDs, atomic edits and results | 1.4.0 |

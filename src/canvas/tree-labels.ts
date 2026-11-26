@@ -60,7 +60,7 @@ function cell(ctx: CanvasRenderingContext2D, text: string): Cell | undefined {
 
 /** Per-call reservations. Host measurement completes before any pixel mutation. */
 export function treeLabels(ctx: CanvasRenderingContext2D, nodes: readonly NodePaint[], links: readonly LinkPaint[],
-    slots: readonly SlotPaint[], radius: number, width: number, height: number, captions: boolean, showSlots: boolean) {
+    slots: readonly SlotPaint[], width: number, height: number, captions: boolean, showSlots: boolean) {
     const circles = nodes.filter(n => n.presence > 0), strokes = links.filter(l => l.presence > 0);
     const rectangles: Box[] = [], labels: TextPaint[] = [], captionPaint: TextPaint[] = [], slotPaint: SlotPaint[] = [];
     let reliable = true;
@@ -73,7 +73,7 @@ export function treeLabels(ctx: CanvasRenderingContext2D, nodes: readonly NodePa
     }
     function inside(b: Box): boolean { return b.left >= 4 && b.top >= 4 && b.right <= width - 4 && b.bottom <= height - 4; }
     function safe(b: Box): boolean {
-        return reliable && inside(b) && !circles.some(n => circleHits(b, n.point, radius + 2))
+        return reliable && inside(b) && !circles.some(n => circleHits(b, n.point, n.paintRadius + 2))
             && !rectangles.some(r => overlaps(expand(b, 2), r))
             && !strokes.some(l => curveHits(expand(b, 2 + (l.view.result || l.view.role === "active" ? 1.5 : .75)), l.curve));
     }
@@ -115,8 +115,8 @@ export function treeLabels(ctx: CanvasRenderingContext2D, nodes: readonly NodePa
         const owner = circles.find(n => n.view.node.id === slot.owner);
         if (!owner || finite((slot.start.x - owner.point.x) * (slot.end.x - slot.start.x)
             + (slot.start.y - owner.point.y) * (slot.end.y - slot.start.y)) < 0) continue;
-        if (circles.some(n => circleHits(square, n.point, radius + 2)
-            || (n.view.node.id !== slot.owner && lineCircle(slot.start, slot.end, n.point, radius + 2.75)))) continue;
+        if (circles.some(n => circleHits(square, n.point, n.paintRadius + 2)
+            || (n.view.node.id !== slot.owner && lineCircle(slot.start, slot.end, n.point, n.paintRadius + 2.75)))) continue;
         if (rectangles.some(b => overlaps(expand(square, 2), b) || curveHits(expand(b, 2.75), segment))) continue;
         if (strokes.some(l => curveHits(expand(square, 2 + (l.view.result || l.view.role === "active" ? 1.5 : .75)), l.curve)
             || curvesHit(segment, l.curve, 2.75 + (l.view.result || l.view.role === "active" ? 1.5 : .75)))) continue;
@@ -127,7 +127,8 @@ export function treeLabels(ctx: CanvasRenderingContext2D, nodes: readonly NodePa
     if (captions) for (const node of circles) {
         const text = lineText(node.view.caption ?? ""), c = measured(text);
         if (!c) continue;
-        const { x, y } = node.point, side = finite(radius + 4 + (c.width + 8) / 2), vertical = finite(radius + 4 + (c.height + 4) / 2);
+        const { x, y } = node.point, radius = node.paintRadius;
+        const side = finite(radius + 4 + (c.width + 8) / 2), vertical = finite(radius + 4 + (c.height + 4) / 2);
         for (const [cx, cy] of [[x, y + vertical], [x, y - vertical], [x + side, y], [x - side, y],
             [x + side, y + radius], [x - side, y + radius], [x + side, y - radius], [x - side, y - radius]]) {
             const b = box(cx! - (c.width + 8) / 2, cy! - (c.height + 4) / 2, cx! + (c.width + 8) / 2, cy! + (c.height + 4) / 2);

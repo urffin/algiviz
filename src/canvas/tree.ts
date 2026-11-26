@@ -1,11 +1,12 @@
 import type { Frame } from "../playback/types.js";
-import type { TreeInput, TreePosition, TreeKind, TreeSnapshot } from "../tree/types.js";
+import type { TreeInput, TreePosition, TreeKind, TreeNodeView, TreeSnapshot } from "../tree/types.js";
 import { treeScene } from "../tree/scene.js";
-import { record, string } from "../tree/validation.js";
+import { array, record, string } from "../tree/validation.js";
 import { createSceneFrame } from "../scene/index.js";
 import { treeLayout } from "./tree-layout.js";
-import { treeGeometry } from "./tree-geometry.js";
+import { treeGeometry, type NodePaint, type Point } from "./tree-geometry.js";
 import { treeLabels, lineText } from "./tree-labels.js";
+import { withDrawCallback } from "./draw-callback.js";
 
 export interface TreePalette {
     readonly background: string;
@@ -18,7 +19,16 @@ export interface TreePalette {
     readonly queued: string;
     readonly result: string;
 }
-export interface TreeRendererOptions {
+export interface TreeNodeDrawContext<N = unknown> {
+    readonly ctx: CanvasRenderingContext2D;
+    readonly view: TreeNodeView<N>;
+    readonly center: Point;
+    readonly radius: number;
+    readonly outerRadius: number;
+    readonly drawDefault: () => void;
+}
+export type TreeNodeDrawer<N = unknown> = (this: void, drawing: TreeNodeDrawContext<N>) => void;
+export interface TreeRendererOptions<N = unknown> {
     readonly theme: "light" | "dark";
     readonly colors?: { readonly [K in keyof TreePalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
@@ -26,12 +36,22 @@ export interface TreeRendererOptions {
     readonly levelGap?: number | undefined;
     readonly emptySlots?: "hidden" | "visible" | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly drawNode?: TreeNodeDrawer<N> | undefined;
+    readonly nodeRadius?: number | undefined;
 }
 export interface TreeRenderSize { readonly width: number; readonly height: number }
+export interface TreeRenderOptions {
+    readonly doubleOutlineNodeIds?: readonly string[] | undefined;
+}
 export interface TreeRenderer {
     layout<N, L>(tree: TreeInput<N, L>): readonly TreePosition[];
     render<N, L, Kind extends TreeKind, Event>(context: CanvasRenderingContext2D,
-        frame: Frame<TreeSnapshot<N, L, Kind>, Event>, size: TreeRenderSize): void;
+        frame: Frame<TreeSnapshot<N, L, Kind>, Event>, size: TreeRenderSize, options?: TreeRenderOptions): void;
+}
+export interface TreeRendererWithNodeData<N> {
+    readonly layout: TreeRenderer["layout"];
+    readonly render: <L, Kind extends TreeKind, Event>(context: CanvasRenderingContext2D,
+        frame: Frame<TreeSnapshot<N, L, Kind>, Event>, size: TreeRenderSize, options?: TreeRenderOptions) => void;
 }
 const palettes: Readonly<Record<"light" | "dark", TreePalette>> = {
     dark: { background: "#101827", text: "#f1f5f9", node: "#334155", link: "#94a3b8", emptySlot: "#64748b",
@@ -50,8 +70,11 @@ function gap(value: unknown): number {
     return result;
 }
 /** Optional full-bitmap renderer. Layout is explicit; the caller records positions in its trace. */
-export function createTreeRenderer(options: TreeRendererOptions): TreeRenderer {
-    const fields = record(options, ["theme", "colors", "roleColors", "horizontalGap", "levelGap", "emptySlots", "nodeCaptions"], ["theme"]);
+export function createTreeRenderer(options: TreeRendererOptions & { readonly drawNode?: undefined }): TreeRenderer;
+export function createTreeRenderer<N>(options: TreeRendererOptions<N>): TreeRendererWithNodeData<N>;
+export function createTreeRenderer(options: TreeRendererOptions): TreeRenderer;
+export function createTreeRenderer<N>(options: TreeRendererOptions<N>): TreeRenderer {
+    const fields = record(options, ["theme", "colors", "roleColors", "horizontalGap", "levelGap", "emptySlots", "nodeCaptions", "drawNode", "nodeRadius"], ["theme"]);
     if (fields.theme !== "light" && fields.theme !== "dark") throw new TypeError("Tree renderer theme must be light or dark");
     const colors = { ...palettes[fields.theme] }, keys = Object.keys(colors) as (keyof TreePalette)[];
     if (fields.colors !== undefined) {
@@ -68,6 +91,11 @@ export function createTreeRenderer(options: TreeRendererOptions): TreeRenderer {
     const levelGap = fields.levelGap === undefined ? 2 : gap(fields.levelGap);
     if (fields.emptySlots !== undefined && fields.emptySlots !== "hidden" && fields.emptySlots !== "visible") throw new TypeError("Tree empty slots must be hidden or visible");
     if (fields.nodeCaptions !== undefined && fields.nodeCaptions !== "auto" && fields.nodeCaptions !== "hidden") throw new TypeError("Tree node captions must be auto or hidden");
+    if (fields.drawNode !== undefined && typeof fields.drawNode !== "function") throw new TypeError("Tree drawNode must be a function");
+    const drawNode = fields.drawNode as TreeNodeDrawer | undefined;
+    const nodeRadius = fields.nodeRadius === undefined ? 16 : fields.nodeRadius;
+    if (typeof nodeRadius !== "number") throw new TypeError("Tree node radius must be a number");
+    if (!Number.isFinite(nodeRadius) || nodeRadius <= 0) throw new RangeError("Tree node radius must be finite and positive");
     const showSlots = fields.emptySlots === "visible", captions = fields.nodeCaptions !== "hidden";
     function color(view: { result: boolean; role: string | null }, base: "node" | "link"): string {
         if (view.result) return colors.result;
@@ -85,7 +113,8 @@ export function createTreeRenderer(options: TreeRendererOptions): TreeRenderer {
             busy = true;
             try { return treeLayout(input, horizontalGap, levelGap); } finally { busy = false; }
         },
-        render<N, L, Kind extends TreeKind, Event>(ctx: CanvasRenderingContext2D, frame: Frame<TreeSnapshot<N, L, Kind>, Event>, size: TreeRenderSize): void {
+        render<N, L, Kind extends TreeKind, Event>(ctx: CanvasRenderingContext2D, frame: Frame<TreeSnapshot<N, L, Kind>, Event>,
+            size: TreeRenderSize, options?: TreeRenderOptions): void {
             if (busy) throw new Error("Tree renderer cannot be controlled recursively");
             busy = true;
             try {
@@ -94,6 +123,8 @@ export function createTreeRenderer(options: TreeRendererOptions): TreeRenderer {
                 const fields = record(frame, ["progress", "previous", "current"]);
                 const progress = dimension(fields.progress);
                 if (progress > 1) throw new RangeError("Tree progress must be between zero and one");
+                const outlineIds = options === undefined ? undefined : record(options, ["doubleOutlineNodeIds"], []).doubleOutlineNodeIds;
+                const outlined = outlineIds === undefined ? undefined : new Set(array(outlineIds).map(string));
                 const previous = fields.previous as TreeSnapshot, current = fields.current as TreeSnapshot;
                 const before = treeScene(previous, { namespace: "tree" });
                 const after = treeScene(current, { namespace: "tree" });
@@ -103,7 +134,7 @@ export function createTreeRenderer(options: TreeRendererOptions): TreeRenderer {
                 const sx = bitmapWidth / width, sy = bitmapHeight / height;
                 if (![sx, sy].every(n => Number.isFinite(n) && n > 0)) throw new RangeError("Tree bitmap transform is not representable");
                 const scene = createSceneFrame({ previous: before, current: after, progress, stepIndex: 0, event: undefined });
-                const geometry = treeGeometry(scene, previous, current, width, height, horizontalGap, levelGap);
+                const geometry = treeGeometry(scene, previous, current, width, height, nodeRadius, horizontalGap, levelGap, outlined);
                 ctx.save();
                 let failed = false, primary: unknown;
                 try {
@@ -118,7 +149,7 @@ export function createTreeRenderer(options: TreeRendererOptions): TreeRenderer {
                     if ("letterSpacing" in ctx) ctx.letterSpacing = "0px";
                     if ("wordSpacing" in ctx) ctx.wordSpacing = "0px";
                     if ("textRendering" in ctx) ctx.textRendering = "auto";
-                    const plan = treeLabels(ctx, geometry.nodes, geometry.links, geometry.slots, geometry.radius, width, height, captions, showSlots);
+                    const plan = treeLabels(ctx, geometry.nodes, geometry.links, geometry.slots, width, height, captions, showSlots);
                     ctx.clearRect(0, 0, width, height);
                     ctx.fillStyle = colors.background; ctx.fillRect(0, 0, width, height);
                     for (const link of geometry.links) {
@@ -134,10 +165,35 @@ export function createTreeRenderer(options: TreeRendererOptions): TreeRenderer {
                         ctx.setLineDash([]); ctx.strokeRect(slot.end.x - 3, slot.end.y - 3, 6, 6); ctx.setLineDash([3, 3]);
                     }
                     ctx.setLineDash([]);
+                    function paintBody(node: NodePaint): void {
+                        ctx.fillStyle = color(node.view, "node");
+                        ctx.beginPath(); ctx.arc(node.point.x, node.point.y, geometry.radius, 0, 2 * Math.PI); ctx.fill();
+                        if (node.paintRadius > geometry.radius) {
+                            ctx.strokeStyle = color(node.view, "link");
+                            ctx.lineWidth = geometry.outlineWidth;
+                            ctx.stroke();
+                            ctx.beginPath();
+                            ctx.arc(node.point.x, node.point.y, node.paintRadius - geometry.outlineWidth / 2, 0, 2 * Math.PI);
+                            ctx.stroke();
+                        }
+                    }
                     for (const node of geometry.nodes) {
                         if (node.presence <= 0) continue;
-                        ctx.globalAlpha = node.presence; ctx.fillStyle = color(node.view, "node");
-                        ctx.beginPath(); ctx.arc(node.point.x, node.point.y, geometry.radius, 0, 2 * Math.PI); ctx.fill();
+                        ctx.globalAlpha = node.presence;
+                        if (drawNode === undefined) paintBody(node);
+                        else {
+                            const center = Object.freeze(node.point);
+                            ctx.fillStyle = color(node.view, "node");
+                            withDrawCallback(ctx, assertActive => {
+                                drawNode({ ctx, view: node.view, center, radius: geometry.radius, outerRadius: node.paintRadius,
+                                    drawDefault() {
+                                        assertActive();
+                                        ctx.globalAlpha = node.presence;
+                                        ctx.setLineDash([]);
+                                        paintBody(node);
+                                    } });
+                            });
+                        }
                         const text = lineText(node.view.node.label ?? node.view.node.id);
                         if (text.trim()) { ctx.fillStyle = colors.text; ctx.fillText(text, node.point.x, node.point.y, Math.max(1, geometry.radius * 1.8)); }
                     }

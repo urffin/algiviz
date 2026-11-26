@@ -348,11 +348,14 @@ export interface GraphPalette {
     readonly queued: string;
     readonly result: string;
 }
-export interface GraphRendererOptions {
+export interface GraphRendererOptions<E = unknown> {
     readonly theme: "light" | "dark";
+    readonly drawEdge?: GraphEdgeDrawer<E> | undefined;
+    readonly edgeBend?: GraphEdgeBender<E> | undefined;
     readonly colors?: { readonly [K in keyof GraphPalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly nodeRadius?: number | undefined;
     readonly edgeLabels?: {
         readonly placement: "auto";
         readonly preferredSide?: "left" | "right" | undefined;
@@ -366,6 +369,10 @@ export interface GraphRenderSize {
 export interface GraphRenderer {
     render<N, E, Event>(context: CanvasRenderingContext2D, frame: Frame<GraphSnapshot<N, E>, Event>, size: GraphRenderSize): void;
 }
+export declare function createGraphRenderer(
+    options: GraphRendererOptions & { readonly drawEdge?: undefined; readonly edgeBend?: undefined }
+): GraphRenderer;
+export declare function createGraphRenderer<E>(options: GraphRendererOptions<E>): GraphRendererWithEdgeData<E>;
 export declare function createGraphRenderer(options: GraphRendererOptions): GraphRenderer;
 ```
 
@@ -427,6 +434,73 @@ render и не заменяет корректный endpoint-cache неверн
 границ Canvas. Если свободного места нет, подпись пропускается. Подписи
 рёбер размещаются раньше дополнительных подписей вершин. Без опции
 сохраняются прежние положение подписей и порядок отрисовки.
+
+### Радиус узлов
+
+С версии 1.10.0 `nodeRadius` задаёт желаемый радиус всех узлов графа в
+логических пикселях Canvas. Допустимо конечное положительное число.
+Значение по умолчанию — 16.
+Рендерер берёт минимум из заданного радиуса, ширины / 8 и высоты / 8.
+Итоговый радиус определяет размер узла, места крепления рёбер и
+наконечников, а также запас для размещения подписей. Координаты в снимке
+графа сохраняются.
+
+### Изгиб рёбер
+
+С версии 1.10.0 `edgeBend(view)` позволяет задавать изгиб. Возвращайте
+конечное число, чтобы задать предельное смещение контрольной точки
+квадратичной кривой от середины между центрами узлов. Смещение измеряется
+в логических пикселях Canvas. Положительное значение изгибает ребро вправо
+по направлению от начала к концу, отрицательное — влево. Ноль задаёт прямое
+ребро. `undefined` оставляет штатный маршрут с учётом параллельных рёбер.
+
+Рендерер ограничивает смещение четвертью расстояния между центрами и
+доступным местом в области рисования. Форма петель остаётся штатной.
+Функция получает представления рёбер из снимков до вызовов Canvas.
+Используйте данные представления, чтобы при перемотке тот же кадр давал тот
+же изгиб. Для сохраняющегося маршрута изгиб интерполируется. Уходящий и
+входящий маршруты используют значения из своих снимков.
+
+Линия, стрелка и размещение подписи используют одну рассчитанную кривую.
+Тип функции экспортируется как `GraphEdgeBender<E>`. Если указан тип
+данных ребра, рендерер принимает снимки с этим типом данных.
+
+### Пользовательская отрисовка ребра
+
+С версии 1.10.0 `drawEdge` вызывается для каждого видимого маршрута. Он
+получает `ctx`, `view`, четыре точки кубической
+кривой Безье в `curve` и вершины наконечника в `arrow`. У ненаправленного
+ребра `arrow` пуст. Геометрия задана в логических пикселях Canvas. При
+переходе топологии уходящий и входящий маршруты получают собственные
+`view` и прозрачность.
+
+```ts
+const renderer = createGraphRenderer<{ kind: "failure" | "transition" }>({
+    theme: "light",
+    nodeRadius: 19,
+    edgeLabels: { placement: "auto" },
+    edgeBend: view => view.edge.data?.kind === "failure" ? 24 : undefined,
+    drawEdge({ view, drawStroke, drawArrow }) {
+        drawStroke(view.edge.data?.kind === "failure" ? { dash: [5, 4] } : undefined);
+        drawArrow();
+    },
+});
+```
+
+`drawStroke()` рисует линию штатным цветом, с рассчитанной прозрачностью
+и толщиной. Пунктир принимает конечные неотрицательные длины по правилам
+Canvas. `drawArrow()` рисует залитый наконечник. Можно вызвать обе
+функции, одну из них или нарисовать ребро целиком через `ctx`. Подписи
+рисуются отдельно. Автоматическое размещение использует переданные кривую
+и стрелку даже при пользовательской замене маршрута.
+
+Callback выполняется синхронно. Если вы вызываете `ctx.save()`, вызовите
+парный `ctx.restore()` внутри callback. Переданные функции отрисовки
+действуют только во время callback. Рендерер восстанавливает состояние
+Canvas между маршрутами. Если указан тип данных ребра, рендерер принимает
+снимки с этим типом данных.
+Для явных аннотаций entry экспортирует `GraphEdgeDrawContext<E>`,
+`GraphEdgeDrawer<E>`, `GraphEdgeStrokeOptions` и `GraphRendererWithEdgeData<E>`.
 
 ### Дополнительные подписи вершин
 

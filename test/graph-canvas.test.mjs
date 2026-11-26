@@ -58,6 +58,20 @@ test('graph Canvas: edges precede nodes; arrows follow to, antiparallel/parallel
     assert.ok(!env.calls('fillText').some(c => c.args[0] === 'C')); assert.ok(env.calls('fillText').some(c => c.args[0] === '<node>'));
 });
 
+test('graph Canvas: nodeRadius sizes nodes and arrow attachment while respecting the viewport cap', () => {
+    const f = graphFrames(), snapshot = f.endpoint(f.start);
+    assert.deepEqual(draw(snapshot, renderer({ nodeRadius: 16 })).commands, draw(snapshot).commands);
+    const custom = draw(snapshot, renderer({ nodeRadius: 19 }));
+    const arcs = custom.calls('arc').map(call => call.args);
+    assert.ok(arcs.every(([, , radius]) => radius === 19));
+    const tip = custom.calls('moveTo')[1].args;
+    close(Math.hypot(tip[0] - arcs[1][0], tip[1] - arcs[1][1]), 19);
+    const compact = draw(snapshot, renderer({ nodeRadius: 19 }), 96, 80, { width: 96, height: 80 });
+    assert.ok(compact.calls('arc').every(call => call.args[2] === 10));
+    assert.throws(() => renderer({ nodeRadius: '19' }), TypeError);
+    for (const nodeRadius of [0, -1, NaN, Infinity]) assert.throws(() => renderer({ nodeRadius }), RangeError);
+});
+
 test('graph Canvas: raw progress uses one joint-bounds transform and attached endpoints move with nodes', () => {
     const f = graphFrames(), r = renderer(), frames = [0, .25, .5, 1].map(p => draw(f.motion(p), r));
     for (let i = 0; i < 4; i++) {

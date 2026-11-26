@@ -65,6 +65,30 @@ test('tree Canvas geometry: attached crossfade branches, slot changes, current s
     const env=draw({previous:a.state,current:b.state,progress:.5,event:undefined,stepIndex:0});
     assert.equal(env.calls('stroke').length,2);assert.ok(env.calls('moveTo')[0].args[0]<env.calls('moveTo')[1].args[0]);
 });
+
+test('tree Canvas: nodeRadius updates links and rings while preserving logical layout and viewport bounds', () => {
+    const f = rotation(), frame = f.frame(.5);
+    const custom = renderer({ nodeRadius: 21 });
+    assert.deepEqual(custom.layout(f.start.state.tree), renderer().layout(f.start.state.tree));
+    assert.deepEqual(draw(frame, renderer({ nodeRadius: 16 })).commands, draw(frame).commands);
+    const drawn = draw(frame, custom), arcs = nodes(drawn);
+    assert.ok(arcs.every(([, , radius]) => radius === 21));
+    const [x, y] = drawn.calls('moveTo')[0].args;
+    close(Math.hypot(x - arcs[0][0], y - arcs[0][1]), 21);
+    const compact = draw(frame, custom, 96, 80, { width: 96, height: 80 });
+    assert.ok(nodes(compact).every(([, , radius]) => radius === 10));
+    const target = recording(640, 640);
+    const ids = ['R', 'B', 'A'];
+    renderer({ nodeRadius: 70 }).render(target.ctx, frame, { width: 640, height: 640 }, { doubleOutlineNodeIds: ids });
+    const rings = nodes(target).filter(([, , radius]) => radius > 70);
+    assert.equal(rings.length, ids.length);
+    for (const [cx, cy, radius] of rings) {
+        assert.equal(radius, 74);
+        assert.ok(Math.min(cx, cy, 640 - cx, 640 - cy) >= radius + .5);
+    }
+    assert.throws(() => renderer({ nodeRadius: '21' }), TypeError);
+    for (const nodeRadius of [0, -1, NaN, Infinity]) assert.throws(() => renderer({ nodeRadius }), RangeError);
+});
 test('tree Canvas empty slots: N+1 markers, hidden fit parity, no ordered ghosts, slot color independent from result',()=>{
     const single=createTreeTrace({kind:'binary',rootId:'R',nodes:[{id:'R'}],links:[]},{layout:[{nodeId:'R',x:0,y:0}]});single.start();
     const s=single.done({result:{nodeIds:['R']}}).state,show=draw(endpoint(s),renderer({emptySlots:'visible'})),hide=draw(endpoint(s));

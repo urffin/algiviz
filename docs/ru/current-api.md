@@ -1,10 +1,10 @@
 # Текущий API и статус проверок
 
-[English](../current-api.md) · [Совместимость](api-compatibility.md) · [Окружения](../support-matrix.md#current-support-boundary) · [Заметки к 1.9.0](release-1.9.md)
+[English](../current-api.md) · [Совместимость](api-compatibility.md) · [Окружения](../support-matrix.md#current-support-boundary) · [Заметки к 1.10.0](release-1.10.md)
 
-**Версия 1.9.0** содержит 16 точек входа, 35 экспортов времени выполнения и
-190 экспортов типов (178 различных имён). В `/canvas/graph` появилась опция
-автоматического размещения подписей рёбер.
+**Версия 1.10.0** содержит 16 точек входа, 35 экспортов времени выполнения и
+199 экспортов типов (187 различных имён). Canvas-рендереры графа и дерева
+поддерживают настройку радиуса узлов и пользовательскую отрисовку.
 
 ## Карта точек входа
 
@@ -19,9 +19,9 @@
 | /worker | [Worker source](worker-source-api.md) | 1.0.0 |
 | /worker/runtime | [Worker endpoint](worker-source-api.md#декларации-worker-workerruntime) | 1.0.0 |
 | /graph | [API графа](graph-api.md), [динамическая топология](graph-dynamic-topology.md), [подписи](graph-node-captions.md) | 1.1.0, динамические изменения с 1.5.0 |
-| /canvas/graph | [Рендерер](graph-api.md), [переходы](graph-dynamic-canvas.md), [подписи вершин](graph-node-captions.md), [подписи рёбер](graph-api.md#размещение-подписей-рёбер) | 1.1.0, переходы топологии с 1.5.0, авторазмещение подписей рёбер с 1.9.0 |
+| /canvas/graph | [Рендерер](graph-api.md), [переходы](graph-dynamic-canvas.md), [подписи вершин](graph-node-captions.md), [подписи рёбер](graph-api.md#размещение-подписей-рёбер), [изгиб](graph-api.md#изгиб-рёбер), [своя отрисовка](graph-api.md#пользовательская-отрисовка-ребра) | 1.1.0, переходы топологии с 1.5.0, авторазмещение подписей с 1.9.0, радиус, изгиб и отрисовка рёбер с 1.10.0 |
 | /tree | [Tree API](tree-api.md) | 1.2.0 |
-| /canvas/tree | [Tree Canvas](tree-canvas-api.md) | 1.2.0 |
+| /canvas/tree | [Tree Canvas](tree-canvas-api.md), [своя отрисовка](tree-canvas-api.md#пользовательская-отрисовка-узла) | 1.2.0, радиус, двойной контур и отрисовка узлов с 1.10.0 |
 | /grid | [Grid API](grid-api.md) | 1.3.0 |
 | /canvas/grid | [Grid Canvas](grid-canvas-api.md) | 1.3.0 |
 | /list | [API списка](list-api.md) | 1.4.0 |
@@ -37,7 +37,7 @@
 
 Датированные документы и JSON не переписываются задним числом. Их старые статусы
 «локально», «кандидат», «baseline 0.16.0» относятся к этапу проверки.
-API-контракт 1.9.0 описан в этом индексе и связанных справочниках.
+API-контракт 1.10.0 описан в этом индексе и связанных справочниках.
 
 - [Миграция на 1.0](migration-1.0.md).
 - F1/F2: [ошибка Memory](../checks/worker-memory-fix-2026-11-14.json), [отсутствующий SharedArrayBuffer](../checks/worker-shared-buffer-fix-2026-11-14.json).

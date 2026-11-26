@@ -84,8 +84,9 @@ try {
         let excluded = false;
         try { execFileSync(process.execPath, [compiler, "-p", excludedConfig], {encoding:"utf8",stdio:["ignore","pipe","pipe"]}); }
         catch (error) {
-            const diagnostics=String(error.stdout);
-            if (error.status !== 2 || !diagnostics.includes("Cannot find name 'CanvasRenderingContext2D'") || (diagnostics.match(/error TS/g)??[]).length !== 1) throw error;
+            const diagnostics = String(error.stdout).trim().split(/\r?\n/);
+            if (error.status !== 2 || !diagnostics.every(line =>
+                line.endsWith("error TS2304: Cannot find name 'CanvasRenderingContext2D'."))) throw error;
             excluded=true;
         }
         if (!excluded) throw new Error("Canvas tree unexpectedly compiled without DOM declarations");
@@ -159,10 +160,11 @@ try {
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test",
         join(workspace, "graph.test.mjs"), join(workspace, "graph-dynamic.test.mjs")], { cwd: workspace, stdio: "inherit" });
     for (const name of ["graph-captions.test.mjs", "graph-canvas.test.mjs", "graph-canvas-context.mjs", "graph-canvas-fixtures.mjs",
-        "graph-topology-canvas.test.mjs", "graph-topology-fixture.mjs"])
+        "graph-topology-canvas.test.mjs", "graph-topology-fixture.mjs", "graph-edge-labels.test.mjs", "graph-edge-label-fixtures.mjs"])
         await copyFile(join(root, "test", name), join(workspace, name));
     execFileSync(process.execPath, ["--unhandled-rejections=strict", "--test", join(workspace, "graph-canvas.test.mjs"),
-        join(workspace, "graph-captions.test.mjs"), join(workspace, "graph-topology-canvas.test.mjs")], { cwd: workspace, stdio: "inherit" });
+        join(workspace, "graph-captions.test.mjs"), join(workspace, "graph-topology-canvas.test.mjs"),
+        join(workspace, "graph-edge-labels.test.mjs")], { cwd: workspace, stdio: "inherit" });
     for (const name of ["tree-canvas.test.mjs", "tree-canvas-playback.test.mjs", "tree-canvas-context.mjs", "tree-canvas-fixtures.mjs", "tree-slot-bounds.test.mjs", "tree-slot-fixtures.mjs", "tree-slot-oracle.mjs"])
         await copyFile(join(root, "test", name), join(workspace, name));
     execFileSync(process.execPath, ["--test", join(workspace, "tree-canvas.test.mjs"), join(workspace, "tree-canvas-playback.test.mjs"), join(workspace, "tree-slot-bounds.test.mjs")], { cwd: workspace, stdio: "inherit" });

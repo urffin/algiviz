@@ -37,3 +37,105 @@ test('tree Canvas history: state-only random seeking and unchanged source final 
     }
     assert.deepEqual(f.done.state.result,{nodeIds:['B'],linkIds:['pivot']});
 });
+
+test('trie double outline follows terminal IDs through stepHistory and preserves highlight', async () => {
+    const options = { theme: 'light', nodeRadius: 21, roleColors: { path: '#2563eb' } };
+    const renderer = createTreeRenderer(options);
+    const delegated = createTreeRenderer({ ...options, drawNode({ drawDefault }) { drawDefault(); } });
+    const decorated = createTreeRenderer({ ...options, drawNode({ ctx, view, center, radius, outerRadius, drawDefault }) {
+        drawDefault();
+        if (!view.node.data.terminal) return;
+        assert.ok(outerRadius > radius);
+        ctx.fillStyle = '#db2777';
+        ctx.beginPath();
+        ctx.arc(center.x + radius * .55, center.y - radius * .55, radius * .15, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.font = '48px serif';
+    } });
+    const replaced = createTreeRenderer({ ...options, drawNode({ ctx, view, center }) {
+        if (view.node.data.terminal) ctx.fillRect(center.x - 3, center.y - 3, 6, 6);
+    } });
+    const input = {
+        kind: 'ordered', rootId: 'root',
+        nodes: [
+            { id: 'root', label: '∅', data: { terminal: false } },
+            { id: 'c', label: 'c', data: { terminal: false } },
+            { id: 'ca', label: 'a', data: { terminal: false } },
+            { id: 'cat', label: 't', data: { terminal: true } }
+        ],
+        links: [
+            { id: 'c-edge', parentId: 'root', childId: 'c' },
+            { id: 'ca-edge', parentId: 'c', childId: 'ca' },
+            { id: 'cat-edge', parentId: 'ca', childId: 'cat' }
+        ]
+    };
+    const trace = createTreeTrace(input, { layout: renderer.layout(input) });
+    const start = trace.start();
+    const inserted = trace.edit({
+        nodes: input.nodes.map(node => node.id === 'ca' ? { ...node, data: { terminal: true } } : node)
+    });
+    const active = trace.mark({ nodes: [{ id: 'ca', role: 'path' }, { id: 'cat', role: 'active' }],
+        nodeCaptions: [{ id: 'cat', text: 'cat' }] });
+    const done = trace.done({ result: { nodeIds: ['cat'] } });
+    const host = dom();
+    let frame;
+    const player = new Player(host.container(), {
+        stepHistory: () => [start, inserted, active, done],
+        stepDurationMs: 100,
+        render: next => { frame = next; }
+    });
+    try {
+        player.start();
+        function paint(drawingOptions, painter = renderer) {
+            const canvas = recording();
+            painter.render(canvas.ctx, frame, size, drawingOptions);
+            return canvas;
+        }
+        function outlined(painter) {
+            return paint({ doubleOutlineNodeIds: frame.current.tree.nodes
+                .filter(node => node.data.terminal).map(node => node.id) }, painter);
+        }
+        const initial = outlined();
+        assert.equal(initial.calls('arc').length, 5);
+        assert.deepEqual(paint({ doubleOutlineNodeIds: [] }).commands, paint().commands);
+        assert.deepEqual(paint({ doubleOutlineNodeIds: ['absent'] }).commands, paint().commands);
+        assert.throws(() => paint({ doubleOutlineNodeIds: [null] }), TypeError);
+        player.next();
+        assert.equal(frame.event, inserted.event);
+        assert.equal(outlined().calls('arc').length, 6);
+        player.next();
+        assert.equal(frame.event, active.event);
+        const highlighted = outlined();
+        const paintCalls = canvas => canvas.commands.filter(call =>
+            ['arc', 'stroke', 'fill', 'fillText', 'fillRect'].includes(call.name)).map(({ name, args, state }) => [
+                name, args, state.globalAlpha,
+                name === 'stroke' ? [state.strokeStyle, state.lineWidth, state.dash] : state.fillStyle
+            ]);
+        assert.deepEqual(paintCalls(outlined(delegated)), paintCalls(highlighted));
+        const decoratedCanvas = outlined(decorated);
+        assert.deepEqual(decoratedCanvas.calls('fillText').map(c => [c.args, c.state.font]),
+            highlighted.calls('fillText').map(c => [c.args, c.state.font]));
+        assert.deepEqual(decoratedCanvas.calls('fill').map(c => c.state.fillStyle).slice(-2), ['#fbbf24', '#db2777']);
+        const customBody = outlined(replaced);
+        assert.equal(customBody.calls('arc').length, 0);
+        assert.deepEqual(customBody.calls('fillText').map(c => c.args), highlighted.calls('fillText').map(c => c.args));
+        assert.deepEqual(highlighted.calls('arc').filter(call => call.args[2] > 21)
+            .map(call => call.state.strokeStyle), ['#2563eb', '#fbbf24']);
+        const catRing = highlighted.calls('arc').at(-1).args;
+        const caption = highlighted.calls('fillText').find(call => call.args[0] === 'cat');
+        assert.ok(caption);
+        assert.ok(Math.hypot(caption.args[1] - catRing[0], caption.args[2] - catRing[1]) > catRing[2]);
+        player.next();
+        assert.equal(outlined().calls('arc').at(-1).state.strokeStyle, '#047857');
+        player.seek(200);
+        assert.equal(frame.event, active.event);
+        assert.deepEqual(outlined().commands, highlighted.commands);
+        assert.deepEqual(outlined(decorated).commands, decoratedCanvas.commands);
+        player.seek(0);
+        assert.equal(frame.event, start.event);
+        assert.deepEqual(outlined().commands, initial.commands);
+    } finally {
+        player.dispose();
+        await player.closed;
+    }
+});

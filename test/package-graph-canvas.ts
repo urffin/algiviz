@@ -27,6 +27,27 @@ export function checkGraphCanvasTypes(host: HTMLElement, canvas: HTMLCanvasEleme
         progress: 1, stepIndex: 0, event: undefined
     };
     renderer.render(viewport.context, stateOnly, { width: 640, height: 400 });
+    const styled = createGraphRenderer<{ kind: 'failure' | 'transition' }>({
+        theme: 'light',
+        nodeRadius: 19,
+        edgeBend: view => view.edge.data?.kind === 'failure' ? 24 : undefined,
+        drawEdge({ view, drawStroke, drawArrow }) {
+            drawStroke(view.edge.data?.kind === 'failure' ? { dash: [5, 4] } : undefined);
+            drawArrow();
+        }
+    });
+    const graph = createGraphTrace<number, { kind: 'failure' | 'transition' }>({ nodes: [{ id: 'A', data: 1 }],
+        edges: [{ id: 'loop', from: 'A', to: 'A', directed: true, data: { kind: 'failure' } }] }).state;
+    styled.render(viewport.context, { ...stateOnly, previous: graph, current: graph }, { width: 640, height: 400 });
+    // @ts-expect-error A typed callback requires matching edge data.
+    styled.render(viewport.context, stateOnly, { width: 640, height: 400 });
+    // @ts-expect-error A renderer with a typed callback cannot accept every graph.
+    const untyped: GraphRenderer = styled;
+    const bent = createGraphRenderer<{ strength: number }>({
+        theme: 'light', edgeBend: view => view.edge.data?.strength,
+    });
+    // @ts-expect-error edgeBend alone also constrains the edge data.
+    bent.render(viewport.context, stateOnly, { width: 640, height: 400 });
     createGraphRenderer({ theme: 'dark', nodeCaptions: 'hidden' });
     const topologyOptions: GraphRendererOptions = { theme: 'dark', topologyTransitions: true };
     const topology: GraphRenderer = createGraphRenderer(topologyOptions);

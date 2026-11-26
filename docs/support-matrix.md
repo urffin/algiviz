@@ -1,8 +1,9 @@
 # Support matrix
 
-**Version 1.9.0** has sixteen independent ESM entry points.
-Automatic edge label placement uses text metrics from the existing 2D Canvas host.
-[Current API](current-api.md) · [Release notes](release-1.9.md).
+**Version 1.10.0** has sixteen independent ESM entry points.
+The new graph and tree drawing callbacks run synchronously in the existing
+2D Canvas host.
+[Current API](current-api.md) · [Release notes](release-1.10.md).
 
 ## Current support boundary
 

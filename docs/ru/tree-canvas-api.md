@@ -3,7 +3,7 @@
 [English](../tree-canvas-api.md) · [Tree API](tree-api.md) · [Graph Canvas](graph-api.md) · [Viewport](canvas-viewport.md) · [Проверка контракта](../checks/tree-canvas-contract-2026-11-18.json)
 
 **Выпущено в 1.2.0, 2026-11-19**, коммит 8e1f50b. Независимый /canvas/tree
-экспортирует createTreeRenderer и четыре типа. Нужны DOM-типы и Canvas 2D host;
+в этом выпуске экспортировал createTreeRenderer и четыре типа. Нужны DOM-типы и Canvas 2D host;
 headless /tree остаётся отдельным. В npm 1.1.0 обоих entry нет.
 [Выпуск и проверки](release-1.2.md) · [Исходная реализация](../checks/tree-canvas-implementation-2026-11-19.json) ·
 [Исправление T1](../checks/tree-t1-fix-2026-11-19.json) · [Native-приёмка](../checks/tree-t1-native-2026-11-19.json).
@@ -32,7 +32,7 @@ export interface TreePalette {
     readonly queued: string;
     readonly result: string;
 }
-export interface TreeRendererOptions {
+export interface TreeRendererOptions<N = unknown> {
     readonly theme: "light" | "dark";
     readonly colors?: { readonly [K in keyof TreePalette]?: string | undefined } | undefined;
     readonly roleColors?: Readonly<Record<string, string>> | undefined;
@@ -40,19 +40,29 @@ export interface TreeRendererOptions {
     readonly levelGap?: number | undefined;
     readonly emptySlots?: "hidden" | "visible" | undefined;
     readonly nodeCaptions?: "auto" | "hidden" | undefined;
+    readonly nodeRadius?: number | undefined;
+    readonly drawNode?: TreeNodeDrawer<N> | undefined;
 }
 export interface TreeRenderSize {
     readonly width: number;
     readonly height: number;
+}
+export interface TreeRenderOptions {
+    readonly doubleOutlineNodeIds?: readonly string[] | undefined;
 }
 export interface TreeRenderer {
     layout<N, L>(tree: TreeInput<N, L>): readonly TreePosition[];
     render<N, L, Kind extends TreeKind, Event>(
         context: CanvasRenderingContext2D,
         frame: Frame<TreeSnapshot<N, L, Kind>, Event>,
-        size: TreeRenderSize
+        size: TreeRenderSize,
+        options?: TreeRenderOptions
     ): void;
 }
+export declare function createTreeRenderer(
+    options: TreeRendererOptions & { readonly drawNode?: undefined }
+): TreeRenderer;
+export declare function createTreeRenderer<N>(options: TreeRendererOptions<N>): TreeRendererWithNodeData<N>;
 export declare function createTreeRenderer(options: TreeRendererOptions): TreeRenderer;
 ```
 
@@ -82,6 +92,15 @@ backend используют treeScene. Обратной зависимости 
 проверку/проекцию tree и generic scene matching, но не Player, Worker, array/graph
 backend или tree trace builder. Другие entry не загружают его без явного
 static/dynamic import.
+
+## Радиус узлов
+
+С версии 1.10.0 `nodeRadius` задаёт желаемый радиус всех узлов дерева в
+логических пикселях Canvas. Допустимо конечное положительное число. Значение по
+умолчанию — 16. Рендерер берёт минимум из заданного радиуса, ширины / 8
+и высоты / 8. Итоговый радиус учитывается при рисовании связей, двойного
+контура и подписей и передаётся в `drawNode`. Координаты, которые возвращает
+`layout()`, от этой опции не зависят.
 
 ## Чистая раскладка ordered и binary
 
@@ -172,6 +191,79 @@ renderer.render(context, frame, logicalSize). Context и размер прина
 пропущенные/undefined rootId/nodes/links через нынешнее дерево до вызова layout:
 обычный spread не реализует правило edit «undefined означает пропуск». В примере
 update содержит только явно заданные поля.
+
+## Двойной контур конца слова в префиксном дереве
+
+Доступно с 1.10.0.
+
+Передайте `doubleOutlineNodeIds` в четвёртом аргументе `render`, чтобы
+добавить внутренний контур и внешнее кольцо вокруг выбранных узлов. Оба
+контура учитывают роль, признак результата и прозрачность узла. Внешний
+радиус учитывается при размещении подписей узлов и связей, а также маркеров
+пустых слотов. Позиции узлов и точки крепления связей сохраняются. Без
+опции действует штатная отрисовка.
+
+Храните признак конца слова в данных узла каждого снимка. Собирайте ID в
+функции отрисовки Player, чтобы при перемотке через `stepHistory` контуры
+восстанавливались по текущему кадру.
+
+```ts
+render: frame => {
+    const doubleOutlineNodeIds = frame.current.tree.nodes
+        .filter(node => node.data?.terminal)
+        .map(node => node.id);
+    renderer.render(context, frame, logicalSize, { doubleOutlineNodeIds });
+}
+```
+
+Опция принимает плотный массив непустых ID. Повторяющийся ID учитывается
+один раз. ID, отсутствующие в обоих снимках, игнорируются. Чтобы кольцо
+исчезало вместе с узлом, передавайте его ID, пока узел виден в переходе.
+
+## Пользовательская отрисовка узла
+
+С версии 1.10.0 `drawNode` вызывается для
+каждого видимого узла и получает доступные только для чтения `view`, `center`,
+`radius` и `outerRadius`, а также контекст Canvas `ctx` и функцию
+`drawDefault()`. Геометрия использует те же логические пиксели, что и
+`TreeRenderSize`. В `outerRadius` входит запас под двойной контур, если он
+включён для узла.
+
+`drawDefault()` рисует тело узла и его двойной контур в момент вызова. Чтобы
+добавить деталь поверх заливки, рисуйте её после вызова. Чтобы нарисовать тело
+целиком, можно пропустить вызов. Текст узла и дополнительные подписи рисует
+рендерер. Автоматическое размещение подписей учитывает область до
+`outerRadius`.
+
+```ts
+const renderer = createTreeRenderer<{ terminal: boolean }>({
+    theme: "light",
+    nodeRadius: 21,
+    horizontalGap: 2.7,
+    drawNode({ ctx, view, center, radius, drawDefault }) {
+        drawDefault();
+        if (!view.node.data?.terminal) return;
+        ctx.fillStyle = "#db2777";
+        ctx.beginPath();
+        ctx.arc(center.x + radius * .55, center.y - radius * .55,
+            radius * .15, 0, 2 * Math.PI);
+        ctx.fill();
+    },
+});
+```
+
+Callback выполняется синхронно. Позиция и прозрачность уже рассчитаны для
+текущего кадра. Если вы вызываете `ctx.save()`, вызовите парный
+`ctx.restore()` внутри callback. Используйте `drawDefault()` только во
+время вызова callback. Состояние Canvas восстанавливается перед отрисовкой
+текста и следующего узла. Если указан тип данных узла, рендерер принимает
+снимки с этим типом данных.
+Для явных аннотаций entry экспортирует `TreeNodeDrawContext<N>`,
+`TreeNodeDrawer<N>` и `TreeRendererWithNodeData<N>`.
+
+Чтобы повторить типографику сайта, храните символ в данных узла, а в
+`label` передайте пустую строку. В `drawNode` можно нарисовать текст
+своим шрифтом и выбрать заливку и обводку по роли узла.
 
 ## Пустые бинарные слоты
 
@@ -320,7 +412,7 @@ cleanup и event-free history/async/Worker сохраняют нынешний �
 ## Валидация, состояние context и ошибки
 
 Factory проверяет envelope options, theme, palette overrides, собственные role
-colors, horizontalGap, levelGap, emptySlots, nodeCaptions в этом порядке. Неверные/
+colors, horizontalGap, levelGap, emptySlots, nodeCaptions, drawNode и nodeRadius в этом порядке. Неверные/
 отсутствующие theme, enums, containers, accessors, пустые/нестроковые colors дают
 TypeError. Неверный тип gap — TypeError, неположительный/неконечный gap — RangeError.
 Layout проверяет TreeInput как /tree, затем полные вычисленные позиции. Исходные

@@ -1,4 +1,4 @@
-import { createTreeRenderer, type TreePalette, type TreeRendererOptions, type TreeRenderer, type TreeRenderSize } from '@grundyjs/algiviz/canvas/tree';
+import { createTreeRenderer, type TreePalette, type TreeRendererOptions, type TreeRenderer, type TreeRenderOptions, type TreeRenderSize } from '@grundyjs/algiviz/canvas/tree';
 import { createTreeTrace, type TreeFrame, type TreeSnapshot, type TreeEvent } from '@grundyjs/algiviz/tree';
 import { Player } from '@grundyjs/algiviz/player';
 export type PublicTreeCanvasTypes = [TreePalette, TreeRendererOptions, TreeRenderer, TreeRenderSize];
@@ -18,7 +18,18 @@ export function checkTreeCanvas(host: HTMLElement, context: CanvasRenderingConte
     player.previous(); player.restart(); player.dispose();
     const frame: TreeFrame<42, unknown, 'binary', undefined> = { previous: createTreeTrace(input, { layout: positions }).state,
         current: createTreeTrace(input, { layout: positions }).state, progress: 1, event: undefined, stepIndex: 0 };
-    renderer.render(context, frame, { width: 640, height: 400 });
+    const drawing: TreeRenderOptions = { doubleOutlineNodeIds: ['A'] };
+    renderer.render(context, frame, { width: 640, height: 400 }, drawing);
+    const decorated = createTreeRenderer<42>({ theme: 'light', nodeRadius: 21, drawNode({ view, drawDefault }) {
+        const data: 42 | undefined = view.node.data;
+        if (data === 42) drawDefault();
+    } });
+    decorated.render(context, frame, { width: 640, height: 400 }, drawing);
+    const other = createTreeTrace({ ...input, nodes: [{ id: 'A', data: 'other' }] }, { layout: positions }).state;
+    // @ts-expect-error A typed callback requires matching node data.
+    decorated.render(context, { ...frame, previous: other, current: other }, { width: 640, height: 400 });
+    // @ts-expect-error A renderer with a typed callback cannot accept every tree.
+    const untyped: TreeRenderer = decorated;
     // @ts-expect-error Theme is required.
     createTreeRenderer({});
     // @ts-expect-error No force-visible caption mode.
